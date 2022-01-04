@@ -1,3 +1,16 @@
+@import 'antd/dist/antd.css';
+
+:root {
+  --primary-color-rgb: 13, 173, 185;
+  --primary-color: rgb(var(--primary-color-rgb));
+  --hover-brightness: 0.9;
+  --alpha-light-variant: 0.6;
+  --primary-light-color: rgba(
+    var(--primary-color-rgb),
+    var(--alpha-light-variant)
+  );
+}
+
 html,
 body {
   padding: 0;
@@ -13,4 +26,33 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-number:hover,
+.ant-input-number:focus .ant-input-affix-wrapper:hover,
+.ant-picker:hover,
+.ant-checkbox:hover,
+.ant-date-picker-input.ant-input,
+.ant-checkbox-wrapper .ant-checkbox-inner:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+.ant-input:focus,
+.ant-input-number:focus {
+  box-shadow: lightgray !important;
+}
+
+.anticon:before {
+  display: block !important;
+  font-family: 'anticon' !important;
+}
+
+.ant-spin-text {
+  color: var(--primary-color);
+}
+
+.ant-spin-dot-item {
+  background-color: var(--primary-color) !important;
 }

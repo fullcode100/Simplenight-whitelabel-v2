@@ -1,0 +1,3 @@
+export const SET_BRAND_CONFIG = 'SET_BRAND_CONFIG';
+export const SET_INTL_MESSAGES = 'SET_INTL_MESSAGES';
+export const SET_LOCALE = 'SET_LOCALE';

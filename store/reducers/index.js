@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
 
-const reducers = {};
+import coreReducer from './core/core.ts';
+
+const reducers = {
+  core: coreReducer,
+};
 
 export default combineReducers(reducers);
