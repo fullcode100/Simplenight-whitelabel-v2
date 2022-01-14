@@ -1,5 +1,9 @@
 @import 'antd/dist/antd.css';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --primary-color-rgb: 13, 173, 185;
   --primary-color: rgb(var(--primary-color-rgb));

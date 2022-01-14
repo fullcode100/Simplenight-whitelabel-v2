@@ -6,10 +6,10 @@
     "jest": true
   },
   "extends": [
+    "eslint:recommended",
     "next/core-web-vitals",
     "plugin:react/recommended",
     "google",
-    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],

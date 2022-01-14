@@ -35,8 +35,8 @@ const Home: NextPage = () => {
                 searchType={searchType}
                 onItemClick={setSearchType}
               />
-              <SearchCategoryForm searchType={searchType} />
             </section>
+            <SearchCategoryForm searchType={searchType} />
           </section>
         </section>
       </main>

@@ -8,16 +8,17 @@ const CategorySelect = () => {
   const features = useSelector(getFeatures);
   const featureNames = Object.keys(features);
 
-  const getFeaturesAsOptions = () => featureNames.map((feature) => {
-    if (features[feature]) {
-      return (
-        <Option key={feature} value={feature}>
-          {feature}
-        </Option>
-      );
-    }
-    return null;
-  });
+  const getFeaturesAsOptions = () =>
+    featureNames.map((feature) => {
+      if (features[feature]) {
+        return (
+          <Option key={feature} value={feature}>
+            {feature}
+          </Option>
+        );
+      }
+      return null;
+    });
 
   return (
     <Select defaultValue="default">
