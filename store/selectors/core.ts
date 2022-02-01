@@ -16,3 +16,5 @@ export const getIntlMessages = (state: any): IntlMessages =>
 
 export const getLanguageSettings = (state: any): CoreLanguages =>
   state.core.languages;
+
+export const getBrandConfig = (state: any) => state.core.brandConfig;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
+import classnames from 'classnames';
 
 import AutoComplete from './AutoComplete';
 import { getLocationsByPrefix } from '../../../apiCalls/locations';
@@ -12,13 +13,15 @@ import { AutoCompleteOption } from '../../../types/global/AutoCompleteOption';
 
 interface LocationAutoCompleteProps {
   placeholder?: string;
-  onSelect: (location?: LocationPrefix) => void;
+  className?: string;
+  onSelect: (location: LocationPrefix) => void;
   [key: string]: any;
 }
 
 const LocationAutoComplete = ({
   onSelect,
   placeholder,
+  className,
   ...others
 }: LocationAutoCompleteProps) => {
   const [options, setOptions] = useState([] as AutoCompleteOption[]);
@@ -48,7 +51,6 @@ const LocationAutoComplete = ({
   }, [locations]);
 
   const handleChange = (value: string) => {
-    debugger;
     setDisplayText(value);
     getLocationsFromApi(value);
   };
@@ -57,7 +59,11 @@ const LocationAutoComplete = ({
     const selectedValue = locations.find(
       (location) => location.location_name === locationName,
     );
+
+    if (!selectedValue) return;
+
     onSelect(selectedValue);
+    setDisplayText(getLocationText(selectedValue));
   };
 
   return (
@@ -67,6 +73,8 @@ const LocationAutoComplete = ({
       onChange={handleChange}
       onSelect={handleSelect}
       placeholder={placeholder}
+      className={classnames('placeholder-primary', className)}
+      inputClassName="text-primary placeholder-primary-light"
       allowClear
     />
   );

@@ -1,6 +1,8 @@
 import { LocationPrefix } from '../types/search/LocationPrefixResponse';
 
-export const getLocationText = (value: LocationPrefix): string => {
+export const getLocationText = (value: LocationPrefix | undefined): string => {
+  if (!value) return '';
+
   let name = null;
   let province = null;
   let iso = null;

@@ -3,17 +3,28 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { useStore } from '../store';
 import InitAppHOC from '../components/global/InitAppHOC';
-import Header from '../components/global/header/Header';
+import Header from '../layouts/header/Header';
+import { getDefaultLayout } from 'layouts/helpers/getDefaultLayout';
+import { NextPage } from 'next';
+import { ReactElement, ReactNode } from 'react';
 
-function MyApp({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const store = useStore(pageProps.initialReduxState);
+
+  const getLayout = Component.getLayout || getDefaultLayout;
+  const renderPage = () => getLayout(<Component {...pageProps} />);
 
   return (
     <Provider store={store}>
-      <InitAppHOC>
-        <Header />
-        <Component {...pageProps} />;
-      </InitAppHOC>
+      <InitAppHOC>{renderPage()}</InitAppHOC>
     </Provider>
   );
 }

@@ -1,4 +1,4 @@
-import { HotelStoreActions } from '../../types/categories/hotels/HotelStoreActions';
+import { HotelStoreActions } from '../../types/redux/categories/hotels/HotelStoreActions';
 
 const actions: HotelStoreActions = {
   search: (search: string) => ({}),

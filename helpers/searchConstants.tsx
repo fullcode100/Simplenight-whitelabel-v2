@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import BedFillGray from '../public/icons/categories/BedFillGray.svg';
 import BedFillGray from '../public/icons/categories/BedFillGray.svg';
 import ShowAllFillGray from '../public/icons/categories/ShowAllFillGray.svg';
 import ShowAllWhite from '../public/icons/categories/ShowAllWhite.svg';
@@ -19,6 +18,8 @@ import Shopping from '../public/icons/categories/Icon_Category_Shopping.svg';
 import ShoppingWhite from '../public/icons/categories/Icon_Category_Shopping_White.svg';
 import { SearchTypeOptions } from '../types/search/SearchTypeOptions';
 import HotelSearchForm from '../components/categories/hotels/search/HotelSearchForm';
+
+export const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
 export const searchTypeOptions: SearchTypeOptions = [
   {

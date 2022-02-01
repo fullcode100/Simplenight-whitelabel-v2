@@ -1,6 +1,6 @@
 import { Select } from 'antd';
 import { useSelector } from 'react-redux';
-import { getFeatures } from '../../../../../store/selectors/core';
+import { getFeatures } from '../../../../store/selectors/core';
 
 const { Option } = Select;
 
