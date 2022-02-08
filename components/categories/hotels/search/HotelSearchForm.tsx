@@ -67,13 +67,11 @@ const HotelSearchForm = () => {
 
   const handleOccupancySelectorClose = (selectedOccupancy: OccupancyData) => {
     setOccupancyData(selectedOccupancy);
-    debugger;
     setIsOccupancySelectorVisible(false);
   };
 
   useEffect(() => {
     setGuestCount(occupancyData.adultCount + occupancyData.childCount);
-    debugger;
   }, [occupancyData]);
 
   const StartLocationPicker = () => (

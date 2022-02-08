@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { useStore } from '../store';
 import InitAppHOC from '../components/global/InitAppHOC';
-import Header from '../layouts/header/Header';
 import { getDefaultLayout } from 'layouts/helpers/getDefaultLayout';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';

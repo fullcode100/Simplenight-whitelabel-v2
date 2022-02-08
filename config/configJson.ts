@@ -131,6 +131,9 @@ const getConfig = (brandCode: string) => {
       defaultOptions.features.events = true;
       break;
   }
+
+  brandConfig.brandCode = brandCode;
+
   return isDefault ? defaultOptions : deepMerge(defaultOptions, brandConfig);
 };
 

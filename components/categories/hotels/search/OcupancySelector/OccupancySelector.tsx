@@ -32,7 +32,6 @@ const OccupancySelector = ({
   const [temporaryValues, setTemporaryValues] = useState<OccupancyData>(values);
 
   const handleSelectorClose = (): void => {
-    debugger;
     onClose && onClose(temporaryValues);
   };
 
@@ -45,7 +44,6 @@ const OccupancySelector = ({
       ...temporaryValues,
       [key]: value,
     };
-    debugger;
     setTemporaryValues(newValues);
   };
 

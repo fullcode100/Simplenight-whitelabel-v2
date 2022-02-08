@@ -1,12 +1,12 @@
+import React, { useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { getImages } from '../store/selectors/core';
 import SearchCategorySelector from '../components/global/SearchCategorySelector/SearchCategorySelector';
+import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
 
 import styles from '../styles/Home.module.scss';
-import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
-import { useState } from 'react';
 
 const Home: NextPage = () => {
   const configImages = useSelector(getImages);
