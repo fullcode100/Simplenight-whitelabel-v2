@@ -1,0 +1,7 @@
+.root {
+  @apply h-full flex flex-row;
+
+  .label {
+    @apply font-bold text-gray-200 mr-2;
+  }
+}

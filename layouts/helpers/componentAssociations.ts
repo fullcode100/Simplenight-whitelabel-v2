@@ -4,7 +4,6 @@ type ComponentAssociations = { [key: string]: any };
 
 export default {
   gentex: {
-    layout: {
-    },
+    layout: {},
   },
 } as ComponentAssociations;

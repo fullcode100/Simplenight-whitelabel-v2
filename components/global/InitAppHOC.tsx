@@ -1,4 +1,5 @@
 import { useBrandConfigSetup } from 'hooks/branding/useBrandConfigSetup';
+import { useThemeUpdater } from 'hooks/branding/useThemeUpdater';
 import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { DEFAULT_LOCALE } from '../../helpers/languageConstants';
@@ -8,6 +9,7 @@ const InitAppHOC = ({ children }: { children: any }) => {
   const { locale, intlMessages } = useSelector(getLanguageSettings);
 
   useBrandConfigSetup();
+  useThemeUpdater();
 
   return (
     <IntlProvider

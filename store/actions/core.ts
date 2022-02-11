@@ -4,11 +4,21 @@ import * as types from '../reducers/core/types';
 
 export const setBrandConfig =
   (brandCode: string): AppThunk =>
-    async (dispatch) => {
+  async (dispatch) => {
     const brandConfig = await getBrandConfig(brandCode);
 
     dispatch({
       type: types.SET_BRAND_CONFIG,
       payload: brandConfig,
+    });
+  };
+
+export const setBrandColor =
+  (key: string, brandColor: string): AppThunk =>
+  async (dispatch) => {
+    debugger;
+    dispatch({
+      type: types.SET_BRAND_COLOR,
+      payload: { key, brandColor },
     });
   };

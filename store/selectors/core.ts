@@ -18,3 +18,5 @@ export const getLanguageSettings = (state: any): CoreLanguages =>
   state.core.languages;
 
 export const getBrandConfig = (state: any) => state.core.brandConfig;
+
+export const getBrandTheme = (state: any) => state.core.brandConfig.theme;

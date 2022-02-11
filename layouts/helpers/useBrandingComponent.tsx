@@ -1,3 +1,4 @@
+import { useIsDev } from 'hooks/layoutAndUITooling/useIsDev';
 import componentAssociations from './componentAssociations';
 
 const findBrandingComponent = (pathLevels: string[]) => {
@@ -16,13 +17,14 @@ const findBrandingComponent = (pathLevels: string[]) => {
 };
 
 export const useBrandingComponent = (path: string) => {
+  const isDev = useIsDev();
   const pathLevels = path.split('/');
   let currentAssociationObject = null;
 
   try {
     currentAssociationObject = findBrandingComponent(pathLevels);
   } catch (e) {
-    console.error(`No branding in ${path} \n\n ${e}`);
+    if (isDev) console.error(`No branding in ${path} \n\n ${e}`);
     return null;
   }
 

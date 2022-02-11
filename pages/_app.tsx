@@ -1,29 +1,19 @@
 import '../styles/globals.css';
-import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { useStore } from '../store';
 import InitAppHOC from '../components/global/InitAppHOC';
-import { getDefaultLayout } from 'layouts/helpers/getDefaultLayout';
-import { NextPage } from 'next';
-import { ReactElement, ReactNode } from 'react';
-
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
+import { AppPropsWithLayout } from 'types/layout/pageTypes';
+import { useLayout } from 'hooks/layoutAndUITooling/useLayout';
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const store = useStore(pageProps.initialReduxState);
-
-  const getLayout = Component.getLayout || getDefaultLayout;
-  const renderPage = () => getLayout(<Component {...pageProps} />);
+  const PageWithLayout = useLayout(Component, pageProps);
 
   return (
     <Provider store={store}>
-      <InitAppHOC>{renderPage()}</InitAppHOC>
+      <InitAppHOC>
+        <PageWithLayout />
+      </InitAppHOC>
     </Provider>
   );
 }

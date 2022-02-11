@@ -8,5 +8,6 @@ export const initialState: CoreState = {
   languages: {
     intlMessages: {},
     locale: 'en',
-  }
+  },
+  theme: [],
 };

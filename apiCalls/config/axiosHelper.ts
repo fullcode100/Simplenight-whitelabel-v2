@@ -11,7 +11,7 @@ import API_KEYS from './api-keys';
 import queryString from 'query-string';
 import { getBrandCodeFromHost, getHostLevels } from '../../config/configJson';
 
-const selectApiUrl = () => {
+export const selectApiUrl = () => {
   console.log(window);
   const hostLevels = window.location.host.toUpperCase().split('.');
 
@@ -30,7 +30,7 @@ const selectApiUrl = () => {
   return devApi;
 };
 
-const getApiKey = (): string => {
+export const getApiKey = (): string => {
   const brandCode = getBrandCodeFromHost();
   const hostLevels = getHostLevels();
   if (isProd(hostLevels)) {

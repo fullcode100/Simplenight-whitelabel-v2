@@ -1,0 +1,7 @@
+.root {
+  @apply flex flex-col;
+
+  .row {
+    @apply min-h-max sticky top-0 z-50 flex bg-black w-full h-10 text-white px-4 py-2 font-semibold;
+  }
+}
