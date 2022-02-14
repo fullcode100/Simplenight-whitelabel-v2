@@ -1,0 +1,13 @@
+# Using https://www.websequencediagrams.com/
+
+title Generic request to python backend
+
+axiosHelper->api/*: Request Using Axios to Server side
+note left of axiosHelper: The request should be generated inside a file from apiCalls
+api/*->Middleware: applyApiBaseUrl()
+Middleware->api/*: Api Key added to the res object in the headers
+
+note right of api/*: Rest of posible middleware operations
+
+api/*->Python: Redirect to python backend
+Python->axiosHelper: Response from Api

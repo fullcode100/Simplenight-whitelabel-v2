@@ -16,7 +16,6 @@ export const setBrandConfig =
 export const setBrandColor =
   (key: string, brandColor: string): AppThunk =>
   async (dispatch) => {
-    debugger;
     dispatch({
       type: types.SET_BRAND_COLOR,
       payload: { key, brandColor },

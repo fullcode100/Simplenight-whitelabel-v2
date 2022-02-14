@@ -9,11 +9,15 @@ import {
 import API_KEYS from './api-keys';
 
 import queryString from 'query-string';
-import { getBrandCodeFromHost, getHostLevels } from '../../config/configJson';
+import {
+  getBrandCodeFromHost,
+  getFormattedLevels,
+} from '../../config/configJson';
 
-export const selectApiUrl = () => {
-  console.log(window);
-  const hostLevels = window.location.host.toUpperCase().split('.');
+export const API_KEY_HEADER_KEY = 'X-API-KEY';
+
+export const selectApiUrl = (originUrl?: string) => {
+  const hostLevels = getFormattedLevels(originUrl);
 
   const localhostApi = 'http://127.0.0.1:8000/api/v1';
 
@@ -30,9 +34,9 @@ export const selectApiUrl = () => {
   return devApi;
 };
 
-export const getApiKey = (): string => {
-  const brandCode = getBrandCodeFromHost();
-  const hostLevels = getHostLevels();
+export const getApiKey = (originUrl?: string): string => {
+  const brandCode = getBrandCodeFromHost(originUrl);
+  const hostLevels = getFormattedLevels(originUrl);
   if (isProd(hostLevels)) {
     if (isSandbox(hostLevels)) return API_KEYS.DEV;
     return API_KEYS.PROD;
@@ -41,12 +45,12 @@ export const getApiKey = (): string => {
 };
 
 const headers = {
-  'X-API-KEY': '',
+  [API_KEY_HEADER_KEY]: '',
 } as any;
 
 export const setAuthHeaders = () => {
   const queryParams = queryString.parse(window.location.search);
-  const oldKey = localStorage.getItem('SIMPLENIGHT-X-API-KEY') as string;
+  const oldKey = localStorage?.getItem('SIMPLENIGHT-X-API-KEY') as string;
   let newKey: string;
   if (queryParams.apiKey) {
     newKey = queryParams.apiKey as string;
@@ -55,18 +59,38 @@ export const setAuthHeaders = () => {
   } else {
     newKey = getApiKey();
   }
-  headers['X-API-KEY'] = newKey;
+  headers[API_KEY_HEADER_KEY] = newKey;
   localStorage.setItem('SIMPLENIGHT-X-API-KEY', newKey);
 };
 
-export default (() => {
-  setAuthHeaders();
+const setServerAuthHeaders = (originUrl: string, apiKey?: string) => {
+  if (apiKey) {
+    headers[API_KEY_HEADER_KEY] = apiKey;
+    return headers;
+  }
+
+  headers[API_KEY_HEADER_KEY] = getApiKey(originUrl);
+  return headers;
+};
+
+export const createServerAxiosInstance = (
+  originUrl: string,
+  apiKey?: string,
+) => {
+  const requestHeaders = setServerAuthHeaders(originUrl, apiKey);
+  const apiUrl = selectApiUrl(originUrl);
 
   return axios.create({
-    baseURL: selectApiUrl(),
+    baseURL: apiUrl,
+    headers: requestHeaders,
+  });
+};
+
+export default (() => {
+  return axios.create({
+    baseURL: 'api',
     headers: {
       'Content-Type': 'application/json',
-      ...headers,
     },
   });
 })();
