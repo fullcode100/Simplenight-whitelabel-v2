@@ -12,6 +12,11 @@ docker/node_modules
 docker/app
 docker/.next
 
+# Docker
+docker/node_modules
+docker/app
+docker/.next
+
 # testing
 /coverage
 
