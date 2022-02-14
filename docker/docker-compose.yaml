@@ -1,0 +1,23 @@
+version: '3.6'
+
+services:
+  simplenight_whitelabel_v2:
+    container_name: simplenight_whitelabel_v2
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile-localdev
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/next_app
+      - /home/next_app/node_modules
+      - /home/next_app/.next
+    networks:
+      - whitelabel_v2
+    restart: always
+    command: yarn dev
+
+networks:
+  whitelabel_v2:
+    name: whitelabel_v2
+    driver: bridge

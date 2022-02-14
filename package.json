@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "export NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && export NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next dev",
+    "dev:up": "docker-compose -f docker/docker-compose.yaml up -d --build",
+    "dev:down": "docker-compose -f docker/docker-compose.yaml down",
     "build": "export NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && export NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next build",
     "start": "export NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && export NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next start",
     "lint": "next lint",

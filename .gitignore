@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+# Docker
+docker/node_modules
+docker/app
+docker/.next
+
 # testing
 /coverage
 

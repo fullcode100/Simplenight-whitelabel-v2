@@ -16,6 +16,28 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Using docker-compose
+
+The docker-compose file is located un `docker/docker-compose.yaml`
+
+To run it detached using yarn use the command:
+
+```bash
+# To build, run or reload the container
+yarn dev:up
+
+# To stop and remove the container
+yarn dev:down
+```
+
+To reload the page after files have changed just execute the command again
+
+To run it attached use the command:
+
+```bash
+docker-compose -f docker/docker-compose.yaml up --build
+```
+
 ## Using the Dockerfile
 
 The Dockerfile for this project is located in `docker/Dockerfile`
@@ -27,7 +49,7 @@ To run it use:
 docker build -t simplenight-whitelabel-v2 . -f docker/Dockerfile
 
 # Deploy the container
-docker run -p 3000:3000 simplenight-whitelabel-v2
+docker run -d -p 3000:3000 simplenight-whitelabel-v2
 ```
 
 ## Docs available in this repo
