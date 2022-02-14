@@ -5,8 +5,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
+# npm version used -> 8.3.0
 npm run dev
 # or
+
+# yarn version used -> 1.22.17
 yarn dev
 ```
 
@@ -20,7 +23,7 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 The docker-compose file is located un `docker/docker-compose.yaml`
 
-To run it detached using yarn use the command:
+To run it detached using a yarn alias use the command:
 
 ```bash
 # To build, run or reload the container
@@ -32,7 +35,7 @@ yarn dev:down
 
 To reload the page after files have changed just execute the command again
 
-To run it attached use the command:
+To run it attached and without yarn use the command:
 
 ```bash
 docker-compose -f docker/docker-compose.yaml up --build
