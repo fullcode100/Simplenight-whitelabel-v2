@@ -60,6 +60,7 @@ docker run -d -p 3000:3000 simplenight-whitelabel-v2
 #### [Complete Folder](docs)
 
 - [Generic request to python backend](docs/sequence_diagrams/genericRequestToBackend.txt)
+  ![Generic request to python backend](docs/sequence_diagrams/Generic request to python backend.png?raw=true)
 
 ## Learn More
 
