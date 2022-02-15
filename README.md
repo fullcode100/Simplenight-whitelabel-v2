@@ -81,7 +81,9 @@ docker stop simplenight-whitelabel-v2
 #### [Complete Folder](docs)
 
 - [Generic request to python backend](docs/sequence_diagrams/genericRequestToBackend.txt)
-  ![Generic request to python backend](docs/sequence_diagrams/Generic request to python backend.png?raw=true)
+
+
+  ![Generic request to python backend](docs/sequence_diagrams/Generic%20request%20to%20python%20backend.png)
 
 
   ![Generic request to python backend](docs/sequence_diagrams/Generic%20request%20to%20python%20backend.png)
