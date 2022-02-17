@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { SEARCH_DATE_FORMAT } from '../../../../helpers/searchConstants';
+// import { SEARCH_DATE_FORMAT } from '../../../../helpers/searchConstants';
 import { usePlural } from '../../../../hooks/stringBehavior/usePlural';
 import { HotelSearchFormData } from '../../../../types/search/categories/HotelSearchFormData';
 import { LocationPrefix } from '../../../../types/search/LocationPrefixResponse';
@@ -11,6 +11,8 @@ import OccupancySelector, {
 } from './OcupancySelector/OccupancySelector';
 
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
+
+const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
 const getInitialHotelSearchState = (): HotelSearchFormData => {
   const tomorrow = dayjs().add(1, 'day').format(SEARCH_DATE_FORMAT);
