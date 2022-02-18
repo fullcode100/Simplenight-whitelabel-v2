@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { DEFAULT_LOCALE } from '../../helpers/languageConstants';
 import { getLanguageSettings } from '../../store/selectors/core';
+import SEOHoc from './SEOHoc';
 
 const InitAppHOC = ({ children }: { children: any }) => {
   const { locale, intlMessages } = useSelector(getLanguageSettings);
@@ -17,7 +18,7 @@ const InitAppHOC = ({ children }: { children: any }) => {
       locale={locale}
       defaultLocale={DEFAULT_LOCALE}
     >
-      {children}
+      <SEOHoc>{children}</SEOHoc>
     </IntlProvider>
   );
 };

@@ -15,12 +15,6 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Simplenight</title>
-        <meta name="description" content="NextJs whitelabel proof of concept" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main className={styles.main}>
         <section
           className={styles.searchSection}
