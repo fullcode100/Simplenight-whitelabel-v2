@@ -170,6 +170,14 @@ export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
   return axiosInstance;
 };
 
+const tryGetWindow = () => {
+  try {
+    return window;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 export default (() => {
   const Window = tryGetWindow();
 
