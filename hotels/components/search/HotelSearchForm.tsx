@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 // import { SEARCH_DATE_FORMAT } from '../../../../helpers/searchConstants';
-import { usePlural } from '../../../../hooks/stringBehavior/usePlural';
-import { HotelSearchFormData } from '../../../../types/search/categories/HotelSearchFormData';
-import { LocationPrefix } from '../../../../types/search/LocationPrefixResponse';
-import LocationAutoComplete from '../../../global/AutoComplete/LocationAutoComplete';
-import DatePicker from '../../../global/DatePicker/DatePicker';
+import { usePlural } from '../../../hooks/stringBehavior/usePlural';
+import { HotelSearchFormData } from '../../../types/search/categories/HotelSearchFormData';
+import { LocationPrefix } from '../../../types/search/LocationPrefixResponse';
+import LocationAutoComplete from '../../../components/global/AutoComplete/LocationAutoComplete';
+import DatePicker from '../../../components/global/DatePicker/DatePicker';
 import OccupancySelector, {
   OccupancyData,
 } from './OcupancySelector/OccupancySelector';

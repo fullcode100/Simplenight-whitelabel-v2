@@ -1,11 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { applySimplenightApiKey } from 'apiCalls/config/middlewares/authHeaderMiddleware';
-import {
-  API_KEY_HEADER_KEY,
-  getApiKey,
-  selectApiUrl,
-} from 'apiCalls/config/axiosHelper';
-import { getRequestHost } from 'apiCalls/config/requestHelpers';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { applyApiBaseUrl } from 'apiCalls/config/responseHelpers';
 

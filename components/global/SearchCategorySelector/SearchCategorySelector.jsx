@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { getFeatures } from '/store/selectors/core';
-import { searchTypeOptions } from '../../../helpers/searchConstants';
+import { categoryOptions } from '../../../providers/categoryProvider';
 
 import styles from './SearchCategorySelector.module.scss';
 
@@ -15,7 +15,7 @@ const SearchCategorySelector = ({ searchType, onItemClick, className }) => {
   return (
     <>
       <div className={cx(styles.content, className)}>
-        {searchTypeOptions.map((item) => {
+        {categoryOptions.map((item) => {
           return features[item.value] ? (
             <div
               className={cx(styles.searchType, {

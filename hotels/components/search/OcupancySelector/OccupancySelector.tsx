@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import classnames from 'classnames';
-import { useOnOutsideClick } from '../../../../../hooks/windowInteraction/useOnOutsideClick';
-import NumberInput from '../../../../global/NumberInput/NumberInput';
+import { useOnOutsideClick } from '../../../../hooks/windowInteraction/useOnOutsideClick';
+import NumberInput from '../../../../components/global/NumberInput/NumberInput';
 
 type OccupancyDataKeys = 'adultCount' | 'childCount' | 'roomCount';
 

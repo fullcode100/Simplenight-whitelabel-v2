@@ -1,7 +1,7 @@
-import { searchTypeOptions } from '../../../helpers/searchConstants';
+import { categoryOptions } from '../../../providers/categoryProvider';
 
 const SearchCategoryForm = ({ searchType }: { searchType: string }) => {
-  const searchOption = searchTypeOptions.find(
+  const searchOption = categoryOptions.find(
     (option) => option.value === searchType,
   );
 

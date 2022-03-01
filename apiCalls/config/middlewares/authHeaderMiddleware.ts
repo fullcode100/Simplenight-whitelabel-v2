@@ -10,3 +10,8 @@ export const applySimplenightApiKey = (
   const apiKey = getApiKey(originUrl);
   res.setHeader(API_KEY_HEADER_KEY, apiKey);
 };
+
+export const getSimplenightApiKey = (req: NextApiRequest) => {
+  const originUrl = getRequestHost(req);
+  return { header: API_KEY_HEADER_KEY, key: getApiKey(originUrl) };
+};

@@ -13,6 +13,7 @@ import {
   getBrandCodeFromHost,
   getFormattedLevels,
 } from '../../config/configJson';
+import { getSimplenightApiKey } from './middlewares/authHeaderMiddleware';
 
 export const API_KEY_HEADER_KEY = 'X-API-KEY';
 
@@ -73,22 +74,31 @@ const setServerAuthHeaders = (originUrl: string, apiKey?: string) => {
   return headers;
 };
 
-export const createServerAxiosInstance = (
-  originUrl: string,
-  apiKey?: string,
-) => {
-  const requestHeaders = setServerAuthHeaders(originUrl, apiKey);
-  const apiUrl = selectApiUrl(originUrl);
+export const createServerAxiosInstance = (req: any) => {
+  const apiHeader = getSimplenightApiKey(req);
 
   return axios.create({
-    baseURL: apiUrl,
-    headers: requestHeaders,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'gzip, deflate, br',
+      [apiHeader.header]: apiHeader.key,
+    },
   });
 };
 
+const tryGetWindow = () => {
+  try {
+    return window;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 export default (() => {
+  const Window = tryGetWindow();
+
   return axios.create({
-    baseURL: 'api',
+    baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
     headers: {
       'Content-Type': 'application/json',
     },
