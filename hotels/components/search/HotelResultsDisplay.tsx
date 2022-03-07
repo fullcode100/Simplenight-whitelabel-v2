@@ -170,6 +170,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     );
   }
 
+  const handleOnViewDetailClick = (hotel: Hotel) => {
+    console.log(hotel);
+  };
+
   return (
     <>
       {hotels.length > 0 ? (
