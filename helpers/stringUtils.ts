@@ -32,3 +32,8 @@ export const getHexFromRGB = (rgb: string): string => {
 
   return `#${r}${g}${b}`;
 };
+
+export const parseQueryNumber = (query: string | string[]): number => {
+  const parsedQuery = parseInt(query as string, 10);
+  return isNaN(parsedQuery) ? 0 : parsedQuery;
+}

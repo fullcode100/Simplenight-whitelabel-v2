@@ -2,7 +2,7 @@
 import { applySimplenightApiKey } from 'apiCalls/config/middlewares/authHeaderMiddleware';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
-  applyApiBaseUrlV2,
+  applyApiBaseUrl,
   forwardError,
   sendSuccess,
 } from 'apiCalls/config/responseHelpers';
@@ -24,17 +24,18 @@ export default async function handler(
   //   const axios = createServerAxiosInstance(req);
   //   const params = req.query;
 
-  //   const endpoint = `/hotels/`;
-  //   const url = applyApiBaseUrlV2(endpoint);
+  //   const endpoint = `/multi/hotel-details`;
+  //   const url = applyApiBaseUrl(req, endpoint);
 
-  //   const response = await axios.get<HotelSearchResponse>(url, {
-  //     params,
+  //   delete params.id;
+
+  //   const response = await axios.post<HotelSearchResponse>(url, {
+  //     ...params,
   //   });
 
   //   sendSuccess(res, response.data);
   // } catch (err: any) {
   //   forwardError(err, res);
   // }
-
-  HotelCategory.core.ServerSearcher?.handle(req, res);
+  HotelCategory.core.ServerDetailer?.handle(req, res);
 }

@@ -16,6 +16,6 @@ export const applyApiBaseUrlV2 = (endpoint: string) => {
 };
 
 export const forwardError = (err: any, res: any) =>
-  res.status(err.response.status).json(err.response.data);
+  res.status(err.response?.status ?? 500).json(err.response.data);
 
 export const sendSuccess = (res: any, data: any) => res.status(200).json(data);

@@ -12,6 +12,11 @@ const hotelReducer = (
         ...state,
         hotels: payload,
       };
+    case types.SET_DETAIL:
+      return {
+        ...state,
+        hotel: payload,
+      };
 
     default:
       return state;

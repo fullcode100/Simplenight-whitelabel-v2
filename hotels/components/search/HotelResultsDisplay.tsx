@@ -11,11 +11,14 @@ interface HotelResultsDisplayProps {
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const dispatch = useAppDispatch();
+  const { ClientSearcher: Searcher } = HotelCategory.core;
   const { store } = HotelCategory;
   const { actions } = store;
   const { search: searchHotels } = actions;
 
-  const hotels = useAppSelector((state) => state.hotels.hotels);
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+
+  // const hotels = useAppSelector((state) => state.hotels.hotels);
 
   useEffect(() => {
     const params: HotelSearchRequest = {
@@ -25,13 +28,23 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       dst_geolocation: '40.730610,-73.935242',
       rsp_fields: '-rooms',
     };
-    dispatch(searchHotels(params));
+    // dispatch(searchHotels(params));
+
+    Searcher?.search(params).then(({ hotels: searchedHotels }) => {
+      setHotels(searchedHotels);
+    });
   }, []);
+
+  const handleOnViewDetailClick = (hotel: Hotel) => {
+    console.log(hotel);
+  };
 
   return (
     <section className="w-full h-full">
       {hotels.map((hotel: Hotel) => (
-        <span key={hotel.id}>{hotel.name}</span>
+        <span onClick={() => handleOnViewDetailClick(hotel)} key={hotel.id}>
+          {hotel.name}
+        </span>
       ))}
     </section>
   );

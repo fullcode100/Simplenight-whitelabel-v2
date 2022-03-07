@@ -1,6 +1,6 @@
-import { searchHotels } from 'apiCalls/hotels';
+import { getDetail, searchHotels } from 'apiCalls/hotels';
+import { HotelDetailRequest } from 'hotels/types/request/HotelDetailRequest';
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
-import Error from 'next/error';
 import { AppThunk } from 'store';
 import { HotelStoreActions } from './HotelStoreActions';
 import * as types from './types';
@@ -23,8 +23,27 @@ const search =
     }
   };
 
+const detail =
+  (id: any, detailParams: HotelDetailRequest): AppThunk =>
+  async (dispatch) => {
+    try {
+      debugger;
+      const { data: hotel } = await getDetail(id, detailParams);
+
+      dispatch({
+        type: types.SET_DETAIL,
+        payload: hotel,
+      });
+    } catch (err: any) {
+      console.error(
+        `[Status ${err.response.status}] - [${err.response.statusText}] \n\n${err}`,
+      );
+    }
+  };
+
 const actions: HotelStoreActions = {
   search,
+  detail,
 };
 
 export default actions;
