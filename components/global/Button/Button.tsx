@@ -1,9 +1,8 @@
 /* eslint indent: off */
 import React from 'react';
 
-import classnames from 'classnames';
-
-import styles from './Button.module.scss';
+import { useColor } from 'hooks/layoutAndUITooling/useColor';
+import NormalButton from './components/NormalButton';
 
 interface ButtonProps {
   value: string;
@@ -12,6 +11,14 @@ interface ButtonProps {
   color?: string;
   /** Button tailwind class text color, e.g. 'white' . */
   textColor?: string;
+  className?: string;
+  disabled?: boolean;
+  type?:
+    | 'contained'
+    | 'outlined'
+    | 'square-contained'
+    | 'square-outlined'
+    | 'square-no-bg';
   [key: string]: any;
 }
 
@@ -20,8 +27,13 @@ const Button = ({
   size = 'md',
   color = 'primary',
   textColor = 'white',
+  type = 'contained',
+  disabled = false,
+  className = '',
   ...others
 }: ButtonProps) => {
+  const colors = useColor(color, type);
+
   let sizeTailwindClass;
   switch (size) {
     case 'sm':
@@ -36,15 +48,14 @@ const Button = ({
   }
 
   return (
-    <button
-      className={classnames(
-        styles.root,
-        `bg-${color} text-${textColor} ${sizeTailwindClass}`,
-      )}
+    <NormalButton
+      colors={colors}
+      sizeClassname={sizeTailwindClass}
+      value={value}
+      disabled={disabled}
+      className={className}
       {...others}
-    >
-      {value}
-    </button>
+    />
   );
 };
 

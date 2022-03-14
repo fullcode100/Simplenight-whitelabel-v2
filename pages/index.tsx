@@ -7,6 +7,7 @@ import SearchCategorySelector from '../components/global/SearchCategorySelector/
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
 
 import styles from '../styles/Home.module.scss';
+import Button from 'components/global/Button/Button';
 
 const Home: NextPage = () => {
   const configImages = useSelector(getImages);
@@ -15,8 +16,8 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <main className={styles.main}>
-        <section
+      <main className="h-80 w-80 flex items-center justify-center">
+        {/* <section
           className={styles.searchSection}
           style={{
             background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${backgroundImageUri})`,
@@ -32,7 +33,9 @@ const Home: NextPage = () => {
             </section>
             <SearchCategoryForm searchType={searchType} />
           </section>
-        </section>
+        </section> */}
+
+        <Button value="Click me" type="outlined" />
       </main>
 
       <footer className={styles.footer}></footer>

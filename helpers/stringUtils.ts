@@ -36,4 +36,25 @@ export const getHexFromRGB = (rgb: string): string => {
 export const parseQueryNumber = (query: string | string[]): number => {
   const parsedQuery = parseInt(query as string, 10);
   return isNaN(parsedQuery) ? 0 : parsedQuery;
-}
+};
+
+export const camelToKebab = (key: string) =>
+  key.replace(/([A-Z])/g, '-$1').toLowerCase();
+
+export const camelKeysToKebabKeys = (obj: { [key: string]: string }) => {
+  const newObject: { [key: string]: string } = {};
+
+  Object.keys(obj).forEach((key: string) => {
+    newObject[camelToKebab(key)] = obj[key];
+  });
+
+  return newObject;
+};
+
+export const flattenObjectOfObjects = (obj: {[key: string]: string}) => {
+  const flattenedObj = {};
+  Object.keys(obj).forEach((key) => {
+    Object.assign(flattenedObj, obj[key]);
+  });
+  return flattenedObj;
+};
