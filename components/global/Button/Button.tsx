@@ -3,6 +3,7 @@ import React from 'react';
 
 import { useColor } from 'hooks/layoutAndUITooling/useColor';
 import NormalButton from './components/NormalButton';
+import I18nHOC from '../I18nHOC/I18nHOC';
 
 interface ButtonProps {
   value: string;
@@ -58,5 +59,4 @@ const Button = ({
     />
   );
 };
-
-export default Button;
+export default I18nHOC<ButtonProps>(Button);

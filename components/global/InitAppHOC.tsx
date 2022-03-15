@@ -6,6 +6,26 @@ import { DEFAULT_LOCALE } from '../../helpers/languageConstants';
 import { getLanguageSettings } from '../../store/selectors/core';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import SEOHoc from './SEOHoc';
+import { I18nextProvider } from 'react-i18next';
+import i18next from 'i18next';
+
+import globalEn from 'translations/en/global.json';
+import globalEs from 'translations/es/global.json';
+
+i18next.init({
+  interpolation: {
+    escapeValue: false,
+  },
+  lng: 'en',
+  resources: {
+    en: {
+      global: globalEn,
+    },
+    es: {
+      global: globalEs,
+    },
+  },
+});
 
 const InitAppHOC = ({ children }: { children: any }) => {
   const { locale, intlMessages } = useSelector(getLanguageSettings);
@@ -14,15 +34,17 @@ const InitAppHOC = ({ children }: { children: any }) => {
   useThemeUpdater();
 
   return (
-    <IntlProvider
-      messages={intlMessages}
-      locale={locale}
-      defaultLocale={DEFAULT_LOCALE}
-    >
+    // <IntlProvider
+    //   messages={intlMessages}
+    //   locale={locale}
+    //   defaultLocale={DEFAULT_LOCALE}
+    // >
+    <I18nextProvider i18n={i18next}>
       <ErrorBoundary>
         <SEOHoc>{children}</SEOHoc>
       </ErrorBoundary>
-    </IntlProvider>
+    </I18nextProvider>
+    // </IntlProvider>
   );
 };
 

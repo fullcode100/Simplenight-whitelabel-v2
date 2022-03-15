@@ -35,7 +35,7 @@ const Home: NextPage = () => {
           </section>
         </section> */}
 
-        <Button value="Click me" type="outlined" />
+        <Button translationKey="test" value="Click me" type="outlined" />
       </main>
 
       <footer className={styles.footer}></footer>
