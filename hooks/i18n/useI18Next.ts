@@ -75,3 +75,33 @@ export const initializeI18Next = () => {
     });
   return i18next;
 };
+
+export const useI18Next = () => {
+  const isUsingLocize = Boolean(process.env.NEXT_PUBLIC_USE_LOCIZE);
+  if (isUsingLocize) {
+    return withLocize();
+  }
+
+  i18next.init({
+    ns: ['global'],
+    defaultNS: 'global',
+    interpolation: {
+      escapeValue: false,
+    },
+    fallbackLng: 'en',
+    react: {
+      useSuspense: false,
+    },
+    backend: undefined,
+    lng: 'en',
+    resources: {
+      en: {
+        global: globalEn,
+      },
+      es: {
+        global: globalEs,
+      },
+    },
+  });
+  return i18next;
+};
