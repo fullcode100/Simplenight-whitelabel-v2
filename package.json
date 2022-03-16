@@ -10,7 +10,10 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "styleguide": "TAILWIND_MODE=watch styleguidist server",
-    "styleguide:build": "styleguidist build"
+    "styleguide:build": "styleguidist build",
+    "locize:help": "locize sync -h",
+    "locize:sync": "locize sync --path ./translations --project-id 898e1792-e73c-4dc3-a292-288963fab02d --api-key dc085605-c819-4487-abd4-33afb171e048 --reference-language-only false",
+    "locize:download": "locize download --project-id 898e1792-e73c-4dc3-a292-288963fab02d --ver latest --namespace global --path ./translations"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",
@@ -20,6 +23,8 @@
     "babel-plugin-inline-react-svg": "^2.0.1",
     "dayjs": "^1.10.7",
     "i18next": "^21.6.14",
+    "i18next-locize-backend": "^5.0.1",
+    "locize-cli": "^7.10.0",
     "lodash": "^4.17.21",
     "next": "12.1.0",
     "next-react-svg": "^1.1.3",

@@ -3,6 +3,7 @@ import { useAppSelector } from 'hooks/redux/useAppSelector';
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
 import { Hotel } from 'hotels/types/response/SearchResponse';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 interface HotelResultsDisplayProps {
@@ -10,15 +11,11 @@ interface HotelResultsDisplayProps {
 }
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
-  const dispatch = useAppDispatch();
   const { ClientSearcher: Searcher } = HotelCategory.core;
-  const { store } = HotelCategory;
-  const { actions } = store;
-  const { search: searchHotels } = actions;
+  const [t, i18next] = useTranslation('global');
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
 
-  // const hotels = useAppSelector((state) => state.hotels.hotels);
 
   useEffect(() => {
     const params: HotelSearchRequest = {
@@ -28,9 +25,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       dst_geolocation: '40.730610,-73.935242',
       rsp_fields: '-rooms',
     };
-    // dispatch(searchHotels(params));
 
-    Searcher?.search(params).then(({ hotels: searchedHotels }) => {
+    Searcher?.request(params, i18next).then(({ data }) => {
+      const { hotels: searchedHotels } = data;
       setHotels(searchedHotels);
     });
   }, []);

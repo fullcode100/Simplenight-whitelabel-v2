@@ -14,6 +14,7 @@ import {
   getFormattedLevels,
 } from '../../config/configJson';
 import { getSimplenightApiKey } from './middlewares/authHeaderMiddleware';
+import { i18n } from 'i18next';
 
 export const API_KEY_HEADER_KEY = 'X-API-KEY';
 
@@ -72,6 +73,11 @@ const setServerAuthHeaders = (originUrl: string, apiKey?: string) => {
 
   headers[API_KEY_HEADER_KEY] = getApiKey(originUrl);
   return headers;
+};
+
+export const axiosI18nInterceptor = (i18next: i18n) => (config: any) => {
+  config.headers['Accept-Language'] = i18next.language;
+  return config;
 };
 
 export const createServerAxiosInstance = (req: any) => {

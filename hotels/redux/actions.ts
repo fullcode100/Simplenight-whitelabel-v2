@@ -27,7 +27,6 @@ const detail =
   (id: any, detailParams: HotelDetailRequest): AppThunk =>
   async (dispatch) => {
     try {
-      debugger;
       const { data: hotel } = await getDetail(id, detailParams);
 
       dispatch({

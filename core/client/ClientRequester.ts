@@ -1,17 +1,19 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import axios from 'apiCalls/config/axiosHelper';
+import axios, { axiosI18nInterceptor } from 'apiCalls/config/axiosHelper';
+import { i18n } from 'i18next';
 
-export abstract class ClientRequester<
-  Request,
-  Response,
-  PreRequest,
-> {
-  public constructor(protected readonly category: CategoryOption) {
-  }
+export abstract class ClientRequester<Request, Response, PreRequest> {
+  public constructor(protected readonly category: CategoryOption) {}
 
-  public async request(preRequest: PreRequest, ...args: any): Promise<Response> {
+  public async request(
+    preRequest: PreRequest,
+    i18next: i18n,
+    ...args: any
+  ): Promise<Response> {
     const request = this.preRequest(preRequest, ...args);
+
+    this.addLanguageHeader(i18next);
 
     const result = await this.doRequest(request, axios, ...args);
 
@@ -21,6 +23,12 @@ export abstract class ClientRequester<
     this.postRequestResult(request, data);
 
     return data;
+  }
+
+  protected addLanguageHeader(i18next: i18n): void {
+    axios.interceptors.request.use(axiosI18nInterceptor(i18next), (error) =>
+      Promise.reject(error),
+    );
   }
 
   protected preRequest(request: PreRequest, ...args: any): Request {
@@ -38,9 +46,5 @@ export abstract class ClientRequester<
     result: AxiosResponse<Response>,
   ): void {}
 
-  protected postRequestResult(
-    request: Request,
-    result: Response,
-  ): void {}
+  protected postRequestResult(request: Request, result: Response): void {}
 }
-

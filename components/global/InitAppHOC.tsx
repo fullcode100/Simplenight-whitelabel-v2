@@ -3,11 +3,9 @@ import { useThemeUpdater } from 'hooks/branding/useThemeUpdater';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import SEOHoc from './SEOHoc';
 import { I18nextProvider } from 'react-i18next';
-import { useI18Next } from 'hooks/i18n/useI18Next';
+import { i18n } from 'i18next';
 
-const InitAppHOC = ({ children }: { children: any }) => {
-  const i18next = useI18Next();
-
+const InitAppHOC = ({ children, i18next }: { children: any, i18next: i18n }) => {
   useBrandConfigSetup();
   useThemeUpdater();
 

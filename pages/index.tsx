@@ -8,9 +8,11 @@ import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCa
 
 import styles from '../styles/Home.module.scss';
 import Button from 'components/global/Button/Button';
+import { useTranslation } from 'react-i18next';
 
 const Home: NextPage = () => {
   const configImages = useSelector(getImages);
+  const [t, i18next] = useTranslation('global');
   const backgroundImageUri = configImages.background;
   const [searchType, setSearchType] = useState('hotels');
 
@@ -35,7 +37,12 @@ const Home: NextPage = () => {
           </section>
         </section> */}
 
-        <Button translationKey="test" value="Click me" type="outlined" />
+        <Button
+          translationKey="hello-world-2"
+          value="hello world!!!!"
+          type="outlined"
+          onClick={() => i18next.changeLanguage('es')}
+        />
       </main>
 
       <footer className={styles.footer}></footer>

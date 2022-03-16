@@ -31,7 +31,7 @@ const Category: CategoryOption = {
   core: {
     urls: {
       search: {
-        client: '/api/hotels',
+        client: '/hotels',
         server: '/hotels/',
       },
       detail: {
