@@ -25,6 +25,8 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
 
     const request = this.preRequest(preRequest, ...args);
 
+    this.addLanguageHeader(i18next);
+
     const result = await this.doRequest(request, axios, ...args);
 
     this.postRequest(request, result);

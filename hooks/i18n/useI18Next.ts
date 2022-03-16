@@ -63,7 +63,15 @@ export const initializeI18Next = () => {
         global: globalEs,
         hotels: hotelsEs,
       },
-    },
-  });
+      // lng: 'en',
+      // resources: {
+      //   en: {
+      //     global: globalEn,
+      //   },
+      //   es: {
+      //     global: globalEs,
+      //   },
+      // },
+    });
   return i18next;
 };
