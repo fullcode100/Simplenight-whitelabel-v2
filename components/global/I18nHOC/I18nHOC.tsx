@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 export interface I18nHOCSpecificProps {
@@ -15,7 +15,6 @@ function I18nHOC<ChildrenProps>(Component: React.ComponentType<any>) {
     context,
     ...others
   }: I18nHOCSpecificProps & ChildrenProps) => {
-    // const [ready, setReady] = useState(false);
     const usesTranslation = !!translationKey;
     const [t, i18n, ready] = useTranslation(context ?? 'global');
     const translation =

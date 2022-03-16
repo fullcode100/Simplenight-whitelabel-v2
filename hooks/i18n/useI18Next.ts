@@ -11,9 +11,7 @@ const locizeOptions = {
   referenceLng: process.env.NEXT_PUBLIC_LOCIZE_REF_LNG,
 };
 
-export const useI18Next = () => {
-  console.log(locizeOptions);
-  debugger;
+const withLocize = () => {
   i18next
     .use(Backend)
     .use(initReactI18next)
@@ -25,20 +23,41 @@ export const useI18Next = () => {
       },
       fallbackLng: 'en',
       saveMissing: true,
-      debug: true,
+      // debug: true,
       backend: locizeOptions,
       react: {
         useSuspense: false,
       },
-      // lng: 'en',
-      // resources: {
-      //   en: {
-      //     global: globalEn,
-      //   },
-      //   es: {
-      //     global: globalEs,
-      //   },
-      // },
     });
+  return i18next;
+};
+
+export const useI18Next = () => {
+  const isUsingLocize = Boolean(process.env.NEXT_PUBLIC_USE_LOCIZE);
+  if (isUsingLocize) {
+    return withLocize();
+  }
+
+  i18next.init({
+    ns: ['global'],
+    defaultNS: 'global',
+    interpolation: {
+      escapeValue: false,
+    },
+    fallbackLng: 'en',
+    react: {
+      useSuspense: false,
+    },
+    backend: undefined,
+    lng: 'en',
+    resources: {
+      en: {
+        global: globalEn,
+      },
+      es: {
+        global: globalEs,
+      },
+    },
+  });
   return i18next;
 };
