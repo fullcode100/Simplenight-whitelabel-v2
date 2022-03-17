@@ -12,6 +12,7 @@ const locizeOptions = {
 };
 
 const withLocize = () => {
+  console.log('withLocize');
   i18next
     .use(Backend)
     .use(initReactI18next)
@@ -33,7 +34,7 @@ const withLocize = () => {
 };
 
 export const useI18Next = () => {
-  const isUsingLocize = Boolean(process.env.NEXT_PUBLIC_USE_LOCIZE);
+  const isUsingLocize = process.env.NEXT_PUBLIC_USE_LOCIZE === 'true' ? true : false;
   if (isUsingLocize) {
     return withLocize();
   }

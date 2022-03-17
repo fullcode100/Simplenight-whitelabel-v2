@@ -22,6 +22,8 @@ RUN yarn install
 # Copy the rest of our Next.js folder into /app
 COPY ../ /app
 
+ENV NEXT_PUBLIC_USE_LOCIZE=false
+
 
 # Add git for devtools that display version information
 RUN apk update
