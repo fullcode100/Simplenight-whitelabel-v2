@@ -5,7 +5,13 @@ import SEOHoc from './SEOHoc';
 import { I18nextProvider } from 'react-i18next';
 import { i18n } from 'i18next';
 
-const InitAppHOC = ({ children, i18next }: { children: any, i18next: i18n }) => {
+const InitAppHOC = ({
+  children,
+  i18next,
+}: {
+  children: any;
+  i18next: i18n;
+}) => {
   useBrandConfigSetup();
   useThemeUpdater();
 

@@ -1,4 +1,4 @@
-import { ColorWithStates } from "helpers/colors/primaryColorVariants";
+import { ColorWithStates } from 'helpers/colors/primaryColorVariants';
 
 export interface ButtonVariantProp {
   value: any;
@@ -6,5 +6,5 @@ export interface ButtonVariantProp {
   sizeClassname: string;
   disabled: boolean;
   className: string;
-  [key:string]: any;
+  [key: string]: any;
 }

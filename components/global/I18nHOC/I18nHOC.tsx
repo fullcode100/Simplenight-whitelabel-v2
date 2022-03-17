@@ -9,12 +9,12 @@ export interface I18nHOCSpecificProps {
 }
 
 function I18nHOC<ChildrenProps>(Component: React.ComponentType<any>) {
-  return ({
+  return function HoC({
     value,
     translationKey,
     context,
     ...others
-  }: I18nHOCSpecificProps & ChildrenProps) => {
+  }: I18nHOCSpecificProps & ChildrenProps) {
     const usesTranslation = !!translationKey;
     const [t, i18n, ready] = useTranslation(context ?? 'global');
     const translation =

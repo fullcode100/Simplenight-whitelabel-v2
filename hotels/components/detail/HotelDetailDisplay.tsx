@@ -1,25 +1,23 @@
 import dayjs from 'dayjs';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import { getHotelDetail } from 'hotels/redux/selectors';
 import { HotelDetailRequest } from 'hotels/types/request/HotelDetailRequest';
-import { HotelDetailResponse, Occupancy } from 'hotels/types/response/HotelDetailResponse';
+import {
+  HotelDetailResponse,
+  Occupancy,
+} from 'hotels/types/response/HotelDetailResponse';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 import { DateString } from 'types/global/DateString';
 
 interface HotelDetailDisplayProps extends CategoryPageComponentProps {}
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
-  const dispatch = useDispatch();
-
   const { id, start_date, end_date, adults, children, num_rooms } = useQuery();
-  const { store } = Category;
-  const { detail } = store.actions;
 
-  // const hotel = getHotelDetail();
   const [hotel, setHotel] = useState<HotelDetailResponse>();
+  const [t, i18next] = useTranslation('global');
 
   useEffect(() => {
     const startDate = (start_date ??
@@ -40,8 +38,11 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       occupancy: occupancy,
     };
 
-    // dispatch(detail(params.hotel_id, params));
-    Category.core.ClientDetailer?.request(params, params.hotel_id).then(setHotel);
+    Category.core.ClientDetailer?.request(
+      params,
+      i18next,
+      params.hotel_id,
+    ).then(setHotel);
   }, []);
 
   return <section>{JSON.stringify(hotel, null, 2)}</section>;

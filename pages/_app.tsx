@@ -4,9 +4,9 @@ import { useStore } from '../store';
 import InitAppHOC from '../components/global/InitAppHOC';
 import { AppPropsWithLayout } from 'types/layout/pageTypes';
 import { useLayout } from 'hooks/layoutAndUITooling/useLayout';
-import { useI18Next } from 'hooks/i18n/useI18Next';
+import { initializeI18Next } from 'hooks/i18n/useI18Next';
 
-const i18next = useI18Next();
+const i18next = initializeI18Next();
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const store = useStore(pageProps.initialReduxState);

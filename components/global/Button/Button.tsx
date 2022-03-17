@@ -23,6 +23,7 @@ interface ButtonProps {
   [key: string]: any;
 }
 
+/* eslint new-cap: ["off"] */
 const Button = ({
   value,
   size = 'md',
@@ -59,4 +60,6 @@ const Button = ({
     />
   );
 };
+
+/* eslint new-cap: ["off"] */
 export default I18nHOC<ButtonProps>(Button);

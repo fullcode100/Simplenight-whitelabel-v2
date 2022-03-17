@@ -33,7 +33,7 @@ const withLocize = () => {
   return i18next;
 };
 
-export const useI18Next = () => {
+export const initializeI18Next = () => {
   const isUsingLocize = process.env.NEXT_PUBLIC_USE_LOCIZE === 'true' ? true : false;
   if (isUsingLocize) {
     return withLocize();
