@@ -18,13 +18,16 @@ const IconInput = ({
 
   const getRightSideIconClass = () => 'inset-y-0 right-0 pr-3';
 
-  const iconSideValue = orientation === 'right' ? getRightSideIconClass() : getLeftSideIconClass();
+  const iconSideValue =
+    orientation === 'right' ? getRightSideIconClass() : getLeftSideIconClass();
 
   const inputClassName = orientation === 'right' ? 'pr-10' : 'pl-10';
 
   const dynamicProps = {
     [orientationBaseProp]: (
-      <section className={`absolute ${iconSideValue} flex items-center pointer-events-none`}>
+      <section
+        className={`absolute ${iconSideValue} flex items-center pointer-events-none`}
+      >
         {icon}
       </section>
     ),
