@@ -6,11 +6,18 @@ import { HotelSearchFormData } from '../../../types/search/categories/HotelSearc
 import { LocationPrefix } from '../../../types/search/LocationPrefixResponse';
 import LocationAutoComplete from '../../../components/global/AutoComplete/LocationAutoComplete';
 import DatePicker from '../../../components/global/DatePicker/DatePicker';
+
 import OccupancySelector, {
   OccupancyData,
 } from './OcupancySelector/OccupancySelector';
 
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
+import LocationPin from 'public/icons/assets/location-pin.svg';
+import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
+import Calendar from 'public/icons/assets/calendar.svg';
+import IconInput from 'components/global/Input/IconInput';
+import NumberInput from 'components/global/Input/NumberInput';
+import Button from 'components/global/Button/Button';
 
 const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -95,30 +102,51 @@ const HotelSearchForm = () => {
   );
 
   return (
-    <section className="w-full flex flex-row items-center h-1/2">
-      <StartLocationPicker />
-      <StartDatePicker />
-      <section className="w-1/5 h-full relative">
-        <OccupancySelector
-          visible={isOccupancySelectorVisible}
-          values={occupancyData}
-          onClose={handleOccupancySelectorClose}
-          className="bg-gray-300 h-48 drop-shadow-lg absolute inset-x-0 bottom-8"
+    <section className="">
+      <IconInput
+        icon={<LocationPin className="h-5 w-5 text-dark-700" />}
+        label=""
+        name="rooms"
+        placeholder="Chicago, IL, USA"
+      />
+
+      <NumberInput
+        label="Rooms"
+        name="rooms"
+        placeholder="1 Room"
+        className="mt-4"
+      />
+
+      <IconInput
+        label="Adults"
+        name="Adults"
+        placeholder="2 adults"
+        icon={<MultiplePersons className="h-5 w-5 text-dark-700" />}
+        className="mt-4"
+        orientation="right"
+      />
+
+      <section className="flex gap-4">
+        <IconInput
+          label="Check-in"
+          name="Check-in"
+          placeholder="Check-in"
+          className="mt-4"
+          orientation="right"
+          icon={<Calendar className="h-5 w-5 text-dark-700" />}
         />
-        <section
-          className="flex mx-2 border-2 border-gray-600 justify-center items-center h-full"
-          onClick={handleClickOccupancySelector}
-        >
-          <section className="text-center justify-center flex flex-row">
-            <span className="text-primary mr-4 flex flex-row">
-              <BedFillGray className="mr-2" />
-              {occupancyData.roomCount} {roomLabel}
-            </span>
-            <span className="text-primary">
-              {guestCount} {guestLabel}
-            </span>
-          </section>
-        </section>
+        <IconInput
+          label="Check-out"
+          name="Check-out"
+          placeholder="Check-out"
+          orientation='right'
+          className="mt-4"
+          icon={<Calendar className="h-5 w-5 text-dark-700" />}
+        />
+      </section>
+
+      <section className="w-full flex items-center justify-center mt-8">
+        <Button value="Search" className="h-12 min-w-full" />
       </section>
     </section>
   );
