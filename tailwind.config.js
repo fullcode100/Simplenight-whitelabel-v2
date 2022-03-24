@@ -2,6 +2,8 @@ module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
+    './layouts/**/*.{js,ts,jsx,tsx}',
+    './hotels/**/*.{js,ts,jsx,tsx}',
   ],
   purge: {
     options: {
@@ -19,6 +21,7 @@ module.exports = {
         8: '8px',
         10: '10px',
         12: '12px',
+        1000: '1000px',
       },
       colors: {
         primary: {
@@ -61,6 +64,15 @@ module.exports = {
           100: '#FFD9D9',
         },
         'primary-light': 'var(--primary-light-color)',
+      },
+      fontSize: {
+        sm: '1rem',
+        base: '1.125rem',
+        lg: '1.25rem',
+      },
+      fontFamily: {
+        manrope: ['Manrope', 'sans-serif'],
+        lato: ['Lato', 'sans-serif'],
       },
     },
   },

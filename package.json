@@ -16,6 +16,7 @@
     "locize:download": "locize download --project-id 898e1792-e73c-4dc3-a292-288963fab02d --ver latest --namespace global --path ./translations"
   },
   "dependencies": {
+    "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/forms": "^0.4.0",
     "antd": "^4.18.2",

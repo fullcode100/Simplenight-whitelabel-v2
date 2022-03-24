@@ -1,4 +1,5 @@
 @import 'antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -13,6 +14,32 @@
     var(--primary-color-rgb),
     var(--alpha-light-variant)
   );
+}
+
+@layer base {
+  html {
+    font-family: 'Lato', sans-serif;
+  }
+}
+
+.h1 {
+  @apply font-manrope font-semibold text-6xl leading-[68px] sm:text-[40px] sm:leading-[46px];
+}
+
+.h2 {
+  @apply font-manrope font-semibold text-[44px] sm:text-[32px] leading-[50px] sm:leading-[40px];
+}
+
+.h3 {
+  @apply font-manrope font-semibold text-[38px] /*sm:text-[24px]*/ leading-[32px] /*sm:leading-[28px]*/;
+}
+
+.h4 {
+  @apply font-manrope font-semibold text-2xl sm:text-[20px] leading-[29px] sm:leading-[24px];
+}
+
+.h5 {
+  @apply font-manrope font-semibold text-xl sm:text-lg leading-[24px] sm:leading-[22px];
 }
 
 html,

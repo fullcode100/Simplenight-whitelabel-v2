@@ -8,7 +8,7 @@ interface InputProps {
   name: string;
   id?: string;
   placeholder?: string;
-  errorMessage: string;
+  errorMessage?: string;
   defaultValue?: string;
   ref?: React.Ref<any>;
   validator?: (value: string) => boolean;
@@ -20,7 +20,7 @@ const TextInput = ({
   name,
   label,
   placeholder,
-  errorMessage,
+  errorMessage = '',
   defaultValue,
   validator,
   ref,

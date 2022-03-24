@@ -7,7 +7,7 @@ import I18nHOC from '../I18nHOC/I18nHOC';
 
 interface ButtonProps {
   value: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'full';
   /** Button tailwind class color, e.g. 'blue-500' . */
   color?: string;
   /** Button tailwind class text color, e.g. 'white' . */
@@ -46,6 +46,9 @@ const Button = ({
       break;
     case 'lg':
       sizeTailwindClass = 'w-32 h-8 text-lg';
+      break;
+    case 'full':
+      sizeTailwindClass = 'w-full text-lg';
       break;
   }
 
