@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -93,6 +95,9 @@ module.exports = {
       boxShadow: {
         container: '0 0px 12px rgba(0, 0, 0, 0.08)',
       },
+    },
+    fontFamily: {
+      sans: ['Lato', 'sans-serif'],
     },
     fontFamily: {
       sans: ['Lato', 'sans-serif'],
