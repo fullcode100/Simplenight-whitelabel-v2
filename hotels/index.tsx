@@ -12,6 +12,7 @@ import { HotelClientSearcher } from './core/search/HotelClientSearcher';
 import { HotelServerSearcher } from './core/search/HotelServerSearcher';
 import { HotelClientDetailer } from './core/detail/HotelClientDetailer';
 import { HotelServerDetailer } from './core/detail/HotelServerDetailer';
+import HotelSearchFormReadState from './components/search/HotelSearchFormReadState';
 
 export const HOTEL_CATEGORY = 'hotels';
 
@@ -26,6 +27,7 @@ const Category: CategoryOption = {
   },
   selectedIcon: <BedFillGray />,
   searchForm: <HotelSearchForm />,
+  readStateSearchForm: <HotelSearchFormReadState />,
   resultsDisplay: <></>,
   detailDisplay: <></>,
   core: {

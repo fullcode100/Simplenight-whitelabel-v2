@@ -17,6 +17,7 @@ export interface CategoryOption {
   store: CategoryStore;
   core: CategoryCore<any>;
   searchForm?: ReactElement;
+  readStateSearchForm?: ReactElement;
   resultsDisplay?: ReactElement;
   detailDisplay?: ReactElement;
 }
@@ -28,7 +29,11 @@ export interface CategoryStore {
 
 export interface CategoryCore<SearchResponse> {
   urls: CategoryUrls;
-  ClientSearcher: ClientSearcher<SearchRequest, SearchResponse, SearchRequest> | null;
+  ClientSearcher: ClientSearcher<
+    SearchRequest,
+    SearchResponse,
+    SearchRequest
+  > | null;
   ServerSearcher: ServerSearcher<SearchResponse> | null;
   ClientDetailer: ClientDetailer<any, any, any> | null;
   ServerDetailer: ServerDetailer<any> | null;

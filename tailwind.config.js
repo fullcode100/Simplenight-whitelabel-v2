@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -74,6 +76,9 @@ module.exports = {
         manrope: ['Manrope', 'sans-serif'],
         lato: ['Lato', 'sans-serif'],
       },
+    },
+    fontFamily: {
+      sans: ['Lato', 'sans-serif'],
     },
   },
   plugins: [require('@tailwindcss/forms')],
