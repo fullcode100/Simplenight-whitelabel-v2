@@ -18,6 +18,8 @@ import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
 import NumberInput from 'components/global/Input/NumberInput';
 import Button from 'components/global/Button/Button';
+import { SearchFormProps } from 'types/search/SearchFormProps';
+import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
 const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -39,11 +41,12 @@ const getInitialHotelOccupancyState = (): OccupancyData => ({
   roomCount: 1,
 });
 
-const HotelSearchForm = () => {
+const HotelSearchForm = ({ setIsReading }: SearchFormProps) => {
   const [searchData, setSearchData] = useState(getInitialHotelSearchState);
   const [occupancyData, setOccupancyData] = useState<OccupancyData>(
     getInitialHotelOccupancyState,
   );
+  const setQueryParam = useQuerySetter();
   const [isOccupancySelectorVisible, setIsOccupancySelectorVisible] =
     useState(false);
 
@@ -101,6 +104,14 @@ const HotelSearchForm = () => {
     />
   );
 
+  const handleSearchClick = async () => {
+    await setQueryParam('adults', '4');
+    await setQueryParam('children', '2');
+    await setQueryParam('startDate', '2020-01-01');
+    await setQueryParam('endDate', '2020-01-02');
+    if (setIsReading) setIsReading(true);
+  };
+
   return (
     <section className="">
       <IconInput
@@ -139,14 +150,19 @@ const HotelSearchForm = () => {
           label="Check-out"
           name="Check-out"
           placeholder="Check-out"
-          orientation='right'
+          orientation="right"
           className="mt-4"
           icon={<Calendar className="h-5 w-5 text-dark-700" />}
         />
       </section>
 
       <section className="w-full flex items-center justify-center mt-8">
-        <Button value="Search" className="h-12 min-w-full" />
+        <Button
+          key="hotels.searchBtn"
+          value="Search"
+          className="h-12 min-w-full"
+          onClick={handleSearchClick}
+        />
       </section>
     </section>
   );

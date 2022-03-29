@@ -1,35 +1,58 @@
 import dayjs from 'dayjs';
-import { formatAsMonthDay } from 'helpers/dajjsUtils';
+import { formatAsMonthDay, SEARCH_DATE_FORMAT } from 'helpers/dajjsUtils';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import MagnifierIcon from 'public/icons/assets/magnifier.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
+import useQuery from 'hooks/pageInteraction/useQuery';
 
 const DotSpacer = () => <span>·</span>;
 
-const HotelSearchFormReadState = () => {
-  const values = {
-    location: 'Chicago, IL, USA',
-    adults: 2,
-    children: 2,
-    startDate: '2022-09-01',
-    endDate: '2022-09-05',
-  };
-  const ADULT_TEXT = usePlural(values.adults, 'Adult', 'Adults');
+interface HotelSearchFormReadStateProps {
+  setIsReading?: (isReading: boolean) => void;
+  log?: (message: string) => void;
+}
 
-  const formattedStartDate = formatAsMonthDay(values.startDate);
-  const formattedEndDate = formatAsMonthDay(values.endDate);
+const HotelSearchFormReadState = ({
+  setIsReading = (value: boolean) => {},
+}: HotelSearchFormReadStateProps) => {
+  const {
+    startDate: startDateQuery,
+    endDate: endDateQuery,
+    adults: adultsQuery,
+    children: childrenQuery,
+    rooms,
+  } = useQuery();
+
+  const location = 'Chicago, IL, USA';
+  const adults = adultsQuery;
+  const children = childrenQuery;
+  const startDate = dayjs(startDateQuery as unknown as string).format(
+    SEARCH_DATE_FORMAT,
+  );
+  const endDate = dayjs(endDateQuery as unknown as string).format(
+    SEARCH_DATE_FORMAT,
+  );
+
+  const ADULT_TEXT = usePlural(
+    (adults as unknown as number) ?? 0,
+    'Adult',
+    'Adults',
+  );
+
+  const formattedStartDate = startDateQuery ? formatAsMonthDay(startDate) : '-';
+  const formattedEndDate = endDateQuery ? formatAsMonthDay(endDate) : '-';
 
   const LocationSection = () => (
-    <span className="font-semibold">{values.location}</span>
+    <span className="font-semibold">{location}</span>
   );
 
   const OccupancySection = () => (
     <section>
-      <span>{values.adults} </span>
+      <span>{adults ?? ' - '} </span>
       <span>{ADULT_TEXT}, </span>
-      <span>{values.children}</span>
+      <span>{children ?? ' - '}</span>
       <span> Children</span>
     </section>
   );
@@ -52,6 +75,10 @@ const HotelSearchFormReadState = () => {
       <DatesSection />
     </section>
   );
+
+  const handleSearchClick = () => {
+    setIsReading(true);
+  };
 
   return (
     <section className="flex font-lato justify-between text-sm px-4 pt-3 border-t-[1px] border-b-[1px]">
