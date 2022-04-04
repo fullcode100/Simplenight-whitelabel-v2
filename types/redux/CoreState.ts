@@ -1,9 +1,12 @@
+import { Ref } from 'react';
 import { IntlMessages } from './IntlMessages';
 
 export interface CoreState {
   brandConfig: any;
   languages: CoreLanguages;
   theme: CoreTheme[];
+  isMapsLoaded: boolean;
+  homepageScrollHandler?: Function;
 }
 
 export interface CoreTheme {

@@ -14,6 +14,9 @@ module.exports = withReactSvg({
   experimental: {
     outputStandalone: true,
   },
+  images: {
+    domains: ['photos.hotelbeds.com', 'mobileimg.priceline.com'],
+  },
   webpackDevMiddleware: (config) => {
     config.watchOptions = {
       poll: 500,

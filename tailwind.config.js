@@ -7,12 +7,14 @@ module.exports = {
     './layouts/**/*.{js,ts,jsx,tsx}',
     './hotels/**/*.{js,ts,jsx,tsx}',
   ],
+
   purge: {
     options: {
       safelist: [
         { pattern: /primary/, variants: ['hover'] },
         { pattern: /dark/, variants: ['hover'] },
         { pattern: /border/ },
+        'bg-transparent',
       ],
     },
   },
@@ -75,6 +77,9 @@ module.exports = {
       fontFamily: {
         manrope: ['Manrope', 'sans-serif'],
         lato: ['Lato', 'sans-serif'],
+      },
+      flex: {
+        '0-0-auto': '0 0 auto',
       },
     },
     fontFamily: {

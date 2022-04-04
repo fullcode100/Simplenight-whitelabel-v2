@@ -1,26 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import { useSelector } from 'react-redux';
-import { getImages } from '../store/selectors/core';
-import SearchCategorySelector from '../components/global/SearchCategorySelector/SearchCategorySelector';
+import { getHomepageScrollHandler, getImages } from '../store/selectors/core';
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
 
 import styles from '../styles/Home.module.scss';
 import { useTranslation } from 'react-i18next';
 import Tabs from 'components/global/Tabs/Tabs';
 import { Tab } from 'components/global/Tabs/types';
+import SectionTitle from 'components/global/SectionTitle/SectionTitle';
+import BedIcon from 'public/icons/assets/bed.svg';
+
+import hotelMock from 'hotels/hotelMock';
+import ItemCard from 'components/global/ItemCard/ItemCard';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => (
-  <div className="min-h-[50vh] w-[100vw] px-4 py-28 bg-primary-100 absolute top-0 left-0">
+  <div className="min-h-[50vh] w-[100vw] px-4 py-28 bg-primary-100 ">
     {children}
   </div>
 );
 
 const Home: NextPage = () => {
-  const configImages = useSelector(getImages);
   const [t, i18next] = useTranslation('global');
-  const backgroundImageUri = configImages.background;
+  const nearYouLabel = t('nearYou', 'Near you right now');
+
+  const mainRef = useRef<HTMLDivElement>(null);
+  const homepageScrollHandler = getHomepageScrollHandler();
+
   const [searchType, setSearchType] = useState('hotels');
 
   const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
@@ -42,10 +47,28 @@ const Home: NextPage = () => {
     </section>
   );
 
-  const tabsMock = [{ value: 'Hotels', href: '/', current: true }];
+  useEffect(() => {
+    const mainTag = mainRef.current;
+    if (homepageScrollHandler) {
+      mainTag?.addEventListener('scroll', homepageScrollHandler);
+    }
+
+    return () => {
+      if (homepageScrollHandler) {
+        mainTag?.removeEventListener('scroll', homepageScrollHandler);
+      }
+    };
+  }, [homepageScrollHandler]);
+
+  const tabsMock = [
+    { value: 'Hotels', href: '/', current: true, icon: <BedIcon /> },
+  ];
   return (
     <div>
-      <main className="h-screen w-full py-6 px-4 overflow-x-auto">
+      <main
+        ref={mainRef}
+        className="h-screen w-full overflow-x-auto absolute top-0 left-0"
+      >
         <UpperSectionBackground>
           <p className="h3 text-dark-1000 mb-9">Book Everything, Anywhere</p>
           <Tabs tabs={tabsMock} onClick={handleTabClick} />
@@ -53,6 +76,28 @@ const Home: NextPage = () => {
             <SearchCategoryForm searchType={searchType} />
           </Panel>
         </UpperSectionBackground>
+        <section className="px-4">
+          <SectionTitle label={nearYouLabel} />
+          <section className="flex flex-row gap-4 flex-nowrap overflow-x-auto">
+            {hotelMock.map((hotel, index) => {
+              const { name, thumbnail, amount_min, address } = hotel;
+              const itemKey = hotel.id + index;
+
+              return (
+                <ItemCard
+                  key={itemKey}
+                  handleOnViewDetailClick={() => console.log(hotel)}
+                  item={hotel}
+                  title={name}
+                  image={thumbnail}
+                  price={amount_min}
+                  extraInformation={{ address }}
+                  className=" flex-0-0-auto"
+                />
+              );
+            })}
+          </section>
+        </section>
       </main>
 
       <footer className={styles.footer}></footer>

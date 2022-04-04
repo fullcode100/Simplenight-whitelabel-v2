@@ -13,6 +13,7 @@ import { HotelServerSearcher } from './core/search/HotelServerSearcher';
 import { HotelClientDetailer } from './core/detail/HotelClientDetailer';
 import { HotelServerDetailer } from './core/detail/HotelServerDetailer';
 import HotelSearchFormReadState from './components/search/HotelSearchFormReadState';
+import BedIcon from 'public/icons/assets/bed.svg';
 
 export const HOTEL_CATEGORY = 'hotels';
 
@@ -20,7 +21,7 @@ const Category: CategoryOption = {
   id: 2,
   name: HOTEL_CATEGORY,
   value: HOTEL_CATEGORY,
-  icon: <BedFillGray />,
+  icon: <BedIcon />,
   store: {
     reducer: hotelReducer,
     actions: hotelActions,

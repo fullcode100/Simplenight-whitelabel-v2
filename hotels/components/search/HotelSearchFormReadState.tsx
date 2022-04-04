@@ -77,7 +77,7 @@ const HotelSearchFormReadState = ({
   );
 
   const handleSearchClick = () => {
-    setIsReading(true);
+    setIsReading(false);
   };
 
   return (
@@ -86,7 +86,10 @@ const HotelSearchFormReadState = ({
         <LocationSection />
         <OccupancyAndDatesSection />
       </section>
-      <section className="flex items-center justify-center w-[15%]">
+      <section
+        className="flex items-center justify-center w-[15%]"
+        onClick={handleSearchClick}
+      >
         <MagnifierIcon className="text-primary-1000 " />
       </section>
     </section>

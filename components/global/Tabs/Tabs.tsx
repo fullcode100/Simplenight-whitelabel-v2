@@ -26,11 +26,12 @@ const Tabs = ({ tabs, onClick }: TabsProps) => {
                 tab.value === activeTab.value
                   ? 'bg-primary-1000 text-white'
                   : 'text-primary-1000 hover:bg-primary-700',
-                'px-3 py-2 font-medium text-sm rounded-1000',
+                'px-3 py-2 font-medium text-sm rounded-1000 flex items-center gap-2',
               )}
               aria-current={tab === activeTab ? 'page' : undefined}
               onClick={() => onClick(tab, setActiveTab)}
             >
+              {tab.icon}
               {tab.value}
             </button>
           ))}

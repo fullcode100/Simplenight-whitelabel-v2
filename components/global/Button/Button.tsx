@@ -4,6 +4,7 @@ import React from 'react';
 import { useColor } from 'hooks/layoutAndUITooling/useColor';
 import NormalButton from './components/NormalButton';
 import I18nHOC from '../I18nHOC/I18nHOC';
+import DualButton from './components/DualButton';
 
 interface ButtonProps {
   value: string;
@@ -17,6 +18,7 @@ interface ButtonProps {
   type?:
     | 'contained'
     | 'outlined'
+    | 'dual'
     | 'square-contained'
     | 'square-outlined'
     | 'square-no-bg';
@@ -52,16 +54,32 @@ const Button = ({
       break;
   }
 
-  return (
-    <NormalButton
-      colors={colors}
-      sizeClassname={sizeTailwindClass}
-      value={value}
-      disabled={disabled}
-      className={className}
-      {...others}
-    />
-  );
+  switch (type) {
+    case 'dual': {
+      return (
+        <DualButton
+          colors={colors}
+          sizeClassname={sizeTailwindClass}
+          value={value}
+          disabled={disabled}
+          className={className}
+          {...others}
+        />
+      );
+    }
+    default: {
+      return (
+        <NormalButton
+          colors={colors}
+          sizeClassname={sizeTailwindClass}
+          value={value}
+          disabled={disabled}
+          className={className}
+          {...others}
+        />
+      );
+    }
+  }
 };
 
 /* eslint new-cap: ["off"] */
