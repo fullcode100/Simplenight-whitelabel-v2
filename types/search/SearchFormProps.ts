@@ -1,3 +1,4 @@
 export interface SearchFormProps {
-  setIsReading?: (isReading: boolean) => void;
+  setIsSearching?: (isReading: boolean) => void;
+  className?: string;
 }

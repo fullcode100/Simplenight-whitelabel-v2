@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
-import { getHomepageScrollHandler, getImages } from '../store/selectors/core';
+import { getHomepageScrollHandler} from '../store/selectors/core';
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
 
 import styles from '../styles/Home.module.scss';
@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 import Tabs from 'components/global/Tabs/Tabs';
 import { Tab } from 'components/global/Tabs/types';
 import SectionTitle from 'components/global/SectionTitle/SectionTitle';
-import BedIcon from 'public/icons/assets/bed.svg';
 
 import hotelMock from 'hotels/hotelMock';
 import ItemCard from 'components/global/ItemCard/ItemCard';
+import { tabsMock } from 'mocks/tabsMock';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => (
   <div className="min-h-[50vh] w-[100vw] px-4 py-28 bg-primary-100 ">
@@ -60,9 +60,7 @@ const Home: NextPage = () => {
     };
   }, [homepageScrollHandler]);
 
-  const tabsMock = [
-    { value: 'Hotels', href: '/', current: true, icon: <BedIcon /> },
-  ];
+
   return (
     <div>
       <main

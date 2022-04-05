@@ -80,16 +80,30 @@ export const axiosI18nInterceptor = (i18next: i18n) => (config: any) => {
   return config;
 };
 
+export const axiosServerI18nInterceptor =
+  (language: string) => (config: any) => {
+    config.params['lang'] = language;
+    return config;
+  };
+
 export const createServerAxiosInstance = (req: any) => {
   const apiHeader = getSimplenightApiKey(req);
+  const language = req.headers['accept-language'];
 
-  return axios.create({
+  const axiosInstance = axios.create({
     headers: {
       'Content-Type': 'application/json',
       'Accept-Encoding': 'gzip, deflate, br',
       [apiHeader.header]: apiHeader.key,
     },
   });
+
+  axiosInstance.interceptors.request.use(
+    axiosServerI18nInterceptor(language),
+    (error) => Promise.reject(error),
+  );
+
+  return axiosInstance;
 };
 
 const tryGetWindow = () => {

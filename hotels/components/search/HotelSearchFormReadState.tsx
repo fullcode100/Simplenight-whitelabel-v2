@@ -10,12 +10,12 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 const DotSpacer = () => <span>·</span>;
 
 interface HotelSearchFormReadStateProps {
-  setIsReading?: (isReading: boolean) => void;
+  setIsSearching?: (isReading: boolean) => void;
   log?: (message: string) => void;
 }
 
 const HotelSearchFormReadState = ({
-  setIsReading = (value: boolean) => {},
+  setIsSearching = (value: boolean) => {},
 }: HotelSearchFormReadStateProps) => {
   const {
     startDate: startDateQuery,
@@ -77,7 +77,7 @@ const HotelSearchFormReadState = ({
   );
 
   const handleSearchClick = () => {
-    setIsReading(false);
+    setIsSearching(true);
   };
 
   return (
