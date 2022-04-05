@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Button from '../Button/Button';
 import BaseInput, { BaseInputProps } from './BaseInput';
 
-import PlusIcon from 'public/icons/assets/plus.svg';
+import PlusIcon from 'public/icons/assets/Plus.svg';
 import MinusIcon from 'public/icons/assets/minus.svg';
 
 const NumberInput = ({ ...others }: BaseInputProps) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
-import { getHomepageScrollHandler} from '../store/selectors/core';
+import { getHomepageScrollHandler } from '../store/selectors/core';
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
 
 import styles from '../styles/Home.module.scss';
@@ -60,7 +60,6 @@ const Home: NextPage = () => {
     };
   }, [homepageScrollHandler]);
 
-
   return (
     <div>
       <main
@@ -78,7 +77,7 @@ const Home: NextPage = () => {
           <SectionTitle label={nearYouLabel} />
           <section className="flex flex-row gap-4 flex-nowrap overflow-x-auto">
             {hotelMock.map((hotel, index) => {
-              const { name, thumbnail, amount_min, address } = hotel;
+              const { name, thumbnail, amount_min: amountMin, address } = hotel;
               const itemKey = hotel.id + index;
 
               return (
@@ -88,7 +87,7 @@ const Home: NextPage = () => {
                   item={hotel}
                   title={name}
                   image={thumbnail}
-                  price={amount_min}
+                  price={amountMin}
                   extraInformation={{ address }}
                   className=" flex-0-0-auto"
                 />
