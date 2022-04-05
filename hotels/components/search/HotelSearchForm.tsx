@@ -46,7 +46,10 @@ const getInitialHotelOccupancyState = (): OccupancyData => ({
   roomCount: 1,
 });
 
-const HotelSearchForm = ({ setIsReading }: SearchFormProps) => {
+const HotelSearchForm = ({
+  setIsSearching,
+  className = '',
+}: SearchFormProps) => {
   const setQueryParam = useQuerySetter(['type']);
 
   const [adultCount, setAdultCount] = useState<Number>(0);
@@ -86,64 +89,66 @@ const HotelSearchForm = ({ setIsReading }: SearchFormProps) => {
     await setQueryParam('startDate', startDate);
     await setQueryParam('endDate', endDate);
     await setQueryParam('geolocation', geolocation ?? '');
-    if (setIsReading) setIsReading(true);
+    if (setIsSearching) setIsSearching(false);
   };
 
   return (
-    <section className="">
-      <LocationInput
-        icon={<LocationPin className="h-5 w-5 text-dark-700" />}
-        label=""
-        name="location"
-        placeholder="Chicago, IL, USA"
-        routeParams={['type']}
-        onSelect={(value: StringGeolocation) => setGeolocation(value)}
-      />
-
-      <NumberInput
-        label="Rooms"
-        name="rooms"
-        placeholder="1 Room"
-        className="h-full items-center"
-        value={roomCount}
-        onChange={(event) =>
-          handleRoomChange(parseQueryNumber(event.target.value))
-        }
-      />
-
-      <IconInput
-        label="Adults"
-        name="Adults"
-        placeholder="2 adults"
-        icon={<MultiplePersons className="h-5 w-5 text-dark-700" />}
-        className="mt-4"
-        // value={adultCount}
-        onChange={(event) =>
-          handleAdultChange(parseQueryNumber(event.target.value))
-        }
-      />
-
-      <section className="flex gap-4">
-        <IconInput
-          label="Check-in"
-          name="Check-in"
-          placeholder="Check-in"
-          className="mt-4"
-          orientation="right"
-          icon={<Calendar className="h-5 w-5 text-dark-700" />}
-          value={startDate}
-          onChange={(event) => handleStartDateChange(event.target.value)}
+    <section className={`flex flex-col justify-between ${className}`}>
+      <section>
+        <LocationInput
+          icon={<LocationPin className="h-5 w-5 text-dark-700" />}
+          label="Where to?"
+          name="location"
+          placeholder="Chicago, IL, USA"
+          routeParams={['type']}
+          onSelect={(value: StringGeolocation) => setGeolocation(value)}
         />
-        <IconInput
-          label="Check-out"
-          name="Check-out"
-          placeholder="Check-out"
-          orientation="right"
-          className="mt-4"
-          icon={<Calendar className="h-5 w-5 text-dark-700" />}
-          value={endDate}
-          onChange={(event) => handleEndDateChange(event.target.value)}
+
+        <NumberInput
+          label="Rooms"
+          name="rooms"
+          placeholder="1 Room"
+          className="h-full items-center"
+          value={roomCount}
+          onChange={(event) =>
+            handleRoomChange(parseQueryNumber(event.target.value))
+          }
         />
+
+        <IconInput
+          label="Adults"
+          name="Adults"
+          placeholder="2 adults"
+          icon={<MultiplePersons className="h-5 w-5 text-dark-700" />}
+          className="mt-4"
+          // value={adultCount}
+          onChange={(event) =>
+            handleAdultChange(parseQueryNumber(event.target.value))
+          }
+        />
+
+        <section className="flex gap-4">
+          <IconInput
+            label="Check-in"
+            name="Check-in"
+            placeholder="Check-in"
+            className="mt-4"
+            orientation="right"
+            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            value={startDate}
+            onChange={(event) => handleStartDateChange(event.target.value)}
+          />
+          <IconInput
+            label="Check-out"
+            name="Check-out"
+            placeholder="Check-out"
+            orientation="right"
+            className="mt-4"
+            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            value={endDate}
+            onChange={(event) => handleEndDateChange(event.target.value)}
+          />
+        </section>
       </section>
 
       <section className="w-full flex items-center justify-center mt-8">
