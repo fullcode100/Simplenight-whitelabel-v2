@@ -80,7 +80,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       </div> */}
     </Carousel>
   );
-
+ 
   const RatingSection = () => (
     <section className="flex mt-4 w-full justify-between items-center">
       <Rating value={starRating} size={50} />
