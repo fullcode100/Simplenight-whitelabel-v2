@@ -80,4 +80,4 @@ const BaseInput = ({
   );
 };
 
-export default I18nHOC<BaseInputProps>(BaseInput);
+export default I18nHOC<BaseInputProps & BaseInputHiddenProps>(BaseInput);
