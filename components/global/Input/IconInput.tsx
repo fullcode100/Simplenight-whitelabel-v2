@@ -1,3 +1,4 @@
+import I18nHOC from '../I18nHOC/I18nHOC';
 import BaseInput, { BaseInputProps } from './BaseInput';
 
 interface IconInputSpecificProps {
@@ -5,13 +6,16 @@ interface IconInputSpecificProps {
   orientation?: 'left' | 'right';
 }
 
+type IconInputProps = BaseInputProps & IconInputSpecificProps;
+
 const IconInput = ({
   label,
   name,
   icon,
   orientation = 'left',
+  value,
   ...others
-}: BaseInputProps & IconInputSpecificProps) => {
+}: IconInputProps) => {
   const orientationBaseProp = `${orientation}Icon`;
 
   const getLeftSideIconClass = () => 'inset-y-0 left-0 pl-3';
@@ -37,6 +41,7 @@ const IconInput = ({
     <BaseInput
       label={label}
       name={name}
+      value={value}
       inputClassName={inputClassName}
       {...dynamicProps}
       {...others}
@@ -44,4 +49,4 @@ const IconInput = ({
   );
 };
 
-export default IconInput;
+export default I18nHOC<IconInputProps>(IconInput);

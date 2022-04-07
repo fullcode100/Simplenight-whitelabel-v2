@@ -15,7 +15,7 @@ module.exports = withReactSvg({
     outputStandalone: true,
   },
   images: {
-    domains: ['photos.hotelbeds.com', 'mobileimg.priceline.com'],
+    domains: ['photos.hotelbeds.com', 'mobileimg.priceline.com', 'cataas.com'],
   },
   webpackDevMiddleware: (config) => {
     config.watchOptions = {

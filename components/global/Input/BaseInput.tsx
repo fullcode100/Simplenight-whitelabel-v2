@@ -1,3 +1,5 @@
+import I18nHOC from '../I18nHOC/I18nHOC';
+
 export interface BaseInputProps {
   children?: any;
   name?: string;
@@ -78,4 +80,4 @@ const BaseInput = ({
   );
 };
 
-export default BaseInput;
+export default I18nHOC<BaseInputProps>(BaseInput);

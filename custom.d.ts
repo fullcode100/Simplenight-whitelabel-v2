@@ -6,3 +6,5 @@ declare module '*.svg' {
 }
 
 declare module 'react-dynamic-import';
+
+declare module 'react-rating-stars-component';

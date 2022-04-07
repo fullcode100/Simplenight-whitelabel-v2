@@ -7638,6 +7638,11 @@ react-load-script@^0.0.6:
   resolved "https://registry.yarnpkg.com/react-load-script/-/react-load-script-0.0.6.tgz#db6851236aaa25bb622677a2eb51dad4f8d2c258"
   integrity sha512-aRGxDGP9VoLxcsaYvKWIW+LRrMOzz2eEcubTS4NvQPPugjk2VvMhow0wWTkSl7RxookomD1MwcP4l5UStg5ShQ==
 
+react-multi-carousel@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/react-multi-carousel/-/react-multi-carousel-2.8.0.tgz#94a74245989b74211c9fcfa02c71009a3da3f487"
+  integrity sha512-xuxQVGGiH8yWDDWgt9Z9+C+zzoACuBT740cV+6To52DYCwLlQGJIntDFLOCqMsO85Ist1x+630HA8lazb/a/tA==
+
 react-places-autocomplete@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/react-places-autocomplete/-/react-places-autocomplete-7.3.0.tgz#81a2345ae4a6fc35d7a712ccd4850d497553ba1b"
@@ -7645,6 +7650,11 @@ react-places-autocomplete@^7.3.0:
   dependencies:
     lodash.debounce "^4.0.8"
     prop-types "^15.5.8"
+
+react-rating-stars-component@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-rating-stars-component/-/react-rating-stars-component-2.2.0.tgz#e947c6a1f59278e6fea1098453f43cb15d077c14"
+  integrity sha512-A3lgLxumfFQQicKQmxacZ91fq/zRaVWlCPnVodJmJV6obvod4/yCotetN9WuyBiUfnKsEFDBo/8B85ocwmL7ng==
 
 react-redux@^7.2.6:
   version "7.2.6"
