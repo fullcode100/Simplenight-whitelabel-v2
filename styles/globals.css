@@ -76,6 +76,22 @@
   @apply font-lato text-[14px] leading-4;
 }
 
+.plg {
+  @apply font-lato text-lg leading-[28px];
+}
+
+.pmd {
+  @apply font-lato text-base leading-6;
+}
+
+.psm {
+  @apply font-lato text-sm leading-[22px];
+}
+
+.pxs {
+  @apply font-lato text-[14px] leading-4;
+}
+
 a {
   color: inherit;
   text-decoration: none;
