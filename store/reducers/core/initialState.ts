@@ -19,6 +19,33 @@ export const initialState: CoreState = {
         'primary-dark-color': '#298F97',
       },
     },
+    partnerInformation: {
+      partnerUrl: 'https://demo.simplenight.com',
+      sandboxMode: true,
+      apiKey: 'wQFIAZLy.Nniv7mMAQ7T5hPJQ2xZcT7q3zZbPc9r5',
+      partnerName: 'Simplenight',
+      homepageText: 'Book Everything, Anywhere.',
+      customerSupportEmail: 'customersupport@simplenight.com',
+      customerSupportPhone: '+1 (800) 470-1795',
+      phoneWithPrefix: '+18004701795',
+      isWhiteLabel: false,
+      aboutLink: 'https://www.simplenight.com/about',
+      orderLookupUrl: '/orderLookup',
+      corporateLink: 'https://www.simplenight.com/',
+    },
+    simplenightInformation: {
+      corporateLink: 'https://www.simplenight.com/',
+    },
+    legalInformation: {
+      simplenightPrivacyPolicy:
+        'https://storage.googleapis.com/simplenight_public_web/privacy-policy.pdf',
+      partnerPrivacyPolicy:
+        'https://storage.googleapis.com/simplenight_public_web/privacy-policy.pdf',
+      partnerTermsOfService:
+        'https://storage.googleapis.com/simplenight_public_web/terms-of-service.pdf',
+      simplenightTermsOfService:
+        'https://storage.googleapis.com/simplenight_public_web/terms-of-service.pdf',
+    },
   },
   languages: {
     intlMessages: {},
