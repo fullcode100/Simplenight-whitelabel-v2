@@ -83,6 +83,9 @@ module.exports = {
       flex: {
         '0-0-auto': '0 0 auto',
       },
+      boxShadow: {
+        'date': '0 0px 12px rgba(0, 0, 0, 0.08)',
+      },
     },
     fontFamily: {
       sans: ['Lato', 'sans-serif'],

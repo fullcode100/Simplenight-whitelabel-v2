@@ -10,6 +10,7 @@ export interface BaseInputProps {
   customInput?: any;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
 }
 
 type InputType = 'text' | 'number' | 'date' | 'select';
@@ -32,6 +33,7 @@ const BaseInput = ({
   customInput,
   value,
   onChange,
+  onClick,
   children,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
@@ -66,7 +68,7 @@ const BaseInput = ({
   if (type === 'number') return <NumberInput />;
 
   return (
-    <div className={`w-full ${className}`}>
+    <div className={`w-full ${className}`} onClick={onClick}>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700">
         {label}
       </label>
