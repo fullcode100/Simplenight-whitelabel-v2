@@ -1,16 +1,13 @@
 import { findOrFirst } from 'helpers/arrayUtils';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { Tab } from './types';
+import { Tab, TabsProps } from './types';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-interface TabsProps {
-  tabs: Tab[];
-  onClick: (tab: Tab, setActiveTab: (tab: Tab) => void) => void;
-}
+
 
 const Tabs = ({ tabs, onClick }: TabsProps) => {
   const [activeTab, setActiveTab] = useState<Tab>(tabs[0]);

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { DateString } from 'types/global/DateString';
 
 const MONTH_DAY_FORMAT = 'M/D';
 
@@ -9,4 +10,5 @@ export const formatAsMonthDay = (date: string | number | Date | dayjs.Dayjs) =>
 
 export const formatAsSearchDate = (
   date: string | number | Date | dayjs.Dayjs,
-) => dayjs(date).format(SEARCH_DATE_FORMAT);
+): DateString =>
+  dayjs(date).format(SEARCH_DATE_FORMAT) as unknown as DateString;

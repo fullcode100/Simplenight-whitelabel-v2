@@ -1,4 +1,4 @@
-import { Amount } from "types/global/Amount";
+import { Amount } from 'types/global/Amount';
 
 export interface HotelSearchResponse {
   hotels: Hotel[];
@@ -47,8 +47,6 @@ export interface Coordinates {
   unit: string;
 }
 
-
-
 export interface Chain {
   chain_code: string;
   chain_name: string;
@@ -80,7 +78,72 @@ export interface Room {
   description: string;
   name: string;
   capacity: Capacity;
-  amount_total: Amount;
+  rates: Rates;
+}
+
+export interface Rates {
+  avg_amount: Amount;
+  min_rate: MinRate;
+  upgrades: MinRate[];
+}
+
+export interface Rates {
+  avg_amount: Amount;
+  min_rate: MinRate;
+  upgrades: MinRate[];
+}
+
+export interface MinRate {
+  rate_type: MinRateRateType;
+  meal_plan: MealPlan;
+  booking_code_sn: string;
+  booking_code_supplier: string;
+  comments: string;
+  requires_validation_before_booking: boolean;
+  available_qty: number;
+  rate: Rate;
+}
+
+export interface RateBreakdown {
+  diff_min_rate: Amount;
+  discounts: Discounts;
+  rate_type: RateBreakdownRateType;
+  taxes: any[];
+  total_base_amount: Amount;
+  total_taxes: Amount;
+}
+
+export interface Discounts {
+  total_amount_before_apply: Amount;
+  amount_to_apply: Amount;
+}
+
+export enum RateBreakdownRateType {
+  SnPublic = 'SN_PUBLIC',
+}
+
+export enum MinRateRateType {
+  SnPrivate = 'SN_PRIVATE',
+}
+
+export interface MealPlan {
+  code: Code;
+  text: Text;
+}
+
+export enum Code {
+  Ab = 'AB',
+  Ro = 'RO',
+}
+
+export enum Text {
+  AmericanBreakfast = 'AMERICAN BREAKFAST',
+  RoomOnly = 'ROOM ONLY',
+}
+
+export interface Rate {
+  rate_breakdown: RateBreakdown;
+  total_amount: Amount;
 }
 
 export interface Capacity {

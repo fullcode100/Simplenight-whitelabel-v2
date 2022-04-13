@@ -50,7 +50,7 @@ const Button = ({
       sizeTailwindClass = 'w-32 h-8 text-lg';
       break;
     case 'full':
-      sizeTailwindClass = 'w-full text-lg';
+      sizeTailwindClass = 'w-full';
       break;
   }
 

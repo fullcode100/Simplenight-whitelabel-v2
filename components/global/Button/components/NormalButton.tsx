@@ -11,7 +11,7 @@ const NormalButton = ({
 }: ButtonVariantProp) => (
   <button
     className={classnames(
-      `px-4 pb-2 pt-1 font-semibold rounded-8 ${sizeClassname}`,
+      `px-4 pb-2 pt-1 font-semibold rounded-4 ${sizeClassname}`,
       {
         [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
           !disabled,

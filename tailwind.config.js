@@ -21,6 +21,7 @@ module.exports = {
   theme: {
     extend: {
       borderRadius: {
+        4: '4px',
         6: '6px',
         8: '8px',
         10: '10px',
@@ -70,6 +71,7 @@ module.exports = {
         'primary-light': 'var(--primary-light-color)',
       },
       fontSize: {
+        xs: '0.875rem',
         sm: '1rem',
         base: '1.125rem',
         lg: '1.25rem',

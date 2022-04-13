@@ -12,6 +12,10 @@ import Image from 'next/image';
 import SectionTitle from 'components/global/SectionTitle/SectionTitle';
 import { Amount } from 'types/global/Amount';
 
+import hotels from 'hotels/hotelMock';
+import ItemCard from 'components/global/ItemCard/ItemCard';
+import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+
 const addressMock = {
   coordinates: {
     latitude: 40.75635,
@@ -47,7 +51,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const { adults, children, startDate, endDate, geolocation } = useQuery();
 
-  const [hotels, setHotels] = useState<Hotel[]>([]);
+  // const [hotels, setHotels] = useState<Hotel[]>([]);
 
   useEffect(() => {
     // const hasEmptyValues = checkIfAnyNull([
@@ -58,7 +62,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     //   geolocation,
     // ]);
     // if (hasEmptyValues) return;
-
     // const params: HotelSearchRequest = {
     //   adults: parseQueryNumber(adults ?? ''),
     //   start_date: formatAsSearchDate(startDate as unknown as string),
@@ -66,18 +69,17 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     //   dst_geolocation: geolocation as unknown as StringGeolocation,
     //   rsp_fields: '-rooms',
     // };
-    const params: HotelSearchRequest = {
-      adults: 2,
-      start_date: formatAsSearchDate(dayjs().add(15, 'day')),
-      end_date: formatAsSearchDate(dayjs().add(17, 'day')),
-      dst_geolocation: '36.1699412,-115.1398296',
-      rsp_fields: '-rooms',
-    };
-
-    Searcher?.request(params, i18next).then(({ data }) => {
-      const { hotels: searchedHotels } = data;
-      setHotels(searchedHotels);
-    });
+    // const params: HotelSearchRequest = {
+    //   adults: 2,
+    //   start_date: formatAsSearchDate(dayjs().add(15, 'day')),
+    //   end_date: formatAsSearchDate(dayjs().add(17, 'day')),
+    //   dst_geolocation: '36.1699412,-115.1398296',
+    //   rsp_fields: '-rooms',
+    // };
+    // Searcher?.request(params, i18next).then(({ data }) => {
+    //   const { hotels: searchedHotels } = data;
+    //   setHotels(searchedHotels);
+    // });
   }, [adults, children, startDate, endDate, geolocation]);
 
   const handleOnViewDetailClick = (hotel: Hotel) => {
@@ -113,26 +115,31 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const HotelList = () => (
     <ul role="list" className="space-y-4">
-      {hotels.map((hotel) => {
-        const { id, name, amount_min: amountMin, thumbnail } = hotel;
+      {hotels.map((hotel, index) => {
+        const {
+          id,
+          name,
+          amount_min: amountMin,
+          thumbnail,
+          address,
+          star_rating: starRating,
+        } = hotel;
         // const starRating: '3.5';
 
+        const itemKey = hotel.id + index;
+
         return (
-          <li
-            key={id}
-            className="bg-white relative w-full shadow overflow-hidden rounded-md px-6 py-4"
-            onClick={() => handleOnViewDetailClick(hotel)}
-          >
-            <img
-              src={thumbnail}
-              className="w-full h-[50%] absolute left-0 top-0"
-              alt="hotel thumbnail"
-            />
-            <TitleSection name={name} />
-            <AddressSection hotel={hotel} />
-            <Divider />
-            <PriceSection amountMin={amountMin} />
-          </li>
+          <HorizontalItemCard
+            key={itemKey}
+            handleOnViewDetailClick={() => console.log(hotel)}
+            item={hotel}
+            title={name}
+            image={thumbnail}
+            price={amountMin}
+            extraInformation={{ address }}
+            className=" flex-0-0-auto"
+            rating={starRating}
+          />
         );
       })}
     </ul>
