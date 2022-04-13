@@ -276,6 +276,102 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     </section>
   );
 
+  const RoomsSection = () => {
+    const RoomSectionTitle = () => (
+      <p className="flex items-center gap-3">
+        <IconRoundedContainer className="bg-primary-1000">
+          <InformationIcon className="" />
+        </IconRoundedContainer>
+        <span className="h4 text-dark-800">Rooms</span>
+      </p>
+    );
+
+    const PriceBreakdownComponent = ({ room }: { room: Room }) => {
+      const { description: roomDescription, rates } = room;
+      const { min_rate: minRate } = rates;
+      const { rate } = minRate;
+      const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rate;
+      const { total_base_amount: totalBaseAmount, total_taxes: totalTaxes } =
+        rateBreakdown;
+
+      const BreakdownRow = ({
+        label,
+        price,
+      }: {
+        label: string;
+        price: string;
+      }) => (
+        <section className="flex items-center justify-between w-full mt-2">
+          <span>{label}</span>
+          <span>{price}</span>
+        </section>
+      );
+
+      const BreakdownSubtitle = ({ value }: { value: string }) => (
+        <p className="text-dark-800">{value}</p>
+      );
+
+      const PayNowSection = () => (
+        <section className="flex items-start justify-between w-full mt-2 mb-4 ">
+          <p>{payNowLabel}</p>
+          <section className="flex flex-col items-end">
+            <span>{totalAmount.str}</span>
+            <span className="text-xs text-dark-800">{allNightsLabel}</span>
+            <span>{totalAmount.str}</span>
+            <span className="text-xs text-dark-800">{perNightLabel}</span>
+          </section>
+        </section>
+      );
+
+      return (
+        <section className="mt-8 flex flex-col text-base text-dark-1000">
+          <p>{roomDescription}</p>
+          <section className="w-full flex flex-col mt-4">
+            <BreakdownSubtitle value={totalLabel} />
+            <BreakdownRow label={roomLabel} price={totalBaseAmount.str} />
+            <BreakdownRow label={taxesLabel} price={totalTaxes.str} />
+            <Divider className="mt-2" />
+            <PayNowSection />
+            <BreakdownSubtitle value={additionalFeesLabel} />
+            <BreakdownRow label={resortFeeLabel} price={totalAmount.str} />
+            <Divider className="mt-2" />
+            <BreakdownRow label={payAtPropertyLabel} price={totalAmount.str} />
+          </section>
+        </section>
+      );
+    };
+
+    return (
+      <section className="flex flex-col gap-2 px-4 mt-4">
+        <RoomSectionTitle />
+        <section className="flex overflow-x-auto gap-4">
+          {hotelRooms.map((room) => {
+            const { description: roomDescription, rates } = room;
+            const { min_rate: minRate } = rates;
+            const { rate } = minRate;
+            const { total_amount: totalAmount } = rate;
+            const keyedDescription = roomDescription
+              .toLowerCase()
+              .split(' ')
+              .join('-');
+            const itemKey = `room-${keyedDescription}`;
+
+            return (
+              <DetailItemCard
+                key={itemKey}
+                title={roomDescription}
+                price={totalAmount}
+                priceBreakdownComponent={
+                  <PriceBreakdownComponent room={room} />
+                }
+              />
+            );
+          })}
+        </section>
+      </section>
+    );
+  };
+
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />

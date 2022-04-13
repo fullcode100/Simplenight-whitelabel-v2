@@ -141,6 +141,8 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         const minRate = minRateRoom.rates.min_rate;
         const formattedLocation = `${address.address1}, ${address.country_code}, ${address.postal_code}`;
 
+        const itemKey = hotel.id + index;
+
         return (
           <HorizontalItemCard
             key={itemKey}
