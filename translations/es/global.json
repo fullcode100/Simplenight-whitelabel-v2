@@ -1,4 +1,6 @@
 {
   "hello-world": "¡Hola Mundo!",
-  "test": "Aprétame"
+  "test": "Aprétame",
+  "termsOfService": "Condiciones de servicio",
+  "privacyPolicy": "Política de privacidad"
 }
