@@ -5,7 +5,7 @@ import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import { HotelSearchFormData } from '../../../types/search/categories/HotelSearchFormData';
 import { LocationPrefix } from '../../../types/search/LocationPrefixResponse';
 import LocationAutoComplete from '../../../components/global/AutoComplete/LocationAutoComplete';
-import DatePicker from '../../../components/global/DatePicker/DatePicker';
+import DatePicker from '../../../components/global/Calendar/Calendar';
 
 import OccupancySelector, {
   OccupancyData,
@@ -62,6 +62,7 @@ const HotelSearchForm = ({
   const [endDate, setEndDate] = useState<string>(
     formatAsSearchDate(dayjs().add(1, 'day')),
   );
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleRoomChange = (value: Number) => {
     setRoomCount(value);
@@ -121,12 +122,20 @@ const HotelSearchForm = ({
           placeholder="2 adults"
           icon={<MultiplePersons className="h-5 w-5 text-dark-700" />}
           className="mt-4"
-          // value={adultCount}
+          value=""
           onChange={(event) =>
             handleAdultChange(parseQueryNumber(event.target.value))
           }
         />
 
+        <DatePicker
+          showDatePicker={showDatePicker}
+          onClose={() => setShowDatePicker(false)}
+          initialStartDate={startDate}
+          initialEndDate={endDate}
+          onStartDateChange={handleStartDateChange}
+          onEndDateChange={handleEndDateChange}
+        />
         <section className="flex gap-4">
           <IconInput
             label="Check-in"
@@ -137,6 +146,7 @@ const HotelSearchForm = ({
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={startDate}
             onChange={(event) => handleStartDateChange(event.target.value)}
+            onClick={() => setShowDatePicker(true)}
           />
           <IconInput
             label="Check-out"
@@ -147,6 +157,7 @@ const HotelSearchForm = ({
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={endDate}
             onChange={(event) => handleEndDateChange(event.target.value)}
+            onClick={() => setShowDatePicker(true)}
           />
         </section>
       </section>
