@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
 import { getHomepageScrollHandler } from '../store/selectors/core';
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
-
-import styles from '../styles/Home.module.scss';
 import { useTranslation } from 'react-i18next';
 import Tabs from 'components/global/Tabs/Tabs';
 import { Tab } from 'components/global/Tabs/types';
@@ -61,44 +59,37 @@ const Home: NextPage = () => {
   }, [homepageScrollHandler]);
 
   return (
-    <div>
-      <main
-        ref={mainRef}
-        className="h-screen w-full overflow-x-auto absolute top-0 left-0"
-      >
-        <UpperSectionBackground>
-          <p className="h3 text-dark-1000 mb-9">Book Everything, Anywhere</p>
-          <Tabs tabs={tabsMock} onClick={handleTabClick} />
-          <Panel className="mt-6 z-100">
-            <SearchCategoryForm searchType={searchType} />
-          </Panel>
-        </UpperSectionBackground>
-        <section className="px-4">
-          <SectionTitle label={nearYouLabel} />
-          <section className="flex flex-row gap-4 flex-nowrap overflow-x-auto">
-            {hotelMock.map((hotel, index) => {
-              const { name, thumbnail, amount_min: amountMin, address } = hotel;
-              const itemKey = hotel.id + index;
+    <main ref={mainRef} className="min-h-[100vh] w-full overflow-x-auto">
+      <UpperSectionBackground>
+        <p className="h3 text-dark-1000 mb-9">Book Everything, Anywhere</p>
+        <Tabs tabs={tabsMock} onClick={handleTabClick} />
+        <Panel className="mt-6 z-100">
+          <SearchCategoryForm searchType={searchType} />
+        </Panel>
+      </UpperSectionBackground>
+      <section className="px-4">
+        <SectionTitle label={nearYouLabel} />
+        <section className="flex flex-row gap-4 flex-nowrap overflow-x-auto">
+          {hotelMock.map((hotel, index) => {
+            const { name, thumbnail, amount_min: amountMin, address } = hotel;
+            const itemKey = hotel.id + index;
 
-              return (
-                <ItemCard
-                  key={itemKey}
-                  handleOnViewDetailClick={() => console.log(hotel)}
-                  item={hotel}
-                  title={name}
-                  image={thumbnail}
-                  price={amountMin}
-                  extraInformation={{ address }}
-                  className=" flex-0-0-auto"
-                />
-              );
-            })}
-          </section>
+            return (
+              <ItemCard
+                key={itemKey}
+                handleOnViewDetailClick={() => console.log(hotel)}
+                item={hotel}
+                title={name}
+                image={thumbnail}
+                price={amountMin}
+                extraInformation={{ address }}
+                className=" flex-0-0-auto"
+              />
+            );
+          })}
         </section>
-      </main>
-
-      <footer className={styles.footer}></footer>
-    </div>
+      </section>
+    </main>
   );
 };
 

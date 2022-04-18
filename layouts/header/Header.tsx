@@ -17,7 +17,8 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const handleScroll = (event: Event) => {
-    const hasScrolled = (event.target as HTMLDivElement).scrollTop > 0;
+    const hasScrolled =
+      (event.target as HTMLDivElement)?.children[0]?.scrollTop > 0;
     if (hasScrolled) {
       setBgClass(scrollStyle);
       return;
@@ -37,18 +38,16 @@ const Header = () => {
 
   return (
     <header
-      className={`flex items-center relative justify-between pt-16 pb-8 px-4 h-[60px] z-10 ${bgClass}`}
+      className={`flex items-center justify-between pt-16 pb-8 px-4 h-[60px] z-10 ${bgClass} fixed w-full`}
     >
+      <HamburgerMenuButton className="mr-2 cursor-pointer" />
       <section className="flex gap-5 items-center">
         <ImagePlaceHolder />
         <span className="text-base">Simplenight</span>
       </section>
-      <section className="flex gap-5 items-center">
-        <section className="flex justify-between items-center gap-2 border-2 px-2 py-2 rounded-10">
-          <span className="text-dark-1000 font-bold text-sm font-lato">1</span>
-          <ShoppingCart className="text-primary-1000" />
-        </section>
-        <HamburgerMenuButton className="mr-2 cursor-pointer" />
+      <section className="flex justify-between items-center gap-2 border-2 px-2 py-2 rounded-10">
+        <span className="text-dark-1000 font-bold text-sm font-lato">1</span>
+        <ShoppingCart className="text-primary-1000" />
       </section>
     </header>
   );

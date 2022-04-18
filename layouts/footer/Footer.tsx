@@ -14,7 +14,7 @@ const Footer = () => {
   const poweredByText = t({ translationKey: 'poweredBy', value: 'Powered by' });
 
   return (
-    <footer className="bg-dark-800 text-white p-4 absolute bottom-0 w-full text-center font-light text-sm">
+    <footer className="bg-dark-800 text-white p-4 w-full text-center font-light text-sm">
       <p className="mt-3 mb-6">
         {' '}
         {poweredByText}{' '}

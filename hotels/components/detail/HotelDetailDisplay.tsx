@@ -232,7 +232,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   return (
     <>
-      <header className="flex flex-col w-full px-4">
+      <header className="flex flex-col w-full px-4 pt-28">
         <section className="h-12 flex justify-between items-center">
           <section className="flex flex-col">
             <section className="flex gap-4">
