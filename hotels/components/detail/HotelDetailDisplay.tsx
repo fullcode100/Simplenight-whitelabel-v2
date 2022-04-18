@@ -315,9 +315,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         <section className="flex items-start justify-between w-full mt-2 mb-4 ">
           <p>{payNowLabel}</p>
           <section className="flex flex-col items-end">
-            <span>{totalAmount.str}</span>
+            <span>{totalAmount.formatted}</span>
             <span className="text-xs text-dark-800">{allNightsLabel}</span>
-            <span>{totalAmount.str}</span>
+            <span>{totalAmount.formatted}</span>
             <span className="text-xs text-dark-800">{perNightLabel}</span>
           </section>
         </section>
@@ -328,14 +328,20 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           <p>{roomDescription}</p>
           <section className="w-full flex flex-col mt-4">
             <BreakdownSubtitle value={totalLabel} />
-            <BreakdownRow label={roomLabel} price={totalBaseAmount.str} />
-            <BreakdownRow label={taxesLabel} price={totalTaxes.str} />
+            <BreakdownRow label={roomLabel} price={totalBaseAmount.formatted} />
+            <BreakdownRow label={taxesLabel} price={totalTaxes.formatted} />
             <Divider className="mt-2" />
             <PayNowSection />
             <BreakdownSubtitle value={additionalFeesLabel} />
-            <BreakdownRow label={resortFeeLabel} price={totalAmount.str} />
+            <BreakdownRow
+              label={resortFeeLabel}
+              price={totalAmount.formatted}
+            />
             <Divider className="mt-2" />
-            <BreakdownRow label={payAtPropertyLabel} price={totalAmount.str} />
+            <BreakdownRow
+              label={payAtPropertyLabel}
+              price={totalAmount.formatted}
+            />
           </section>
         </section>
       );
