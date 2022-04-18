@@ -105,17 +105,6 @@ const HotelSearchForm = ({
           onSelect={(value: StringGeolocation) => setGeolocation(value)}
         />
 
-        <NumberInput
-          label="Rooms"
-          name="rooms"
-          placeholder="1 Room"
-          className="h-full items-center"
-          value={roomCount}
-          onChange={(event) =>
-            handleRoomChange(parseQueryNumber(event.target.value))
-          }
-        />
-
         <IconInput
           label="Adults"
           name="Adults"
