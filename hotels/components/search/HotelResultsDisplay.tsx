@@ -94,7 +94,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       <section className="grid grid-cols-2 items-center">
         <span className="pl-4 font-lato text-base">{fromLabel}</span>
         <span className="font-lato font-semibold text-base">
-          {amountMin.str}
+          {amountMin.formatted}
         </span>
       </section>
     </footer>
@@ -102,7 +102,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const AddressSection = ({ hotel }: { hotel: Hotel }) => (
     <section className="font-lato font-normal text-base mt-5">
-      <span>{hotel.address.address1}</span>
+      <span>{hotel.details.address.address1}</span>
     </section>
   );
 
@@ -118,13 +118,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       {hotels.map((hotel, index) => {
         const {
           id,
-          name,
+          details: { name, address, star_rating: starRating },
           amount_min: amountMin,
           thumbnail,
-          address,
-          star_rating: starRating,
         } = hotel;
-        // const starRating: '3.5';
 
         const itemKey = hotel.id + index;
 

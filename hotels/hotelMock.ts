@@ -2,929 +2,264 @@ import { Hotel } from './types/response/SearchResponse';
 
 export default [
   {
-    id: '704f71db:160156',
-    name: 'Homewood Suites by Hilton Edgewater-NYC Area',
-    description:
-      "The following services and amenities are available, but with **reduced service**: Complimentary Evening Social, Fitness Center, Breakfast.The Homewood Suites by Hilton Edgewater-NYC Area, NJ hotel overlooks Manhattan from the western banks of the Hudson River in New Jersey. The convenient location of Homewood Suites by Hilton offers you easy access to all of the Tri-State area's corporate and industrial parks, popular tourist sites and attractions. \n\nThe Homewood Suites by Hilton in Edgewater, New Jersey features 122 spacious studio (king) suites and one-bedroom suites (with a king bed or two queen beds). The EMPIRE Suites boast a Manhattan skyline view and a whirlpool tub overlooking the master bedroom. Our suites will make guests feel right at home and pampered with a fully equipped kitchen including a full-size refrigerator, range top, microwave, dishwasher, and coffeemaker. Each suite has a sofa bed in the living area. Large flat-screen TVs, two-line telephones, iron with ironing board and hairdryers are just a few of the amenities found at our Edgewater, New Jersey Homewood Suites by Hilton hotel.",
-    thumbnail:
-      'http://photos.hotelbeds.com/giata/16/160156/160156a_hb_f_001.jpg',
-    rooms: [
-      {
-        code: 'SUI.C2',
-        room_type: 'SUI',
-        description: 'SUITE CAPACITY 2',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        rates: {
-          avg_amount: {
-            amount: 1.0,
-            str: '$1',
-            currency: 'USD',
-          },
-          min_rate: {
-            rate_type: 'SN_PRIVATE',
-            meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
-            },
-            booking_code_sn: '',
-            booking_code_supplier:
-              '20220901|20220905|W|254|13007|SUI.C2|BAR RO NRF|RO||1~2~0||N@06~A-SIC~20ba72~-670247369~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000522097b',
-            comments: '',
-            requires_validation_before_booking: false,
-            available_qty: 20,
-            rate: {
-              rate_breakdown: {
-                diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                discounts: {
-                  total_amount_before_apply: {
-                    amount: 2427.32,
-                    str: '$2,427.32',
-                    currency: 'USD',
-                  },
-                  amount_to_apply: {
-                    amount: -364.09,
-                    str: '$-364.09',
-                    currency: 'USD',
-                  },
-                },
-                rate_type: 'SN_PUBLIC',
-                taxes: [],
-                total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-              },
-              total_amount: {
-                amount: 2063.22,
-                str: '$2,063.22',
-                currency: 'USD',
-              },
-            },
-          },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.C2|BAR RO|RO||1~2~0||N@06~A-SIC~248a9c~-41175335~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005260992',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 20,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2450.96,
-                      str: '$2,450.96',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -367.64,
-                      str: '$-367.64',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2083.31,
-                  str: '$2,083.31',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.C2|BAR RO NRF|AB||1~2~0||N@06~A-SIC~256b7e~-2124945018~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000520ca6f',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 20,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2671.12,
-                      str: '$2,671.12',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -400.66,
-                      str: '$-400.66',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2270.45,
-                  str: '$2,270.45',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.C2|BAR RO|AB||1~2~0||N@06~A-SIC~248b9d~-1722467710~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005248a7a',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 20,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2682.72,
-                      str: '$2,682.72',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -402.4,
-                      str: '$-402.40',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2280.31,
-                  str: '$2,280.31',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        code: 'SUI.KG',
-        room_type: 'SUI',
-        description: 'SUITE KING SIZE BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        rates: {
-          avg_amount: {
-            amount: 1.0,
-            str: '$1',
-            currency: 'USD',
-          },
-          min_rate: {
-            rate_type: 'SN_PRIVATE',
-            meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
-            },
-            booking_code_sn: '',
-            booking_code_supplier:
-              '20220901|20220905|W|254|13007|SUI.KG|BAR RO NRF|RO||1~2~0||N@06~A-SIC~20ba72~226981642~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000522097b',
-            comments: '',
-            requires_validation_before_booking: false,
-            available_qty: 34,
-            rate: {
-              rate_breakdown: {
-                diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                discounts: {
-                  total_amount_before_apply: {
-                    amount: 2427.32,
-                    str: '$2,427.32',
-                    currency: 'USD',
-                  },
-                  amount_to_apply: {
-                    amount: -364.09,
-                    str: '$-364.09',
-                    currency: 'USD',
-                  },
-                },
-                rate_type: 'SN_PUBLIC',
-                taxes: [],
-                total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-              },
-              total_amount: {
-                amount: 2063.22,
-                str: '$2,063.22',
-                currency: 'USD',
-              },
-            },
-          },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.KG|BAR RO|RO||1~2~0||N@06~A-SIC~248a9c~2135275820~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005260992',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 34,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2450.96,
-                      str: '$2,450.96',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -367.64,
-                      str: '$-367.64',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2083.31,
-                  str: '$2,083.31',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.KG|BAR RO NRF|AB||1~2~0||N@06~A-SIC~256b7e~-1227716007~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000520ca6f',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 34,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2671.12,
-                      str: '$2,671.12',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -400.66,
-                      str: '$-400.66',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2270.45,
-                  str: '$2,270.45',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.KG|BAR RO|AB||1~2~0||N@06~A-SIC~248b9d~453983445~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005248a7a',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 34,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2682.72,
-                      str: '$2,682.72',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -402.4,
-                      str: '$-402.40',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2280.31,
-                  str: '$2,280.31',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        code: 'DBL.KG',
-        room_type: 'DBL',
-        description: 'DOUBLE KING SIZE BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 5,
-          min_adults: 1,
-          max_adults: 4,
-          min_children: 4,
-          max_children: 4,
-        },
-        rates: {
-          avg_amount: {
-            amount: 1.0,
-            str: '$1',
-            currency: 'USD',
-          },
-          min_rate: {
-            rate_type: 'SN_PRIVATE',
-            meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
-            },
-            booking_code_sn: '',
-            booking_code_supplier:
-              '20220901|20220905|W|254|13007|DBL.KG|BAR RO NRF|RO||1~2~0||N@06~A-SIC~246683~-387425095~S~~~NRF~48628E060662424164977423332403AAUS000000100000000052105eb',
-            comments: '',
-            requires_validation_before_booking: false,
-            available_qty: 10,
-            rate: {
-              rate_breakdown: {
-                diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                discounts: {
-                  total_amount_before_apply: {
-                    amount: 1515.16,
-                    str: '$1,515.16',
-                    currency: 'USD',
-                  },
-                  amount_to_apply: {
-                    amount: -227.27,
-                    str: '$-227.27',
-                    currency: 'USD',
-                  },
-                },
-                rate_type: 'SN_PUBLIC',
-                taxes: [],
-                total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-              },
-              total_amount: {
-                amount: 1287.88,
-                str: '$1,287.88',
-                currency: 'USD',
-              },
-            },
-          },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.KG|BAR RO NRF|AB||1~2~0||N@06~A-SIC~22e790~-1256559437~S~~~NRF~48628E060662424164977423332403AAUS000000100000000052606de',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 10,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 1758.96,
-                      str: '$1,758.96',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -263.84,
-                      str: '$-263.84',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1495.11,
-                  str: '$1,495.11',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.KG|BAR RO|RO||1~2~0||N@06~A-SIC~246b3b~-1688402622~S~~~NOR~48628E060662424164977423332403AAUS0000001000000000521ca22',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 10,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2594.28,
-                      str: '$2,594.28',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -389.14,
-                      str: '$-389.14',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2205.13,
-                  str: '$2,205.13',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.KG|BAR RO|AB||1~2~0||N@06~A-SIC~246c3c~924519836~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005204b0a',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 10,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2826.04,
-                      str: '$2,826.04',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -423.9,
-                      str: '$-423.90',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2402.13,
-                  str: '$2,402.13',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        code: 'DBL.C2',
-        room_type: 'DBL',
-        description: 'DOUBLE CAPACITY 2',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 5,
-          min_adults: 1,
-          max_adults: 4,
-          min_children: 4,
-          max_children: 4,
-        },
-        rates: {
-          avg_amount: {
-            amount: 1.0,
-            str: '$1',
-            currency: 'USD',
-          },
-          min_rate: {
-            rate_type: 'SN_PRIVATE',
-            meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
-            },
-            booking_code_sn: '',
-            booking_code_supplier:
-              '20220901|20220905|W|254|13007|DBL.C2|BAR RO NRF|RO||1~2~0||N@06~A-SIC~24573a~1849946851~S~~~NRF~48628E060662424164977423332403AAUS00000010000000005209691',
-            comments: '',
-            requires_validation_before_booking: false,
-            available_qty: 44,
-            rate: {
-              rate_breakdown: {
-                diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                discounts: {
-                  total_amount_before_apply: {
-                    amount: 1681.09,
-                    str: '$1,681.09',
-                    currency: 'USD',
-                  },
-                  amount_to_apply: {
-                    amount: -252.16,
-                    str: '$-252.16',
-                    currency: 'USD',
-                  },
-                },
-                rate_type: 'SN_PUBLIC',
-                taxes: [],
-                total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-              },
-              total_amount: {
-                amount: 1428.92,
-                str: '$1,428.92',
-                currency: 'USD',
-              },
-            },
-          },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.C2|BAR RO|RO||1~2~0||N@06~A-SIC~241833~-1666903420~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005208767',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 44,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 1895.08,
-                      str: '$1,895.08',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -284.26,
-                      str: '$-284.26',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1610.81,
-                  str: '$1,610.81',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.C2|BAR RO NRF|AB||1~2~0||N@06~A-SIC~22c847~-2104959709~S~~~NRF~48628E060662424164977423332403AAUS00000010000000005259784',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 44,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 1924.89,
-                      str: '$1,924.89',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -288.73,
-                      str: '$-288.73',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1636.15,
-                  str: '$1,636.15',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.C2|BAR RO|AB||1~2~0||N@06~A-SIC~241934~952841176~S~~~NOR~48628E060662424164977423332403AAUS0000001000000000525484e',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 44,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2126.84,
-                      str: '$2,126.84',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -319.02,
-                      str: '$-319.02',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1807.81,
-                  str: '$1,807.81',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
-        },
-      },
-    ],
     amount_min: {
-      amount: 3308.8,
-      str: '$3,308.80',
+      amount: 357.16,
+      formatted: '$357.16',
       currency: 'USD',
     },
+    details: {
+      address: {
+        coordinates: {
+          latitude: 40.744999,
+          longitude: -73.93382,
+        },
+        country_code: 'US',
+        country: 'United States',
+        state: 'NEW YORK',
+        city: 'Long Island City',
+        zone: 'Long Island City',
+        district: '',
+        address1: '31 36 Queens Blvd',
+        address2: '',
+        postal_code: '',
+      },
+      chain: {
+        chain_code: 'WYNDH',
+        chain_name: 'WYNDHAM HOTEL GROUP',
+      },
+      checkin_time: '14:00:00',
+      checkout_time: '10:00:00',
+      description:
+        'Welcome to the Days Inn Long Island City. We are conveniently located in heart of New York Citys major attractions. Whether you are visiting the Days Inn on business or pleasure, you will find plenty to do. The Statue of Liberty, Rockefeller Center, The Museum of Modern Art, The Empire State Building, New Yorks famous Times Square, LaGuardia Airport are within 8 miles of the Days Inn Long Island City. Silver City Studios is only 0.2 miles from the hotel. The Days Inn Long Island City is newly constructed is located near all NYC airports. After you have enjoyed a day on the town, come back and relax in one of our brand new rooms. We offer free high speed wireless internet, irons and ironing boards, hairdryers, safes and coffee makers all in the comfort of your room. When you are ready for breakfast, do not forget to join us for our complimentary DayBreak continental breakfast. Our hotel has limited on-site parking available. We look forward to being your hosts at the Days Inn Long Island City.',
+      email: 'generalmanager15358@wynhg.com',
+      facilities: [
+        'Minor - AvaniSHIELD',
+        'Rosen - Total Commitment',
+        'RIU - Covid-19 Health Protocol',
+        'Fitness',
+        'Sailing',
+        'Table tennis',
+        'Toiletries',
+        'Full board',
+        'Morocco - Tourisme au Maroc post Covid-19',
+        'Shangri-La – Shangri-La Cares',
+        'Satellite TV',
+        'Ironing set',
+        'Pedal boating',
+        'Desk',
+        'Smoking rooms',
+        'Extra beds on demand',
+        'Breakfast a la carte',
+        'Fitness',
+        'Cycling / mountain biking',
+        'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+        'Table tennis',
+        'Golf',
+        'Wi-fi',
+        'RIU - Covid-19 Health Protocol',
+        'Minor - AvaniSHIELD',
+        'Terrace',
+        'Newspapers',
+        'Online check-in',
+        'Business centre',
+        'WaterSlides',
+        'TV lounge',
+        'Colombia - Check in certificado, COVID-19 bioseguro',
+        'Spain - UNE 0066-1',
+        'Early Check-in',
+        'Non-smoking establishment',
+        'Fitness',
+        'Wyndham - Count on us',
+      ],
+      name: 'Days Inn by Wyndham Long Island City',
+      phones: [
+        {
+          phone_number: '17184803917',
+          phone_type: 'PHONEBOOKING',
+        },
+        {
+          phone_number: '17184330077',
+          phone_type: 'PHONEHOTEL',
+        },
+        {
+          phone_number: '17184330079',
+          phone_type: 'FAXNUMBER',
+        },
+      ],
+      star_rating: '3.5',
+      type: 'Hotel',
+      web: '',
+    },
+    giata_code: '168791',
+    id: '704f71db:412035',
+    photos: [
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_002.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_l_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_r_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_011.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_013.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_014.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_015.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_016.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_018.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_021.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_022.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_023.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_025.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_028.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_029.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_030.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_031.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_032.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_033.jpg',
+      },
+    ],
     relative_position: {
-      distance: 5.9816,
+      distance: 0.9973,
       distance_unit: 'mi',
       near_to: [
         {
@@ -934,566 +269,827 @@ export default [
           distance: '0',
         },
       ],
-      distance_to_city_centre: 0.0,
-      distance_to_nearest_airport: 0.0,
+      distance_to_city_centre: 0,
+      distance_to_nearest_airport: 0,
     },
-    address: {
-      coordinates: {
-        latitude: 40.8065189832902,
-        longitude: -73.9901393651826,
-        radius: 15,
-        unit: 'mi',
-      },
-      country_code: 'US',
-      country: 'United States',
-      state: 'NEW JERSEY',
-      city: 'Edgewater',
-      zone: 'Edgewater',
-      district: '',
-      address1: '10 The Promenade',
-      address2: '',
-      postal_code: '',
-    },
-    type: 'Hotel',
-    star_rating: '3',
-    web: 'https://www.hilton.com/en/hotels/ewrewhw-homewood-suites-edgewater-nyc-area/',
-    email: 'EWREW_Homewood@hilton.com',
-    phones: [
+    rooms: [
       {
-        phone_number: '+180022554663',
-        phone_type: 'PHONEBOOKING',
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'DBL.NM-QN',
+        description: 'DOUBLE QUEEN BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'DBL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 1,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D-1',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG-NM',
+        description: 'TRIPLE KING BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG',
+        description: 'TRIPLE KING SIZE BED',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
       },
     ],
-    checkin_time: '14:00:00',
-    checkout_time: '10:00:00',
-    facilities: [
-      'Minor - AvaniSHIELD',
-      'Rosen - Total Commitment',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'RIU - Covid-19 Health Protocol',
-      'Table tennis',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'Pedal boating',
-      'Extra beds on demand',
-      'Breakfast a la carte',
-      'Fitness',
-      'Cycling / mountain biking',
-      'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-      'Table tennis',
-      'Golf',
-      'Minimum check-in age',
-      'Pedal boating',
-      'Wi-fi',
-      'Skiing',
-      'Squash',
-      'Aerobics',
-      'Launderette',
-      'Multilingual staff',
-      'Golf practice facility',
-      'Bellboy service',
-      'RIU - Covid-19 Health Protocol',
-      'NH - Feel safe at NH',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Minor - AvaniSHIELD',
-      'WTTC - Safe Travels Stamp',
-      'Newspapers',
-      'Luggage room',
-      'Clothes dryer',
-      'Diving',
-      'Smoking area',
-      'Catamaran sailing',
-      'Waterskiing',
-      'Online check-in',
-      'Spa centre',
-      'Business centre',
-      'Turkish bath (hamam)',
-      'WaterSlides',
-      'TV lounge',
-      'Sauna',
-      'Surfing',
-      'Hairdressing salon',
-      'Mauritian Standard on Sustainable Tourism',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Non-smoking establishment',
-      'Fitness',
-      'Tennis',
-      'Hilton - CleanStay',
-    ],
-    amenities: [],
-    chain: {
-      chain_code: '',
-      chain_name: '',
-    },
-    supplier_prefix: '704f71db',
-    supplier_id: '160156',
+    thumbnail:
+      'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_001.jpg',
   },
   {
-    id: '704f71db:160156',
-    name: 'Homewood Suites by Hilton Edgewater-NYC Area',
-    description:
-      "The following services and amenities are available, but with **reduced service**: Complimentary Evening Social, Fitness Center, Breakfast.The Homewood Suites by Hilton Edgewater-NYC Area, NJ hotel overlooks Manhattan from the western banks of the Hudson River in New Jersey. The convenient location of Homewood Suites by Hilton offers you easy access to all of the Tri-State area's corporate and industrial parks, popular tourist sites and attractions. \n\nThe Homewood Suites by Hilton in Edgewater, New Jersey features 122 spacious studio (king) suites and one-bedroom suites (with a king bed or two queen beds). The EMPIRE Suites boast a Manhattan skyline view and a whirlpool tub overlooking the master bedroom. Our suites will make guests feel right at home and pampered with a fully equipped kitchen including a full-size refrigerator, range top, microwave, dishwasher, and coffeemaker. Each suite has a sofa bed in the living area. Large flat-screen TVs, two-line telephones, iron with ironing board and hairdryers are just a few of the amenities found at our Edgewater, New Jersey Homewood Suites by Hilton hotel.",
-    thumbnail:
-      'http://photos.hotelbeds.com/giata/16/160156/160156a_hb_f_001.jpg',
+    amount_min: {
+      amount: 357.16,
+      formatted: '$357.16',
+      currency: 'USD',
+    },
+    details: {
+      address: {
+        coordinates: {
+          latitude: 40.744999,
+          longitude: -73.93382,
+        },
+        country_code: 'US',
+        country: 'United States',
+        state: 'NEW YORK',
+        city: 'Long Island City',
+        zone: 'Long Island City',
+        district: '',
+        address1: '31 36 Queens Blvd',
+        address2: '',
+        postal_code: '',
+      },
+      chain: {
+        chain_code: 'WYNDH',
+        chain_name: 'WYNDHAM HOTEL GROUP',
+      },
+      checkin_time: '14:00:00',
+      checkout_time: '10:00:00',
+      description:
+        'Welcome to the Days Inn Long Island City. We are conveniently located in heart of New York Citys major attractions. Whether you are visiting the Days Inn on business or pleasure, you will find plenty to do. The Statue of Liberty, Rockefeller Center, The Museum of Modern Art, The Empire State Building, New Yorks famous Times Square, LaGuardia Airport are within 8 miles of the Days Inn Long Island City. Silver City Studios is only 0.2 miles from the hotel. The Days Inn Long Island City is newly constructed is located near all NYC airports. After you have enjoyed a day on the town, come back and relax in one of our brand new rooms. We offer free high speed wireless internet, irons and ironing boards, hairdryers, safes and coffee makers all in the comfort of your room. When you are ready for breakfast, do not forget to join us for our complimentary DayBreak continental breakfast. Our hotel has limited on-site parking available. We look forward to being your hosts at the Days Inn Long Island City.',
+      email: 'generalmanager15358@wynhg.com',
+      facilities: [
+        'Minor - AvaniSHIELD',
+        'Rosen - Total Commitment',
+        'RIU - Covid-19 Health Protocol',
+        'Fitness',
+        'Sailing',
+        'Table tennis',
+        'Toiletries',
+        'Full board',
+        'Morocco - Tourisme au Maroc post Covid-19',
+        'Shangri-La – Shangri-La Cares',
+        'Satellite TV',
+        'Ironing set',
+        'Pedal boating',
+        'Desk',
+        'Smoking rooms',
+        'Extra beds on demand',
+        'Breakfast a la carte',
+        'Fitness',
+        'Cycling / mountain biking',
+        'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+        'Table tennis',
+        'Golf',
+        'Wi-fi',
+        'RIU - Covid-19 Health Protocol',
+        'Minor - AvaniSHIELD',
+        'Terrace',
+        'Newspapers',
+        'Online check-in',
+        'Business centre',
+        'WaterSlides',
+        'TV lounge',
+        'Colombia - Check in certificado, COVID-19 bioseguro',
+        'Spain - UNE 0066-1',
+        'Early Check-in',
+        'Non-smoking establishment',
+        'Fitness',
+        'Wyndham - Count on us',
+      ],
+      name: 'Days Inn by Wyndham Long Island City',
+      phones: [
+        {
+          phone_number: '17184803917',
+          phone_type: 'PHONEBOOKING',
+        },
+        {
+          phone_number: '17184330077',
+          phone_type: 'PHONEHOTEL',
+        },
+        {
+          phone_number: '17184330079',
+          phone_type: 'FAXNUMBER',
+        },
+      ],
+      star_rating: '3.5',
+      type: 'Hotel',
+      web: '',
+    },
+    giata_code: '168791',
+    id: '704f71db:412035',
+    photos: [
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_002.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_l_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_r_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_011.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_013.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_014.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_015.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_016.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_018.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_021.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_022.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_023.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_025.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_028.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_029.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_030.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_031.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_032.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_033.jpg',
+      },
+    ],
+    relative_position: {
+      distance: 0.9973,
+      distance_unit: 'mi',
+      near_to: [
+        {
+          location_type: 'example',
+          location_code: '123',
+          location_name: 'Example Location',
+          distance: '0',
+        },
+      ],
+      distance_to_city_centre: 0,
+      distance_to_nearest_airport: 0,
+    },
     rooms: [
       {
-        code: 'SUI.C2',
-        room_type: 'SUI',
-        description: 'SUITE CAPACITY 2',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        rates: {
-          avg_amount: {
-            amount: 1.0,
-            str: '$1',
-            currency: 'USD',
-          },
-          min_rate: {
-            rate_type: 'SN_PRIVATE',
-            meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
-            },
-            booking_code_sn: '',
-            booking_code_supplier:
-              '20220901|20220905|W|254|13007|SUI.C2|BAR RO NRF|RO||1~2~0||N@06~A-SIC~20ba72~-670247369~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000522097b',
-            comments: '',
-            requires_validation_before_booking: false,
-            available_qty: 20,
-            rate: {
-              rate_breakdown: {
-                diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                discounts: {
-                  total_amount_before_apply: {
-                    amount: 2427.32,
-                    str: '$2,427.32',
-                    currency: 'USD',
-                  },
-                  amount_to_apply: {
-                    amount: -364.09,
-                    str: '$-364.09',
-                    currency: 'USD',
-                  },
-                },
-                rate_type: 'SN_PUBLIC',
-                taxes: [],
-                total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-              },
-              total_amount: {
-                amount: 2063.22,
-                str: '$2,063.22',
-                currency: 'USD',
-              },
-            },
-          },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.C2|BAR RO|RO||1~2~0||N@06~A-SIC~248a9c~-41175335~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005260992',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 20,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2450.96,
-                      str: '$2,450.96',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -367.64,
-                      str: '$-367.64',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2083.31,
-                  str: '$2,083.31',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.C2|BAR RO NRF|AB||1~2~0||N@06~A-SIC~256b7e~-2124945018~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000520ca6f',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 20,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2671.12,
-                      str: '$2,671.12',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -400.66,
-                      str: '$-400.66',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2270.45,
-                  str: '$2,270.45',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.C2|BAR RO|AB||1~2~0||N@06~A-SIC~248b9d~-1722467710~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005248a7a',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 20,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2682.72,
-                      str: '$2,682.72',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -402.4,
-                      str: '$-402.40',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2280.31,
-                  str: '$2,280.31',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        code: 'SUI.KG',
-        room_type: 'SUI',
-        description: 'SUITE KING SIZE BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        rates: {
-          avg_amount: {
-            amount: 1.0,
-            str: '$1',
-            currency: 'USD',
-          },
-          min_rate: {
-            rate_type: 'SN_PRIVATE',
-            meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
-            },
-            booking_code_sn: '',
-            booking_code_supplier:
-              '20220901|20220905|W|254|13007|SUI.KG|BAR RO NRF|RO||1~2~0||N@06~A-SIC~20ba72~226981642~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000522097b',
-            comments: '',
-            requires_validation_before_booking: false,
-            available_qty: 34,
-            rate: {
-              rate_breakdown: {
-                diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                discounts: {
-                  total_amount_before_apply: {
-                    amount: 2427.32,
-                    str: '$2,427.32',
-                    currency: 'USD',
-                  },
-                  amount_to_apply: {
-                    amount: -364.09,
-                    str: '$-364.09',
-                    currency: 'USD',
-                  },
-                },
-                rate_type: 'SN_PUBLIC',
-                taxes: [],
-                total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-                total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
-                  currency: 'USD',
-                },
-              },
-              total_amount: {
-                amount: 2063.22,
-                str: '$2,063.22',
-                currency: 'USD',
-              },
-            },
-          },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.KG|BAR RO|RO||1~2~0||N@06~A-SIC~248a9c~2135275820~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005260992',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 34,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2450.96,
-                      str: '$2,450.96',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -367.64,
-                      str: '$-367.64',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2083.31,
-                  str: '$2,083.31',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.KG|BAR RO NRF|AB||1~2~0||N@06~A-SIC~256b7e~-1227716007~S~~~NRF~48628E060662424164977423332403AAUS0000001000000000520ca6f',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 34,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2671.12,
-                      str: '$2,671.12',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -400.66,
-                      str: '$-400.66',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2270.45,
-                  str: '$2,270.45',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|SUI.KG|BAR RO|AB||1~2~0||N@06~A-SIC~248b9d~453983445~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005248a7a',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 34,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2682.72,
-                      str: '$2,682.72',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -402.4,
-                      str: '$-402.40',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2280.31,
-                  str: '$2,280.31',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
-        },
-      },
-      {
-        code: 'DBL.KG',
-        room_type: 'DBL',
-        description: 'DOUBLE KING SIZE BED',
-        name: 'Bed room',
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -1502,225 +1098,814 @@ export default [
           min_children: 4,
           max_children: 4,
         },
+        code: 'DBL.NM-QN',
+        description: 'DOUBLE QUEEN BED NON SMOKING',
+        name: 'Bed room',
         rates: {
           avg_amount: {
-            amount: 1.0,
-            str: '$1',
+            amount: 357.16,
+            formatted: '$357.16',
             currency: 'USD',
           },
           min_rate: {
             rate_type: 'SN_PRIVATE',
             meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
             },
-            booking_code_sn: '',
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
-              '20220901|20220905|W|254|13007|DBL.KG|BAR RO NRF|RO||1~2~0||N@06~A-SIC~246683~-387425095~S~~~NRF~48628E060662424164977423332403AAUS000000100000000052105eb',
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             comments: '',
             requires_validation_before_booking: false,
-            available_qty: 10,
+            available_qty: 9,
             rate: {
               rate_breakdown: {
                 diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
+                  amount: 1,
+                  formatted: '$1',
                   currency: 'USD',
                 },
                 discounts: {
                   total_amount_before_apply: {
-                    amount: 1515.16,
-                    str: '$1,515.16',
+                    amount: 357.16,
+                    formatted: '$357.16',
                     currency: 'USD',
                   },
                   amount_to_apply: {
-                    amount: -227.27,
-                    str: '$-227.27',
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
                     currency: 'USD',
                   },
                 },
                 rate_type: 'SN_PUBLIC',
-                taxes: [],
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
                 total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
+                  amount: 357.16,
+                  formatted: '$357.16',
                   currency: 'USD',
                 },
                 total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
+                  amount: 52.01,
+                  formatted: '$52.01',
                   currency: 'USD',
                 },
               },
               total_amount: {
-                amount: 1287.88,
-                str: '$1,287.88',
+                amount: 303.58,
+                formatted: '$303.58',
                 currency: 'USD',
               },
             },
           },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.KG|BAR RO NRF|AB||1~2~0||N@06~A-SIC~22e790~-1256559437~S~~~NRF~48628E060662424164977423332403AAUS000000100000000052606de',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 10,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 1758.96,
-                      str: '$1,758.96',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -263.84,
-                      str: '$-263.84',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1495.11,
-                  str: '$1,495.11',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.KG|BAR RO|RO||1~2~0||N@06~A-SIC~246b3b~-1688402622~S~~~NOR~48628E060662424164977423332403AAUS0000001000000000521ca22',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 10,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2594.28,
-                      str: '$2,594.28',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -389.14,
-                      str: '$-389.14',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2205.13,
-                  str: '$2,205.13',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.KG|BAR RO|AB||1~2~0||N@06~A-SIC~246c3c~924519836~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005204b0a',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 10,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2826.04,
-                      str: '$2,826.04',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -423.9,
-                      str: '$-423.90',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 2402.13,
-                  str: '$2,402.13',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
+          upgrades: [],
+        },
+        room_type: 'DBL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 1,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
         },
       },
       {
-        code: 'DBL.C2',
-        room_type: 'DBL',
-        description: 'DOUBLE CAPACITY 2',
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D-1',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
         name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG-NM',
+        description: 'TRIPLE KING BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG',
+        description: 'TRIPLE KING SIZE BED',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
+      },
+    ],
+    thumbnail:
+      'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_001.jpg',
+  },
+  {
+    amount_min: {
+      amount: 357.16,
+      formatted: '$357.16',
+      currency: 'USD',
+    },
+    details: {
+      address: {
+        coordinates: {
+          latitude: 40.744999,
+          longitude: -73.93382,
+        },
+        country_code: 'US',
+        country: 'United States',
+        state: 'NEW YORK',
+        city: 'Long Island City',
+        zone: 'Long Island City',
+        district: '',
+        address1: '31 36 Queens Blvd',
+        address2: '',
+        postal_code: '',
+      },
+      chain: {
+        chain_code: 'WYNDH',
+        chain_name: 'WYNDHAM HOTEL GROUP',
+      },
+      checkin_time: '14:00:00',
+      checkout_time: '10:00:00',
+      description:
+        'Welcome to the Days Inn Long Island City. We are conveniently located in heart of New York Citys major attractions. Whether you are visiting the Days Inn on business or pleasure, you will find plenty to do. The Statue of Liberty, Rockefeller Center, The Museum of Modern Art, The Empire State Building, New Yorks famous Times Square, LaGuardia Airport are within 8 miles of the Days Inn Long Island City. Silver City Studios is only 0.2 miles from the hotel. The Days Inn Long Island City is newly constructed is located near all NYC airports. After you have enjoyed a day on the town, come back and relax in one of our brand new rooms. We offer free high speed wireless internet, irons and ironing boards, hairdryers, safes and coffee makers all in the comfort of your room. When you are ready for breakfast, do not forget to join us for our complimentary DayBreak continental breakfast. Our hotel has limited on-site parking available. We look forward to being your hosts at the Days Inn Long Island City.',
+      email: 'generalmanager15358@wynhg.com',
+      facilities: [
+        'Minor - AvaniSHIELD',
+        'Rosen - Total Commitment',
+        'RIU - Covid-19 Health Protocol',
+        'Fitness',
+        'Sailing',
+        'Table tennis',
+        'Toiletries',
+        'Full board',
+        'Morocco - Tourisme au Maroc post Covid-19',
+        'Shangri-La – Shangri-La Cares',
+        'Satellite TV',
+        'Ironing set',
+        'Pedal boating',
+        'Desk',
+        'Smoking rooms',
+        'Extra beds on demand',
+        'Breakfast a la carte',
+        'Fitness',
+        'Cycling / mountain biking',
+        'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+        'Table tennis',
+        'Golf',
+        'Wi-fi',
+        'RIU - Covid-19 Health Protocol',
+        'Minor - AvaniSHIELD',
+        'Terrace',
+        'Newspapers',
+        'Online check-in',
+        'Business centre',
+        'WaterSlides',
+        'TV lounge',
+        'Colombia - Check in certificado, COVID-19 bioseguro',
+        'Spain - UNE 0066-1',
+        'Early Check-in',
+        'Non-smoking establishment',
+        'Fitness',
+        'Wyndham - Count on us',
+      ],
+      name: 'Days Inn by Wyndham Long Island City',
+      phones: [
+        {
+          phone_number: '17184803917',
+          phone_type: 'PHONEBOOKING',
+        },
+        {
+          phone_number: '17184330077',
+          phone_type: 'PHONEHOTEL',
+        },
+        {
+          phone_number: '17184330079',
+          phone_type: 'FAXNUMBER',
+        },
+      ],
+      star_rating: '3.5',
+      type: 'Hotel',
+      web: '',
+    },
+    giata_code: '168791',
+    id: '704f71db:412035',
+    photos: [
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_002.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_l_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_r_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_011.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_013.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_014.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_015.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_016.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_018.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_021.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_022.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_023.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_025.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_028.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_029.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_030.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_031.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_032.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_033.jpg',
+      },
+    ],
+    relative_position: {
+      distance: 0.9973,
+      distance_unit: 'mi',
+      near_to: [
+        {
+          location_type: 'example',
+          location_code: '123',
+          location_name: 'Example Location',
+          distance: '0',
+        },
+      ],
+      distance_to_city_centre: 0,
+      distance_to_nearest_airport: 0,
+    },
+    rooms: [
+      {
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -1729,403 +1914,800 @@ export default [
           min_children: 4,
           max_children: 4,
         },
+        code: 'DBL.NM-QN',
+        description: 'DOUBLE QUEEN BED NON SMOKING',
+        name: 'Bed room',
         rates: {
           avg_amount: {
-            amount: 1.0,
-            str: '$1',
+            amount: 357.16,
+            formatted: '$357.16',
             currency: 'USD',
           },
           min_rate: {
             rate_type: 'SN_PRIVATE',
             meal_plan: {
-              code: 'RO',
-              text: 'ROOM ONLY',
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
             },
-            booking_code_sn: '',
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
-              '20220901|20220905|W|254|13007|DBL.C2|BAR RO NRF|RO||1~2~0||N@06~A-SIC~24573a~1849946851~S~~~NRF~48628E060662424164977423332403AAUS00000010000000005209691',
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             comments: '',
             requires_validation_before_booking: false,
-            available_qty: 44,
+            available_qty: 9,
             rate: {
               rate_breakdown: {
                 diff_min_rate: {
-                  amount: 1.0,
-                  str: '$1',
+                  amount: 1,
+                  formatted: '$1',
                   currency: 'USD',
                 },
                 discounts: {
                   total_amount_before_apply: {
-                    amount: 1681.09,
-                    str: '$1,681.09',
+                    amount: 357.16,
+                    formatted: '$357.16',
                     currency: 'USD',
                   },
                   amount_to_apply: {
-                    amount: -252.16,
-                    str: '$-252.16',
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
                     currency: 'USD',
                   },
                 },
                 rate_type: 'SN_PUBLIC',
-                taxes: [],
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
                 total_base_amount: {
-                  amount: 1.0,
-                  str: '$1',
+                  amount: 357.16,
+                  formatted: '$357.16',
                   currency: 'USD',
                 },
                 total_taxes: {
-                  amount: 1.0,
-                  str: '$1',
+                  amount: 52.01,
+                  formatted: '$52.01',
                   currency: 'USD',
                 },
               },
               total_amount: {
-                amount: 1428.92,
-                str: '$1,428.92',
+                amount: 303.58,
+                formatted: '$303.58',
                 currency: 'USD',
               },
             },
           },
-          upgrades: [
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'RO',
-                text: 'ROOM ONLY',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.C2|BAR RO|RO||1~2~0||N@06~A-SIC~241833~-1666903420~S~~~NOR~48628E060662424164977423332403AAUS00000010000000005208767',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 44,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 1895.08,
-                      str: '$1,895.08',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -284.26,
-                      str: '$-284.26',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1610.81,
-                  str: '$1,610.81',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.C2|BAR RO NRF|AB||1~2~0||N@06~A-SIC~22c847~-2104959709~S~~~NRF~48628E060662424164977423332403AAUS00000010000000005259784',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 44,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 1924.89,
-                      str: '$1,924.89',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -288.73,
-                      str: '$-288.73',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1636.15,
-                  str: '$1,636.15',
-                  currency: 'USD',
-                },
-              },
-            },
-            {
-              rate_type: 'SN_PRIVATE',
-              meal_plan: {
-                code: 'AB',
-                text: 'AMERICAN BREAKFAST',
-              },
-              booking_code_sn: '',
-              booking_code_supplier:
-                '20220901|20220905|W|254|13007|DBL.C2|BAR RO|AB||1~2~0||N@06~A-SIC~241934~952841176~S~~~NOR~48628E060662424164977423332403AAUS0000001000000000525484e',
-              comments: '',
-              requires_validation_before_booking: false,
-              available_qty: 44,
-              rate: {
-                rate_breakdown: {
-                  diff_min_rate: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  discounts: {
-                    total_amount_before_apply: {
-                      amount: 2126.84,
-                      str: '$2,126.84',
-                      currency: 'USD',
-                    },
-                    amount_to_apply: {
-                      amount: -319.02,
-                      str: '$-319.02',
-                      currency: 'USD',
-                    },
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  taxes: [],
-                  total_base_amount: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                  total_taxes: {
-                    amount: 1.0,
-                    str: '$1',
-                    currency: 'USD',
-                  },
-                },
-                total_amount: {
-                  amount: 1807.81,
-                  str: '$1,807.81',
-                  currency: 'USD',
-                },
-              },
-            },
-          ],
+          upgrades: [],
+        },
+        room_type: 'DBL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 1,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
         },
       },
-    ],
-    amount_min: {
-      amount: 3308.8,
-      str: '$3,308.80',
-      currency: 'USD',
-    },
-    relative_position: {
-      distance: 5.9816,
-      distance_unit: 'mi',
-      near_to: [
-        {
-          location_type: 'example',
-          location_code: '123',
-          location_name: 'Example Location',
-          distance: '0',
-        },
-      ],
-      distance_to_city_centre: 0.0,
-      distance_to_nearest_airport: 0.0,
-    },
-    address: {
-      coordinates: {
-        latitude: 40.8065189832902,
-        longitude: -73.9901393651826,
-        radius: 15,
-        unit: 'mi',
-      },
-      country_code: 'US',
-      country: 'United States',
-      state: 'NEW JERSEY',
-      city: 'Edgewater',
-      zone: 'Edgewater',
-      district: '',
-      address1: '10 The Promenade',
-      address2: '',
-      postal_code: '',
-    },
-    type: 'Hotel',
-    star_rating: '3',
-    web: 'https://www.hilton.com/en/hotels/ewrewhw-homewood-suites-edgewater-nyc-area/',
-    email: 'EWREW_Homewood@hilton.com',
-    phones: [
       {
-        phone_number: '+180022554663',
-        phone_type: 'PHONEBOOKING',
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D-1',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG-NM',
+        description: 'TRIPLE KING BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG',
+        description: 'TRIPLE KING SIZE BED',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
       },
     ],
-    checkin_time: '14:00:00',
-    checkout_time: '10:00:00',
-    facilities: [
-      'Minor - AvaniSHIELD',
-      'Rosen - Total Commitment',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'RIU - Covid-19 Health Protocol',
-      'Table tennis',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'Pedal boating',
-      'Extra beds on demand',
-      'Breakfast a la carte',
-      'Fitness',
-      'Cycling / mountain biking',
-      'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-      'Table tennis',
-      'Golf',
-      'Minimum check-in age',
-      'Pedal boating',
-      'Wi-fi',
-      'Skiing',
-      'Squash',
-      'Aerobics',
-      'Launderette',
-      'Multilingual staff',
-      'Golf practice facility',
-      'Bellboy service',
-      'RIU - Covid-19 Health Protocol',
-      'NH - Feel safe at NH',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Minor - AvaniSHIELD',
-      'WTTC - Safe Travels Stamp',
-      'Newspapers',
-      'Luggage room',
-      'Clothes dryer',
-      'Diving',
-      'Smoking area',
-      'Catamaran sailing',
-      'Waterskiing',
-      'Online check-in',
-      'Spa centre',
-      'Business centre',
-      'Turkish bath (hamam)',
-      'WaterSlides',
-      'TV lounge',
-      'Sauna',
-      'Surfing',
-      'Hairdressing salon',
-      'Mauritian Standard on Sustainable Tourism',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Non-smoking establishment',
-      'Fitness',
-      'Tennis',
-      'Hilton - CleanStay',
-    ],
-    amenities: [],
-    chain: {
-      chain_code: '',
-      chain_name: '',
-    },
-    supplier_prefix: '704f71db',
-    supplier_id: '160156',
+    thumbnail:
+      'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_001.jpg',
   },
   {
-    id: '704f71db:160156',
-    name: 'Homewood Suites by Hilton Edgewater-NYC Area',
-    description:
-      "The following services and amenities are available, but with **reduced service**: Complimentary Evening Social, Fitness Center, Breakfast.The Homewood Suites by Hilton Edgewater-NYC Area, NJ hotel overlooks Manhattan from the western banks of the Hudson River in New Jersey. The convenient location of Homewood Suites by Hilton offers you easy access to all of the Tri-State area's corporate and industrial parks, popular tourist sites and attractions. \n\nThe Homewood Suites by Hilton in Edgewater, New Jersey features 122 spacious studio (king) suites and one-bedroom suites (with a king bed or two queen beds). The EMPIRE Suites boast a Manhattan skyline view and a whirlpool tub overlooking the master bedroom. Our suites will make guests feel right at home and pampered with a fully equipped kitchen including a full-size refrigerator, range top, microwave, dishwasher, and coffeemaker. Each suite has a sofa bed in the living area. Large flat-screen TVs, two-line telephones, iron with ironing board and hairdryers are just a few of the amenities found at our Edgewater, New Jersey Homewood Suites by Hilton hotel.",
-    thumbnail:
-      'http://photos.hotelbeds.com/giata/16/160156/160156a_hb_f_001.jpg',
-    rooms: [
-      {
-        code: 'SUI.KG',
-        room_type: 'SUI',
-        description: 'SUITE KING SIZE BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        amount_total: {
-          amount: 3456.56,
-          str: '$3,456.56',
-          currency: 'USD',
-        },
-      },
-      {
-        code: 'SUI.CV-KG',
-        room_type: 'SUI',
-        description: 'SUITE CITY VIEW KING BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        amount_total: {
-          amount: 3604.24,
-          str: '$3,604.24',
-          currency: 'USD',
-        },
-      },
-      {
-        code: 'SUI.KG-3',
-        room_type: 'SUI',
-        description: 'SUITE KING SIZE BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        amount_total: {
-          amount: 3308.8,
-          str: '$3,308.80',
-          currency: 'USD',
-        },
-      },
-    ],
     amount_min: {
-      amount: 3308.8,
-      str: '$3,308.80',
+      amount: 357.16,
+      formatted: '$357.16',
       currency: 'USD',
     },
+    details: {
+      address: {
+        coordinates: {
+          latitude: 40.744999,
+          longitude: -73.93382,
+        },
+        country_code: 'US',
+        country: 'United States',
+        state: 'NEW YORK',
+        city: 'Long Island City',
+        zone: 'Long Island City',
+        district: '',
+        address1: '31 36 Queens Blvd',
+        address2: '',
+        postal_code: '',
+      },
+      chain: {
+        chain_code: 'WYNDH',
+        chain_name: 'WYNDHAM HOTEL GROUP',
+      },
+      checkin_time: '14:00:00',
+      checkout_time: '10:00:00',
+      description:
+        'Welcome to the Days Inn Long Island City. We are conveniently located in heart of New York Citys major attractions. Whether you are visiting the Days Inn on business or pleasure, you will find plenty to do. The Statue of Liberty, Rockefeller Center, The Museum of Modern Art, The Empire State Building, New Yorks famous Times Square, LaGuardia Airport are within 8 miles of the Days Inn Long Island City. Silver City Studios is only 0.2 miles from the hotel. The Days Inn Long Island City is newly constructed is located near all NYC airports. After you have enjoyed a day on the town, come back and relax in one of our brand new rooms. We offer free high speed wireless internet, irons and ironing boards, hairdryers, safes and coffee makers all in the comfort of your room. When you are ready for breakfast, do not forget to join us for our complimentary DayBreak continental breakfast. Our hotel has limited on-site parking available. We look forward to being your hosts at the Days Inn Long Island City.',
+      email: 'generalmanager15358@wynhg.com',
+      facilities: [
+        'Minor - AvaniSHIELD',
+        'Rosen - Total Commitment',
+        'RIU - Covid-19 Health Protocol',
+        'Fitness',
+        'Sailing',
+        'Table tennis',
+        'Toiletries',
+        'Full board',
+        'Morocco - Tourisme au Maroc post Covid-19',
+        'Shangri-La – Shangri-La Cares',
+        'Satellite TV',
+        'Ironing set',
+        'Pedal boating',
+        'Desk',
+        'Smoking rooms',
+        'Extra beds on demand',
+        'Breakfast a la carte',
+        'Fitness',
+        'Cycling / mountain biking',
+        'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+        'Table tennis',
+        'Golf',
+        'Wi-fi',
+        'RIU - Covid-19 Health Protocol',
+        'Minor - AvaniSHIELD',
+        'Terrace',
+        'Newspapers',
+        'Online check-in',
+        'Business centre',
+        'WaterSlides',
+        'TV lounge',
+        'Colombia - Check in certificado, COVID-19 bioseguro',
+        'Spain - UNE 0066-1',
+        'Early Check-in',
+        'Non-smoking establishment',
+        'Fitness',
+        'Wyndham - Count on us',
+      ],
+      name: 'Days Inn by Wyndham Long Island City',
+      phones: [
+        {
+          phone_number: '17184803917',
+          phone_type: 'PHONEBOOKING',
+        },
+        {
+          phone_number: '17184330077',
+          phone_type: 'PHONEHOTEL',
+        },
+        {
+          phone_number: '17184330079',
+          phone_type: 'FAXNUMBER',
+        },
+      ],
+      star_rating: '3.5',
+      type: 'Hotel',
+      web: '',
+    },
+    giata_code: '168791',
+    id: '704f71db:412035',
+    photos: [
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_002.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_l_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_r_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_011.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_013.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_014.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_015.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_016.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_018.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_021.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_022.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_023.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_025.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_028.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_029.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_030.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_031.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_032.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_033.jpg',
+      },
+    ],
     relative_position: {
-      distance: 5.9816,
+      distance: 0.9973,
       distance_unit: 'mi',
       near_to: [
         {
@@ -2135,172 +2717,813 @@ export default [
           distance: '0',
         },
       ],
-      distance_to_city_centre: 0.0,
-      distance_to_nearest_airport: 0.0,
+      distance_to_city_centre: 0,
+      distance_to_nearest_airport: 0,
     },
-    address: {
-      coordinates: {
-        latitude: 40.8065189832902,
-        longitude: -73.9901393651826,
-        radius: 15,
-        unit: 'mi',
-      },
-      country_code: 'US',
-      country: 'United States',
-      state: 'NEW JERSEY',
-      city: 'Edgewater',
-      zone: 'Edgewater',
-      district: '',
-      address1: '10 The Promenade',
-      address2: '',
-      postal_code: '',
-    },
-    type: 'Hotel',
-    star_rating: '3',
-    web: 'https://www.hilton.com/en/hotels/ewrewhw-homewood-suites-edgewater-nyc-area/',
-    email: 'EWREW_Homewood@hilton.com',
-    phones: [
+    rooms: [
       {
-        phone_number: '+180022554663',
-        phone_type: 'PHONEBOOKING',
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'DBL.NM-QN',
+        description: 'DOUBLE QUEEN BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'DBL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 1,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D-1',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG-NM',
+        description: 'TRIPLE KING BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG',
+        description: 'TRIPLE KING SIZE BED',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
       },
     ],
-    checkin_time: '14:00:00',
-    checkout_time: '10:00:00',
-    facilities: [
-      'Minor - AvaniSHIELD',
-      'Rosen - Total Commitment',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'RIU - Covid-19 Health Protocol',
-      'Table tennis',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'Pedal boating',
-      'Extra beds on demand',
-      'Breakfast a la carte',
-      'Fitness',
-      'Cycling / mountain biking',
-      'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-      'Table tennis',
-      'Golf',
-      'Minimum check-in age',
-      'Pedal boating',
-      'Wi-fi',
-      'Skiing',
-      'Squash',
-      'Aerobics',
-      'Launderette',
-      'Multilingual staff',
-      'Golf practice facility',
-      'Bellboy service',
-      'RIU - Covid-19 Health Protocol',
-      'NH - Feel safe at NH',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Minor - AvaniSHIELD',
-      'WTTC - Safe Travels Stamp',
-      'Newspapers',
-      'Luggage room',
-      'Clothes dryer',
-      'Diving',
-      'Smoking area',
-      'Catamaran sailing',
-      'Waterskiing',
-      'Online check-in',
-      'Spa centre',
-      'Business centre',
-      'Turkish bath (hamam)',
-      'WaterSlides',
-      'TV lounge',
-      'Sauna',
-      'Surfing',
-      'Hairdressing salon',
-      'Mauritian Standard on Sustainable Tourism',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Non-smoking establishment',
-      'Fitness',
-      'Tennis',
-      'Hilton - CleanStay',
-    ],
-    amenities: [],
-    chain: {
-      chain_code: '',
-      chain_name: '',
-    },
-    supplier_prefix: '704f71db',
-    supplier_id: '160156',
+    thumbnail:
+      'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_001.jpg',
   },
   {
-    id: '704f71db:160156',
-    name: 'Homewood Suites by Hilton Edgewater-NYC Area',
-    description:
-      "The following services and amenities are available, but with **reduced service**: Complimentary Evening Social, Fitness Center, Breakfast.The Homewood Suites by Hilton Edgewater-NYC Area, NJ hotel overlooks Manhattan from the western banks of the Hudson River in New Jersey. The convenient location of Homewood Suites by Hilton offers you easy access to all of the Tri-State area's corporate and industrial parks, popular tourist sites and attractions. \n\nThe Homewood Suites by Hilton in Edgewater, New Jersey features 122 spacious studio (king) suites and one-bedroom suites (with a king bed or two queen beds). The EMPIRE Suites boast a Manhattan skyline view and a whirlpool tub overlooking the master bedroom. Our suites will make guests feel right at home and pampered with a fully equipped kitchen including a full-size refrigerator, range top, microwave, dishwasher, and coffeemaker. Each suite has a sofa bed in the living area. Large flat-screen TVs, two-line telephones, iron with ironing board and hairdryers are just a few of the amenities found at our Edgewater, New Jersey Homewood Suites by Hilton hotel.",
-    thumbnail:
-      'http://photos.hotelbeds.com/giata/16/160156/160156a_hb_f_001.jpg',
-    rooms: [
-      {
-        code: 'SUI.KG',
-        room_type: 'SUI',
-        description: 'SUITE KING SIZE BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        amount_total: {
-          amount: 3456.56,
-          str: '$3,456.56',
-          currency: 'USD',
-        },
-      },
-      {
-        code: 'SUI.CV-KG',
-        room_type: 'SUI',
-        description: 'SUITE CITY VIEW KING BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        amount_total: {
-          amount: 3604.24,
-          str: '$3,604.24',
-          currency: 'USD',
-        },
-      },
-      {
-        code: 'SUI.KG-3',
-        room_type: 'SUI',
-        description: 'SUITE KING SIZE BED',
-        name: 'Bed room',
-        capacity: {
-          min_pax: 1,
-          max_pax: 8,
-          min_adults: 1,
-          max_adults: 8,
-          min_children: 5,
-          max_children: 5,
-        },
-        amount_total: {
-          amount: 3308.8,
-          str: '$3,308.80',
-          currency: 'USD',
-        },
-      },
-    ],
     amount_min: {
-      amount: 3308.8,
-      str: '$3,308.80',
+      amount: 357.16,
+      formatted: '$357.16',
       currency: 'USD',
     },
+    details: {
+      address: {
+        coordinates: {
+          latitude: 40.744999,
+          longitude: -73.93382,
+        },
+        country_code: 'US',
+        country: 'United States',
+        state: 'NEW YORK',
+        city: 'Long Island City',
+        zone: 'Long Island City',
+        district: '',
+        address1: '31 36 Queens Blvd',
+        address2: '',
+        postal_code: '',
+      },
+      chain: {
+        chain_code: 'WYNDH',
+        chain_name: 'WYNDHAM HOTEL GROUP',
+      },
+      checkin_time: '14:00:00',
+      checkout_time: '10:00:00',
+      description:
+        'Welcome to the Days Inn Long Island City. We are conveniently located in heart of New York Citys major attractions. Whether you are visiting the Days Inn on business or pleasure, you will find plenty to do. The Statue of Liberty, Rockefeller Center, The Museum of Modern Art, The Empire State Building, New Yorks famous Times Square, LaGuardia Airport are within 8 miles of the Days Inn Long Island City. Silver City Studios is only 0.2 miles from the hotel. The Days Inn Long Island City is newly constructed is located near all NYC airports. After you have enjoyed a day on the town, come back and relax in one of our brand new rooms. We offer free high speed wireless internet, irons and ironing boards, hairdryers, safes and coffee makers all in the comfort of your room. When you are ready for breakfast, do not forget to join us for our complimentary DayBreak continental breakfast. Our hotel has limited on-site parking available. We look forward to being your hosts at the Days Inn Long Island City.',
+      email: 'generalmanager15358@wynhg.com',
+      facilities: [
+        'Minor - AvaniSHIELD',
+        'Rosen - Total Commitment',
+        'RIU - Covid-19 Health Protocol',
+        'Fitness',
+        'Sailing',
+        'Table tennis',
+        'Toiletries',
+        'Full board',
+        'Morocco - Tourisme au Maroc post Covid-19',
+        'Shangri-La – Shangri-La Cares',
+        'Satellite TV',
+        'Ironing set',
+        'Pedal boating',
+        'Desk',
+        'Smoking rooms',
+        'Extra beds on demand',
+        'Breakfast a la carte',
+        'Fitness',
+        'Cycling / mountain biking',
+        'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+        'Table tennis',
+        'Golf',
+        'Wi-fi',
+        'RIU - Covid-19 Health Protocol',
+        'Minor - AvaniSHIELD',
+        'Terrace',
+        'Newspapers',
+        'Online check-in',
+        'Business centre',
+        'WaterSlides',
+        'TV lounge',
+        'Colombia - Check in certificado, COVID-19 bioseguro',
+        'Spain - UNE 0066-1',
+        'Early Check-in',
+        'Non-smoking establishment',
+        'Fitness',
+        'Wyndham - Count on us',
+      ],
+      name: 'Days Inn by Wyndham Long Island City',
+      phones: [
+        {
+          phone_number: '17184803917',
+          phone_type: 'PHONEBOOKING',
+        },
+        {
+          phone_number: '17184330077',
+          phone_type: 'PHONEHOTEL',
+        },
+        {
+          phone_number: '17184330079',
+          phone_type: 'FAXNUMBER',
+        },
+      ],
+      star_rating: '3.5',
+      type: 'Hotel',
+      web: '',
+    },
+    giata_code: '168791',
+    id: '704f71db:412035',
+    photos: [
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_002.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_l_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_003.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_r_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_004.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_005.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_006.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_007.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_008.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_009.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_a_010.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_011.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_012.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_013.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_014.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_015.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_016.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_017.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_018.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_019.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_020.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_021.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_022.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_023.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_025.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_028.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_029.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_030.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_031.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_032.jpg',
+      },
+      {
+        text: 'hotel_photo',
+        url: 'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_w_033.jpg',
+      },
+    ],
     relative_position: {
-      distance: 5.9816,
+      distance: 0.9973,
       distance_unit: 'mi',
       near_to: [
         {
@@ -2310,97 +3533,552 @@ export default [
           distance: '0',
         },
       ],
-      distance_to_city_centre: 0.0,
-      distance_to_nearest_airport: 0.0,
+      distance_to_city_centre: 0,
+      distance_to_nearest_airport: 0,
     },
-    address: {
-      coordinates: {
-        latitude: 40.8065189832902,
-        longitude: -73.9901393651826,
-        radius: 15,
-        unit: 'mi',
-      },
-      country_code: 'US',
-      country: 'United States',
-      state: 'NEW JERSEY',
-      city: 'Edgewater',
-      zone: 'Edgewater',
-      district: '',
-      address1: '10 The Promenade',
-      address2: '',
-      postal_code: '',
-    },
-    type: 'Hotel',
-    star_rating: '3',
-    web: 'https://www.hilton.com/en/hotels/ewrewhw-homewood-suites-edgewater-nyc-area/',
-    email: 'EWREW_Homewood@hilton.com',
-    phones: [
+    rooms: [
       {
-        phone_number: '+180022554663',
-        phone_type: 'PHONEBOOKING',
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'DBL.NM-QN',
+        description: 'DOUBLE QUEEN BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'DBL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 1,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D-1',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG-NM',
+        description: 'TRIPLE KING BED NON SMOKING',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 6,
+          min_adults: 1,
+          max_adults: 4,
+          min_children: 3,
+          max_children: 3,
+        },
+        code: 'QUA.2D',
+        description: 'QUADRUPLE TWO DOUBLE BEDS',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 439.95,
+            formatted: '$439.95',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 439.95,
+                    formatted: '$439.95',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -65.99,
+                    formatted: '-$65.99',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 62.65,
+                      formatted: '$62.65',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 439.95,
+                  formatted: '$439.95',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 62.65,
+                  formatted: '$62.65',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 373.95,
+                formatted: '$373.95',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'QUA',
+        services: {
+          double_beds: 2,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 0,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 2,
+          total_rooms: 1,
+        },
+      },
+      {
+        capacity: {
+          min_pax: 1,
+          max_pax: 5,
+          min_adults: 1,
+          max_adults: 3,
+          min_children: 4,
+          max_children: 4,
+        },
+        code: 'TPL.KG',
+        description: 'TRIPLE KING SIZE BED',
+        name: 'Bed room',
+        rates: {
+          avg_amount: {
+            amount: 357.16,
+            formatted: '$357.16',
+            currency: 'USD',
+          },
+          min_rate: {
+            rate_type: 'SN_PRIVATE',
+            meal_plan: {
+              code: 'BB',
+              text: 'BED AND BREAKFAST',
+            },
+            booking_code_sn:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            booking_code_supplier:
+              '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            comments: '',
+            requires_validation_before_booking: false,
+            available_qty: 9,
+            rate: {
+              rate_breakdown: {
+                diff_min_rate: {
+                  amount: 1,
+                  formatted: '$1',
+                  currency: 'USD',
+                },
+                discounts: {
+                  total_amount_before_apply: {
+                    amount: 357.16,
+                    formatted: '$357.16',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: -53.57,
+                    formatted: '-$53.57',
+                    currency: 'USD',
+                  },
+                },
+                extra_charges: {
+                  total_amount_before_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                  amount_to_apply: {
+                    amount: 1,
+                    formatted: '$1',
+                    currency: 'USD',
+                  },
+                },
+                rate_type: 'SN_PUBLIC',
+                taxes: [
+                  {
+                    description: 'TAXESANDFEES',
+                    included_in_total: true,
+                    tax_amount: {
+                      amount: 52.01,
+                      formatted: '$52.01',
+                      currency: 'USD',
+                    },
+                  },
+                ],
+                total_base_amount: {
+                  amount: 357.16,
+                  formatted: '$357.16',
+                  currency: 'USD',
+                },
+                total_taxes: {
+                  amount: 52.01,
+                  formatted: '$52.01',
+                  currency: 'USD',
+                },
+              },
+              total_amount: {
+                amount: 303.58,
+                formatted: '$303.58',
+                currency: 'USD',
+              },
+            },
+          },
+          upgrades: [],
+        },
+        room_type: 'TPL',
+        services: {
+          double_beds: 0,
+          free_breakfast: false,
+          free_parking: false,
+          free_wifi: false,
+          king_beds: 1,
+          other_beds: 0,
+          queen_beds: 0,
+          total_bathrooms: 1,
+          total_beds: 1,
+          total_rooms: 1,
+        },
       },
     ],
-    checkin_time: '14:00:00',
-    checkout_time: '10:00:00',
-    facilities: [
-      'Minor - AvaniSHIELD',
-      'Rosen - Total Commitment',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'RIU - Covid-19 Health Protocol',
-      'Table tennis',
-      'Morocco - Tourisme au Maroc post Covid-19',
-      'Pedal boating',
-      'Extra beds on demand',
-      'Breakfast a la carte',
-      'Fitness',
-      'Cycling / mountain biking',
-      'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-      'Table tennis',
-      'Golf',
-      'Minimum check-in age',
-      'Pedal boating',
-      'Wi-fi',
-      'Skiing',
-      'Squash',
-      'Aerobics',
-      'Launderette',
-      'Multilingual staff',
-      'Golf practice facility',
-      'Bellboy service',
-      'RIU - Covid-19 Health Protocol',
-      'NH - Feel safe at NH',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Minor - AvaniSHIELD',
-      'WTTC - Safe Travels Stamp',
-      'Newspapers',
-      'Luggage room',
-      'Clothes dryer',
-      'Diving',
-      'Smoking area',
-      'Catamaran sailing',
-      'Waterskiing',
-      'Online check-in',
-      'Spa centre',
-      'Business centre',
-      'Turkish bath (hamam)',
-      'WaterSlides',
-      'TV lounge',
-      'Sauna',
-      'Surfing',
-      'Hairdressing salon',
-      'Mauritian Standard on Sustainable Tourism',
-      'Colombia - Check in certificado, COVID-19 bioseguro',
-      'Non-smoking establishment',
-      'Fitness',
-      'Tennis',
-      'Hilton - CleanStay',
-    ],
-    amenities: [],
-    chain: {
-      chain_code: '',
-      chain_name: '',
-    },
-    supplier_prefix: '704f71db',
-    supplier_id: '160156',
+    thumbnail:
+      'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_001.jpg',
   },
 ] as Hotel[];

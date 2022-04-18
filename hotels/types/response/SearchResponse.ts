@@ -5,26 +5,34 @@ export interface HotelSearchResponse {
   _timestamp: Date;
 }
 export interface Hotel {
-  id: string;
-  name: string;
-  description: string;
-  thumbnail: string;
-  rooms: Room[];
   amount_min: Amount;
+  details: Details;
+  giata_code: string;
+  id: string;
+  photos: Photo[];
   relative_position: RelativePosition;
+  rooms: Room[];
+  thumbnail: string;
+}
+
+export interface Photo {
+  text: string;
+  url: string;
+}
+
+export interface Details {
   address: Address;
-  type: string;
-  star_rating: string;
-  web: string;
-  email: string;
-  phones: Phone[];
+  chain: Chain;
   checkin_time: string;
   checkout_time: string;
+  description: string;
+  email: string;
   facilities: string[];
-  amenities: any[];
-  chain: Chain;
-  supplier_prefix: string;
-  supplier_id: string;
+  name: string;
+  phones: Phone[];
+  star_rating: string;
+  type: string;
+  web: string;
 }
 
 export interface Address {
@@ -43,8 +51,6 @@ export interface Address {
 export interface Coordinates {
   latitude: number;
   longitude: number;
-  radius: number;
-  unit: string;
 }
 
 export interface Chain {
@@ -128,17 +134,12 @@ export enum MinRateRateType {
 
 export interface MealPlan {
   code: Code;
-  text: Text;
+  text: string;
 }
 
 export enum Code {
   Ab = 'AB',
   Ro = 'RO',
-}
-
-export enum Text {
-  AmericanBreakfast = 'AMERICAN BREAKFAST',
-  RoomOnly = 'ROOM ONLY',
 }
 
 export interface Rate {

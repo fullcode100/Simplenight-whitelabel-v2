@@ -71,7 +71,11 @@ const Home: NextPage = () => {
         <SectionTitle label={nearYouLabel} />
         <section className="flex flex-row gap-4 flex-nowrap overflow-x-auto">
           {hotelMock.map((hotel, index) => {
-            const { name, thumbnail, amount_min: amountMin, address } = hotel;
+            const {
+              details: { name, address },
+              thumbnail,
+              amount_min: amountMin,
+            } = hotel;
             const itemKey = hotel.id + index;
 
             return (

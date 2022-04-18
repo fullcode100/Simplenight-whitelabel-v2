@@ -1,5 +1,5 @@
 export interface Amount {
   amount: number;
-  str: string;
+  formatted: string;
   currency: string;
 }
