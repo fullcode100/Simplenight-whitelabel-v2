@@ -378,6 +378,12 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     );
   };
 
+  const [openCheckRoom, setOpenCheckRoom] = useState<boolean>(false);
+
+  const handleOpenCheckRoom = () => {
+    setOpenCheckRoom(true);
+  };
+
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
