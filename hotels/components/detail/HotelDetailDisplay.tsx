@@ -26,6 +26,7 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Divider from 'components/global/Divider/Divider';
+import CheckRoomAvailability from 'components/global/CheckRoomAvailability/CheckRoomAvailability';
 
 interface HotelDetailDisplayProps extends CategoryPageComponentProps {}
 
@@ -233,8 +234,15 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     );
   };
 
+  const [openCheckRoom, setOpenCheckRoom] = useState<boolean>(false);
+
+  const handleOpenCheckRoom = () => {
+    setOpenCheckRoom(true);
+  };
+
   return (
     <>
+      <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
       <header className="flex flex-col w-full px-4 pt-28">
         <section className="h-12 flex justify-between items-center">
           <section className="flex flex-col">
@@ -261,6 +269,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
               type="contained"
               className="h-9 text-base w-20"
               size="full"
+              onClick={handleOpenCheckRoom}
             />
           </section>
         </section>

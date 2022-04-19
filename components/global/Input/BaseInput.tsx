@@ -1,4 +1,5 @@
 import I18nHOC from '../I18nHOC/I18nHOC';
+import Label from '../Label/Label';
 
 export interface BaseInputProps {
   children?: any;
@@ -39,9 +40,7 @@ const BaseInput = ({
 }: BaseInputProps & BaseInputHiddenProps) => {
   const NumberInput = () => (
     <section className="w-full h-full flex flex-row items-center justify-between">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
+      <Label value={label} htmlFor={name} />
       <div className="max-w-[44px] max-h-[44px] relative">
         {children}
         {leftIcon}
@@ -69,10 +68,8 @@ const BaseInput = ({
 
   return (
     <div className={`w-full ${className}`} onClick={onClick}>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
-      <div className="mt-1 relative">
+      <Label value={label} htmlFor={name} />
+      <div className="relative">
         {children}
         {leftIcon}
         <Input />

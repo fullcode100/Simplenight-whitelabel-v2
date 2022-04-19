@@ -45,7 +45,7 @@ function ItemCard<T extends WithId>({
 
   const AddressSection = ({ item }: { item: T }) => (
     <section className="font-lato font-normal text-base mt-5">
-      <span>{extraInformation.address.address1}</span>
+      <span>{extraInformation?.address?.address1}</span>
     </section>
   );
 
