@@ -143,7 +143,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   );
 
   return (
-    <section className="w-full h-full px-4">
+    <section className="w-full h-full px-4 pt-28">
       <SectionTitle label={pickForYouLabel} />
       <HotelList />
     </section>

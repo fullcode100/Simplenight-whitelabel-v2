@@ -81,7 +81,7 @@ const HotelSearchFormReadState = ({
   };
 
   return (
-    <section className="flex font-lato justify-between text-sm px-4 pt-3 border-t-[1px] border-b-[1px]">
+    <section className="flex font-lato justify-between text-sm px-4 pt-3 border-t-[1px] border-b-[1px] pt-28">
       <section className="flex flex-col w-[90%]">
         <LocationSection />
         <OccupancyAndDatesSection />
