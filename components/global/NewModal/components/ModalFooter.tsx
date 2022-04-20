@@ -1,19 +1,58 @@
-import { MouseEvent } from 'react';
+import Button from 'components/global/Button/Button';
+import { MouseEvent, ReactNode } from 'react';
+import classnames from 'classnames';
 
 interface ModalFooterProps {
-  textButton: string;
-  onApply: (event?: MouseEvent<HTMLElement>) => void;
+  primaryButtonText: string;
+  secondaryButtonText?: string;
+  primaryButtonAction: (event?: MouseEvent<HTMLElement>) => void;
+  secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
+  summary?: ReactNode;
+  hasMultipleActions?: boolean;
 }
 
-const ModalFooter = ({ textButton, onApply }: ModalFooterProps) => {
+const ModalFooter = ({
+  primaryButtonText,
+  secondaryButtonText,
+  primaryButtonAction,
+  secondaryButtonAction,
+  summary,
+  hasMultipleActions,
+}: ModalFooterProps) => {
+  const secondaryButtonTextNotNull = secondaryButtonText ?? 'close';
+
   return (
-    <footer className="py-6 px-5 shadow-date">
-      <button
-        onClick={onApply}
-        className="bg-primary-1000 py-4 mx-auto w-full rounded text-white text-semibold text-base"
-      >
-        {textButton}
-      </button>
+    <footer className="fixed bottom-0 w-full bg-white py-6 px-5 shadow-date">
+      {summary}
+      {hasMultipleActions ? (
+        <section
+          className={classnames('grid grid-cols-2 gap-3', {
+            ['mt-4']: summary,
+          })}
+        >
+          <Button
+            value={secondaryButtonTextNotNull}
+            size="full"
+            type="outlined"
+            textColor="primary"
+            onClick={secondaryButtonAction}
+          />
+          <Button
+            value={primaryButtonText}
+            size="full"
+            onClick={primaryButtonAction}
+          />
+        </section>
+      ) : (
+        <Button
+          value={primaryButtonText}
+          size="full"
+          onClick={primaryButtonAction}
+          className={classnames({
+            ['mt-4']: summary,
+          })}
+        />
+      )}
     </footer>
   );
 };

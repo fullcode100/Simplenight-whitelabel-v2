@@ -1,14 +1,19 @@
 import ModalFooter from './components/ModalFooter';
 import ModalHeader from './components/ModalHeader';
-import { MouseEvent } from 'react';
+import { MouseEvent, ReactNode } from 'react';
+import classnames from 'classnames';
 
 interface FullScreenModalProps {
   open: boolean;
   closeModal: (event?: MouseEvent<HTMLElement>) => void;
-  children: any;
+  children?: ReactNode;
   title: string;
-  textButton: string;
-  applyModal: (event?: MouseEvent<HTMLElement>) => void;
+  primaryButtonText: string;
+  secondaryButtonText?: string;
+  primaryButtonAction: (event?: MouseEvent<HTMLElement>) => void;
+  secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
+  footerSummary?: ReactNode;
+  hasMultipleActions: boolean;
 }
 
 const FullScreenModal = ({
@@ -16,18 +21,30 @@ const FullScreenModal = ({
   closeModal,
   children,
   title,
-  textButton,
-  applyModal,
+  primaryButtonText,
+  secondaryButtonText,
+  primaryButtonAction,
+  secondaryButtonAction,
+  footerSummary,
+  hasMultipleActions,
 }: FullScreenModalProps) => {
   return (
     <section
-      className={`w-full h-screen flex flex-col items-stretch fixed inset-0 bg-white z-20 ${
-        !open ? 'hidden' : ''
-      }`}
+      className={classnames(
+        'w-full h-screen flex flex-col items-stretch fixed inset-0 bg-white z-20',
+        { ['hidden']: !open },
+      )}
     >
       <ModalHeader title={title} onCloseModal={closeModal} />
       {children}
-      <ModalFooter textButton={textButton} onApply={applyModal} />
+      <ModalFooter
+        primaryButtonText={primaryButtonText}
+        secondaryButtonText={secondaryButtonText}
+        primaryButtonAction={primaryButtonAction}
+        secondaryButtonAction={secondaryButtonAction}
+        summary={footerSummary}
+        hasMultipleActions={hasMultipleActions}
+      />
     </section>
   );
 };

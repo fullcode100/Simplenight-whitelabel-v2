@@ -15,14 +15,15 @@ import WeekDays from './components/Weekdays';
 import FullScreenModal from '../NewModal/FullScreenModal';
 import Day from './components/Day';
 import RangeDate from './components/RangeDate';
-import { formatAsRangeDate } from 'helpers/dajjsUtils';
+import {
+  formatAsRangeDate,
+  initialMonth,
+  initialYear,
+} from 'helpers/dajjsUtils';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isBetween);
-
-const initialYear = parseInt(dayjs().format('YYYY'));
-const initialMonth = parseInt(dayjs().format('M'));
 
 interface DatePickerProps {
   showDatePicker: boolean;
@@ -100,8 +101,9 @@ const DatePicker = ({
       open={showDatePicker}
       closeModal={onClose}
       title="Dates"
-      textButton="Apply"
-      applyModal={setFullDate}
+      primaryButtonText="Apply"
+      primaryButtonAction={setFullDate}
+      hasMultipleActions={false}
     >
       <RangeDate
         isStartDateTurn={isStartDateTurn}

@@ -28,7 +28,7 @@ import { Room } from 'hotels/types/response/SearchResponse';
 import Divider from 'components/global/Divider/Divider';
 import CheckRoomAvailability from 'hotels/components/CheckRoomAvailability/CheckRoomAvailability';
 
-interface HotelDetailDisplayProps extends CategoryPageComponentProps {}
+type HotelDetailDisplayProps = CategoryPageComponentProps;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const { id } = useQuery();
@@ -226,6 +226,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                 priceBreakdownComponent={
                   <PriceBreakdownComponent room={room} />
                 }
+                room={room}
               />
             );
           })}
