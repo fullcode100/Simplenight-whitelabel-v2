@@ -56,4 +56,5 @@ const IconInput = ({
   );
 };
 
+/* eslint new-cap: ["off"] */
 export default I18nHOC<IconInputProps>(IconInput);

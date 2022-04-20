@@ -64,6 +64,16 @@ const CheckInOutInput = ({
 
 export default CheckInOutInput;
 
+export interface UseCheckInOutInputPropsComponentReturn {
+  showDatePicker: boolean;
+  startDate: string;
+  endDate: string;
+  handleStartDateChange: (value: string) => void;
+  handleEndDateChange: (value: string) => void;
+  handleOpenDatePicker: () => void;
+  handleCloseDatePicker: () => void;
+}
+
 export const useCheckInOutInput = () => {
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<string>(
@@ -83,7 +93,7 @@ export const useCheckInOutInput = () => {
   const handleOpenDatePicker = () => setShowDatePicker(true);
   const handleCloseDatePicker = () => setShowDatePicker(false);
 
-  const propsComponent = {
+  const propsComponent: UseCheckInOutInputPropsComponentReturn = {
     showDatePicker,
     startDate,
     endDate,

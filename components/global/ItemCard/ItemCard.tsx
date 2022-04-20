@@ -38,7 +38,9 @@ function ItemCard<T extends WithId>({
       </section>
       <section className="grid grid-cols-2 items-center">
         <span className="pl-4 font-lato text-base">{fromLabel}</span>
-        <span className="font-lato font-semibold text-base">{price?.formatted}</span>
+        <span className="font-lato font-semibold text-base">
+          {price?.formatted}
+        </span>
       </section>
     </footer>
   );

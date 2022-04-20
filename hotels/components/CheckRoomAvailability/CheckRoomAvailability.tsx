@@ -1,7 +1,8 @@
 import FullScreenModal from '../../../components/global/NewModal/FullScreenModal';
 import CheckInOutInput, {
   useCheckInOutInput,
-} from '../../../components/global/CheckInOutInput/CheckInOutInput';
+  UseCheckInOutInputPropsComponentReturn,
+} from 'components/global/CheckInOutInput/CheckInOutInput';
 
 interface CheckRoomProps {
   open: boolean;
@@ -22,7 +23,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
     handleEndDateChange,
     handleOpenDatePicker,
     handleCloseDatePicker,
-  } = checkInOutProps;
+  } = checkInOutProps as UseCheckInOutInputPropsComponentReturn;
 
   return (
     <FullScreenModal
@@ -39,8 +40,8 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
           handleEndDateChange={handleEndDateChange}
           handleOpenDatePicker={handleOpenDatePicker}
           handleCloseDatePicker={handleCloseDatePicker}
-          startDate={startDate}
-          endDate={endDate}
+          startDate={startDate as string}
+          endDate={endDate as string}
         />
       </section>
     </FullScreenModal>

@@ -79,4 +79,5 @@ const BaseInput = ({
   );
 };
 
+/* eslint new-cap: ["off"] */
 export default I18nHOC<BaseInputProps & BaseInputHiddenProps>(BaseInput);

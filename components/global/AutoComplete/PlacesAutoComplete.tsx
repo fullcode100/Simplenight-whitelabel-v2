@@ -184,4 +184,4 @@
 
 // export default PlaceAutoComplete;
 
-export default () => <p>Not implemented</p>;
+export const NotImplemented = () => <p>Not implemented</p>;

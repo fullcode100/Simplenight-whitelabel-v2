@@ -79,12 +79,26 @@ export interface NearTo {
 }
 
 export interface Room {
+  capacity: Capacity;
   code: string;
-  room_type: string;
   description: string;
   name: string;
-  capacity: Capacity;
   rates: Rates;
+  room_type: string;
+  services: Services;
+}
+
+export interface Services {
+  double_beds: number;
+  free_breakfast: boolean;
+  free_parking: boolean;
+  free_wifi: boolean;
+  king_beds: number;
+  other_beds: number;
+  queen_beds: number;
+  total_bathrooms: number;
+  total_beds: number;
+  total_rooms: number;
 }
 
 export interface Rates {
@@ -113,10 +127,17 @@ export interface MinRate {
 export interface RateBreakdown {
   diff_min_rate: Amount;
   discounts: Discounts;
-  rate_type: RateBreakdownRateType;
-  taxes: any[];
+  extra_charges: Discounts;
+  rate_type: string;
+  taxes: Tax[];
   total_base_amount: Amount;
   total_taxes: Amount;
+}
+
+export interface Tax {
+  description: string;
+  included_in_total: boolean;
+  tax_amount: Amount;
 }
 
 export interface Discounts {
@@ -133,13 +154,8 @@ export enum MinRateRateType {
 }
 
 export interface MealPlan {
-  code: Code;
+  code: string;
   text: string;
-}
-
-export enum Code {
-  Ab = 'AB',
-  Ro = 'RO',
 }
 
 export interface Rate {

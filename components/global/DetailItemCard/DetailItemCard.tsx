@@ -16,7 +16,8 @@ const DetailItemCard = ({
   const [t, i18next] = useTranslation('global');
   const priceBreakdownLabel = t('priceBreakdown', 'Price breakdown');
 
-  const PriceSection = () => (price ? <span>{price.formatted} total</span> : null);
+  const PriceSection = () =>
+    price ? <span>{price.formatted} total</span> : null;
 
   return (
     <section className="flex flex-col border-2 border-dark-200 px-4 py-6 min-w-[20rem]">

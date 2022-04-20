@@ -7,8 +7,6 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-
-
 const Tabs = ({ tabs, onClick }: TabsProps) => {
   const [activeTab, setActiveTab] = useState<Tab>(tabs[0]);
 
