@@ -154,6 +154,12 @@ export interface Tax {
   tax_amount: Amount;
 }
 
+export interface Tax {
+  description: string;
+  included_in_total: boolean;
+  tax_amount: Amount;
+}
+
 export interface Discounts {
   total_amount_before_apply: Amount;
   amount_to_apply: Amount;
