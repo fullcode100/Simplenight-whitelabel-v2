@@ -370,6 +370,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                 priceBreakdownComponent={
                   <PriceBreakdownComponent room={room} />
                 }
+                room={room}
               />
             );
           })}

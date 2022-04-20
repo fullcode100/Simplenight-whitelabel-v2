@@ -52,10 +52,10 @@ const HotelSearchForm = ({
 }: SearchFormProps) => {
   const setQueryParam = useQuerySetter(['type']);
 
-  const [adultCount, setAdultCount] = useState<Number>(0);
+  const [adultCount, setAdultCount] = useState<number>(0);
   const [geolocation, setGeolocation] = useState<StringGeolocation>();
-  const [childrenCount, setChildrenCount] = useState<Number>(0);
-  const [roomCount, setRoomCount] = useState<Number>(0);
+  const [childrenCount, setChildrenCount] = useState<number>(0);
+  const [roomCount, setRoomCount] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>(
     formatAsSearchDate(dayjs()),
   );
@@ -64,15 +64,15 @@ const HotelSearchForm = ({
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const handleRoomChange = (value: Number) => {
+  const handleRoomChange = (value: number) => {
     setRoomCount(value);
   };
 
-  const handleAdultChange = (value: Number) => {
+  const handleAdultChange = (value: number) => {
     setAdultCount(value);
   };
 
-  const handleChildrenCount = (value: Number) => {
+  const handleChildrenCount = (value: number) => {
     setChildrenCount(value);
   };
 
