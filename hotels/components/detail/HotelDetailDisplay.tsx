@@ -26,7 +26,7 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Divider from 'components/global/Divider/Divider';
-import CheckRoomAvailability from 'components/global/CheckRoomAvailability/CheckRoomAvailability';
+import CheckRoomAvailability from 'hotels/components/CheckRoomAvailability/CheckRoomAvailability';
 
 interface HotelDetailDisplayProps extends CategoryPageComponentProps {}
 

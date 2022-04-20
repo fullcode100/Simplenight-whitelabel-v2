@@ -1,12 +1,7 @@
-import { useState } from 'react';
-import FullScreenModal from '../NewModal/FullScreenModal';
+import FullScreenModal from '../../../components/global/NewModal/FullScreenModal';
 import CheckInOutInput, {
   useCheckInOutInput,
-} from '../CheckInOutInput/CheckInOutInput';
-import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
-import SingleBed from 'public/icons/assets/single-bed.svg';
-import IconInput from '../Input/IconInput';
-import Label from '../Label/Label';
+} from '../../../components/global/CheckInOutInput/CheckInOutInput';
 
 interface CheckRoomProps {
   open: boolean;
@@ -21,6 +16,14 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
     // apply here
   };
 
+  const {
+    showDatePicker,
+    handleStartDateChange,
+    handleEndDateChange,
+    handleOpenDatePicker,
+    handleCloseDatePicker,
+  } = checkInOutProps;
+
   return (
     <FullScreenModal
       open={open}
@@ -30,7 +33,15 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
       applyModal={onApply}
     >
       <section className="px-5 py-3">
-        <CheckInOutInput {...checkInOutProps} />
+        <CheckInOutInput
+          showDatePicker={showDatePicker}
+          handleStartDateChange={handleStartDateChange}
+          handleEndDateChange={handleEndDateChange}
+          handleOpenDatePicker={handleOpenDatePicker}
+          handleCloseDatePicker={handleCloseDatePicker}
+          startDate={startDate}
+          endDate={endDate}
+        />
       </section>
     </FullScreenModal>
   );
