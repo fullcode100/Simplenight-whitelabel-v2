@@ -350,7 +350,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     return (
       <section className="flex flex-col gap-2 px-4 mt-4">
         <RoomSectionTitle />
-        <section className="flex overflow-x-auto gap-4">
+        <section className="flex flex-col gap-4">
           {hotelRooms.map((room) => {
             const { description: roomDescription, rates } = room;
             const { min_rate: minRate } = rates;
