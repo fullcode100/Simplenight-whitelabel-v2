@@ -27,6 +27,7 @@ import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Divider from 'components/global/Divider/Divider';
 import CheckRoomAvailability from 'hotels/components/CheckRoomAvailability/CheckRoomAvailability';
+import LocationSection from '../location/LocationSection';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -48,8 +49,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     details: { name, address, description, star_rating: starRating },
     rooms: hotelRooms,
   } = hotelMock[0];
-
-  const { address1: mainAddressInformation } = address;
 
   const [hotel, setHotel] = useState<HotelDetailResponse>();
   const [t, i18next] = useTranslation('hotels');
@@ -280,6 +279,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         <GeneralInformationSection />
         <RoomsSection />
         <DetailsSection />
+        <LocationSection />
       </main>
     </>
   );

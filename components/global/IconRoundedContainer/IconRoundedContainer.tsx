@@ -10,7 +10,7 @@ const IconRoundedContainer = ({
   className = '',
 }: IconRoundedContainerProps) => (
   <div
-    className={`flex items-center justify-center px-3 py-3 rounded-[1000px] ${className}`}
+    className={`flex items-center justify-center h-[40px] w-[40px] px-2 py-2 rounded-[1000px] ${className}`}
   >
     {children}
   </div>
