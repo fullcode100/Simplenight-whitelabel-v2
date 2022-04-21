@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import classnames from 'classnames';
+import SeeMoreButton from './components/SeeMoreButton';
 
 interface ReadMoreProps {
   className?: string;
   text: string;
+  charCount?: number;
 }
 
 const SHOW_LESS_CHAR_COUNT = 250;
 
-const ReadMore = ({ className = '', text }: ReadMoreProps) => {
+const ReadMore = ({
+  className = '',
+  text,
+  charCount = SHOW_LESS_CHAR_COUNT,
+}: ReadMoreProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const isExpandable = text.length > SHOW_LESS_CHAR_COUNT;
+  const isExpandable = text.length > charCount;
 
   const [formattedText, setFormattedText] = useState(text);
 
@@ -19,25 +26,24 @@ const ReadMore = ({ className = '', text }: ReadMoreProps) => {
       return;
     }
 
-    const newText = text.substring(0, SHOW_LESS_CHAR_COUNT);
+    const newText = text.substring(0, charCount);
     setFormattedText(newText + '...');
   }, [isOpen]);
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <section className={`${className} relative min-h-[8rem]`}>
-      <span className="">{formattedText}</span>
+    <section className={`${className} relative `}>
+      <section className={classnames('pb-4', className)}>
+        {formattedText}
+      </section>
       {isExpandable && (
-        <section className="mt-2 w-full h-16 absolute bottom-0 flex items-end justify-center bg-gradient-to-b from-transparent to-white">
-          <button
-            type="button"
-            onClick={toggle}
-            className="text-sm z-10 text-center leading-5font-medium text-primary-1000 hover:text-primary-500 focus:outline-none focus:underline transition ease-in-out duration-150"
-          >
-            {isOpen ? 'Read less' : 'Read more'}
-          </button>
-        </section>
+        <SeeMoreButton
+          onClick={toggle}
+          isOpen={isOpen}
+          textOpen="See less"
+          textClosed="See more"
+        />
       )}
     </section>
   );

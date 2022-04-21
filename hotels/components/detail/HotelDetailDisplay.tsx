@@ -29,6 +29,7 @@ import Divider from 'components/global/Divider/Divider';
 import CheckRoomAvailability from 'hotels/components/CheckRoomAvailability/CheckRoomAvailability';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import LocationSection from '../location/LocationSection';
+import SeeMore from 'components/global/ReadMore/SeeMore';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -206,7 +207,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     return (
       <section className="flex flex-col gap-2 px-4 mt-4">
         <RoomSectionTitle />
-        <section className="flex overflow-x-auto gap-4">
+        <section className="flex flex-col gap-4">
           {hotelRooms.map((room) => {
             const { description: roomDescription, rates } = room;
             const { min_rate: minRate } = rates;
@@ -279,7 +280,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         {/* <ImagesSection /> */}
         <ImageCarousel images={galleryMock} hotelName={name} />
         <GeneralInformationSection />
-        <RoomsSection />
+        <SeeMore heightInPixels={900}>{<RoomsSection />}</SeeMore>
         <DetailsSection />
         <LocationSection />
       </main>
