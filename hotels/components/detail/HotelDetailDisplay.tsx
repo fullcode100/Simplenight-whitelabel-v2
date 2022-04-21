@@ -27,6 +27,7 @@ import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Divider from 'components/global/Divider/Divider';
 import CheckRoomAvailability from 'hotels/components/CheckRoomAvailability/CheckRoomAvailability';
+import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import LocationSection from '../location/LocationSection';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
@@ -276,6 +277,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       </header>
       <main className="relative">
         {/* <ImagesSection /> */}
+        <ImageCarousel images={galleryMock} hotelName={name} />
         <GeneralInformationSection />
         <RoomsSection />
         <DetailsSection />
