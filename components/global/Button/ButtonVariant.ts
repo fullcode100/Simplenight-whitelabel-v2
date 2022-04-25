@@ -1,4 +1,5 @@
 import { ColorWithStates } from 'helpers/colors/primaryColorVariants';
+import { ReactElement } from 'react';
 
 export interface ButtonVariantProp {
   value: any;
