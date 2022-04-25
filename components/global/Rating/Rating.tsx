@@ -7,18 +7,25 @@ import FilledStar from 'public/icons/assets/star-contained.svg';
 interface RatingProps {
   value: number | string;
   size?: number;
-  edit?: boolean;
+  editable?: boolean;
   count?: number;
   color?: string;
   onChange?: (newRating: number) => void;
 }
 
-const Rating = ({ value, size = 30, edit = false, count = 5 }: RatingProps) => (
+const Rating = ({
+  value,
+  size = 30,
+  editable = false,
+  count = 5,
+  onChange,
+}: RatingProps) => (
   <ReactStars
     value={value}
     size={size}
-    edit={edit}
+    edit={editable}
     count={count}
+    onChange={onChange}
     emptyIcon={<EmptyStar className="text-primary-1000 w-5 h-5" />}
     filledIcon={<FilledStar className="text-primary-1000 w-5 h-5" />}
   />

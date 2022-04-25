@@ -7,11 +7,12 @@ const NormalButton = ({
   value,
   disabled,
   className,
+  icon,
   ...others
 }: ButtonVariantProp) => (
   <button
     className={classnames(
-      `px-4 pb-2 pt-1 font-semibold rounded-4 ${sizeClassname}`,
+      `px-4 pb-2 pt-1 font-semibold rounded-4 flex items-center justify-center ${sizeClassname}`,
       {
         [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
           !disabled,
@@ -21,7 +22,8 @@ const NormalButton = ({
     )}
     {...others}
   >
-    {value}
+    {icon && <span className="mr-2">{icon}</span>}
+    <span>{value}</span>
   </button>
 );
 

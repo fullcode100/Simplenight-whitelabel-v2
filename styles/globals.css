@@ -65,6 +65,10 @@ a {
   text-decoration: none;
 }
 
+label {
+  @apply font-lato font-semibold text-sm leading-4;
+}
+
 * {
   box-sizing: border-box;
 }

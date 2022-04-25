@@ -14,6 +14,7 @@ import { HotelClientDetailer } from './core/detail/HotelClientDetailer';
 import { HotelServerDetailer } from './core/detail/HotelServerDetailer';
 import HotelSearchFormReadState from './components/search/HotelSearchFormReadState';
 import BedIcon from 'public/icons/assets/bed.svg';
+import HotelSecondarySearchOptions from './components/search/HotelSecondarySearchOptions';
 
 export const HOTEL_CATEGORY = 'hotels';
 
@@ -28,6 +29,7 @@ const Category: CategoryOption = {
   },
   selectedIcon: <BedFillGray />,
   searchForm: <HotelSearchForm />,
+  secondarySearchOptions: <HotelSecondarySearchOptions />,
   readStateSearchForm: <HotelSearchFormReadState />,
   resultsDisplay: <></>,
   detailDisplay: <></>,

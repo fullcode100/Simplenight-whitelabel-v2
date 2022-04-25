@@ -17,6 +17,7 @@ export interface CategoryOption {
   store: CategoryStore;
   core: CategoryCore<any>;
   searchForm?: ReactElement;
+  secondarySearchOptions?: ReactElement;
   readStateSearchForm?: ReactElement;
   resultsDisplay?: ReactElement;
   detailDisplay?: ReactElement;

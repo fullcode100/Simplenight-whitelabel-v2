@@ -13,7 +13,7 @@ interface FullScreenModalProps {
   primaryButtonAction: (event?: MouseEvent<HTMLElement>) => void;
   secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   footerSummary?: ReactNode;
-  hasMultipleActions: boolean;
+  hasMultipleActions?: boolean;
 }
 
 const FullScreenModal = ({
@@ -26,7 +26,7 @@ const FullScreenModal = ({
   primaryButtonAction,
   secondaryButtonAction,
   footerSummary,
-  hasMultipleActions,
+  hasMultipleActions = false,
 }: FullScreenModalProps) => {
   return (
     <section
@@ -37,6 +37,7 @@ const FullScreenModal = ({
     >
       <ModalHeader title={title} onCloseModal={closeModal} />
       {children}
+      <section className="flex flex-col h-full justify-end">
       <ModalFooter
         primaryButtonText={primaryButtonText}
         secondaryButtonText={secondaryButtonText}
@@ -45,6 +46,8 @@ const FullScreenModal = ({
         summary={footerSummary}
         hasMultipleActions={hasMultipleActions}
       />
+
+      </section>
     </section>
   );
 };
