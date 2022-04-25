@@ -7,15 +7,15 @@ import classNames from 'classnames';
 interface SelectProps {
   options: string[];
   label?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 }
 
 const Select = ({ options, label = '', onChange }: SelectProps) => {
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(options[0] ?? '');
 
   const handleChange = (value: string) => {
     setSelected(value);
-    onChange(value);
+    if (onChange) onChange(value);
   };
 
   return (
@@ -49,7 +49,7 @@ const Select = ({ options, label = '', onChange }: SelectProps) => {
                     key={option}
                     className={({ active }) =>
                       classNames(
-                        active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                        active ? 'text-white bg-primary-600' : 'text-gray-900',
                         'cursor-default select-none relative py-2 pl-3 pr-9',
                       )
                     }
@@ -69,7 +69,7 @@ const Select = ({ options, label = '', onChange }: SelectProps) => {
                         {isSelected ? (
                           <span
                             className={classNames(
-                              active ? 'text-white' : 'text-indigo-600',
+                              active ? 'text-white' : 'text-primary-600',
                               'absolute inset-y-0 right-0 flex items-center pr-4',
                             )}
                           >

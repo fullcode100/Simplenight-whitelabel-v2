@@ -91,16 +91,17 @@ const HotelSecondarySearchOptions = () => {
     </FilterContainer>
   );
 
+  const SortByFilter = () => (
+    <FilterContainer>
+      <FilterTitle label={sortByLabel} />
+      <Select options={['Price', 'Rating', 'Popularity']} />
+    </FilterContainer>
+  );
+
   const FilterForm = () => (
     <section className="py-4">
       <KeywordSearchFilter />
-      {/* <Select
-        options={['By Price', 'By Rating']}
-        onChange={function (value: string): void {
-          throw new Error('Function not implemented.');
-        }}
-        label={sortByLabel}
-      /> */}
+      <SortByFilter />
       <Divider className="my-6" />
       <RatingFilter />
       <Divider className="my-6" />

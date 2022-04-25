@@ -66,7 +66,7 @@ a {
 }
 
 label {
-  @apply font-lato font-semibold text-sm leading-4;
+  @apply font-lato font-semibold text-sm leading-4 text-dark-800;
 }
 
 * {
