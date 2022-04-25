@@ -22,7 +22,7 @@ import { SearchFormProps } from 'types/search/SearchFormProps';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import LocationInput from 'components/global/Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import { formatAsSearchDate } from 'helpers/dajjsUtils';
+import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 
@@ -94,7 +94,7 @@ const HotelSearchForm = ({
   };
 
   return (
-    <section className={`flex flex-col justify-between ${className}`}>
+    <section className={`flex flex-col px-4 pb-4 justify-between ${className}`}>
       <section>
         <LocationInput
           icon={<LocationPin className="h-5 w-5 text-dark-700" />}
@@ -125,7 +125,7 @@ const HotelSearchForm = ({
           onStartDateChange={handleStartDateChange}
           onEndDateChange={handleEndDateChange}
         />
-        <section className="flex gap-4">
+        <section className="flex gap-4 mt-2">
           <IconInput
             label="Check-in"
             name="Check-in"
@@ -133,7 +133,7 @@ const HotelSearchForm = ({
             className="mt-4"
             orientation="right"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
-            value={startDate}
+            value={formatAsDisplayDate(startDate)}
             onChange={(event) => handleStartDateChange(event.target.value)}
             onClick={() => setShowDatePicker(true)}
           />
@@ -144,7 +144,7 @@ const HotelSearchForm = ({
             orientation="right"
             className="mt-4"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
-            value={endDate}
+            value={formatAsDisplayDate(endDate)}
             onChange={(event) => handleEndDateChange(event.target.value)}
             onClick={() => setShowDatePicker(true)}
           />

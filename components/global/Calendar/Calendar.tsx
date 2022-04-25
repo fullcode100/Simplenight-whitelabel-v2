@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent, UIEvent } from 'react';
+import { useEffect, useState, MouseEvent, UIEvent, Fragment } from 'react';
 
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -115,9 +115,9 @@ const DatePicker = ({
         className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5"
         onScroll={handleScroll}
       >
-        {calendar.map((month: MonthObject) => {
+        {calendar.map((month: MonthObject, index) => {
           return (
-            <>
+            <Fragment key={index}>
               <h1 className="col-span-7 font-semibold text-dark-1000 mt-3 bg-white">{`${month.monthName} ${month.yearNumber}`}</h1>
               <WeekDays />
               {month.days.map((day: DayObject, index) => (
@@ -136,7 +136,7 @@ const DatePicker = ({
                   )}
                 />
               ))}
-            </>
+            </Fragment>
           );
         })}
       </section>

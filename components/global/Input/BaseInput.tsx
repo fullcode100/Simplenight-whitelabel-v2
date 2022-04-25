@@ -69,7 +69,7 @@ const BaseInput = ({
   return (
     <div className={`w-full ${className}`} onClick={onClick}>
       <Label value={label} htmlFor={name} />
-      <div className="relative">
+      <div className="relative mt-2">
         {children}
         {leftIcon}
         <Input />

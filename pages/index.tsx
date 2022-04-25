@@ -10,6 +10,7 @@ import SectionTitle from 'components/global/SectionTitle/SectionTitle';
 import hotelMock from 'hotels/hotelMock';
 import ItemCard from 'components/global/ItemCard/ItemCard';
 import { tabsMock } from 'mocks/tabsMock';
+import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => (
   <div className="min-h-[50vh] w-[100vw] px-4 py-28 bg-primary-100 ">
@@ -62,8 +63,13 @@ const Home: NextPage = () => {
     <main ref={mainRef} className="min-h-[100vh] w-full overflow-x-auto">
       <UpperSectionBackground>
         <p className="h3 text-dark-1000 mb-9">Book Everything, Anywhere</p>
-        <Tabs tabs={tabsMock} onClick={handleTabClick} />
         <Panel className="mt-6 z-100">
+          <HorizontalTabs
+            tabs={tabsMock}
+            onClick={handleTabClick}
+            className="mb-2"
+            primary
+          />
           <SearchCategoryForm searchType={searchType} />
         </Panel>
       </UpperSectionBackground>

@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
-import FullScreenModal from 'components/global/Modal/FullScreenModal';
-import Tabs from 'components/global/Tabs/Tabs';
-import { tabsMock } from 'mocks/tabsMock';
-import { Tab } from '../Tabs/types';
 import ModalDivider from '../Modal/components/ModalDivider';
+import FullScreenModal from '../NewModal/FullScreenModal';
+import { useTranslation } from 'react-i18next';
 
 const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
-  const [internalSearchType, setInternalSearchType] = useState(searchType);
-  const category = useCategory(internalSearchType);
-
-  const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
-    setInternalSearchType(tab.value.toLowerCase());
-    setActiveTab(tab);
-  };
+  const category = useCategory(searchType);
+  const [t, i18n] = useTranslation('global');
+  const searchLabel = t('search', 'Search');
 
   const [isSearching, setIsSearching] = useState(false);
 
@@ -38,13 +32,13 @@ const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
   return isSearching ? (
     <FullScreenModal
       open={isSearching}
-      setOpen={setIsSearching}
-      hasHeader
+      closeModal={() => setIsSearching(false)}
       title="Search"
-      className="pb-24"
+      primaryButtonText={searchLabel}
+      primaryButtonAction={() => {}}
+      noFooter
     >
       <section className="h-full relative flex flex-col gap-4">
-        <Tabs tabs={tabsMock} onClick={handleTabClick} />
         <ModalDivider className="inset-y-14 left-[-1rem]" />
         {searchFormWithProps}
       </section>
