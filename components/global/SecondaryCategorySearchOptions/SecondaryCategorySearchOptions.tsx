@@ -5,7 +5,9 @@ interface SecondaryCategorySearchOptionsProps {
   searchType: string;
 }
 
-const SecondaryCategorySearchOptions = ({ searchType }: SecondaryCategorySearchOptionsProps) => {
+const SecondaryCategorySearchOptions = ({
+  searchType,
+}: SecondaryCategorySearchOptionsProps) => {
   const category = useCategory(searchType);
 
   return category?.secondarySearchOptions ?? null;

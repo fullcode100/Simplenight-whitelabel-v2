@@ -30,8 +30,8 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
       open={open}
       closeModal={onClose}
       title={title}
-      textButton="Check Availability"
-      applyModal={onApply}
+      primaryButtonText="Check Availability"
+      primaryButtonAction={onApply}
     >
       <section className="px-5 py-3">
         <CheckInOutInput
