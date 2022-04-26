@@ -25,6 +25,7 @@ import LocationSection from '../location/LocationSection';
 import SeeMore from 'components/global/ReadMore/SeeMore';
 import RoomsSection from 'hotels/components/Rooms/RoomsSection';
 import Divider from '../../../components/global/Divider/Divider';
+import CustomerReviewsSection from 'components/global/CustomerReviews/CustomerReviewsSection';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -167,6 +168,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         <Divider />
         <DetailsSection />
         <LocationSection />
+        <CustomerReviewsSection />
       </main>
     </>
   );

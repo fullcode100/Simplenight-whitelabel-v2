@@ -25,11 +25,11 @@
 }
 
 .h1 {
-  @apply font-manrope font-semibold text-6xl leading-[68px] sm:text-[40px] sm:leading-[46px];
+  @apply font-manrope font-semibold text-[40px] leading-[68px] sm:text-6xl sm:leading-[46px];
 }
 
 .h2 {
-  @apply font-manrope font-semibold text-[44px] sm:text-[32px] leading-[50px] sm:leading-[40px];
+  @apply font-manrope font-semibold text-[32px] sm:text-[44px] leading-[50px] sm:leading-[40px];
 }
 
 .h3 {
@@ -37,11 +37,11 @@
 }
 
 .h4 {
-  @apply font-manrope font-semibold text-2xl sm:text-[20px] leading-[29px] sm:leading-[24px];
+  @apply font-manrope font-semibold text-lg sm:text-2xl leading-[29px] sm:leading-[24px];
 }
 
 .h5 {
-  @apply font-manrope font-semibold text-xl sm:text-base md:text-base leading-[24px] sm:leading-[22px];
+  @apply font-manrope font-semibold text-base md:text-xl leading-[24px] sm:leading-[22px];
 }
 
 .plg {
