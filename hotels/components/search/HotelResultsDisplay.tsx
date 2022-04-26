@@ -15,6 +15,7 @@ import { Amount } from 'types/global/Amount';
 import hotels from 'hotels/hotelMock';
 import ItemCard from 'components/global/ItemCard/ItemCard';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+import { useRouter } from 'next/router';
 
 const addressMock = {
   coordinates: {
@@ -48,6 +49,8 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const pickForYouLabel = t('pickForYou', 'Our pick for you');
   const totalLabel = t('total', 'Total');
   const fromLabel = t('from', 'from');
+
+  const router = useRouter();
 
   const { adults, children, startDate, endDate, geolocation } = useQuery();
 
@@ -83,7 +86,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   }, [adults, children, startDate, endDate, geolocation]);
 
   const handleOnViewDetailClick = (hotel: Hotel) => {
-    console.log(hotel);
+    const { id } = hotel;
+    router.push(
+      `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}`,
+    );
   };
 
   const PriceSection = ({ amountMin }: { amountMin: Amount }) => (
@@ -128,7 +134,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         return (
           <HorizontalItemCard
             key={itemKey}
-            handleOnViewDetailClick={() => console.log(hotel)}
+            handleOnViewDetailClick={() => handleOnViewDetailClick(hotel)}
             item={hotel}
             title={name}
             image={thumbnail}
