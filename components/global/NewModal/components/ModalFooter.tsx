@@ -22,7 +22,7 @@ const ModalFooter = ({
   const secondaryButtonTextNotNull = secondaryButtonText ?? 'close';
 
   return (
-    <footer className="fixed bottom-0 w-full bg-white py-6 px-5 shadow-date">
+    <footer className="fixed bottom-0 w-full bg-white py-6 px-5 shadow-container">
       {summary}
       {hasMultipleActions ? (
         <section

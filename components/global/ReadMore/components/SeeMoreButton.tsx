@@ -3,14 +3,14 @@ import classnames from 'classnames';
 
 interface SeeMoreProps {
   onClick: (event?: MouseEvent<HTMLElement>) => void;
-  textOpen: string;
+  textOpened: string;
   textClosed: string;
   isOpen: boolean;
 }
 
 const SeeMoreButton = ({
   onClick,
-  textOpen,
+  textOpened,
   textClosed,
   isOpen,
 }: SeeMoreProps) => {
@@ -26,7 +26,7 @@ const SeeMoreButton = ({
         onClick={onClick}
         className="text-sm z-10 text-center leading-5font-medium text-primary-1000 hover:text-primary-500 focus:outline-none focus:underline transition ease-in-out duration-150"
       >
-        {isOpen ? textOpen : textClosed}
+        {isOpen ? textOpened : textClosed}
       </button>
     </section>
   );

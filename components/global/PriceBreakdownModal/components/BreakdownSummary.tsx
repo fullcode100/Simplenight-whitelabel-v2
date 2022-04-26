@@ -1,6 +1,12 @@
 import React from 'react';
+import PriceDisplay from 'components/global/PriceDisplay/PriceDisplay';
+import { Rate } from '../../../../hotels/types/response/SearchResponse';
 
-const BreakdownSummary = () => {
+interface BreakdownSummaryProps {
+  rate: Rate;
+}
+
+const BreakdownSummary = ({ rate }: BreakdownSummaryProps) => {
   return (
     <section className="flex justify-between items-center">
       <section className="text-sm text-dark-1000">
@@ -8,10 +14,7 @@ const BreakdownSummary = () => {
         <p>2 Guests</p>
       </section>
       <section className="text-right">
-        <p className="text-primary-1000 text-xs">
-          <span className="text-dark-800 line-through">$250.00</span> 25% Off
-        </p>
-        <p className="text-sm text-dark-1000 font-semibold">$199.99</p>
+        <PriceDisplay rate={rate} />
         <p className="text-dark-800 text-xs">Includes Taxes and Fees</p>
       </section>
     </section>

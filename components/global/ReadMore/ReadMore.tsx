@@ -16,7 +16,7 @@ const ReadMore = ({
   charCount = SHOW_LESS_CHAR_COUNT,
 }: ReadMoreProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const isExpandable = text.length > charCount;
+  const isExpandable = text?.length > charCount;
 
   const [formattedText, setFormattedText] = useState(text);
 
@@ -41,7 +41,7 @@ const ReadMore = ({
         <SeeMoreButton
           onClick={toggle}
           isOpen={isOpen}
-          textOpen="See less"
+          textOpened="See less"
           textClosed="See more"
         />
       )}

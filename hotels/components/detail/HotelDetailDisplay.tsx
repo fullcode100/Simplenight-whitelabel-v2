@@ -1,7 +1,5 @@
 import Button from 'components/global/Button/Button';
-import Carousel from 'components/global/Carousel/Carousel';
 import Rating from 'components/global/Rating/Rating';
-import ReadMore from 'components/global/ReadMore/ReadMore';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -19,17 +17,14 @@ import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
-import InformationIcon from 'public/icons/assets/information.svg';
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import { Tab } from 'components/global/Tabs/types';
-import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
-import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
-import { Room } from 'hotels/types/response/SearchResponse';
-import Divider from 'components/global/Divider/Divider';
 import CheckRoomAvailability from 'hotels/components/CheckRoomAvailability/CheckRoomAvailability';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import LocationSection from '../location/LocationSection';
 import SeeMore from 'components/global/ReadMore/SeeMore';
+import RoomsSection from 'hotels/components/Rooms/RoomsSection';
+import Divider from '../../../components/global/Divider/Divider';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -55,15 +50,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const [hotel, setHotel] = useState<HotelDetailResponse>();
   const [t, i18next] = useTranslation('hotels');
   const starHotelLabel = t('userRating', 'User Rating');
-  const totalLabel = t('total', 'Total');
-  const roomLabel = t('room', 'Room');
-  const taxesLabel = t('taxes', 'Taxes');
-  const payNowLabel = t('payNow', 'Pay Now');
-  const allNightsLabel = t('allNights', 'all nights');
-  const perNightLabel = t('perNight', 'per night');
-  const additionalFeesLabel = t('additionalFees', 'Additional Fees');
-  const resortFeeLabel = t('resortFee', 'Resort Fee');
-  const payAtPropertyLabel = t('payAtProperty', 'Pay At Property');
 
   useEffect(() => {
     const occupancy: Occupancy = {
@@ -85,18 +71,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     //   params.hotel_id,
     // ).then(setHotel);
   }, []);
-
-  const contentStyle = {
-    height: '160px',
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#364d79',
-  };
-
-  const ImagesSection = () => (
-    <Carousel images={galleryMock} dotPosition="top"></Carousel>
-  );
 
   const RatingSection = () => (
     <section className="flex mt-4 w-full justify-between items-center">
@@ -129,112 +103,14 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const DetailsSection = () => (
     <section>
       <p>Details</p>
-      <ReadMore text={description} />
+      <SeeMore
+        text={description}
+        type="text"
+        textOpened="Read less"
+        textClosed="Read more"
+      />
     </section>
   );
-
-  const RoomsSection = () => {
-    const RoomSectionTitle = () => (
-      <p className="flex items-center gap-3">
-        <IconRoundedContainer className="bg-primary-1000">
-          <InformationIcon className="" />
-        </IconRoundedContainer>
-        <span className="h4 text-dark-800">Rooms</span>
-      </p>
-    );
-
-    const PriceBreakdownComponent = ({ room }: { room: Room }) => {
-      const { description: roomDescription, rates } = room;
-      const { min_rate: minRate } = rates;
-      const { rate } = minRate;
-      const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rate;
-      const { total_base_amount: totalBaseAmount, total_taxes: totalTaxes } =
-        rateBreakdown;
-
-      const BreakdownRow = ({
-        label,
-        price,
-      }: {
-        label: string;
-        price: string;
-      }) => (
-        <section className="flex items-center justify-between w-full mt-2">
-          <span>{label}</span>
-          <span>{price}</span>
-        </section>
-      );
-
-      const BreakdownSubtitle = ({ value }: { value: string }) => (
-        <p className="text-dark-800">{value}</p>
-      );
-
-      const PayNowSection = () => (
-        <section className="flex items-start justify-between w-full mt-2 mb-4 ">
-          <p>{payNowLabel}</p>
-          <section className="flex flex-col items-end">
-            <span>{totalAmount.formatted}</span>
-            <span className="text-xs text-dark-800">{allNightsLabel}</span>
-            <span>{totalAmount.formatted}</span>
-            <span className="text-xs text-dark-800">{perNightLabel}</span>
-          </section>
-        </section>
-      );
-
-      return (
-        <section className="mt-8 flex flex-col text-base text-dark-1000">
-          <p>{roomDescription}</p>
-          <section className="w-full flex flex-col mt-4">
-            <BreakdownSubtitle value={totalLabel} />
-            <BreakdownRow label={roomLabel} price={totalBaseAmount.formatted} />
-            <BreakdownRow label={taxesLabel} price={totalTaxes.formatted} />
-            <Divider className="mt-2" />
-            <PayNowSection />
-            <BreakdownSubtitle value={additionalFeesLabel} />
-            <BreakdownRow
-              label={resortFeeLabel}
-              price={totalAmount.formatted}
-            />
-            <Divider className="mt-2" />
-            <BreakdownRow
-              label={payAtPropertyLabel}
-              price={totalAmount.formatted}
-            />
-          </section>
-        </section>
-      );
-    };
-
-    return (
-      <section className="flex flex-col gap-2 px-4 mt-4">
-        <RoomSectionTitle />
-        <section className="flex flex-col gap-4">
-          {hotelRooms.map((room) => {
-            const { description: roomDescription, rates } = room;
-            const { min_rate: minRate } = rates;
-            const { rate } = minRate;
-            const { total_amount: totalAmount } = rate;
-            const keyedDescription = roomDescription
-              .toLowerCase()
-              .split(' ')
-              .join('-');
-            const itemKey = `room-${keyedDescription}`;
-
-            return (
-              <DetailItemCard
-                key={itemKey}
-                title={roomDescription}
-                price={totalAmount}
-                priceBreakdownComponent={
-                  <PriceBreakdownComponent room={room} />
-                }
-                room={room}
-              />
-            );
-          })}
-        </section>
-      </section>
-    );
-  };
 
   const [openCheckRoom, setOpenCheckRoom] = useState<boolean>(false);
 
@@ -280,7 +156,15 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         {/* <ImagesSection /> */}
         <ImageCarousel images={galleryMock} hotelName={name} />
         <GeneralInformationSection />
-        <SeeMore heightInPixels={900}>{<RoomsSection />}</SeeMore>
+        <SeeMore
+          textOpened="See less"
+          textClosed="See more"
+          type="component"
+          heightInPixels={900}
+        >
+          {<RoomsSection rooms={hotelRooms} />}
+        </SeeMore>
+        <Divider />
         <DetailsSection />
         <LocationSection />
       </main>

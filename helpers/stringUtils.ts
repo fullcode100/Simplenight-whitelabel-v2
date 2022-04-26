@@ -7,7 +7,7 @@ export const replaceStringWithChar = (string: string, char: string) => {
 export const obfuscateString = (
   string: string,
   amountOfCharsVisible: number,
-  defaultValue: string = '',
+  defaultValue = '',
 ) => {
   const firstChars = string.substring(0, amountOfCharsVisible);
   const lastChars = string.substring(amountOfCharsVisible - 1);
@@ -51,7 +51,7 @@ export const camelKeysToKebabKeys = (obj: { [key: string]: string }) => {
   return newObject;
 };
 
-export const flattenObjectOfObjects = (obj: {[key: string]: string}) => {
+export const flattenObjectOfObjects = (obj: { [key: string]: string }) => {
   const flattenedObj = {};
   Object.keys(obj).forEach((key) => {
     Object.assign(flattenedObj, obj[key]);
