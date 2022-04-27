@@ -2,7 +2,10 @@ import dayjs from 'dayjs';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
-import { Hotel } from 'hotels/types/response/SearchResponse';
+import {
+  Hotel,
+  HotelSearchResponse,
+} from 'hotels/types/response/SearchResponse';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
@@ -12,7 +15,6 @@ import Image from 'next/image';
 import SectionTitle from 'components/global/SectionTitle/SectionTitle';
 import { Amount } from 'types/global/Amount';
 
-import hotels from 'hotels/hotelMock';
 import ItemCard from 'components/global/ItemCard/ItemCard';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
@@ -54,7 +56,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const { adults, children, startDate, endDate, geolocation } = useQuery();
 
-  // const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [hotels, setHotels] = useState<Hotel[]>([]);
 
   useEffect(() => {
     // const hasEmptyValues = checkIfAnyNull([
@@ -72,17 +74,18 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     //   dst_geolocation: geolocation as unknown as StringGeolocation,
     //   rsp_fields: '-rooms',
     // };
-    // const params: HotelSearchRequest = {
-    //   adults: 2,
-    //   start_date: formatAsSearchDate(dayjs().add(15, 'day')),
-    //   end_date: formatAsSearchDate(dayjs().add(17, 'day')),
-    //   dst_geolocation: '36.1699412,-115.1398296',
-    //   rsp_fields: '-rooms',
-    // };
-    // Searcher?.request(params, i18next).then(({ data }) => {
-    //   const { hotels: searchedHotels } = data;
-    //   setHotels(searchedHotels);
-    // });
+    const params: HotelSearchRequest = {
+      adults: 2,
+      start_date: formatAsSearchDate(dayjs().add(15, 'day')),
+      end_date: formatAsSearchDate(dayjs().add(17, 'day')),
+      dst_geolocation: '36.1699412,-115.1398296',
+      rsp_fields_set: 'basic',
+    };
+    Searcher?.request(params, i18next).then(
+      ({ hotels: searchedHotels }: HotelSearchResponse) => {
+        setHotels(searchedHotels);
+      },
+    );
   }, [adults, children, startDate, endDate, geolocation]);
 
   const handleOnViewDetailClick = (hotel: Hotel) => {

@@ -3,6 +3,7 @@ import { applySimplenightApiKey } from "apiCalls/config/middlewares/authHeaderMi
 import { sendSuccess, forwardError } from "apiCalls/config/responseHelpers";
 import { AxiosInstance, AxiosResponse } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ApiResponse } from "types/global/Request";
 import { CategoryOption } from "types/search/SearchTypeOptions";
 
 export abstract class ServerRequester<Response> {
@@ -22,7 +23,8 @@ export abstract class ServerRequester<Response> {
 
       this.postRequest(request, response, result);
 
-      const { data } = result;
+      const { data: responseData } = result;
+      const { data } = responseData;
       this.postRequestResult(request, response, data);
     } catch (err) {
       this.onError(err, res);
@@ -40,12 +42,12 @@ export abstract class ServerRequester<Response> {
     request: NextApiRequest,
     response: NextApiResponse<Response>,
     axios: AxiosInstance,
-  ): Promise<AxiosResponse<Response, any>>;
+  ): Promise<AxiosResponse<ApiResponse<any, Response>, any>>;
 
   protected postRequest(
     request: NextApiRequest,
     response: NextApiResponse<Response>,
-    result: AxiosResponse<Response>,
+    result: AxiosResponse<ApiResponse<any, Response>>,
   ): void {}
 
   protected postRequestResult(

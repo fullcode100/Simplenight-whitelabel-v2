@@ -36,7 +36,7 @@ export interface CategoryCore<SearchResponse> {
     SearchRequest
   > | null;
   ServerSearcher: ServerSearcher<SearchResponse> | null;
-  ClientDetailer: ClientDetailer<any, any, any> | null;
+  ClientDetailer: ClientDetailer<any, SearchResponse, any> | null;
   ServerDetailer: ServerDetailer<any> | null;
 }
 

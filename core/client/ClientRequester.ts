@@ -1,6 +1,9 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import axios, { axiosI18nInterceptor } from 'apiCalls/config/axiosHelper';
+import axios, {
+  axiosCurrencyInterceptor,
+  axiosI18nInterceptor,
+} from 'apiCalls/config/axiosHelper';
 import { i18n } from 'i18next';
 
 export abstract class ClientRequester<Request, Response, PreRequest> {
@@ -15,6 +18,8 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
 
     this.addLanguageHeader(i18next);
 
+    this.addCurrencyQueryParameter(request);
+
     const result = await this.doRequest(request, axios, ...args);
 
     this.postRequest(request, result);
@@ -27,6 +32,12 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
 
   protected addLanguageHeader(i18next: i18n): void {
     axios.interceptors.request.use(axiosI18nInterceptor(i18next), (error) =>
+      Promise.reject(error),
+    );
+  }
+
+  protected addCurrencyQueryParameter(request: Request): void {
+    axios.interceptors.request.use(axiosCurrencyInterceptor('USD'), (error) =>
       Promise.reject(error),
     );
   }
