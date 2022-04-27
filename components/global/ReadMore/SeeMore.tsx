@@ -18,7 +18,7 @@ const SHOW_LESS_HEIGHT = 232;
 const SeeMore = ({
   type,
   className = '',
-  text,
+  text = '',
   children,
   heightInPixels = SHOW_LESS_HEIGHT,
   textOpened,
