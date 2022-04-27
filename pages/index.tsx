@@ -181,6 +181,7 @@ const Home: NextPageWithLayout = () => {
         <OrderLookupCard />
         <HelpSection />
       </section>
+      <HelpSection />
     </main>
   );
 };
