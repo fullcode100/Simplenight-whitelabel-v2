@@ -68,6 +68,11 @@ module.exports = {
           200: '#FCBDBD',
           100: '#FFD9D9',
         },
+        green: {
+          1000: '#248443',
+          300: '#C7F0D4',
+          100: '#F5FCF7',
+        },
         'primary-light': 'var(--primary-light-color)',
       },
       fontSize: {

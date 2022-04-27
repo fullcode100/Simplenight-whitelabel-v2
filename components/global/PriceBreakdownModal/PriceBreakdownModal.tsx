@@ -6,14 +6,19 @@ import Divider from '../Divider/Divider';
 import BreakdownRoomDescription from './components/BreakdownRoomDescription';
 import BreakdownSubtitle from './components/BreakdownSubtitle';
 import BreakdownRow from './components/BreakdownRow';
-import { Rate } from '../../../hotels/types/response/SearchResponse';
+import {
+  Rate,
+  CancellationPolicy,
+} from '../../../hotels/types/response/SearchResponse';
 import BreakdownSummary from './components/BreakdownSummary';
+import FreeCancellationExtended from '../FreeCancellation/FreeCancellationExtended';
 
 interface DatePickerProps {
   showPriceBreakdown: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
   description: string;
   rates: Rate;
+  cancellationPolicy?: CancellationPolicy;
 }
 
 const PriceBreakdownModal = ({
@@ -21,6 +26,7 @@ const PriceBreakdownModal = ({
   onClose,
   description,
   rates,
+  cancellationPolicy,
 }: DatePickerProps) => {
   const [t, i18next] = useTranslation('hotels');
   const roomLabel = t('room', 'Room');
@@ -46,33 +52,34 @@ const PriceBreakdownModal = ({
       footerSummary={<BreakdownSummary rate={rates} />}
       hasMultipleActions={true}
     >
-      <section className="flex flex-col justify-between px-5">
-        <section>
-          <BreakdownRoomDescription value={description} />
-          <Divider className="mt-6 mb-8" />
-          <Divider className="mt-6 mb-8" />
-          <BreakdownSubtitle
-            className="text-dark-800 text-base mt-12"
-            value="Price Breakdown"
-          />
-          <BreakdownSubtitle
-            className="text-primary-1000 text-base mt-6"
-            value="Base Price"
-          />
-          <BreakdownRow label={roomLabel} price={totalBaseAmount.formatted} />
-          <BreakdownRow label={taxesLabel} price={totalTaxes.formatted} />
-          <Divider className="mt-2" />
-          <BreakdownRow label={payNowLabel} price={totalAmount.formatted} />
-          <BreakdownSubtitle
-            className="text-primary-1000 text-base mt-6"
-            value={additionalFeesLabel}
-          />
-          <BreakdownRow label={resortFeeLabel} price={totalAmount.formatted} />
-          <Divider className="mt-2" />
-          <BreakdownRow
-            label={payAtPropertyLabel}
-            price={totalAmount.formatted}
-          />
+      <section className="flex flex-col justify-between h-full px-5 overflow-y-scroll">
+        <BreakdownRoomDescription value={description} />
+        <Divider className="mt-2" />
+        <Divider className="mt-2" />
+        <BreakdownSubtitle
+          className="text-dark-800 text-base mt-6"
+          value="Price Breakdown"
+        />
+        <BreakdownSubtitle
+          className="text-primary-1000 text-base mt-6"
+          value="Base Price"
+        />
+        <BreakdownRow label={roomLabel} price={totalBaseAmount.formatted} />
+        <BreakdownRow label={taxesLabel} price={totalTaxes.formatted} />
+        <Divider className="mt-2" />
+        <BreakdownRow label={payNowLabel} price={totalAmount.formatted} />
+        <BreakdownSubtitle
+          className="text-primary-1000 text-base mt-6"
+          value={additionalFeesLabel}
+        />
+        <BreakdownRow label={resortFeeLabel} price={totalAmount.formatted} />
+        <Divider className="mt-2" />
+        <BreakdownRow
+          label={payAtPropertyLabel}
+          price={totalAmount.formatted}
+        />
+        <section className="py-6">
+          <FreeCancellationExtended policy={cancellationPolicy?.description} />
         </section>
       </section>
     </FullScreenModal>

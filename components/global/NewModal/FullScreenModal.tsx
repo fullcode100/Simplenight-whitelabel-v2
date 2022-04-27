@@ -40,16 +40,14 @@ const FullScreenModal = ({
       <ModalHeader title={title} onCloseModal={closeModal} />
       {children}
       {!noFooter && (
-        <section className="flex flex-col h-full justify-end">
-          <ModalFooter
-            primaryButtonText={primaryButtonText}
-            secondaryButtonText={secondaryButtonText}
-            primaryButtonAction={primaryButtonAction}
-            secondaryButtonAction={secondaryButtonAction}
-            summary={footerSummary}
-            hasMultipleActions={hasMultipleActions}
-          />
-        </section>
+        <ModalFooter
+          primaryButtonText={primaryButtonText}
+          secondaryButtonText={secondaryButtonText}
+          primaryButtonAction={primaryButtonAction}
+          secondaryButtonAction={secondaryButtonAction}
+          summary={footerSummary}
+          hasMultipleActions={hasMultipleActions}
+        />
       )}
     </section>
   );

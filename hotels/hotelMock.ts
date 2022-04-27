@@ -301,6 +301,35 @@ export default [
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -365,7 +394,27 @@ export default [
               },
             },
           },
-          upgrades: [],
+          upgrades: [
+            {
+              cancellation_policy: {
+                description: 'Free cancellation until 2022-09-01',
+                details: [
+                  {
+                    from_date: '2022-04-25T00:00:00',
+                    to_date: '2022-09-01T23:59:59.999999',
+                    penalty_percentage: 0.0,
+                    penalty_amount: {
+                      amount: 0.0,
+                      formatted: '$0',
+                      currency: 'USD',
+                    },
+                    cancellation_type: 'FREE_CANCELLATION',
+                  },
+                ],
+                cancellation_type: 'FREE_CANCELLATION',
+              },
+            },
+          ],
         },
         room_type: 'DBL',
         services: {
@@ -409,6 +458,36 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -517,6 +596,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-04-24. From 2022-04-25 is non-refundable reservation with $1,134.40 penalty',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-04-24T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 100.0,
+                  penalty_amount: {
+                    amount: 1134.4,
+                    formatted: '$1,134.40',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'NON_REFUNDABLE',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -625,6 +733,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -733,6 +870,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -1117,6 +1283,36 @@ export default [
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -1333,6 +1529,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -1441,6 +1666,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -1549,6 +1803,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -1933,6 +2216,35 @@ export default [
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -2041,6 +2353,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -2149,6 +2490,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -2257,6 +2627,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -2365,6 +2764,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -2749,6 +3177,35 @@ export default [
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -2857,6 +3314,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -2965,6 +3451,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -3073,6 +3588,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -3181,6 +3725,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -3565,6 +4138,35 @@ export default [
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -3673,6 +4275,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -3781,6 +4412,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -3889,6 +4549,35 @@ export default [
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,
@@ -3997,6 +4686,35 @@ export default [
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
+            cancellation_policy: {
+              description:
+                'Free cancellation until 2022-08-29. From 2022-08-30, there is a cancellation fee of $228.53',
+              details: [
+                {
+                  from_date: '2022-04-25T00:00:00',
+                  to_date: '2022-08-29T23:59:59.999999',
+                  penalty_percentage: 0.0,
+                  penalty_amount: {
+                    amount: 0.0,
+                    formatted: '$0',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'FREE_CANCELLATION',
+                },
+                {
+                  from_date: '2022-08-30T00:00:00',
+                  to_date: '2022-09-01T23:59:59.999999',
+                  penalty_percentage: 21.0,
+                  penalty_amount: {
+                    amount: 228.53,
+                    formatted: '$228.53',
+                    currency: 'USD',
+                  },
+                  cancellation_type: 'PARTIAL_REFUND',
+                },
+              ],
+              cancellation_type: 'FREE_CANCELLATION',
+            },
             comments: '',
             requires_validation_before_booking: false,
             available_qty: 9,

@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { Rate } from '../../../hotels/types/response/SearchResponse';
+import {
+  Rate,
+  CancellationPolicy,
+} from '../../../hotels/types/response/SearchResponse';
 import PriceBreakdownModal from '../PriceBreakdownModal/PriceBreakdownModal';
-
 interface DetailItemCardProps {
   label: string;
   description: string;
   rates: Rate;
+  cancellationPolicy?: CancellationPolicy;
 }
 
-const DetailItemCard = ({ label, description, rates }: DetailItemCardProps) => {
+const DetailItemCard = ({
+  label,
+  description,
+  rates,
+  cancellationPolicy,
+}: DetailItemCardProps) => {
   const [showPriceBreakdown, setShowPriceBreakdown] = useState(false);
 
   return (
@@ -18,6 +26,7 @@ const DetailItemCard = ({ label, description, rates }: DetailItemCardProps) => {
         onClose={() => setShowPriceBreakdown(false)}
         description={description}
         rates={rates}
+        cancellationPolicy={cancellationPolicy}
       />
       <section>
         <button

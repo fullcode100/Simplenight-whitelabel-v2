@@ -122,6 +122,7 @@ export interface MinRate {
   requires_validation_before_booking: boolean;
   available_qty: number;
   rate: Rate;
+  cancellation_policy?: CancellationPolicy;
 }
 
 export interface RateBreakdown {
@@ -152,7 +153,10 @@ export enum RateBreakdownRateType {
 export enum MinRateRateType {
   SnPrivate = 'SN_PRIVATE',
 }
-
+export interface CancellationPolicy {
+  cancellation_type: string;
+  description: string;
+}
 export interface MealPlan {
   code: string;
   text: string;
