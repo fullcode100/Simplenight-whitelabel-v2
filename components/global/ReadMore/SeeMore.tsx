@@ -19,7 +19,7 @@ const SHOW_LESS_CHAR_COUNT = 250;
 const SeeMore = ({
   type,
   className = '',
-  text,
+  text = '',
   children,
   heightInPixels = SHOW_LESS_HEIGHT,
   charCount = SHOW_LESS_CHAR_COUNT,

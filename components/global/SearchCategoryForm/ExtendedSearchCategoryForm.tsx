@@ -35,6 +35,7 @@ const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
       closeModal={() => setIsSearching(false)}
       title="Search"
       primaryButtonText={searchLabel}
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       primaryButtonAction={() => {}}
       noFooter
     >
