@@ -15,6 +15,7 @@ interface ButtonProps {
   textColor?: string;
   className?: string;
   disabled?: boolean;
+  leftIcon?: React.ReactNode;
   type?:
     | 'contained'
     | 'outlined'
@@ -34,6 +35,7 @@ const Button = ({
   type = 'contained',
   disabled = false,
   className = '',
+  leftIcon,
   ...others
 }: ButtonProps) => {
   const colors = useColor(color, type);
@@ -75,6 +77,7 @@ const Button = ({
           value={value}
           disabled={disabled}
           className={className}
+          leftIcon={leftIcon}
           {...others}
         />
       );

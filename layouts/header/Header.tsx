@@ -43,7 +43,9 @@ const Header = () => {
       <HamburgerMenuButton className="mr-2 cursor-pointer" />
       <section className="flex gap-5 items-center">
         <ImagePlaceHolder />
-        <span className="text-base">Simplenight</span>
+        <span className="font-lato tracking-widest text-sm uppercase">
+          Simplenight <span className="text-[8px] align-super ml-[-2px]">®</span>
+        </span>
       </section>
       <section className="flex justify-between items-center gap-2 border-2 px-2 py-2 rounded-10">
         <span className="text-dark-1000 font-bold text-sm font-lato">1</span>

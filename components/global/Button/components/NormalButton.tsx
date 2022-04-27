@@ -7,24 +7,28 @@ const NormalButton = ({
   value,
   disabled,
   className,
-  icon,
+  leftIcon,
   ...others
-}: ButtonVariantProp) => (
-  <button
-    className={classnames(
-      `px-4 pb-2 pt-1 font-semibold rounded-4 flex items-center justify-center ${sizeClassname}`,
-      {
-        [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
-          !disabled,
-        [`${colors.disabled} cursor-default`]: disabled,
-      },
-      className,
-    )}
-    {...others}
-  >
-    {icon && <span className="mr-2">{icon}</span>}
-    <span>{value}</span>
-  </button>
-);
+}: ButtonVariantProp) => {
+  const buttonIconClassNames = 'flex w-full justify-center items-center';
+  return (
+    <button
+      className={classnames(
+        `px-4 pb-2 pt-1 font-semibold rounded-4 ${sizeClassname}`,
+        {
+          [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
+            !disabled,
+          [`${colors.disabled} cursor-default`]: disabled,
+          [`${buttonIconClassNames}`]: leftIcon,
+        },
+        className,
+      )}
+      {...others}
+    >
+      {leftIcon && <span className="mr-2">{leftIcon}</span>}
+      {value}
+    </button>
+  );
+};
 
 export default NormalButton;
