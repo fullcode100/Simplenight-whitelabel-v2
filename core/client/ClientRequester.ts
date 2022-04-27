@@ -27,6 +27,8 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
 
     this.addLanguageHeader(i18next);
 
+    this.addCurrencyQueryParameter(request);
+
     const result = await this.doRequest(request, axios, ...args);
 
     this.postRequest(request, result);
@@ -41,6 +43,12 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
     const currency = window.currency;
     if (!currency) throw new Error('currency is required');
     return currency;
+  }
+
+  protected addCurrencyQueryParameter(request: Request): void {
+    axios.interceptors.request.use(axiosCurrencyInterceptor('USD'), (error) =>
+      Promise.reject(error),
+    );
   }
 
   protected preRequest(request: PreRequest, ...args: any): Request {
