@@ -16,20 +16,16 @@ export const removeURLParameter = (url: string, parameter: string) => {
   return parsedUrl.origin + '/' + params.toString();
 };
 
-const useQuerySetter = (paramsToExclude?: string[]) => {
+const useQuerySetter = () => {
   const router = useRouter();
-  return async (key: string, value: string) => {
-    const { protocol, host, pathname } = window.location;
-    const isFirstQuery = !hasMoreQuery(router, paramsToExclude ?? []);
-    const separator = isFirstQuery ? '?' : '&';
+  const { query } = router;
 
-    router.query[key] = value;
-
-    const currentUrl = protocol + '//' + host + pathname;
-    const updatedUrl = removeURLParameter(currentUrl, key);
-    const newHref = `${updatedUrl}${separator}${key}=${value}`;
-
-    window.history.pushState({ path: newHref }, '', newHref);
+  return (params: { [key: string]: string }) => {
+    const urlParams = new URLSearchParams(query);
+    Object.keys(params).forEach((key) => {
+      urlParams.set(key, params[key]);
+    });
+    router.push(`?${urlParams.toString()}`);
   };
 };
 

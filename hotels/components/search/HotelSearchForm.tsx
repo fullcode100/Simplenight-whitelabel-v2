@@ -50,7 +50,7 @@ const HotelSearchForm = ({
   setIsSearching,
   className = '',
 }: SearchFormProps) => {
-  const setQueryParam = useQuerySetter(['type']);
+  const setQueryParam = useQuerySetter();
 
   const [adultCount, setAdultCount] = useState<number>(0);
   const [geolocation, setGeolocation] = useState<StringGeolocation>();
@@ -84,12 +84,14 @@ const HotelSearchForm = ({
     setEndDate(value);
   };
 
-  const handleSearchClick = async () => {
-    await setQueryParam('adults', adultCount + '');
-    await setQueryParam('children', childrenCount + '');
-    await setQueryParam('startDate', startDate);
-    await setQueryParam('endDate', endDate);
-    await setQueryParam('geolocation', geolocation ?? '');
+  const handleSearchClick = () => {
+    setQueryParam({
+      adults: adultCount + '',
+      children: childrenCount + '',
+      startDate,
+      endDate,
+      geolocation: geolocation ?? '',
+    });
     if (setIsSearching) setIsSearching(false);
   };
 

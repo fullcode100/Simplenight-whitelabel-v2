@@ -10,8 +10,8 @@ export default [
     details: {
       address: {
         coordinates: {
-          latitude: 40.744999,
-          longitude: -73.93382,
+          latitude: 36.0954896,
+          longitude: -115.2461073,
         },
         country_code: 'US',
         country: 'United States',
@@ -992,8 +992,8 @@ export default [
     details: {
       address: {
         coordinates: {
-          latitude: 40.744999,
-          longitude: -73.93382,
+          latitude: 36.0954896,
+          longitude: -115.2461073,
         },
         country_code: 'US',
         country: 'United States',

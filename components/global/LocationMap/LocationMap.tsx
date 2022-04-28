@@ -14,29 +14,37 @@ interface DefaultCenterProps {
 }
 interface LocationMapProps {
   className?: string;
-  defaultCenter: DefaultCenterProps;
+  center: DefaultCenterProps;
   height?: number;
   coords?: CoordsProps[];
+  zoom?: number;
   onClickMarker?: (lat: number, lng: number) => void;
 }
 
 const LocationMap = ({
   coords,
-  defaultCenter,
-  height,
+  center,
+  height = 400,
+  zoom = 15,
   onClickMarker,
 }: LocationMapProps) => {
   return (
-    <section style={{ height }}>
+    <section className="w-full" style={{ height }}>
       <GoogleMapReact
         bootstrapURLKeys={{
           key: `${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}`,
         }}
-        defaultZoom={15}
+        defaultZoom={zoom}
+        zoom={zoom}
         defaultCenter={{
-          lat: defaultCenter?.latitude as number,
-          lng: defaultCenter?.longitude as number,
+          lat: center?.latitude as number,
+          lng: center?.longitude as number,
         }}
+        center={{
+          lat: center?.latitude as number,
+          lng: center?.longitude as number,
+        }}
+        options={{ zoomControl: false }}
       >
         {coords?.map(({ latitude, longitude }, i) => {
           return (

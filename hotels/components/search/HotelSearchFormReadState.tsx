@@ -79,9 +79,8 @@ const HotelSearchFormReadState = ({
   const handleSearchClick = () => {
     setIsSearching(true);
   };
-
   return (
-    <section className="flex font-lato justify-between text-sm px-4 border-t-[1px] pt-4">
+    <section className="flex font-lato justify-between text-sm px-4 border-t-[1px] border-b-[1px] pt-4">
       <section className="flex flex-col w-[90%]">
         <LocationSection />
         <OccupancyAndDatesSection />

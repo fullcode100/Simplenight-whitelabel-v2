@@ -27,7 +27,7 @@ const LocationInput = ({
 }: LocationInputProps & BaseInputProps) => {
   const [address, setAddress] = useState('');
   const isMapLoaded = getIsMapLoaded();
-  const setQueryParam = useQuerySetter(routeParams);
+  const setQueryParam = useQuerySetter();
 
   const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
@@ -44,7 +44,7 @@ const LocationInput = ({
 
       const geolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
 
-      // setQueryParam('geolocation', geolocation);
+      // setQueryParam({ geolocation });
       if (onSelect) onSelect(geolocation);
       console.log(latLng);
     } catch (error) {

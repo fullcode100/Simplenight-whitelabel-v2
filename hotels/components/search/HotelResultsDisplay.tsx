@@ -12,11 +12,11 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { add } from 'lodash';
 import Image from 'next/image';
-import SectionTitle from 'components/global/SectionTitle/SectionTitle';
 import { Amount } from 'types/global/Amount';
 
 import ItemCard from 'components/global/ItemCard/ItemCard';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+import HotelMapView from './HotelResultsMapView';
 import { useRouter } from 'next/router';
 
 const addressMock = {
@@ -150,12 +150,15 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       })}
     </ul>
   );
-
+  const { view = 'list' } = useQuery();
+  const isListView = view === 'list';
   return (
-    <section className="w-full h-full px-4 pt-28">
-      <SectionTitle label={pickForYouLabel} />
-      <HotelList />
-    </section>
+    <>
+      <section className="w-full h-full px-4">
+        {isListView && <HotelList />}
+      </section>
+      {!isListView && <HotelMapView items={hotels} />}
+    </>
   );
 };
 

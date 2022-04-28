@@ -10,6 +10,10 @@ import Rating from 'components/global/Rating/Rating';
 import Checkbox from 'components/global/Checkbox/Checkbox';
 import hotelFiltersMock from 'mocks/hotelFiltersMock';
 import Select from 'components/global/Select/Select';
+import useQuery from 'hooks/pageInteraction/useQuery';
+import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -123,6 +127,19 @@ const HotelSecondarySearchOptions = () => {
     </>
   );
 
+  const { view = 'list' } = useQuery();
+  const isListView = view === 'list';
+  const viewParam = isListView ? 'map' : 'list';
+  const viewButtonValue = isListView ? 'Map view' : 'List view';
+
+  const setQueryParams = useQuerySetter();
+
+  const handleChangeResultView = () => {
+    setQueryParams({
+      view: viewParam,
+    });
+  };
+
   return (
     <section className="px-4 w-full flex gap-2 pt-4 ">
       <Button
@@ -131,7 +148,12 @@ const HotelSecondarySearchOptions = () => {
         icon={<FilterIcon />}
         onClick={handleFilterButtonClick}
       />
-      <Button value="Map view" size="full" type="outlined" />
+      <Button
+        value={viewButtonValue}
+        size="full"
+        type="outlined"
+        onClick={handleChangeResultView}
+      />
       <Modals />
     </section>
   );
