@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+import HotelMapView from './HotelResultsMapView';
 import { useRouter } from 'next/router';
 import HotelMapView from './HotelResultsMapView';
 import { itemsProps } from 'components/global/MapView/MapViewTypes';
