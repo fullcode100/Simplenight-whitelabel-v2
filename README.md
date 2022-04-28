@@ -48,11 +48,23 @@ The Dockerfile for this project is located in `docker/Dockerfile`
 To run it use:
 
 ```bash
-# Build the image
+# Build the image using yarn
+yarn dbuild
+
+# Build the image using the docker cli
 docker build -t simplenight-whitelabel-v2 . -f docker/Dockerfile
 
-# Deploy the container
-docker run -d -p 3000:3000 simplenight-whitelabel-v2
+# Run the image using yarn
+yarn drun
+
+# Deploy the container using the docker cli
+docker run --name simplenight-whitelabel-v2 -d -p 3000:3000 simplenight-whitelabel-v2
+
+# Stop the container using yarn
+yarn dstop
+
+# Stop the container using the docker-cli
+docker stop simplenight-whitelabel-v2
 ```
 
 ## Docs available in this repo
