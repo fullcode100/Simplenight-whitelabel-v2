@@ -19,6 +19,8 @@ import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalI
 import { useRouter } from 'next/router';
 import HotelMapView from './HotelResultsMapView';
 import { itemsProps } from 'components/global/MapView/MapViewTypes';
+import EmptyState from '../../../components/global/EmptyState/EmptyState';
+import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 
 const addressMock = {
   coordinates: {
@@ -155,10 +157,21 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const isListView = view === 'list';
   return (
     <>
-      <section className="w-full h-full px-4">
-        {isListView && <HotelList />}
-      </section>
-      {!isListView && <HotelMapView items={hotels as any as itemsProps[]} />}
+      {hotels.length > 0 ? (
+        <>
+          <section className="w-full h-full px-4">
+            {isListView && <HotelList />}
+          </section>
+          {!isListView && (
+            <HotelMapView items={hotels as any as itemsProps[]} />
+          )}
+        </>
+      ) : (
+        <EmptyState
+          text="No Results Match Your Search."
+          image={<EmptyStateIcon className="mx-auto" />}
+        />
+      )}
     </>
   );
 };

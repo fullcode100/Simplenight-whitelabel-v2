@@ -1,0 +1,20 @@
+<svg width="158" height="146" viewBox="0 0 158 146" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="71.9433" cy="71.927" r="71.7747" fill="#D8EEF0"/>
+<circle cx="71.3564" cy="71.6212" r="41.9195" fill="#F5FCFC" stroke="#8CD6DB" stroke-width="2"/>
+<circle cx="71.3564" cy="71.6212" r="29.6568" fill="url(#paint0_linear_3153_3180)" stroke="#8CD6DB" stroke-width="2"/>
+<path d="M71.3562 49.0827C71.3562 48.6325 70.991 48.2661 70.5411 48.2818C64.9085 48.4784 59.526 50.7069 55.3978 54.5707C51.2695 58.4346 48.6901 63.658 48.1217 69.2653C48.0763 69.7132 48.4178 70.1018 48.867 70.1316C49.3162 70.1613 49.7029 69.8209 49.7495 69.3731C50.2898 64.1787 52.6856 59.3421 56.5118 55.761C60.338 52.1799 65.3224 50.1089 70.5411 49.9131C70.991 49.8963 71.3562 49.5329 71.3562 49.0827Z" fill="#8CD6DB"/>
+<rect x="104.033" y="117.135" width="14" height="42" rx="7" transform="rotate(-45 104.033 117.135)" fill="#F5FCFC" stroke="#8CD6DB" stroke-width="2"/>
+<rect x="119.498" y="120.505" width="0.974179" height="15.3623" rx="0.487089" transform="rotate(-45 119.498 120.505)" fill="white" stroke="#8CD6DB" stroke-width="0.974179"/>
+<rect x="103.318" y="107.228" width="1" height="7" transform="rotate(-45 103.318 107.228)" fill="#C4C4C4" stroke="#8CD6DB"/>
+<rect x="123.831" y="66.585" width="20" height="2" rx="1" fill="#B8E0E3"/>
+<rect x="0.168579" y="83.1296" width="20" height="2" rx="1" fill="#B8E0E3"/>
+<rect x="147.831" y="66.585" width="10" height="2" rx="1" fill="#B8E0E3"/>
+<rect x="128.831" y="73.9231" width="10" height="2" rx="1" fill="#B8E0E3"/>
+<rect x="5.16858" y="90.4678" width="10" height="2" rx="1" fill="#B8E0E3"/>
+<defs>
+<linearGradient id="paint0_linear_3153_3180" x1="71.3564" y1="40.9644" x2="71.3564" y2="102.278" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D8EEF0"/>
+<stop offset="1" stop-color="#FFFEFF" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>
