@@ -1,3 +1,5 @@
+import { Amount } from 'types/global/Amount';
+
 export interface addressProps {
   coordinates: {
     latitude: number;
@@ -15,7 +17,7 @@ export interface itemsProps {
   details: detailsProps;
   thumbnail: string;
   id: string;
-  amount_min: number;
+  amount_min: Amount;
 }
 
 export interface MapViewProps {

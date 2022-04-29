@@ -1,6 +1,7 @@
 import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
 
@@ -26,7 +27,7 @@ export abstract class ServerDetailer<
 
     delete params.id;
 
-    return axios.get<DetailResponse>(url, {
+    return axios.get<ApiResponse<any, DetailResponse>>(url, {
       params,
     });
   }

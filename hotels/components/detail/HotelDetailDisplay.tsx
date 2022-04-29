@@ -90,7 +90,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       { value: 'Amenities' },
     ];
 
-    const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {};
+    const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
+      setActiveTab(tab);
+    };
 
     return (
       <section className=" text-dark-1000 bg-dark-100 w-screen rounded-t-12 py-4 px-4">

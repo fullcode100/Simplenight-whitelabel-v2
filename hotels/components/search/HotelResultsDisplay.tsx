@@ -16,8 +16,9 @@ import { Amount } from 'types/global/Amount';
 
 import ItemCard from 'components/global/ItemCard/ItemCard';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
-import HotelMapView from './HotelResultsMapView';
 import { useRouter } from 'next/router';
+import HotelMapView from './HotelResultsMapView';
+import { itemsProps } from 'components/global/MapView/MapViewTypes';
 
 const addressMock = {
   coordinates: {
@@ -157,7 +158,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       <section className="w-full h-full px-4">
         {isListView && <HotelList />}
       </section>
-      {!isListView && <HotelMapView items={hotels} />}
+      {!isListView && <HotelMapView items={hotels as any as itemsProps[]} />}
     </>
   );
 };

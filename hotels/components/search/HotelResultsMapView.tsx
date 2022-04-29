@@ -2,7 +2,7 @@ import { itemsProps } from 'components/global/MapView/MapViewTypes';
 import MapView from 'components/global/MapView/MapView';
 
 interface HotelMapViewProps {
-  items: itemsProps;
+  items: itemsProps[];
 }
 
 const HotelMapView = ({ items }: HotelMapViewProps) => {

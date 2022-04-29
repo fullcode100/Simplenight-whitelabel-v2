@@ -21,7 +21,7 @@ const useQuerySetter = () => {
   const { query } = router;
 
   return (params: { [key: string]: string }) => {
-    const urlParams = new URLSearchParams(query);
+    const urlParams = new URLSearchParams(query as unknown as string);
     Object.keys(params).forEach((key) => {
       urlParams.set(key, params[key]);
     });

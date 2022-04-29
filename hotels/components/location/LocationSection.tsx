@@ -31,7 +31,7 @@ const LocationSection = () => {
 
       <LocationMap
         height={400}
-        defaultCenter={{
+        center={{
           latitude: coordinates.latitude,
           longitude: coordinates.longitude,
         }}
