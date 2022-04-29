@@ -17,7 +17,7 @@ const DualButton = ({
   <section className={`flex flex-row ${containerClassName}`}>
     <button
       className={classnames(
-        `px-4 pb-2 pt-1 font-semibold flex items-center rounded-l-8 ${sizeClassname}`,
+        `px-4 pb-1 pt-1 font-semibold flex items-center rounded-l-4 ${sizeClassname}`,
         {
           [`cursor-pointer bg-primary-800 text-white  ${colors.active} ${colors.hover}`]:
             !disabled,
@@ -32,7 +32,7 @@ const DualButton = ({
     </button>
     <button
       className={classnames(
-        `px-4 pb-2 pt-1 font-semibold flex items-center  rounded-r-8 ${sizeClassname}`,
+        `px-4 pb-1 pt-1 font-semibold flex items-center  rounded-r-4 ${sizeClassname}`,
         {
           [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
             !disabled,

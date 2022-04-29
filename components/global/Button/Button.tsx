@@ -8,7 +8,7 @@ import DualButton from './components/DualButton';
 
 interface ButtonProps {
   value: string;
-  size?: 'sm' | 'md' | 'lg' | 'full';
+  size?: string;
   /** Button tailwind class color, e.g. 'blue-500' . */
   color?: string;
   /** Button tailwind class text color, e.g. 'white' . */
@@ -53,6 +53,9 @@ const Button = ({
       break;
     case 'full':
       sizeTailwindClass = 'w-full h-12';
+      break;
+    default:
+      sizeTailwindClass = size;
       break;
   }
 

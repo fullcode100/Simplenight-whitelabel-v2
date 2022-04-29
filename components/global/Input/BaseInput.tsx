@@ -6,10 +6,12 @@ export interface BaseInputProps {
   name?: string;
   value?: any;
   label?: string;
+  sublabel?: string;
   placeholder?: string;
   inputClassName?: string;
   customInput?: any;
   className?: string;
+  autoFocus?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
 }
@@ -24,6 +26,7 @@ interface BaseInputHiddenProps {
 
 const BaseInput = ({
   label = '',
+  sublabel = '',
   name = '',
   placeholder = '',
   inputClassName = '',
@@ -36,19 +39,26 @@ const BaseInput = ({
   onChange,
   onClick,
   children,
+  autoFocus = false,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
   const NumberInput = () => (
-    <section className="w-full h-full flex flex-row items-center justify-between">
-      <Label value={label} htmlFor={name} />
+    <section className="w-full h-full flex items-center justify-between">
+      <section className="flex flex-col gap-1">
+        <div className="text-dark-850 text-[16px] leading-[16px]">{label}</div>
+        <div className="text-dark-800 text-[16px] leading-[16px]">
+          {sublabel}
+        </div>
+      </section>
       <div className="max-w-[44px] max-h-[44px] relative">
         {children}
         {leftIcon}
-        <Input internalInputClassName="text-center" />
+        <Input internalInputClassName="w-11 h-11 text-center" />
         {rightIcon}
       </div>
     </section>
   );
+
   const Input =
     customInput ||
     (({ internalInputClassName }: { internalInputClassName: string }) => (
@@ -60,6 +70,7 @@ const BaseInput = ({
         className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md ${inputClassName} ${internalInputClassName}`}
         placeholder={placeholder}
         onChange={onChange}
+        autoFocus={autoFocus}
         {...others}
       />
     ));
