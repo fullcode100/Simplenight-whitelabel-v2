@@ -66,6 +66,9 @@ const Button = ({
     default:
       sizeTailwindClass = size;
       break;
+    default:
+      sizeTailwindClass = size;
+      break;
   }
 
   switch (type) {
