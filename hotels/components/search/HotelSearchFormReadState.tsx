@@ -5,7 +5,10 @@ import React, { useEffect } from 'react';
 
 import MagnifierIcon from 'public/icons/assets/magnifier.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
+import LocationPin from 'public/icons/assets/location-pin.svg';
+import CalendarIcon from 'public/icons/assets/calendar.svg';
 import useQuery from 'hooks/pageInteraction/useQuery';
+import Button from 'components/global/Button/Button';
 
 const DotSpacer = () => <span>·</span>;
 
@@ -44,9 +47,7 @@ const HotelSearchFormReadState = ({
   const formattedStartDate = startDateQuery ? formatAsMonthDay(startDate) : '-';
   const formattedEndDate = endDateQuery ? formatAsMonthDay(endDate) : '-';
 
-  const LocationSection = () => (
-    <span className="font-semibold">{location}</span>
-  );
+  const LocationSection = () => <span>{location}</span>;
 
   const OccupancySection = () => (
     <section>
@@ -66,13 +67,25 @@ const HotelSearchFormReadState = ({
   );
 
   const OccupancyAndDatesSection = () => (
-    <section className="flex justify-between mt-4 mb-2 font-normal">
+    <section className="grid gap-2 mt-4 mb-2 font-normal text-dark-1000">
       <section className="flex gap-2">
-        <MultiplePersonsIcon className="text-dark-1000" />
+        <section className="w-6 grid place-items-center">
+          <LocationPin className="text-primary-1000" />
+        </section>
+        <LocationSection />
+      </section>
+      <section className="flex gap-2">
+        <section className="w-6 grid place-items-center">
+          <CalendarIcon className="text-primary-1000" />
+        </section>
+        <DatesSection />
+      </section>
+      <section className="flex gap-2">
+        <section className="w-6 grid place-items-center">
+          <MultiplePersonsIcon className="text-primary-1000" />
+        </section>
         <OccupancySection />
       </section>
-      <DotSpacer />
-      <DatesSection />
     </section>
   );
 
@@ -82,14 +95,16 @@ const HotelSearchFormReadState = ({
   return (
     <section className="flex font-lato justify-between text-sm px-4 border-t-[1px] border-b-[1px] pt-4">
       <section className="flex flex-col w-[90%]">
-        <LocationSection />
         <OccupancyAndDatesSection />
       </section>
-      <section
-        className="flex items-center justify-center w-[15%]"
-        onClick={handleSearchClick}
-      >
-        <MagnifierIcon className="text-primary-1000 " />
+      <section className="flex items-center justify-center w-[15%]">
+        <Button
+          value="Edit"
+          type="contained"
+          className="h-9 text-base w-20"
+          size="full"
+          onClick={handleSearchClick}
+        />
       </section>
     </section>
   );

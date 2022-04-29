@@ -13,8 +13,8 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
     setActiveItem(prev);
   };
 
-  const currentItem = items[activeItem];
-  const { latitude, longitude } = currentItem.details.address.coordinates;
+  const currentItem = items?.[activeItem];
+  const coordinates = currentItem?.details?.address?.coordinates;
 
   const responsive = {
     superLargeDesktop: {
@@ -39,8 +39,16 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
     <section className="relative">
       <section className="flex flex-col items-center justify-center">
         <LocationMap
-          center={{ latitude: latitude - 0.0013, longitude }}
-          coords={[{ latitude, longitude }]}
+          center={{
+            latitude: coordinates?.latitude - 0.0013,
+            longitude: coordinates?.longitude,
+          }}
+          coords={[
+            {
+              latitude: coordinates?.latitude,
+              longitude: coordinates?.longitude,
+            },
+          ]}
           zoom={17}
           height={550}
         />
