@@ -4,6 +4,9 @@ import Divider from 'components/global/Divider/Divider';
 import BreakdownSummary from 'components/global/PriceBreakdownModal/components/BreakdownSummary';
 import RoomCardActions from './RoomCard/RoomCardActions';
 import FreeCancellation from 'components/global/FreeCancellation/FreeCancellation';
+import AmenitiesItem from '../../Amenities/components/AmenitiesItem';
+import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
+
 interface RoomsProps {
   room: Room;
 }
@@ -11,7 +14,7 @@ interface RoomsProps {
 const cancellableType = 'FREE_CANCELLATION';
 
 const RoomCard = ({ room }: RoomsProps) => {
-  const { description: roomDescription, rates } = room;
+  const { description: roomDescription, rates, amenities } = room;
   const { min_rate: minRate } = rates;
   const { rate, cancellation_policy: cancellationPolicy } = minRate;
 
@@ -23,7 +26,30 @@ const RoomCard = ({ room }: RoomsProps) => {
         roomDescription={roomDescription}
         rates={rate}
         cancellationPolicy={cancellationPolicy}
+        amenities={amenities}
       />
+      <Divider />
+      <section className="p-4 grid grid-cols-2 gap-4">
+        {amenities.map((amenity, index) => {
+          const amenityIcon = amenitiesIcons.find((amenityOption) => {
+            if (amenityOption.options.includes(amenity)) {
+              return true;
+            }
+            return false;
+          });
+
+          if (index <= 2) {
+            return (
+              <AmenitiesItem
+                key={amenity}
+                view="list"
+                text={amenity}
+                icon={amenityIcon && amenityIcon.iconSmall}
+              />
+            );
+          }
+        })}
+      </section>
       <Divider />
       <section className="flex gap-2 px-4 py-3">
         <FreeCancellation cancellable={cancellable} />

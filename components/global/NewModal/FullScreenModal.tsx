@@ -8,7 +8,7 @@ interface FullScreenModalProps {
   closeModal: (event?: MouseEvent<HTMLElement>) => void;
   children?: ReactNode;
   title: string;
-  primaryButtonText: string;
+  primaryButtonText?: string;
   secondaryButtonText?: string;
   primaryButtonAction: (event?: MouseEvent<HTMLElement>) => void;
   secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
@@ -22,7 +22,7 @@ const FullScreenModal = ({
   closeModal,
   children,
   title,
-  primaryButtonText,
+  primaryButtonText = '',
   secondaryButtonText,
   primaryButtonAction,
   secondaryButtonAction,

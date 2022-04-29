@@ -8,12 +8,14 @@ interface RoomHeaderProps {
   roomDescription: string;
   rates: Rate;
   cancellationPolicy?: CancellationPolicy;
+  amenities: string[];
 }
 
 const RoomCardHeader = ({
   roomDescription,
   rates,
   cancellationPolicy,
+  amenities,
 }: RoomHeaderProps) => {
   return (
     <header className="p-4">
@@ -25,6 +27,7 @@ const RoomCardHeader = ({
         description={roomDescription}
         rates={rates}
         cancellationPolicy={cancellationPolicy}
+        features={amenities}
       />
     </header>
   );

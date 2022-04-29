@@ -79,6 +79,7 @@ export interface NearTo {
 }
 
 export interface Room {
+  amenities: string[];
   capacity: Capacity;
   code: string;
   description: string;

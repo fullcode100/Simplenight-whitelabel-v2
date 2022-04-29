@@ -9,6 +9,7 @@ interface DetailItemCardProps {
   description: string;
   rates: Rate;
   cancellationPolicy?: CancellationPolicy;
+  features: string[];
 }
 
 const DetailItemCard = ({
@@ -16,6 +17,7 @@ const DetailItemCard = ({
   description,
   rates,
   cancellationPolicy,
+  features,
 }: DetailItemCardProps) => {
   const [showPriceBreakdown, setShowPriceBreakdown] = useState(false);
 
@@ -27,6 +29,7 @@ const DetailItemCard = ({
         description={description}
         rates={rates}
         cancellationPolicy={cancellationPolicy}
+        features={features}
       />
       <section>
         <button

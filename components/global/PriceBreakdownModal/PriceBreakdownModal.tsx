@@ -12,6 +12,7 @@ import {
 } from '../../../hotels/types/response/SearchResponse';
 import BreakdownSummary from './components/BreakdownSummary';
 import FreeCancellationExtended from '../FreeCancellation/FreeCancellationExtended';
+import AmenitiesSection from '../../../hotels/components/Amenities/AmenitiesSection';
 
 interface DatePickerProps {
   showPriceBreakdown: boolean;
@@ -19,6 +20,7 @@ interface DatePickerProps {
   description: string;
   rates: Rate;
   cancellationPolicy?: CancellationPolicy;
+  features: string[];
 }
 
 const PriceBreakdownModal = ({
@@ -27,6 +29,7 @@ const PriceBreakdownModal = ({
   description,
   rates,
   cancellationPolicy,
+  features,
 }: DatePickerProps) => {
   const [t, i18next] = useTranslation('hotels');
   const roomLabel = t('room', 'Room');
@@ -55,9 +58,14 @@ const PriceBreakdownModal = ({
       <section className="flex flex-col justify-between h-full px-5 overflow-y-scroll">
         <BreakdownRoomDescription value={description} />
         <Divider className="mt-2" />
+        <BreakdownSubtitle
+          className="text-dark-800 font-semibold text-base mt-6"
+          value="Room Amenities"
+        />
+        <AmenitiesSection amenities={features} />
         <Divider className="mt-2" />
         <BreakdownSubtitle
-          className="text-dark-800 text-base mt-6"
+          className="text-dark-800 font-semibold text-base mt-6"
           value="Price Breakdown"
         />
         <BreakdownSubtitle

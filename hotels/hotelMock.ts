@@ -274,6 +274,15 @@ export default [
     },
     rooms: [
       {
+        amenities: [
+          'Fitness',
+          'Bar',
+          'Pet Friendly',
+          'Laundry',
+          'Spa',
+          'Sauna',
+          'Restaurant',
+        ],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -431,6 +440,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -569,6 +579,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -706,6 +717,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -843,6 +855,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -1256,6 +1269,7 @@ export default [
     },
     rooms: [
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -1394,6 +1408,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -1502,6 +1517,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -1639,6 +1655,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -1776,6 +1793,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -2189,6 +2207,7 @@ export default [
     },
     rooms: [
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -2326,6 +2345,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -2463,6 +2483,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -2600,6 +2621,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -2737,6 +2759,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -3150,6 +3173,7 @@ export default [
     },
     rooms: [
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -3287,6 +3311,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -3424,6 +3449,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -3561,6 +3587,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -3698,6 +3725,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -4111,6 +4139,7 @@ export default [
     },
     rooms: [
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -4248,6 +4277,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -4385,6 +4415,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
@@ -4522,6 +4553,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 6,
@@ -4659,6 +4691,7 @@ export default [
         },
       },
       {
+        amenities: ['Fitness'],
         capacity: {
           min_pax: 1,
           max_pax: 5,
