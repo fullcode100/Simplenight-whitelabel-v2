@@ -1,16 +1,20 @@
-export interface HotelDetailResponse {
-  hotel_id: string;
-  start_date: Date;
-  end_date: Date;
-  hotel_details: HotelDetails;
-  occupancy: Occupancy;
-  giata_code: string;
-  room_types: RoomType[];
-  avg_nightly_rate: number;
-  avg_nightly_base: number;
-  avg_nightly_tax: number;
-  error: null;
-}
+// export interface HotelDetailResponse {
+//   hotel_id: string;
+//   start_date: Date;
+//   end_date: Date;
+//   hotel_details: HotelDetails;
+//   occupancy: Occupancy;
+//   giata_code: string;
+//   room_types: RoomType[];
+//   avg_nightly_rate: number;
+//   avg_nightly_base: number;
+//   avg_nightly_tax: number;
+//   error: null;
+// }
+
+import { HotelSearchResponse } from './SearchResponse';
+
+export type HotelDetailResponse = HotelSearchResponse;
 
 export interface HotelDetails {
   name: string;
@@ -60,7 +64,7 @@ export enum Type {
 export interface Occupancy {
   adults: string;
   children: string;
-  num_rooms: string;
+  num_rooms?: string;
   children_ages?: number[] | null;
 }
 

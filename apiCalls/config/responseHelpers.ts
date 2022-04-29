@@ -15,7 +15,13 @@ export const applyApiBaseUrlV2 = (endpoint: string) => {
   return `${API_V2_URL}${endpoint}`;
 };
 
-export const forwardError = (err: any, res: any) =>
-  res.status(err.response?.status ?? 500).json(err.response.data);
+export const forwardError = (err: any, res: any) => {
+  const apiErrors = err.response?.data?.errors;
+  const axiosErrorMessage = err.message;
+
+  return res
+    .status(err.response?.status ?? 500)
+    .json({ errors: apiErrors } ?? axiosErrorMessage);
+};
 
 export const sendSuccess = (res: any, data: any) => res.status(200).json(data);

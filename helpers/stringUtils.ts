@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import { flatten } from 'flat';
+
 export const replaceStringWithChar = (string: string, char: string) => {
   const stringChars = string.split('');
   const transformedChars = stringChars.map(() => char);
@@ -58,3 +61,6 @@ export const flattenObjectOfObjects = (obj: { [key: string]: string }) => {
   });
   return flattenedObj;
 };
+
+export const flattenedObject = (obj: { [key: string]: any }, maxDepth = 1) =>
+  flatten(obj, { maxDepth });

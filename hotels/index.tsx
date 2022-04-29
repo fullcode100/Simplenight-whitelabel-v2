@@ -41,7 +41,7 @@ const Category: CategoryOption = {
       },
       detail: {
         client: '/hotels',
-        server: '/multi/hotel-details',
+        server: '/hotels',
       },
     },
     ClientSearcher: null,

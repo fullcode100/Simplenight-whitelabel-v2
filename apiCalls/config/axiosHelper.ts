@@ -87,7 +87,7 @@ export const axiosCurrencyInterceptor = (currency: string) => (config: any) => {
 
 export const axiosServerI18nInterceptor =
   (language: string) => (config: any) => {
-    config.params['lang'] = language;
+    if (config.data) config.data.params['lang'] = language;
     return config;
   };
 

@@ -4,8 +4,8 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
-import hotelMock from 'hotels/hotelMock';
-import { HotelDetailRequest } from 'hotels/types/request/HotelDetailRequest';
+import initialState from './utils/initialState';
+import { HotelDetailPreRequest } from 'hotels/types/request/HotelDetailRequest';
 import {
   HotelDetailResponse,
   Occupancy,
@@ -26,6 +26,11 @@ import SeeMore from 'components/global/ReadMore/SeeMore';
 import RoomsSection from 'hotels/components/Rooms/RoomsSection';
 import Divider from '../../../components/global/Divider/Divider';
 import CustomerReviewsSection from 'components/global/CustomerReviews/CustomerReviewsSection';
+import {
+  Hotel,
+  HotelSearchResponse,
+} from 'hotels/types/response/SearchResponse';
+import dayjs from 'dayjs';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -43,12 +48,13 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     ROOMS_TEXT,
   } = useSearchQueries();
 
+  const [loaded, setLoaded] = useState(false);
+  const [hotel, setHotel] = useState<Hotel>(initialState[0]);
   const {
     details: { name, address, description, star_rating: starRating },
     rooms: hotelRooms,
-  } = hotelMock[0];
+  } = hotel;
 
-  const [hotel, setHotel] = useState<HotelDetailResponse>();
   const [t, i18next] = useTranslation('hotels');
   const starHotelLabel = t('userRating', 'User Rating');
 
@@ -56,21 +62,24 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     const occupancy: Occupancy = {
       adults: parseQueryNumber(adults ?? '1') + '',
       children: parseQueryNumber(children ?? '0') + '',
-      num_rooms: parseQueryNumber(rooms ?? '1') + '',
+      // num_rooms: parseQueryNumber(rooms ?? '1') + '',
     };
 
-    const params: HotelDetailRequest = {
-      hotel_id: id as string,
-      start_date: formatAsSearchDate(startDate),
-      end_date: formatAsSearchDate(endDate),
+    const params: HotelDetailPreRequest = {
+      hotel_id: '704f71db:646547', //id as string,
+      start_date: formatAsSearchDate(dayjs().add(1, 'day')), //(startDate),
+      end_date: formatAsSearchDate(dayjs().add(2, 'day')), //(endDate),
       occupancy: occupancy,
     };
 
-    // Category.core.ClientDetailer?.request(
-    //   params,
-    //   i18next,
-    //   params.hotel_id,
-    // ).then(setHotel);
+    Category.core.ClientDetailer?.request(
+      params,
+      i18next,
+      params.hotel_id,
+    ).then(({ hotels }: HotelSearchResponse) => {
+      setHotel(hotels[0]);
+      setLoaded(true);
+    });
   }, []);
 
   const RatingSection = () => (

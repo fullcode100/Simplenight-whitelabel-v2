@@ -1,5 +1,5 @@
 import { getDetail, searchHotels } from 'apiCalls/hotels';
-import { HotelDetailRequest } from 'hotels/types/request/HotelDetailRequest';
+import { HotelDetailPreRequest } from 'hotels/types/request/HotelDetailRequest';
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
 import { AppThunk } from 'store';
 import { HotelStoreActions } from './HotelStoreActions';
@@ -24,7 +24,7 @@ const search =
   };
 
 const detail =
-  (id: any, detailParams: HotelDetailRequest): AppThunk =>
+  (id: any, detailParams: HotelDetailPreRequest): AppThunk =>
   async (dispatch) => {
     try {
       const { data: hotel } = await getDetail(id, detailParams);
