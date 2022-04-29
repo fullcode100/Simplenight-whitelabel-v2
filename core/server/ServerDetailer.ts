@@ -12,6 +12,15 @@ export abstract class ServerDetailer<
     super(category);
   }
 
+  // protected override onError(
+  //   err: any,
+  //   res: NextApiResponse<DetailResponse>,
+  // ): void {
+  //   console.log(err);
+  //   debugger;
+  //   res.status(500).json(err.response);
+  // }
+
   protected override doRequest(
     request: NextApiRequest,
     response: NextApiResponse,
