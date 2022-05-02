@@ -19,6 +19,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Git
+
+This project has a pre-commit hook that is managed through Husky and it will lint your code before commiting. 
+
+```bash
+# To install the pre-commit hook run the following command:
+yarn prepare
+```
+
 ## Using docker-compose
 
 The docker-compose file is located un `docker/docker-compose.yaml`
