@@ -17,7 +17,8 @@
     "styleguide:build": "styleguidist build",
     "locize:help": "locize sync -h",
     "locize:sync": "locize sync --path ./translations --project-id 898e1792-e73c-4dc3-a292-288963fab02d --api-key dc085605-c819-4487-abd4-33afb171e048 --reference-language-only false",
-    "locize:download": "locize download --project-id 898e1792-e73c-4dc3-a292-288963fab02d --ver latest --namespace global --path ./translations"
+    "locize:download": "locize download --project-id 898e1792-e73c-4dc3-a292-288963fab02d --ver latest --namespace global --path ./translations",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
@@ -74,6 +75,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "postcss": "^8.4.5",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.4.0",
@@ -85,5 +88,8 @@
     "tailwindcss": "^3.0.12",
     "ts-loader": "^9.2.6",
     "typescript": "4.5.4"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
