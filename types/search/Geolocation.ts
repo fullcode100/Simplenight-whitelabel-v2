@@ -4,6 +4,10 @@ export interface Geolocation {
   radius: number;
   unit: Unit;
 }
+export interface latLngProp {
+  lat: number;
+  lng: number;
+}
 export enum Unit {
   Mi = 'mi',
 }

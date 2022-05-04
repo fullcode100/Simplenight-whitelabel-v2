@@ -1,21 +1,24 @@
-import BaseInput, { BaseInputProps } from './BaseInput';
+import { BaseInputProps } from './BaseInput';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import IconInput from './IconInput';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { getIsMapLoaded } from 'store/selectors/core';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import { StringGeolocation } from 'types/search/Geolocation';
+import { latLngProp } from 'types/search/Geolocation';
+import classnames from 'classnames';
+import ImagePlaceHolder from 'public/icons/assets/image-placeholder.svg';
+import useQuery from 'hooks/pageInteraction/useQuery';
+import { useState } from 'react';
 
 interface LocationInputProps {
   icon: any;
   routeParams?: string[];
   onChange?: (value: string) => void;
-  onSelect?: (value: StringGeolocation) => void;
+  onSelect?: (value: latLngProp) => void;
 }
 
 const LocationInput = ({
@@ -25,9 +28,11 @@ const LocationInput = ({
   onSelect,
   ...others
 }: LocationInputProps & BaseInputProps) => {
-  const [address, setAddress] = useState('');
+  const params = useQuery();
+  const defaultAddress = params?.address?.toString() || '';
+  const [address, setAddress] = useState(defaultAddress);
   const isMapLoaded = getIsMapLoaded();
-  const setQueryParam = useQuerySetter();
+  const setQueryParams = useQuerySetter();
 
   const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
@@ -42,15 +47,24 @@ const LocationInput = ({
       const results = await geocodeByAddress(newAddress);
       const latLng = await getLatLng(results[0]);
 
-      const geolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
+      setAddress(results[0].formatted_address);
 
-      // setQueryParam({ geolocation });
-      if (onSelect) onSelect(geolocation);
-      console.log(latLng);
+      setQueryParams({
+        latitude: latLng.lat.toString(),
+        longitude: latLng.lng.toString(),
+        address: results[0].formatted_address,
+      });
+
+      if (onSelect) onSelect(latLng);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const locationPlaceholder = t(
+    'locationInputPlaceholder',
+    'Pick your destination',
+  );
 
   return (
     isMapLoaded && (
@@ -60,22 +74,33 @@ const LocationInput = ({
         onSelect={handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <section>
+          <section className="relative">
             <IconInput
               icon={<LocationPin className="h-5 w-5 text-dark-700" />}
               {...getInputProps({
-                placeholder: 'Search Places ...',
+                placeholder: locationPlaceholder,
                 className: 'location-search-input',
               })}
               {...others}
+              autoFocus={true}
             />
-            <section className="autocomplete-dropdown-container">
+            <section
+              className={classnames(
+                'autocomplete-dropdown-container rounded absolute z-10 w-full',
+                {
+                  'shadow-md': suggestions[0],
+                },
+              )}
+            >
               {loading && <section>{loadingMessage}...</section>}
               {suggestions.map((suggestion, index) => {
                 const { active, description } = suggestion;
-                const className = active
-                  ? 'suggestion-item--active'
-                  : 'suggestion-item';
+                const className = classnames(
+                  'py-2 px-4 flex justify-between suggestion-item',
+                  {
+                    'suggestion-item--active': active,
+                  },
+                );
                 // inline style for demonstration purpose
                 const style = active
                   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
@@ -92,6 +117,9 @@ const LocationInput = ({
                     key={suggestionKey}
                   >
                     <span>{description}</span>
+                    <span className="w-4">
+                      <ImagePlaceHolder className="text-dark-700" />
+                    </span>
                   </section>
                 );
               })}

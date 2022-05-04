@@ -24,7 +24,8 @@ import LocationInput from 'components/global/Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
-import { StringGeolocation } from 'types/search/Geolocation';
+import { StringGeolocation, latLngProp } from 'types/search/Geolocation';
+import { useTranslation } from 'react-i18next';
 
 const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -51,7 +52,7 @@ const HotelSearchForm = ({
   className = '',
 }: SearchFormProps) => {
   const setQueryParam = useQuerySetter();
-
+  const [t, i18n] = useTranslation('hotels');
   const [adultCount, setAdultCount] = useState<number>(0);
   const [geolocation, setGeolocation] = useState<StringGeolocation>();
   const [childrenCount, setChildrenCount] = useState<number>(0);
@@ -95,6 +96,16 @@ const HotelSearchForm = ({
     if (setIsSearching) setIsSearching(false);
   };
 
+  const handleSelectLocation = (latLng: latLngProp) => {
+    const geolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
+    setGeolocation(geolocation);
+  };
+
+  const locationPlaceholder = t(
+    'locationInputPlaceholder',
+    'Pick your destination',
+  );
+
   return (
     <section className={`flex flex-col px-4 pb-4 justify-between ${className}`}>
       <section>
@@ -102,9 +113,9 @@ const HotelSearchForm = ({
           icon={<LocationPin className="h-5 w-5 text-dark-700" />}
           label="Where to?"
           name="location"
-          placeholder="Chicago, IL, USA"
+          placeholder={locationPlaceholder}
           routeParams={['type']}
-          onSelect={(value: StringGeolocation) => setGeolocation(value)}
+          onSelect={handleSelectLocation}
         />
 
         <IconInput
