@@ -75,6 +75,7 @@ const LocationInput = ({
                 className: 'location-search-input overflow-y-scroll',
               })}
               {...others}
+              autoFocus={true}
             />
             <section
               className={classnames(
@@ -109,6 +110,9 @@ const LocationInput = ({
                     key={suggestionKey}
                   >
                     <span>{description}</span>
+                    <span className="w-4">
+                      <ImagePlaceHolder className="text-dark-700" />
+                    </span>
                   </section>
                 );
               })}
