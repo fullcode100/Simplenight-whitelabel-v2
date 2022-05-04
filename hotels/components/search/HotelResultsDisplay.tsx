@@ -63,6 +63,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   useEffect(() => {
     // const hasEmptyValues = checkIfAnyNull([
+    //   rooms
     //   adults,
     //   children,
     //   startDate,
@@ -71,14 +72,18 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     // ]);
     // if (hasEmptyValues) return;
     // const params: HotelSearchRequest = {
+    //   rooms: parseQueryNumber(rooms ?? ''),
     //   adults: parseQueryNumber(adults ?? ''),
+    //   children: parseQueryNumber(children ?? ''),
     //   start_date: formatAsSearchDate(startDate as unknown as string),
     //   end_date: formatAsSearchDate(endDate as unknown as string),
     //   dst_geolocation: geolocation as unknown as StringGeolocation,
     //   rsp_fields: '-rooms',
     // };
     const params: HotelSearchRequest = {
+      rooms: 1,
       adults: 2,
+      children: 0,
       start_date: formatAsSearchDate(dayjs().add(15, 'day')),
       end_date: formatAsSearchDate(dayjs().add(17, 'day')),
       dst_geolocation: '36.1699412,-115.1398296',

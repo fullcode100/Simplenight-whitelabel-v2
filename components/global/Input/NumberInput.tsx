@@ -32,7 +32,6 @@ const NumberInput = ({ value, onChange, ...others }: NumberInputProps) => {
         type="number"
         value={value}
         onChange={handleChange}
-        autoFocus
         {...others}
       />
       <Button
@@ -43,7 +42,7 @@ const NumberInput = ({ value, onChange, ...others }: NumberInputProps) => {
         onRightClick={handlePlusClick}
         type="dual"
         size="w-11 h-11"
-        containerClassName="w-1/3 h-full"
+        containerClassName="h-full"
       />
     </section>
   );

@@ -1,12 +1,14 @@
 import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
+
 // import { SEARCH_DATE_FORMAT } from '../../../../helpers/searchConstants';
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import { HotelSearchFormData } from '../../../types/search/categories/HotelSearchFormData';
 import { LocationPrefix } from '../../../types/search/LocationPrefixResponse';
 import LocationAutoComplete from '../../../components/global/AutoComplete/LocationAutoComplete';
 import DatePicker from '../../../components/global/Calendar/Calendar';
-
+import TravelersInput from '../TravelersInput/TravelersInput';
+import { Room, createRoom } from 'hotels/helpers/room';
 import OccupancySelector, {
   OccupancyData,
 } from './OcupancySelector/OccupancySelector';
@@ -16,7 +18,6 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
-import NumberInput from 'components/global/Input/NumberInput';
 import Button from 'components/global/Button/Button';
 import { SearchFormProps } from 'types/search/SearchFormProps';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
@@ -24,6 +25,7 @@ import LocationInput from 'components/global/Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
+import { setTravelersTotals } from 'hotels/helpers/travelers';
 import { StringGeolocation, latLngProp } from 'types/search/Geolocation';
 import { useTranslation } from 'react-i18next';
 
@@ -51,12 +53,22 @@ const HotelSearchForm = ({
   setIsSearching,
   className = '',
 }: SearchFormProps) => {
+  const [t, i18next] = useTranslation('global');
+  const adultsLabel = t('adults', 'Adults');
+  const childrenLabel = t('children', 'Children');
+  const infantsLabel = t('infants', 'Infants');
+
   const setQueryParam = useQuerySetter();
-  const [t, i18n] = useTranslation('hotels');
-  const [adultCount, setAdultCount] = useState<number>(0);
+  const [roomsData, setRoomsData] = useState<Room[]>([createRoom()]);
+  const [adults, setAdults] = useState(roomsData[0].adults.toString());
+  const [children, setChildren] = useState(roomsData[0].children.toString());
+  const [infants, setInfants] = useState(roomsData[0].infants.toString());
+  const [rooms, setRooms] = useState(roomsData.length.toString());
+  const [childrenAges, setChildrenAges] = useState(
+    roomsData[0].childrenAges.toString(),
+  );
+
   const [geolocation, setGeolocation] = useState<StringGeolocation>();
-  const [childrenCount, setChildrenCount] = useState<number>(0);
-  const [roomCount, setRoomCount] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>(
     formatAsSearchDate(dayjs()),
   );
@@ -64,18 +76,9 @@ const HotelSearchForm = ({
     formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTravelersInput, setShowTravelersInput] = useState(false);
 
-  const handleRoomChange = (value: number) => {
-    setRoomCount(value);
-  };
-
-  const handleAdultChange = (value: number) => {
-    setAdultCount(value);
-  };
-
-  const handleChildrenCount = (value: number) => {
-    setChildrenCount(value);
-  };
+  const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -86,11 +89,16 @@ const HotelSearchForm = ({
   };
 
   const handleSearchClick = () => {
+    const roomsDataFormatted = JSON.stringify(roomsData);
     setQueryParam({
-      adults: adultCount + '',
-      children: childrenCount + '',
       startDate,
       endDate,
+      rooms,
+      adults,
+      children,
+      infants,
+      childrenAges,
+      roomsDataFormatted,
       geolocation: geolocation ?? '',
     });
     if (setIsSearching) setIsSearching(false);
@@ -106,6 +114,23 @@ const HotelSearchForm = ({
     'Pick your destination',
   );
 
+  useEffect(() => {
+    setTravelersTotals(
+      roomsData,
+      setAdults,
+      setChildren,
+      setInfants,
+      setChildrenAges,
+    );
+    setRooms(roomsData.length.toString());
+  }, [roomsData]);
+
+  useEffect(() => {
+    setTravelersPlaceholder(
+      `${adults} ${adultsLabel}, ${children} ${childrenLabel}, ${infants} ${infantsLabel}`,
+    );
+  }, [adults, children, infants, children]);
+
   return (
     <section className={`flex flex-col px-4 pb-4 justify-between ${className}`}>
       <section>
@@ -118,16 +143,18 @@ const HotelSearchForm = ({
           onSelect={handleSelectLocation}
         />
 
+        <TravelersInput
+          showTravelersInput={showTravelersInput}
+          onClose={() => setShowTravelersInput(false)}
+          rooms={roomsData}
+          setRooms={setRoomsData}
+        />
         <IconInput
-          label="Adults"
-          name="Adults"
-          placeholder="2 adults"
+          name="Travelers"
+          placeholder={travelersPlaceholder}
           icon={<MultiplePersons className="h-5 w-5 text-dark-700" />}
           className="mt-4"
-          value=""
-          onChange={(event) =>
-            handleAdultChange(parseQueryNumber(event.target.value))
-          }
+          onClick={() => setShowTravelersInput(true)}
         />
 
         <DatePicker

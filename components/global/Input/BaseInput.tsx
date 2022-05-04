@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import I18nHOC from '../I18nHOC/I18nHOC';
 import Label from '../Label/Label';
 
@@ -42,6 +43,11 @@ const BaseInput = ({
   autoFocus = false,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [value]);
+
   const NumberInput = () => (
     <section className="w-full h-full flex items-center justify-between">
       <section className="flex flex-col gap-1">
@@ -66,6 +72,7 @@ const BaseInput = ({
         type={type}
         name={name}
         id={name}
+        ref={inputRef}
         value={value}
         className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md ${inputClassName} ${internalInputClassName}`}
         placeholder={placeholder}

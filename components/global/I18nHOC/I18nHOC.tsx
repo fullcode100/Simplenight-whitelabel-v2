@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 export interface I18nHOCSpecificProps {
-  value: string;
+  value?: string | number;
   translationKey?: string;
   childComponent?: any;
   context?: string;
