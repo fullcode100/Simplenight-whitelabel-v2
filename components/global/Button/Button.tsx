@@ -7,7 +7,7 @@ import I18nHOC from '../I18nHOC/I18nHOC';
 import DualButton from './components/DualButton';
 
 interface ButtonProps {
-  value: string;
+  value?: string;
   size?: string;
   /** Button tailwind class color, e.g. 'blue-500' . */
   color?: string;
@@ -50,6 +50,9 @@ const Button = ({
       break;
     case 'lg':
       sizeTailwindClass = 'w-32 h-8 text-lg';
+      break;
+    case 'square':
+      sizeTailwindClass = 'w-11 h-11';
       break;
     case 'full':
       sizeTailwindClass = 'w-full h-12';

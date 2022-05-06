@@ -69,7 +69,9 @@ const HotelSecondarySearchOptions = () => {
         value=""
         placeholder={searchKeywordPlaceholder}
         icon={<SearchIcon className="text-dark-700" />}
-        onChange={() => {}}
+        onChange={() => {
+          <></>;
+        }}
       />
     </FilterContainer>
   );
@@ -145,7 +147,7 @@ const HotelSecondarySearchOptions = () => {
       <Button
         value="Filters"
         size="full"
-        icon={<FilterIcon />}
+        leftIcon={<FilterIcon />}
         onClick={handleFilterButtonClick}
       />
       <Button

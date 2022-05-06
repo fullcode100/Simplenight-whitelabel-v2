@@ -10,11 +10,11 @@ const NormalButton = ({
   leftIcon,
   ...others
 }: ButtonVariantProp) => {
-  const buttonIconClassNames = 'flex w-full justify-center items-center';
+  const buttonIconClassNames = 'flex w-full gap-1 justify-center items-center';
   return (
     <button
       className={classnames(
-        `px-4 pb-2 pt-1 font-semibold rounded-4 ${sizeClassname}`,
+        `font-semibold rounded-4 ${sizeClassname}`,
         {
           [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
             !disabled,
@@ -25,7 +25,7 @@ const NormalButton = ({
       )}
       {...others}
     >
-      {leftIcon && <span className="mr-2">{leftIcon}</span>}
+      {leftIcon}
       {value}
     </button>
   );
