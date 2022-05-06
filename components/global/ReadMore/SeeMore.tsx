@@ -27,8 +27,6 @@ const SeeMore = ({
 }: SeeMoreProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [formattedText, setFormattedText] = useState(text);
-
   const [sectionHeight, setSectionHeight] = useState<string>(
     `${heightInPixels}px`,
   );
@@ -59,7 +57,14 @@ const SeeMore = ({
     return (
       <section className={`${className} relative `}>
         <section className={classnames('pb-4', className)}>
-          {formattedText}
+          <p
+            className={classnames({
+              ['line-clamp-5']: !isOpen,
+              ['line-clamp-none']: isOpen,
+            })}
+          >
+            {text}
+          </p>
         </section>
         <SeeMoreButton
           onClick={toggle}
