@@ -12,15 +12,6 @@ export abstract class ServerDetailer<
     super(category);
   }
 
-  // protected override onError(
-  //   err: any,
-  //   res: NextApiResponse<DetailResponse>,
-  // ): void {
-  //   console.log(err);
-  //   debugger;
-  //   res.status(500).json(err.response);
-  // }
-
   protected override doRequest(
     request: NextApiRequest,
     response: NextApiResponse,
@@ -30,7 +21,6 @@ export abstract class ServerDetailer<
 
     const categoryUrls = this.category.core.urls;
     const { server: endpoint } = categoryUrls.detail;
-    debugger;
 
     const endpointWithId = `${endpoint}/${params.id}`;
     const url = applyApiBaseUrlV2(endpointWithId);

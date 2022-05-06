@@ -64,7 +64,7 @@ export enum Type {
 export interface Occupancy {
   adults: string;
   children: string;
-  num_rooms?: string;
+  rooms?: string;
   children_ages?: number[] | null;
 }
 

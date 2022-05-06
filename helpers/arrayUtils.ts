@@ -8,7 +8,7 @@ export const findOrFirst = <T extends unknown>(
 };
 
 export const checkIfAnyNull = (array: any[]): boolean =>
-  array.some((item) => typeof item === 'undefined' || !!item);
+  array.some((item) => typeof item === 'undefined' || !item);
 
 export const changeArraySize = (
   array: number[],

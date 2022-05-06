@@ -11,7 +11,7 @@ import {
   Occupancy,
 } from 'hotels/types/response/HotelDetailResponse';
 import galleryMock from 'mocks/galleryMock';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 
@@ -48,12 +48,19 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     ROOMS_TEXT,
   } = useSearchQueries();
 
+  const roomRef = useRef<HTMLDivElement>(null);
+  const locationRef = useRef<HTMLDivElement>(null);
+  const amenitiesRef = useRef<HTMLDivElement>(null);
+
   const [loaded, setLoaded] = useState(false);
   const [hotel, setHotel] = useState<Hotel>(initialState[0]);
   const {
     details: { name, address, description, star_rating: starRating },
     rooms: hotelRooms,
+    photos,
   } = hotel;
+
+  const hotelImages = photos.map((photo) => photo.url);
 
   const [t, i18next] = useTranslation('hotels');
   const starHotelLabel = t('userRating', 'User Rating');
@@ -62,25 +69,43 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     const occupancy: Occupancy = {
       adults: parseQueryNumber(adults ?? '1') + '',
       children: parseQueryNumber(children ?? '0') + '',
-      // num_rooms: parseQueryNumber(rooms ?? '1') + '',
+      rooms: parseQueryNumber(rooms ?? '1') + '',
     };
 
     const params: HotelDetailPreRequest = {
-      hotel_id: '704f71db:646547', //id as string,
-      start_date: formatAsSearchDate(dayjs().add(1, 'day')), //(startDate),
-      end_date: formatAsSearchDate(dayjs().add(2, 'day')), //(endDate),
+      hotel_id: (id as unknown as string) ?? '', // id as string,
+      start_date: formatAsSearchDate(dayjs().add(1, 'day')), // (startDate),
+      end_date: formatAsSearchDate(dayjs().add(2, 'day')), // (endDate),
       occupancy: occupancy,
     };
 
-    Category.core.ClientDetailer?.request(
-      params,
-      i18next,
-      params.hotel_id,
-    ).then(({ hotels }: HotelSearchResponse) => {
-      setHotel(hotels[0]);
-      setLoaded(true);
-    });
+    Category.core.ClientDetailer?.request(params, i18next, params.hotel_id)
+      .then(({ hotels }: HotelSearchResponse) => {
+        setHotel(hotels[0]);
+        setLoaded(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }, []);
+
+  const scrollToRoom = () => {
+    if (roomRef.current) {
+      roomRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToLocation = () => {
+    if (locationRef.current) {
+      locationRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToAmeneties = () => {
+    if (amenitiesRef.current) {
+      amenitiesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const RatingSection = () => (
     <section className="flex mt-4 w-full justify-between items-center">
@@ -99,8 +124,21 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       { value: 'Amenities' },
     ];
 
+    const scrollFunctions: { [key: string]: () => void } = {
+      Rooms: scrollToRoom,
+      Location: scrollToLocation,
+      Amenities: scrollToAmeneties,
+    };
+
+    const scrollTo = (tab: string) => {
+      const scrollFunction = scrollFunctions[tab];
+
+      if (scrollFunction) scrollFunction();
+    };
+
     const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
       setActiveTab(tab);
+      scrollTo(tab.value);
     };
 
     return (
@@ -133,7 +171,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full px-4 pt-28">
+      <header className="flex flex-col w-full px-4 pt-28 pb-4">
         <section className="h-12 flex justify-between items-center">
           <section className="flex flex-col">
             <section className="flex gap-4">
@@ -166,20 +204,24 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       </header>
       <main className="relative">
         {/* <ImagesSection /> */}
-        <ImageCarousel images={galleryMock} hotelName={name} />
+        <ImageCarousel images={hotelImages} hotelName={name} />
         <GeneralInformationSection />
-        <SeeMore
-          textOpened="See less"
-          textClosed="See more"
-          type="component"
-          heightInPixels={900}
-        >
-          {<RoomsSection rooms={hotelRooms} />}
-        </SeeMore>
+        <section ref={roomRef}>
+          <SeeMore
+            textOpened="See less"
+            textClosed="See more"
+            type="component"
+            heightInPixels={900}
+          >
+            {<RoomsSection rooms={hotelRooms} />}
+          </SeeMore>
+        </section>
         <Divider />
         <DetailsSection />
-        <LocationSection />
-        <CustomerReviewsSection />
+        <section ref={locationRef}>
+          <LocationSection />
+        </section>
+        {/* <CustomerReviewsSection /> */}
       </main>
     </>
   );

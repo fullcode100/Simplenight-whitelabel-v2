@@ -3,6 +3,7 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import LocationMap from 'components/global/LocationMap/LocationMap';
 import hotelMock from 'hotels/hotelMock';
 import LocationPin from 'public/icons/assets/location-pin.svg';
+import { RefObject } from 'react';
 
 const LocationSection = () => {
   const {

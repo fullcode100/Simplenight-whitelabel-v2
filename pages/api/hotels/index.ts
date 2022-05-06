@@ -10,5 +10,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  HotelCategory.core.ServerSearcher?.handle(req, res);
+  return new Promise((resolve) => {
+    HotelCategory.core.ServerSearcher?.handle(req, res).then(() => {
+      return resolve(null);
+    });
+  });
 }

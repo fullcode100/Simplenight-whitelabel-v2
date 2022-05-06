@@ -4,6 +4,7 @@ import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import Script from 'next/script';
 import { setIsMapsLoaded, setIsPaymentLoaded } from 'store/actions/core';
 import { useDispatch } from 'react-redux';
+import { getIsMapLoaded } from 'store/selectors/core';
 
 interface SEOHocProps {
   children?: any;
@@ -18,6 +19,7 @@ const SEOHoc = ({ children }: SEOHocProps) => {
   const MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY;
 
   const hasMapsApiKey = MAPS_API_KEY && MAPS_API_KEY !== '';
+  const isMapsLoaded = getIsMapLoaded();
 
   const handleMapsLoaded = () => {
     dispatch(setIsMapsLoaded(true));
@@ -29,7 +31,7 @@ const SEOHoc = ({ children }: SEOHocProps) => {
 
   return (
     <>
-      {hasMapsApiKey && (
+      {hasMapsApiKey && isMapsLoaded && (
         <Script
           onLoad={handleMapsLoaded}
           src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}

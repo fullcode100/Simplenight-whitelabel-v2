@@ -21,6 +21,9 @@ import HotelMapView from './HotelResultsMapView';
 import { itemsProps } from 'components/global/MapView/MapViewTypes';
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import { checkIfAnyNull } from 'helpers/arrayUtils';
+import { parseQueryNumber } from 'helpers/stringUtils';
+import { StringGeolocation } from 'types/search/Geolocation';
 
 const addressMock = {
   coordinates: {
@@ -57,49 +60,54 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const router = useRouter();
 
-  const { adults, children, startDate, endDate, geolocation } = useQuery();
+  const { adults, children, startDate, endDate, latitude, longitude, rooms } =
+    useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
 
   useEffect(() => {
-    // const hasEmptyValues = checkIfAnyNull([
-    //   rooms
-    //   adults,
-    //   children,
-    //   startDate,
-    //   endDate,
-    //   geolocation,
-    // ]);
-    // if (hasEmptyValues) return;
-    // const params: HotelSearchRequest = {
-    //   rooms: parseQueryNumber(rooms ?? ''),
-    //   adults: parseQueryNumber(adults ?? ''),
-    //   children: parseQueryNumber(children ?? ''),
-    //   start_date: formatAsSearchDate(startDate as unknown as string),
-    //   end_date: formatAsSearchDate(endDate as unknown as string),
-    //   dst_geolocation: geolocation as unknown as StringGeolocation,
-    //   rsp_fields: '-rooms',
-    // };
+    const hasEmptyValues = checkIfAnyNull([
+      rooms,
+      adults,
+      children,
+      startDate,
+      endDate,
+      latitude,
+      longitude,
+    ]);
+    if (hasEmptyValues) return;
+
+    const geolocation = `${latitude},${longitude}`;
+
     const params: HotelSearchRequest = {
-      rooms: 1,
-      adults: 2,
-      children: 0,
-      start_date: formatAsSearchDate(dayjs().add(15, 'day')),
-      end_date: formatAsSearchDate(dayjs().add(17, 'day')),
-      dst_geolocation: '36.1699412,-115.1398296',
+      rooms: parseQueryNumber(rooms ?? ''),
+      adults: parseQueryNumber(adults ?? ''),
+      children: parseQueryNumber(children ?? ''),
+      start_date: formatAsSearchDate(startDate as unknown as string),
+      end_date: formatAsSearchDate(endDate as unknown as string),
+      dst_geolocation: geolocation as unknown as StringGeolocation,
       rsp_fields_set: 'basic',
     };
+    // const params: HotelSearchRequest = {
+    //   rooms: 1,
+    //   adults: 2,
+    //   children: 0,
+    //   start_date: formatAsSearchDate(dayjs().add(15, 'day')),
+    //   end_date: formatAsSearchDate(dayjs().add(17, 'day')),
+    //   dst_geolocation: '36.1699412,-115.1398296',
+    //   rsp_fields_set: 'basic',
+    // };
     Searcher?.request(params, i18next).then(
       ({ hotels: searchedHotels }: HotelSearchResponse) => {
         setHotels(searchedHotels);
       },
     );
-  }, [adults, children, startDate, endDate, geolocation]);
+  }, [adults, children, startDate, endDate, latitude, longitude, rooms]);
 
   const handleOnViewDetailClick = (hotel: Hotel) => {
     const { id } = hotel;
     router.push(
-      `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}`,
+      `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}`,
     );
   };
 

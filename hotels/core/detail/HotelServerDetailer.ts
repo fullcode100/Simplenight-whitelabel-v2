@@ -29,7 +29,7 @@ export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
     delete params.id;
     delete params.hotel_id;
 
-    return axios.post<ApiResponse<any, HotelDetailResponse>>(url, {
+    return axios.get<ApiResponse<any, HotelDetailResponse>>(url, {
       params,
     });
   }

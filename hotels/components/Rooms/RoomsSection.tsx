@@ -4,11 +4,12 @@ import RoomsList from './components/RoomsList';
 
 interface RoomsProps {
   rooms: Array<Room>;
+  ref?: React.Ref<any>;
 }
 
-const RoomsSection = ({ rooms }: RoomsProps) => {
+const RoomsSection = ({ rooms, ref }: RoomsProps) => {
   return (
-    <section className="mt-4 px-4">
+    <section className="mt-4 px-4" ref={ref}>
       <RoomSectionTitle />
       <RoomsList rooms={rooms} />
     </section>

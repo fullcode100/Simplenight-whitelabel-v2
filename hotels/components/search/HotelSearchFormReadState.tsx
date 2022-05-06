@@ -18,6 +18,7 @@ interface HotelSearchFormReadStateProps {
 }
 
 const HotelSearchFormReadState = ({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setIsSearching = (value: boolean) => {},
 }: HotelSearchFormReadStateProps) => {
   const {
@@ -26,9 +27,10 @@ const HotelSearchFormReadState = ({
     adults: adultsQuery,
     children: childrenQuery,
     rooms,
+    address,
   } = useQuery();
 
-  const location = 'Chicago, IL, USA';
+  const location = address;
   const adults = adultsQuery;
   const children = childrenQuery;
   const startDate = dayjs(startDateQuery as unknown as string).format(
