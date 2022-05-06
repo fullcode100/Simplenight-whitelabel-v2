@@ -32,7 +32,7 @@ const SEOHoc = ({ children }: SEOHocProps) => {
 
   return (
     <>
-      {hasMapsApiKey && isMapsLoaded && (
+      {hasMapsApiKey && (
         <Script
           onLoad={handleMapsLoaded}
           src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}

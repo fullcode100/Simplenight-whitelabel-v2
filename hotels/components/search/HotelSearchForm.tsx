@@ -26,8 +26,15 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import { setTravelersTotals } from 'hotels/helpers/travelers';
-import { StringGeolocation, latLngProp } from 'types/search/Geolocation';
+import {
+  StringGeolocation,
+  latLngProp,
+  GEOLOCATION_SEPARATOR,
+  LATITUDE_INDEX,
+  LONGITUDE_INDEX,
+} from 'types/search/Geolocation';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -52,7 +59,11 @@ const getInitialHotelOccupancyState = (): OccupancyData => ({
 const HotelSearchForm = ({
   setIsSearching,
   className = '',
+  hasReRoute = false,
 }: SearchFormProps) => {
+  const router = useRouter();
+  const { latitude, longitude, address } = useQuery();
+
   const [t, i18next] = useTranslation('global');
   const adultsLabel = t('adults', 'Adults');
   const childrenLabel = t('children', 'Children');
@@ -88,7 +99,17 @@ const HotelSearchForm = ({
     setEndDate(value);
   };
 
+  const rerouteToSearchPage = () => {
+    router.push(
+      `/search/hotels?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${latitude}&longitude=${longitude}&address=${address}&rooms=${rooms}`,
+    );
+  };
+
   const handleSearchClick = () => {
+    if (hasReRoute) {
+      rerouteToSearchPage();
+      return;
+    }
     const roomsDataFormatted = JSON.stringify(roomsData);
     setQueryParam({
       startDate,
