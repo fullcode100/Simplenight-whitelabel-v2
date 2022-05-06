@@ -1,3 +1,4 @@
+/* eslint indent: off */
 import { CoreTheme } from 'types/redux/CoreState';
 import { ReduxReducerAction } from '../../../types/redux/ReduxReducerAction';
 import { initialState } from './initialState';
@@ -56,6 +57,12 @@ const coreReducer = (
         ...state,
         homepageScrollHandler: payload,
       };
+    case types.SET_IS_PAYMENT_LOADED:
+      return {
+        ...state,
+        isPaymentLoaded: payload,
+      };
+
     default:
       return state;
   }

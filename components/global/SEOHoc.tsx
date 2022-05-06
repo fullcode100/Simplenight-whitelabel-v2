@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import Script from 'next/script';
-import { setIsMapsLoaded } from 'store/actions/core';
+import { setIsMapsLoaded, setIsPaymentLoaded } from 'store/actions/core';
 import { useDispatch } from 'react-redux';
 
 interface SEOHocProps {
@@ -23,6 +23,10 @@ const SEOHoc = ({ children }: SEOHocProps) => {
     dispatch(setIsMapsLoaded(true));
   };
 
+  const handlePaymentLibraryLoad = () => {
+    dispatch(setIsPaymentLoaded(true));
+  };
+
   return (
     <>
       {hasMapsApiKey && (
@@ -31,6 +35,10 @@ const SEOHoc = ({ children }: SEOHocProps) => {
           src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
         />
       )}
+      <Script
+        onLoad={handlePaymentLibraryLoad}
+        src="https://sandbox.web.squarecdn.com/v1/square.js"
+      />
       <Head>
         <title>{partnerName}</title>
         <meta name="description" content="NextJs whitelabel proof of concept" />

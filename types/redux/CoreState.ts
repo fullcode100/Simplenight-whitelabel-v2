@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/ban-types: off */
 import { Ref } from 'react';
 import { IntlMessages } from './IntlMessages';
 
@@ -6,6 +7,7 @@ export interface CoreState {
   languages: CoreLanguages;
   theme: CoreTheme[];
   isMapsLoaded: boolean;
+  isPaymentLoaded: boolean;
   homepageScrollHandler?: Function;
 }
 

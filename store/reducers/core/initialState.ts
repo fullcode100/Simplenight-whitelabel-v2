@@ -53,4 +53,5 @@ export const initialState: CoreState = {
   },
   theme: [],
   isMapsLoaded: false,
+  isPaymentLoaded: false,
 };

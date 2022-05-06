@@ -1,3 +1,5 @@
+/* eslint indent: off */
+/* eslint @typescript-eslint/ban-types: off */
 import { flattenObjectOfObjects } from 'helpers/stringUtils';
 import { AppThunk } from '..';
 import { getBrandConfig } from '../../config/configJson';
@@ -40,5 +42,14 @@ export const setHomepageScrollHandler =
     dispatch({
       type: types.SET_HOME_PAGE_SCROLL_HANDLER,
       payload: handler,
+    });
+  };
+
+export const setIsPaymentLoaded =
+  (isPaymentLoaded: boolean): AppThunk =>
+  async (dispatch) => {
+    dispatch({
+      type: types.SET_IS_PAYMENT_LOADED,
+      payload: isPaymentLoaded,
     });
   };
