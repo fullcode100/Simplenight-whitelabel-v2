@@ -8,13 +8,11 @@ interface SeeMoreProps {
   text?: string;
   children?: ReactNode;
   heightInPixels?: number;
-  charCount?: number;
   textOpened: string;
   textClosed: string;
 }
 
 const SHOW_LESS_HEIGHT = 300;
-const SHOW_LESS_CHAR_COUNT = 250;
 
 const SeeMore = ({
   type,
@@ -22,13 +20,10 @@ const SeeMore = ({
   text = '',
   children,
   heightInPixels = SHOW_LESS_HEIGHT,
-  charCount = SHOW_LESS_CHAR_COUNT,
   textOpened,
   textClosed,
 }: SeeMoreProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const [formattedText, setFormattedText] = useState(text);
 
   const [sectionHeight, setSectionHeight] = useState<string>(
     `${heightInPixels}px`,
@@ -45,13 +40,6 @@ const SeeMore = ({
         return;
       }
     }
-    if (isOpen) {
-      setFormattedText(text);
-      return;
-    }
-
-    const newText = text.substring(0, charCount);
-    setFormattedText(newText + '...');
   }, [isOpen]);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -60,7 +48,14 @@ const SeeMore = ({
     return (
       <section className={`${className} relative `}>
         <section className={classnames('pb-4', className)}>
-          {formattedText}
+          <p
+            className={classnames({
+              ['line-clamp-5']: !isOpen,
+              ['line-clamp-none']: isOpen,
+            })}
+          >
+            {text}
+          </p>
         </section>
         <SeeMoreButton
           onClick={toggle}

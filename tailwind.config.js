@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -97,5 +95,5 @@ module.exports = {
       sans: ['Lato', 'sans-serif'],
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')],
 };

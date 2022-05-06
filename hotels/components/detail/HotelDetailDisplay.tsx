@@ -31,6 +31,8 @@ import {
   HotelSearchResponse,
 } from 'hotels/types/response/SearchResponse';
 import dayjs from 'dayjs';
+import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
+import InformationIcon from 'public/icons/assets/information.svg';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -151,8 +153,15 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   };
 
   const DetailsSection = () => (
-    <section>
-      <p>Details</p>
+    <section className="mt-10 px-4">
+      <section>
+        <p className="flex items-center gap-3 mb-6">
+          <IconRoundedContainer className="bg-primary-1000">
+            <InformationIcon className="" />
+          </IconRoundedContainer>
+          <span className="h4 text-dark-800">Details</span>
+        </p>
+      </section>
       <SeeMore
         text={description}
         type="text"
