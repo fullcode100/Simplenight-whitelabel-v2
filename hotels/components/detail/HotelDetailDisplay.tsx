@@ -135,6 +135,24 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     }
   };
 
+  const scrollToRoom = () => {
+    if (roomRef.current) {
+      roomRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToLocation = () => {
+    if (locationRef.current) {
+      locationRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToAmeneties = () => {
+    if (amenitiesRef.current) {
+      amenitiesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const RatingSection = () => (
     <section className="flex mt-4 w-full justify-between items-center">
       <span className="text-sm text-primary-1000 font-semibold">
@@ -147,6 +165,18 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   const GeneralInformationSection = () => {
     const tabs: Tab[] = [{ value: roomsLabel }, { value: mapLabel }];
+
+    const scrollFunctions: { [key: string]: () => void } = {
+      Rooms: scrollToRoom,
+      Location: scrollToLocation,
+      Amenities: scrollToAmeneties,
+    };
+
+    const scrollTo = (tab: string) => {
+      const scrollFunction = scrollFunctions[tab];
+
+      if (scrollFunction) scrollFunction();
+    };
 
     const scrollFunctions: { [key: string]: () => void } = {
       Rooms: scrollToRoom,

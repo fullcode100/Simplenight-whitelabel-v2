@@ -105,8 +105,8 @@ const HotelSearchForm = ({
   };
 
   const handleSelectLocation = (latLng: latLngProp) => {
-    const geolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
-    setGeolocation(geolocation);
+    const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
+    setGeolocation(newGeolocation);
   };
 
   const locationPlaceholder = t(
