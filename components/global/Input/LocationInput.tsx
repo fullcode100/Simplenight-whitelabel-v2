@@ -82,7 +82,6 @@ const LocationInput = ({
                 className: 'location-search-input',
               })}
               {...others}
-              autoFocus={true}
             />
             <section
               className={classnames(

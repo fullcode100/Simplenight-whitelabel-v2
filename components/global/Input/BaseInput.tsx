@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import I18nHOC from '../I18nHOC/I18nHOC';
 import Label from '../Label/Label';
-
+import classnames from 'classnames';
 export interface BaseInputProps {
   children?: any;
   name?: string;
@@ -48,6 +48,9 @@ const BaseInput = ({
     inputRef.current?.focus();
   }, [value]);
 
+  const internalInputClassName = classnames({
+    'w-11 h-11 text-center': type === 'number',
+  });
   const NumberInput = () => (
     <section className="w-full h-full flex items-center justify-between">
       <section className="flex flex-col gap-1">
@@ -59,28 +62,27 @@ const BaseInput = ({
       <div className="max-w-[44px] max-h-[44px] relative">
         {children}
         {leftIcon}
-        <Input internalInputClassName="w-11 h-11 text-center" />
+        {Input}
         {rightIcon}
       </div>
     </section>
   );
 
-  const Input =
-    customInput ||
-    (({ internalInputClassName }: { internalInputClassName: string }) => (
-      <input
-        type={type}
-        name={name}
-        id={name}
-        ref={inputRef}
-        value={value}
-        className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md ${inputClassName} ${internalInputClassName}`}
-        placeholder={placeholder}
-        onChange={onChange}
-        autoFocus={autoFocus}
-        {...others}
-      />
-    ));
+  const CustomInput = customInput;
+  const Input = (customInput && <CustomInput />) || (
+    <input
+      type={type}
+      name={name}
+      id={name}
+      ref={inputRef}
+      value={value}
+      className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md ${inputClassName} ${internalInputClassName}`}
+      placeholder={placeholder}
+      onChange={onChange}
+      autoFocus={autoFocus}
+      {...others}
+    />
+  );
 
   if (type === 'number') return <NumberInput />;
 
@@ -90,7 +92,7 @@ const BaseInput = ({
       <div className="relative mt-2">
         {children}
         {leftIcon}
-        <Input />
+        {Input}
         {rightIcon}
       </div>
     </div>
