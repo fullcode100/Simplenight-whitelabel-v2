@@ -75,7 +75,6 @@ const LocationInput = ({
                 className: 'location-search-input overflow-y-scroll',
               })}
               {...others}
-              autoFocus={true}
             />
             <section
               className={classnames(
