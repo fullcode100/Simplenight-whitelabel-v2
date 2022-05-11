@@ -6,47 +6,133 @@ import {
   SQUARE_SANDBOX_LOCATION_ID,
 } from 'config/paymentCredentials';
 import BaseInput from 'components/global/Input/BaseInput';
+import NumberInput from 'components/global/Input/NumberInput';
+import GooglePayButton from 'components/global/PaymentForm/GooglePayButton/GooglePayButton';
+import { PaymentRequest } from 'components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
+import Button from 'components/global/Button/Button';
+import { copy } from 'helpers/stringUtils';
 
 const PaymentTest: NextPage = () => {
   const [lastUsedToken, setLastUsedToken] = useState<string | null>(null);
 
+  const initialAmount = 100;
+  const initialCurrencyCode = 'USD';
+  const initialCountryCode = 'US';
+
   const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
   const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
+
+  const [amount, setAmount] = useState(1);
+  const [currencyCode, setCurrencyCode] = useState('USD');
+  const [countryCode, setCountryCode] = useState('US');
 
   const handlePaymentToken = (token: string) => {
     setLastUsedToken(token);
     console.log(`Payment token is ${token}`);
   };
 
+  const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
+    const { paymentMethodData } = paymentRequest;
+    const { tokenizationData } = paymentMethodData;
+    const { token } = tokenizationData;
+
+    setLastUsedToken(token);
+  };
+
   const LastUsedTokenSection = () => (
-    <section className="flex flex-col">
+    <section className="flex flex-col h-auto">
       <h2>Last used token:</h2>
-      <p className="border-2 px-1 bg-dark-200">
+      <p className="border-2 px-1 bg-dark-200 overflow-clip">
         {lastUsedToken ?? 'No token has been generated yet'}
       </p>
+      <Button
+        value="Copy"
+        className="mt-2"
+        size="full"
+        onClick={() => copy(lastUsedToken ?? '')}
+      />
     </section>
   );
 
+  const FormRow = ({
+    label,
+    value,
+    setter,
+  }: {
+    label: string;
+    value: any;
+    setter: (value: any) => void;
+  }) => (
+    <section className="mt-4">
+      <h2>{label}</h2>
+      <BaseInput placeholder={value} onChange={(e) => setter(e.target.value)} />
+    </section>
+  );
+
+  const NumberFormRow = ({
+    label,
+    value,
+    setter,
+  }: {
+    label: string;
+    value: any;
+    setter: (value: any) => void;
+  }) => (
+    <section className="mt-4">
+      <NumberInput
+        placeholder={value}
+        label={label}
+        onChange={(e) => setter(e)}
+      />
+    </section>
+  );
+
+  const Title = ({ label }: { label: string }) => (
+    <h2 className="text-xl font-bold mb-2">{label}</h2>
+  );
+
   return (
-    <main className="px-4 mt-20">
+    <main className="px-4 mt-40 mb-8">
+      <Title label="Google Pay Payment Form" />
+      <GooglePayButton
+        merchantId={appId}
+        gatewayMerchantId={locationId}
+        onLoadPaymentData={handlePaymentRequest}
+        className="mb-4 w-full"
+      />
+      <Title label="Square Payment Form" />
       <SquarePaymentForm
         applicationId={appId}
         locationId={locationId}
         onPaymentToken={handlePaymentToken}
+        amount={amount}
+        countryCode={countryCode}
+        currencyCode={currencyCode}
       />
       <section className="flex flex-col text-xl mt-4">
         <LastUsedTokenSection />
-        <section className="mt-4">
-          <h2>Application ID:</h2>
-          <BaseInput value={appId} onChange={(e) => setAppId(e.target.value)} />
-        </section>
-        <section className="mt-4">
-          <h2>Location ID:</h2>
-          <BaseInput
-            value={locationId}
-            onChange={(e) => setLocationId(e.target.value)}
-          />
-        </section>
+
+        <NumberFormRow
+          label="Amount"
+          value={initialAmount}
+          setter={setAmount}
+        />
+        <FormRow
+          label="Currency"
+          value={initialCurrencyCode}
+          setter={setCurrencyCode}
+        />
+        <FormRow
+          label="Country"
+          value={initialCountryCode}
+          setter={setCountryCode}
+        />
+        <FormRow label="Application ID" value={appId} setter={setAppId} />
+        <FormRow
+          label="Location ID"
+          value={locationId}
+          setter={setLocationId}
+        />
       </section>
     </main>
   );

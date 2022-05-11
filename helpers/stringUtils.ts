@@ -64,3 +64,7 @@ export const flattenObjectOfObjects = (obj: { [key: string]: string }) => {
 
 export const flattenedObject = (obj: { [key: string]: any }, maxDepth = 1) =>
   flatten(obj, { maxDepth });
+
+export const copy = (text: string) => {
+  navigator.clipboard.writeText(text);
+};

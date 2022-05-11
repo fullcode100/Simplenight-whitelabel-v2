@@ -14,6 +14,9 @@ interface PaymentFormProps {
   onError?: (error: any) => void;
   applicationId?: string;
   locationId?: string;
+  countryCode?: string;
+  currencyCode?: string;
+  amount?: number;
 }
 
 const SquarePaymentForm = ({
@@ -23,13 +26,20 @@ const SquarePaymentForm = ({
   onError = () => {},
   applicationId = SQUARE_SANDBOX_APP_ID,
   locationId = SQUARE_SANDBOX_LOCATION_ID,
+  countryCode = 'US',
+  currencyCode = 'USD',
+  amount = 0,
 }: PaymentFormProps) => {
   const isPaymentLibraryLoaded = getIsPaymentLibraryLoaded();
   const [cardLoaded, setCardLoaded] = useState(false);
   const [card, setCard] = useState<any>(null);
+  const [googlePay, setGooglePay] = useState<any>(null);
 
   const initializePaymentForm = async () => {
     const payments = await window.Square?.payments(applicationId, locationId);
+
+    initializeGooglePay(payments);
+
     payments.card().then((newCard: any) => {
       newCard.attach('#card-container').then(() => {
         setCard(newCard);
@@ -38,18 +48,54 @@ const SquarePaymentForm = ({
     });
   };
 
+  const buildPaymentRequest = (payments: any) =>
+    payments.paymentRequest({
+      countryCode,
+      currencyCode,
+      total: {
+        amount: amount + '',
+        label: 'Total',
+      },
+    });
+
+  const initializeGooglePay = async (payments: any) => {
+    const paymentRequest = buildPaymentRequest(payments);
+
+    const newGooglePayInstance = await payments.googlePay(paymentRequest);
+    await newGooglePayInstance.attach('#google-pay-button', {
+      buttonSizeMode: 'fill',
+    });
+
+    setGooglePay(newGooglePayInstance);
+
+    return newGooglePayInstance;
+  };
+
+  const reloadGooglePay = async () => {
+    const payments = await window.Square?.payments(applicationId, locationId);
+    initializeGooglePay(payments);
+  };
+
+  useEffect(() => {
+    if (!isPaymentLibraryLoaded) return;
+    reloadGooglePay();
+  }, [amount, currencyCode, countryCode]);
+
   useEffect(() => {
     if (!isPaymentLibraryLoaded) return;
     initializePaymentForm();
   }, [isPaymentLibraryLoaded]);
 
-  const handlePayClick = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handlePayClick = async (
+    event: MouseEvent<HTMLButtonElement>,
+    paymentMethod: any,
+  ) => {
     event.preventDefault();
 
-    if (!cardLoaded) return;
+    if (!paymentMethod) return;
 
     try {
-      const { status, token } = await card.tokenize();
+      const { status, token } = await paymentMethod.tokenize();
 
       if (status === 'OK') {
         onPaymentToken(token);
@@ -62,12 +108,18 @@ const SquarePaymentForm = ({
 
   return (
     <form id="payment-form px-4">
+      {amount && (
+        <div
+          id="google-pay-button"
+          className="mb-4"
+          onClick={(event: any) => handlePayClick(event, googlePay)}
+        ></div>
+      )}
       <div id="card-container"></div>
 
       <Button
         id="card-button"
-        onClick={handlePayClick}
-        // disabled={cardLoaded}
+        onClick={(event: any) => handlePayClick(event, card)}
         value="Pay"
       />
     </form>
