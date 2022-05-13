@@ -3,13 +3,14 @@ import RoomCard from './RoomCard';
 
 interface RoomsProps {
   rooms: Array<Room>;
+  hotelId: string;
 }
 
-const RoomsList = ({ rooms }: RoomsProps) => {
+const RoomsList = ({ rooms, hotelId }: RoomsProps) => {
   return (
     <section>
       {rooms.map((room) => {
-        return <RoomCard key={room.code} room={room} />;
+        return <RoomCard key={room.code} room={room} hotelId={hotelId} />;
       })}
     </section>
   );

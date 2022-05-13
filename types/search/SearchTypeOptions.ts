@@ -8,6 +8,12 @@ import { SearchRequest } from './SearchRequest';
 
 export type CategoryOptions = CategoryOption[];
 
+export interface CoreOption {
+  name: string;
+  value: string;
+  core?: CategoryCore<any>;
+}
+
 export interface CategoryOption {
   id: number;
   name: string;

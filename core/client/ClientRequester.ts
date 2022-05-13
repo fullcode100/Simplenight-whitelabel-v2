@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
-import { CategoryOption } from 'types/search/SearchTypeOptions';
+import { CategoryOption, CoreOption } from 'types/search/SearchTypeOptions';
 import axios, {
   axiosCurrencyInterceptor,
   axiosI18nInterceptor,
@@ -7,7 +7,9 @@ import axios, {
 import { i18n } from 'i18next';
 
 export abstract class ClientRequester<Request, Response, PreRequest> {
-  public constructor(protected readonly category: CategoryOption) {}
+  public constructor(
+    protected readonly category: CategoryOption | CoreOption,
+  ) {}
 
   public async request(
     preRequest: PreRequest,
@@ -55,7 +57,9 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
   protected postRequest(
     request: Request,
     result: AxiosResponse<Response>,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): void {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected postRequestResult(request: Request, result: Response): void {}
 }

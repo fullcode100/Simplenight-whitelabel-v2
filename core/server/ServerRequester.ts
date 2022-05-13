@@ -1,13 +1,16 @@
-import { createServerAxiosInstance } from "apiCalls/config/axiosHelper";
-import { applySimplenightApiKey } from "apiCalls/config/middlewares/authHeaderMiddleware";
-import { sendSuccess, forwardError } from "apiCalls/config/responseHelpers";
-import { AxiosInstance, AxiosResponse } from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
-import { ApiResponse } from "types/global/Request";
-import { CategoryOption } from "types/search/SearchTypeOptions";
+import { createServerAxiosInstance } from 'apiCalls/config/axiosHelper';
+import { applySimplenightApiKey } from 'apiCalls/config/middlewares/authHeaderMiddleware';
+import { sendSuccess, forwardError } from 'apiCalls/config/responseHelpers';
+import { AxiosInstance, AxiosResponse } from 'axios';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { ApiResponse } from 'types/global/Request';
+import { CategoryOption } from 'types/search/SearchTypeOptions';
+import { CoreOption } from '../../types/search/SearchTypeOptions';
 
 export abstract class ServerRequester<Response> {
-  protected constructor(protected readonly category: CategoryOption) {}
+  protected constructor(
+    protected readonly category: CategoryOption | CoreOption,
+  ) {}
 
   public async handle(
     req: NextApiRequest,
@@ -48,6 +51,7 @@ export abstract class ServerRequester<Response> {
     request: NextApiRequest,
     response: NextApiResponse<Response>,
     result: AxiosResponse<ApiResponse<any, Response>>,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
   ): void {}
 
   protected postRequestResult(

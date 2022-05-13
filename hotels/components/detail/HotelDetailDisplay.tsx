@@ -222,7 +222,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             type="component"
             heightInPixels={900}
           >
-            {<RoomsSection rooms={hotelRooms} />}
+            {<RoomsSection rooms={hotelRooms} hotelId={hotel.id} />}
           </SeeMore>
         </section>
         <Divider />

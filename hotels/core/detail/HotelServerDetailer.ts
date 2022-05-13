@@ -22,8 +22,11 @@ export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
     const { query: params } = request;
     const { id } = params;
 
-    const categoryUrls = this.category.core.urls;
-    const { server: endpoint } = categoryUrls.detail;
+    let categoryUrls;
+    if (this.category.core) {
+      categoryUrls = this.category.core.urls;
+    }
+    const endpoint = categoryUrls?.detail.server;
     const url = applyApiBaseUrlV2(`${endpoint}/${id}`);
 
     delete params.id;

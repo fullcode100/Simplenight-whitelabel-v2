@@ -81,13 +81,18 @@ export const axiosI18nInterceptor = (i18next: i18n) => (config: any) => {
 };
 
 export const axiosCurrencyInterceptor = (currency: string) => (config: any) => {
-  config.params.currency = currency;
+  if (config.params) {
+    config.params.currency = currency;
+  }
   return config;
 };
 
 export const axiosServerI18nInterceptor =
   (language: string) => (config: any) => {
-    if (config.data) config.data.params['lang'] = language;
+    if (config.data) {
+      config.params = config.params ?? {};
+      config.params.lang = language;
+    }
     return config;
   };
 

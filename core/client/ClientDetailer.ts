@@ -16,11 +16,14 @@ export abstract class ClientDetailer<
     axios: AxiosInstance,
     id: any,
   ): Promise<AxiosResponse<DetailResponse, any>> {
-    const { urls: categoryUrls } = this.category.core;
+    let categoryUrls;
+    if (this.category.core) {
+      categoryUrls = this.category.core.urls;
+    }
 
     if (!id) throw new Error('hotel id is required');
 
-    const clientDetailUrl = `${categoryUrls.detail.client}/${id}`;
+    const clientDetailUrl = `${categoryUrls?.detail.client}/${id}`;
 
     return axios.get<DetailResponse>(clientDetailUrl, {
       params: request,

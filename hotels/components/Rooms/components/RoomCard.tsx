@@ -9,11 +9,12 @@ import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 
 interface RoomsProps {
   room: Room;
+  hotelId: string;
 }
 
 const cancellableType = 'FREE_CANCELLATION';
 
-const RoomCard = ({ room }: RoomsProps) => {
+const RoomCard = ({ room, hotelId }: RoomsProps) => {
   const { description: roomDescription, rates, amenities } = room;
   const { min_rate: minRate } = rates;
   const { rate, cancellation_policy: cancellationPolicy } = minRate;
@@ -59,7 +60,7 @@ const RoomCard = ({ room }: RoomsProps) => {
         <BreakdownSummary rate={rate} />
       </section>
       <Divider />
-      <RoomCardActions />
+      <RoomCardActions room={room} hotelId={hotelId} />
     </section>
   );
 };

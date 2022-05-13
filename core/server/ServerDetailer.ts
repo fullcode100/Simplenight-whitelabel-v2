@@ -19,8 +19,11 @@ export abstract class ServerDetailer<
   ) {
     const { query: params } = request;
 
-    const categoryUrls = this.category.core.urls;
-    const { server: endpoint } = categoryUrls.detail;
+    let categoryUrls;
+    if (this.category.core) {
+      categoryUrls = this.category.core.urls;
+    }
+    const endpoint = categoryUrls?.detail.server;
 
     const endpointWithId = `${endpoint}/${params.id}`;
     const url = applyApiBaseUrlV2(endpointWithId);

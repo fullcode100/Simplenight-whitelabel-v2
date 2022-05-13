@@ -19,8 +19,11 @@ export abstract class ServerSearcher<
   ): Promise<AxiosResponse<ApiResponse<any, SearchResponse>, any>> {
     const { query: params } = request;
 
-    const categoryUrls = this.category.core.urls;
-    const { server: endpoint } = categoryUrls.search;
+    let categoryUrls;
+    if (this.category.core) {
+      categoryUrls = this.category.core.urls;
+    }
+    const endpoint = categoryUrls?.search.server ?? '';
     const url = applyApiBaseUrlV2(endpoint);
 
     return axios.get<ApiResponse<any, SearchResponse>>(url, {
