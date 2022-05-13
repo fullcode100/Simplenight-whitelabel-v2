@@ -13,10 +13,7 @@ const getOutlinedVariant = (): ColorWithStates => ({
 });
 
 export const getPrimaryVariants = (variant?: string): ColorWithStates => {
-  switch (variant) {
-    case 'outlined':
-      return getOutlinedVariant();
-  }
+  if (variant === 'outlined') return getOutlinedVariant();
 
   return {
     normal: 'bg-primary-1000 text-white',

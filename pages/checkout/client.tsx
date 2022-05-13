@@ -4,6 +4,15 @@ import React from 'react';
 import CheckoutMain from 'components/checkout/CheckoutMain/CheckoutMain';
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Divider from 'components/global/Divider/Divider';
+import Summary from 'components/checkout/Summary/Summary';
+import { Amount } from 'types/global/Amount';
+import Button from 'components/global/Button/Button';
+
+const test: Amount = {
+  formatted: '$200.00',
+  amount: 200,
+  currency: 'USD',
+};
 
 const Client = () => (
   <>
@@ -15,8 +24,9 @@ const Client = () => (
     </CheckoutMain>
     <Divider />
     <CheckoutFooter type="client">
-      <p>Checkout Footer</p>
-      <p>Checkout Footer</p>
+      <Summary amount={test} />
+      <Button value="Cancel" size={'full'} color="outlined" />
+      <Button value="Continue" size={'full'} disabled={true} />
     </CheckoutFooter>
   </>
 );
