@@ -22,6 +22,14 @@ const getDropdownVariant = (): ColorWithStates => ({
   selectedText: 'text-primary-1000',
 });
 
+const getDropdownVariant = (): ColorWithStates => ({
+  normal: 'bg-transparent text-dark-1000',
+  hover: 'hover:bg-dark-100 hover:text-dark-1000',
+  active: 'bg-primary-100 text-primary-1000',
+  disabled: 'bg-dark-200 text-dark-600 hover:text-dark-600',
+  selectedText: 'text-primary-1000',
+});
+
 export const getPrimaryVariants = (variant?: string): ColorWithStates => {
   if (variant === 'outlined') return getOutlinedVariant();
 
