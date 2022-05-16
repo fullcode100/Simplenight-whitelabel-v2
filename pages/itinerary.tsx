@@ -4,7 +4,7 @@ const Itinerary: NextPage = () => {
   return (
     <main>
       <header></header>
-      <section></section>
+      <section className="p-5"></section>
       <section></section>
       <aside></aside>
     </main>
