@@ -16,9 +16,9 @@ const SEOHoc = ({ children }: SEOHocProps) => {
   const favicon = images.favicon ?? '/favicon.ico';
 
   const dispatch = useDispatch();
-  const MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY;
+  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU'; // process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY;
 
-  const hasMapsApiKey = MAPS_API_KEY && MAPS_API_KEY !== '';
+  const hasMapsApiKey = !!MAPS_API_KEY; // && MAPS_API_KEY !== '';
   const isMapsLoaded = getIsMapLoaded();
 
   const handleMapsLoaded = () => {
