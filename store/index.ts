@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import reducers from './reducers';
 
-export let store: any;
+let store: any;
 
 function initStore(initialState: any) {
   return createStore(
