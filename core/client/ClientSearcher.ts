@@ -1,6 +1,6 @@
-import { AxiosInstance, AxiosResponse } from "axios";
-import { CategoryOption } from "types/search/SearchTypeOptions";
-import { ClientRequester } from "./ClientRequester";
+import { AxiosInstance, AxiosResponse } from 'axios';
+import { CategoryOption } from 'types/search/SearchTypeOptions';
+import { ClientRequester } from './ClientRequester';
 
 export abstract class ClientSearcher<
   SearchRequest,

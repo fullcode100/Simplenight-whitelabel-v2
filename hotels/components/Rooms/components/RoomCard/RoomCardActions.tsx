@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface RoomProps {
   room: Room;
@@ -9,7 +10,13 @@ interface RoomProps {
 }
 
 const RoomCardActions = ({ room, hotelId }: RoomProps) => {
-  const bookingCode = room.rates.min_rate.booking_code_sn;
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const store = {
+    state,
+    dispatch,
+  };
+  const bookingCode = room.rates.min_rate.sn_booking_code;
   const itemToBook = {
     inventory_id: hotelId,
     sn_booking_code: bookingCode,
@@ -25,7 +32,7 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
           type="outlined"
           textColor="primary"
           onClick={() => {
-            addToCart(itemToBook, i18next);
+            addToCart(itemToBook, i18next, store);
           }}
         />
         <Button value="Book Now" size="full" />

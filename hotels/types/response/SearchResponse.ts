@@ -117,7 +117,7 @@ export interface Rates {
 export interface MinRate {
   rate_type: MinRateRateType;
   meal_plan: MealPlan;
-  booking_code_sn: string;
+  sn_booking_code: string;
   booking_code_supplier: string;
   comments: string;
   requires_validation_before_booking: boolean;

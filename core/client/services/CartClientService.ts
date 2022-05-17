@@ -1,7 +1,6 @@
 import { i18n } from 'i18next';
 import { Item } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
-import { store } from 'store';
 import { createCart } from '../../../store/actions/cartActions';
 import { ClientCartGetter } from '../ClientCartGetter';
 
@@ -10,10 +9,9 @@ const cartOption = {
   value: 'cart',
 };
 
-export const addToCart = async (itemToAdd: Item, i18next: i18n) => {
-  const state = await store.getState();
+export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
+  const { state, dispatch } = store;
   const cartId = state.cartStore.cart.cart?.cart_id ?? null;
-
   const cartItemAdder = new ClientCartItemAdder(cartOption);
   let cartUrl = '/carts';
   const newCartRequest = {
@@ -26,7 +24,6 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n) => {
     cart: itemToAdd,
     url: cartUrl,
   };
-
   try {
     if (cartId) {
       cartUrl = `/carts/${cartId}/items/`;
@@ -38,20 +35,18 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n) => {
       );
       return data;
     }
-
     const { cart } = await cartItemAdder.request(
       newCartRequest,
       i18next,
       cartUrl,
     );
-    store.dispatch(createCart(cart));
+    dispatch(createCart(cart));
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getCart = async (i18next: i18n) => {
-  const state = await store.getState();
+export const getCart = async (i18next: i18n, state: any) => {
   const cartId = state.cartStore.cart.cart?.cart_id ?? null;
 
   const cartGetter = new ClientCartGetter(cartOption);

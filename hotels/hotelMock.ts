@@ -306,7 +306,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -464,7 +464,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -603,7 +603,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -741,7 +741,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -879,7 +879,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -1293,7 +1293,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -1432,7 +1432,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -1541,7 +1541,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -1679,7 +1679,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -1817,7 +1817,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -2231,7 +2231,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -2369,7 +2369,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -2507,7 +2507,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -2645,7 +2645,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -2783,7 +2783,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -3197,7 +3197,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -3335,7 +3335,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -3473,7 +3473,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -3611,7 +3611,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -3749,7 +3749,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -4163,7 +4163,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|DBL.NM-QN|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-1973952447~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -4301,7 +4301,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D-1|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-2104777540~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -4439,7 +4439,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG-NM|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~944416890~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
@@ -4577,7 +4577,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|QUA.2D|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~2591e7~-978969888~S~~~NOR~48087AF9D968448165029747710103AAUS0000001000100010625f1b7',
@@ -4715,7 +4715,7 @@ export default [
               code: 'BB',
               text: 'BED AND BREAKFAST',
             },
-            booking_code_sn:
+            sn_booking_code:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
             booking_code_supplier:
               '20220904|20220906|W|254|412035|TPL.KG|ID_B2B_26|BB|SOR|1~2~0||N@06~A-SIC~20818c~-55546768~S~~~NOR~48087AF9D968448165029747710103AAUS00000010001000106210165',
