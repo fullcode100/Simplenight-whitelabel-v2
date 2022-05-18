@@ -145,8 +145,6 @@ export const getCartSchema = async (
       const { form_schema } = await cartGetter.request({}, i18next, cartId);
       return form_schema;
     }
-
-    return {};
   } catch (error) {
     console.error(error);
   }

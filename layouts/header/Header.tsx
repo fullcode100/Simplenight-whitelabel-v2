@@ -49,6 +49,16 @@ const Header = ({ color }: HeaderProps) => {
     });
   }, [state.cartStore]);
 
+  useEffect(() => {
+    if (state.cartStore) {
+      getCart(i18next, state).then((cart) => {
+        if (cart) {
+          setCartQty(cart.total_item_qty);
+        }
+      });
+    }
+  }, [state.cartStore]);
+
   return (
     <>
       <FullScreenModal
