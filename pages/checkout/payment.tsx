@@ -116,6 +116,18 @@ const Payment = () => {
       });
   }, [reload]);
 
+  const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
+    const { paymentMethodData } = paymentRequest;
+    const { tokenizationData } = paymentMethodData;
+    const { token: newToken } = tokenizationData;
+
+    setToken(newToken);
+  };
+
+  const handlePaymentToken = (newToken: string) => {
+    setToken(newToken);
+  };
+
   return (
     <>
       {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
