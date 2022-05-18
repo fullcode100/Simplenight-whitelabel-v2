@@ -12,6 +12,7 @@ export interface BaseInputProps {
   inputClassName?: string;
   customInput?: any;
   className?: string;
+  disabled?: boolean;
   autoFocus?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
@@ -33,6 +34,7 @@ const BaseInput = ({
   inputClassName = '',
   type = 'text',
   className = '',
+  disabled = false,
   leftIcon,
   rightIcon,
   customInput,
@@ -76,7 +78,10 @@ const BaseInput = ({
       id={name}
       ref={inputRef}
       value={value}
-      className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md ${inputClassName} ${internalInputClassName}`}
+      disabled={disabled}
+      className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md ${inputClassName} ${internalInputClassName} ${
+        disabled && 'bg-dark-200 text-dark-600'
+      }`}
       placeholder={placeholder}
       onChange={onChange}
       autoFocus={autoFocus}

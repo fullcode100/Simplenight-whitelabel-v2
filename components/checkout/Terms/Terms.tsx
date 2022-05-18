@@ -41,7 +41,7 @@ const Terms = ({
         name="terms"
         checked={checkValue}
         disabled={disabled}
-        onClick={(e) => handleCheckbox(e)}
+        onChange={(e) => handleCheckbox(e)}
       />
       <label
         htmlFor="checkout-terms"

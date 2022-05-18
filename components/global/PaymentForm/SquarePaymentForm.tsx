@@ -17,6 +17,7 @@ interface PaymentFormProps {
   countryCode?: string;
   currencyCode?: string;
   amount?: number;
+  withGooglePay?: boolean;
 }
 
 const SquarePaymentForm = ({
@@ -29,6 +30,7 @@ const SquarePaymentForm = ({
   countryCode = 'US',
   currencyCode = 'USD',
   amount = 0,
+  withGooglePay = false,
 }: PaymentFormProps) => {
   const isPaymentLibraryLoaded = getIsPaymentLibraryLoaded();
   const [cardLoaded, setCardLoaded] = useState(false);
@@ -108,7 +110,7 @@ const SquarePaymentForm = ({
 
   return (
     <form id="payment-form px-4">
-      {amount && (
+      {amount && withGooglePay && (
         <div
           id="google-pay-button"
           className="mb-4"
