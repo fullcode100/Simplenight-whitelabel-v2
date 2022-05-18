@@ -54,6 +54,9 @@ const Button = ({
     case 'square':
       sizeTailwindClass = 'w-11 h-11';
       break;
+    case 'full-sm':
+      sizeTailwindClass = 'w-full h-8';
+      break;
     case 'full':
       sizeTailwindClass = 'w-full h-12';
       break;

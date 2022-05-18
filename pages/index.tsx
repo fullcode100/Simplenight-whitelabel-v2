@@ -13,14 +13,17 @@ import Button from 'components/global/Button/Button';
 import EmailIcon from 'public/icons/assets/email.svg';
 import PhoneCall from 'public/icons/assets/phone-call.svg';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import HomepageLayout from 'layouts/HomepageLayout';
+import { NextPageWithLayout } from 'types/layout/pageTypes';
+import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => (
-  <div className="min-h-[50vh] w-[100vw] px-4 py-28 bg-primary-100 ">
+  <div className="min-h-[50vh] w-[100vw] px-4 pt-[122px] pb-[26px] bg-primary-100 ">
     {children}
   </div>
 );
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
   const [t, i18next] = useTranslation('global');
   const nearYouLabel = t('nearYou', 'Near you right now');
   const helpTitle = t('needHelpTitle', 'Need some help?');
@@ -142,5 +145,7 @@ const Home: NextPage = () => {
     </main>
   );
 };
+
+Home.getLayout = getHomepageLayout;
 
 export default Home;

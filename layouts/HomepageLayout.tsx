@@ -1,13 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Header from 'layouts/header/Header';
 import Footer from './footer/Footer';
 
-const DefaultLayout = ({ children }: any) => {
+const HomepageLayout = ({ children }: any) => {
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <section>
-        <Header color="bg-dark-100" />
-        <div className="mt-[96px]"></div>
+        <Header color="bg-primary-100" />
         {children}
       </section>
       <section>
@@ -17,4 +16,4 @@ const DefaultLayout = ({ children }: any) => {
   );
 };
 
-export default DefaultLayout;
+export default HomepageLayout;

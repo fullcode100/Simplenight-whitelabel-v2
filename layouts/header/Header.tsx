@@ -5,42 +5,20 @@ import ImagePlaceHolder from 'public/icons/assets/image-placeholder.svg';
 import HamburgerMenuButton from 'public/icons/assets/hamburger-menu-button.svg';
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
 import { useEffect, useState } from 'react';
-import { setHomepageScrollHandler } from 'store/actions/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { getCart } from 'core/client/services/CartClientService';
 import { useTranslation } from 'react-i18next';
 
-const Header = () => {
-  const state = useSelector((state: RootState) => state);
-  const scrollStyle = 'bg-white';
-  const normalStyle = 'bg-transparent';
+interface HeaderProps {
+  color: string;
+}
 
-  const [bgClass, setBgClass] = useState(normalStyle);
+const Header = ({ color }: HeaderProps) => {
+  const state = useSelector((state: RootState) => state);
+
   const [cartQty, setCartQty] = useState(0);
   const [t, i18next] = useTranslation('global');
-
-  const dispatch = useDispatch();
-
-  const handleScroll = (event: Event) => {
-    const hasScrolled =
-      (event.target as HTMLDivElement)?.children[0]?.scrollTop > 0;
-    if (hasScrolled) {
-      setBgClass(scrollStyle);
-      return;
-    }
-
-    setBgClass(normalStyle);
-  };
-
-  useEffect(() => {
-    dispatch(setHomepageScrollHandler(handleScroll));
-    window?.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window?.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     if (state.cartStore) {
@@ -54,7 +32,7 @@ const Header = () => {
 
   return (
     <header
-      className={`flex items-center justify-between pt-16 pb-8 px-4 h-[60px] z-20 ${bgClass} fixed w-full`}
+      className={`flex items-center justify-between pt-16 pb-8 px-4 h-[60px] z-20 ${color} fixed w-full`}
     >
       <HamburgerMenuButton className="mr-2 cursor-pointer" />
       <section className="flex gap-5 items-center">
@@ -74,12 +52,12 @@ const Header = () => {
   );
 };
 
-const HeaderBrandingHoc = () => {
+const HeaderBrandingHoc = ({ color }: HeaderProps) => {
   const { brandCode } = useBrandConfig();
 
   return (
     <BrandingHOC brand={brandCode} path={'layout/Header'}>
-      <Header />
+      <Header color={color} />
     </BrandingHOC>
   );
 };

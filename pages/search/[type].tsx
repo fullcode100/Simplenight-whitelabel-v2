@@ -26,7 +26,7 @@ const Search: NextPage = () => {
           tabs={tabsMock}
           onClick={handleTabClick}
           primary
-          className="mt-24 px-4"
+          className="mt-1 px-4"
         />
 
         <ExtendedSearchCategoryForm searchType={internalSearchType} />

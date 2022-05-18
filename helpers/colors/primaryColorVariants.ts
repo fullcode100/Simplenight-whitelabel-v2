@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 export interface ColorWithStates {
   normal: string;
   hover: string;
@@ -7,10 +8,10 @@ export interface ColorWithStates {
 }
 
 const getOutlinedVariant = (): ColorWithStates => ({
-  normal: 'bg-transparent text-primary-1000 border-2 border-primary-1000',
+  normal: 'bg-transparent text-primary-1000 border border-primary-1000',
   hover: 'hover:bg-primary-200',
   active: 'focus:bg-primary-300',
-  disabled: 'bg-transparent border-dark-300 border-2 text-dark-700',
+  disabled: 'bg-transparent border-dark-300 border text-dark-700',
 });
 
 const getDropdownVariant = (): ColorWithStates => ({

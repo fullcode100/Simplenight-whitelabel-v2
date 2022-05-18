@@ -180,7 +180,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full px-4 pt-28 pb-4">
+      <header className="flex flex-col w-full px-4 pt-3.5 pb-4">
         <section className="h-12 flex justify-between items-center">
           <section className="flex flex-col">
             <section className="flex gap-4">
