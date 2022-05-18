@@ -149,3 +149,29 @@ export const getCartSchema = async (
     console.error(error);
   }
 };
+
+interface RemoveItemRequest {
+  cartId: string;
+  itemId: string;
+}
+
+export const removeFromCart = async (
+  i18next: i18n,
+  itemToRemove: RemoveItemRequest,
+  dispatch: any,
+) => {
+  const { cartId, itemId } = itemToRemove;
+  const cartRemover = new ClientCartRemover(cartOption);
+  const cartUrl = `/carts/${cartId}/items/${itemId}`;
+  const cartRequest = {
+    cart_id: cartId,
+    item_id: itemId,
+  };
+
+  try {
+    await cartRemover.request(cartRequest, i18next, cartUrl);
+    dispatch(updateCart());
+  } catch (error) {
+    console.error(error);
+  }
+};
