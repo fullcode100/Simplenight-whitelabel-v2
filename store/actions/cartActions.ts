@@ -14,13 +14,9 @@ export const createCart =
     });
   };
 
-export const updateCart =
-  (item: Item): AppThunk =>
-  async (dispatch) => {
-    dispatch({
-      type: types.UPDATE_CART,
-      payload: {
-        item,
-      },
-    });
-  };
+export const updateCart = () => async (dispatch: any) => {
+  dispatch({
+    type: types.UPDATE_CART,
+    payload: {},
+  });
+};

@@ -3,6 +3,7 @@ import { Item } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
 import { createCart, updateCart } from '../../../store/actions/cartActions';
 import { ClientCartGetter } from '../ClientCartGetter';
+import { ClientCartRemover } from '../ClientCartItemRemover';
 
 const cartOption = {
   name: 'cart',
@@ -34,7 +35,7 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
         cartUrl,
       );
       if (item) {
-        dispatch(updateCart(item));
+        dispatch(updateCart());
       }
       return item;
     }
@@ -65,6 +66,32 @@ export const getCart = async (i18next: i18n, state: any) => {
       const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
       return cart;
     }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+interface RemoveItemRequest {
+  cartId: string;
+  itemId: string;
+}
+
+export const removeFromCart = async (
+  i18next: i18n,
+  itemToRemove: RemoveItemRequest,
+  dispatch: any,
+) => {
+  const { cartId, itemId } = itemToRemove;
+  const cartRemover = new ClientCartRemover(cartOption);
+  const cartUrl = `/carts/${cartId}/items/${itemId}`;
+  const cartRequest = {
+    cart_id: cartId,
+    item_id: itemId,
+  };
+
+  try {
+    await cartRemover.request(cartRequest, i18next, cartUrl);
+    dispatch(updateCart());
   } catch (error) {
     console.error(error);
   }

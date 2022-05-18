@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ServerCartItemAdder } from 'core/server/ServerCartItemAdder';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { CartResponse } from '../../../../types/cart/CartType';
+import { CartResponse } from '../../../../../types/cart/CartType';
 
 export default async function handler(
   req: NextApiRequest,
