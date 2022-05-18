@@ -1,7 +1,7 @@
 import { i18n } from 'i18next';
 import { Item } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
-import { createCart } from '../../../store/actions/cartActions';
+import { createCart, updateCart } from '../../../store/actions/cartActions';
 import { ClientCartGetter } from '../ClientCartGetter';
 
 const cartOption = {
@@ -28,19 +28,24 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
     if (cartId) {
       cartUrl = `/carts/${cartId}/items/`;
       updateCartRequest.url = cartUrl;
-      const data = await cartItemAdder.request(
+      const { item } = await cartItemAdder.request(
         updateCartRequest,
         i18next,
         cartUrl,
       );
-      return data;
+      if (item) {
+        dispatch(updateCart(item));
+      }
+      return item;
     }
     const { cart } = await cartItemAdder.request(
       newCartRequest,
       i18next,
       cartUrl,
     );
-    dispatch(createCart(cart));
+    if (cart) {
+      dispatch(createCart(cart));
+    }
   } catch (error) {
     console.error(error);
   }
@@ -60,8 +65,6 @@ export const getCart = async (i18next: i18n, state: any) => {
       const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
       return cart;
     }
-
-    return {};
   } catch (error) {
     console.error(error);
   }

@@ -1,5 +1,6 @@
 export interface CartResponse {
-  cart: CartObjectResponse;
+  cart?: CartObjectResponse;
+  item?: Item;
 }
 
 export interface CartObjectResponse {
