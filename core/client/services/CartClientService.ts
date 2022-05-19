@@ -170,7 +170,25 @@ export const removeFromCart = async (
 
   try {
     await cartRemover.request(cartRequest, i18next, cartUrl);
-    dispatch(updateCart());
+    dispatch(updateCartAction());
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateCart = async (
+  data: UpdateCartRequest,
+  i18next: i18n,
+  store: any,
+) => {
+  const state = await store.getState();
+  const cartId = state.cartStore.cart.cart?.cart_id ?? null;
+  const cartUpdate = new ClientCartUpdate(cartOption);
+
+  try {
+    if (cartId) await cartUpdate.request(data, i18next, cartId);
+
+    return {};
   } catch (error) {
     console.error(error);
   }
