@@ -32,7 +32,7 @@ export interface NewCartRequest {
   };
 }
 
-export interface UpdateCartRequest {
+export interface UpdateCartItemRequest {
   url: string;
   cart: Item;
 }
@@ -66,4 +66,9 @@ export interface ExtendedData {
 export interface ExtraFields {
   extra1: string;
   extra2: string;
+}
+
+export interface UpdateCartRequest {
+  lang?: string;
+  currency?: string;
 }
