@@ -75,6 +75,23 @@ export const getCart = async (i18next: i18n, state: any) => {
   }
 };
 
+export const getCartId = async (i18next: i18n, cartId: string | string[]) => {
+  const cartGetter = new ClientCartGetter(cartOption);
+  const cartUrl = `/carts/${cartId}`;
+  const cartRequest = {
+    id: cartId,
+  };
+
+  try {
+    if (cartId) {
+      const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
+      return cart;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 interface RemoveItemRequest {
   cartId: string;
   itemId: string;

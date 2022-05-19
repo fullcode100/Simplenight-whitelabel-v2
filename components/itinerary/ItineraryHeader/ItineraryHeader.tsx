@@ -6,7 +6,11 @@ import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
 
 const PRODUCTS = 2;
 
-const ItineraryHeader = () => {
+interface ItineraryHeaderProps {
+  productsAmount: number | undefined;
+}
+
+const ItineraryHeader = ({ productsAmount }: ItineraryHeaderProps) => {
   const [t, i18next] = useTranslation('global');
   const myItinerary = t('myItinerary', 'My Itinerary');
 
@@ -15,9 +19,9 @@ const ItineraryHeader = () => {
       <PageTitle
         title={myItinerary}
         icon={<ShoppingCart />}
-        productsAmount={PRODUCTS}
+        productsAmount={productsAmount}
       />
-      <ContinueCheckoutButtons productsAmount={PRODUCTS} />
+      <ContinueCheckoutButtons productsAmount={productsAmount} />
     </section>
   );
 };
