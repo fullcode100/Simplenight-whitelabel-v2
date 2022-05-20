@@ -1,17 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import classnames from 'classnames';
 import { updateCart } from 'core/client/services/CartClientService';
+import { useSelector } from 'react-redux';
 
 const LanguageSelect = () => {
   const [t, i18n] = useTranslation();
+  const state = useSelector((state) => state);
   const { language, changeLanguage } = i18n;
   const languages = ['en', 'es'];
   const handleChangeLanguage = async (lang: string) => {
-    const prevLang = language;
     changeLanguage(lang);
     try {
       const data = { lang };
-      const res = await updateCart(data, i18n, {});
+      await updateCart(data, i18n, state);
     } catch (error) {
       console.log(error);
     }

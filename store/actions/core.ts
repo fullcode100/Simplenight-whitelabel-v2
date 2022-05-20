@@ -53,3 +53,12 @@ export const setIsPaymentLoaded =
       payload: isPaymentLoaded,
     });
   };
+
+export const setCurrency =
+  (currency: string): AppThunk =>
+  async (dispatch) => {
+    dispatch({
+      type: types.SET_CURRENCY,
+      payload: currency,
+    });
+  };

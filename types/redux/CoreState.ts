@@ -9,6 +9,7 @@ export interface CoreState {
   isMapsLoaded: boolean;
   isPaymentLoaded: boolean;
   homepageScrollHandler?: Function;
+  currency: string;
 }
 
 export interface CoreTheme {

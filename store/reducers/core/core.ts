@@ -62,7 +62,11 @@ const coreReducer = (
         ...state,
         isPaymentLoaded: payload,
       };
-
+    case types.SET_CURRENCY:
+      return {
+        ...state,
+        currency: payload,
+      };
     default:
       return state;
   }

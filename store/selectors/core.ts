@@ -31,3 +31,6 @@ export const getIsPaymentLibraryLoaded = () =>
 
 export const getHomepageScrollHandler = () =>
   useSelector((state: any) => state.core.homepageScrollHandler);
+
+export const getCurrency = () =>
+  useSelector((state: any) => state.core.currency);
