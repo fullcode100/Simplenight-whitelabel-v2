@@ -101,3 +101,7 @@ label {
 .ant-spin-dot-item {
   background-color: var(--primary-color) !important;
 }
+
+.ReactCollapse--collapse {
+  transition: height 300ms;
+}

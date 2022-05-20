@@ -1,4 +1,5 @@
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, useState } from 'react';
+import { Collapse } from 'react-collapse';
 
 import CollapseHeader from './components/CollapseHeader';
 import CollapseBody from './components/CollapseBody';
@@ -16,7 +17,9 @@ const CollapseBordered = ({ title, body, footer }: CollapseBorderedProps) => {
   return (
     <section className="border border-dark-300 rounded">
       <CollapseHeader title={title} show={show} setShow={setShow} />
-      {show && <CollapseBody body={body} show={show} />}
+      <Collapse isOpened={show}>
+        <CollapseBody body={body} show={show} />
+      </Collapse>
       <CollapseFooter footer={footer} show={show} />
     </section>
   );
