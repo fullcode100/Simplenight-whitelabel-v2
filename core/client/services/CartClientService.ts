@@ -196,9 +196,8 @@ export const removeFromCart = async (
 export const updateCart = async (
   data: UpdateCartRequest,
   i18next: i18n,
-  store: any,
+  state: any,
 ) => {
-  const state = await store.getState();
   const cartId = state.cartStore.cart.cart?.cart_id ?? null;
   const cartUpdate = new ClientCartUpdate(cartOption);
 
