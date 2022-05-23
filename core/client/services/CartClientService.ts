@@ -198,7 +198,7 @@ export const updateCart = async (
   i18next: i18n,
   state: any,
 ) => {
-  const cartId = state.cartStore.cart.cart?.cart_id ?? null;
+  const cartId = state.cartStore.cart ?? null;
   const cartUpdate = new ClientCartUpdate(cartOption);
 
   try {

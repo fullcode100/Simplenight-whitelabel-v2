@@ -57,6 +57,14 @@ const Header = ({ color }: HeaderProps) => {
         }
       });
     }
+    getCart(i18next, state).then((cart) => {
+      if (cart?.status === 'BOOKED') {
+        localStorage.removeItem('cart');
+        dispatch(clearCart());
+      } else if (cart) {
+        setCartQty(cart.total_item_qty);
+      }
+    });
   }, [state.cartStore]);
 
   return (
