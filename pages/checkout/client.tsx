@@ -195,4 +195,35 @@ const Client = () => {
   );
 };
 
+  useEffect(() => {
+    handleGetSchema();
+  }, []);
+  return (
+    <>
+      <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
+        Header Wizzard
+      </section>
+      <CheckoutMain>
+        Form section to Detail section - both shares margins
+      </CheckoutMain>
+      <ClientForm schema={travelersFormSchema} uiSchema={travelersUiSchema} />
+      <Divider />
+      <CheckoutFooter type="client">
+        <Summary amount={test} />
+        <Button
+          value="Cancel"
+          size={'full'}
+          color="outlined"
+          className="text-[18px] hover:text-white hover:bg-primary-800"
+        />
+        <Button
+          value="Continue"
+          size={'full'}
+          disabled={true}
+          className="text-[18px]"
+        />
+      </CheckoutFooter>
+    </>
+  );
+};
 export default Client;

@@ -26,6 +26,9 @@ export interface CartClientResponse {
   item?: Item;
 }
 
+export interface CartSchemaResponse {
+  form_schema: any;
+}
 export interface CartObjectResponse {
   cart_id: string;
   created_at: string;
