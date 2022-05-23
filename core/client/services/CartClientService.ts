@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { i18n } from 'i18next';
 import { Item, UpdateCartRequest } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
@@ -8,6 +9,8 @@ import {
 import { ClientCartGetter } from '../ClientCartGetter';
 import { ClientCartRemover } from '../ClientCartItemRemover';
 import { ClientCartUpdate } from '../ClientCartUpdate';
+import { ClientCartSchema } from '../ClientCartSchema';
+import { getStoreCartId } from 'store/selectors/cart';
 
 const cartOption = {
   name: 'cart',
@@ -118,16 +121,28 @@ export const removeFromCart = async (
   }
 };
 
-export const updateCart = async (
-  data: UpdateCartRequest,
-  i18next: i18n,
-  state: any,
-) => {
-  const cartId = state.cartStore.cart ?? null;
+export const updateCart = async (data: UpdateCartRequest, i18next: i18n) => {
+  const cartId = getStoreCartId() ?? null;
   const cartUpdate = new ClientCartUpdate(cartOption);
 
   try {
     if (cartId) await cartUpdate.request(data, i18next, cartId);
+
+    return {};
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getCartSchema = async (i18next: i18n) => {
+  const cartId = getStoreCartId() ?? null;
+  const cartGetter = new ClientCartSchema(cartOption);
+
+  try {
+    if (cartId) {
+      const { form_schema } = await cartGetter.request({}, i18next, cartId);
+      return form_schema;
+    }
 
     return {};
   } catch (error) {

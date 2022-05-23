@@ -20,6 +20,7 @@ interface FormSchemaProps {
   uiSchema?: any;
   children?: React.ReactNode;
   onSubmit?: (data: any) => void;
+  id?: string;
 }
 
 const FormSchema = ({
@@ -27,6 +28,7 @@ const FormSchema = ({
   uiSchema,
   children,
   onSubmit,
+  id,
 }: FormSchemaProps) => {
   const widgets = {
     CheckboxWidget: CustomCheckbox,
@@ -69,6 +71,7 @@ const FormSchema = ({
       uiSchema={uiSchema}
       FieldTemplate={CustomFieldTemplate}
       ObjectFieldTemplate={ObjectFieldTemplate}
+      id={id}
     >
       {children}
     </Form>

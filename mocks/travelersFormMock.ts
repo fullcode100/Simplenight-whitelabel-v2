@@ -34,42 +34,6 @@ export const travelersFormSchema = {
         'Primary Contact is the lead customer for this reservation. This name needs to match the name of the reservation and the voucher for the vendor of the reservation.',
       default: false,
     },
-    pacificShore: {
-      type: 'object',
-      title: 'Pacific Shores Hotel',
-      description: 'Deluxe King Room',
-      properties: {
-        usePrimaryContact: {
-          type: 'boolean',
-          title: 'Use primary contact',
-          default: false,
-        },
-        aditionalRequests: {
-          type: 'string',
-          title: 'Additional requests',
-          default: '',
-        },
-      },
-    },
-    waldorfAstoria: {
-      type: 'object',
-      title: 'Waldorf Astoria Chicago',
-      description: 'Double Standard Room',
-      properties: {
-        usePrimaryContact: {
-          type: 'boolean',
-          title: 'Use primary contact',
-          default: false,
-        },
-        aditionalRequests: {
-          type: 'string',
-          title: 'Additional requests',
-          description:
-            'Your Tickets will be delivered to you via email right after checkout.',
-          default: '',
-        },
-      },
-    },
   },
 };
 
@@ -83,23 +47,5 @@ export const travelersFormUiSchema = {
   phone: {
     'ui:widget': 'PhoneWidget',
     'ui:placeholder': 'Phone Number',
-  },
-  pacificShore: {
-    usePrimaryContact: {
-      'ui:widget': 'ToggleWidget',
-    },
-    aditionalRequests: {
-      'ui:widget': 'textarea',
-      'ui:placeholder': 'Enter optional request...',
-    },
-  },
-  waldorfAstoria: {
-    usePrimaryContact: {
-      'ui:widget': 'ToggleWidget',
-    },
-    aditionalRequests: {
-      'ui:widget': 'textarea',
-      'ui:placeholder': 'Enter optional request...',
-    },
   },
 };

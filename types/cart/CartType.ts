@@ -3,6 +3,9 @@ export interface CartResponse {
   item?: Item;
 }
 
+export interface CartSchemaResponse {
+  form_schema: any;
+}
 export interface CartObjectResponse {
   cart_id: string;
   status: string;

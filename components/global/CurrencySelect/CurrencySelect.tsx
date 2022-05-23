@@ -8,14 +8,13 @@ import classnames from 'classnames';
 const CurrencySelect = () => {
   const [t, i18n] = useTranslation();
   const currentCurrency = getCurrency();
-  const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const currencies = ['USD', 'EUR'];
   const handleChangeCurrency = async (currency: string) => {
     dispatch(setCurrency(currency));
     try {
       const data = { currency };
-      await updateCart(data, i18n, state);
+      await updateCart(data, i18n);
     } catch (error) {
       return error;
     }
