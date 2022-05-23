@@ -1,6 +1,11 @@
-import { CartState } from './CartState';
-import { CartObjectResponse } from '../../../types/cart/CartType';
+const initialState = {
+  cart: '',
+};
 
-export default {
-  cart: {} as CartObjectResponse,
-} as CartState;
+if (typeof window !== 'undefined') {
+  if (localStorage.getItem('cart')) {
+    initialState.cart = JSON.parse(localStorage.getItem('cart') || '');
+  }
+}
+
+export default initialState;

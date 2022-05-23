@@ -16,7 +16,7 @@ const cartOption = {
 
 export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
   const { state, dispatch } = store;
-  const cartId = state.cartStore.cart.cart?.cart_id ?? null;
+  const cartId = state.cartStore.cart ?? null;
   const cartItemAdder = new ClientCartItemAdder(cartOption);
   let cartUrl = '/carts';
   const newCartRequest = {
@@ -49,7 +49,7 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
       cartUrl,
     );
     if (cart) {
-      dispatch(createCart(cart));
+      dispatch(createCart(cart.cart_id));
     }
   } catch (error) {
     console.error(error);
@@ -57,7 +57,7 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
 };
 
 export const getCart = async (i18next: i18n, state: any) => {
-  const cartId = state.cartStore.cart.cart?.cart_id ?? null;
+  const cartId = state.cartStore.cart ?? null;
 
   const cartGetter = new ClientCartGetter(cartOption);
   const cartUrl = `/carts/${cartId}`;
@@ -123,7 +123,7 @@ export const updateCart = async (
   i18next: i18n,
   state: any,
 ) => {
-  const cartId = state.cartStore.cart.cart?.cart_id ?? null;
+  const cartId = state.cartStore.cart ?? null;
   const cartUpdate = new ClientCartUpdate(cartOption);
 
   try {

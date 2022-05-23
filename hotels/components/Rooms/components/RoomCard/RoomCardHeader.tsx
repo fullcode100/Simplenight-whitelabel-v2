@@ -3,12 +3,14 @@ import {
   CancellationPolicy,
 } from '../../../../types/response/SearchResponse';
 import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
+import { Item } from '../../../../../types/cart/CartType';
 
 interface RoomHeaderProps {
   roomDescription: string;
   rates: Rate;
   cancellationPolicy?: CancellationPolicy;
   amenities: string[];
+  itemToBook: Item;
 }
 
 const RoomCardHeader = ({
@@ -16,6 +18,7 @@ const RoomCardHeader = ({
   rates,
   cancellationPolicy,
   amenities,
+  itemToBook,
 }: RoomHeaderProps) => {
   return (
     <header className="p-4">
@@ -28,6 +31,7 @@ const RoomCardHeader = ({
         rates={rates}
         cancellationPolicy={cancellationPolicy}
         features={amenities}
+        itemToBook={itemToBook}
       />
     </header>
   );

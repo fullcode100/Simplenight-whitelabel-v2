@@ -13,6 +13,9 @@ import {
 import BreakdownSummary from './components/BreakdownSummary';
 import FreeCancellationExtended from '../FreeCancellation/FreeCancellationExtended';
 import AmenitiesSection from '../../../hotels/components/Amenities/AmenitiesSection';
+import { addToCart } from 'core/client/services/CartClientService';
+import { useDispatch, useSelector } from 'react-redux';
+import { Item } from '../../../types/cart/CartType';
 
 interface DatePickerProps {
   showPriceBreakdown: boolean;
@@ -21,6 +24,7 @@ interface DatePickerProps {
   rates: Rate;
   cancellationPolicy?: CancellationPolicy;
   features: string[];
+  itemToBook: Item;
 }
 
 const PriceBreakdownModal = ({
@@ -30,7 +34,14 @@ const PriceBreakdownModal = ({
   rates,
   cancellationPolicy,
   features,
+  itemToBook,
 }: DatePickerProps) => {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const store = {
+    state,
+    dispatch,
+  };
   const [t, i18next] = useTranslation('hotels');
   const roomLabel = t('room', 'Room');
   const taxesLabel = t('taxes', 'Taxes');
@@ -49,9 +60,15 @@ const PriceBreakdownModal = ({
       closeModal={onClose}
       title="Room Details"
       primaryButtonText="Book Now"
-      primaryButtonAction={onClose}
+      primaryButtonAction={() => {
+        addToCart(itemToBook, i18next, store);
+        onClose();
+      }}
       secondaryButtonText="Add To Itinerary"
-      secondaryButtonAction={onClose}
+      secondaryButtonAction={() => {
+        addToCart(itemToBook, i18next, store);
+        onClose();
+      }}
       footerSummary={<BreakdownSummary rate={rates} />}
       hasMultipleActions={true}
     >

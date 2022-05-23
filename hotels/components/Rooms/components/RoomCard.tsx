@@ -18,6 +18,10 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
   const { description: roomDescription, rates, amenities } = room;
   const { min_rate: minRate } = rates;
   const { rate, cancellation_policy: cancellationPolicy } = minRate;
+  const itemToBook = {
+    inventory_id: hotelId,
+    sn_booking_code: minRate.sn_booking_code,
+  };
 
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
 
@@ -28,6 +32,7 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
         rates={rate}
         cancellationPolicy={cancellationPolicy}
         amenities={amenities}
+        itemToBook={itemToBook}
       />
       <Divider />
       <section className="p-4 grid grid-cols-2 gap-4">

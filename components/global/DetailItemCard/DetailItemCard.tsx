@@ -4,12 +4,14 @@ import {
   CancellationPolicy,
 } from '../../../hotels/types/response/SearchResponse';
 import PriceBreakdownModal from '../PriceBreakdownModal/PriceBreakdownModal';
+import { Item } from '../../../types/cart/CartType';
 interface DetailItemCardProps {
   label: string;
   description: string;
   rates: Rate;
   cancellationPolicy?: CancellationPolicy;
   features: string[];
+  itemToBook: Item;
 }
 
 const DetailItemCard = ({
@@ -18,6 +20,7 @@ const DetailItemCard = ({
   rates,
   cancellationPolicy,
   features,
+  itemToBook,
 }: DetailItemCardProps) => {
   const [showPriceBreakdown, setShowPriceBreakdown] = useState(false);
 
@@ -30,6 +33,7 @@ const DetailItemCard = ({
         rates={rates}
         cancellationPolicy={cancellationPolicy}
         features={features}
+        itemToBook={itemToBook}
       />
       <section>
         <button

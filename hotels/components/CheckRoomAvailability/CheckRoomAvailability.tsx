@@ -33,7 +33,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
       primaryButtonText="Check Availability"
       primaryButtonAction={onApply}
     >
-      <section className="px-5 py-3">
+      <section className="px-5 py-3 h-full">
         <CheckInOutInput
           showDatePicker={showDatePicker}
           handleStartDateChange={handleStartDateChange}

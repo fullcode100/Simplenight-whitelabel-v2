@@ -19,6 +19,12 @@ const cartReducer = (
         ...state,
       };
 
+    case types.CLEAR_CART:
+      return {
+        ...state,
+        cart: '',
+      };
+
     default:
       return state;
   }

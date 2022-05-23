@@ -35,7 +35,13 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
             addToCart(itemToBook, i18next, store);
           }}
         />
-        <Button value="Book Now" size="full" />
+        <Button
+          value="Book Now"
+          size="full"
+          onClick={() => {
+            addToCart(itemToBook, i18next, store);
+          }}
+        />
       </section>
     </footer>
   );
