@@ -160,7 +160,7 @@ export const getCartId = async (i18next: i18n, cartId: string | string[]) => {
   try {
     if (cartId) {
       const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
-      return cart;
+      return cart && cart;
     }
   } catch (error) {
     console.error(error);
