@@ -9,6 +9,7 @@ interface ModalFooterProps {
   secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   summary?: ReactNode;
   hasMultipleActions?: boolean;
+  className?: string;
 }
 
 const ModalFooter = ({
@@ -18,11 +19,14 @@ const ModalFooter = ({
   secondaryButtonAction,
   summary,
   hasMultipleActions,
+  className,
 }: ModalFooterProps) => {
   const secondaryButtonTextNotNull = secondaryButtonText ?? 'close';
 
   return (
-    <footer className="w-full bg-white py-6 px-5 shadow-container">
+    <footer
+      className={`w-full bg-white py-6 px-5 shadow-container ${className}`}
+    >
       {summary}
       {hasMultipleActions ? (
         <section

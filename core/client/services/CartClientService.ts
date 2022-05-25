@@ -36,7 +36,7 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
     if (cartId) {
       cartUrl = `/carts/${cartId}/items/`;
       updateCartRequest.url = cartUrl;
-      const { item } = await cartItemAdder.request(
+      const item = await cartItemAdder.request(
         updateCartRequest,
         i18next,
         cartUrl,
@@ -71,7 +71,7 @@ export const getCart = async (i18next: i18n, state: any) => {
   try {
     if (cartId) {
       const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
-      return cart;
+      return cart && cart;
     }
   } catch (error) {
     console.error(error);
@@ -88,7 +88,7 @@ export const getCartId = async (i18next: i18n, cartId: string | string[]) => {
   try {
     if (cartId) {
       const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
-      return cart;
+      return cart && cart;
     }
   } catch (error) {
     console.error(error);

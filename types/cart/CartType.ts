@@ -1,4 +1,17 @@
 export interface CartResponse {
+  cart?: CartObjectResponse[];
+  item?: Item;
+}
+
+export interface CartSchemaResponse {
+  form_schema: any;
+}
+export interface CartServerResponse {
+  cart?: CartObjectResponse[];
+  item?: Item;
+}
+
+export interface CartClientResponse {
   cart?: CartObjectResponse;
   item?: Item;
 }

@@ -1,22 +1,22 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import {
   NewCartRequest,
-  CartResponse,
+  CartClientResponse,
   UpdateCartItemRequest,
 } from 'types/cart/CartType';
 import { ClientRequester } from './ClientRequester';
 
 export class ClientCartItemAdder extends ClientRequester<
   NewCartRequest | UpdateCartItemRequest,
-  CartResponse,
+  CartClientResponse,
   NewCartRequest | UpdateCartItemRequest
 > {
   protected override doRequest(
     request: NewCartRequest | UpdateCartItemRequest,
     axios: AxiosInstance,
     cartUrl: string,
-  ): Promise<AxiosResponse<CartResponse, any>> {
-    return axios.post<CartResponse>(cartUrl, {
+  ): Promise<AxiosResponse<CartClientResponse, any>> {
+    return axios.post<CartClientResponse>(cartUrl, {
       data: request,
     });
   }
