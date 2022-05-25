@@ -1,3 +1,5 @@
+import { Hotel, Rates } from 'hotels/types/response/SearchResponse';
+
 export interface CartResponse {
   cart?: CartObjectResponse[];
   item?: Item;
@@ -16,22 +18,19 @@ export interface CartClientResponse {
   item?: Item;
 }
 
-export interface CartSchemaResponse {
-  form_schema: any;
-}
 export interface CartObjectResponse {
   cart_id: string;
-  status: string;
-  lang: string;
-  currency: string;
-  sandbox_mode: boolean;
-  organization_id: string;
   created_at: string;
-  last_update_at: string;
+  currency: string;
+  customer: Customer;
   items: Item[];
-  total_item_qty: number;
+  lang: string;
+  last_update_at: string;
+  organization_id: number;
+  sandbox_mode: boolean;
+  status: string;
   total_amount: TotalAmount;
-  total_amount_post_paid: TotalAmount;
+  total_item_qty: number;
 }
 
 export interface TotalAmount {
@@ -54,29 +53,29 @@ export interface UpdateCartItemRequest {
 }
 
 export interface Item {
-  inventory_id: string;
-  sn_booking_code: string;
-  quantity?: number;
-  supplier?: string;
+  cart_id?: string;
+  cart_item_id?: string;
   category?: string;
-  customer_additional_requests?: string;
+  created_at?: string;
   customer?: Customer;
-  extended_data?: ExtendedData;
+  extended_data?: Hotel;
+  inventory_id: string;
+  inventory_name?: string;
+  last_validated_rate?: any;
+  quantity?: number;
+  rate?: Rates;
+  sn_booking_code: string;
+  supplier?: string;
+  thumbnail_url?: string;
 }
 
 export interface Customer {
+  country: string;
+  email: string;
   first_name: string;
   last_name: string;
   phone_number: string;
   phone_prefix: string;
-  email: string;
-  country: string;
-  extra_fields: ExtraFields;
-}
-
-export interface ExtendedData {
-  extended_1: string;
-  extended_2: string;
 }
 
 export interface ExtraFields {

@@ -9,9 +9,11 @@ export interface Hotel {
   details: Details;
   giata_code: string;
   id: string;
+  min_rate_room: Room;
   photos: Photo[];
   relative_position: RelativePosition;
   rooms: Room[];
+  relevance?: number;
   thumbnail: string;
 }
 
@@ -87,6 +89,7 @@ export interface Room {
   rates: Rates;
   room_type: string;
   services: Services;
+  photos?: Photo[];
 }
 
 export interface Services {
@@ -115,7 +118,7 @@ export interface Rates {
 }
 
 export interface MinRate {
-  rate_type: MinRateRateType;
+  rate_type: MinRateRateType | RateBreakdownRateType;
   meal_plan: MealPlan;
   sn_booking_code: string;
   booking_code_supplier: string;
@@ -129,11 +132,18 @@ export interface MinRate {
 export interface RateBreakdown {
   diff_min_rate: Amount;
   discounts: Discounts;
-  extra_charges: Discounts;
-  rate_type: string;
+  extra_charges?: Discounts;
+  rate_type?: string;
   taxes: Tax[];
   total_base_amount: Amount;
   total_taxes: Amount;
+  post_paid_rate?: PostPaidRate;
+}
+
+export interface PostPaidRate {
+  taxes: Tax[];
+  total_taxes: Amount;
+  total_amount: Amount;
 }
 
 export interface Tax {
@@ -157,7 +167,17 @@ export enum MinRateRateType {
 export interface CancellationPolicy {
   cancellation_type: string;
   description: string;
+  details?: CancellationDetails[];
 }
+
+export interface CancellationDetails {
+  from_date: string;
+  to_date: string;
+  penalty_percentage: number;
+  penalty_amount: Amount;
+  cancellation_type: string;
+}
+
 export interface MealPlan {
   code: string;
   text: string;

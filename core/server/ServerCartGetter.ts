@@ -3,6 +3,7 @@ import {
   sendSuccess,
 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
+import { formatCart } from 'helpers/cartUtils';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CartServerResponse } from 'types/cart/CartType';
 import { ApiResponse } from 'types/global/Request';
@@ -34,7 +35,8 @@ export class ServerCartGetter extends ServerRequester<CartServerResponse> {
     result: CartServerResponse,
   ): void {
     if (result.cart) {
-      sendSuccess(response, { cart: result.cart[0] });
+      const formatResult = formatCart(result.cart[0]);
+      sendSuccess(response, { cart: formatResult });
     }
   }
 }
