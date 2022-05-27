@@ -4,6 +4,10 @@ import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import SEOHoc from './SEOHoc';
 import { I18nextProvider } from 'react-i18next';
 import { i18n } from 'i18next';
+import { CustomWindow } from 'types/global/CustomWindow';
+import { useInitialCurrency } from 'hooks/windowInteraction/useInitialCurrency';
+
+declare let window: CustomWindow;
 
 const InitAppHOC = ({
   children,
@@ -14,6 +18,8 @@ const InitAppHOC = ({
 }) => {
   useBrandConfigSetup();
   useThemeUpdater();
+
+  useInitialCurrency();
 
   return (
     <I18nextProvider i18n={i18next}>

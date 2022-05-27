@@ -76,16 +76,25 @@ const setServerAuthHeaders = (originUrl: string, apiKey?: string) => {
 };
 
 export const axiosI18nInterceptor = (i18next: i18n) => (config: any) => {
+  console.log('axios i18 interceptor');
   config.headers['Accept-Language'] = i18next.language;
   return config;
 };
 
 export const axiosCurrencyInterceptor = (currency: string) => (config: any) => {
-  if (config.params) {
-    config.params.currency = currency;
-  }
+  console.log('axios currency interceptor');
+  config.headers.currency = currency;
   return config;
 };
+
+export const axiosServerCurrencyInterceptor =
+  (currency: string) => (config: any) => {
+    if (config.params) {
+      config.params = config.params ?? {};
+      config.params.currency = currency.toUpperCase();
+    }
+    return config;
+  };
 
 export const axiosServerI18nInterceptor =
   (language: string) => (config: any) => {
@@ -99,6 +108,7 @@ export const axiosServerI18nInterceptor =
 export const createServerAxiosInstance = (req: any) => {
   const apiHeader = getSimplenightApiKey(req);
   const language = req.headers['accept-language'];
+  const currency = req.headers.currency;
 
   const axiosInstance = axios.create({
     headers: {
@@ -113,6 +123,11 @@ export const createServerAxiosInstance = (req: any) => {
     (error) => Promise.reject(error),
   );
 
+  axiosInstance.interceptors.request.use(
+    axiosServerCurrencyInterceptor(currency),
+    (error) => Promise.reject(error),
+  );
+
   return axiosInstance;
 };
 
@@ -122,6 +137,29 @@ const tryGetWindow = () => {
   } catch (e) {
     return undefined;
   }
+};
+
+export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
+  const Window = tryGetWindow();
+
+  const axiosInstance = axios.create({
+    baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  axiosInstance.interceptors.request.use(
+    axiosI18nInterceptor(i18next),
+    (error) => Promise.reject(error),
+  );
+
+  axiosInstance.interceptors.request.use(
+    axiosCurrencyInterceptor(currency),
+    (error) => Promise.reject(error),
+  );
+
+  return axiosInstance;
 };
 
 export default (() => {

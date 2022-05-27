@@ -1,9 +1,12 @@
 /* eslint indent: off */
 /* eslint @typescript-eslint/ban-types: off */
 import { flattenObjectOfObjects } from 'helpers/stringUtils';
+import { CustomWindow } from 'types/global/CustomWindow';
 import { AppThunk } from '..';
 import { getBrandConfig } from '../../config/configJson';
 import * as types from '../reducers/core/types';
+
+declare let window: CustomWindow;
 
 export const setBrandConfig =
   (brandCode: string): AppThunk =>
@@ -57,6 +60,7 @@ export const setIsPaymentLoaded =
 export const setCurrency =
   (currency: string): AppThunk =>
   async (dispatch) => {
+    window.currency = currency;
     dispatch({
       type: types.SET_CURRENCY,
       payload: currency,

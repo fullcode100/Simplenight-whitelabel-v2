@@ -24,24 +24,10 @@ import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
+import { useSelector } from 'react-redux';
+import { CustomWindow } from 'types/global/CustomWindow';
 
-const addressMock = {
-  coordinates: {
-    latitude: 40.75635,
-    longitude: -73.98001,
-    radius: 15,
-    unit: 'mi',
-  },
-  country_code: '',
-  country: 'USA',
-  state: 'Chicago',
-  city: '',
-  zone: '',
-  district: '',
-  address1: '11 E. Watson',
-  address2: '',
-  postal_code: '',
-};
+declare let window: CustomWindow;
 
 const Divider = () => (
   <div className="h-[1px] w-[140%] bg-dark-200 absolute left-0 mt-4" />
@@ -54,6 +40,7 @@ interface HotelResultsDisplayProps {
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const { ClientSearcher: Searcher } = HotelCategory.core;
   const [t, i18next] = useTranslation('hotels');
+  const { language } = i18next;
   const pickForYouLabel = t('pickForYou', 'Our pick for you');
   const totalLabel = t('total', 'Total');
   const fromLabel = t('from', 'from');
@@ -64,6 +51,13 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
+
+  const [currency, setCurrency] = useState<string>(window.currency);
+  const storeCurrency = useSelector((state: any) => state.core.currency);
+
+  useEffect(() => {
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
 
   useEffect(() => {
     const hasEmptyValues = checkIfAnyNull([
@@ -88,21 +82,23 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       dst_geolocation: geolocation as unknown as StringGeolocation,
       rsp_fields_set: 'basic',
     };
-    // const params: HotelSearchRequest = {
-    //   rooms: 1,
-    //   adults: 2,
-    //   children: 0,
-    //   start_date: formatAsSearchDate(dayjs().add(15, 'day')),
-    //   end_date: formatAsSearchDate(dayjs().add(17, 'day')),
-    //   dst_geolocation: '36.1699412,-115.1398296',
-    //   rsp_fields_set: 'basic',
-    // };
+
     Searcher?.request(params, i18next).then(
       ({ hotels: searchedHotels }: HotelSearchResponse) => {
         setHotels(searchedHotels);
       },
     );
-  }, [adults, children, startDate, endDate, latitude, longitude, rooms]);
+  }, [
+    adults,
+    children,
+    startDate,
+    endDate,
+    latitude,
+    longitude,
+    rooms,
+    language,
+    currency,
+  ]);
 
   const handleOnViewDetailClick = (hotel: Hotel) => {
     const { id } = hotel;

@@ -33,8 +33,12 @@ import {
 import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import InformationIcon from 'public/icons/assets/information.svg';
+import { useSelector } from 'react-redux';
+import { CustomWindow } from 'types/global/CustomWindow';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
+
+declare let window: CustomWindow;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const { id } = useQuery();
@@ -65,7 +69,15 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const hotelImages = photos.map((photo) => photo.url);
 
   const [t, i18next] = useTranslation('hotels');
+  const { language } = i18next;
   const starHotelLabel = t('userRating', 'User Rating');
+
+  const storeCurrency = useSelector((state: any) => state.core.currency);
+  const [currency, setCurrency] = useState<string>(storeCurrency);
+
+  useEffect(() => {
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
 
   useEffect(() => {
     const occupancy: Occupancy = {
@@ -89,7 +101,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       .catch((e) => {
         console.error(e);
       });
-  }, []);
+  }, [currency, language]);
 
   const scrollToRoom = () => {
     if (roomRef.current) {

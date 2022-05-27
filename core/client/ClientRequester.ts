@@ -1,10 +1,14 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { CategoryOption, CoreOption } from 'types/search/SearchTypeOptions';
-import axios, {
+import {
   axiosCurrencyInterceptor,
   axiosI18nInterceptor,
+  createClientAxiosInstance,
 } from 'apiCalls/config/axiosHelper';
 import { i18n } from 'i18next';
+import { CustomWindow } from 'types/global/CustomWindow';
+
+declare let window: CustomWindow;
 
 export abstract class ClientRequester<Request, Response, PreRequest> {
   public constructor(
@@ -16,11 +20,10 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
     i18next: i18n,
     ...args: any
   ): Promise<Response> {
+    const currency = this.getCurrency();
+    const axios = createClientAxiosInstance(currency, i18next);
+
     const request = this.preRequest(preRequest, ...args);
-
-    this.addLanguageHeader(i18next);
-
-    this.addCurrencyQueryParameter(request);
 
     const result = await this.doRequest(request, axios, ...args);
 
@@ -32,16 +35,10 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
     return data;
   }
 
-  protected addLanguageHeader(i18next: i18n): void {
-    axios.interceptors.request.use(axiosI18nInterceptor(i18next), (error) =>
-      Promise.reject(error),
-    );
-  }
-
-  protected addCurrencyQueryParameter(request: Request): void {
-    axios.interceptors.request.use(axiosCurrencyInterceptor('USD'), (error) =>
-      Promise.reject(error),
-    );
+  protected getCurrency(): string {
+    const currency = window.currency;
+    if (!currency) throw new Error('currency is required');
+    return currency;
   }
 
   protected preRequest(request: PreRequest, ...args: any): Request {
