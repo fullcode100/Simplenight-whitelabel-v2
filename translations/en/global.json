@@ -3,5 +3,8 @@
   "test": "click me",
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
-  "itineraryEmpty": "Add Something To Your Itinerary!"
+  "itineraryEmpty": "Add Something To Your Itinerary!",
+  "checkoutTitle": "Checkout",
+  "orderName": "Order Name",
+  "payment": "Payment"
 }

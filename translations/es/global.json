@@ -3,5 +3,8 @@
   "test": "Aprétame",
   "termsOfService": "Condiciones de servicio",
   "privacyPolicy": "Política de privacidad",
-  "itineraryEmpty": "Añada Algo a Su Itinerario!"
+  "itineraryEmpty": "Añada Algo a Su Itinerario!",
+  "checkoutTitle": "Finalizar pedido",
+  "orderName": "Nombre del pedido",
+  "payment": "Pago"
 }
