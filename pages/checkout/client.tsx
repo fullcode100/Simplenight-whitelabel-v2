@@ -202,9 +202,9 @@ const Client = () => {
 
   return (
     <>
-      <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
-        Header Wizzard
-      </section>
+      {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
+      </section> */}
+      <CheckoutHeader step="client" />
       {/* <CheckoutMain>
         Form section to Detail section - both shares margins
       </CheckoutMain> */}
@@ -223,13 +223,15 @@ const Client = () => {
         <Button
           value="Cancel"
           size={'full'}
+          onClick={redirectToItinerary}
           color="outlined"
           className="text-[18px] hover:text-white hover:bg-primary-800"
         />
         <Button
           value="Continue"
           size={'full'}
-          disabled={true}
+          onClick={continueToPayment}
+          disabled={isDisabled}
           className="text-[18px]"
         />
       </CheckoutFooter>
