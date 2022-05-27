@@ -1,5 +1,5 @@
 // Libraries
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // Credentials
 import {
   SQUARE_SANDBOX_APP_ID,
@@ -18,9 +18,15 @@ import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import InputWrapper from 'components/checkout/Inputs/InputWrapper';
 import SquarePaymentForm from 'components/global/PaymentForm/SquarePaymentForm';
 // Footer Components
-import GooglePayButton from 'components/global/PaymentForm/GooglePayButton/GooglePayButton';
 import Summary from 'components/checkout/Summary/Summary';
 import Terms from 'components/checkout/Terms/Terms';
+import { useTranslation } from 'react-i18next';
+import CountrySelect from 'components/global/CountrySelect/CountrySelect';
+import { createBooking } from 'core/client/services/BookingService';
+import { getCart } from 'core/client/services/CartClientService';
+import { useSelector } from 'react-redux';
+import { CartObjectResponse } from 'types/cart/CartType';
+import { useRouter } from 'next/router';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -28,15 +34,25 @@ const test: Amount = {
   currency: 'USD',
 };
 
+const ITINERARY_URI = '/itinerary';
+
 const Payment = () => {
-  // Square Credentials
+  const router = useRouter();
+  const [t, i18next] = useTranslation('global');
+
   const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
   const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
-  // Form
+  const payClickRef = useRef<HTMLButtonElement>(null);
+
   const [token, setToken] = useState<string | null>(null);
+  const [country, setCountry] = useState<string | null>(null);
   const [nameOnCard, setNameOnCard] = useState('');
-  const [discountVoucher, setDiscountVoucher] = useState('second');
   const [terms, setTerms] = useState(false);
+
+  const storeState = useSelector((state) => state);
+  const [cart, setCart] = useState<CartObjectResponse | null>(null);
+
+  const triggerPaymentFormTokenGeneration = () => payClickRef.current?.click();
 
   const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
     const { paymentMethodData } = paymentRequest;
@@ -48,7 +64,42 @@ const Payment = () => {
 
   const handlePaymentToken = (newToken: string) => {
     setToken(newToken);
+    handleBooking();
   };
+
+  const handleBooking = () => {
+    if (!token) {
+      triggerPaymentFormTokenGeneration();
+      return;
+    }
+    if (!token || !country || !terms || !cart) return;
+
+    const paymentParameters = {
+      cartId: cart.cart_id,
+      paymentToken: token,
+      countryCode: country,
+    };
+    createBooking(paymentParameters, i18next);
+  };
+
+  const redirectToItinerary = () => {
+    router.push(ITINERARY_URI);
+  };
+
+  useEffect(() => {
+    getCart(i18next, storeState)
+      .then((returnedCart) => {
+        if (!returnedCart) {
+          redirectToItinerary();
+          throw new Error('No active cart');
+        }
+
+        setCart(returnedCart);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <>
@@ -57,43 +108,48 @@ const Payment = () => {
       </section>
       <CheckoutMain>
         <CheckoutForm title={'Payment Information'}>
-          <InputWrapper
-            label={'Name On Card'}
-            labelKey={'nameOnCard'}
-            subLabel={'Required'}
-            subLabelKey={'required'}
-            value={nameOnCard.toUpperCase()}
-            setter={setNameOnCard}
-          />
-          <SquarePaymentForm
-            applicationId={appId}
-            locationId={locationId}
-            onPaymentToken={handlePaymentToken}
-            amount={test.amount}
-            currencyCode={test.currency}
-            withGooglePay
-          />
-          <InputWrapper
-            label={'Amount For This Card'}
-            labelKey={'amountForThisCard'}
-            subLabel={'Full Amount'}
-            subLabelKey={'fullAmount'}
-            value={test.formatted}
-            disabled={true}
-          />
+          <InputWrapper label="Country" labelKey="country">
+            <CountrySelect value={country} onChange={setCountry} />
+          </InputWrapper>
+          {cart && (
+            <>
+              <SquarePaymentForm
+                applicationId={appId}
+                locationId={locationId}
+                onPaymentToken={handlePaymentToken}
+                amount={cart.total_amount.amount}
+                currencyCode={cart.total_amount.currency}
+                ref={payClickRef}
+              />
+
+              <InputWrapper
+                label={'Amount For This Card'}
+                labelKey={'amountForThisCard'}
+                subLabel={'Full Amount'}
+                subLabelKey={'fullAmount'}
+                value={cart?.total_amount.formatted}
+                disabled={true}
+              />
+            </>
+          )}
         </CheckoutForm>
         Detail section - both shares margins
       </CheckoutMain>
       <CheckoutFooter type="payment">
         <Terms checkValue={terms} checkboxMethod={setTerms} />
-        <Summary amount={test} />
+        {cart && <Summary amount={cart.total_amount} />}
         <Button
           value="Back"
           size={'full'}
           color="outlined"
           className="text-[18px] hover:text-white hover:bg-primary-800"
         />
-        <Button value="Check Out" size={'full'} className="text-[18px]" />
+        <Button
+          value="Check Out"
+          size={'full'}
+          className="text-[18px]"
+          onClick={handleBooking}
+        />
       </CheckoutFooter>
     </>
   );

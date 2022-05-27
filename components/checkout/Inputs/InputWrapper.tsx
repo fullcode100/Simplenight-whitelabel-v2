@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react';
+import React, { Children } from 'react';
 // Hooks
 import { useTranslation } from 'react-i18next';
 // Components
@@ -10,10 +10,11 @@ type InputWrapperProps = {
   labelKey: string;
   subLabelKey?: string;
   subLabel?: string;
-  value: any;
+  value?: any;
   disabled?: boolean;
   setter?: (value: any) => void;
   context?: string;
+  children?: any;
 };
 
 const InputWrapper = ({
@@ -25,6 +26,7 @@ const InputWrapper = ({
   context = 'global',
   disabled = false,
   setter,
+  children,
 }: InputWrapperProps) => {
   const [t, i18next] = useTranslation(context);
   // Text
@@ -42,11 +44,13 @@ const InputWrapper = ({
           </p>
         )}
       </label>
-      <BaseInput
-        value={value}
-        onChange={(e) => setter && setter(e.target.value)}
-        disabled={disabled}
-      />
+      {children || (
+        <BaseInput
+          value={value}
+          onChange={(e) => setter && setter(e.target.value)}
+          disabled={disabled}
+        />
+      )}
     </fieldset>
   );
 };

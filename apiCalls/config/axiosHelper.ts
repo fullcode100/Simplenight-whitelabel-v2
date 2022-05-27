@@ -15,6 +15,7 @@ import {
 } from '../../config/configJson';
 import { getSimplenightApiKey } from './middlewares/authHeaderMiddleware';
 import { i18n } from 'i18next';
+import { ClientResponseError } from 'types/global/ClientResponseError';
 
 export const API_KEY_HEADER_KEY = 'X-API-KEY';
 
@@ -96,6 +97,17 @@ export const axiosServerCurrencyInterceptor =
     return config;
   };
 
+const axiosClientErrorInterceptor = (error: any) => {
+  const { errors } = error.response.data as unknown as {
+    errors: ClientResponseError[];
+  };
+  if (errors) {
+    const errorMessage = errors.map(({ message }) => message).join('\n');
+    console.log(errorMessage);
+    throw new Error(errorMessage);
+  }
+};
+
 export const axiosServerI18nInterceptor =
   (language: string) => (config: any) => {
     if (config.data) {
@@ -165,10 +177,15 @@ export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
 export default (() => {
   const Window = tryGetWindow();
 
-  return axios.create({
+  const instance = axios.create({
     baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
     headers: {
       'Content-Type': 'application/json',
     },
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  instance.interceptors.response.use(() => {}, axiosClientErrorInterceptor);
+
+  return instance;
 })();
