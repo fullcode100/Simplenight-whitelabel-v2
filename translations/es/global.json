@@ -2,5 +2,6 @@
   "hello-world": "¡Hola Mundo!",
   "test": "Aprétame",
   "termsOfService": "Condiciones de servicio",
-  "privacyPolicy": "Política de privacidad"
+  "privacyPolicy": "Política de privacidad",
+  "itineraryEmpty": "Añada Algo a Su Itinerario!"
 }

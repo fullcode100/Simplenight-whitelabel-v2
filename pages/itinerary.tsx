@@ -6,6 +6,7 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { getCartId } from 'core/client/services/CartClientService';
 import ItineraryHeader from 'components/itinerary/ItineraryHeader/ItineraryHeader';
+import ItineraryEmpty from 'components/itinerary/ItineraryEmpty/ItineraryEmpty';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
@@ -21,12 +22,14 @@ const Itinerary: NextPage = () => {
     }
   }, [cartId, i18next]);
 
+  const hasItems = (cart?.items?.length ?? 0) > 0;
+
   return (
     <main>
       <header>
         <ItineraryHeader productsAmount={cart?.total_item_qty} />
       </header>
-      <section className="p-5"></section>
+      <section className="p-5">{!hasItems && <ItineraryEmpty />}</section>
       <section></section>
       <aside></aside>
     </main>

@@ -2,5 +2,6 @@
   "hello-world": "hello world!",
   "test": "click me",
   "termsOfService": "Terms of Service",
-  "privacyPolicy": "Privacy Policy"
+  "privacyPolicy": "Privacy Policy",
+  "itineraryEmpty": "Add Something To Your Itinerary!"
 }
