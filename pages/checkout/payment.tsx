@@ -27,6 +27,7 @@ import { getCart } from 'core/client/services/CartClientService';
 import { useSelector } from 'react-redux';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { useRouter } from 'next/router';
+import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -103,9 +104,10 @@ const Payment = () => {
 
   return (
     <>
-      <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
+      {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
         Header Wizzard
-      </section>
+      </section> */}
+      <CheckoutHeader step="payment" />
       <CheckoutMain>
         <CheckoutForm title={'Payment Information'}>
           <InputWrapper label="Country" labelKey="country">
@@ -140,6 +142,7 @@ const Payment = () => {
         {cart && <Summary amount={cart.total_amount} />}
         <Button
           value="Back"
+          onClick={() => router.back()}
           size={'full'}
           color="outlined"
           className="text-[18px] hover:text-white hover:bg-primary-800"

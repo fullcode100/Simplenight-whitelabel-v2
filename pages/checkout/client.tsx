@@ -17,6 +17,8 @@ import { useTranslation } from 'react-i18next';
 import ClientCart from 'components/checkout/ClientCart/ClientCart';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { getStoreCartId } from 'store/selectors/cart';
+import { useRouter } from 'next/router';
+import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -24,12 +26,16 @@ const test: Amount = {
   currency: 'USD',
 };
 
+const ITINERARY_URI = '/itinerary';
+
 const Client = () => {
+  const router = useRouter();
   const [t, i18n] = useTranslation('global');
   const [cart, setCart] = useState<CartObjectResponse | undefined>();
   const [travelersFormSchema, setTraverlersFormSchema] = useState();
   const [travelersUiSchema, setTraverlersUiSchema] = useState();
   const primaryContactText = t('primaryContact', 'Primary Contact');
+  const [isDisabled, setIsDisabled] = useState(true);
   const cartId = getStoreCartId() || null;
   const handleGetSchema = async () => {
     try {
@@ -46,9 +52,20 @@ const Client = () => {
       if (cartId) {
         const response = await getCartId(i18n, cartId);
         setCart(response);
+        setIsDisabled(false);
       }
     } catch (error) {
       return error;
+    }
+  };
+
+  const redirectToItinerary = () => {
+    router.push(ITINERARY_URI);
+  };
+
+  const continueToPayment = () => {
+    if (cart && cart.total_item_qty > 0) {
+      router.push('/checkout/payment');
     }
   };
 
@@ -59,9 +76,9 @@ const Client = () => {
 
   return (
     <>
-      <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
-        Header Wizzard
-      </section>
+      {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
+      </section> */}
+      <CheckoutHeader step="client" />
       {/* <CheckoutMain>
         Form section to Detail section - both shares margins
       </CheckoutMain> */}
@@ -80,13 +97,15 @@ const Client = () => {
         <Button
           value="Cancel"
           size={'full'}
+          onClick={redirectToItinerary}
           color="outlined"
           className="text-[18px] hover:text-white hover:bg-primary-800"
         />
         <Button
           value="Continue"
           size={'full'}
-          disabled={true}
+          onClick={continueToPayment}
+          disabled={isDisabled}
           className="text-[18px]"
         />
       </CheckoutFooter>
