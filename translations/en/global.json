@@ -6,5 +6,9 @@
   "itineraryEmpty": "Add Something To Your Itinerary!",
   "checkoutTitle": "Checkout",
   "orderName": "Order Name",
-  "payment": "Payment"
+  "payment": "Payment",
+  "primaryContact": "Primary Contact",
+  "usePrimaryContact": "Use Primary Contact",
+  "additionalRequests": "Additional Requests",
+  "additionalRequestsPlaceholder": "Enter optional request..."
 }

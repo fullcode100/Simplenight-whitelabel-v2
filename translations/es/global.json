@@ -6,5 +6,9 @@
   "itineraryEmpty": "Añada Algo a Su Itinerario!",
   "checkoutTitle": "Finalizar pedido",
   "orderName": "Nombre del pedido",
-  "payment": "Pago"
+  "payment": "Pago",
+  "primaryContact": "Contacto Principal",
+  "usePrimaryContact": "Usar Contacto Principal",
+  "additionalRequests": "Solicitudes Adicionales",
+  "additionalRequestsPlaceholder": "Introduzca la solicitud opcional..."
 }

@@ -134,8 +134,10 @@ export const updateCart = async (data: UpdateCartRequest, i18next: i18n) => {
   }
 };
 
-export const getCartSchema = async (i18next: i18n) => {
-  const cartId = getStoreCartId() ?? null;
+export const getCartSchema = async (
+  i18next: i18n,
+  cartId: string | string[],
+) => {
   const cartGetter = new ClientCartSchema(cartOption);
 
   try {
