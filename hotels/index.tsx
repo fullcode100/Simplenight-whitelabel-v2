@@ -8,6 +8,7 @@ import hotelActions from './redux/actions';
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import HotelResultsDisplay from 'hotels/components/search/HotelResultsDisplay';
 import HotelDetailDisplay from './components/detail/HotelDetailDisplay';
+import HotelItineraryDisplay from './components/itinerary/HotelItineraryDisplay';
 import { HotelClientSearcher } from './core/search/HotelClientSearcher';
 import { HotelServerSearcher } from './core/search/HotelServerSearcher';
 import { HotelClientDetailer } from './core/detail/HotelClientDetailer';
@@ -33,6 +34,7 @@ const Category: CategoryOption = {
   readStateSearchForm: <HotelSearchFormReadState />,
   resultsDisplay: <></>,
   detailDisplay: <></>,
+  itineraryDisplay: <></>,
   core: {
     urls: {
       search: {
@@ -53,6 +55,7 @@ const Category: CategoryOption = {
 
 Category.resultsDisplay = <HotelResultsDisplay HotelCategory={Category} />;
 Category.detailDisplay = <HotelDetailDisplay Category={Category} />;
+Category.itineraryDisplay = <HotelItineraryDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new HotelClientSearcher(Category);
 Category.core.ServerSearcher = new HotelServerSearcher(Category);

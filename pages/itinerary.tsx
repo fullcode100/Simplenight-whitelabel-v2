@@ -7,6 +7,7 @@ import { CartObjectResponse } from 'types/cart/CartType';
 import { getCartId } from 'core/client/services/CartClientService';
 import ItineraryHeader from 'components/itinerary/ItineraryHeader/ItineraryHeader';
 import ItineraryEmpty from 'components/itinerary/ItineraryEmpty/ItineraryEmpty';
+import ItineraryItemList from 'components/itinerary/ItineraryItemList/ItineraryItemList';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
@@ -22,7 +23,7 @@ const Itinerary: NextPage = () => {
     }
   }, [cartId, i18next]);
 
-  const hasItems = (cart?.items?.length ?? 0) > 0;
+  const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
   return (
     <main>
@@ -30,6 +31,9 @@ const Itinerary: NextPage = () => {
         <ItineraryHeader productsAmount={cart?.total_item_qty} />
       </header>
       <section className="p-5">{!hasItems && <ItineraryEmpty />}</section>
+      <section className="p-5">
+        <ItineraryItemList cart={cart} />
+      </section>
       <section></section>
       <aside></aside>
     </main>

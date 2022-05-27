@@ -1,4 +1,12 @@
-import { Hotel, Rates } from 'hotels/types/response/SearchResponse';
+import {
+  Details,
+  Hotel,
+  Photo,
+  Rates,
+  RelativePosition,
+  Room,
+} from 'hotels/types/response/SearchResponse';
+import { Amount } from 'types/global/Amount';
 
 export interface CartResponse {
   cart?: CartObjectResponse[];
@@ -86,4 +94,17 @@ export interface ExtraFields {
 export interface UpdateCartRequest {
   lang?: string;
   currency?: string;
+}
+
+export interface HotelCart {
+  amount_min?: Amount;
+  details?: Details;
+  giata_code?: string;
+  id?: string;
+  min_rate_room?: Room;
+  photos?: Photo[];
+  relative_position?: RelativePosition;
+  items?: Item[];
+  relevance?: number;
+  thumbnail?: string;
 }

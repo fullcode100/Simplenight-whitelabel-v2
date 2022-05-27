@@ -27,6 +27,7 @@ export interface CategoryOption {
   readStateSearchForm?: ReactElement;
   resultsDisplay?: ReactElement;
   detailDisplay?: ReactElement;
+  itineraryDisplay?: ReactElement;
 }
 
 export interface CategoryStore {
