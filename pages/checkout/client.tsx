@@ -197,16 +197,26 @@ const Client = () => {
 
   useEffect(() => {
     handleGetSchema();
+    handleGetCart();
   }, []);
+
   return (
     <>
       <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
         Header Wizzard
       </section>
-      <CheckoutMain>
+      {/* <CheckoutMain>
         Form section to Detail section - both shares margins
-      </CheckoutMain>
+      </CheckoutMain> */}
+      <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
+        {primaryContactText}
+      </p>
       <ClientForm schema={travelersFormSchema} uiSchema={travelersUiSchema} />
+      <ClientCart
+        items={cart?.items}
+        schema={travelersFormSchema}
+        uiSchema={travelersUiSchema}
+      />
       <Divider />
       <CheckoutFooter type="client">
         <Summary amount={test} />
@@ -226,4 +236,5 @@ const Client = () => {
     </>
   );
 };
+
 export default Client;
