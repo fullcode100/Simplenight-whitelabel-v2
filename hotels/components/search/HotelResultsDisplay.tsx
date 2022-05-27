@@ -69,6 +69,13 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
   }, [storeCurrency]);
 
+  const [currency, setCurrency] = useState<string>(window.currency);
+  const storeCurrency = useSelector((state: any) => state.core.currency);
+
+  useEffect(() => {
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
+
   useEffect(() => {
     const hasEmptyValues = checkIfAnyNull([
       rooms,

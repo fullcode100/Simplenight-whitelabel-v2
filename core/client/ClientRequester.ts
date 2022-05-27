@@ -27,7 +27,7 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
 
     this.addLanguageHeader(i18next);
 
-    this.addCurrencyQueryParameter(request);
+    const request = this.preRequest(preRequest, ...args);
 
     const result = await this.doRequest(request, axios, ...args);
 

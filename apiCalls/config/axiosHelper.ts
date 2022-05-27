@@ -77,6 +77,7 @@ const setServerAuthHeaders = (originUrl: string, apiKey?: string) => {
 };
 
 export const axiosI18nInterceptor = (i18next: i18n) => (config: any) => {
+  console.log('axios i18 interceptor');
   config.headers['Accept-Language'] = i18next.language;
   return config;
 };
@@ -176,6 +177,29 @@ const tryGetWindow = () => {
   } catch (e) {
     return undefined;
   }
+};
+
+export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
+  const Window = tryGetWindow();
+
+  const axiosInstance = axios.create({
+    baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  axiosInstance.interceptors.request.use(
+    axiosI18nInterceptor(i18next),
+    (error) => Promise.reject(error),
+  );
+
+  axiosInstance.interceptors.request.use(
+    axiosCurrencyInterceptor(currency),
+    (error) => Promise.reject(error),
+  );
+
+  return axiosInstance;
 };
 
 export default (() => {

@@ -93,6 +93,13 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     console.log(detailsLabel);
   }, [detailsLabel]);
 
+  const storeCurrency = useSelector((state: any) => state.core.currency);
+  const [currency, setCurrency] = useState<string>(storeCurrency);
+
+  useEffect(() => {
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
+
   useEffect(() => {
     const occupancy: Occupancy = {
       adults: parseQueryNumber(adults ?? '1') + '',
