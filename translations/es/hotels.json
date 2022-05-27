@@ -1,3 +1,20 @@
 {
-  "rooms": "Habitaciones"
+  "rooms": "Habitaciones",
+  "total": "Total",
+  "from": "Desde",
+  "taxes": "Impuestos",
+  "payNow": "Pagar ahora",
+  "additionalFees": "Cargos adicionales",
+  "resortFee": "Impuesto local",
+  "payAtProperty": "Pagar en la propiedad",
+  "userRating": "Puntuación de los clientes",
+  "filters": "Filtrar por",
+  "applyFilters": "Aplicar filtros",
+  "keywordSearch": "Buscar por",
+  "searchKeywordPlaceholder": "Nombre de Hotel | Punto de Referencia | Ubicación",
+  "starRating": "Categoría de la propiedad",
+  "sortBy": "Ordenar por",
+  "adults": "Adultos",
+  "adult": "Adulto",
+  "room": "Habitación"
 }
