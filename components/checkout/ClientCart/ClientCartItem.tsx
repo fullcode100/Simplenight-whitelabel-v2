@@ -18,8 +18,8 @@ const ClientCartItem = ({ item, formSchema, formUiSchema }: any) => {
     'additionalRequestsPlaceholder',
     'Enter optional request...',
   );
-  const { chain_name } = item.details.chain;
-  const { description } = item.min_rate_room;
+  const { chain_name } = item.extended_data.details.chain;
+  const { description } = item.extended_data.min_rate_room;
   return (
     <CartItemDropdown title={chain_name} description={description}>
       <section className="grid gap-4 mt-4">
@@ -27,7 +27,7 @@ const ClientCartItem = ({ item, formSchema, formUiSchema }: any) => {
           <ToggleSwitch
             onChange={() => setUsePrimaryContact(!usePrimaryContact)}
             checked={usePrimaryContact}
-            id={item.cart_item_id}
+            id={item.cart_id}
           />
           <Label
             value="Use Primary Contact"

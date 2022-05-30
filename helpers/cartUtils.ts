@@ -1,42 +1,47 @@
-import { CartObjectResponse } from 'types/cart/CartType';
+import { CartObjectResponse, Item } from 'types/cart/CartType';
 
 const getRoomsByHotel = (cart: CartObjectResponse) => {
-  const hotelElements: any[] = [];
+  const hotelElements: Item[] = [];
   const { items: cartItems } = cart;
-  cartItems.forEach((item: any) => {
+  cartItems.forEach((item: Item) => {
     if (item.category !== 'HOTELS') return;
 
     const hotelNotFoundYet = hotelElements.every(
-      (elem) => elem.id !== item.extended_data.id,
+      (elem) => elem.extended_data?.id !== item.extended_data?.id,
     );
 
     if (hotelNotFoundYet) {
-      delete item.extended_data.rooms;
-      const hotelInfo = {
-        ...item.extended_data,
+      const extendedData = { ...item.extended_data };
+      extendedData.items = [item];
+      delete extendedData.rooms;
+
+      const hotelInfo: Item = {
+        cart_id: item.cart_id,
         category: item.category,
-        items: [item],
+        extended_data: extendedData,
       };
       hotelElements.push(hotelInfo);
       return;
     }
 
     const hotel = hotelElements.findIndex(
-      (elem) => elem.id === item.extended_data.id,
+      (elem) => elem.extended_data?.id === item.extended_data?.id,
     );
-    hotelElements[hotel].items.push(item);
+    hotelElements[hotel].extended_data?.items?.push(item);
   });
 
   return hotelElements;
 };
 
 export const formatCart = (cart: CartObjectResponse) => {
-  const roomsByHotel = getRoomsByHotel(cart);
+  const roomsByHotel: Item[] = getRoomsByHotel(cart);
 
-  let formattedItems = cart.items.filter((item) => item.category !== 'HOTELS');
+  let formattedItems: Item[] = cart.items.filter(
+    (item) => item.category !== 'HOTELS',
+  );
   formattedItems = [...formattedItems, ...roomsByHotel];
 
-  const formattedCart = { ...cart };
+  const formattedCart: CartObjectResponse = { ...cart };
   formattedCart.items = [...formattedItems];
 
   return formattedCart;

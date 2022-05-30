@@ -3,10 +3,10 @@ import CollapseBordered from 'components/global/CollapseBordered/CollapseBordere
 import HotelItineraryHeader from './HotelItineraryHeader';
 import HotelItineraryBody from './HotelItineraryBody';
 import HotelItineraryFooter from './HotelItineraryFooter';
-import { HotelCart } from 'types/cart/CartType';
+import { Item } from 'types/cart/CartType';
 
 interface HotelItineraryDisplayProps {
-  item?: HotelCart;
+  item?: Item;
   Category: CategoryOption;
 }
 

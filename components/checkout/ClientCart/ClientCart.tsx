@@ -1,8 +1,9 @@
 import Divider from 'components/global/Divider/Divider';
 import ClientCartItem from './ClientCartItem';
+import { Item } from 'types/cart/CartType';
 
 interface ClientCartProps {
-  items: any;
+  items?: Item[];
   schema: any;
   uiSchema: any;
 }
@@ -10,10 +11,10 @@ interface ClientCartProps {
 const ClientCart = ({ items, schema, uiSchema }: ClientCartProps) => {
   return (
     <section className="px-5 mb-6">
-      {items?.map?.((item: any, index: number) => {
+      {items?.map?.((item: Item, index: number) => {
         const showDivider = index !== items.length - 1;
         return (
-          <section key={item.id}>
+          <section key={index}>
             <ClientCartItem
               item={item}
               formSchema={schema}

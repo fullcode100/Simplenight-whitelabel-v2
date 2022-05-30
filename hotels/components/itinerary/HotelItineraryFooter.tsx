@@ -1,6 +1,6 @@
-import { HotelCart } from 'types/cart/CartType';
+import { Item } from 'types/cart/CartType';
 
-const HotelItineraryFooter = ({ item }: { item: HotelCart }) => {
+const HotelItineraryFooter = ({ item }: { item: Item }) => {
   return <></>;
 };
 

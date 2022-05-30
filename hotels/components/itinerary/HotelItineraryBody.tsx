@@ -1,6 +1,6 @@
-import { HotelCart } from 'types/cart/CartType';
+import { Item } from 'types/cart/CartType';
 
-const HotelItineraryBody = ({ item }: { item: HotelCart }) => {
+const HotelItineraryBody = ({ item }: { item: Item }) => {
   return <></>;
 };
 

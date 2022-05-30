@@ -66,13 +66,13 @@ export interface Item {
   category?: string;
   created_at?: string;
   customer?: Customer;
-  extended_data?: Hotel;
-  inventory_id: string;
+  extended_data?: HotelCart;
+  inventory_id?: string;
   inventory_name?: string;
   last_validated_rate?: any;
   quantity?: number;
   rate?: Rates;
-  sn_booking_code: string;
+  sn_booking_code?: string;
   supplier?: string;
   thumbnail_url?: string;
 }
@@ -105,6 +105,7 @@ export interface HotelCart {
   photos?: Photo[];
   relative_position?: RelativePosition;
   items?: Item[];
+  rooms?: Room[];
   relevance?: number;
   thumbnail?: string;
 }

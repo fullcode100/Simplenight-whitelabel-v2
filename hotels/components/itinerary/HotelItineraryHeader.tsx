@@ -2,18 +2,18 @@ import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
-import { HotelCart } from 'types/cart/CartType';
+import { Item } from 'types/cart/CartType';
 
 interface HotelItineraryHeaderProps {
-  item: HotelCart;
+  item: Item;
   icon: ReactElement;
 }
 
 const HotelItineraryHeader = ({ item, icon }: HotelItineraryHeaderProps) => {
   const [t, i18next] = useTranslation('hotels');
 
-  const hotelName = item.details?.name;
-  const roomsAmount = item.items?.length;
+  const hotelName = item.extended_data?.details?.name;
+  const roomsAmount = item.extended_data?.items?.length;
   const roomsLabel = t('rooms', 'Rooms');
   const roomsFormatted = `${roomsAmount} ${roomsLabel}`;
 
