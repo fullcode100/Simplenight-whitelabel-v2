@@ -8,6 +8,9 @@ import { getCartId } from 'core/client/services/CartClientService';
 import ItineraryHeader from 'components/itinerary/ItineraryHeader/ItineraryHeader';
 import ItineraryEmpty from 'components/itinerary/ItineraryEmpty/ItineraryEmpty';
 import ItineraryItemList from 'components/itinerary/ItineraryItemList/ItineraryItemList';
+import ListFooter from '../components/itinerary/ListFooter/ListFooter';
+import ListHeader from '../components/itinerary/ListHeader/ListHeader';
+import ContinueShopping from '../components/itinerary/ContinueShopping/ContinueShopping';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
@@ -31,11 +34,15 @@ const Itinerary: NextPage = () => {
         <ItineraryHeader productsAmount={cart?.total_item_qty} />
       </header>
       <section className="p-5">{!hasItems && <ItineraryEmpty />}</section>
+      {cart && <ListHeader />}
       <section className="p-5">
         <ItineraryItemList cart={cart} />
       </section>
       <section></section>
-      <aside></aside>
+      <aside>
+        <ContinueShopping />
+      </aside>
+      {cart && <ListFooter totalAmount={cart?.total_amount} />}
     </main>
   );
 };
