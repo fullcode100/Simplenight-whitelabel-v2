@@ -26,6 +26,7 @@ import { parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
+import Loader from '../../../components/global/Loader/Loader';
 
 declare let window: CustomWindow;
 
@@ -38,6 +39,7 @@ interface HotelResultsDisplayProps {
 }
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
+  const [loaded, setLoaded] = useState(false);
   const { ClientSearcher: Searcher } = HotelCategory.core;
   const [t, i18next] = useTranslation('hotels');
   const { language } = i18next;
@@ -83,11 +85,11 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       rsp_fields_set: 'basic',
     };
 
-    Searcher?.request(params, i18next).then(
-      ({ hotels: searchedHotels }: HotelSearchResponse) => {
+    Searcher?.request(params, i18next)
+      .then(({ hotels: searchedHotels }: HotelSearchResponse) => {
         setHotels(searchedHotels);
-      },
-    );
+      })
+      .then(() => setLoaded(true));
   }, [
     adults,
     children,
@@ -164,6 +166,15 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   );
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
+
+  if (!loaded) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
+
   return (
     <>
       {hotels.length > 0 ? (

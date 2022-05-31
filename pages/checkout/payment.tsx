@@ -28,6 +28,7 @@ import { useSelector } from 'react-redux';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
+import Loader from '../../components/global/Loader/Loader';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -49,6 +50,7 @@ const Payment = () => {
   const [country, setCountry] = useState<string | null>(null);
   const [nameOnCard, setNameOnCard] = useState('');
   const [terms, setTerms] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const storeState = useSelector((state) => state);
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
@@ -96,6 +98,7 @@ const Payment = () => {
         }
 
         setCart(returnedCart);
+        setLoaded(true);
       })
       .catch((error) => {
         console.error(error);
@@ -108,52 +111,58 @@ const Payment = () => {
         Header Wizzard
       </section> */}
       <CheckoutHeader step="payment" />
-      <CheckoutMain>
-        <CheckoutForm title={'Payment Information'}>
-          <InputWrapper label="Country" labelKey="country">
-            <CountrySelect value={country} onChange={setCountry} />
-          </InputWrapper>
-          {cart && (
-            <>
-              <SquarePaymentForm
-                applicationId={appId}
-                locationId={locationId}
-                onPaymentToken={handlePaymentToken}
-                amount={cart.total_amount.amount}
-                currencyCode={cart.total_amount.currency}
-                ref={payClickRef}
-              />
+      {loaded ? (
+        <>
+          <CheckoutMain>
+            <CheckoutForm title={'Payment Information'}>
+              <InputWrapper label="Country" labelKey="country">
+                <CountrySelect value={country} onChange={setCountry} />
+              </InputWrapper>
+              {cart && (
+                <>
+                  <SquarePaymentForm
+                    applicationId={appId}
+                    locationId={locationId}
+                    onPaymentToken={handlePaymentToken}
+                    amount={cart.total_amount.amount}
+                    currencyCode={cart.total_amount.currency}
+                    ref={payClickRef}
+                  />
 
-              <InputWrapper
-                label={'Amount For This Card'}
-                labelKey={'amountForThisCard'}
-                subLabel={'Full Amount'}
-                subLabelKey={'fullAmount'}
-                value={cart?.total_amount.formatted}
-                disabled={true}
-              />
-            </>
-          )}
-        </CheckoutForm>
-        Detail section - both shares margins
-      </CheckoutMain>
-      <CheckoutFooter type="payment">
-        <Terms checkValue={terms} checkboxMethod={setTerms} />
-        {cart && <Summary amount={cart.total_amount} />}
-        <Button
-          value="Back"
-          onClick={() => router.back()}
-          size={'full'}
-          color="outlined"
-          className="text-[18px] hover:text-white hover:bg-primary-800"
-        />
-        <Button
-          value="Check Out"
-          size={'full'}
-          className="text-[18px]"
-          onClick={handleBooking}
-        />
-      </CheckoutFooter>
+                  <InputWrapper
+                    label={'Amount For This Card'}
+                    labelKey={'amountForThisCard'}
+                    subLabel={'Full Amount'}
+                    subLabelKey={'fullAmount'}
+                    value={cart?.total_amount.formatted}
+                    disabled={true}
+                  />
+                </>
+              )}
+            </CheckoutForm>
+            Detail section - both shares margins
+          </CheckoutMain>
+          <CheckoutFooter type="payment">
+            <Terms checkValue={terms} checkboxMethod={setTerms} />
+            {cart && <Summary amount={cart.total_amount} />}
+            <Button
+              value="Back"
+              onClick={() => router.back()}
+              size={'full'}
+              color="outlined"
+              className="text-[18px] hover:text-white hover:bg-primary-800"
+            />
+            <Button
+              value="Check Out"
+              size={'full'}
+              className="text-[18px]"
+              onClick={handleBooking}
+            />
+          </CheckoutFooter>
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

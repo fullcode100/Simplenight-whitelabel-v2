@@ -19,6 +19,7 @@ import { CartObjectResponse } from 'types/cart/CartType';
 import { getStoreCartId } from 'store/selectors/cart';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
+import Loader from '../../components/global/Loader/Loader';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -34,6 +35,7 @@ const Client = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>();
   const [travelersFormSchema, setTraverlersFormSchema] = useState();
   const [travelersUiSchema, setTraverlersUiSchema] = useState();
+  const [loaded, setLoaded] = useState(false);
   const primaryContactText = t('primaryContact', 'Primary Contact');
   const [isDisabled, setIsDisabled] = useState(true);
   const cartId = getStoreCartId() || null;
@@ -53,6 +55,7 @@ const Client = () => {
         const response = await getCartId(i18n, cartId);
         setCart(response);
         setIsDisabled(false);
+        setLoaded(true);
       }
     } catch (error) {
       return error;
@@ -82,33 +85,42 @@ const Client = () => {
       {/* <CheckoutMain>
         Form section to Detail section - both shares margins
       </CheckoutMain> */}
-      <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
-        {primaryContactText}
-      </p>
-      <ClientForm schema={travelersFormSchema} uiSchema={travelersUiSchema} />
-      <ClientCart
-        items={cart?.items}
-        schema={travelersFormSchema}
-        uiSchema={travelersUiSchema}
-      />
-      <Divider />
-      <CheckoutFooter type="client">
-        <Summary amount={test} />
-        <Button
-          value="Cancel"
-          size={'full'}
-          onClick={redirectToItinerary}
-          color="outlined"
-          className="text-[18px] hover:text-white hover:bg-primary-800"
-        />
-        <Button
-          value="Continue"
-          size={'full'}
-          onClick={continueToPayment}
-          disabled={isDisabled}
-          className="text-[18px]"
-        />
-      </CheckoutFooter>
+      {loaded ? (
+        <>
+          <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
+            {primaryContactText}
+          </p>
+          <ClientForm
+            schema={travelersFormSchema}
+            uiSchema={travelersUiSchema}
+          />
+          <ClientCart
+            items={cart?.items}
+            schema={travelersFormSchema}
+            uiSchema={travelersUiSchema}
+          />
+          <Divider />
+          <CheckoutFooter type="client">
+            <Summary amount={test} />
+            <Button
+              value="Cancel"
+              size={'full'}
+              onClick={redirectToItinerary}
+              color="outlined"
+              className="text-[18px] hover:text-white hover:bg-primary-800"
+            />
+            <Button
+              value="Continue"
+              size={'full'}
+              onClick={continueToPayment}
+              disabled={isDisabled}
+              className="text-[18px]"
+            />
+          </CheckoutFooter>
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

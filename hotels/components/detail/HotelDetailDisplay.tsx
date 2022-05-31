@@ -35,6 +35,7 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import InformationIcon from 'public/icons/assets/information.svg';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
+import Loader from '../../../components/global/Loader/Loader';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -223,27 +224,31 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           </section>
         </section>
       </header>
-      <main className="relative">
-        {/* <ImagesSection /> */}
-        <ImageCarousel images={hotelImages} hotelName={name} />
-        <GeneralInformationSection />
-        <section ref={roomRef}>
-          <SeeMore
-            textOpened="See less"
-            textClosed="See more"
-            type="component"
-            heightInPixels={900}
-          >
-            {<RoomsSection rooms={hotelRooms} hotelId={hotel.id} />}
-          </SeeMore>
-        </section>
-        <Divider />
-        <DetailsSection />
-        <section ref={locationRef}>
-          <LocationSection />
-        </section>
-        {/* <CustomerReviewsSection /> */}
-      </main>
+      {loaded ? (
+        <main className="relative">
+          {/* <ImagesSection /> */}
+          <ImageCarousel images={hotelImages} hotelName={name} />
+          <GeneralInformationSection />
+          <section ref={roomRef}>
+            <SeeMore
+              textOpened="See less"
+              textClosed="See more"
+              type="component"
+              heightInPixels={900}
+            >
+              {<RoomsSection rooms={hotelRooms} hotelId={hotel.id} />}
+            </SeeMore>
+          </section>
+          <Divider />
+          <DetailsSection />
+          <section ref={locationRef}>
+            <LocationSection />
+          </section>
+          {/* <CustomerReviewsSection /> */}
+        </main>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };
