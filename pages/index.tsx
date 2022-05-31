@@ -1,19 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { NextPage } from 'next';
 import { getHomepageScrollHandler } from '../store/selectors/core';
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
 import { useTranslation } from 'react-i18next';
 import { Tab } from 'components/global/Tabs/types';
-import SectionTitle from 'components/global/SectionTitle/SectionTitle';
-import hotelMock from 'hotels/hotelMock';
-import ItemCard from 'components/global/ItemCard/ItemCard';
 import { tabsMock } from 'mocks/tabsMock';
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import Button from 'components/global/Button/Button';
 import EmailIcon from 'public/icons/assets/email.svg';
 import PhoneCall from 'public/icons/assets/phone-call.svg';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
-import HomepageLayout from 'layouts/HomepageLayout';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 
@@ -25,7 +20,6 @@ const UpperSectionBackground = ({ children }: { children?: any }) => (
 
 const Home: NextPageWithLayout = () => {
   const [t, i18next] = useTranslation('global');
-  const nearYouLabel = t('nearYou', 'Near you right now');
   const helpTitle = t('needHelpTitle', 'Need some help?');
   const helpDescription = t(
     'needHelpDescription',
@@ -115,32 +109,7 @@ const Home: NextPageWithLayout = () => {
           <SearchCategoryForm searchType={searchType} />
         </Panel>
       </UpperSectionBackground>
-      <section className="px-4">
-        <SectionTitle label={nearYouLabel} />
-        <section className="flex flex-row gap-4 flex-nowrap overflow-x-auto py-3">
-          {hotelMock.map((hotel, index) => {
-            const {
-              details: { name, address },
-              thumbnail,
-              amount_min: amountMin,
-            } = hotel;
-            const itemKey = hotel.id + index;
 
-            return (
-              <ItemCard
-                key={itemKey}
-                handleOnViewDetailClick={() => console.log(hotel)}
-                item={hotel}
-                title={name}
-                image={thumbnail}
-                price={amountMin}
-                extraInformation={{ address }}
-                className=" flex-0-0-auto"
-              />
-            );
-          })}
-        </section>
-      </section>
       <HelpSection />
     </main>
   );
