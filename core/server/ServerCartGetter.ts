@@ -24,7 +24,7 @@ export class ServerCartGetter extends ServerRequester<CartServerResponse> {
 
     const cartUrl = `/carts/${params.id}`;
 
-    const url = applyApiBaseUrlV2(cartUrl);
+    const url = applyApiBaseUrlV2(cartUrl, request);
 
     return axios.get<ApiResponse<any, CartServerResponse>>(url, {});
   }

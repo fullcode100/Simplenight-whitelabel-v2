@@ -12,7 +12,12 @@ export const applyApiBaseUrl = (req: NextApiRequest, endpoint: string) => {
   return `${apiUrl}${endpoint}`;
 };
 
-export const applyApiBaseUrlV2 = (endpoint: string) => {
+export const applyApiBaseUrlV2 = (
+  endpoint: string,
+  request: NextApiRequest,
+) => {
+  const host = request.headers.host;
+  if (host && host.includes('qa')) return `${API_QA_V2_URL}${endpoint}`;
   return `${API_V2_URL}${endpoint}`;
 };
 

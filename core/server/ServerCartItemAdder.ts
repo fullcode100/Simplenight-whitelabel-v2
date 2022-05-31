@@ -24,7 +24,7 @@ export class ServerCartItemAdder extends ServerRequester<CartServerResponse> {
     const req = body.data.cart;
     const cartUrl = body.data.url;
 
-    const url = applyApiBaseUrlV2(cartUrl);
+    const url = applyApiBaseUrlV2(cartUrl, request);
 
     return axios.post<ApiResponse<any, CartServerResponse>>(url, {
       ...req,

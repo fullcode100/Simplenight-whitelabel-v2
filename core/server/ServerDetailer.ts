@@ -26,7 +26,7 @@ export abstract class ServerDetailer<
     const endpoint = categoryUrls?.detail.server;
 
     const endpointWithId = `${endpoint}/${params.id}`;
-    const url = applyApiBaseUrlV2(endpointWithId);
+    const url = applyApiBaseUrlV2(endpointWithId, request);
 
     delete params.id;
 

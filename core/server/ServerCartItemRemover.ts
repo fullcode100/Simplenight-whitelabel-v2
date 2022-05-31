@@ -20,7 +20,7 @@ export class ServerCartRemover extends ServerRequester<CartResponse> {
 
     const cartUrl = `/carts/${params.cart_id}/items/${params.item_id}`;
 
-    const url = applyApiBaseUrlV2(cartUrl);
+    const url = applyApiBaseUrlV2(cartUrl, request);
 
     return axios.delete<ApiResponse<any, CartResponse>>(url, {});
   }

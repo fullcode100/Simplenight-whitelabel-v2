@@ -24,7 +24,7 @@ export abstract class ServerSearcher<
       categoryUrls = this.category.core.urls;
     }
     const endpoint = categoryUrls?.search.server ?? '';
-    const url = applyApiBaseUrlV2(endpoint);
+    const url = applyApiBaseUrlV2(endpoint, request);
 
     return axios.get<ApiResponse<any, SearchResponse>>(url, {
       params,

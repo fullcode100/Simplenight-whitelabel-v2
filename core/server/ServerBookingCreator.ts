@@ -23,7 +23,7 @@ export class ServerBookingCreator extends ServerRequester<CreateBookingResponse>
     const { body } = request;
 
     const endpoint = '/bookings';
-    const url = applyApiBaseUrlV2(endpoint);
+    const url = applyApiBaseUrlV2(endpoint, request);
 
     return axios.post<ApiResponse<any, CreateBookingResponse>>(url, {
       ...body,

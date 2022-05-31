@@ -20,7 +20,7 @@ export class ServerCartSchema extends ServerRequester<CartSchemaResponse> {
 
     const cartUrl = `/carts/${params.id}/schema`;
 
-    const url = applyApiBaseUrlV2(cartUrl);
+    const url = applyApiBaseUrlV2(cartUrl, request);
 
     return axios.get<ApiResponse<any, any>>(url, {});
   }

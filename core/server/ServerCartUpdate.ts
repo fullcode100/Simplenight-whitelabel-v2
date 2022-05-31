@@ -19,7 +19,7 @@ export class ServerCartUpdate extends ServerRequester<CartResponse> {
     const { body, query } = request;
 
     const cartUrl = `/carts/${query.id}`;
-    const url = applyApiBaseUrlV2(cartUrl);
+    const url = applyApiBaseUrlV2(cartUrl, request);
 
     return axios.put<ApiResponse<any, CartResponse>>(url, {
       ...body.data,
