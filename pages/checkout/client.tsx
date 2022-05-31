@@ -208,33 +208,42 @@ const Client = () => {
       {/* <CheckoutMain>
         Form section to Detail section - both shares margins
       </CheckoutMain> */}
-      <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
-        {primaryContactText}
-      </p>
-      <ClientForm schema={travelersFormSchema} uiSchema={travelersUiSchema} />
-      <ClientCart
-        items={cart?.items}
-        schema={travelersFormSchema}
-        uiSchema={travelersUiSchema}
-      />
-      <Divider />
-      <CheckoutFooter type="client">
-        <Summary amount={test} />
-        <Button
-          value="Cancel"
-          size={'full'}
-          onClick={redirectToItinerary}
-          color="outlined"
-          className="text-[18px] hover:text-white hover:bg-primary-800"
-        />
-        <Button
-          value="Continue"
-          size={'full'}
-          onClick={continueToPayment}
-          disabled={isDisabled}
-          className="text-[18px]"
-        />
-      </CheckoutFooter>
+      {loaded ? (
+        <>
+          <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
+            {primaryContactText}
+          </p>
+          <ClientForm
+            schema={travelersFormSchema}
+            uiSchema={travelersUiSchema}
+          />
+          <ClientCart
+            items={cart?.items}
+            schema={travelersFormSchema}
+            uiSchema={travelersUiSchema}
+          />
+          <Divider />
+          <CheckoutFooter type="client">
+            <Summary amount={test} />
+            <Button
+              value="Cancel"
+              size={'full'}
+              onClick={redirectToItinerary}
+              color="outlined"
+              className="text-[18px] hover:text-white hover:bg-primary-800"
+            />
+            <Button
+              value="Continue"
+              size={'full'}
+              onClick={continueToPayment}
+              disabled={isDisabled}
+              className="text-[18px]"
+            />
+          </CheckoutFooter>
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

@@ -162,6 +162,7 @@ const Payment = () => {
         }
 
         setCart(returnedCart);
+        setLoaded(true);
       })
       .catch((error) => {
         console.error(error);
