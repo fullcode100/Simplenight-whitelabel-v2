@@ -6,8 +6,16 @@ import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const t = useGetTranslation();
-  const { partnerName, legalInformation, partnerInformation } =
+  const { legalInformation, partnerInformation, simplenightInformation } =
     useBrandConfig();
+  const { partnerName } = partnerInformation;
+  const { corporateLink } = simplenightInformation;
+  const {
+    simplenightTermsOfService,
+    simplenightPrivacyPolicy,
+    partnerTermsOfService,
+    partnerPrivacyPolicy,
+  } = legalInformation;
   const showPartnerLinks = partnerName?.toLowerCase() !== 'simplenight';
   const termsOfServiceText = t({ translationKey: 'termsOfService' });
   const privacyPolicyText = t({ translationKey: 'privacyPolicy' });
@@ -18,27 +26,24 @@ const Footer = () => {
       <p className="mt-3 mb-6">
         {' '}
         {poweredByText}{' '}
-        <ExternalLink
-          href={partnerInformation.partnerUrl}
-          className="font-medium uppercase"
-        >
+        <ExternalLink href={corporateLink} className="font-medium uppercase">
           Simplenight
         </ExternalLink>
       </p>
       <div className="flex flex-col gap-3 underline capitalize">
-        <ExternalLink href={legalInformation?.simplenightTermsOfService}>
+        <ExternalLink href={simplenightTermsOfService}>
           Simplenight {termsOfServiceText}
         </ExternalLink>
-        <ExternalLink href={legalInformation?.simplenightPrivacyPolicy}>
+        <ExternalLink href={simplenightPrivacyPolicy}>
           Simplenight {privacyPolicyText}
         </ExternalLink>
 
         {showPartnerLinks && (
           <>
-            <ExternalLink href={legalInformation?.partnerTermsOfService}>
+            <ExternalLink href={partnerTermsOfService}>
               {partnerName} {termsOfServiceText}
             </ExternalLink>
-            <ExternalLink href={legalInformation?.partnerPrivacyPolicy}>
+            <ExternalLink href={partnerPrivacyPolicy}>
               {partnerName} {privacyPolicyText}
             </ExternalLink>
           </>
