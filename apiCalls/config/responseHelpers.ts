@@ -3,7 +3,8 @@ import { NextApiRequest } from 'next';
 import { selectApiUrl } from './axiosHelper';
 import { getRequestHost } from './requestHelpers';
 
-const API_V2_URL = 'https://dev-api-v2.simplenight.com/v2';
+const API_V2_URL = 'https://qa-api.simplenight.com/v2';
+const API_QA_V2_URL = 'https://dev-api.simplenight.com/v2';
 
 export const applyApiBaseUrl = (req: NextApiRequest, endpoint: string) => {
   const originUrl = getRequestHost(req);
