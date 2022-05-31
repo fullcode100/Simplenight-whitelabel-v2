@@ -77,7 +77,6 @@ const setServerAuthHeaders = (originUrl: string, apiKey?: string) => {
 };
 
 export const axiosI18nInterceptor = (i18next: i18n) => (config: any) => {
-  console.log('axios i18 interceptor');
   config.headers['Accept-Language'] = i18next.language;
   return config;
 };
