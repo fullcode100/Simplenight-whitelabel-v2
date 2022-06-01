@@ -1,29 +1,47 @@
 import React from 'react';
+import classnames from 'classnames';
+
 import { Rate } from '../../../hotels/types/response/SearchResponse';
 
 interface PriceDisplayProps {
   rate: Rate;
+  totalLabel?: string;
 }
 
-const PriceDisplay = ({ rate }: PriceDisplayProps) => {
+const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
   const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rate;
   const { discounts } = rateBreakdown;
+  console.log(discounts);
   let totalBeforeDiscount;
-  if (discounts)
-    ({ total_amount_before_apply: totalBeforeDiscount } = discounts);
+  let percentageToApply;
+  if (discounts) {
+    ({
+      total_amount_before_apply: totalBeforeDiscount,
+      percentage_to_apply: percentageToApply,
+    } = discounts);
+  }
 
   return (
     <section>
       {totalBeforeDiscount && (
-        <p className="text-primary-1000 text-xs">
-          <span className="text-dark-800 line-through">
+        <p className="text-sm">
+          <span className="text-dark-800 line-through font-normal">
             {totalBeforeDiscount.formatted}
           </span>{' '}
-          25% Off
+          <span className="text-primary-1000 font-semibold">
+            {percentageToApply} Off
+          </span>
         </p>
       )}
-      <p className="text-sm text-dark-1000 font-semibold">
-        {totalAmount.formatted}
+      <p
+        className={classnames('text-[18px] leading-6 ', {
+          ['flex flex-row gap-1 justify-end']: totalLabel,
+        })}
+      >
+        <span className="text-dark-800 font-normal">{totalLabel}</span>
+        <span className="text-sm text-dark-1000 font-bold">
+          {totalAmount.formatted}
+        </span>
       </p>
     </section>
   );

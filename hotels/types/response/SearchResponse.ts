@@ -155,6 +155,7 @@ export interface Tax {
 export interface Discounts {
   total_amount_before_apply: Amount;
   amount_to_apply: Amount;
+  percentage_to_apply: string;
 }
 
 export enum RateBreakdownRateType {

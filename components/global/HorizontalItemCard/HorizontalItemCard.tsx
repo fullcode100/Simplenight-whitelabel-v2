@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Amount } from 'types/global/Amount';
 import LocationPin from 'public/icons/assets/location-pin.svg';
@@ -11,7 +11,7 @@ interface CardProps<T extends WithId> {
   extraInformation?: any;
   title?: string;
   image?: string;
-  price?: Amount;
+  price?: ReactNode;
   className?: string;
   rating?: number | string;
 }
@@ -30,25 +30,6 @@ function HorizontalItemCard<T extends WithId>({
   className = '',
   rating,
 }: CardProps<T>) {
-  const [t, i18next] = useTranslation('hotels');
-  const totalLabel = t('total', 'Total');
-  const fromLabel = t('from', 'from');
-
-  const PriceSection = ({ price }: { price?: Amount }) => (
-    <footer className="mt-8 flex py-2 justify-between relative items-center">
-      <Divider />
-      <section>
-        <span className="font-lato font-semibold text-base">{totalLabel}</span>
-      </section>
-      <section className="grid grid-cols-2 items-center">
-        <span className="pl-4 font-lato text-base">{fromLabel}</span>
-        <span className="font-lato font-semibold text-base">
-          {price?.formatted}
-        </span>
-      </section>
-    </footer>
-  );
-
   const AddressSection = ({ item }: { item: T }) => (
     <section className="font-lato font-normal text-base mt-5">
       <span>{extraInformation.address.address1}</span>
@@ -81,7 +62,7 @@ function HorizontalItemCard<T extends WithId>({
           </section>
         </section>
       </section>
-      <PriceSection price={price} />
+      {price}
     </li>
   );
 }

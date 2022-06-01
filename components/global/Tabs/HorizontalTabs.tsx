@@ -14,6 +14,7 @@ export default function HorizontalTabs({
     ? 'text-primary-1000 hover:text-primary-700 hover:border-primary-500'
     : '';
 
+  if (tabs.length <= 1) return <></>;
   return (
     <div className={`block ${className}`}>
       <div className="border-b border-gray-200">

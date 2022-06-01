@@ -21,7 +21,7 @@ const Search: NextPage = () => {
 
   return (
     <main>
-      <header className="flex flex-col border-b-[1px] pb-2">
+      <header className="flex flex-col bg-dark-100 border-y border-dark-300 pt-2 fixed z-10 w-full">
         <HorizontalTabs
           tabs={tabsMock}
           onClick={handleTabClick}
@@ -32,7 +32,9 @@ const Search: NextPage = () => {
         <ExtendedSearchCategoryForm searchType={internalSearchType} />
         <SecondaryCategorySearchOptions searchType={internalSearchType} />
       </header>
-      <SearchResultDisplay searchType={internalSearchType} />
+      <section className="pt-[180px]">
+        <SearchResultDisplay searchType={internalSearchType} />
+      </section>
     </main>
   );
 };

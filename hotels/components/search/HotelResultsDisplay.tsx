@@ -27,6 +27,7 @@ import { StringGeolocation } from 'types/search/Geolocation';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
+import HotelItemRateInfo from './HotelItemRateInfo';
 
 declare let window: CustomWindow;
 
@@ -109,20 +110,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     );
   };
 
-  const PriceSection = ({ amountMin }: { amountMin: Amount }) => (
-    <footer className="mt-8 flex justify-between items-center">
-      <section>
-        <span className="font-lato font-semibold text-base">{totalLabel}</span>
-      </section>
-      <section className="grid grid-cols-2 items-center">
-        <span className="pl-4 font-lato text-base">{fromLabel}</span>
-        <span className="font-lato font-semibold text-base">
-          {amountMin.formatted}
-        </span>
-      </section>
-    </footer>
-  );
-
   const AddressSection = ({ hotel }: { hotel: Hotel }) => (
     <section className="font-lato font-normal text-base mt-5">
       <span>{hotel.details.address.address1}</span>
@@ -142,11 +129,12 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         const {
           id,
           details: { name, address, star_rating: starRating },
-          amount_min: amountMin,
+          min_rate_room: minRateRoom,
           thumbnail,
         } = hotel;
 
         const itemKey = hotel.id + index;
+        const minRate = minRateRoom.rates.min_rate;
 
         return (
           <HorizontalItemCard
@@ -155,7 +143,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             item={hotel}
             title={name}
             image={thumbnail}
-            price={amountMin}
+            price={<HotelItemRateInfo minRate={minRate} />}
             extraInformation={{ address }}
             className=" flex-0-0-auto"
             rating={starRating}

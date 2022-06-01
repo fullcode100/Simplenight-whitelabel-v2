@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from 'components/global/Button/Button';
-import IconInput from 'components/global/Input/IconInput';
-import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 
-import FilterIcon from 'public/icons/assets/filter.svg';
-import SearchIcon from 'public/icons/assets/magnifier.svg';
+import Button from 'components/global/Button/Button';
+import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import Rating from 'components/global/Rating/Rating';
 import Checkbox from 'components/global/Checkbox/Checkbox';
 import hotelFiltersMock from 'mocks/hotelFiltersMock';
 import Select from 'components/global/Select/Select';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+
+import IconInput from 'components/global/Input/IconInput';
+import MapIcon from 'public/icons/assets/map.svg';
+import FilterIcon from 'public/icons/assets/filter.svg';
+import SearchIcon from 'public/icons/assets/magnifier.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -35,6 +37,8 @@ const HotelSecondarySearchOptions = () => {
   );
   const starRatingLabel = t('starRating', 'Star Rating');
   const sortByLabel = t('sortBy', 'Sort By');
+  const mapViewLabel = t('mapView', 'Map View');
+  const listViewLabel = t('listView', 'List View');
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
@@ -132,7 +136,7 @@ const HotelSecondarySearchOptions = () => {
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
   const viewParam = isListView ? 'map' : 'list';
-  const viewButtonValue = isListView ? 'Map view' : 'List view';
+  const viewButtonValue = isListView ? mapViewLabel : listViewLabel;
 
   const setQueryParams = useQuerySetter();
 
@@ -143,17 +147,18 @@ const HotelSecondarySearchOptions = () => {
   };
 
   return (
-    <section className="px-4 w-full flex gap-2 pt-4 ">
+    <section className="px-4 w-full flex gap-2 py-3">
       <Button
-        value="Filters"
-        size="full"
+        value={filtersLabel}
+        size="full-sm"
         leftIcon={<FilterIcon />}
         onClick={handleFilterButtonClick}
       />
       <Button
         value={viewButtonValue}
-        size="full"
+        size="full-sm"
         type="outlined"
+        leftIcon={<MapIcon />}
         onClick={handleChangeResultView}
       />
       <Modals />

@@ -10,5 +10,13 @@
   "primaryContact": "Primary Contact",
   "usePrimaryContact": "Use Primary Contact",
   "additionalRequests": "Additional Requests",
-  "additionalRequestsPlaceholder": "Enter optional request..."
+  "additionalRequestsPlaceholder": "Enter optional request...",
+  "from": "From",
+  "to": "to",
+  "guest": "Guest",
+  "guests": "Guests",
+  "edit": "Edit",
+  "filters": "Filters",
+  "mapView": "Map View",
+  "listView": "List View"
 }
