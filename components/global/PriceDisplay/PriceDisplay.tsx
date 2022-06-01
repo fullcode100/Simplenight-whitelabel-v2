@@ -11,6 +11,7 @@ interface PriceDisplayProps {
 const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
   const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rate;
   const { discounts } = rateBreakdown;
+  console.log(discounts);
   let totalBeforeDiscount;
   let percentageToApply;
   if (discounts) {
