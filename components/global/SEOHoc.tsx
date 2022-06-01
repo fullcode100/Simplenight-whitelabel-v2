@@ -11,7 +11,8 @@ interface SEOHocProps {
 }
 
 const SEOHoc = ({ children }: SEOHocProps) => {
-  const { images, partnerName } = useBrandConfig();
+  const { images, partnerInformation } = useBrandConfig();
+  const { partnerName } = partnerInformation;
 
   const favicon = images.favicon ?? '/favicon.ico';
 
