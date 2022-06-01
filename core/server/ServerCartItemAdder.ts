@@ -38,6 +38,7 @@ export class ServerCartItemAdder extends ServerRequester<CartServerResponse> {
   ): void {
     if (result.cart) {
       sendSuccess(response, { cart: result.cart[0] });
+      return;
     }
     sendSuccess(response, result.item);
   }
