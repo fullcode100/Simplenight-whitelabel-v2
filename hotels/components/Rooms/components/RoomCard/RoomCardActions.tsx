@@ -3,6 +3,7 @@ import { Room } from 'hotels/types/response/SearchResponse';
 import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 interface RoomProps {
   room: Room;
@@ -10,6 +11,8 @@ interface RoomProps {
 }
 
 const RoomCardActions = ({ room, hotelId }: RoomProps) => {
+  const router = useRouter();
+
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const store = {
@@ -40,6 +43,7 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
           size="full"
           onClick={() => {
             addToCart(itemToBook, i18next, store);
+            router.replace('/checkout/client');
           }}
         />
       </section>
