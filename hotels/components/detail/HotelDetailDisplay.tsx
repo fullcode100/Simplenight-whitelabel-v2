@@ -101,6 +101,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   }, [storeCurrency]);
 
   useEffect(() => {
+    console.log(detailsLabel);
+  }, [detailsLabel]);
+
+  useEffect(() => {
     const occupancy: Occupancy = {
       adults: parseQueryNumber(adults ?? '1') + '',
       children: parseQueryNumber(children ?? '0') + '',
