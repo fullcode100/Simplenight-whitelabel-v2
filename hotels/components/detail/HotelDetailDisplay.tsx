@@ -72,6 +72,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const [t, i18next] = useTranslation('hotels');
   const { language } = i18next;
   const starHotelLabel = t('userRating', 'User Rating');
+  const roomsLabel = t('rooms', 'Rooms');
+  const mapLabel = t('map', 'Map');
+  const detailsLabel = t('details', 'Details');
 
   const storeCurrency = useSelector((state: any) => state.core.currency);
   const [currency, setCurrency] = useState<string>(storeCurrency);
@@ -79,6 +82,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   useEffect(() => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
   }, [storeCurrency]);
+
+  useEffect(() => {
+    console.log(detailsLabel);
+  }, [detailsLabel]);
 
   useEffect(() => {
     const occupancy: Occupancy = {
@@ -133,11 +140,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   );
 
   const GeneralInformationSection = () => {
-    const tabs: Tab[] = [
-      { value: 'Rooms' },
-      { value: 'Location' },
-      { value: 'Amenities' },
-    ];
+    const tabs: Tab[] = [{ value: roomsLabel }, { value: mapLabel }];
 
     const scrollFunctions: { [key: string]: () => void } = {
       Rooms: scrollToRoom,
@@ -172,7 +175,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           <IconRoundedContainer className="bg-primary-1000">
             <InformationIcon className="" />
           </IconRoundedContainer>
-          <span className="h4 text-dark-800">Details</span>
+          <span className="h4 text-dark-800">{detailsLabel}</span>
         </p>
       </section>
       <SeeMore
@@ -216,6 +219,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           <section>
             <Button
               value="Edit"
+              translationKey="edit"
               type="contained"
               className="h-9 text-base w-20"
               size="full"

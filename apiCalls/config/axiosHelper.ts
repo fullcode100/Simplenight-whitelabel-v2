@@ -108,10 +108,8 @@ const axiosClientErrorInterceptor = (error: any) => {
 
 export const axiosServerI18nInterceptor =
   (language: string) => (config: any) => {
-    if (config.data) {
-      config.params = config.params ?? {};
-      config.params.lang = language;
-    }
+    config.params = config.params ?? {};
+    config.params.lang = language;
     return config;
   };
 

@@ -16,5 +16,11 @@
   "sortBy": "Ordenar por",
   "adults": "Adultos",
   "adult": "Adulto",
-  "room": "Habitación"
+  "room": "Habitación",
+  "map": "Mapa",
+  "details": "Detalles",
+  "search": "Buscar",
+  "mapView": "Vista de mapa",
+  "listView": "Vista de lista",
+  "edit": "Editar"
 }

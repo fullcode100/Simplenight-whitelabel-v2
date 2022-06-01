@@ -1,18 +1,29 @@
 import { useTranslation } from 'react-i18next';
 import classnames from 'classnames';
 import { updateCart } from 'core/client/services/CartClientService';
+import { i18n } from 'i18next';
+
+const changeAllLanguages = (
+  targetLanguage: string,
+  i18nInstances: i18n[],
+): void => {
+  i18nInstances.forEach((instance) => {
+    instance.changeLanguage(targetLanguage);
+  });
+};
 
 const LanguageSelect = () => {
-  const [t, i18n] = useTranslation();
-  const { language, changeLanguage } = i18n;
+  const [t, i18n] = useTranslation('global');
+  const [tHotels, i18nHotels] = useTranslation('hotels');
+  const { language } = i18n;
   const languages = ['en', 'es'];
   const handleChangeLanguage = async (lang: string) => {
-    changeLanguage(lang);
+    changeAllLanguages(lang, [i18n, i18nHotels]);
     try {
       const data = { lang };
       await updateCart(data, i18n);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (
