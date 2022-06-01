@@ -10,7 +10,6 @@ import {
   HotelDetailResponse,
   Occupancy,
 } from 'hotels/types/response/HotelDetailResponse';
-import galleryMock from 'mocks/galleryMock';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
@@ -48,6 +47,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     adults,
     children,
     startDate,
+    searchEndDate,
+    searchStartDate,
     endDate,
     rooms,
     ADULT_TEXT,
@@ -96,8 +97,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
     const params: HotelDetailPreRequest = {
       hotel_id: (id as unknown as string) ?? '', // id as string,
-      start_date: formatAsSearchDate(dayjs().add(1, 'day')), // (startDate),
-      end_date: formatAsSearchDate(dayjs().add(2, 'day')), // (endDate),
+      start_date: searchStartDate, // (startDate),
+      end_date: searchEndDate, // (endDate),
       occupancy: occupancy,
     };
 

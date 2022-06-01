@@ -3,6 +3,7 @@ import { SEARCH_DATE_FORMAT, formatAsMonthDay } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { useTranslation } from 'react-i18next';
+import { DateString } from 'types/global/DateString';
 
 export const useSearchQueries = () => {
   const {
@@ -45,6 +46,8 @@ export const useSearchQueries = () => {
     children,
     startDate: formattedStartDate,
     endDate: formattedEndDate,
+    searchStartDate: startDate as unknown as DateString,
+    searchEndDate: endDate as unknown as DateString,
     rooms,
     ADULT_TEXT,
     CHILDREN_TEXT,
