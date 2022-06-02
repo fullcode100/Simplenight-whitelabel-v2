@@ -40,5 +40,6 @@
   "filters": "Filtros",
   "mapView": "Vista de mapa",
   "listView": "Vista de lista",
-  "outDealForYou": "Nuestro Trato para Usted"
+  "outDealForYou": "Nuestro Trato para Usted",
+  "noResultsSearch": "Ningún Resultado Coincide con su Búsqueda."
 }

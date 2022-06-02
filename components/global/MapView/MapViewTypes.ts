@@ -1,4 +1,6 @@
+import { Hotel } from 'hotels/types/response/SearchResponse';
 import { Amount } from 'types/global/Amount';
+import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 export interface addressProps {
   coordinates: {
@@ -24,6 +26,7 @@ export interface itemsProps {
 }
 
 export interface MapViewProps {
-  items: itemsProps[];
-  onViewDetailClick?: (item: object) => void;
+  HotelCategory: CategoryOption;
+  items: Hotel[];
+  onViewDetailClick: (item: Hotel) => void;
 }

@@ -7,7 +7,7 @@ const DefaultLayout = ({ children }: any) => {
     <div className="min-h-screen flex flex-col justify-between">
       <section>
         <Header color="bg-dark-100" />
-        <div className="mt-[96px]"></div>
+        <div className="mt-[68px]"></div>
         {children}
       </section>
       <section>

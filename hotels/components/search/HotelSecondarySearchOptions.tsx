@@ -12,10 +12,9 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
 import IconInput from 'components/global/Input/IconInput';
 import MapIcon from 'public/icons/assets/map.svg';
+import ListIcon from 'public/icons/assets/list.svg';
 import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -137,6 +136,7 @@ const HotelSecondarySearchOptions = () => {
   const isListView = view === 'list';
   const viewParam = isListView ? 'map' : 'list';
   const viewButtonValue = isListView ? mapViewLabel : listViewLabel;
+  const icon = isListView ? <MapIcon /> : <ListIcon />;
 
   const setQueryParams = useQuerySetter();
 
@@ -158,7 +158,7 @@ const HotelSecondarySearchOptions = () => {
         value={viewButtonValue}
         size="full-sm"
         type="outlined"
-        leftIcon={<MapIcon />}
+        leftIcon={icon}
         onClick={handleChangeResultView}
       />
       <Modals />

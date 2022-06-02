@@ -1,12 +1,18 @@
 import Carousel from 'react-multi-carousel';
+import { useTranslation } from 'react-i18next';
+
 import CustomArrow from '../CarouselNew/components/CustomArrow';
 import HorizontalItemCard from '../HorizontalItemCard/HorizontalItemCard';
 import LocationMap from '../LocationMap/LocationMap';
 import { useState } from 'react';
 import classnames from 'classnames';
 import { MapViewProps } from '../MapView/MapViewTypes';
+import HotelItemRateInfo from 'hotels/components/search/HotelItemRateInfo';
 
-const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
+const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
+  const [t, i18next] = useTranslation('hotels');
+  const hotelLabel = t('hotel', 'Hotel');
+
   const [activeItem, setActiveItem] = useState(0);
   const nextItem = activeItem + 1;
   const handleBeforeCarouselChange = (prev: number) => {
@@ -36,7 +42,7 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
     },
   };
   return (
-    <section className="relative">
+    <>
       <section className="flex flex-col items-center justify-center">
         <LocationMap
           center={{
@@ -50,10 +56,10 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
             },
           ]}
           zoom={17}
-          height={550}
+          height={575}
         />
       </section>
-      <section className="absolute w-full bottom-4">
+      <section className="absolute w-full top-3/4">
         <Carousel
           partialVisible={false}
           responsive={responsive}
@@ -78,12 +84,13 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
             const {
               id,
               details: { name, address, star_rating: starRating },
-              amount_min: amountMin,
+              min_rate_room: minRateRoom,
               thumbnail,
             } = item;
 
             const itemKey = item.id + index;
             const isNext = index === nextItem;
+            const minRate = minRateRoom.rates.min_rate;
             const formattedLocation = `${address.address1}, ${address.country_code}, ${address.postal_code}`;
 
             const cardClassName = classnames(
@@ -97,21 +104,23 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
               <section key={index + '-image'} className="w-full p-5">
                 <HorizontalItemCard
                   key={itemKey}
-                  handleOnViewDetailClick={() => onViewDetailClick?.(item)}
+                  icon={HotelCategory.icon}
+                  categoryName={hotelLabel}
+                  handleOnViewDetailClick={() => onViewDetailClick(item)}
                   item={item}
                   title={name}
                   image={thumbnail}
-                  price={amountMin}
+                  price={<HotelItemRateInfo minRate={minRate} />}
                   address={formattedLocation}
                   className={cardClassName}
-                  rating={starRating}
+                  rating={parseInt(starRating)}
                 />
               </section>
             );
           })}
         </Carousel>
       </section>
-    </section>
+    </>
   );
 };
 

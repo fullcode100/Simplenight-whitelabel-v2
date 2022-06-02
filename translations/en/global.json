@@ -19,5 +19,6 @@
   "filters": "Filters",
   "mapView": "Map View",
   "listView": "List View",
-  "outDealForYou": "Our Deal for You"
+  "outDealForYou": "Our Deal for You",
+  "noResultsSearch": "No Results Match Your Search."
 }

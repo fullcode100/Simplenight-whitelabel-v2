@@ -34,6 +34,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
   const hotelLabel = t('hotel', 'Hotel');
+  const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
   const { language } = i18next;
   const router = useRouter();
 
@@ -143,19 +144,25 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     <>
       {hotels.length > 0 ? (
         <>
-          <section className="w-full h-full px-5">
-            <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px]">
-              {hotels.length} {hotelsFoundLabel}
+          {isListView && (
+            <section className="w-full h-full px-5 pb-6">
+              <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px]">
+                {hotels.length} {hotelsFoundLabel}
+              </section>
+              <HotelList />
             </section>
-            {isListView && <HotelList />}
-          </section>
+          )}
           {!isListView && (
-            <HotelMapView items={hotels as any as itemsProps[]} />
+            <HotelMapView
+              HotelCategory={HotelCategory}
+              items={hotels}
+              onViewDetailClick={handleOnViewDetailClick}
+            />
           )}
         </>
       ) : (
         <EmptyState
-          text="No Results Match Your Search."
+          text={noResultsLabel}
           image={<EmptyStateIcon className="mx-auto" />}
         />
       )}

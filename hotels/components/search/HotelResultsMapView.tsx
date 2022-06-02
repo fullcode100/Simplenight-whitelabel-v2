@@ -1,12 +1,25 @@
-import { itemsProps } from 'components/global/MapView/MapViewTypes';
 import MapView from 'components/global/MapView/MapView';
+import { CategoryOption } from 'types/search/SearchTypeOptions';
+import { Hotel } from 'hotels/types/response/SearchResponse';
 
 interface HotelMapViewProps {
-  items: itemsProps[];
+  HotelCategory: CategoryOption;
+  items: Hotel[];
+  onViewDetailClick: (item: Hotel) => void;
 }
 
-const HotelMapView = ({ items }: HotelMapViewProps) => {
-  return <MapView items={items} />;
+const HotelMapView = ({
+  HotelCategory,
+  items,
+  onViewDetailClick,
+}: HotelMapViewProps) => {
+  return (
+    <MapView
+      HotelCategory={HotelCategory}
+      items={items}
+      onViewDetailClick={onViewDetailClick}
+    />
+  );
 };
 
 export default HotelMapView;
