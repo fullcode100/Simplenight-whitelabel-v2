@@ -109,9 +109,6 @@ const LocationInput = ({
                     key={suggestionKey}
                   >
                     <span>{description}</span>
-                    <span className="w-4">
-                      <ImagePlaceHolder className="text-dark-700" />
-                    </span>
                   </section>
                 );
               })}
