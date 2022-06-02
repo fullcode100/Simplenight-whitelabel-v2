@@ -84,6 +84,8 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
 
             const itemKey = item.id + index;
             const isNext = index === nextItem;
+            const formattedLocation = `${address.address1}, ${address.country_code}, ${address.postal_code}`;
+
             const cardClassName = classnames(
               'flex-0-0-auto transition-all duration-300',
               {
@@ -100,7 +102,7 @@ const MapView = ({ items, onViewDetailClick }: MapViewProps) => {
                   title={name}
                   image={thumbnail}
                   price={amountMin}
-                  extraInformation={{ address }}
+                  address={formattedLocation}
                   className={cardClassName}
                   rating={starRating}
                 />

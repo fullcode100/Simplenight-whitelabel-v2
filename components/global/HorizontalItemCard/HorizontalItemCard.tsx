@@ -1,62 +1,68 @@
 import React, { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Amount } from 'types/global/Amount';
-import LocationPin from 'public/icons/assets/location-pin.svg';
 import { WithId } from 'types/global/WithId';
 import Rating from '../Rating/Rating';
 
 interface CardProps<T extends WithId> {
   handleOnViewDetailClick: any;
   item: T;
-  extraInformation?: any;
+  icon?: ReactNode;
+  categoryName?: string;
+  address?: string;
   title?: string;
   image?: string;
   price?: ReactNode;
   className?: string;
-  rating?: number | string;
+  rating?: number;
 }
-
-const Divider = () => (
-  <div className="h-[1px] w-[200%] bg-dark-200 absolute right-[-50px] top-[-10px]" />
-);
 
 function HorizontalItemCard<T extends WithId>({
   handleOnViewDetailClick,
   item,
+  icon,
+  categoryName,
   title = '',
   image = '',
   price,
-  extraInformation,
+  address = '',
   className = '',
   rating,
 }: CardProps<T>) {
-  const AddressSection = ({ item }: { item: T }) => (
-    <section className="font-lato font-normal text-base mt-5">
-      <span>{extraInformation.address.address1}</span>
-    </section>
+  const AddressSection = () => (
+    <span className="font-normal text-dark-1000 text-sm py-2">{address}</span>
   );
 
-  const TitleSection = ({ name }: { name: string }) => (
-    <header className="flex justify-between items-center">
-      <span className="h5">{name}</span>
+  const TitleSection = () => (
+    <header className=" font-semibold text-dark-1000 text-[18px] leading-[22px]">
+      {title}
     </header>
+  );
+
+  const CategoryTag = () => (
+    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br">
+      {icon}
+      <span className="font-semibold text-sm">{categoryName}</span>
+    </section>
   );
 
   return (
     <li
       key={item.id}
-      className={`bg-white flex flex-col relative w-full shadow overflow-hidden rounded-md px-6 py-4 ${className}`}
+      className={`bg-white flex flex-col border border-dark-300 rounded ${className}`}
       onClick={() => handleOnViewDetailClick(item)}
     >
-      <section className="items-center">
-        <img
-          src={image}
-          className="absolute top-0 left-0 w-[40%] h-[75%]"
-          alt="hotel thumbnail"
-        />
-        <section className="ml-[40%] px-3">
-          <TitleSection name={title} />
-          <AddressSection item={item} />
+      <section className="flex flex-row">
+        <section
+          className="min-w-[45%] min-h-[150px] "
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundRepeat: 'round',
+          }}
+        >
+          <CategoryTag />
+        </section>
+        <section className="flex flex-col justify-between p-4">
+          <TitleSection />
+          <AddressSection />
           <section className="mt-2">
             {rating && <Rating value={rating} />}
           </section>

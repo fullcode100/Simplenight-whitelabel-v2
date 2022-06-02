@@ -22,5 +22,7 @@
   "search": "Buscar",
   "mapView": "Vista de mapa",
   "listView": "Vista de lista",
-  "edit": "Editar"
+  "edit": "Editar",
+  "hotelsFound": "Hoteles Encontrados",
+  "hotel": "Hotel"
 }

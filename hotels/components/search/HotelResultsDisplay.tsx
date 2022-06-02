@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
@@ -9,12 +8,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import LocationPin from 'public/icons/assets/location-pin.svg';
-import { add } from 'lodash';
-import Image from 'next/image';
-import { Amount } from 'types/global/Amount';
-
-import ItemCard from 'components/global/ItemCard/ItemCard';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 import HotelMapView from './HotelResultsMapView';
@@ -31,10 +24,6 @@ import HotelItemRateInfo from './HotelItemRateInfo';
 
 declare let window: CustomWindow;
 
-const Divider = () => (
-  <div className="h-[1px] w-[140%] bg-dark-200 absolute left-0 mt-4" />
-);
-
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
 }
@@ -43,11 +32,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [loaded, setLoaded] = useState(false);
   const { ClientSearcher: Searcher } = HotelCategory.core;
   const [t, i18next] = useTranslation('hotels');
+  const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
+  const hotelLabel = t('hotel', 'Hotel');
   const { language } = i18next;
-  const pickForYouLabel = t('pickForYou', 'Our pick for you');
-  const totalLabel = t('total', 'Total');
-  const fromLabel = t('from', 'from');
-
   const router = useRouter();
 
   const { adults, children, startDate, endDate, latitude, longitude, rooms } =
@@ -110,24 +97,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     );
   };
 
-  const AddressSection = ({ hotel }: { hotel: Hotel }) => (
-    <section className="font-lato font-normal text-base mt-5">
-      <span>{hotel.details.address.address1}</span>
-    </section>
-  );
-
-  const TitleSection = ({ name }: { name: string }) => (
-    <header className="flex justify-between items-center mt-[50%]">
-      <span className="h5">{name}</span>
-      <LocationPin className="text-primary-1000" />
-    </header>
-  );
-
   const HotelList = () => (
     <ul role="list" className="space-y-4">
       {hotels.map((hotel, index) => {
         const {
-          id,
           details: { name, address, star_rating: starRating },
           min_rate_room: minRateRoom,
           thumbnail,
@@ -135,18 +108,21 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
         const itemKey = hotel.id + index;
         const minRate = minRateRoom.rates.min_rate;
+        const formattedLocation = `${address.address1}, ${address.country_code}, ${address.postal_code}`;
 
         return (
           <HorizontalItemCard
             key={itemKey}
+            icon={HotelCategory.icon}
+            categoryName={hotelLabel}
             handleOnViewDetailClick={() => handleOnViewDetailClick(hotel)}
             item={hotel}
             title={name}
             image={thumbnail}
             price={<HotelItemRateInfo minRate={minRate} />}
-            extraInformation={{ address }}
+            address={formattedLocation}
             className=" flex-0-0-auto"
-            rating={starRating}
+            rating={parseInt(starRating)}
           />
         );
       })}
@@ -167,7 +143,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     <>
       {hotels.length > 0 ? (
         <>
-          <section className="w-full h-full px-4">
+          <section className="w-full h-full px-5">
+            <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px]">
+              {hotels.length} {hotelsFoundLabel}
+            </section>
             {isListView && <HotelList />}
           </section>
           {!isListView && (

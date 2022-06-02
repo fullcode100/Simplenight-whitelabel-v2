@@ -1,4 +1,6 @@
 {
   "room": "Room",
-  "rooms": "Rooms"
+  "rooms": "Rooms",
+  "hotelsFound": "Hotels Found",
+  "hotel": "Hotel"
 }

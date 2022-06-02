@@ -84,7 +84,7 @@ const HotelSecondarySearchOptions = () => {
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
       <Rating
-        value={ratingValue + ''}
+        value={ratingValue}
         onChange={handleRatingFilterChange}
         editable
       />

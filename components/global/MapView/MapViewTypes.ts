@@ -5,6 +5,9 @@ export interface addressProps {
     latitude: number;
     longitude: number;
   };
+  address1: string;
+  country_code: string;
+  postal_code: string;
 }
 
 export interface detailsProps {

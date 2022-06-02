@@ -32,7 +32,7 @@ const Search: NextPage = () => {
         <ExtendedSearchCategoryForm searchType={internalSearchType} />
         <SecondaryCategorySearchOptions searchType={internalSearchType} />
       </header>
-      <section className="pt-[180px]">
+      <section className="pt-[160px] pb-6">
         <SearchResultDisplay searchType={internalSearchType} />
       </section>
     </main>

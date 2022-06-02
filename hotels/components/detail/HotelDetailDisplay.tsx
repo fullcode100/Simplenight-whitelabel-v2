@@ -136,7 +136,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         <span className="text-primary-1000 mr-2">{starRating}/5</span>
         {starHotelLabel}
       </span>
-      <Rating value={starRating} size={50} />
+      <Rating value={parseInt(starRating)} size={50} />
     </section>
   );
 
