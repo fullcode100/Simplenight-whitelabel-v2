@@ -4,6 +4,7 @@ import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
 import ImagePlaceHolder from 'public/icons/assets/image-placeholder.svg';
 import HamburgerMenuButton from 'public/icons/assets/hamburger-menu-button.svg';
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
+import SimplenightLogo from 'public/icons/assets/simplenight-logo.svg';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -12,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import Menu from './components/Menu/Menu';
 import { clearCart } from 'store/actions/cartActions';
+import Link from 'next/link';
 
 interface HeaderProps {
   color: string;
@@ -43,7 +45,7 @@ const Header = ({ color }: HeaderProps) => {
 
   return (
     <header
-      className={`flex items-center justify-between pt-16 pb-8 px-4 h-[60px] z-20 ${color} fixed w-full`}
+      className={`flex items-center justify-between p-4 z-20 ${color} fixed w-full`}
     >
       <HamburgerMenuButton
         className="mr-2 cursor-pointer"
@@ -59,18 +61,22 @@ const Header = ({ color }: HeaderProps) => {
         <Menu />
       </FullScreenModal>
       <section className="flex gap-5 items-center">
-        <ImagePlaceHolder />
-        <span className="font-lato tracking-widest text-sm uppercase">
-          Simplenight{' '}
-          <span className="text-[8px] align-super ml-[-2px]">®</span>
-        </span>
+        <Link href={'/'}>
+          <a>
+            <SimplenightLogo />
+          </a>
+        </Link>
       </section>
-      <section className="flex justify-between items-center gap-2 border-2 px-2 py-2 rounded-10">
-        <span className="text-dark-1000 font-bold text-sm font-lato">
-          {cartQty ?? 0}
-        </span>
-        <ShoppingCart className="text-primary-1000" />
-      </section>
+      <Link href={'/itinerary'}>
+        <a>
+          <section className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded">
+            <span className="text-dark-1000 font-bold text-sm font-lato">
+              {cartQty ?? 0}
+            </span>
+            <ShoppingCart className="text-primary-1000" />
+          </section>
+        </a>
+      </Link>
     </header>
   );
 };

@@ -52,9 +52,6 @@ const TravelersInput = ({
       case 'children':
         updatedRoom['children'] = value;
         break;
-      case 'infants':
-        updatedRoom['infants'] = value;
-        break;
     }
 
     const updatedRooms = [...newRooms];
@@ -107,18 +104,22 @@ const TravelersInput = ({
                 handleCountChange={handleCountChange}
               />
 
-              <ChildrenAges
-                room={room}
-                roomNumber={index}
-                handleAgesChange={handleAgesChange}
-              />
+              {room.children > 0 && (
+                <ChildrenAges
+                  room={room}
+                  roomNumber={index}
+                  handleAgesChange={handleAgesChange}
+                />
+              )}
 
               <Divider />
             </Fragment>
           );
         })}
 
-        <AddRoomButton handleAddRoom={handleAddRoom} />
+        {newRooms.length < 10 && (
+          <AddRoomButton handleAddRoom={handleAddRoom} />
+        )}
       </section>
     </FullScreenModal>
   );

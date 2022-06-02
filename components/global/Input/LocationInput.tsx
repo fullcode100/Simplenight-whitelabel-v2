@@ -10,7 +10,6 @@ import { getIsMapLoaded } from 'store/selectors/core';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
-import ImagePlaceHolder from 'public/icons/assets/image-placeholder.svg';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useState } from 'react';
 
@@ -79,7 +78,7 @@ const LocationInput = ({
               icon={<LocationPin className="h-5 w-5 text-dark-700" />}
               {...getInputProps({
                 placeholder: locationPlaceholder,
-                className: 'location-search-input',
+                className: 'location-search-input overflow-y-scroll',
               })}
               {...others}
             />
@@ -116,9 +115,6 @@ const LocationInput = ({
                     key={suggestionKey}
                   >
                     <span>{description}</span>
-                    <span className="w-4">
-                      <ImagePlaceHolder className="text-dark-700" />
-                    </span>
                   </section>
                 );
               })}

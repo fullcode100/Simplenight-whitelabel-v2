@@ -6,7 +6,7 @@ const HomepageLayout = ({ children }: any) => {
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <section>
-        <Header color="bg-primary-100" />
+        <Header color="bg-dark-100" />
         {children}
       </section>
       <section>

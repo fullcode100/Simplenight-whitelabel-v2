@@ -11,9 +11,10 @@ import PhoneCall from 'public/icons/assets/phone-call.svg';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
+import Image from 'next/image';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => (
-  <div className="min-h-[50vh] w-[100vw] px-4 pt-[122px] pb-[26px] bg-primary-100 ">
+  <div className="min-h-[50vh] w-[100vw] px-4 pt-[96px] pb-[26px]">
     {children}
   </div>
 );
@@ -72,43 +73,57 @@ const Home: NextPageWithLayout = () => {
       <section className="font-lato p-4 shadow-md rounded-4 text-center border">
         <h3 className="text-2xl">{helpTitle}</h3>
         <p className="text-lg font-light mt-4">{helpDescription}</p>
-        <Button
-          value={t('emailSupport', 'Email Support')}
-          size="full"
-          type="outlined"
-          className="mt-6"
-          leftIcon={<EmailIcon />}
-          onClick={() => handleLinkOpen(`mailto:${customerSupportEmail}`)}
-        />
-        <Button
-          value={customerSupportPhone}
-          size="full"
-          type="outlined"
-          className="mt-3"
-          leftIcon={<PhoneCall />}
-          onClick={() => handleLinkOpen(`tel:${customerSupportPhone}`)}
-        />
+        <section className="flex gap-3 justify-center items-center mt-4 text-base text-primary-1000 underline font-semibold">
+          <section className="text-white bg-primary-1000 h-8 w-8 rounded-full flex justify-center items-center">
+            <EmailIcon />
+          </section>
+          <button
+            onClick={() => handleLinkOpen(`mailto:${customerSupportEmail}`)}
+          >
+            {t('emailSupport', 'Email Support')}
+          </button>
+        </section>
+        <section className="flex gap-3 justify-center items-center mt-4 text-base text-primary-1000 underline font-semibold">
+          <section className="text-white bg-primary-1000 h-8 w-8 rounded-full flex justify-center items-center">
+            <PhoneCall />
+          </section>
+          <button onClick={() => handleLinkOpen(`tel:${customerSupportPhone}`)}>
+            {customerSupportPhone}
+          </button>
+        </section>
       </section>
     </section>
   );
 
   return (
     <main ref={mainRef} className="min-h-[100vh] w-full overflow-x-auto">
-      <UpperSectionBackground>
-        <p className="font-lato leading-[38px] text-[32px] font-normal text-dark-1000 mb-9">
-          Book Everything, Anywhere{' '}
-          <span className="font-normal ml-[-6px] align-super text-sm ">®</span>
-        </p>
-        <Panel className="mt-6 z-100">
-          <HorizontalTabs
-            tabs={tabsMock}
-            onClick={handleTabClick}
-            className="mb-2"
-            primary
-          />
-          <SearchCategoryForm searchType={searchType} />
-        </Panel>
-      </UpperSectionBackground>
+      <section className="relative">
+        <Image
+          src={'/images/bg-image.jpg'}
+          alt={''}
+          layout={'fill'}
+          className="object-cover"
+        />
+        <UpperSectionBackground>
+          <section className="relative">
+            <p className="font-lato leading-[38px] text-[32px] text-center font-semibold text-white mb-9">
+              Book Everything, Anywhere{' '}
+              <span className="font-normal ml-[-6px] align-super text-sm ">
+                ®
+              </span>
+            </p>
+            <Panel className="mt-6 z-50">
+              <HorizontalTabs
+                tabs={tabsMock}
+                onClick={handleTabClick}
+                className="mb-2"
+                primary
+              />
+              <SearchCategoryForm searchType={searchType} />
+            </Panel>
+          </section>
+        </UpperSectionBackground>
+      </section>
 
       <HelpSection />
     </main>

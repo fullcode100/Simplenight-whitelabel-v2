@@ -35,6 +35,7 @@ import {
 } from 'types/search/Geolocation';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import Label from 'components/global/Label/Label';
 
 const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -67,13 +68,11 @@ const HotelSearchForm = ({
   const [t, i18next] = useTranslation('global');
   const adultsLabel = t('adults', 'Adults');
   const childrenLabel = t('children', 'Children');
-  const infantsLabel = t('infants', 'Infants');
 
   const setQueryParam = useQuerySetter();
   const [roomsData, setRoomsData] = useState<Room[]>([createRoom()]);
   const [adults, setAdults] = useState(roomsData[0].adults.toString());
   const [children, setChildren] = useState(roomsData[0].children.toString());
-  const [infants, setInfants] = useState(roomsData[0].infants.toString());
   const [rooms, setRooms] = useState(roomsData.length.toString());
   const [childrenAges, setChildrenAges] = useState(
     roomsData[0].childrenAges.toString(),
@@ -117,7 +116,6 @@ const HotelSearchForm = ({
       rooms,
       adults,
       children,
-      infants,
       childrenAges,
       roomsDataFormatted,
       geolocation: geolocation ?? '',
@@ -132,38 +130,33 @@ const HotelSearchForm = ({
 
   const locationPlaceholder = t(
     'locationInputPlaceholder',
-    'Pick your destination',
+    'Where do you like to go?',
   );
 
   useEffect(() => {
-    setTravelersTotals(
-      roomsData,
-      setAdults,
-      setChildren,
-      setInfants,
-      setChildrenAges,
-    );
+    setTravelersTotals(roomsData, setAdults, setChildren, setChildrenAges);
     setRooms(roomsData.length.toString());
   }, [roomsData]);
 
   useEffect(() => {
     setTravelersPlaceholder(
-      `${adults} ${adultsLabel}, ${children} ${childrenLabel}, ${infants} ${infantsLabel}`,
+      `${adults} ${adultsLabel}, ${children} ${childrenLabel}`,
     );
-  }, [adults, children, infants, children]);
+  }, [adults, children, children]);
 
   return (
-    <section className={`flex flex-col px-4 pb-4 justify-between ${className}`}>
+    <section
+      className={`flex flex-col px-4 pb-4 overflow-y-scroll justify-between ${className}`}
+    >
       <section>
         <LocationInput
           icon={<LocationPin className="h-5 w-5 text-dark-700" />}
-          label="Where to?"
+          label="Destination"
           name="location"
           placeholder={locationPlaceholder}
           routeParams={['type']}
           onSelect={handleSelectLocation}
         />
-
         <TravelersInput
           showTravelersInput={showTravelersInput}
           onClose={() => setShowTravelersInput(false)}
@@ -171,6 +164,7 @@ const HotelSearchForm = ({
           setRooms={setRoomsData}
         />
         <IconInput
+          label="Guest & Rooms"
           name="Travelers"
           placeholder={travelersPlaceholder}
           icon={<MultiplePersons className="h-5 w-5 text-dark-700" />}
@@ -192,7 +186,7 @@ const HotelSearchForm = ({
             name="Check-in"
             placeholder="Check-in"
             className="mt-4"
-            orientation="right"
+            orientation="left"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={formatAsDisplayDate(startDate)}
             onChange={(event) => handleStartDateChange(event.target.value)}
@@ -202,7 +196,7 @@ const HotelSearchForm = ({
             label="Check-out"
             name="Check-out"
             placeholder="Check-out"
-            orientation="right"
+            orientation="left"
             className="mt-4"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={formatAsDisplayDate(endDate)}
@@ -216,7 +210,7 @@ const HotelSearchForm = ({
         <Button
           key="hotels.searchBtn"
           value="Search"
-          className="h-12 min-w-full"
+          className="h-12 min-w-full text-base"
           onClick={handleSearchClick}
         />
       </section>

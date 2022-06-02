@@ -17,9 +17,7 @@ const TravelersCount = ({
   const [t, i18next] = useTranslation('global');
   const adultsLabel = t('adults', 'Adults');
   const childrenLabel = t('children', 'Children');
-  const infantsLabel = t('infants', 'Infants');
-  const childrenAgeRangeLabel = t('childrenRange', 'Ages 10 to 17');
-  const infantsAgeRangeLabel = t('infantsRange', 'Ages 1 to 9');
+  const childrenAgeRangeLabel = t('childrenRange', 'Ages 0 to 17');
 
   return (
     <section className="flex flex-col gap-y-6 mb-6">
@@ -27,18 +25,14 @@ const TravelersCount = ({
         label={adultsLabel}
         value={room.adults}
         onChange={(value) => handleCountChange(value, index, 'adults')}
+        max={10}
       />
       <NumberInput
         label={childrenLabel}
         sublabel={childrenAgeRangeLabel}
         value={room.children}
         onChange={(value) => handleCountChange(value, index, 'children')}
-      />
-      <NumberInput
-        label={infantsLabel}
-        sublabel={infantsAgeRangeLabel}
-        value={room.infants}
-        onChange={(value) => handleCountChange(value, index, 'infants')}
+        max={10}
       />
     </section>
   );
