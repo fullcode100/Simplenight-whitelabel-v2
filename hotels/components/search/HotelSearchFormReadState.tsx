@@ -11,8 +11,6 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
 
-const DotSpacer = () => <span>·</span>;
-
 interface HotelSearchFormReadStateProps {
   setIsSearching?: (isReading: boolean) => void;
   log?: (message: string) => void;
@@ -47,7 +45,6 @@ const HotelSearchFormReadState = ({
     address,
   } = useQuery();
 
-  const [t] = useTranslation('hotels');
   const location = address?.toString().split(',')[0];
 
   const adults = parseInt((adultsQuery && adultsQuery[0]) || '0');
@@ -61,22 +58,10 @@ const HotelSearchFormReadState = ({
     SEARCH_DATE_FORMAT,
   );
 
-  const tAdult = t('adult', 'Adult');
-  const tAdults = t('adults', 'Adults');
-  const tGuest = t('guest', 'Guest');
-  const tGuests = t('guests', 'Guests');
-  const tChildren = t('children', 'Children');
-
-  const ADULT_TEXT = usePlural(
-    (adults as unknown as number) ?? 0,
-    tGuest,
-    tGuests,
-  );
-
   const GUEST_TEXT = usePlural(
-    (guests as unknown as number) ?? 0,
-    tAdult,
-    tAdults,
+    (adults as unknown as number) ?? 0,
+    guestLabel,
+    guestsLabel,
   );
 
   const ROOM_TEXT = usePlural(
@@ -93,16 +78,12 @@ const HotelSearchFormReadState = ({
   const LocationSection = () => <span>{location}</span>;
 
   const OccupancySection = () => (
-    <section>
+    <section className="flex flex-row gap-1">
       <span>{guests ?? ' - '} </span>
       <span>{GUEST_TEXT} </span>
       <Divider />
       <span>{rooms ?? ' - '}</span>
       <span>{ROOM_TEXT}</span>
-      <span>{adults ?? ' - '} </span>
-      <span>{ADULT_TEXT}, </span>
-      <span>{children ?? ' - '}</span>
-      <span> {tChildren}</span>
     </section>
   );
 
@@ -141,7 +122,7 @@ const HotelSearchFormReadState = ({
     setIsSearching(true);
   };
   return (
-    <section className="flex font-lato items-center justify-between text-sm px-4 ">
+    <section className="flex font-lato items-center justify-between text-sm px-4 z-0">
       <section className="flex flex-col w-[90%]">
         <OccupancyAndDatesSection />
       </section>
@@ -158,4 +139,5 @@ const HotelSearchFormReadState = ({
     </section>
   );
 };
+
 export default HotelSearchFormReadState;
