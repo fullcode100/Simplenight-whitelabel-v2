@@ -97,9 +97,11 @@ export const useI18Next = () => {
     resources: {
       en: {
         global: globalEn,
+        hotels: hotelsEn,
       },
       es: {
         global: globalEs,
+        hotels: hotelsEs,
       },
     },
   });

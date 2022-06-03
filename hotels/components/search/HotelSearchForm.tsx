@@ -65,9 +65,14 @@ const HotelSearchForm = ({
   const router = useRouter();
   const { latitude, longitude, address } = useQuery();
 
-  const [t, i18next] = useTranslation('global');
+  const [t, i18next] = useTranslation('hotels');
   const adultsLabel = t('adults', 'Adults');
   const childrenLabel = t('children', 'Children');
+  const infantsLabel = t('infants', 'Infants');
+  const locationInputLabel = t('locationInputLabel', 'Where to?');
+  const textSearch = t('search', 'Search');
+  const checkInText = t('checkIn');
+  const checkOutText = t('checkOut');
 
   const setQueryParam = useQuerySetter();
   const [roomsData, setRoomsData] = useState<Room[]>([createRoom()]);
@@ -151,7 +156,7 @@ const HotelSearchForm = ({
       <section>
         <LocationInput
           icon={<LocationPin className="h-5 w-5 text-dark-700" />}
-          label="Destination"
+          label={locationInputLabel}
           name="location"
           placeholder={locationPlaceholder}
           routeParams={['type']}
@@ -182,9 +187,9 @@ const HotelSearchForm = ({
         />
         <section className="flex gap-4 mt-2">
           <IconInput
-            label="Check-in"
+            label={checkInText}
             name="Check-in"
-            placeholder="Check-in"
+            placeholder={checkInText}
             className="mt-4"
             orientation="left"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
@@ -193,9 +198,9 @@ const HotelSearchForm = ({
             onClick={() => setShowDatePicker(true)}
           />
           <IconInput
-            label="Check-out"
+            label={checkOutText}
             name="Check-out"
-            placeholder="Check-out"
+            placeholder={checkOutText}
             orientation="left"
             className="mt-4"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
@@ -209,8 +214,8 @@ const HotelSearchForm = ({
       <section className="w-full flex items-center justify-center mt-8">
         <Button
           key="hotels.searchBtn"
-          value="Search"
           className="h-12 min-w-full text-base"
+          value={textSearch}
           onClick={handleSearchClick}
         />
       </section>
