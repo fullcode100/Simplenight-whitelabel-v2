@@ -4,7 +4,8 @@ export interface ButtonVariantProp {
   value: any;
   colors: ColorWithStates;
   sizeClassname: string;
-  disabled: boolean;
+  disabledLeft?: boolean;
+  disabledRight?: boolean;
   className: string;
   leftIcon?: React.ReactNode;
   [key: string]: any;

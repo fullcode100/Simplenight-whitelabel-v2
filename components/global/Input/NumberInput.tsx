@@ -48,6 +48,8 @@ const NumberInput = ({ value, onChange, max, ...others }: NumberInputProps) => {
         type="dual"
         size="w-11 h-11"
         containerClassName="h-full"
+        disabledLeft={value === 0 ? true : false}
+        disabledRight={value === max ? true : false}
       />
     </section>
   );

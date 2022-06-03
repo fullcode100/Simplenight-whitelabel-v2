@@ -7,7 +7,8 @@ const DualButton = ({
   rightValue,
   value,
   leftValue,
-  disabled,
+  disabledLeft,
+  disabledRight,
   className,
   onRightClick,
   onLeftClick,
@@ -20,8 +21,8 @@ const DualButton = ({
         `px-4 pb-1 pt-1 font-semibold flex items-center rounded-l-4 ${sizeClassname}`,
         {
           [`cursor-pointer bg-primary-800 text-white  ${colors.active} ${colors.hover}`]:
-            !disabled,
-          [`${colors.disabled} cursor-default`]: disabled,
+            !disabledLeft,
+          [`${colors.disabled} cursor-default`]: disabledLeft,
         },
         className,
       )}
@@ -35,8 +36,8 @@ const DualButton = ({
         `px-4 pb-1 pt-1 font-semibold flex items-center  rounded-r-4 ${sizeClassname}`,
         {
           [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
-            !disabled,
-          [`${colors.disabled} cursor-default`]: disabled,
+            !disabledRight,
+          [`${colors.disabled} cursor-default`]: disabledRight,
         },
         className,
       )}

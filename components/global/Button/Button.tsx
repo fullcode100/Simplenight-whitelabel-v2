@@ -15,6 +15,8 @@ interface ButtonProps {
   textColor?: string;
   className?: string;
   disabled?: boolean;
+  disabledLeft?: boolean;
+  disabledRight?: boolean;
   leftIcon?: React.ReactNode;
   type?:
     | 'contained'
@@ -34,6 +36,8 @@ const Button = ({
   textColor = 'white',
   type = 'contained',
   disabled = false,
+  disabledLeft = false,
+  disabledRight = false,
   className = '',
   leftIcon,
   ...others
@@ -72,7 +76,8 @@ const Button = ({
           colors={colors}
           sizeClassname={sizeTailwindClass}
           value={value}
-          disabled={disabled}
+          disabledLeft={disabledLeft}
+          disabledRight={disabledRight}
           className={className}
           {...others}
         />
