@@ -11,6 +11,8 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
 
+const DotSpacer = () => <span>·</span>;
+
 interface HotelSearchFormReadStateProps {
   setIsSearching?: (isReading: boolean) => void;
   log?: (message: string) => void;
@@ -45,6 +47,7 @@ const HotelSearchFormReadState = ({
     address,
   } = useQuery();
 
+  const [t] = useTranslation('hotels');
   const location = address?.toString().split(',')[0];
 
   const adults = parseInt((adultsQuery && adultsQuery[0]) || '0');
@@ -58,10 +61,22 @@ const HotelSearchFormReadState = ({
     SEARCH_DATE_FORMAT,
   );
 
-  const GUEST_TEXT = usePlural(
+  const tAdult = t('adult', 'Adult');
+  const tAdults = t('adults', 'Adults');
+  const tGuest = t('guest', 'Guest');
+  const tGuests = t('guests', 'Guests');
+  const tChildren = t('children', 'Children');
+
+  const ADULT_TEXT = usePlural(
     (adults as unknown as number) ?? 0,
-    guestLabel,
-    guestsLabel,
+    tGuest,
+    tGuests,
+  );
+
+  const GUEST_TEXT = usePlural(
+    (guests as unknown as number) ?? 0,
+    tAdult,
+    tAdults,
   );
 
   const ROOM_TEXT = usePlural(
@@ -78,12 +93,16 @@ const HotelSearchFormReadState = ({
   const LocationSection = () => <span>{location}</span>;
 
   const OccupancySection = () => (
-    <section className="flex flex-row gap-1">
+    <section>
       <span>{guests ?? ' - '} </span>
       <span>{GUEST_TEXT} </span>
       <Divider />
       <span>{rooms ?? ' - '}</span>
       <span>{ROOM_TEXT}</span>
+      <span>{adults ?? ' - '} </span>
+      <span>{ADULT_TEXT}, </span>
+      <span>{children ?? ' - '}</span>
+      <span> {tChildren}</span>
     </section>
   );
 
@@ -129,6 +148,7 @@ const HotelSearchFormReadState = ({
       <section className="flex items-center justify-center w-[25%]">
         <Button
           value={editLabel}
+          translationKey="edit"
           type="contained"
           className="text-[14px] leading-[14px]"
           size="full-sm"
@@ -138,5 +158,4 @@ const HotelSearchFormReadState = ({
     </section>
   );
 };
-
 export default HotelSearchFormReadState;

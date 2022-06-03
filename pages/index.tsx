@@ -26,6 +26,7 @@ const Home: NextPageWithLayout = () => {
     'needHelpDescription',
     'Email or call us to get support from our team.',
   );
+  const homePageText = t('homePageText');
 
   const mainRef = useRef<HTMLDivElement>(null);
   const homepageScrollHandler = getHomepageScrollHandler();
@@ -106,8 +107,8 @@ const Home: NextPageWithLayout = () => {
         />
         <UpperSectionBackground>
           <section className="relative">
-            <p className="font-lato leading-[38px] text-[32px] text-center font-semibold text-white mb-9">
-              Book Everything, Anywhere{' '}
+            <p className="font-lato leading-[38px] text-[32px] font-normal text-dark-1000 mb-9">
+              {homePageText}{' '}
               <span className="font-normal ml-[-6px] align-super text-sm ">
                 ®
               </span>

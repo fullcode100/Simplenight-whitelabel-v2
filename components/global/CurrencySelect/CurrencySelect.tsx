@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateCart } from 'core/client/services/CartClientService';
 import { getCurrency } from 'store/selectors/core';
 import { setCurrency } from 'store/actions/core';
@@ -20,25 +20,30 @@ const CurrencySelect = () => {
     }
   };
   return (
-    <div className="w-ful">
+    <div className="w-ful mt-3">
       <div className="relative">
         <section className="p-2 bg-dark-100 flex rounded-md gap-1">
-          {currencies.map((currency) => (
-            <section
-              key={currency}
-              className={classnames(
-                ' p-2 min-w-[63px] text-center rounded-md',
-                {
-                  'bg-primary-200 text-primary-1000':
-                    currency === currentCurrency,
-                  'text-dark-1000': currency !== currentCurrency,
-                },
-              )}
-              onClick={() => handleChangeCurrency(currency)}
-            >
-              <p>{currency.toUpperCase()}</p>
-            </section>
-          ))}
+          {currencies.map((currency) => {
+            const isActive = currency === currentCurrency;
+            const className = classnames(
+              ' p-2 w-[63.75px] rounded-md h-[36px] grid place-content-center cursor-pointer',
+              {
+                'bg-primary-200 text-primary-1000': isActive,
+                'text-dark-1000': !isActive,
+              },
+            );
+            return (
+              <section
+                key={currency}
+                className={className}
+                onClick={() => handleChangeCurrency(currency)}
+              >
+                <p className="cursor-pointer select-none">
+                  {currency.toUpperCase()}
+                </p>
+              </section>
+            );
+          })}
         </section>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface RangeDateProps {
   isStartDateTurn: boolean;
   onDateTurn: any;
@@ -11,6 +13,9 @@ const RangeDate = ({
   startDate,
   endDate,
 }: RangeDateProps) => {
+  const [t] = useTranslation('hotels');
+  const checkInText = t('checkIn');
+  const checkOutText = t('checkOut');
   return (
     <section className="grid grid-cols-2 justify-center pt-4 px-5">
       <div
@@ -18,7 +23,7 @@ const RangeDate = ({
           isStartDateTurn ? 'border-primary-1000' : 'border-dark-300'
         }`}
       >
-        <p className="text-sm text-dark-800">Check-in</p>
+        <p className="text-sm text-dark-800">{checkInText}</p>
         <button
           onClick={onDateTurn}
           className={`text-base ${
@@ -33,7 +38,7 @@ const RangeDate = ({
           !isStartDateTurn ? 'border-primary-1000' : 'border-dark-300'
         }`}
       >
-        <p className="text-sm text-dark-800">Check-out</p>
+        <p className="text-sm text-dark-800">{checkOutText}</p>
         <button
           onClick={onDateTurn}
           className={`text-base ${

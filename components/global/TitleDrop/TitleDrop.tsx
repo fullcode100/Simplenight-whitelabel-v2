@@ -13,7 +13,7 @@ const TitleDrop = ({ title, children, defaultOpen = true }: TitleDropProps) => {
   return (
     <section className="w-full">
       <section
-        className="mb-4 flex justify-between items-center"
+        className="flex justify-between items-center"
         onClick={handleOpen}
       >
         <p className="text-lg text-dark-800">{title}</p>

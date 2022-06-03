@@ -33,7 +33,7 @@ const LocationInput = ({
   const isMapLoaded = getIsMapLoaded();
   const setQueryParams = useQuerySetter();
 
-  const [t, i18next] = useTranslation('global');
+  const [t, i18next] = useTranslation('hotels');
   const loadingMessage = t('loading', 'Loading');
 
   const handleChange = (newAddress: string) => {

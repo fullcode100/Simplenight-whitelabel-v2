@@ -57,8 +57,9 @@ const Header = ({ color }: HeaderProps) => {
         title="Simplenight"
         primaryButtonAction={handleCloseMenu}
         noFooter={true}
+        noHeader={true}
       >
-        <Menu />
+        <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
       <section className="flex gap-5 items-center">
         <Link href={'/'}>

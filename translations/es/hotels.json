@@ -24,5 +24,13 @@
   "listView": "Vista de lista",
   "edit": "Editar",
   "hotelsFound": "Hoteles Encontrados",
-  "hotel": "Hotel"
+  "hotel": "Hotel",
+  "locationInputLabel": "¿A donde?",
+  "locationInputPlaceholder": "Elige tu destino",
+  "checkIn": "Entrada",
+  "checkOut": "Salida",
+  "dates": "Fechas",
+  "apply": "Aplicar",
+  "children": "Niños",
+  "infants": "Bebés"
 }

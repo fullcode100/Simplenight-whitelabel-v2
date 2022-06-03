@@ -20,6 +20,7 @@ import {
   initialMonth,
   initialYear,
 } from 'helpers/dajjsUtils';
+import { useTranslation } from 'react-i18next';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -42,6 +43,9 @@ const DatePicker = ({
   onStartDateChange,
   onEndDateChange,
 }: DatePickerProps) => {
+  const [t] = useTranslation('hotels');
+  const datesText = t('dates', 'Dates');
+  const applyText = t('apply', 'Apply');
   const [calendar, setCalendar] = useState(
     createCalendar(initialYear, initialMonth),
   );
@@ -100,8 +104,8 @@ const DatePicker = ({
     <FullScreenModal
       open={showDatePicker}
       closeModal={onClose}
-      title="Dates"
-      primaryButtonText="Apply"
+      title={datesText}
+      primaryButtonText={applyText}
       primaryButtonAction={setFullDate}
       hasMultipleActions={false}
     >

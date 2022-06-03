@@ -4,6 +4,8 @@ import { initReactI18next } from 'react-i18next';
 
 import globalEn from 'translations/en/global.json';
 import globalEs from 'translations/es/global.json';
+import hotelsEn from 'translations/en/hotels.json';
+import hotelsEs from 'translations/es/hotels.json';
 
 const locizeOptions = {
   projectId: process.env.NEXT_PUBLIC_LOCIZE_PROJECT_ID as unknown as string,
@@ -34,7 +36,8 @@ const withLocize = () => {
 };
 
 export const initializeI18Next = () => {
-  const isUsingLocize = process.env.NEXT_PUBLIC_USE_LOCIZE === 'true' ? true : false;
+  const isUsingLocize =
+    process.env.NEXT_PUBLIC_USE_LOCIZE === 'true' ? true : false;
   if (isUsingLocize) {
     return withLocize();
   }
@@ -54,9 +57,11 @@ export const initializeI18Next = () => {
     resources: {
       en: {
         global: globalEn,
+        hotels: hotelsEn,
       },
       es: {
         global: globalEs,
+        hotels: hotelsEs,
       },
     },
   });

@@ -15,6 +15,7 @@ interface FullScreenModalProps {
   footerSummary?: ReactNode;
   hasMultipleActions?: boolean;
   noFooter?: boolean;
+  noHeader?: boolean;
 }
 
 const FullScreenModal = ({
@@ -29,6 +30,7 @@ const FullScreenModal = ({
   footerSummary,
   hasMultipleActions = false,
   noFooter = false,
+  noHeader = false,
 }: FullScreenModalProps) => {
   return (
     <section
@@ -37,7 +39,7 @@ const FullScreenModal = ({
         { ['hidden']: !open },
       )}
     >
-      <ModalHeader title={title} onCloseModal={closeModal} />
+      {!noHeader && <ModalHeader title={title} onCloseModal={closeModal} />}
       {children}
       {!noFooter && (
         <ModalFooter

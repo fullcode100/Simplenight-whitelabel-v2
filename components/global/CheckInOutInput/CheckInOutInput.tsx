@@ -4,7 +4,7 @@ import Calendar from 'public/icons/assets/calendar.svg';
 import { useState } from 'react';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import dayjs from 'dayjs';
-
+import { useTranslation } from 'react-i18next';
 interface CheckInOutInputProps {
   showDatePicker: boolean;
   startDate: string;
@@ -24,6 +24,9 @@ const CheckInOutInput = ({
   handleOpenDatePicker,
   handleCloseDatePicker,
 }: CheckInOutInputProps) => {
+  const [t] = useTranslation('hotels');
+  const checkInText = t('checkIn');
+  const checkOutText = t('checkOut');
   return (
     <section>
       <DatePicker
@@ -36,9 +39,9 @@ const CheckInOutInput = ({
       />
       <section className="flex gap-4">
         <IconInput
-          label="Check-in"
+          label={checkInText}
           name="Check-in"
-          placeholder="Check-in"
+          placeholder={checkInText}
           className="mt-4"
           orientation="right"
           icon={<Calendar className="h-5 w-5 text-dark-700" />}
@@ -47,9 +50,9 @@ const CheckInOutInput = ({
           onClick={handleOpenDatePicker}
         />
         <IconInput
-          label="Check-out"
+          label={checkOutText}
           name="Check-out"
-          placeholder="Check-out"
+          placeholder={checkOutText}
           orientation="right"
           className="mt-4"
           icon={<Calendar className="h-5 w-5 text-dark-700" />}

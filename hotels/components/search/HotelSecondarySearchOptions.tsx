@@ -36,8 +36,8 @@ const HotelSecondarySearchOptions = () => {
   );
   const starRatingLabel = t('starRating', 'Star Rating');
   const sortByLabel = t('sortBy', 'Sort By');
-  const mapViewLabel = t('mapView', 'Map View');
-  const listViewLabel = t('listView', 'List View');
+  const textMapView = t('mapView', 'Map View');
+  const textListView = t('listView', 'List View');
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
@@ -135,8 +135,8 @@ const HotelSecondarySearchOptions = () => {
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
   const viewParam = isListView ? 'map' : 'list';
-  const viewButtonValue = isListView ? mapViewLabel : listViewLabel;
   const icon = isListView ? <MapIcon /> : <ListIcon />;
+  const viewButtonValue = isListView ? textMapView : textListView;
 
   const setQueryParams = useQuerySetter();
 
@@ -153,6 +153,8 @@ const HotelSecondarySearchOptions = () => {
         size="full-sm"
         leftIcon={<FilterIcon />}
         onClick={handleFilterButtonClick}
+        translationKey="filters"
+        context="hotels"
       />
       <Button
         value={viewButtonValue}
