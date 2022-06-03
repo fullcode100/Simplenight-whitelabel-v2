@@ -14,6 +14,7 @@ import OccupancySelector, {
 } from './OcupancySelector/OccupancySelector';
 
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
+import Bed from 'public/icons/assets/bed.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
@@ -73,6 +74,8 @@ const HotelSearchForm = ({
   const textSearch = t('search', 'Search');
   const checkInText = t('checkIn');
   const checkOutText = t('checkOut');
+  const guestsLabel = t('guests', 'Guests');
+  const roomsLabel = t('rooms', 'Rooms');
 
   const setQueryParam = useQuerySetter();
   const [roomsData, setRoomsData] = useState<Room[]>([createRoom()]);
@@ -91,6 +94,7 @@ const HotelSearchForm = ({
     formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [clickOnStart, setClickOnStart] = useState(false);
   const [showTravelersInput, setShowTravelersInput] = useState(false);
 
   const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
@@ -145,7 +149,9 @@ const HotelSearchForm = ({
 
   useEffect(() => {
     setTravelersPlaceholder(
-      `${adults} ${adultsLabel}, ${children} ${childrenLabel}`,
+      `${
+        parseInt(adults) + parseInt(children)
+      } ${guestsLabel}, ${rooms} ${roomsLabel}`,
     );
   }, [adults, children, children]);
 
@@ -168,14 +174,22 @@ const HotelSearchForm = ({
           rooms={roomsData}
           setRooms={setRoomsData}
         />
-        <IconInput
-          label="Guest & Rooms"
-          name="Travelers"
-          placeholder={travelersPlaceholder}
-          icon={<MultiplePersons className="h-5 w-5 text-dark-700" />}
-          className="mt-4"
-          onClick={() => setShowTravelersInput(true)}
-        />
+        <section className="mt-4">
+          <p className="text-sm font-medium text-dark-800">Guests & Rooms</p>
+          <button
+            onClick={() => setShowTravelersInput(true)}
+            className="mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"
+          >
+            <section className="flex items-center gap-2">
+              <MultiplePersons className="text-dark-700" />
+              {parseInt(adults) + parseInt(children)} {guestsLabel}
+            </section>
+            <section className="flex items-center gap-2">
+              <Bed className="text-dark-700" />
+              {rooms} {roomsLabel}
+            </section>
+          </button>
+        </section>
 
         <DatePicker
           showDatePicker={showDatePicker}
@@ -184,6 +198,7 @@ const HotelSearchForm = ({
           initialEndDate={endDate}
           onStartDateChange={handleStartDateChange}
           onEndDateChange={handleEndDateChange}
+          openOnStart={clickOnStart ? true : false}
         />
         <section className="flex gap-4 mt-2">
           <IconInput
@@ -195,7 +210,11 @@ const HotelSearchForm = ({
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={formatAsDisplayDate(startDate)}
             onChange={(event) => handleStartDateChange(event.target.value)}
-            onClick={() => setShowDatePicker(true)}
+            onClick={() => {
+              setClickOnStart(true);
+              setShowDatePicker(true);
+            }}
+            disabled
           />
           <IconInput
             label={checkOutText}
@@ -206,7 +225,11 @@ const HotelSearchForm = ({
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={formatAsDisplayDate(endDate)}
             onChange={(event) => handleEndDateChange(event.target.value)}
-            onClick={() => setShowDatePicker(true)}
+            onClick={() => {
+              setClickOnStart(false);
+              setShowDatePicker(true);
+            }}
+            disabled
           />
         </section>
       </section>

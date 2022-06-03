@@ -40,8 +40,15 @@ const ChildrenAges = ({
               type="number"
               value={age}
               onChange={(e) =>
-                handleAgesChange(parseInt(e.target.value), indexAge, roomNumber)
+                handleAgesChange(
+                  parseInt(e.target.value) >= 17
+                    ? 17
+                    : parseInt(e.target.value),
+                  indexAge,
+                  roomNumber,
+                )
               }
+              max={17}
             />
           </section>
         ))}

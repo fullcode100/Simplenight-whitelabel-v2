@@ -26,7 +26,7 @@ const RangeDate = ({
         <p className="text-sm text-dark-800">{checkInText}</p>
         <button
           onClick={onDateTurn}
-          className={`text-base ${
+          className={`text-base font-semibold ${
             isStartDateTurn ? 'text-primary-1000' : 'text-dark-1000'
           }`}
         >
@@ -41,7 +41,7 @@ const RangeDate = ({
         <p className="text-sm text-dark-800">{checkOutText}</p>
         <button
           onClick={onDateTurn}
-          className={`text-base ${
+          className={`text-base font-semibold ${
             !isStartDateTurn ? 'text-primary-1000' : 'text-dark-1000'
           }`}
         >

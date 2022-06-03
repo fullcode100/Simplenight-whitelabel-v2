@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent, UIEvent, Fragment } from 'react';
+import { useEffect, useState, MouseEvent, Fragment } from 'react';
 
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -7,7 +7,6 @@ import isBetween from 'dayjs/plugin/isBetween';
 
 import {
   createCalendar,
-  createNewMonth,
   DayObject,
   MonthObject,
 } from '../../../helpers/calendar/calendar';
@@ -33,6 +32,7 @@ interface DatePickerProps {
   initialEndDate: string;
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
+  openOnStart: boolean;
 }
 
 const DatePicker = ({
@@ -42,6 +42,7 @@ const DatePicker = ({
   initialEndDate,
   onStartDateChange,
   onEndDateChange,
+  openOnStart,
 }: DatePickerProps) => {
   const [t] = useTranslation('hotels');
   const datesText = t('dates', 'Dates');
@@ -55,30 +56,24 @@ const DatePicker = ({
   const [endDate, setEndDate] = useState<string>(
     dayjs().add(1, 'day').format('YYYY-MM-DD'),
   );
-  const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(false);
+  const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
 
   useEffect(() => {
     setStartDate(initialStartDate ?? startDate);
     setEndDate(initialEndDate ?? endDate);
   }, []);
 
-  const addMonth = () => {
-    setCalendar([...calendar, createNewMonth(calendar)]);
-  };
-
-  const handleScroll = (e: UIEvent<HTMLElement>) => {
-    const target = e.target as Element;
-    const bottom =
-      target.scrollHeight - target.scrollTop === target.clientHeight;
-    if (bottom) {
-      addMonth();
-    }
-  };
+  useEffect(() => {
+    setIsStartDateTurn(openOnStart);
+  }, [openOnStart]);
 
   const setDate = (date: string) => {
     if (isStartDateTurn) {
       if (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) {
-        return setEndDate(date);
+        setStartDate(date);
+        setEndDate(dayjs(date).add(1, 'day').format('YYYY-MM-DD'));
+        setIsStartDateTurn(!isStartDateTurn);
+        return;
       }
       setStartDate(date);
       setIsStartDateTurn(!isStartDateTurn);
@@ -115,10 +110,7 @@ const DatePicker = ({
         startDate={formatAsRangeDate(startDate)}
         endDate={formatAsRangeDate(endDate)}
       />
-      <section
-        className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5"
-        onScroll={handleScroll}
-      >
+      <section className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5">
         {calendar.map((month: MonthObject, index) => {
           return (
             <Fragment key={index}>
@@ -135,9 +127,14 @@ const DatePicker = ({
                     dayjs(startDate),
                     dayjs(endDate),
                   )}
-                  isDisabled={dayjs(day.date).isSameOrBefore(
-                    dayjs().subtract(1, 'day'),
-                  )}
+                  isDisabled={
+                    dayjs(day.date).isSameOrBefore(
+                      dayjs().subtract(1, 'day'),
+                    ) ||
+                    dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
+                    (!isStartDateTurn &&
+                      dayjs(day.date).isAfter(dayjs(startDate).add(2, 'week')))
+                  }
                 />
               ))}
             </Fragment>

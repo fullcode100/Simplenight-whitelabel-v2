@@ -26,6 +26,7 @@ const TravelersCount = ({
         value={room.adults}
         onChange={(value) => handleCountChange(value, index, 'adults')}
         max={10}
+        disabled
       />
       <NumberInput
         label={childrenLabel}
@@ -33,6 +34,7 @@ const TravelersCount = ({
         value={room.children}
         onChange={(value) => handleCountChange(value, index, 'children')}
         max={10}
+        disabled
       />
     </section>
   );

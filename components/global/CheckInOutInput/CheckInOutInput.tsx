@@ -36,6 +36,7 @@ const CheckInOutInput = ({
         initialEndDate={endDate}
         onStartDateChange={handleStartDateChange}
         onEndDateChange={handleEndDateChange}
+        openOnStart={false}
       />
       <section className="flex gap-4">
         <IconInput

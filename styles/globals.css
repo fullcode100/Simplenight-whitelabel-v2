@@ -105,3 +105,11 @@ label {
 .ReactCollapse--collapse {
   transition: height 300ms;
 }
+
+@layer utilities {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
