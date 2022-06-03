@@ -107,7 +107,7 @@ const Home: NextPageWithLayout = () => {
         />
         <UpperSectionBackground>
           <section className="relative">
-            <p className="font-lato leading-[38px] text-[32px] font-normal text-dark-1000 mb-9">
+            <p className="font-lato leading-[38px] text-[32px] font-semibold text-white text-center mb-9">
               {homePageText}{' '}
               <span className="font-normal ml-[-6px] align-super text-sm ">
                 ®

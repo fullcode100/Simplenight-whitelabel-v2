@@ -57,13 +57,13 @@ const ImageCarousel = ({ images, hotelName }: ImageCarouselProps) => {
         autoPlay={false}
         customLeftArrow={
           <CustomArrow
-            className="z-10 absolute left-0 -translate-y-7"
+            className="z-[5] absolute left-0 -translate-y-7"
             position="left"
           />
         }
         customRightArrow={
           <CustomArrow
-            className="z-10 absolute right-0 -translate-y-7"
+            className="z-[5] absolute right-0 -translate-y-7"
             position="right"
           />
         }

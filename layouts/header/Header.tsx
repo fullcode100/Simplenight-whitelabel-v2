@@ -45,7 +45,7 @@ const Header = ({ color }: HeaderProps) => {
 
   return (
     <header
-      className={`flex items-center justify-between p-4 z-20 ${color} fixed w-full`}
+      className={`flex items-center justify-between p-4 z-10 ${color} fixed w-full`}
     >
       <HamburgerMenuButton
         className="mr-2 cursor-pointer"

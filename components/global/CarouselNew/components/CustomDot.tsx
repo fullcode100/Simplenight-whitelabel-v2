@@ -19,7 +19,7 @@ const CustomDot = ({
   if (active) {
     return (
       <section className={className}>
-        <p>
+        <p className="my-0">
           <span className="font-semibold">{newIndex + 1}</span>/{length}
         </p>
         {icon && <ImageCarouselIcon />}
