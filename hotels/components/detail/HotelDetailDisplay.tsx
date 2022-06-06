@@ -61,6 +61,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const locationRef = useRef<HTMLDivElement>(null);
   const amenitiesRef = useRef<HTMLDivElement>(null);
 
+  const [displaySeeMore, setDisplaySeeMore] = useState(true);
+  const [descriptionHeight, setDescriptionHeight] = useState(232);
   const [loaded, setLoaded] = useState(false);
   const [hotel, setHotel] = useState<Hotel>(initialState[0]);
   const {
@@ -187,11 +189,23 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         </p>
       </section>
       <SeeMore
-        text={description}
-        type="text"
-        textOpened="Read less"
-        textClosed="Read more"
-      />
+        textOpened="See less"
+        textClosed="See more"
+        heightInPixels={descriptionHeight}
+        displayButton={displaySeeMore}
+      >
+        <p
+          ref={(desc) => {
+            if (desc && desc?.clientHeight < 232) {
+              setDisplaySeeMore(false);
+              setDescriptionHeight(0);
+            }
+          }}
+          className="text-base text-dark-1000 mt-3"
+        >
+          {description}
+        </p>
+      </SeeMore>
     </section>
   );
 
@@ -288,8 +302,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             <SeeMore
               textOpened="See less"
               textClosed="See more"
-              type="component"
-              heightInPixels={900}
+              heightInPixels={hotelRooms.length > 4 ? 2800 : 0}
+              displayButton={hotelRooms.length > 4}
             >
               {<RoomsSection rooms={hotelRooms} hotelId={hotel.id} />}
             </SeeMore>
