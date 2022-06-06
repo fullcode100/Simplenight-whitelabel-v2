@@ -108,7 +108,7 @@ const HotelSecondarySearchOptions = () => {
   );
 
   const FilterForm = () => (
-    <section className="py-4">
+    <section className="py-4 h-full">
       <KeywordSearchFilter />
       <SortByFilter />
       <Divider className="my-6" />
