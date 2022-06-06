@@ -25,7 +25,7 @@
   "mapView": "Map view",
   "listView": "List view",
   "edit": "Edit",
-  "locationInputLabel": "Where to?",
+  "locationInputLabel": "Destination",
   "locationInputPlaceholder": "Where would you like to go?",
   "checkIn": "Check-In",
   "checkOut": "Check-Out",
