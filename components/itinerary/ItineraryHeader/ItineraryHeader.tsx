@@ -4,8 +4,6 @@ import PageTitle from 'components/global/PageTitle/PageTitle';
 import ContinueCheckoutButtons from '../ContinueCheckoutButtons/ContinueCheckoutButtons';
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
 
-const PRODUCTS = 2;
-
 interface ItineraryHeaderProps {
   productsAmount: number | undefined;
 }

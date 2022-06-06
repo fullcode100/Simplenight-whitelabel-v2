@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import { useTranslation } from 'react-i18next';
 
 import useQuery from 'hooks/pageInteraction/useQuery';
+import { getStoreCartId } from 'store/selectors/cart';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { getCartId } from 'core/client/services/CartClientService';
 import ItineraryHeader from 'components/itinerary/ItineraryHeader/ItineraryHeader';
@@ -14,9 +15,16 @@ import ContinueShopping from '../components/itinerary/ContinueShopping/ContinueS
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
+  const [cartId, setCartId] = useState('');
+  const [reload, setReload] = useState(false);
   const [t, i18next] = useTranslation('global');
 
-  const { cartId } = useQuery();
+  const cartIdParams = useQuery().cartId;
+  const cartIdStore = getStoreCartId();
+
+  useEffect(() => {
+    setCartId(cartIdParams || cartIdStore);
+  }, [cartIdParams, cartIdStore]);
 
   useEffect(() => {
     if (cartId) {
@@ -24,7 +32,7 @@ const Itinerary: NextPage = () => {
         setCart(response);
       });
     }
-  }, [cartId, i18next]);
+  }, [cartId, i18next, reload]);
 
   const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
@@ -36,7 +44,7 @@ const Itinerary: NextPage = () => {
       <section className="p-5">{!hasItems && <ItineraryEmpty />}</section>
       {cart && <ListHeader />}
       <section className="p-5">
-        <ItineraryItemList cart={cart} />
+        <ItineraryItemList cart={cart} reload={reload} setReload={setReload} />
       </section>
       <section></section>
       <aside>

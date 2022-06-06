@@ -96,8 +96,8 @@ export const getCartId = async (i18next: i18n, cartId: string | string[]) => {
 };
 
 interface RemoveItemRequest {
-  cartId: string;
-  itemId: string;
+  cartId?: string;
+  itemId?: string;
 }
 
 export const removeFromCart = async (
