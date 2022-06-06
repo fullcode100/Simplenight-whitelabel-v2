@@ -323,6 +323,66 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     setOpenCheckRoom(true);
   };
 
+  const AdultsChildrenRooms = () => (
+    <>
+      <span>
+        {adults ?? '-'} {ADULT_TEXT}, {children ?? '-'} {CHILDREN_TEXT}
+      </span>
+      <span className="text-dark-200 mx-4">|</span>
+      <span>
+        {rooms ?? '-'} {ROOMS_TEXT}
+      </span>
+    </>
+  );
+
+  const adultsNumber = parseInt((adults && adults[0]) || '0');
+  const childrenNumber = parseInt((children && children[0]) || '0');
+  const guests = adultsNumber + childrenNumber;
+  const tGuest = t('guest', 'guest');
+  const tGuests = t('guests', 'guests');
+  const GUEST_TEXT = guests === 1 ? tGuest : tGuests;
+
+  const DatesSection = () => (
+    <section>
+      <span>{startDate}</span>
+      <span> {toLabel} </span>
+      <span>{endDate}</span>
+    </section>
+  );
+
+  const VerticalDivider = () => (
+    <div className="px-2">
+      <div className="h-6 border-l border-dark-200" />
+    </div>
+  );
+
+  const OccupancySection = () => (
+    <section className="flex flex-row gap-1">
+      <span>{guests ?? ' - '} </span>
+      <span>{GUEST_TEXT} </span>
+      <VerticalDivider />
+      <span>{rooms ?? ' - '}</span>
+      <span>{ROOMS_TEXT}</span>
+    </section>
+  );
+
+  const OccupancyAndDatesSection = () => (
+    <section className="grid gap-2 font-lato text-sm text-dark-1000">
+      <section className="flex gap-2">
+        <section className="w-6 grid place-items-center">
+          <CalendarIcon className="text-primary-1000" />
+        </section>
+        <DatesSection />
+      </section>
+      <section className="flex gap-2">
+        <section className="w-6 grid place-items-center">
+          <MultiplePersonsIcon className="text-primary-1000" />
+        </section>
+        <OccupancySection />
+      </section>
+    </section>
+  );
+
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
