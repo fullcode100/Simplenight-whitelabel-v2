@@ -69,7 +69,10 @@ const DatePicker = ({
 
   const setDate = (date: string) => {
     if (isStartDateTurn) {
-      if (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) {
+      if (
+        (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
+        dayjs(date).isBefore(dayjs(endDate).subtract(2, 'week'))
+      ) {
         setStartDate(date);
         setEndDate(dayjs(date).add(1, 'day').format('YYYY-MM-DD'));
         setIsStartDateTurn(!isStartDateTurn);
