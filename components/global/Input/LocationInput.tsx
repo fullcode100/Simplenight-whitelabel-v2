@@ -17,7 +17,7 @@ interface LocationInputProps {
   icon: any;
   routeParams?: string[];
   onChange?: (value: string) => void;
-  onSelect?: (value: latLngProp) => void;
+  onSelect?: (value: latLngProp, address: string) => void;
 }
 
 const LocationInput = ({
@@ -48,13 +48,7 @@ const LocationInput = ({
 
       setAddress(results[0].formatted_address);
 
-      setQueryParams({
-        latitude: latLng.lat.toString(),
-        longitude: latLng.lng.toString(),
-        address: results[0].formatted_address,
-      });
-
-      if (onSelect) onSelect(latLng);
+      if (onSelect) onSelect(latLng, results[0].formatted_address);
     } catch (error) {
       console.error(error);
     }

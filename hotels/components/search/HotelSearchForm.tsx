@@ -64,7 +64,6 @@ const HotelSearchForm = ({
   hasReRoute = false,
 }: SearchFormProps) => {
   const router = useRouter();
-  const { latitude, longitude, address } = useQuery();
 
   const [t, i18next] = useTranslation('hotels');
   const adultsLabel = t('adults', 'Adults');
@@ -85,6 +84,7 @@ const HotelSearchForm = ({
   const [childrenAges, setChildrenAges] = useState(
     roomsData[0].childrenAges.toString(),
   );
+  const [address, setAddress] = useState<string | undefined>();
 
   const [geolocation, setGeolocation] = useState<StringGeolocation>();
   const [startDate, setStartDate] = useState<string>(
@@ -109,7 +109,11 @@ const HotelSearchForm = ({
 
   const rerouteToSearchPage = () => {
     router.push(
-      `/search/hotels?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${latitude}&longitude=${longitude}&address=${address}&rooms=${rooms}`,
+      `/search/hotels?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${
+        geolocation?.split(',')[LATITUDE_INDEX]
+      }&longitude=${
+        geolocation?.split(',')[LONGITUDE_INDEX]
+      }&address=${address}&rooms=${rooms}`,
     );
   };
 
@@ -127,14 +131,18 @@ const HotelSearchForm = ({
       children,
       childrenAges,
       roomsDataFormatted,
+      address: address as string,
       geolocation: geolocation ?? '',
+      latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
+      longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
     });
     if (setIsSearching) setIsSearching(false);
   };
 
-  const handleSelectLocation = (latLng: latLngProp) => {
+  const handleSelectLocation = (latLng: latLngProp, address: string) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     setGeolocation(newGeolocation);
+    setAddress(address);
   };
 
   const locationPlaceholder = t(
