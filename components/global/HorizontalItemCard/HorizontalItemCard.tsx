@@ -1,5 +1,7 @@
+import { checkUrl } from 'helpers/urlUtils';
 import React, { ReactNode } from 'react';
 import { WithId } from 'types/global/WithId';
+import EmptyImage from '../EmptyImage/EmptyImage';
 import Rating from '../Rating/Rating';
 
 interface CardProps<T extends WithId> {
@@ -44,6 +46,8 @@ function HorizontalItemCard<T extends WithId>({
     </section>
   );
 
+  const load = checkUrl(image);
+
   return (
     <li
       key={item.id}
@@ -59,6 +63,7 @@ function HorizontalItemCard<T extends WithId>({
           }}
         >
           <CategoryTag />
+          {!load && <EmptyImage />}
         </section>
         <section className="flex flex-col justify-between p-4">
           <TitleSection />

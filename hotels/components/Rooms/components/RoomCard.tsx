@@ -8,6 +8,7 @@ import AmenitiesItem from '../../Amenities/components/AmenitiesItem';
 import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import PayAtProperty from 'components/global/PayAtProperty/PayAtProperty';
+import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 
 interface RoomsProps {
   room: Room;
@@ -29,7 +30,11 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
   const images = room?.photos?.map((photo) => photo.url) ?? [];
   return (
     <section className="shadow-container my-3 border border-dark-200 rounded">
-      <ImageCarousel images={images} hotelName="" showDots={false} />
+      {images.length > 0 ? (
+        <ImageCarousel images={images} hotelName="" showDots={false} />
+      ) : (
+        <EmptyImage />
+      )}
       <RoomCardHeader
         roomDescription={roomDescription}
         rates={rate}
