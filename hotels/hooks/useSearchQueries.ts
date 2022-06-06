@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { SEARCH_DATE_FORMAT, formatAsMonthDay } from 'helpers/dajjsUtils';
+import { SEARCH_DATE_FORMAT, formatAsDisplayDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { useTranslation } from 'react-i18next';
@@ -38,8 +38,10 @@ export const useSearchQueries = () => {
     t('rooms', 'Rooms'),
   );
 
-  const formattedStartDate = startDateQuery ? formatAsMonthDay(startDate) : '-';
-  const formattedEndDate = endDateQuery ? formatAsMonthDay(endDate) : '-';
+  const formattedStartDate = startDateQuery
+    ? formatAsDisplayDate(startDate)
+    : '-';
+  const formattedEndDate = endDateQuery ? formatAsDisplayDate(endDate) : '-';
 
   return {
     adults,

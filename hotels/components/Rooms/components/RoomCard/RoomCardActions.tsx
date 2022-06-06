@@ -25,26 +25,30 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
     sn_booking_code: bookingCode,
   };
   const [t, i18next] = useTranslation('hotels');
+  const addToItineraryText = t('addToItinerary', 'Add to Itinernary');
+  const bookNowText = t('bookNow', 'Book Now');
 
   return (
     <footer className="px-4 py-4">
       <section className="grid grid-cols-2 gap-3">
         <Button
-          value="Add to Trip"
+          value={addToItineraryText}
           size="full"
           type="outlined"
           textColor="primary"
           onClick={() => {
             addToCart(itemToBook, i18next, store);
           }}
+          className="font-normal text-sm"
         />
         <Button
-          value="Book Now"
+          value={bookNowText}
           size="full"
           onClick={() => {
             addToCart(itemToBook, i18next, store);
             router.replace('/checkout/client');
           }}
+          className="font-normal text-sm"
         />
       </section>
     </footer>

@@ -16,7 +16,7 @@ const AmenitiesItem = ({ text, icon, view }: AmenitiesItemProps) => {
     >
       {icon}
       <p
-        className={classnames('text-dark-1000 text-sm font-semibold', {
+        className={classnames('text-dark-1000 text-sm font-normal', {
           ['text-center']: view === 'grid',
         })}
       >

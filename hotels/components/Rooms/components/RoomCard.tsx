@@ -6,6 +6,8 @@ import RoomCardActions from './RoomCard/RoomCardActions';
 import FreeCancellation from 'components/global/FreeCancellation/FreeCancellation';
 import AmenitiesItem from '../../Amenities/components/AmenitiesItem';
 import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
+import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
+import PayAtProperty from 'components/global/PayAtProperty/PayAtProperty';
 
 interface RoomsProps {
   room: Room;
@@ -24,9 +26,10 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
   };
 
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
-
+  const images = room?.photos?.map((photo) => photo.url) ?? [];
   return (
     <section className="shadow-container my-3 border border-dark-200 rounded">
+      <ImageCarousel images={images} hotelName="" showDots={false} />
       <RoomCardHeader
         roomDescription={roomDescription}
         rates={rate}
@@ -35,7 +38,7 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
         itemToBook={itemToBook}
       />
       <Divider />
-      <section className="p-4 grid grid-cols-2 gap-4">
+      <section className="p-4 flex flex-col gap-2">
         {amenities.map((amenity, index) => {
           const amenityIcon = amenitiesIcons.find((amenityOption) => {
             if (amenityOption.options.includes(amenity)) {
@@ -57,8 +60,13 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
         })}
       </section>
       <Divider />
-      <section className="flex gap-2 px-4 py-3">
-        <FreeCancellation cancellable={cancellable} />
+      <section className="px-4 py-4">
+        <FreeCancellation
+          cancellable={cancellable}
+          description={cancellationPolicy?.description}
+          wfull
+        />
+        <PayAtProperty className="mt-3" />
       </section>
       <Divider />
       <section className="px-4 py-3">
