@@ -43,7 +43,7 @@ const LanguageSelect = () => {
   return (
     <div className="w-ful mt-3">
       <div className="relative">
-        <section className="p-2 bg-dark-100 flex rounded-md gap-1">
+        <section className="p-2 bg-dark-100 flex flex-col rounded-md gap-1">
           {languages.map((lang: string) => {
             const isActive = lang === language;
             const className = classnames(
