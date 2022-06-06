@@ -14,7 +14,6 @@ export class HotelServerSearcher extends ServerSearcher<HotelSearchResponse> {
     response: NextApiResponse<HotelSearchResponse>,
   ): [NextApiRequest, NextApiResponse<HotelSearchResponse>] {
     const lang = request.headers['accept-language'];
-    console.log(lang);
 
     return [request, response];
   }
