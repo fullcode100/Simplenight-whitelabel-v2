@@ -1501,7 +1501,7 @@ export const bookingMock = {
         booking_item_id: '1c5939ab-4aaa-4de6-8fc5-6f85e8ad9bb6',
         error_data: {},
         extra_data: {
-          id: '704f71db:68721',
+          id: '704f71db:189672',
           rooms: [
             {
               code: 'SUI.B1-1',

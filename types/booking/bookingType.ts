@@ -1,30 +1,40 @@
+import {
+  Capacity,
+  Details,
+  MealPlan,
+  Photo,
+  RelativePosition,
+  Services,
+} from 'hotels/types/response/SearchResponse';
+import { Amount } from 'types/global/Amount';
+
 export interface Booking {
   booking_id: string;
   created_at: string;
   customer_last_name: string;
   items: Item[];
   manual_charge_status: string;
-  order_total: OrderTotal;
-  order_total_postpaid: OrderTotal;
+  order_total: Amount;
+  order_total_postpaid: Amount;
   partner_url: string;
-  payments: PaymentElement[];
-  payments_total: OrderTotal;
+  payments: Payment[];
+  payments_total: Amount;
   primary_contact: PrimaryContact;
-  supplier_total: OrderTotal;
+  supplier_total: Amount;
   refunds: any[];
-  refunds_total: OrderTotal;
+  refunds_total: Amount;
   sandbox_mode: boolean;
   sn_order_number: string;
   status: string;
-  tax_total: OrderTotal;
-  tax_total_postpaid: OrderTotal;
+  tax_total: Amount;
+  tax_total_postpaid: Amount;
   updated_at: string;
 }
 
 export interface Item {
   booking_id: string;
   booking_item_id: string;
-  error_data: ErrorData;
+  error_data: any;
   extra_data: ItemExtraData;
   inventory_id: string;
   name: string;
@@ -34,19 +44,17 @@ export interface Item {
   status: string;
   supplier: string;
   supplier_order_number: string;
-  total: OrderTotal;
-  total_postpaid: OrderTotal;
-  total_supplier: OrderTotal;
-  total_tax: OrderTotal;
-  total_tax_postpaid: OrderTotal;
+  total: Amount;
+  total_postpaid: Amount;
+  total_supplier: Amount;
+  total_tax: Amount;
+  total_tax_postpaid: Amount;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ErrorData {}
 
 export interface ItemExtraData {
   id: string;
   rooms: Room[];
+  items?: Item[];
   photos: Photo[];
   details: Details;
   end_date: string;
@@ -80,49 +88,6 @@ export interface Language {
   iso639_2: string;
 }
 
-export interface Details {
-  web: string;
-  name: string;
-  type: string;
-  chain: Chain;
-  email: string;
-  phones: Phone[];
-  address: Address;
-  facilities: string[];
-  description: string;
-  star_rating: string;
-  checkin_time: string;
-  checkout_time: string;
-}
-
-export interface Address {
-  city: string;
-  zone: string;
-  state: string;
-  country: string;
-  address1: string;
-  address2: string;
-  district: string;
-  coordinates: Coordinates;
-  postal_code: string;
-  country_code: string;
-}
-
-export interface Coordinates {
-  latitude: number;
-  longitude: number;
-}
-
-export interface Chain {
-  chain_code: string;
-  chain_name: string;
-}
-
-export interface Phone {
-  phone_type: string;
-  phone_number: string;
-}
-
 export interface Room {
   code: string;
   name: string;
@@ -133,20 +98,6 @@ export interface Room {
   amenities: string[];
   room_type: string;
   description: string;
-}
-
-export interface Capacity {
-  max_pax: number;
-  min_pax: number;
-  max_adults: number;
-  min_adults: number;
-  max_children: number;
-  min_children: number;
-}
-
-export interface Photo {
-  url: string;
-  text: string;
 }
 
 export interface Rates {
@@ -162,14 +113,9 @@ export interface MinRate {
   rate_type: string;
   available_qty: number;
   sn_booking_code: string;
-  cancellation_policy: ErrorData;
+  cancellation_policy: any;
   booking_code_supplier: string;
   requires_validation_before_booking: boolean;
-}
-
-export interface MealPlan {
-  code: string;
-  text: string;
 }
 
 export interface Rate {
@@ -188,43 +134,9 @@ export interface RateBreakdown {
   total_post_paid_amount: AmountMin;
 }
 
-export interface Services {
-  free_wifi: boolean;
-  king_beds: number;
-  other_beds: number;
-  queen_beds: number;
-  total_beds: number;
-  double_beds: number;
-  total_rooms: number;
-  free_parking: boolean;
-  free_breakfast: boolean;
-  total_bathrooms: number;
-}
-
-export interface RelativePosition {
-  near_to: NearTo[];
-  distance: number;
-  distance_unit: string;
-  distance_to_city_centre: number;
-  distance_to_nearest_airport: number;
-}
-
-export interface NearTo {
-  distance: string;
-  location_code: string;
-  location_name: string;
-  location_type: string;
-}
-
-export interface OrderTotal {
-  amount: number;
-  formatted: string;
-  currency: string;
-}
-
-export interface PaymentElement {
+export interface Payment {
   supplier: string;
-  transaction_amount: OrderTotal;
+  transaction_amount: Amount;
   transaction_status: string;
   supplier_charge_id: string;
   transaction_type: string;
