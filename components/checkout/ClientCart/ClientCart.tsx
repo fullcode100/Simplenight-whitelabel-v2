@@ -16,6 +16,7 @@ const ClientCart = ({ items, schema, uiSchema }: ClientCartProps) => {
         return (
           <section key={index}>
             <ClientCartItem
+              index={index}
               item={item}
               formSchema={schema}
               formUiSchema={uiSchema}

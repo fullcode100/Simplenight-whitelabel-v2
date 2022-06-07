@@ -13,7 +13,7 @@ const Summary = ({ amount, href = '#' }: SummaryProps) => {
       <h4 className="text-base leading-[22px] text-dark-1000">Total</h4>
       <section className="flex flex-col justify-end font-lato text-right">
         <p className="text-[18px] leading-6 font-bold text-dark-1000">
-          {amount.formatted}
+          {amount?.formatted}
         </p>
         <p className="text-[14px] leading-5 text-dark-800">
           Includes Taxes and Fees

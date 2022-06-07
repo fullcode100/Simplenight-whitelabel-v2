@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 // Types
 import { Amount } from 'types/global/Amount';
 // Components
-import CheckoutMain from 'components/checkout/CheckoutMain/CheckoutMain';
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Divider from 'components/global/Divider/Divider';
 import Summary from 'components/checkout/Summary/Summary';
@@ -21,9 +20,9 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 
-const test: Amount = {
-  formatted: '$200.00',
-  amount: 200,
+const empty: Amount = {
+  formatted: '$0.00',
+  amount: 0,
   currency: 'USD',
 };
 
@@ -36,7 +35,7 @@ const Client = () => {
   const [travelersFormSchema, setTraverlersFormSchema] = useState();
   const [travelersUiSchema, setTraverlersUiSchema] = useState();
   const [loaded, setLoaded] = useState(false);
-  const primaryContactText = t('primaryContact', 'Primary Contact');
+  const primaryContactText = t('orderName', 'Order Name');
   const [isDisabled, setIsDisabled] = useState(true);
   const cartId = getStoreCartId() || null;
   const handleGetSchema = async () => {
@@ -73,8 +72,7 @@ const Client = () => {
   };
 
   useEffect(() => {
-    handleGetSchema();
-    handleGetCart();
+    handleGetCart().then(() => handleGetSchema());
   }, []);
 
   return (
@@ -101,7 +99,7 @@ const Client = () => {
           />
           <Divider />
           <CheckoutFooter type="client">
-            <Summary amount={test} />
+            <Summary amount={(cart?.total_amount as Amount) ?? empty} />
             <Button
               value="Cancel"
               size={'full'}
