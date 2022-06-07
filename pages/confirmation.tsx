@@ -50,6 +50,7 @@ const Confirmation: NextPage = () => {
     }
   }, [bookingId]);
 
+  console.log(booking);
   return (
     <main>
       {loading ? (
