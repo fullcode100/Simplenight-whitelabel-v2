@@ -65,7 +65,6 @@ const HotelSearchForm = ({
   hasReRoute = false,
 }: SearchFormProps) => {
   const router = useRouter();
-  const [setValue] = useLocalStorage('lastSearch', '');
 
   const [t, i18next] = useTranslation('hotels');
   const adultsLabel = t('adults', 'Adults');
@@ -109,13 +108,17 @@ const HotelSearchForm = ({
     setEndDate(value);
   };
 
+  const handleSaveLastSearch = (value: string): void => {
+    localStorage.setItem('lastSearch', value);
+  };
+
   const rerouteToSearchPage = () => {
     const route = `/search/hotels?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${
       geolocation?.split(',')[LONGITUDE_INDEX]
     }&address=${address}&rooms=${rooms}`;
-    setValue(route);
+    handleSaveLastSearch(route);
     router.push(route);
   };
 
