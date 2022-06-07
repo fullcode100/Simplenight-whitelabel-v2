@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // import { SEARCH_DATE_FORMAT } from '../../../../helpers/searchConstants';
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
@@ -13,7 +13,6 @@ import OccupancySelector, {
   OccupancyData,
 } from './OcupancySelector/OccupancySelector';
 
-import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import Bed from 'public/icons/assets/bed.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
@@ -77,22 +76,35 @@ const HotelSearchForm = ({
   const guestsLabel = t('guests', 'Guests');
   const roomsLabel = t('rooms', 'Rooms');
 
+  const params = useQuery();
   const setQueryParam = useQuerySetter();
-  const [roomsData, setRoomsData] = useState<Room[]>([createRoom()]);
+  const [roomsData, setRoomsData] = useState<Room[]>(
+    params.roomsData ? JSON.parse(params.roomsData as string) : [createRoom()],
+  );
   const [adults, setAdults] = useState(roomsData[0].adults.toString());
   const [children, setChildren] = useState(roomsData[0].children.toString());
   const [rooms, setRooms] = useState(roomsData.length.toString());
   const [childrenAges, setChildrenAges] = useState(
     roomsData[0].childrenAges.toString(),
   );
-  const [address, setAddress] = useState<string | undefined>();
+  const [address, setAddress] = useState<string | undefined>(
+    params.address ? (params.address as string) : '',
+  );
 
-  const [geolocation, setGeolocation] = useState<StringGeolocation>();
+  const [geolocation, setGeolocation] = useState<StringGeolocation>(
+    `${parseFloat(params.latitude as string)},${parseFloat(
+      params.longitude as string,
+    )}`,
+  );
   const [startDate, setStartDate] = useState<string>(
-    formatAsSearchDate(dayjs()),
+    params.startDate
+      ? params.startDate.toString()
+      : formatAsSearchDate(dayjs()),
   );
   const [endDate, setEndDate] = useState<string>(
-    formatAsSearchDate(dayjs().add(1, 'day')),
+    params.endDate
+      ? params.endDate.toString()
+      : formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
@@ -117,7 +129,7 @@ const HotelSearchForm = ({
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${
       geolocation?.split(',')[LONGITUDE_INDEX]
-    }&address=${address}&rooms=${rooms}`;
+    }&address=${address}&rooms=${rooms}&roomsData=${JSON.stringify(roomsData)}`;
     handleSaveLastSearch(route);
     router.push(route);
   };
