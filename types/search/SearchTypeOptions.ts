@@ -28,6 +28,7 @@ export interface CategoryOption {
   resultsDisplay?: ReactElement;
   detailDisplay?: ReactElement;
   itineraryDisplay?: ReactElement;
+  confirmationDisplay?: ReactElement;
 }
 
 export interface CategoryStore {
