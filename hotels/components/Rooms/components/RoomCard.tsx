@@ -9,6 +9,7 @@ import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import PayAtProperty from 'components/global/PayAtProperty/PayAtProperty';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
+import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 
 interface RoomsProps {
   room: Room;
@@ -66,11 +67,9 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
       </section>
       <Divider />
       <section className="px-4 py-4">
-        <FreeCancellation
-          cancellable={cancellable}
-          description={cancellationPolicy?.description}
-          wfull
-        />
+        {cancellable && (
+          <FreeCancellationExtended policy={cancellationPolicy?.description} />
+        )}
         <PayAtProperty className="mt-3" />
       </section>
       <Divider />
