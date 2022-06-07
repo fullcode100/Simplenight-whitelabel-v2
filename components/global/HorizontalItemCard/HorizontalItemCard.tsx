@@ -42,7 +42,7 @@ function HorizontalItemCard<T extends WithId>({
   const CategoryTag = () => (
     <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br">
       {icon}
-      <span className="font-semibold text-sm">{categoryName}</span>
+      <span className="font-semibold text-[14px]">{categoryName}</span>
     </section>
   );
 
