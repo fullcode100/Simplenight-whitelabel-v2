@@ -33,5 +33,10 @@
   "myItinerary": "My Itinerary",
   "continueShopping": "Continue Shopping",
   "remove": "Remove",
-  "imageComingSoon": "Image Coming Soon "
+  "imageComingSoon": "Image Coming Soon ",
+  "confirmationDisclaimer": "Supplier Reference ID and Vendor Confirmation Number can be found below.",
+  "orderConfirmed": "Order Confirmed",
+  "items": "Items",
+  "simplenightOrderNumber": "Simplenight Order Number",
+  "bookingDate": "Booking Date"
 }

@@ -5,11 +5,17 @@ interface PageTitleProps {
   title: string;
   icon?: React.ReactNode;
   productsAmount?: number;
+  productsLabel?: string;
 }
 
-const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
+const PageTitle = ({
+  title,
+  icon,
+  productsAmount,
+  productsLabel,
+}: PageTitleProps) => {
   const [t, i18next] = useTranslation('global');
-  const productsLabel = t('productsLabel', 'Products');
+  const productsDefaultLabel = t('productsLabel', 'Products');
 
   const showProductsAmount = !!productsAmount && productsAmount > 0;
 
@@ -28,7 +34,7 @@ const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
 
       {showProductsAmount && (
         <section className="font-semibold text-dark-800 text-[16px] leading-[20px]">
-          {productsAmount} {productsLabel}
+          {productsAmount} {productsLabel ?? productsDefaultLabel}
         </section>
       )}
     </section>

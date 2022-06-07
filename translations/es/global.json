@@ -53,5 +53,10 @@
   "outDealForYou": "Nuestro Trato para Usted",
   "noResultsSearch": "Ningún Resultado Coincide con su Búsqueda.",
   "remove": "Remover",
-  "imageComingSoon": "Imagen Próximamente "
+  "imageComingSoon": "Imagen Próximamente ",
+  "confirmationDisclaimer": "La referencia del proveedor y número de confirmación se encuentran a continuación.",
+  "orderConfirmed": "Orden Confirmada",
+  "items": "Artículos",
+  "simplenightOrderNumber": "Número de Orden Simplenight",
+  "bookingDate": "Fecha de Reserva"
 }
