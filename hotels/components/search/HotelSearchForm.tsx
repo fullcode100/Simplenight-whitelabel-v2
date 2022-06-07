@@ -37,6 +37,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import Label from 'components/global/Label/Label';
+import useLocalStorage from 'hooks/localStorage/useLocalStorage';
 
 const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -64,6 +65,7 @@ const HotelSearchForm = ({
   hasReRoute = false,
 }: SearchFormProps) => {
   const router = useRouter();
+  const [setValue] = useLocalStorage('lastSearch', '');
 
   const [t, i18next] = useTranslation('hotels');
   const adultsLabel = t('adults', 'Adults');
@@ -108,13 +110,13 @@ const HotelSearchForm = ({
   };
 
   const rerouteToSearchPage = () => {
-    router.push(
-      `/search/hotels?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${
-        geolocation?.split(',')[LATITUDE_INDEX]
-      }&longitude=${
-        geolocation?.split(',')[LONGITUDE_INDEX]
-      }&address=${address}&rooms=${rooms}`,
-    );
+    const route = `/search/hotels?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${
+      geolocation?.split(',')[LATITUDE_INDEX]
+    }&longitude=${
+      geolocation?.split(',')[LONGITUDE_INDEX]
+    }&address=${address}&rooms=${rooms}`;
+    setValue(route);
+    router.push(route);
   };
 
   const handleSearchClick = () => {
