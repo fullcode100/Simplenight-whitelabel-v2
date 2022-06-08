@@ -42,5 +42,6 @@
   "taxes": "Taxes",
   "otherFees": "Other Fees",
   "cancelOrder": "Cancel Order",
-  "nights": "Nights"
+  "nights": "Nights",
+  "paymentMethods": "Payment Methods"
 }
