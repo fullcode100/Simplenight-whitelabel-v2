@@ -19,6 +19,10 @@ import { getStoreCartId } from 'store/selectors/cart';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
+import { deepCopy } from 'helpers/objectUtils';
+import { IChangeEvent } from '@rjsf/core';
+import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
+import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 
 const empty: Amount = {
   formatted: '$0.00',
@@ -31,18 +35,26 @@ const ITINERARY_URI = '/itinerary';
 const Client = () => {
   const router = useRouter();
   const [t, i18n] = useTranslation('global');
-  const [cart, setCart] = useState<CartObjectResponse | undefined>();
-  const [travelersFormSchema, setTraverlersFormSchema] = useState();
-  const [travelersUiSchema, setTraverlersUiSchema] = useState();
+
+  const [travelersFormSchema, setTravelersFormSchema] = useState();
+  const [travelersUiSchema, setTravelersUiSchema] = useState();
+  let primaryContactData: FormData | undefined;
+
   const [loaded, setLoaded] = useState(false);
-  const primaryContactText = t('orderName', 'Order Name');
+
+  const [cart, setCart] = useState<CartObjectResponse | undefined>();
   const [isDisabled, setIsDisabled] = useState(true);
-  const cartId = getStoreCartId() || null;
+  let cartId: string | null = null;
+
+  const primaryContactText = t('orderName', 'Order Name');
+
   const handleGetSchema = async () => {
     try {
+      if (!cartId) throw new Error('Cart ID is not defined');
+
       const schemas = await getCartSchema(i18n, cartId);
-      setTraverlersFormSchema(schemas?.travelers_form_schema);
-      setTraverlersUiSchema(schemas?.travel_form_ui_schema);
+      setTravelersFormSchema(schemas?.travelers_form_schema);
+      setTravelersUiSchema(schemas?.travel_form_ui_schema);
     } catch (error) {
       return error;
     }
@@ -61,28 +73,46 @@ const Client = () => {
     }
   };
 
+  const handlePrimaryContactFormChange = (data: IChangeEvent<FormData>) => {
+    const formDataCopy = deepCopy(data.formData);
+    primaryContactData = formDataCopy;
+  };
+
   const redirectToItinerary = () => {
     router.push(ITINERARY_URI);
   };
 
-  const continueToPayment = () => {
-    if (cart && cart.total_item_qty > 0) {
-      router.push('/checkout/payment');
-    }
+  const getAddCustomerRequestBody = (): AddCustomerRequest => {
+    const primaryContactCopy = deepCopy(primaryContactData);
+    const request = { customer: primaryContactCopy };
+
+    request.customer.phone_number = primaryContactCopy.phone;
+
+    delete request.customer.phone;
+    delete request.customer.primary_contact;
+
+    return request as unknown as AddCustomerRequest;
+  };
+
+  const continueToPayment = async () => {
+    if (!cart || cart.total_item_qty <= 0 || !primaryContactData) return;
+
+    const customerUpdater = new ClientCartCustomerUpdater();
+    const requestBody = getAddCustomerRequestBody();
+
+    await customerUpdater.request(requestBody, i18n, cart.cart_id);
+
+    router.push('/checkout/payment');
   };
 
   useEffect(() => {
+    cartId = JSON.parse(window.localStorage.getItem('cart') ?? 'null');
     handleGetCart().then(() => handleGetSchema());
   }, []);
 
   return (
     <>
-      {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
-      </section> */}
       <CheckoutHeader step="client" />
-      {/* <CheckoutMain>
-        Form section to Detail section - both shares margins
-      </CheckoutMain> */}
       {loaded ? (
         <>
           <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
@@ -91,6 +121,7 @@ const Client = () => {
           <ClientForm
             schema={travelersFormSchema}
             uiSchema={travelersUiSchema}
+            onChange={handlePrimaryContactFormChange}
           />
           <ClientCart
             items={cart?.items}

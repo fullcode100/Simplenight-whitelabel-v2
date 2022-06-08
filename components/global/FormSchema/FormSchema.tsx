@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import Form from '@rjsf/core';
+import Form, { IChangeEvent } from '@rjsf/core';
 import {
   CustomCheckbox,
   CustomCountry,
@@ -15,11 +15,13 @@ import {
   ObjectTemplate,
   TextTemplate,
 } from './FormTemplates';
+
 interface FormSchemaProps {
   schema: any;
   uiSchema?: any;
   children?: React.ReactNode;
   onSubmit?: (data: any) => void;
+  onChange?: (data: IChangeEvent<FormData>) => void;
   id?: string;
 }
 
@@ -28,6 +30,7 @@ const FormSchema = ({
   uiSchema,
   children,
   onSubmit,
+  onChange,
   id,
 }: FormSchemaProps) => {
   const widgets = {
@@ -69,6 +72,7 @@ const FormSchema = ({
       onSubmit={onSubmit}
       widgets={widgets}
       uiSchema={uiSchema}
+      onChange={onChange}
       FieldTemplate={CustomFieldTemplate}
       ObjectFieldTemplate={ObjectFieldTemplate}
       id={id}
