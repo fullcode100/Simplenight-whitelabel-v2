@@ -1,4 +1,8 @@
 export const checkUrl = async (url: string) => {
-  const result = await fetch(url, { method: 'HEAD' });
-  return result.ok;
+  try {
+    const response = await fetch(url);
+    return response.ok;
+  } catch (e) {
+    return false;
+  }
 };
