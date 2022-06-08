@@ -17,6 +17,7 @@ interface FullScreenModalProps {
   noFooter?: boolean;
   noHeader?: boolean;
   containerButtonsClassName?: string;
+  className?: string;
 }
 
 const FullScreenModal = ({
@@ -33,11 +34,12 @@ const FullScreenModal = ({
   noFooter = false,
   noHeader = false,
   containerButtonsClassName,
+  className = '',
 }: FullScreenModalProps) => {
   return (
     <section
       className={classnames(
-        'w-full h-full flex flex-col items-stretch fixed inset-0 bg-white z-[100]',
+        `w-full h-full flex flex-col items-stretch fixed inset-0 bg-white z-[100] ${className}`,
         { ['hidden']: !open },
       )}
     >
@@ -57,5 +59,4 @@ const FullScreenModal = ({
     </section>
   );
 };
-
 export default FullScreenModal;
