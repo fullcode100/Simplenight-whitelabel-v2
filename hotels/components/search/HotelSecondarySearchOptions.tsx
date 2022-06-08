@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
@@ -15,6 +16,7 @@ import MapIcon from 'public/icons/assets/map.svg';
 import ListIcon from 'public/icons/assets/list.svg';
 import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
+import { useRouter } from 'next/router';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -22,9 +24,16 @@ const Divider = ({ className }: { className?: string }) => (
 
 const INITIAL_RATING_VALUE = 3;
 const HotelSecondarySearchOptions = () => {
+  const router = useRouter();
+  const [queryFilter, setQueryFilters] = useState(router.query);
+  const setQueryParams = useQuerySetter();
+
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
   const [ratingValue, setRatingValue] = useState(INITIAL_RATING_VALUE);
   const [checkedLabels, setCheckedLabels] = useState<string[]>([]);
+  const [keywordSearch, setKeywordSearch] = useState<string>(
+    (queryFilter?.keywordSearch as string) || '',
+  );
 
   const [t, i18n] = useTranslation('hotels');
   const filtersLabel = t('filters', 'Filters');
@@ -32,7 +41,7 @@ const HotelSecondarySearchOptions = () => {
   const keywordSearchLabel = t('keywordSearch', 'Keyword Search');
   const searchKeywordPlaceholder = t(
     'searchKeywordPlaceholder',
-    'Hotel Name, Landmark, Location, etc.',
+    'Venue Name, Landmark, Location, etc.',
   );
   const starRatingLabel = t('starRating', 'Star Rating');
   const sortByLabel = t('sortBy', 'Sort By');
@@ -57,6 +66,14 @@ const HotelSecondarySearchOptions = () => {
     setCheckedLabels(newCheckedLabels);
   };
 
+  const handleDispatchFilters = () => {
+    setFilterModalOpen(false);
+    setQueryParams({
+      ...queryFilter,
+      keywordSearch,
+    });
+  };
+
   const FilterTitle = ({ label }: { label: string }) => (
     <label className="mb-2">{label}</label>
   );
@@ -69,12 +86,10 @@ const HotelSecondarySearchOptions = () => {
     <FilterContainer>
       <FilterTitle label={keywordSearchLabel} />
       <IconInput
-        value=""
+        value={keywordSearch}
         placeholder={searchKeywordPlaceholder}
         icon={<SearchIcon className="text-dark-700" />}
-        onChange={() => {
-          <></>;
-        }}
+        onChange={(e) => setKeywordSearch(e.target.value)}
       />
     </FilterContainer>
   );
@@ -125,7 +140,7 @@ const HotelSecondarySearchOptions = () => {
         closeModal={() => setFilterModalOpen(false)}
         title={filtersLabel}
         primaryButtonText={applyFiltersLabel}
-        primaryButtonAction={() => setFilterModalOpen(false)}
+        primaryButtonAction={() => handleDispatchFilters()}
       >
         <FilterForm />
       </FullScreenModal>
@@ -137,8 +152,6 @@ const HotelSecondarySearchOptions = () => {
   const viewParam = isListView ? 'map' : 'list';
   const icon = isListView ? <MapIcon /> : <ListIcon />;
   const viewButtonValue = isListView ? textMapView : textListView;
-
-  const setQueryParams = useQuerySetter();
 
   const handleChangeResultView = () => {
     setQueryParams({

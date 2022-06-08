@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
 import HotelItemRateInfo from './HotelItemRateInfo';
+import useFilter from 'hooks/pageInteraction/useFilter';
 
 declare let window: CustomWindow;
 
@@ -38,10 +39,20 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const { language } = i18next;
   const router = useRouter();
 
-  const { adults, children, startDate, endDate, latitude, longitude, rooms } =
-    useQuery();
+  const {
+    adults,
+    children,
+    startDate,
+    endDate,
+    latitude,
+    longitude,
+    rooms,
+    keywordSearch,
+  } = useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
+  // It could be useful
+  // const { memoizedFilterHotels } = useFilter(hotels, keywordSearch as string);
 
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
