@@ -10,6 +10,9 @@ import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import PayAtProperty from 'components/global/PayAtProperty/PayAtProperty';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
+import { useState } from 'react';
+import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
+import { useTranslation } from 'react-i18next';
 
 interface RoomsProps {
   room: Room;
@@ -19,6 +22,8 @@ interface RoomsProps {
 const cancellableType = 'FREE_CANCELLATION';
 
 const RoomCard = ({ room, hotelId }: RoomsProps) => {
+  const [t] = useTranslation('hotels');
+  const [showAmenitiesModal, setShowAmenitiesModal] = useState(false);
   const { description: roomDescription, rates, amenities } = room;
   const { min_rate: minRate } = rates;
   const { rate, cancellation_policy: cancellationPolicy } = minRate;
@@ -26,9 +31,16 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
     inventory_id: hotelId,
     sn_booking_code: minRate.sn_booking_code,
   };
-
+  const viewAllAmenitiesText = t('viewAllAmenities', 'View all amenities');
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
   const images = room?.photos?.map((photo) => photo.url) ?? [];
+
+  const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
+  const PriceBreakDown = () => (
+    <button className="text-primary-1000 underline text-sm">
+      {priceBreakdownText}
+    </button>
+  );
   return (
     <section className="shadow-container my-3 border border-dark-200 rounded">
       {images.length > 0 ? (
@@ -64,6 +76,18 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
             );
           }
         })}
+        <AmenitiesModal
+          showAmenitiesModal={showAmenitiesModal}
+          onClose={() => setShowAmenitiesModal(false)}
+          amenities={amenities}
+        />
+        <button
+          type="button"
+          onClick={() => setShowAmenitiesModal(true)}
+          className="text-sm leading-5 text-left font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
+        >
+          {viewAllAmenitiesText}
+        </button>
       </section>
       <Divider />
       <section className="px-4 py-4">
@@ -74,7 +98,10 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
       </section>
       <Divider />
       <section className="px-4 py-3">
-        <BreakdownSummary rate={rate} />
+        <BreakdownSummary
+          rate={rate}
+          CustomPriceBreakdown={<PriceBreakDown />}
+        />
       </section>
       <Divider />
       <RoomCardActions room={room} hotelId={hotelId} />

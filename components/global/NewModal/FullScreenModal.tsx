@@ -16,6 +16,7 @@ interface FullScreenModalProps {
   hasMultipleActions?: boolean;
   noFooter?: boolean;
   noHeader?: boolean;
+  containerButtonsClassName?: string;
 }
 
 const FullScreenModal = ({
@@ -31,6 +32,7 @@ const FullScreenModal = ({
   hasMultipleActions = false,
   noFooter = false,
   noHeader = false,
+  containerButtonsClassName,
 }: FullScreenModalProps) => {
   return (
     <section
@@ -49,6 +51,7 @@ const FullScreenModal = ({
           secondaryButtonAction={secondaryButtonAction}
           summary={footerSummary}
           hasMultipleActions={hasMultipleActions}
+          containerButtonsClassName={containerButtonsClassName}
         />
       )}
     </section>

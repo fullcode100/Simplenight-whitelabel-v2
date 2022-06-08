@@ -1,5 +1,6 @@
 // Libraries
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Amount } from 'types/global/Amount';
 
 type SummaryProps = {
@@ -8,6 +9,8 @@ type SummaryProps = {
 };
 
 const Summary = ({ amount, href = '#' }: SummaryProps) => {
+  const [t] = useTranslation('hotels');
+  const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   return (
     <section className="flex w-full items-center justify-between">
       <h4 className="text-base leading-[22px] text-dark-1000">Total</h4>
@@ -22,7 +25,7 @@ const Summary = ({ amount, href = '#' }: SummaryProps) => {
           className="text-base leading-[22px] font-semibold underline text-primary-1000 hover:text-primary-1000 hover:underline"
           href={href}
         >
-          Price Breakdown
+          {priceBreakdownText}
         </a>
       </section>
     </section>

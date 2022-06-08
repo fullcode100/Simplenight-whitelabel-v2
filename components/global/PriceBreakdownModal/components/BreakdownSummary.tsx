@@ -5,17 +5,21 @@ import { useTranslation } from 'react-i18next';
 
 interface BreakdownSummaryProps {
   rate: Rate;
+  CustomPriceBreakdown?: React.ReactElement;
 }
 
-const BreakdownSummary = ({ rate }: BreakdownSummaryProps) => {
+const BreakdownSummary = ({
+  rate,
+  CustomPriceBreakdown,
+}: BreakdownSummaryProps) => {
+  const [tg] = useTranslation('global');
   const [t] = useTranslation('hotels');
-  const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const includesTaxesAndFeesText = t(
     'includesTaxesAndFees',
     'Includes Taxes And Fees',
   );
-  const nightsText = t('nights', 'Nights');
-  const guestsText = t('guests', 'Guests');
+  const nightsText = tg('nights', 'Nights');
+  const guestsText = tg('guests', 'Guests');
   return (
     <section className="flex justify-between items-center">
       <section className="text-sm text-dark-1000">
@@ -25,9 +29,7 @@ const BreakdownSummary = ({ rate }: BreakdownSummaryProps) => {
       <section className="text-right">
         <PriceDisplay rate={rate} />
         <p className="text-dark-800 text-xs">{includesTaxesAndFeesText}</p>
-        <button className="text-primary-1000 underline text-base">
-          {priceBreakdownText}
-        </button>
+        {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>
     </section>
   );

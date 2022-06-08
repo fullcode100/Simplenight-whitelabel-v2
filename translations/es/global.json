@@ -56,5 +56,6 @@
   "orderConfirmed": "Orden Confirmada",
   "items": "Artículos",
   "simplenightOrderNumber": "Número de Orden Simplenight",
-  "bookingDate": "Fecha de Reserva"
+  "bookingDate": "Fecha de Reserva",
+  "nights": "Noches"
 }

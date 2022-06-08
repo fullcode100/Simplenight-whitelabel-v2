@@ -2,13 +2,16 @@ import { useState } from 'react';
 
 import AmenitiesGrid from './components/AmenitiesGrid';
 import AmenitiesModal from './AmenitiesModal';
+import { useTranslation } from 'react-i18next';
 
 interface AmenitiesProps {
   amenities: string[];
 }
 
 const AmenitiesSection = ({ amenities }: AmenitiesProps) => {
+  const [t] = useTranslation('hotels');
   const [showAmenitiesModal, setShowAmenitiesModal] = useState(false);
+  const viewAllAmenitiesText = t('viewAllAmenities', 'View all amenities');
 
   return (
     <>
@@ -24,7 +27,7 @@ const AmenitiesSection = ({ amenities }: AmenitiesProps) => {
           onClick={() => setShowAmenitiesModal(true)}
           className="mb-4 text-sm text-right leading-5 font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
         >
-          View All Amenities
+          {viewAllAmenitiesText}
         </button>
       )}
     </>

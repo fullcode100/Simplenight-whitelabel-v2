@@ -35,5 +35,11 @@
   "infants": "Infants",
   "starHotel": "Star hotel",
   "addToIninerary": "Add to ininerary",
-  "bookNow": "Book now"
+  "bookNow": "Book now",
+  "viewAllAmenities": "View all amenities",
+  "roomDetails": "Room details",
+  "roomAmenities": "Room Amenities",
+  "priceBreakdown": "Price Breakdown",
+  "includesTaxesAndFees": "Includes taxes and fees",
+  "checkRoomAvailability": "Check Room Availability"
 }

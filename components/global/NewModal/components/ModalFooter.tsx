@@ -10,6 +10,7 @@ interface ModalFooterProps {
   summary?: ReactNode;
   hasMultipleActions?: boolean;
   className?: string;
+  containerButtonsClassName?: string;
 }
 
 const ModalFooter = ({
@@ -20,6 +21,7 @@ const ModalFooter = ({
   summary,
   hasMultipleActions,
   className,
+  containerButtonsClassName,
 }: ModalFooterProps) => {
   const secondaryButtonTextNotNull = secondaryButtonText ?? 'close';
 
@@ -30,9 +32,12 @@ const ModalFooter = ({
       {summary}
       {hasMultipleActions ? (
         <section
-          className={classnames('grid grid-cols-2 gap-3', {
-            ['mt-4']: summary,
-          })}
+          className={classnames(
+            `grid grid-cols-2 gap-3 ${containerButtonsClassName}`,
+            {
+              ['mt-4']: summary,
+            },
+          )}
         >
           <Button
             value={secondaryButtonTextNotNull}

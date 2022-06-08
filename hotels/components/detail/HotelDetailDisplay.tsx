@@ -230,8 +230,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const adultsNumber = parseInt((adults && adults[0]) || '0');
   const childrenNumber = parseInt((children && children[0]) || '0');
   const guests = adultsNumber + childrenNumber;
-  const tGuest = t('guest', 'Guest');
-  const tGuests = t('guests', 'Guests');
+  const tGuest = tg('guest', 'Guest');
+  const tGuests = tg('guests', 'Guests');
   const GUEST_TEXT = guests === 1 ? tGuest : tGuests;
 
   const DatesSection = () => (

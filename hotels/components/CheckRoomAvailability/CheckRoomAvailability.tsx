@@ -3,6 +3,7 @@ import CheckInOutInput, {
   useCheckInOutInput,
   UseCheckInOutInputPropsComponentReturn,
 } from 'components/global/CheckInOutInput/CheckInOutInput';
+import { useTranslation } from 'react-i18next';
 
 interface CheckRoomProps {
   open: boolean;
@@ -10,7 +11,8 @@ interface CheckRoomProps {
 }
 
 const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
-  const title = 'Check Room Availability';
+  const [t] = useTranslation('hotels');
+  const title = t('checkRoomAvailability', 'Check Room Availability');
   const onClose = () => setOpen(false);
   const [checkInOutProps, startDate, endDate] = useCheckInOutInput();
   const onApply = () => {

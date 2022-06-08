@@ -35,5 +35,11 @@
   "infants": "Bebés",
   "starHotel": "Estrellas",
   "addToItinerary": "Añadir al itinerario",
-  "bookNow": "Reservar ahora"
+  "bookNow": "Reservar ahora",
+  "viewAllAmenities": "Ver todas las comodidades",
+  "roomDetails": "Detalles de la habitación",
+  "roomAmenities": "Comodidades de la habitación",
+  "priceBreakdown": "Desglose de precios",
+  "includesTaxesAndFees": "Incluye impuestos y cargos adicionales",
+  "checkRoomAvailability": "Comprobar disponibilidad de habitaciones"
 }

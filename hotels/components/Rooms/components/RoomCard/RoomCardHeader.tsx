@@ -4,6 +4,7 @@ import {
 } from '../../../../types/response/SearchResponse';
 import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
 import { Item } from '../../../../../types/cart/CartType';
+import { useTranslation } from 'react-i18next';
 
 interface RoomHeaderProps {
   roomDescription: string;
@@ -20,13 +21,15 @@ const RoomCardHeader = ({
   amenities,
   itemToBook,
 }: RoomHeaderProps) => {
+  const [t] = useTranslation('hotels');
+  const roomDetailsText = t('roomDetails', 'Room Details');
   return (
     <header className="p-4">
       <p className="text-lg font-semibold text-dark-1000 mb-2">
         {roomDescription}
       </p>
       <DetailItemCard
-        label="Room Details"
+        label={roomDetailsText}
         description={roomDescription}
         rates={rates}
         cancellationPolicy={cancellationPolicy}

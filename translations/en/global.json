@@ -36,5 +36,6 @@
   "orderConfirmed": "Order Confirmed",
   "items": "Items",
   "simplenightOrderNumber": "Simplenight Order Number",
-  "bookingDate": "Booking Date"
+  "bookingDate": "Booking Date",
+  "nights": "Nights"
 }

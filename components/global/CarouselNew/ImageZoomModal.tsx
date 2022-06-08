@@ -42,7 +42,7 @@ const ImageZoomModal = ({
   return (
     <section
       className={classnames(
-        'w-full h-screen flex flex-col items-stretch fixed inset-0 bg-dark-1000 z-20',
+        'w-full h-full flex flex-col items-stretch fixed inset-0 bg-dark-1000 z-20',
         { ['hidden']: !open },
       )}
     >

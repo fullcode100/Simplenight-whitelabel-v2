@@ -17,14 +17,14 @@ const SeeMoreButton = ({
   return (
     <section
       className={classnames(
-        'mt-2 w-full h-16 absolute bottom-0 flex items-end justify-center',
+        'mt-2 w-full h-20 absolute bottom-0 flex items-end justify-center border-b-[28px] border-white',
         { ['bg-gradient-to-b from-transparent to-white']: !isOpen },
       )}
     >
       <button
         type="button"
         onClick={onClick}
-        className="text-sm underline z-10 text-center leading-5font-medium text-primary-1000 hover:text-primary-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+        className="mb-[-12px] text-sm underline z-10 text-center leading-5font-medium text-primary-1000 hover:text-primary-500 focus:outline-none focus:underline transition ease-in-out duration-150"
       >
         {isOpen ? textOpened : textClosed}
       </button>
