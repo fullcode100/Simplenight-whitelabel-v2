@@ -202,12 +202,7 @@ const Client = () => {
 
   return (
     <>
-      {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
-      </section> */}
       <CheckoutHeader step="client" />
-      {/* <CheckoutMain>
-        Form section to Detail section - both shares margins
-      </CheckoutMain> */}
       {loaded ? (
         <>
           <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
@@ -216,6 +211,7 @@ const Client = () => {
           <ClientForm
             schema={travelersFormSchema}
             uiSchema={travelersUiSchema}
+            onChange={handlePrimaryContactFormChange}
           />
           <ClientCart
             items={cart?.items}
