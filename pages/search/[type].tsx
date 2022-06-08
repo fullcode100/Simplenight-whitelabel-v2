@@ -21,7 +21,7 @@ const Search: NextPage = () => {
 
   return (
     <main>
-      <header className="flex flex-col bg-dark-100 border-y border-dark-300 pt-2 fixed z-[5] w-full">
+      <header className="flex flex-col bg-dark-100 border-y border-dark-300 pt-2 fixed z-20 w-full">
         <HorizontalTabs
           tabs={tabsMock}
           onClick={handleTabClick}
