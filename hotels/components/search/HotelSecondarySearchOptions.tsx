@@ -17,12 +17,14 @@ import ListIcon from 'public/icons/assets/list.svg';
 import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
+import Radio from 'components/global/Radio/Radio';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 
 const INITIAL_RATING_VALUE = 3;
+
 const HotelSecondarySearchOptions = () => {
   const router = useRouter();
   const [queryFilter, setQueryFilters] = useState(router.query);
@@ -33,6 +35,9 @@ const HotelSecondarySearchOptions = () => {
   const [checkedLabels, setCheckedLabels] = useState<string[]>([]);
   const [keywordSearch, setKeywordSearch] = useState<string>(
     (queryFilter?.keywordSearch as string) || '',
+  );
+  const [sortBy, setSortBy] = useState<string>(
+    (queryFilter?.sortBy as string) || 'sortByPriceAsc',
   );
 
   const [t, i18n] = useTranslation('hotels');
@@ -45,6 +50,17 @@ const HotelSecondarySearchOptions = () => {
   );
   const starRatingLabel = t('starRating', 'Star Rating');
   const sortByLabel = t('sortBy', 'Sort By');
+  const sortByPriceAsc = t('sortByPriceAsc', 'Price (Lowest First)');
+  const sortByPriceDesc = t('sortByPriceDesc', 'Price (Highest First)');
+  const sortByRatingAsc = t('sortByRatingAsc', 'Rating (Lowest First)');
+  const sortByRatingDesc = t('sortByRatingDesc', 'Rating (Highest First)');
+  const SORT_BY_OPTIONS = [
+    { value: 'sortByPriceAsc', label: sortByPriceAsc },
+    { value: 'sortByPriceDesc', label: sortByPriceDesc },
+    { value: 'sortByRatingDesc', label: sortByRatingDesc },
+    { value: 'sortByRatingAsc', label: sortByRatingAsc },
+  ];
+
   const textMapView = t('mapView', 'Map View');
   const textListView = t('listView', 'List View');
 
@@ -71,12 +87,17 @@ const HotelSecondarySearchOptions = () => {
     setQueryParams({
       ...queryFilter,
       keywordSearch,
+      sortBy,
     });
   };
 
-  const FilterTitle = ({ label }: { label: string }) => (
-    <label className="mb-2">{label}</label>
-  );
+  const FilterTitle = ({
+    label,
+    className = '',
+  }: {
+    label: string;
+    className?: string;
+  }) => <label className={`mb-2 ${className}`}>{label}</label>;
 
   const FilterContainer = ({ children }: { children?: any }) => (
     <section className="px-4 mt-4 mb-6 flex flex-col">{children}</section>
@@ -117,8 +138,18 @@ const HotelSecondarySearchOptions = () => {
 
   const SortByFilter = () => (
     <FilterContainer>
-      <FilterTitle label={sortByLabel} />
-      <Select options={['Price', 'Rating', 'Popularity']} />
+      <FilterTitle label={sortByLabel} className="mb-3" />
+      {SORT_BY_OPTIONS.map((option, i) => (
+        <Radio
+          key={i}
+          value={option.value}
+          state={sortBy}
+          label={option.label}
+          name="sortBy"
+          className="mb-4"
+          onChange={setSortBy}
+        />
+      ))}
     </FilterContainer>
   );
 

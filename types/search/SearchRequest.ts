@@ -5,4 +5,5 @@ export interface SearchRequest {
   end_date: string;
   dst_geolocation: StringGeolocation;
   rsp_fields_set: string;
+  sort: string;
 }
