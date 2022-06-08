@@ -56,40 +56,41 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
         itemToBook={itemToBook}
       />
       <Divider />
-      <section className="p-4 flex flex-col gap-2">
-        {amenities.map((amenity, index) => {
-          const amenityIcon = amenitiesIcons.find((amenityOption) => {
-            if (amenityOption.options.includes(amenity)) {
-              return true;
-            }
-            return false;
-          });
+      {amenities.length > 0 && (
+        <>
+          <section className="p-4 flex flex-col gap-2">
+            {amenities.map((amenity, index) => {
+              const amenityIcon = amenitiesIcons.find((amenityOption) => {
+                amenityOption.options.includes(amenity);
+              });
 
-          if (index <= 2) {
-            return (
-              <AmenitiesItem
-                key={amenity}
-                view="list"
-                text={amenity}
-                icon={amenityIcon && amenityIcon.iconSmall}
-              />
-            );
-          }
-        })}
-        <AmenitiesModal
-          showAmenitiesModal={showAmenitiesModal}
-          onClose={() => setShowAmenitiesModal(false)}
-          amenities={amenities}
-        />
-        <button
-          type="button"
-          onClick={() => setShowAmenitiesModal(true)}
-          className="text-sm leading-5 text-left font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
-        >
-          {viewAllAmenitiesText}
-        </button>
-      </section>
-      <Divider />
+              if (index <= 2) {
+                return (
+                  <AmenitiesItem
+                    key={amenity}
+                    view="list"
+                    text={amenity}
+                    icon={amenityIcon && amenityIcon.iconSmall}
+                  />
+                );
+              }
+            })}
+            <AmenitiesModal
+              showAmenitiesModal={showAmenitiesModal}
+              onClose={() => setShowAmenitiesModal(false)}
+              amenities={amenities}
+            />
+            <button
+              type="button"
+              onClick={() => setShowAmenitiesModal(true)}
+              className="text-sm leading-5 text-left font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
+            >
+              {viewAllAmenitiesText}
+            </button>
+          </section>
+          <Divider />
+        </>
+      )}
       <section className="px-4 py-4">
         {cancellable && (
           <FreeCancellationExtended policy={cancellationPolicy?.description} />
