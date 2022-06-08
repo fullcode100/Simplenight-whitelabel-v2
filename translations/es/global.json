@@ -57,5 +57,10 @@
   "items": "Artículos",
   "simplenightOrderNumber": "Número de Orden Simplenight",
   "bookingDate": "Fecha de Reserva",
+  "orderTotal": "Total de la Orden",
+  "itemsSubtotal": "Subtotal de los artículos",
+  "taxes": "Impuestos",
+  "otherFees": "Otros Cargos",
+  "cancelOrder": "Cancelar Orden",
   "nights": "Noches"
 }

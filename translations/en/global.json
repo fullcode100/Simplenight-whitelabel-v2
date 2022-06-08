@@ -37,5 +37,10 @@
   "items": "Items",
   "simplenightOrderNumber": "Simplenight Order Number",
   "bookingDate": "Booking Date",
+  "orderTotal": "Order Total",
+  "itemsSubtotal": "Items Subtotal",
+  "taxes": "Taxes",
+  "otherFees": "Other Fees",
+  "cancelOrder": "Cancel Order",
   "nights": "Nights"
 }
