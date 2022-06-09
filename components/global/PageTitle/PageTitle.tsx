@@ -5,15 +5,9 @@ interface PageTitleProps {
   title: string;
   icon?: React.ReactNode;
   productsAmount?: number;
-  productsLabel?: string;
 }
 
-const PageTitle = ({
-  title,
-  icon,
-  productsAmount,
-  productsLabel,
-}: PageTitleProps) => {
+const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
   const [t, i18next] = useTranslation('global');
   const item = t('item', 'Item');
   const items = t('items', 'Items');
