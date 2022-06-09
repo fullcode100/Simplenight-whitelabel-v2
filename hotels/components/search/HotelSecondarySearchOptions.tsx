@@ -1,12 +1,10 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import Rating from 'components/global/Rating/Rating';
-import Checkbox from 'components/global/Checkbox/Checkbox';
-import hotelFiltersMock from 'mocks/hotelFiltersMock';
+import Checkbox from 'hotels/components/search/Checkbox/Checkbox';
 import Select from 'components/global/Select/Select';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
@@ -32,13 +30,21 @@ const HotelSecondarySearchOptions = () => {
 
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
   const [ratingValue, setRatingValue] = useState(INITIAL_RATING_VALUE);
-  const [checkedLabels, setCheckedLabels] = useState<string[]>([]);
+  const [checkedLabels, setCheckedLabels] = useState<any[]>([]);
   const [keywordSearch, setKeywordSearch] = useState<string>(
     (queryFilter?.keywordSearch as string) || '',
   );
   const [sortBy, setSortBy] = useState<string>(
     (queryFilter?.sortBy as string) || 'sortByPriceAsc',
   );
+  const [freeCancellation, setFreeCancellation] = useState<boolean>(
+    queryFilter?.paymentTypes?.includes('freeCancellation') || false,
+  );
+  const [payAtProperty, setPayAtProperty] = useState<boolean>(
+    queryFilter?.paymentTypes?.includes('payAtProperty') || false,
+  );
+
+  const [paymentTypes, setPaymentTypes] = useState<string>('');
 
   const [t, i18n] = useTranslation('hotels');
   const filtersLabel = t('filters', 'Filters');
@@ -61,6 +67,9 @@ const HotelSecondarySearchOptions = () => {
     { value: 'sortByRatingAsc', label: sortByRatingAsc },
   ];
 
+  const paymentTypesLabel = t('paymentTypes', 'Payment Type');
+  const freeCancellationLabel = t('freeCancellation', 'Free Cancellation');
+  const payAtPropertyLabel = t('payAtProperty', 'Pay at Property');
   const textMapView = t('mapView', 'Map View');
   const textListView = t('listView', 'List View');
 
@@ -72,24 +81,23 @@ const HotelSecondarySearchOptions = () => {
     setRatingValue(newRating);
   };
 
-  const handleLabelCheckboxChange = (label: string, isChecked: boolean) => {
-    const newCheckedLabels = checkedLabels.filter((value) => value !== label);
-
-    if (isChecked) {
-      newCheckedLabels.push(label);
-    }
-
-    setCheckedLabels(newCheckedLabels);
-  };
-
   const handleDispatchFilters = () => {
     setFilterModalOpen(false);
     setQueryParams({
       ...queryFilter,
       keywordSearch,
       sortBy,
+      paymentTypes,
     });
   };
+
+  useEffect(() => {
+    const paymentTypes = [];
+    if (freeCancellation) {
+      paymentTypes.push('freeCancellation');
+    }
+    setPaymentTypes(paymentTypes.join('-'));
+  }, [freeCancellation, payAtProperty]);
 
   const FilterTitle = ({
     label,
@@ -128,10 +136,14 @@ const HotelSecondarySearchOptions = () => {
 
   const LabelFilter = () => (
     <FilterContainer>
+      <FilterTitle label={paymentTypesLabel} />
       <Checkbox
-        items={hotelFiltersMock}
-        title="Filters checkbox"
-        onChange={handleLabelCheckboxChange}
+        value={'freeCancellation'}
+        state={freeCancellation}
+        label={freeCancellationLabel}
+        name={'paymentTypes'}
+        className="mb-5"
+        onChange={setFreeCancellation}
       />
     </FilterContainer>
   );

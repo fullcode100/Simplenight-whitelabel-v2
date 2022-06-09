@@ -23,6 +23,7 @@ import Loader from '../../../components/global/Loader/Loader';
 import HotelItemRateInfo from './HotelItemRateInfo';
 import useFilter from 'hooks/pageInteraction/useFilter';
 import { sortByAdapter } from 'hotels/adapters/sort-by.adapter';
+import { cancellationTypeAdapter } from 'hotels/adapters/cancellation-type.adapter';
 
 declare let window: CustomWindow;
 
@@ -50,6 +51,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     rooms,
     keywordSearch,
     sortBy,
+    paymentTypes,
   } = useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -86,6 +88,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       dst_geolocation: geolocation as unknown as StringGeolocation,
       rsp_fields_set: 'basic',
       sort: sortByAdapter(sortBy as unknown as string),
+      cancellation_type: cancellationTypeAdapter(
+        paymentTypes as unknown as string,
+      ),
     };
 
     Searcher?.request(params, i18next)

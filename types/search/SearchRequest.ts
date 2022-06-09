@@ -6,4 +6,5 @@ export interface SearchRequest {
   dst_geolocation: StringGeolocation;
   rsp_fields_set: string;
   sort: string;
+  cancellation_type: string;
 }
