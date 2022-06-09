@@ -99,6 +99,7 @@ export interface UpdateCartRequest {
 export interface HotelCart {
   amount_min?: Amount;
   details?: Details;
+  end_date?: string;
   giata_code?: string;
   id?: string;
   min_rate_room?: Room;
@@ -107,5 +108,6 @@ export interface HotelCart {
   items?: Item[];
   rooms?: Room[];
   relevance?: number;
+  start_date?: string;
   thumbnail?: string;
 }

@@ -7,7 +7,7 @@
   "taxes": "Taxes",
   "payNow": "Pay now",
   "additionalFees": "Additional fees",
-  "resortFee": "Resort fee",
+  "resortFee": "Resort Fee",
   "payAtProperty": "Pay at property",
   "userRating": "User rating",
   "filters": "Filters",
@@ -45,5 +45,9 @@
   "roomAmenities": "Room Amenities",
   "priceBreakdown": "Price Breakdown",
   "includesTaxesAndFees": "Includes taxes and fees",
-  "checkRoomAvailability": "Check Room Availability"
+  "checkRoomAvailability": "Check Room Availability",
+  "nights": "Nights",
+  "taxesAndFees": "Taxes And Fees",
+  "cancellationPolicy": "Cancellation Policy",
+  "priceIncludes": "Price Includes"
 }

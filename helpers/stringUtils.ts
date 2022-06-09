@@ -68,3 +68,13 @@ export const flattenedObject = (obj: { [key: string]: any }, maxDepth = 1) =>
 export const copy = (text: string) => {
   navigator.clipboard.writeText(text);
 };
+
+export const fromUpperCaseToCapitilize = (text = '') => {
+  const textArr = text?.split(' ');
+
+  for (let i = 0; i < textArr.length; i++) {
+    textArr[i] = textArr[i].charAt(0) + textArr[i].slice(1).toLowerCase();
+  }
+
+  return textArr?.join(' ');
+};

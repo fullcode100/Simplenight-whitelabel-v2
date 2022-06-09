@@ -45,5 +45,9 @@
   "roomAmenities": "Comodidades de la habitación",
   "priceBreakdown": "Desglose de precios",
   "includesTaxesAndFees": "Incluye impuestos y cargos adicionales",
-  "checkRoomAvailability": "Comprobar disponibilidad de habitaciones"
+  "checkRoomAvailability": "Comprobar disponibilidad de habitaciones",
+  "nights": "Noches",
+  "taxesAndFees": "Impuestos y Honorarios",
+  "cancellationPolicy": "Política de Cancelación",
+  "priceIncludes": "Precio Incluye"
 }
