@@ -1,17 +1,17 @@
 /* eslint-disable camelcase */
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import LocationMap from 'components/global/LocationMap/LocationMap';
-import hotelMock from 'hotels/hotelMock';
+import { Address } from 'hotels/types/response/SearchResponse';
 import LocationPin from 'public/icons/assets/location-pin.svg';
-import { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const LocationSection = () => {
+interface LocationSectionProps {
+  address: Address;
+}
+
+const LocationSection = ({ address }: LocationSectionProps) => {
   const [t, i18n] = useTranslation('hotels');
   const mapLabel = t('map', 'Map');
-  const {
-    details: { address },
-  } = hotelMock[0];
   const { coordinates, address1, country, country_code, postal_code } = address;
 
   return (
