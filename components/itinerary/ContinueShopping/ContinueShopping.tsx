@@ -13,7 +13,7 @@ const ContinueShopping = () => {
   );
 
   return (
-    <section className="px-5 py-6 mt-6 bg-dark-100">
+    <section className="px-5 py-6 bg-dark-100">
       <h4 className="font-semibold text-dark-800 text-lg">
         {continueShoppingTitle}
       </h4>

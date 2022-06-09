@@ -99,7 +99,7 @@ const ItineraryEmpty = () => {
     </CircleLayout>
   );
   return (
-    <section>
+    <section className="py-6">
       <section className="grid place-content-center py-6">
         <Drawing />
       </section>

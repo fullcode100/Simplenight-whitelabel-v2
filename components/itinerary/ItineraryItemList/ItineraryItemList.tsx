@@ -14,7 +14,7 @@ const ItineraryItemList = ({
   setReload,
 }: ItineraryItemListProps) => {
   return (
-    <section className="grid gap-3">
+    <section className="grid gap-3 p-5">
       {cart?.items.map((item, index) => (
         <section key={index}>
           <ItineraryItem item={item} reload={reload} setReload={setReload} />

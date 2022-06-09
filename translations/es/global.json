@@ -63,5 +63,6 @@
   "otherFees": "Otros Cargos",
   "cancelOrder": "Cancelar Orden",
   "nights": "Noches",
-  "paymentMethods": "Métodos de Pago"
+  "paymentMethods": "Métodos de Pago",
+  "includesTaxesAndFees": "Incluye Impuestos y Cargos Adicionales"
 }

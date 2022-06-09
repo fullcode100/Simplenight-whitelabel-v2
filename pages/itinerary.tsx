@@ -41,15 +41,24 @@ const Itinerary: NextPage = () => {
       <header>
         <ItineraryHeader productsAmount={cart?.total_item_qty} />
       </header>
-      <section className="p-5">{!hasItems && <ItineraryEmpty />}</section>
-      {cart && <ListHeader />}
-      <section className="p-5">
-        <ItineraryItemList cart={cart} reload={reload} setReload={setReload} />
+
+      <section>
+        {!hasItems && <ItineraryEmpty />}
+
+        {hasItems && <ListHeader />}
+        {hasItems && (
+          <ItineraryItemList
+            cart={cart}
+            reload={reload}
+            setReload={setReload}
+          />
+        )}
       </section>
-      <section></section>
+
       <aside>
         <ContinueShopping />
       </aside>
+
       {cart && <ListFooter totalAmount={cart?.total_amount} />}
     </main>
   );

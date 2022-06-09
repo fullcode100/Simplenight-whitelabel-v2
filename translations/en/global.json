@@ -2,7 +2,7 @@
   "termsOfService": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
   "itineraryEmpty": "Add Something To Your Itinerary!",
-  "checkoutTitle": "Checkout",
+  "checkoutTitle": "Check Out",
   "orderName": "Order Name",
   "useOrderName": "Use Order Name",
   "payment": "Payment",
@@ -43,5 +43,6 @@
   "otherFees": "Other Fees",
   "cancelOrder": "Cancel Order",
   "nights": "Nights",
-  "paymentMethods": "Payment Methods"
+  "paymentMethods": "Payment Methods",
+  "includesTaxesAndFees": "Includes Taxes and Fees"
 }

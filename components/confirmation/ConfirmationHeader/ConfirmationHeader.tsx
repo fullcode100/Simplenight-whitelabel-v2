@@ -13,7 +13,6 @@ interface ConfirmationHeaderProps {
 const ConfirmationHeader = ({ booking }: ConfirmationHeaderProps) => {
   const [t, i18next] = useTranslation('global');
   const orderConfirmed = t('orderConfirmed', 'Order Confirmed');
-  const itemsLabel = t('items', 'Items');
   const itemsQuantity = booking.items.length;
 
   return (
@@ -22,7 +21,6 @@ const ConfirmationHeader = ({ booking }: ConfirmationHeaderProps) => {
         title={orderConfirmed}
         icon={<CircleConfirmation />}
         productsAmount={itemsQuantity}
-        productsLabel={itemsLabel}
       />
       <ConfirmationBuyerInfo booking={booking} />
       <ConfirmationOrderInfo booking={booking} />

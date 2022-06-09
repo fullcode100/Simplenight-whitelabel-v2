@@ -12,7 +12,7 @@ const ContinueCheckoutButtons = ({ productsAmount }: ContinueCheckoutProps) => {
   const [t, i18next] = useTranslation('global');
   const continueShopping = t('continueShopping', 'Continue Shopping');
   const [storedValue] = useLocalStorage('lastSearch', '');
-  const checkOut = t('checkOut', 'Check Out');
+  const checkOut = t('checkoutTitle', 'Check Out');
 
   const showCheckOut = !!productsAmount && productsAmount > 0;
 
@@ -25,10 +25,20 @@ const ContinueCheckoutButtons = ({ productsAmount }: ContinueCheckoutProps) => {
       <Button
         size="full-sm"
         type="outlined"
+        translationKey="continueShopping"
         value={continueShopping}
         onClick={handleContinue}
       />
-      {showCheckOut && <Button size="full-sm" value={checkOut} />}
+      {showCheckOut && (
+        <Button
+          size="full-sm"
+          translatioKey="checkoutTitle"
+          value={checkOut}
+          onClick={() => {
+            router.replace('/checkout/client');
+          }}
+        />
+      )}
     </section>
   );
 };
