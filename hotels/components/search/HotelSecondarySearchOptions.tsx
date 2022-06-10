@@ -41,6 +41,11 @@ const HotelSecondarySearchOptions = () => {
   );
 
   const [paymentTypes, setPaymentTypes] = useState<string>('');
+  let minStarRating: number;
+  let maxStarRating: number;
+  let starRating = queryFilter?.starRating as string;
+  let minPrice = queryFilter?.minPrice as string;
+  let maxPrice = queryFilter?.maxPrice as string;
 
   const initialPriceRange = {
     min: '100',
