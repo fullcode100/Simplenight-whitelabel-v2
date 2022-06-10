@@ -7,4 +7,6 @@ export interface SearchRequest {
   rsp_fields_set: string;
   sort: string;
   cancellation_type: string;
+  min_price: string;
+  max_price: string;
 }

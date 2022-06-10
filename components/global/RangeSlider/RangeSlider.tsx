@@ -9,6 +9,8 @@ interface RangeSliderProps {
   step: number;
   minDifference: number;
   type: 'price' | 'star';
+  onChangeMin?: (value: number) => void;
+  onChangeMax?: (value: number) => void;
 }
 
 const RangeSlider = ({
@@ -19,19 +21,31 @@ const RangeSlider = ({
   step,
   minDifference,
   type,
+  onChangeMin,
+  onChangeMax,
 }: RangeSliderProps) => {
   const progressRef: any = useRef(null);
   const [minValue, setMinValue] = useState(initialMin);
   const [maxValue, setMaxValue] = useState(initialMax);
 
+  const setMin = (value: number) => {
+    setMinValue(value);
+    onChangeMin && onChangeMin(value);
+  };
+
+  const setMax = (value: number) => {
+    setMaxValue(value);
+    onChangeMax && onChangeMax(value);
+  };
+
   const handleMin = (e: ChangeEvent<any>) => {
     if (maxValue - minValue >= minDifference && maxValue <= max) {
       if (parseInt(e.target.value) < maxValue) {
-        setMinValue(parseInt(e.target.value));
+        setMin(parseInt(e.target.value));
       }
     } else {
       if (parseInt(e.target.value) < minValue) {
-        setMinValue(parseInt(e.target.value));
+        setMin(parseInt(e.target.value));
       }
     }
   };
@@ -39,22 +53,24 @@ const RangeSlider = ({
   const handleMax = (e: ChangeEvent<any>) => {
     if (maxValue - minValue >= minDifference && maxValue <= max) {
       if (parseInt(e.target.value) > minValue) {
-        setMaxValue(parseInt(e.target.value));
+        setMax(parseInt(e.target.value));
       }
     } else {
       if (parseInt(e.target.value) > maxValue) {
-        setMaxValue(parseInt(e.target.value));
+        setMax(parseInt(e.target.value));
       }
     }
   };
 
   useEffect(() => {
-    progressRef.current.style.left = (minValue / max) * step + '%';
-    progressRef.current.style.right = step - (maxValue / max) * step + '%';
-  }, [minValue, maxValue, max, step]);
+    progressRef.current.style.left =
+      ((minValue - min) / (max - min)) * 100 + '%';
+    progressRef.current.style.right =
+      100 - ((maxValue - min) / (max - min)) * 100 + '%';
+  }, [minValue, maxValue, max, min]);
 
   return (
-    <div className="px-4">
+    <div className="mb-4">
       <div className="my-4">
         <div className="relative h-1 rounded-md bg-gray-300">
           <div
@@ -91,7 +107,11 @@ const RangeSlider = ({
             className="absolute w-full -top-1 h-1 bg-transparent appearance-none pointer-events-none"
           />
           <label htmlFor="maxValue" className="absolute top-6 right-0">
-            <LabelSlider value={maxValue} type={type} />
+            <LabelSlider
+              value={maxValue}
+              type={type}
+              isMaxLabel={maxValue == max}
+            />
           </label>
         </div>
       </div>

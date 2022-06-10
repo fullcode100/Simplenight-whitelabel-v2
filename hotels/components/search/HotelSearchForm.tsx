@@ -147,11 +147,11 @@ const HotelSearchForm = ({
       adults,
       children,
       childrenAges,
-      roomsDataFormatted,
       address: address as string,
       geolocation: geolocation ?? '',
       latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
       longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
+      roomsData: roomsDataFormatted,
     });
     if (setIsSearching) setIsSearching(false);
   };

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
-import Rating from 'components/global/Rating/Rating';
 import Checkbox from 'hotels/components/search/Checkbox/Checkbox';
 import Select from 'components/global/Select/Select';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -16,12 +15,11 @@ import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
 import Radio from 'components/global/Radio/Radio';
+import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
-
-const INITIAL_RATING_VALUE = 3;
 
 const HotelSecondarySearchOptions = () => {
   const router = useRouter();
@@ -29,7 +27,6 @@ const HotelSecondarySearchOptions = () => {
   const setQueryParams = useQuerySetter();
 
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-  const [ratingValue, setRatingValue] = useState(INITIAL_RATING_VALUE);
   const [checkedLabels, setCheckedLabels] = useState<any[]>([]);
   const [keywordSearch, setKeywordSearch] = useState<string>(
     (queryFilter?.keywordSearch as string) || '',
@@ -45,6 +42,11 @@ const HotelSecondarySearchOptions = () => {
   );
 
   const [paymentTypes, setPaymentTypes] = useState<string>('');
+  let minStarRating: number;
+  let maxStarRating: number;
+  let starRating = queryFilter?.starRating as string;
+  let minPrice = queryFilter?.minPrice as string;
+  let maxPrice = queryFilter?.maxPrice as string;
 
   const [t, i18n] = useTranslation('hotels');
   const filtersLabel = t('filters', 'Filters');
@@ -72,22 +74,43 @@ const HotelSecondarySearchOptions = () => {
   const payAtPropertyLabel = t('payAtProperty', 'Pay at Property');
   const textMapView = t('mapView', 'Map View');
   const textListView = t('listView', 'List View');
+  const priceRangeLabel = t('priceRange', 'Price Range');
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
   };
 
-  const handleRatingFilterChange = (newRating: number) => {
-    setRatingValue(newRating);
+  const handleMinStarRating = (value: number) => {
+    minStarRating = value;
+  };
+
+  const handleMaxStarRating = (value: number) => {
+    maxStarRating = value;
+  };
+
+  const handleMinPrice = (value: number) => {
+    minPrice = value.toString();
+  };
+
+  const handleMaxPrice = (value: number) => {
+    maxPrice = value.toString();
+  };
+
+  const setStarRatingFilter = () => {
+    starRating = `${minStarRating ?? 1},${maxStarRating ?? 5}`;
   };
 
   const handleDispatchFilters = () => {
     setFilterModalOpen(false);
+    setStarRatingFilter();
     setQueryParams({
       ...queryFilter,
       keywordSearch,
       sortBy,
       paymentTypes,
+      ...(starRating && { starRating }),
+      ...(minPrice && { minPrice }),
+      ...(maxPrice && { maxPrice }),
     });
   };
 
@@ -123,13 +146,36 @@ const HotelSecondarySearchOptions = () => {
     </FilterContainer>
   );
 
-  const RatingFilter = () => (
+  const StarRatingFilter = () => (
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
-      <Rating
-        value={ratingValue}
-        onChange={handleRatingFilterChange}
-        editable
+      <RangeSlider
+        initialMin={starRating ? parseInt(starRating.split(',')[0]) : 1}
+        initialMax={starRating ? parseInt(starRating.split(',')[1]) : 5}
+        min={1}
+        max={5}
+        step={1}
+        minDifference={0}
+        type="star"
+        onChangeMin={handleMinStarRating}
+        onChangeMax={handleMaxStarRating}
+      />
+    </FilterContainer>
+  );
+
+  const PriceRangeFilter = () => (
+    <FilterContainer>
+      <FilterTitle label={priceRangeLabel} />
+      <RangeSlider
+        initialMin={minPrice ? parseInt(minPrice) : 100}
+        initialMax={maxPrice ? parseInt(maxPrice) : 5000}
+        min={100}
+        max={5000}
+        step={100}
+        minDifference={100}
+        type="price"
+        onChangeMin={handleMinPrice}
+        onChangeMax={handleMaxPrice}
       />
     </FilterContainer>
   );
@@ -166,11 +212,12 @@ const HotelSecondarySearchOptions = () => {
   );
 
   const FilterForm = () => (
-    <section className="py-4 h-full">
+    <section className="py-4 h-full overflow-y-scroll">
       <KeywordSearchFilter />
+      <PriceRangeFilter />
       <SortByFilter />
       <Divider className="my-6" />
-      <RatingFilter />
+      <StarRatingFilter />
       <Divider className="my-6" />
       <LabelFilter />
     </section>

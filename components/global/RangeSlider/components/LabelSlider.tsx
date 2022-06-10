@@ -3,16 +3,21 @@ import Star from 'public/icons/assets/star-filter.svg';
 interface LabelProps {
   type: 'price' | 'star';
   value: number;
+  isMaxLabel?: boolean;
 }
 
-const LabelSlider = ({ type, value }: LabelProps) => {
+const LabelSlider = ({ type, value, isMaxLabel = false }: LabelProps) => {
   return (
     <>
       {type == 'price' ? (
-        <span>${value}</span>
+        <span>
+          ${value}
+          {isMaxLabel && '+'}
+        </span>
       ) : (
         <span className="flex items-center gap-1">
-          {value} <Star />
+          {value}
+          {isMaxLabel && '+'} <Star />
         </span>
       )}
     </>
