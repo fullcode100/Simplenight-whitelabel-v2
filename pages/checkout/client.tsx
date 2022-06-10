@@ -208,34 +208,39 @@ const Client = () => {
           <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
             {primaryContactText}
           </p>
-          <ClientForm
-            schema={travelersFormSchema}
-            uiSchema={travelersUiSchema}
-            onChange={handlePrimaryContactFormChange}
-          />
-          <ClientCart
-            items={cart?.items}
-            schema={travelersFormSchema}
-            uiSchema={travelersUiSchema}
-          />
-          <Divider />
-          <CheckoutFooter type="client">
-            <Summary amount={(cart?.total_amount as Amount) ?? empty} />
-            <Button
-              value="Cancel"
-              size={'full'}
-              onClick={redirectToItinerary}
-              color="outlined"
-              className="text-[18px] hover:text-white hover:bg-primary-800"
-            />
-            <Button
-              value="Continue"
-              size={'full'}
-              onClick={continueToPayment}
-              disabled={isDisabled}
-              className="text-[18px]"
-            />
-          </CheckoutFooter>
+          <section>
+            <ClientForm
+              schema={travelersFormSchema}
+              uiSchema={travelersUiSchema}
+              onChange={handlePrimaryContactFormChange}
+              onSubmit={continueToPayment}
+            >
+              <ClientCart
+                items={cart?.items}
+                schema={travelersFormSchema}
+                uiSchema={travelersUiSchema}
+              />
+              <Divider />
+              <CheckoutFooter type="client">
+                <CheckoutSummary
+                  amount={(cart?.total_amount as Amount) ?? empty}
+                />
+                <Button
+                  value="Cancel"
+                  size={'full'}
+                  onClick={redirectToItinerary}
+                  color="outlined"
+                  className="text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+                />
+                <Button
+                  value="Continue"
+                  size={'full'}
+                  disabled={isDisabled}
+                  className="text-[18px] font-normal"
+                />
+              </CheckoutFooter>
+            </ClientForm>
+          </section>
         </>
       ) : (
         <Loader />
