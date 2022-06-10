@@ -62,6 +62,30 @@ const RangeSlider = ({
     }
   };
 
+  const StarNotches = () => {
+    return (
+      <>
+        <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px]"></div>
+        <div
+          className={`h-2 w-2 rounded-full absolute -top-[3px] left-1/4 ${
+            minValue > 2 ? 'bg-dark-200' : 'bg-primary-600'
+          }`}
+        ></div>
+        <div
+          className={`h-2 w-2 rounded-full absolute -top-[3px] left-1/2 ${
+            minValue > 3 || maxValue < 3 ? 'bg-dark-200' : 'bg-primary-600'
+          }`}
+        ></div>
+        <div
+          className={`h-2 w-2 rounded-full absolute -top-[3px] left-3/4 ${
+            maxValue < 4 ? 'bg-dark-200' : 'bg-primary-600'
+          }`}
+        ></div>
+        <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px] right-0"></div>
+      </>
+    );
+  };
+
   useEffect(() => {
     progressRef.current.style.left =
       ((minValue - min) / (max - min)) * 100 + '%';
@@ -72,11 +96,12 @@ const RangeSlider = ({
   return (
     <div className="mb-4">
       <div className="my-4">
-        <div className="relative h-1 rounded-md bg-gray-300">
+        <div className="relative h-0.5 rounded-md bg-dark-200">
           <div
-            className="absolute h-1 bg-primary-1000 rounded "
+            className="absolute h-0.5 bg-primary-1000 rounded "
             ref={progressRef}
           ></div>
+          {type == 'star' && <StarNotches />}
         </div>
 
         <div className="relative">
