@@ -9,7 +9,7 @@
   "primaryContact": "Primary Contact",
   "usePrimaryContact": "Use Primary Contact",
   "additionalRequests": "Additional Requests",
-  "additionalRequestsPlaceholder": "Enter optional request...",
+  "additionalRequestsPlaceholder": "Add A Special Request.",
   "from": "From",
   "to": "to",
   "guest": "Guest",
@@ -45,5 +45,7 @@
   "nights": "Nights",
   "night": "Night",
   "paymentMethods": "Payment Methods",
-  "includesTaxesAndFees": "Includes Taxes and Fees"
+  "includesTaxesAndFees": "Includes Taxes and Fees",
+  "country": "Country"
 }
+

@@ -15,14 +15,14 @@ const ClientCartItem = ({ index, item, formSchema, formUiSchema }: any) => {
     setAdditionalRequest(e.target.value);
   const additionalRequestsPlaceholder = t(
     'additionalRequestsPlaceholder',
-    'Enter optional request...',
+    'Add a special request...',
   );
   const toggleText = t('useOrderName', 'Use Order Name');
   const { chain_name } = item.extended_data.details.chain;
   const { description } = item.extended_data.min_rate_room;
   return (
     <CartItemDropdown title={chain_name} description={description}>
-      <section className="grid gap-4 mt-4">
+      <section className="grid gap-3 mt-5">
         <section className="flex items-center">
           <ToggleSwitch
             onChange={() => setUsePrimaryContact(!usePrimaryContact)}
@@ -47,6 +47,9 @@ const ClientCartItem = ({ index, item, formSchema, formUiSchema }: any) => {
               value={additionalRequest}
               onChange={handleChangeAdditionalRequest}
               placeholder={additionalRequestsPlaceholder}
+              {...{
+                id: `text-area-${index}`,
+              }}
             />
           </section>
         )}

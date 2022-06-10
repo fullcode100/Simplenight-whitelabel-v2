@@ -1,31 +1,37 @@
 import { useState } from 'react';
-import { allCountries } from 'country-telephone-data';
+import { allCountries, iso2Lookup } from 'country-telephone-data';
 import classnames from 'classnames';
 
 interface PhoneNumberInputProps {
   onChange: (value: string) => void;
   required?: boolean;
   placeholder?: string;
+  defaultCode?: string;
 }
 
 const PhoneNumberInput = ({
   onChange,
   placeholder,
   required,
+  defaultCode,
 }: PhoneNumberInputProps) => {
-  const [phoneCode, setCode] = useState(`+${allCountries[0].dialCode}`);
+  const [countryCode, setCountryCode] = useState(defaultCode ?? 'us');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [focus, setFocus] = useState(false);
+  const countryIndex = iso2Lookup[countryCode];
+  const phoneCode = allCountries[countryIndex as any as number].dialCode;
 
   const handleChange = (value: string) => {
     setPhoneNumber(value);
-    onChange(`${phoneCode}${value}`);
+    onChange(`+${phoneCode}${value}`);
   };
 
   const handleChangeCode = (e: any) => {
-    const code = `+${e.target.value}`;
-    setCode(code);
-    onChange(`${code}${phoneNumber}`);
+    const country = e.target.value;
+    const index = iso2Lookup[country];
+    const code = allCountries[index as any as number].dialCode;
+    setCountryCode(country);
+    onChange(`+${code}${phoneNumber}`);
   };
 
   const onFocus = (focus: any) => {
@@ -43,23 +49,22 @@ const PhoneNumberInput = ({
       )}
     >
       <select
-        value={phoneCode}
+        value={countryCode}
         onChange={handleChangeCode}
         className="border-0 focus:ring-0 rounded-md"
       >
         {allCountries.map((option: any, i: number) => (
-          <option key={`${option.dialCode}${i}`} value={option.dialCode}>
+          <option key={`${option.dialCode}${i}`} value={option.iso2}>
             {option.iso2.toUpperCase()}
           </option>
         ))}
       </select>
-      <span className="text-sm">{`${phoneCode}`}</span>
+      <span className="text-sm">{`+${phoneCode}`}</span>
       <input
         type="text"
         value={phoneNumber}
         onChange={(event) => handleChange(event.target.value)}
         placeholder={placeholder}
-        autoFocus={true}
         required={required}
         className="border-0 focus:ring-0 w-full rounded-md"
         onFocus={onFocus}

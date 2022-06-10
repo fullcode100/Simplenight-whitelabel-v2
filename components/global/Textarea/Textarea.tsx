@@ -1,6 +1,6 @@
 interface TextareaProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (e: any) => void;
   placeholder?: string;
   required?: boolean;
 }
@@ -15,8 +15,7 @@ const Textarea = ({
   return (
     <textarea
       value={value}
-      onChange={(event) => onChange(event.target.value)}
-      autoFocus={true}
+      onChange={onChange}
       placeholder={placeholder}
       className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md resize-none h-[90px]"
       required={required}

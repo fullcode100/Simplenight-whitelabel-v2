@@ -9,7 +9,7 @@
   "primaryContact": "Contacto Principal",
   "usePrimaryContact": "Usar Contacto Principal",
   "additionalRequests": "Solicitudes Adicionales",
-  "additionalRequestsPlaceholder": "Introduzca la solicitud opcional...",
+  "additionalRequestsPlaceholder": "Añadir una petición especial.",
   "homePageText": "Reserve Todo, En Cualquier Lugar",
   "language": "Idioma",
   "currency": "Moneda",
@@ -65,5 +65,7 @@
   "nights": "Noches",
   "night": "Noche",
   "paymentMethods": "Métodos de Pago",
-  "includesTaxesAndFees": "Incluye Impuestos y Cargos Adicionales"
+  "includesTaxesAndFees": "Incluye Impuestos y Cargos Adicionales",
+  "country": "País"
 }
+

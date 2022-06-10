@@ -1,15 +1,15 @@
 export const travelersFormSchema = {
   type: 'object',
-  required: ['firstName', 'lastName', 'country', 'phone', 'email'],
+  required: ['first_name', 'last_name', 'country', 'phone', 'email'],
   properties: {
-    firstName: {
+    first_name: {
       type: 'string',
-      title: 'First name',
+      title: 'First Name',
       default: '',
     },
-    lastName: {
+    last_name: {
       type: 'string',
-      title: 'Last name',
+      title: 'Last Name',
       default: '',
     },
     country: {
@@ -19,27 +19,33 @@ export const travelersFormSchema = {
     },
     phone: {
       type: 'string',
-      title: 'Phone',
+      title: 'Phone Number',
       default: '',
     },
     email: {
       type: 'string',
-      title: 'Email',
+      title: 'Email Address',
       default: '',
     },
-    primaryContact: {
+    primary_contact: {
       type: 'boolean',
-      title: 'Create account from primary contact',
+      title: 'Create Account From Order Name',
       description:
-        'Primary Contact is the lead customer for this reservation. This name needs to match the name of the reservation and the voucher for the vendor of the reservation.',
+        'Order Name is the lead customer for this Order. This name needs to match the name of the reservation and the voucher for the vendor of the reservation.',
       default: false,
     },
   },
 };
 
 export const travelersFormUiSchema = {
-  firstName: {
-    'ui:placeholder': 'First name',
+  first_name: {
+    'ui:placeholder': 'Name',
+  },
+  last_name: {
+    'ui:placeholder': 'Name',
+  },
+  email: {
+    'ui:placeholder': 'Email',
   },
   country: {
     'ui:widget': 'CountryWidget',

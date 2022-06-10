@@ -58,7 +58,7 @@ const FormSchema = ({
       }
     };
     return (
-      <section className={`${classNames} mb-4`}>
+      <section className={`${classNames}`}>
         {renderTemplate(schema.type)}
         {errors}
         {help}

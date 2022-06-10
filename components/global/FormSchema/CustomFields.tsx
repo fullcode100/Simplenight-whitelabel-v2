@@ -4,7 +4,7 @@ import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 
 export const CustomText = (props: any) => {
-  const { value, onChange, placeholder, required } = props;
+  const { value, onChange, placeholder, required, id } = props;
   return (
     <BaseInput
       type="text"
@@ -13,6 +13,7 @@ export const CustomText = (props: any) => {
       placeholder={placeholder}
       {...{
         required,
+        id,
       }}
     />
   );
@@ -30,7 +31,7 @@ export const CustomPhoneNumber = (props: any) => {
 };
 
 export const CustomSelect = (props: any) => {
-  const { options, value, onChange, required } = props;
+  const { options, value, onChange, required, id } = props;
   return (
     <select
       value={value}
@@ -38,6 +39,7 @@ export const CustomSelect = (props: any) => {
       autoFocus={true}
       className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md resize-none"
       required={required}
+      id={id}
     >
       {options.enumOptions.map((option: any) => (
         <option key={option.value} value={option.value}>
@@ -48,7 +50,7 @@ export const CustomSelect = (props: any) => {
   );
 };
 export const CustomTextArea = (props: any) => {
-  const { value, onChange, placeholder, required } = props;
+  const { value, onChange, placeholder, required, id } = props;
   return (
     <textarea
       value={value}
@@ -57,12 +59,13 @@ export const CustomTextArea = (props: any) => {
       placeholder={placeholder}
       className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md resize-none h-[90px]"
       required={required}
+      id={id}
     />
   );
 };
 
 export const CustomCheckbox = (props: any) => {
-  const { onChange, value } = props;
+  const { onChange, value, id } = props;
   return (
     <section className="flex items-center h-5">
       <input
@@ -71,6 +74,7 @@ export const CustomCheckbox = (props: any) => {
         className="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300 rounded"
         onChange={() => onChange(!props.value)}
         checked={value}
+        id={id}
       />
     </section>
   );
