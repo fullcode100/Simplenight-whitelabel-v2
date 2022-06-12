@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
 import { useTranslation } from 'react-i18next';
 
@@ -12,13 +12,15 @@ import ItineraryItemList from 'components/itinerary/ItineraryItemList/ItineraryI
 import ListFooter from '../components/itinerary/ListFooter/ListFooter';
 import ListHeader from '../components/itinerary/ListHeader/ListHeader';
 import ContinueShopping from '../components/itinerary/ContinueShopping/ContinueShopping';
+import classnames from 'classnames';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
   const [cartId, setCartId] = useState('');
   const [reload, setReload] = useState(false);
   const [t, i18next] = useTranslation('global');
-
+  const footerContainerRef = useRef(null);
+  const [staticFooter, setStaticFooter] = useState(false);
   const cartIdParams = useQuery().cartId;
   const cartIdStore = getStoreCartId();
 
@@ -33,6 +35,18 @@ const Itinerary: NextPage = () => {
       });
     }
   }, [cartId, i18next, reload]);
+
+  useEffect(() => {
+    if (footerContainerRef.current) {
+      const onChange = (entries: any) => {
+        const isShow = entries[0].isIntersecting;
+        setStaticFooter(isShow);
+      };
+      const observer = new IntersectionObserver(onChange);
+
+      observer.observe(footerContainerRef.current);
+    }
+  }, []);
 
   const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
@@ -56,10 +70,16 @@ const Itinerary: NextPage = () => {
       </section>
 
       <aside>
-        <ContinueShopping />
+        <section ref={footerContainerRef}>
+          {cart && (
+            <ListFooter
+              totalAmount={cart?.total_amount}
+              className={classnames({ 'fixed bottom-0 z-30': !staticFooter })}
+            />
+          )}
+          <ContinueShopping />
+        </section>
       </aside>
-
-      {cart && <ListFooter totalAmount={cart?.total_amount} />}
     </main>
   );
 };

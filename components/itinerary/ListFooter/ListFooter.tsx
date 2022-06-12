@@ -6,9 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 interface ListFooterProps {
   totalAmount: TotalAmount;
+  className?: string;
 }
 
-const ListFooter = ({ totalAmount }: ListFooterProps) => {
+const ListFooter = ({ totalAmount, className }: ListFooterProps) => {
   const router = useRouter();
   const [t, i18next] = useTranslation('global');
   const totalLabel = t('total', 'Total');
@@ -34,7 +35,7 @@ const ListFooter = ({ totalAmount }: ListFooterProps) => {
       primaryButtonText={checkoutButton}
       primaryButtonAction={() => router.replace('/checkout/client')}
       summary={<SummaryCheckout />}
-      className="fixed bottom-0 z-30"
+      className={className}
     />
   );
 };
