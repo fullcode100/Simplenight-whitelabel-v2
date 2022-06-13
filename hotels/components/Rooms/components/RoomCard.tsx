@@ -3,11 +3,9 @@ import RoomCardHeader from './RoomCard/RoomCardHeader';
 import Divider from 'components/global/Divider/Divider';
 import BreakdownSummary from 'components/global/PriceBreakdownModal/components/BreakdownSummary';
 import RoomCardActions from './RoomCard/RoomCardActions';
-import FreeCancellation from 'components/global/FreeCancellation/FreeCancellation';
 import AmenitiesItem from '../../Amenities/components/AmenitiesItem';
 import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
-import PayAtProperty from 'components/global/PayAtProperty/PayAtProperty';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import { useState } from 'react';
@@ -91,13 +89,16 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
           <Divider />
         </>
       )}
-      <section className="px-4 py-4">
-        {cancellable && (
-          <FreeCancellationExtended policy={cancellationPolicy?.description} />
-        )}
-        <PayAtProperty className="mt-3" />
-      </section>
-      <Divider />
+      {cancellable && (
+        <section className="px-4 py-4">
+          {cancellable && (
+            <FreeCancellationExtended
+              policy={cancellationPolicy?.description}
+            />
+          )}
+        </section>
+      )}
+      {cancellable && <Divider />}
       <section className="px-4 py-3">
         <BreakdownSummary
           rate={rate}
