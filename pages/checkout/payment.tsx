@@ -24,11 +24,12 @@ import { useTranslation } from 'react-i18next';
 import CountrySelect from 'components/global/CountrySelect/CountrySelect';
 import { createBooking } from 'core/client/services/BookingService';
 import { getCart } from 'core/client/services/CartClientService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
+import { clearCart } from 'store/actions/cartActions';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -37,9 +38,12 @@ const test: Amount = {
 };
 
 const ITINERARY_URI = '/itinerary';
+const CONFIRMATION_URI = '/confirmation';
 
 const Payment = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [t, i18next] = useTranslation('global');
 
   const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
@@ -82,7 +86,12 @@ const Payment = () => {
       paymentToken: token,
       countryCode: country,
     };
-    createBooking(paymentParameters, i18next);
+
+    createBooking(paymentParameters, i18next).then((response) => {
+      const bookingId = response?.booking.booking_id;
+      dispatch(clearCart());
+      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+    });
   };
 
   const redirectToItinerary = () => {

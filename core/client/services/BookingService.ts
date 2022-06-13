@@ -11,7 +11,7 @@ const tryCreateBooking = async (
 ) => {
   try {
     const clientBookingCreator = new ClientBookingCreator();
-    await clientBookingCreator.request(bookingRequest, i18next);
+    return await clientBookingCreator.request(bookingRequest, i18next);
   } catch (error) {
     console.error(error);
   }
@@ -39,7 +39,7 @@ export const createBooking = (
     },
   };
 
-  tryCreateBooking(bookingRequest, i18next);
+  return tryCreateBooking(bookingRequest, i18next);
 };
 
 export const getBookingId = async (i18next: i18n, bookingId: string) => {

@@ -5,6 +5,7 @@ export interface CreateBookingResponse {
 }
 
 export interface Booking {
+  booking_id: string;
   customer_last_name: string;
   items_booking: ItemsBooking[];
   manual_charge_status: string;
