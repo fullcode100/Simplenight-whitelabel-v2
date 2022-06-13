@@ -8,8 +8,8 @@ interface CollapseBodyProps {
 const CollapseBody = ({ body, show }: CollapseBodyProps) => {
   return (
     <section
-      className={classnames('border-b border-dark-300 py-4 px-5', {
-        ['opacity-100 border-b ease-out duration-300']: show,
+      className={classnames('pl-[52px]', {
+        ['opacity-100 ease-out duration-300']: show,
         ['opacity-0 ease-out duration-300']: !show,
       })}
     >

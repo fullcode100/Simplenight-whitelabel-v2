@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import Checkbox from 'hotels/components/search/Checkbox/Checkbox';
-import Select from 'components/global/Select/Select';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 

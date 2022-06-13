@@ -7,13 +7,13 @@ import ConfirmationOrderInfo from '../ConfirmationOrderInfo/ConfirmationOrderInf
 import ConfirmationDisclaimer from '../ConfirmationDisclaimer/ConfirmationDisclaimer';
 
 interface ConfirmationHeaderProps {
-  booking: Booking;
+  booking?: Booking;
 }
 
 const ConfirmationHeader = ({ booking }: ConfirmationHeaderProps) => {
   const [t, i18next] = useTranslation('global');
   const orderConfirmed = t('orderConfirmed', 'Order Confirmed');
-  const itemsQuantity = booking.items.length;
+  const itemsQuantity = booking?.items.length;
 
   return (
     <section className="flex flex-col gap-4 p-5 bg-dark-100 border-b-[1px] border-dark-300">

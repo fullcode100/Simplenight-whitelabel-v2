@@ -6,11 +6,13 @@ interface ConfirmationItemListProps {
 }
 
 const ConfirmationItemList = ({ booking }: ConfirmationItemListProps) => {
+  const primaryContact = booking.primary_contact;
+
   return (
     <section className="grid gap-3">
       {booking.items.map((item, index) => (
         <section key={index}>
-          <ConfirmationItem item={item} />
+          <ConfirmationItem item={item} primaryContact={primaryContact} />
         </section>
       ))}
     </section>

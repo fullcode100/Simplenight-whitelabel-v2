@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { Booking } from 'types/booking/bookingType';
 
 interface ConfirmationHeaderProps {
-  booking: Booking;
+  booking?: Booking;
 }
 
 const ConfirmationOrderInfo = ({ booking }: ConfirmationHeaderProps) => {
-  const { sn_order_number: snOrderNumber, created_at: createdAt } = booking;
+  const snOrderNumber = booking?.sn_order_number;
+  const createdAt = booking?.created_at;
   const bookingDate = dayjs(createdAt).format('MMM DD YYYY, HH:mm Z');
   const [t, i18next] = useTranslation('global');
   const simplenightOrderNumber = t(

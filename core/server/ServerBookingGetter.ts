@@ -41,7 +41,7 @@ export class ServerBookingGetter extends ServerRequester<GetBookingResponse> {
     if (result.booking) {
       const { booking } = result;
       const formatResult = formatBooking(booking);
-      sendSuccess(response, { cart: formatResult });
+      sendSuccess(response, { booking: formatResult });
     }
   }
 }

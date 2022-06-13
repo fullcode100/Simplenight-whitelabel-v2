@@ -43,9 +43,11 @@
   "otherFees": "Other Fees",
   "cancelOrder": "Cancel Order",
   "nights": "Nights",
-  "night": "Night",
   "paymentMethods": "Payment Methods",
   "includesTaxesAndFees": "Includes Taxes and Fees",
-  "country": "Country"
+  "reservationName": "Reservation Name",
+  "cancelReservartion": "Cancel Reservation",
+  "night": "Night",
+  "country": "Country",
+  "supplierReferenceID": "Supplier Reference ID"
 }
-

@@ -4,18 +4,16 @@ import Customer from 'public/icons/assets/customer.svg';
 import { Booking } from 'types/booking/bookingType';
 import { useTranslation } from 'react-i18next';
 
-interface ConfirmationHeaderProps {
-  booking: Booking;
+interface ConfirmationBuyerInfoProps {
+  booking?: Booking;
 }
 
-const ConfirmationBuyerInfo = ({ booking }: ConfirmationHeaderProps) => {
-  const {
-    first_name: firstName,
-    last_name: lastName,
-    email,
-    phone_number: phoneNumber,
-    phone_prefix: phonePrefix,
-  } = booking.primary_contact;
+const ConfirmationBuyerInfo = ({ booking }: ConfirmationBuyerInfoProps) => {
+  const firstName = booking?.primary_contact.first_name;
+  const lastName = booking?.primary_contact.last_name;
+  const email = booking?.primary_contact.email;
+  const phoneNumber = booking?.primary_contact.phone_number;
+  const phonePrefix = booking?.primary_contact.phone_prefix;
 
   const [t, i18next] = useTranslation('global');
   const orderName = t('orderName', 'Order Name');

@@ -63,9 +63,11 @@
   "otherFees": "Otros Cargos",
   "cancelOrder": "Cancelar Orden",
   "nights": "Noches",
-  "night": "Noche",
   "paymentMethods": "Métodos de Pago",
   "includesTaxesAndFees": "Incluye Impuestos y Cargos Adicionales",
-  "country": "País"
+  "reservationName": "Nombre de la Reserva",
+  "cancelReservartion": "Cancelar Reserva",
+  "night": "Noche",
+  "country": "País",
+  "supplierReferenceID": "ID Referencia Proveedor"
 }
-

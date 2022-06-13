@@ -1,16 +1,788 @@
 /* eslint-disable quotes */
 export const bookingMock = {
   booking: {
-    booking_id: '2b700ff4-8e9f-40f8-9daf-efaadbbaa353',
-    created_at: '2022-06-06T17:35:21.280912Z',
+    booking_id: 'e3bcac6b-a134-430e-bbc6-dba09e7fd967',
+    created_at: '2022-06-08T13:05:35.853899Z',
     customer_last_name: 'test_last_name',
     items: [
       {
-        booking_id: '2b700ff4-8e9f-40f8-9daf-efaadbbaa353',
-        booking_item_id: 'fbc1410a-36b0-4563-89e5-6aed1aff8179',
-        error_data: {},
+        booking_id: 'e3bcac6b-a134-430e-bbc6-dba09e7fd967',
+        booking_item_id: '86c2cf87-cf88-4839-a3bb-2b9e5123d69c',
         extra_data: {
-          id: '704f71db:189672',
+          id: '704f71db:68721',
+          rooms: [
+            {
+              code: 'SUI.B1-1',
+              name: 'Bed room',
+              rates: {
+                min_rate: {
+                  rate: {
+                    rate_breakdown: {
+                      markups: null,
+                      discounts: null,
+                      rate_type: 'SN_PUBLIC',
+                      daily_rates: null,
+                      total_taxes: {
+                        _amount: '444.7000000000000000000000001',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: null,
+                      },
+                      total_amount: {
+                        _amount: '3364.70',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: [],
+                      },
+                      extra_charges: null,
+                      total_post_paid_amount: {
+                        _amount: '0',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: null,
+                      },
+                    },
+                    suggested_retail_total_amount: null,
+                  },
+                  comments: '',
+                  meal_plan: {
+                    code: 'RO',
+                    text: 'ROOM ONLY',
+                  },
+                  rate_type: 'SN_PUBLIC',
+                  available_qty: 2,
+                  sn_booking_code:
+                    '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
+                  cancellation_policy: {},
+                  booking_code_supplier:
+                    '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1754469238~N~~~NOR~9614D637DBBE4BB165469353261900AAUS00000010000000005246d24',
+                  requires_validation_before_booking: false,
+                },
+                all_room_rates: [
+                  {
+                    rate: {
+                      rate_breakdown: {
+                        markups: null,
+                        discounts: null,
+                        rate_type: 'SN_PUBLIC',
+                        daily_rates: null,
+                        total_taxes: {
+                          _amount: '444.7000000000000000000000001',
+                          _currency: {
+                            format: ',',
+                            symbol: '$',
+                            decimals: 2,
+                            iso_code: 'USD',
+                          },
+                          _language: {
+                            iso639_1: 'en',
+                            iso639_2: 'ENG',
+                          },
+                          _debug_data: null,
+                        },
+                        total_amount: {
+                          _amount: '3364.70',
+                          _currency: {
+                            format: ',',
+                            symbol: '$',
+                            decimals: 2,
+                            iso_code: 'USD',
+                          },
+                          _language: {
+                            iso639_1: 'en',
+                            iso639_2: 'ENG',
+                          },
+                          _debug_data: [],
+                        },
+                        extra_charges: null,
+                        total_post_paid_amount: {
+                          _amount: '0',
+                          _currency: {
+                            format: ',',
+                            symbol: '$',
+                            decimals: 2,
+                            iso_code: 'USD',
+                          },
+                          _language: {
+                            iso639_1: 'en',
+                            iso639_2: 'ENG',
+                          },
+                          _debug_data: null,
+                        },
+                      },
+                      suggested_retail_total_amount: null,
+                    },
+                    comments: '',
+                    meal_plan: {
+                      code: 'RO',
+                      text: 'ROOM ONLY',
+                    },
+                    rate_type: 'SN_PUBLIC',
+                    available_qty: 2,
+                    sn_booking_code:
+                      '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
+                    cancellation_policy: {},
+                    booking_code_supplier:
+                      '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1754469238~N~~~NOR~9614D637DBBE4BB165469353261900AAUS00000010000000005246d24',
+                    requires_validation_before_booking: false,
+                  },
+                ],
+                all_room_rates_sorted: [
+                  {
+                    rate: {
+                      rate_breakdown: {
+                        markups: null,
+                        discounts: null,
+                        rate_type: 'SN_PUBLIC',
+                        daily_rates: null,
+                        total_taxes: {
+                          _amount: '444.7000000000000000000000001',
+                          _currency: {
+                            format: ',',
+                            symbol: '$',
+                            decimals: 2,
+                            iso_code: 'USD',
+                          },
+                          _language: {
+                            iso639_1: 'en',
+                            iso639_2: 'ENG',
+                          },
+                          _debug_data: null,
+                        },
+                        total_amount: {
+                          _amount: '3364.70',
+                          _currency: {
+                            format: ',',
+                            symbol: '$',
+                            decimals: 2,
+                            iso_code: 'USD',
+                          },
+                          _language: {
+                            iso639_1: 'en',
+                            iso639_2: 'ENG',
+                          },
+                          _debug_data: [],
+                        },
+                        extra_charges: null,
+                        total_post_paid_amount: {
+                          _amount: '0',
+                          _currency: {
+                            format: ',',
+                            symbol: '$',
+                            decimals: 2,
+                            iso_code: 'USD',
+                          },
+                          _language: {
+                            iso639_1: 'en',
+                            iso639_2: 'ENG',
+                          },
+                          _debug_data: null,
+                        },
+                      },
+                      suggested_retail_total_amount: null,
+                    },
+                    comments: '',
+                    meal_plan: {
+                      code: 'RO',
+                      text: 'ROOM ONLY',
+                    },
+                    rate_type: 'SN_PUBLIC',
+                    available_qty: 2,
+                    sn_booking_code:
+                      '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
+                    cancellation_policy: {},
+                    booking_code_supplier:
+                      '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1754469238~N~~~NOR~9614D637DBBE4BB165469353261900AAUS00000010000000005246d24',
+                    requires_validation_before_booking: false,
+                  },
+                ],
+              },
+              photos: [
+                {
+                  url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_017.jpg',
+                  text: 'room photo',
+                },
+              ],
+              capacity: {
+                max_pax: 8,
+                min_pax: 1,
+                max_adults: 8,
+                min_adults: 1,
+                max_children: 5,
+                min_children: 5,
+              },
+              services: {
+                free_wifi: false,
+                king_beds: 0,
+                other_beds: 1,
+                queen_beds: 0,
+                total_beds: 1,
+                double_beds: 0,
+                total_rooms: 1,
+                free_parking: false,
+                free_breakfast: false,
+                total_bathrooms: 1,
+              },
+              amenities: ['Sailing', 'Number of bedrooms'],
+              room_type: 'SUI',
+              description: 'SUITE ONE BEDROOM',
+            },
+          ],
+          photos: [
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_a_007.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_a_013.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_a_019.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_003.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_004.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_005.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_006.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_w_002.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_w_003.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_008.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_009.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_010.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_012.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_013.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_014.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_015.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_007.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_017.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_003.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_004.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_018.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_r_001.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_r_002.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_k_001.jpg',
+              text: 'hotel_photo',
+            },
+            {
+              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_k_002.jpg',
+              text: 'hotel_photo',
+            },
+          ],
+          details: {
+            web: 'www.sancarloshotel.com',
+            name: 'San Carlos Hotel',
+            type: 'Hotel',
+            chain: {
+              chain_code: '',
+              chain_name: '',
+            },
+            email: 'ECC@schnyc.com',
+            phones: [
+              {
+                phone_type: 'PHONEBOOKING',
+                phone_number: '+2127021600',
+              },
+              {
+                phone_type: 'PHONEHOTEL',
+                phone_number: '+2127551800',
+              },
+              {
+                phone_type: 'FAXNUMBER',
+                phone_number: '+2126889778',
+              },
+            ],
+            address: {
+              city: 'New York',
+              zone: 'Midtown East',
+              state: 'NEW YORK',
+              country: 'United States',
+              address1: '150 E 50th St',
+              address2: '',
+              district: '',
+              coordinates: {
+                latitude: 40.7561668,
+                longitude: -73.9715771,
+              },
+              postal_code: '10022',
+              country_code: 'US',
+            },
+            facilities: [
+              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+              'Minor - AvaniSHIELD',
+              'Rosen - Total Commitment',
+              'RIU - Covid-19 Health Protocol',
+              'RIU - Covid-19 Health Protocol',
+              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+              'Colombia - Check in certificado, COVID-19 bioseguro',
+              'Rosen - Total Commitment',
+              'Highgate - Be Well. Stay Well.',
+              'RIU - Covid-19 Health Protocol',
+              'Czeck Republic - Stay Safe',
+              'Fitness',
+              'RIU - Covid-19 Health Protocol',
+              'Table tennis',
+              'Crystal - Hygienic Concept',
+              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+              'Colombia - Check in certificado, COVID-19 bioseguro',
+              'Toiletries',
+              'Aerobics',
+              'Make-up mirror',
+              'Full board',
+              'Morocco - Tourisme au Maroc post Covid-19',
+              'Rosen - Total Commitment',
+              'Shangri-La – Shangri-La Cares',
+              'Czeck Republic - Stay Safe',
+              'Alarm clock',
+              'Plug adaptor',
+              'Tea and coffee making facilities',
+              'Ironing set',
+              'Banana boating',
+              'Jet ski',
+              'Individually adjustable heating',
+              'Diving',
+              'Pedal boating',
+              'Half Board',
+              'Desk',
+              'Trouser press',
+              'Smoking rooms',
+              'Smoke detector',
+              'Archery',
+              'Extra beds on demand',
+              'Breakfast a la carte',
+              'Fitness',
+              'Cycling / mountain biking',
+              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
+              'Table tennis',
+              'Golf',
+              'Minimum check-in age',
+              'Wi-fi',
+              'Aerobics',
+              'Multilingual staff',
+              'Golf practice facility',
+              'Bellboy service',
+              'Louvre - Charte of Commitment',
+              'Colombia - Check in certificado, COVID-19 bioseguro',
+              'Minor - AvaniSHIELD',
+              '24h dining café',
+              'Putting green',
+              'Newspapers',
+              'Luggage room',
+              'Clothes dryer',
+              'Flight information required',
+              'Diving',
+              'Waterskiing',
+              'Online check-in',
+              'Projector',
+              'Spa centre',
+              'Photocopier',
+              'Business centre',
+              'Breakfast a la carte',
+              'Identification card at arrival',
+              'Fitness',
+              'USA - AHLA - Safe Stay',
+            ],
+            description:
+              "The property is located in the heart of Midtown Manhattan on New York's fashionable East Side between Lexington and 3rd Avenues. The hotel is strategically located just minutes from Central Park, the Theatre District and popular museums.\n\nThe hotel is an elegant, charming and stylishly sophisticated hotel. It offers spacious lodging accommodation units, plush furnishings and warm personal service.\n\nThe large and comfortable rooms are stylishly decorated with contemporary furnishings accented with tasteful artwork and soft colour tones. Each room features a microwave, coffee maker and a fridge. Upscale bath amenities, bathrobes and large-screen TVs complete the fantastic amenities. Luxurious bedding and double glazed windows ensure a wonderful night's sleep.\n\nThere is an onsite gym.\n\nThere is a lovely Indian restaurant on the property.\n\nThere's a travel advisory in place requiring individuals who have traveled to New York from designated states to quarantine for 14 days. For a full updated list of states, please visit: https://coronavirus.health.ny.gov/covid-19-travel-advisory\nWe would like to remind you that the following procedures are required \na) a fully and accurately completed out of State's traveler health form; and \nb) full compliance with the state quarantine requirements\nThe Team at the San Carlos Hotel thank you for your cooperation in maintaining good health for everyone",
+            star_rating: '4',
+            checkin_time: '14:00:00',
+            checkout_time: '10:00:00',
+          },
+          end_date: '2023-01-02',
+          relevance: 57,
+          thumbnail:
+            'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_019.jpg',
+          amount_min: {
+            _amount: '3364.70',
+            _currency: {
+              format: ',',
+              symbol: '$',
+              decimals: 2,
+              iso_code: 'USD',
+            },
+            _language: {
+              iso639_1: 'en',
+              iso639_2: 'ENG',
+            },
+            _debug_data: [],
+          },
+          giata_code: '78311',
+          start_date: '2022-12-31',
+          supplier_id: '68721',
+          min_rate_room: {
+            code: 'SUI.B1-1',
+            name: 'Bed room',
+            rates: {
+              min_rate: {
+                rate: {
+                  rate_breakdown: {
+                    markups: null,
+                    discounts: null,
+                    rate_type: 'SN_PUBLIC',
+                    daily_rates: null,
+                    total_taxes: {
+                      _amount: '444.7000000000000000000000001',
+                      _currency: {
+                        format: ',',
+                        symbol: '$',
+                        decimals: 2,
+                        iso_code: 'USD',
+                      },
+                      _language: {
+                        iso639_1: 'en',
+                        iso639_2: 'ENG',
+                      },
+                      _debug_data: null,
+                    },
+                    total_amount: {
+                      _amount: '3364.70',
+                      _currency: {
+                        format: ',',
+                        symbol: '$',
+                        decimals: 2,
+                        iso_code: 'USD',
+                      },
+                      _language: {
+                        iso639_1: 'en',
+                        iso639_2: 'ENG',
+                      },
+                      _debug_data: [],
+                    },
+                    extra_charges: null,
+                    total_post_paid_amount: {
+                      _amount: '0',
+                      _currency: {
+                        format: ',',
+                        symbol: '$',
+                        decimals: 2,
+                        iso_code: 'USD',
+                      },
+                      _language: {
+                        iso639_1: 'en',
+                        iso639_2: 'ENG',
+                      },
+                      _debug_data: null,
+                    },
+                  },
+                  suggested_retail_total_amount: null,
+                },
+                comments: '',
+                meal_plan: {
+                  code: 'RO',
+                  text: 'ROOM ONLY',
+                },
+                rate_type: 'SN_PUBLIC',
+                available_qty: 2,
+                sn_booking_code:
+                  '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
+                cancellation_policy: {},
+                booking_code_supplier:
+                  '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1754469238~N~~~NOR~9614D637DBBE4BB165469353261900AAUS00000010000000005246d24',
+                requires_validation_before_booking: false,
+              },
+              all_room_rates: [
+                {
+                  rate: {
+                    rate_breakdown: {
+                      markups: null,
+                      discounts: null,
+                      rate_type: 'SN_PUBLIC',
+                      daily_rates: null,
+                      total_taxes: {
+                        _amount: '444.7000000000000000000000001',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: null,
+                      },
+                      total_amount: {
+                        _amount: '3364.70',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: [],
+                      },
+                      extra_charges: null,
+                      total_post_paid_amount: {
+                        _amount: '0',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: null,
+                      },
+                    },
+                    suggested_retail_total_amount: null,
+                  },
+                  comments: '',
+                  meal_plan: {
+                    code: 'RO',
+                    text: 'ROOM ONLY',
+                  },
+                  rate_type: 'SN_PUBLIC',
+                  available_qty: 2,
+                  sn_booking_code:
+                    '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
+                  cancellation_policy: {},
+                  booking_code_supplier:
+                    '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1754469238~N~~~NOR~9614D637DBBE4BB165469353261900AAUS00000010000000005246d24',
+                  requires_validation_before_booking: false,
+                },
+              ],
+              all_room_rates_sorted: [
+                {
+                  rate: {
+                    rate_breakdown: {
+                      markups: null,
+                      discounts: null,
+                      rate_type: 'SN_PUBLIC',
+                      daily_rates: null,
+                      total_taxes: {
+                        _amount: '444.7000000000000000000000001',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: null,
+                      },
+                      total_amount: {
+                        _amount: '3364.70',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: [],
+                      },
+                      extra_charges: null,
+                      total_post_paid_amount: {
+                        _amount: '0',
+                        _currency: {
+                          format: ',',
+                          symbol: '$',
+                          decimals: 2,
+                          iso_code: 'USD',
+                        },
+                        _language: {
+                          iso639_1: 'en',
+                          iso639_2: 'ENG',
+                        },
+                        _debug_data: null,
+                      },
+                    },
+                    suggested_retail_total_amount: null,
+                  },
+                  comments: '',
+                  meal_plan: {
+                    code: 'RO',
+                    text: 'ROOM ONLY',
+                  },
+                  rate_type: 'SN_PUBLIC',
+                  available_qty: 2,
+                  sn_booking_code:
+                    '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
+                  cancellation_policy: {},
+                  booking_code_supplier:
+                    '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1754469238~N~~~NOR~9614D637DBBE4BB165469353261900AAUS00000010000000005246d24',
+                  requires_validation_before_booking: false,
+                },
+              ],
+            },
+            photos: [
+              {
+                url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_017.jpg',
+                text: 'room photo',
+              },
+            ],
+            capacity: {
+              max_pax: 8,
+              min_pax: 1,
+              max_adults: 8,
+              min_adults: 1,
+              max_children: 5,
+              min_children: 5,
+            },
+            services: {
+              free_wifi: false,
+              king_beds: 0,
+              other_beds: 1,
+              queen_beds: 0,
+              total_beds: 1,
+              double_beds: 0,
+              total_rooms: 1,
+              free_parking: false,
+              free_breakfast: false,
+              total_bathrooms: 1,
+            },
+            amenities: ['Sailing', 'Number of bedrooms'],
+            room_type: 'SUI',
+            description: 'SUITE ONE BEDROOM',
+          },
+          supplier_prefix: '704f71db',
+          relative_position: {
+            near_to: [],
+            distance: 0,
+            distance_unit: 'km',
+            distance_to_city_centre: 0,
+            distance_to_nearest_airport: 0,
+          },
+        },
+        inventory_id: '704f71db:189672',
+        name: 'San Carlos Hotel',
+        payment_type_status: 'completed',
+        product_order_number:
+          '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
+        quantity: '1',
+        status: 'booked',
+        supplier: 'hotelbeds',
+        supplier_order_number: '254-3133814',
+        total: {
+          amount: 3364.7,
+          formatted: '$3,364.70',
+          currency: 'USD',
+        },
+        total_postpaid: {
+          amount: 0,
+          formatted: '$0',
+          currency: 'USD',
+        },
+        total_supplier: {
+          amount: 3364.7,
+          formatted: '$3,364.70',
+          currency: 'USD',
+        },
+        total_tax: {
+          amount: 444.7,
+          formatted: '$444.70',
+          currency: 'USD',
+        },
+        total_tax_postpaid: {
+          amount: 0,
+          formatted: '$0',
+          currency: 'USD',
+        },
+      },
+      {
+        booking_id: 'e3bcac6b-a134-430e-bbc6-dba09e7fd967',
+        booking_item_id: '7c2acded-a7b6-4998-91da-162a4d825b9d',
+        extra_data: {
+          id: '704f71db:68721',
           rooms: [
             {
               code: 'DBL.ST',
@@ -75,12 +847,12 @@ export const bookingMock = {
                     text: 'ROOM ONLY',
                   },
                   rate_type: 'SN_PUBLIC',
-                  available_qty: 10,
+                  available_qty: 9,
                   sn_booking_code:
                     '20221001|20221005|704f71db:189672|SN_PUBLIC|DBL.ST|RO|1|2|0',
                   cancellation_policy: {},
                   booking_code_supplier:
-                    '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-673690877~N~~~NOR~5BFCD92753A943E165453691952900AAUS0000001000000000524d33b',
+                    '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-123269795~N~~~NOR~AD0FFAD4E4CF49C165469353361500AAUS0000001000000000524d33b',
                   requires_validation_before_booking: false,
                 },
                 all_room_rates: [
@@ -143,12 +915,12 @@ export const bookingMock = {
                       text: 'ROOM ONLY',
                     },
                     rate_type: 'SN_PUBLIC',
-                    available_qty: 10,
+                    available_qty: 9,
                     sn_booking_code:
                       '20221001|20221005|704f71db:189672|SN_PUBLIC|DBL.ST|RO|1|2|0',
                     cancellation_policy: {},
                     booking_code_supplier:
-                      '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-673690877~N~~~NOR~5BFCD92753A943E165453691952900AAUS0000001000000000524d33b',
+                      '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-123269795~N~~~NOR~AD0FFAD4E4CF49C165469353361500AAUS0000001000000000524d33b',
                     requires_validation_before_booking: false,
                   },
                 ],
@@ -212,12 +984,12 @@ export const bookingMock = {
                       text: 'ROOM ONLY',
                     },
                     rate_type: 'SN_PUBLIC',
-                    available_qty: 10,
+                    available_qty: 9,
                     sn_booking_code:
                       '20221001|20221005|704f71db:189672|SN_PUBLIC|DBL.ST|RO|1|2|0',
                     cancellation_policy: {},
                     booking_code_supplier:
-                      '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-673690877~N~~~NOR~5BFCD92753A943E165453691952900AAUS0000001000000000524d33b',
+                      '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-123269795~N~~~NOR~AD0FFAD4E4CF49C165469353361500AAUS0000001000000000524d33b',
                     requires_validation_before_booking: false,
                   },
                 ],
@@ -1201,12 +1973,12 @@ export const bookingMock = {
                   text: 'ROOM ONLY',
                 },
                 rate_type: 'SN_PUBLIC',
-                available_qty: 10,
+                available_qty: 9,
                 sn_booking_code:
                   '20221001|20221005|704f71db:189672|SN_PUBLIC|DBL.ST|RO|1|2|0',
                 cancellation_policy: {},
                 booking_code_supplier:
-                  '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-673690877~N~~~NOR~5BFCD92753A943E165453691952900AAUS0000001000000000524d33b',
+                  '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-123269795~N~~~NOR~AD0FFAD4E4CF49C165469353361500AAUS0000001000000000524d33b',
                 requires_validation_before_booking: false,
               },
               all_room_rates: [
@@ -1269,12 +2041,12 @@ export const bookingMock = {
                     text: 'ROOM ONLY',
                   },
                   rate_type: 'SN_PUBLIC',
-                  available_qty: 10,
+                  available_qty: 9,
                   sn_booking_code:
                     '20221001|20221005|704f71db:189672|SN_PUBLIC|DBL.ST|RO|1|2|0',
                   cancellation_policy: {},
                   booking_code_supplier:
-                    '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-673690877~N~~~NOR~5BFCD92753A943E165453691952900AAUS0000001000000000524d33b',
+                    '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-123269795~N~~~NOR~AD0FFAD4E4CF49C165469353361500AAUS0000001000000000524d33b',
                   requires_validation_before_booking: false,
                 },
               ],
@@ -1338,12 +2110,12 @@ export const bookingMock = {
                     text: 'ROOM ONLY',
                   },
                   rate_type: 'SN_PUBLIC',
-                  available_qty: 10,
+                  available_qty: 9,
                   sn_booking_code:
                     '20221001|20221005|704f71db:189672|SN_PUBLIC|DBL.ST|RO|1|2|0',
                   cancellation_policy: {},
                   booking_code_supplier:
-                    '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-673690877~N~~~NOR~5BFCD92753A943E165453691952900AAUS0000001000000000524d33b',
+                    '20221001|20221005|W|254|189672|DBL.ST|GAR COMM|RO||1~2~0||N@06~~24d33b~-123269795~N~~~NOR~AD0FFAD4E4CF49C165469353361500AAUS0000001000000000524d33b',
                   requires_validation_before_booking: false,
                 },
               ],
@@ -1448,28 +2220,22 @@ export const bookingMock = {
           },
           supplier_prefix: '704f71db',
           relative_position: {
-            near_to: [
-              {
-                distance: '0',
-                location_code: '123',
-                location_name: 'Example Location',
-                location_type: 'example',
-              },
-            ],
+            near_to: [],
             distance: 0,
             distance_unit: 'km',
             distance_to_city_centre: 0,
             distance_to_nearest_airport: 0,
           },
         },
-        inventory_id: '704f71db:189672',
+        inventory_id: '704f71db:68721',
         name: 'Hilton Garden Inn Long Island City New York',
         payment_type_status: 'completed',
-        product_order_number: '',
+        product_order_number:
+          '20221001|20221005|704f71db:68721|SN_PUBLIC|DBL.ST|RO|1|2|0',
         quantity: '1',
         status: 'booked',
         supplier: 'hotelbeds',
-        supplier_order_number: '254-3131660',
+        supplier_order_number: '254-3133815',
         total: {
           amount: 827.77,
           formatted: '$827.77',
@@ -1481,793 +2247,13 @@ export const bookingMock = {
           currency: 'USD',
         },
         total_supplier: {
-          amount: 0,
-          formatted: '$0',
+          amount: 827.77,
+          formatted: '$827.77',
           currency: 'USD',
         },
         total_tax: {
-          amount: 0,
-          formatted: '$0',
-          currency: 'USD',
-        },
-        total_tax_postpaid: {
-          amount: 0,
-          formatted: '$0',
-          currency: 'USD',
-        },
-      },
-      {
-        booking_id: '2b700ff4-8e9f-40f8-9daf-efaadbbaa353',
-        booking_item_id: '1c5939ab-4aaa-4de6-8fc5-6f85e8ad9bb6',
-        error_data: {},
-        extra_data: {
-          id: '704f71db:189672',
-          rooms: [
-            {
-              code: 'SUI.B1-1',
-              name: 'Bed room',
-              rates: {
-                min_rate: {
-                  rate: {
-                    rate_breakdown: {
-                      markups: null,
-                      discounts: null,
-                      rate_type: 'SN_PUBLIC',
-                      daily_rates: null,
-                      total_taxes: {
-                        _amount: '444.7000000000000000000000001',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: null,
-                      },
-                      total_amount: {
-                        _amount: '3364.70',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: [],
-                      },
-                      extra_charges: null,
-                      total_post_paid_amount: {
-                        _amount: '0',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: null,
-                      },
-                    },
-                    suggested_retail_total_amount: null,
-                  },
-                  comments: '',
-                  meal_plan: {
-                    code: 'RO',
-                    text: 'ROOM ONLY',
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  available_qty: 4,
-                  sn_booking_code:
-                    '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
-                  cancellation_policy: {},
-                  booking_code_supplier:
-                    '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1604498347~N~~~NOR~F632A68ECC15407165453692037100AAUS00000010000000005246d24',
-                  requires_validation_before_booking: false,
-                },
-                all_room_rates: [
-                  {
-                    rate: {
-                      rate_breakdown: {
-                        markups: null,
-                        discounts: null,
-                        rate_type: 'SN_PUBLIC',
-                        daily_rates: null,
-                        total_taxes: {
-                          _amount: '444.7000000000000000000000001',
-                          _currency: {
-                            format: ',',
-                            symbol: '$',
-                            decimals: 2,
-                            iso_code: 'USD',
-                          },
-                          _language: {
-                            iso639_1: 'en',
-                            iso639_2: 'ENG',
-                          },
-                          _debug_data: null,
-                        },
-                        total_amount: {
-                          _amount: '3364.70',
-                          _currency: {
-                            format: ',',
-                            symbol: '$',
-                            decimals: 2,
-                            iso_code: 'USD',
-                          },
-                          _language: {
-                            iso639_1: 'en',
-                            iso639_2: 'ENG',
-                          },
-                          _debug_data: [],
-                        },
-                        extra_charges: null,
-                        total_post_paid_amount: {
-                          _amount: '0',
-                          _currency: {
-                            format: ',',
-                            symbol: '$',
-                            decimals: 2,
-                            iso_code: 'USD',
-                          },
-                          _language: {
-                            iso639_1: 'en',
-                            iso639_2: 'ENG',
-                          },
-                          _debug_data: null,
-                        },
-                      },
-                      suggested_retail_total_amount: null,
-                    },
-                    comments: '',
-                    meal_plan: {
-                      code: 'RO',
-                      text: 'ROOM ONLY',
-                    },
-                    rate_type: 'SN_PUBLIC',
-                    available_qty: 4,
-                    sn_booking_code:
-                      '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
-                    cancellation_policy: {},
-                    booking_code_supplier:
-                      '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1604498347~N~~~NOR~F632A68ECC15407165453692037100AAUS00000010000000005246d24',
-                    requires_validation_before_booking: false,
-                  },
-                ],
-                all_room_rates_sorted: [
-                  {
-                    rate: {
-                      rate_breakdown: {
-                        markups: null,
-                        discounts: null,
-                        rate_type: 'SN_PUBLIC',
-                        daily_rates: null,
-                        total_taxes: {
-                          _amount: '444.7000000000000000000000001',
-                          _currency: {
-                            format: ',',
-                            symbol: '$',
-                            decimals: 2,
-                            iso_code: 'USD',
-                          },
-                          _language: {
-                            iso639_1: 'en',
-                            iso639_2: 'ENG',
-                          },
-                          _debug_data: null,
-                        },
-                        total_amount: {
-                          _amount: '3364.70',
-                          _currency: {
-                            format: ',',
-                            symbol: '$',
-                            decimals: 2,
-                            iso_code: 'USD',
-                          },
-                          _language: {
-                            iso639_1: 'en',
-                            iso639_2: 'ENG',
-                          },
-                          _debug_data: [],
-                        },
-                        extra_charges: null,
-                        total_post_paid_amount: {
-                          _amount: '0',
-                          _currency: {
-                            format: ',',
-                            symbol: '$',
-                            decimals: 2,
-                            iso_code: 'USD',
-                          },
-                          _language: {
-                            iso639_1: 'en',
-                            iso639_2: 'ENG',
-                          },
-                          _debug_data: null,
-                        },
-                      },
-                      suggested_retail_total_amount: null,
-                    },
-                    comments: '',
-                    meal_plan: {
-                      code: 'RO',
-                      text: 'ROOM ONLY',
-                    },
-                    rate_type: 'SN_PUBLIC',
-                    available_qty: 4,
-                    sn_booking_code:
-                      '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
-                    cancellation_policy: {},
-                    booking_code_supplier:
-                      '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1604498347~N~~~NOR~F632A68ECC15407165453692037100AAUS00000010000000005246d24',
-                    requires_validation_before_booking: false,
-                  },
-                ],
-              },
-              photos: [
-                {
-                  url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_017.jpg',
-                  text: 'room photo',
-                },
-              ],
-              capacity: {
-                max_pax: 8,
-                min_pax: 1,
-                max_adults: 8,
-                min_adults: 1,
-                max_children: 5,
-                min_children: 5,
-              },
-              services: {
-                free_wifi: false,
-                king_beds: 0,
-                other_beds: 1,
-                queen_beds: 0,
-                total_beds: 1,
-                double_beds: 0,
-                total_rooms: 1,
-                free_parking: false,
-                free_breakfast: false,
-                total_bathrooms: 1,
-              },
-              amenities: ['Sailing', 'Number of bedrooms'],
-              room_type: 'SUI',
-              description: 'SUITE ONE BEDROOM',
-            },
-          ],
-          photos: [
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_a_007.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_a_013.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_a_019.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_003.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_004.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_005.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_l_006.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_w_002.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_w_003.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_008.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_009.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_010.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_012.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_013.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_014.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_015.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_007.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_017.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_003.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_004.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_018.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_r_001.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_r_002.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_k_001.jpg',
-              text: 'hotel_photo',
-            },
-            {
-              url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_k_002.jpg',
-              text: 'hotel_photo',
-            },
-          ],
-          details: {
-            web: 'www.sancarloshotel.com',
-            name: 'San Carlos Hotel',
-            type: 'Hotel',
-            chain: {
-              chain_code: '',
-              chain_name: '',
-            },
-            email: 'ECC@schnyc.com',
-            phones: [
-              {
-                phone_type: 'PHONEBOOKING',
-                phone_number: '+2127021600',
-              },
-              {
-                phone_type: 'PHONEHOTEL',
-                phone_number: '+2127551800',
-              },
-              {
-                phone_type: 'FAXNUMBER',
-                phone_number: '+2126889778',
-              },
-            ],
-            address: {
-              city: 'New York',
-              zone: 'Midtown East',
-              state: 'NEW YORK',
-              country: 'United States',
-              address1: '150 E 50th St',
-              address2: '',
-              district: '',
-              coordinates: {
-                latitude: 40.7561668,
-                longitude: -73.9715771,
-              },
-              postal_code: '10022',
-              country_code: 'US',
-            },
-            facilities: [
-              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-              'Minor - AvaniSHIELD',
-              'Rosen - Total Commitment',
-              'RIU - Covid-19 Health Protocol',
-              'RIU - Covid-19 Health Protocol',
-              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-              'Colombia - Check in certificado, COVID-19 bioseguro',
-              'Rosen - Total Commitment',
-              'Highgate - Be Well. Stay Well.',
-              'RIU - Covid-19 Health Protocol',
-              'Czeck Republic - Stay Safe',
-              'Fitness',
-              'RIU - Covid-19 Health Protocol',
-              'Table tennis',
-              'Crystal - Hygienic Concept',
-              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-              'Colombia - Check in certificado, COVID-19 bioseguro',
-              'Toiletries',
-              'Aerobics',
-              'Make-up mirror',
-              'Full board',
-              'Morocco - Tourisme au Maroc post Covid-19',
-              'Rosen - Total Commitment',
-              'Shangri-La – Shangri-La Cares',
-              'Czeck Republic - Stay Safe',
-              'Alarm clock',
-              'Plug adaptor',
-              'Tea and coffee making facilities',
-              'Ironing set',
-              'Banana boating',
-              'Jet ski',
-              'Individually adjustable heating',
-              'Diving',
-              'Pedal boating',
-              'Half Board',
-              'Desk',
-              'Trouser press',
-              'Smoking rooms',
-              'Smoke detector',
-              'Archery',
-              'Extra beds on demand',
-              'Breakfast a la carte',
-              'Fitness',
-              'Cycling / mountain biking',
-              'Blue Diamond Resorts - Enhanced Health, Safety & Cleanliness Protocols',
-              'Table tennis',
-              'Golf',
-              'Minimum check-in age',
-              'Wi-fi',
-              'Aerobics',
-              'Multilingual staff',
-              'Golf practice facility',
-              'Bellboy service',
-              'Louvre - Charte of Commitment',
-              'Colombia - Check in certificado, COVID-19 bioseguro',
-              'Minor - AvaniSHIELD',
-              '24h dining café',
-              'Putting green',
-              'Newspapers',
-              'Luggage room',
-              'Clothes dryer',
-              'Flight information required',
-              'Diving',
-              'Waterskiing',
-              'Online check-in',
-              'Projector',
-              'Spa centre',
-              'Photocopier',
-              'Business centre',
-              'Breakfast a la carte',
-              'Identification card at arrival',
-              'Fitness',
-              'USA - AHLA - Safe Stay',
-            ],
-            description:
-              "The property is located in the heart of Midtown Manhattan on New York's fashionable East Side between Lexington and 3rd Avenues. The hotel is strategically located just minutes from Central Park, the Theatre District and popular museums.\n\nThe hotel is an elegant, charming and stylishly sophisticated hotel. It offers spacious lodging accommodation units, plush furnishings and warm personal service.\n\nThe large and comfortable rooms are stylishly decorated with contemporary furnishings accented with tasteful artwork and soft colour tones. Each room features a microwave, coffee maker and a fridge. Upscale bath amenities, bathrobes and large-screen TVs complete the fantastic amenities. Luxurious bedding and double glazed windows ensure a wonderful night's sleep.\n\nThere is an onsite gym.\n\nThere is a lovely Indian restaurant on the property.\n\nThere's a travel advisory in place requiring individuals who have traveled to New York from designated states to quarantine for 14 days. For a full updated list of states, please visit: https://coronavirus.health.ny.gov/covid-19-travel-advisory\nWe would like to remind you that the following procedures are required \na) a fully and accurately completed out of State's traveler health form; and \nb) full compliance with the state quarantine requirements\nThe Team at the San Carlos Hotel thank you for your cooperation in maintaining good health for everyone",
-            star_rating: '4',
-            checkin_time: '14:00:00',
-            checkout_time: '10:00:00',
-          },
-          end_date: '2023-01-02',
-          relevance: 57,
-          thumbnail:
-            'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_019.jpg',
-          amount_min: {
-            _amount: '3364.70',
-            _currency: {
-              format: ',',
-              symbol: '$',
-              decimals: 2,
-              iso_code: 'USD',
-            },
-            _language: {
-              iso639_1: 'en',
-              iso639_2: 'ENG',
-            },
-            _debug_data: [],
-          },
-          giata_code: '78311',
-          start_date: '2022-12-31',
-          supplier_id: '68721',
-          min_rate_room: {
-            code: 'SUI.B1-1',
-            name: 'Bed room',
-            rates: {
-              min_rate: {
-                rate: {
-                  rate_breakdown: {
-                    markups: null,
-                    discounts: null,
-                    rate_type: 'SN_PUBLIC',
-                    daily_rates: null,
-                    total_taxes: {
-                      _amount: '444.7000000000000000000000001',
-                      _currency: {
-                        format: ',',
-                        symbol: '$',
-                        decimals: 2,
-                        iso_code: 'USD',
-                      },
-                      _language: {
-                        iso639_1: 'en',
-                        iso639_2: 'ENG',
-                      },
-                      _debug_data: null,
-                    },
-                    total_amount: {
-                      _amount: '3364.70',
-                      _currency: {
-                        format: ',',
-                        symbol: '$',
-                        decimals: 2,
-                        iso_code: 'USD',
-                      },
-                      _language: {
-                        iso639_1: 'en',
-                        iso639_2: 'ENG',
-                      },
-                      _debug_data: [],
-                    },
-                    extra_charges: null,
-                    total_post_paid_amount: {
-                      _amount: '0',
-                      _currency: {
-                        format: ',',
-                        symbol: '$',
-                        decimals: 2,
-                        iso_code: 'USD',
-                      },
-                      _language: {
-                        iso639_1: 'en',
-                        iso639_2: 'ENG',
-                      },
-                      _debug_data: null,
-                    },
-                  },
-                  suggested_retail_total_amount: null,
-                },
-                comments: '',
-                meal_plan: {
-                  code: 'RO',
-                  text: 'ROOM ONLY',
-                },
-                rate_type: 'SN_PUBLIC',
-                available_qty: 4,
-                sn_booking_code:
-                  '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
-                cancellation_policy: {},
-                booking_code_supplier:
-                  '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1604498347~N~~~NOR~F632A68ECC15407165453692037100AAUS00000010000000005246d24',
-                requires_validation_before_booking: false,
-              },
-              all_room_rates: [
-                {
-                  rate: {
-                    rate_breakdown: {
-                      markups: null,
-                      discounts: null,
-                      rate_type: 'SN_PUBLIC',
-                      daily_rates: null,
-                      total_taxes: {
-                        _amount: '444.7000000000000000000000001',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: null,
-                      },
-                      total_amount: {
-                        _amount: '3364.70',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: [],
-                      },
-                      extra_charges: null,
-                      total_post_paid_amount: {
-                        _amount: '0',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: null,
-                      },
-                    },
-                    suggested_retail_total_amount: null,
-                  },
-                  comments: '',
-                  meal_plan: {
-                    code: 'RO',
-                    text: 'ROOM ONLY',
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  available_qty: 4,
-                  sn_booking_code:
-                    '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
-                  cancellation_policy: {},
-                  booking_code_supplier:
-                    '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1604498347~N~~~NOR~F632A68ECC15407165453692037100AAUS00000010000000005246d24',
-                  requires_validation_before_booking: false,
-                },
-              ],
-              all_room_rates_sorted: [
-                {
-                  rate: {
-                    rate_breakdown: {
-                      markups: null,
-                      discounts: null,
-                      rate_type: 'SN_PUBLIC',
-                      daily_rates: null,
-                      total_taxes: {
-                        _amount: '444.7000000000000000000000001',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: null,
-                      },
-                      total_amount: {
-                        _amount: '3364.70',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: [],
-                      },
-                      extra_charges: null,
-                      total_post_paid_amount: {
-                        _amount: '0',
-                        _currency: {
-                          format: ',',
-                          symbol: '$',
-                          decimals: 2,
-                          iso_code: 'USD',
-                        },
-                        _language: {
-                          iso639_1: 'en',
-                          iso639_2: 'ENG',
-                        },
-                        _debug_data: null,
-                      },
-                    },
-                    suggested_retail_total_amount: null,
-                  },
-                  comments: '',
-                  meal_plan: {
-                    code: 'RO',
-                    text: 'ROOM ONLY',
-                  },
-                  rate_type: 'SN_PUBLIC',
-                  available_qty: 4,
-                  sn_booking_code:
-                    '20221231|20230102|704f71db:68721|SN_PUBLIC|SUI.B1-1|RO|2|2|2',
-                  cancellation_policy: {},
-                  booking_code_supplier:
-                    '20221231|20230102|W|254|68721|SUI.B1-1|LATAM BAR|RO||2~2~2|10~10|N@06~~23ee82~1604498347~N~~~NOR~F632A68ECC15407165453692037100AAUS00000010000000005246d24',
-                  requires_validation_before_booking: false,
-                },
-              ],
-            },
-            photos: [
-              {
-                url: 'https://photos.hotelbeds.com/giata/06/068721/068721a_hb_ro_017.jpg',
-                text: 'room photo',
-              },
-            ],
-            capacity: {
-              max_pax: 8,
-              min_pax: 1,
-              max_adults: 8,
-              min_adults: 1,
-              max_children: 5,
-              min_children: 5,
-            },
-            services: {
-              free_wifi: false,
-              king_beds: 0,
-              other_beds: 1,
-              queen_beds: 0,
-              total_beds: 1,
-              double_beds: 0,
-              total_rooms: 1,
-              free_parking: false,
-              free_breakfast: false,
-              total_bathrooms: 1,
-            },
-            amenities: ['Sailing', 'Number of bedrooms'],
-            room_type: 'SUI',
-            description: 'SUITE ONE BEDROOM',
-          },
-          supplier_prefix: '704f71db',
-          relative_position: {
-            near_to: [
-              {
-                distance: '0',
-                location_code: '123',
-                location_name: 'Example Location',
-                location_type: 'example',
-              },
-            ],
-            distance: 0,
-            distance_unit: 'km',
-            distance_to_city_centre: 0,
-            distance_to_nearest_airport: 0,
-          },
-        },
-        inventory_id: '704f71db:189672',
-        name: 'San Carlos Hotel',
-        payment_type_status: 'completed',
-        product_order_number: '',
-        quantity: '1',
-        status: 'booked',
-        supplier: 'hotelbeds',
-        supplier_order_number: '254-3131661',
-        total: {
-          amount: 3364.7,
-          formatted: '$3,364.70',
-          currency: 'USD',
-        },
-        total_postpaid: {
-          amount: 0,
-          formatted: '$0',
-          currency: 'USD',
-        },
-        total_supplier: {
-          amount: 0,
-          formatted: '$0',
-          currency: 'USD',
-        },
-        total_tax: {
-          amount: 0,
-          formatted: '$0',
+          amount: 118.6,
+          formatted: '$118.60',
           currency: 'USD',
         },
         total_tax_postpaid: {
@@ -2278,17 +2264,22 @@ export const bookingMock = {
       },
     ],
     manual_charge_status: 'NOT_APPLICABLE',
-    order_total: {
-      amount: 4192.47,
-      formatted: '$4,192.47',
-      currency: 'USD',
-    },
     order_total_postpaid: {
       amount: 0,
       formatted: '$0',
       currency: 'USD',
     },
+    order_total: {
+      amount: 4192.47,
+      formatted: '$4,192.47',
+      currency: 'USD',
+    },
     partner_url: 'test.simplenight.com',
+    payments_total: {
+      amount: 4192.47,
+      formatted: '$4,192.47',
+      currency: 'USD',
+    },
     payments: [
       {
         supplier: 'square',
@@ -2298,20 +2289,20 @@ export const bookingMock = {
           currency: 'USD',
         },
         transaction_status: 'completed',
-        supplier_charge_id: '5WPZMY5IZJWEL6FkpsKO2MAag6JZY',
+        supplier_charge_id: 'ZAQ3qacIuWa06UkG4ztseHONpPLZY',
         transaction_type: 'CHARGE',
-        transaction_time: '2022-06-06T17:35:22.751181Z',
+        transaction_time: '2022-06-08T13:05:37.950040Z',
         payment_token: 'cnon:card-nonce-ok',
         card_brand: 'VISA',
         last_four: '5858',
         payment_source_type: 'CARD',
         extra_data: {
           payment: {
-            id: '5WPZMY5IZJWEL6FkpsKO2MAag6JZY',
+            id: 'ZAQ3qacIuWa06UkG4ztseHONpPLZY',
             status: 'APPROVED',
-            order_id: 'zkEzw1Dltyi8YZj6XHqS7PoJSJeZY',
-            created_at: '2022-06-06T17:35:21.689Z',
-            updated_at: '2022-06-06T17:35:21.799Z',
+            order_id: '97v29D6DvseRZvweJvkuHJvpZheZY',
+            created_at: '2022-06-08T13:05:36.419Z',
+            updated_at: '2022-06-08T13:05:36.528Z',
             location_id: 'LCYTDCN92JW8J',
             source_type: 'CARD',
             total_money: {
@@ -2345,19 +2336,19 @@ export const bookingMock = {
               cvv_status: 'CVV_ACCEPTED',
               entry_method: 'KEYED',
               card_payment_timeline: {
-                authorized_at: '2022-06-06T17:35:21.799Z',
+                authorized_at: '2022-06-08T13:05:36.528Z',
               },
               statement_description: 'SQ *DEFAULT TEST ACCOUNT',
             },
             delay_action: 'CANCEL',
-            delayed_until: '2022-06-06T17:39:21.689Z',
-            version_token: 'RMTQGY3eBNueMb5FV4eaQTAXzdYJziQsPEVcmQga25t6o',
+            delayed_until: '2022-06-08T13:09:36.419Z',
+            version_token: 'iITcdrEO2YZDpAcmVb3ri2n4nt9j0wWPU92owIufCPR6o',
             approved_money: {
               amount: 419247,
               currency: 'USD',
             },
             delay_duration: 'PT4M',
-            receipt_number: '5WPZ',
+            receipt_number: 'ZAQ3',
             application_details: {
               application_id: 'sandbox-sq0idb-NC8FV2rTmv18Ca6qccS93g',
               square_product: 'ECOMMERCE_API',
@@ -2366,13 +2357,8 @@ export const bookingMock = {
         },
       },
     ],
-    payments_total: {
-      amount: 4192.47,
-      formatted: '$4,192.47',
-      currency: 'USD',
-    },
     primary_contact: {
-      id: 11,
+      id: 15,
       first_name: 'test_fist_name',
       last_name: 'test_last_name',
       phone_number: '0000',
@@ -2384,30 +2370,35 @@ export const bookingMock = {
         extra_2: 2,
       },
     },
-    supplier_total: {
-      amount: 0,
-      formatted: '$0',
-      currency: 'USD',
-    },
-    refunds: [],
     refunds_total: {
       amount: 0,
       formatted: '$0',
       currency: 'USD',
     },
+    refunds: [],
     sandbox_mode: true,
-    sn_order_number: 'ZBHWQ5IE',
+    sn_order_number: 'RLFZU4GZ',
     status: 'booked',
-    tax_total: {
-      amount: 563.3,
-      formatted: '$563.30',
-      currency: 'USD',
-    },
     tax_total_postpaid: {
       amount: 0,
       formatted: '$0',
       currency: 'USD',
     },
-    updated_at: '2022-06-06T17:35:29.858665Z',
+    tax_total: {
+      amount: 563.3,
+      formatted: '$563.30',
+      currency: 'USD',
+    },
+    updated_at: '2022-06-08T13:05:44.296968Z',
+    supplier_total: {
+      amount: 4192.47,
+      formatted: '$4,192.47',
+      currency: 'USD',
+    },
+    sub_total: {
+      amount: 3629.17,
+      formatted: '$3,629.17',
+      currency: 'USD',
+    },
   },
 };

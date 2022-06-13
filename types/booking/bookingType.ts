@@ -3,9 +3,11 @@ import {
   Details,
   MealPlan,
   Photo,
+  RateBreakdown,
   RelativePosition,
   Services,
 } from 'hotels/types/response/SearchResponse';
+import { CancellationPolicy } from 'types/checkout/CreateBookingResponse';
 import { Amount } from 'types/global/Amount';
 
 export interface Booking {
@@ -34,7 +36,7 @@ export interface Booking {
 export interface Item {
   booking_id: string;
   booking_item_id: string;
-  error_data: any;
+  cancellation_policy: CancellationPolicy;
   extra_data: ItemExtraData;
   inventory_id: string;
   name: string;
@@ -107,31 +109,22 @@ export interface Rates {
 }
 
 export interface MinRate {
-  rate: Rate;
+  available_qty: number;
+  booking_code_supplier: string;
+  cancellation_policy: CancellationPolicy;
   comments: string;
   meal_plan: MealPlan;
+  rate: Rate;
   rate_type: string;
-  available_qty: number;
-  sn_booking_code: string;
-  cancellation_policy: any;
-  booking_code_supplier: string;
   requires_validation_before_booking: boolean;
+  sn_booking_code: string;
 }
 
 export interface Rate {
+  diff_min_rate: Amount;
   rate_breakdown: RateBreakdown;
   suggested_retail_total_amount: null;
-}
-
-export interface RateBreakdown {
-  markups: null;
-  discounts: null;
-  rate_type: string;
-  daily_rates: null;
-  total_taxes: AmountMin;
-  total_amount: AmountMin;
-  extra_charges: null;
-  total_post_paid_amount: AmountMin;
+  total_amount: Amount;
 }
 
 export interface Payment {
