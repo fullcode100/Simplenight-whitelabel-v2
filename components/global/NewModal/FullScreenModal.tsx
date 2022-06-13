@@ -18,6 +18,7 @@ interface FullScreenModalProps {
   noHeader?: boolean;
   containerButtonsClassName?: string;
   className?: string;
+  headerAction?: ReactNode;
 }
 
 const FullScreenModal = ({
@@ -35,6 +36,7 @@ const FullScreenModal = ({
   noHeader = false,
   containerButtonsClassName,
   className = '',
+  headerAction,
 }: FullScreenModalProps) => {
   return (
     <section
@@ -43,7 +45,13 @@ const FullScreenModal = ({
         { ['hidden']: !open },
       )}
     >
-      {!noHeader && <ModalHeader title={title} onCloseModal={closeModal} />}
+      {!noHeader && (
+        <ModalHeader
+          title={title}
+          onCloseModal={closeModal}
+          headerAction={headerAction}
+        />
+      )}
       {children}
       {!noFooter && (
         <ModalFooter

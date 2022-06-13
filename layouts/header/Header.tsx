@@ -44,13 +44,7 @@ const Header = ({ color }: HeaderProps) => {
   }, [state.cartStore]);
 
   return (
-    <header
-      className={`flex items-center justify-between p-4 z-10 ${color} fixed w-full`}
-    >
-      <HamburgerMenuButton
-        className="mr-2 cursor-pointer"
-        onClick={handleOpenMenu}
-      />
+    <>
       <FullScreenModal
         open={openMenu}
         closeModal={handleCloseMenu}
@@ -62,24 +56,32 @@ const Header = ({ color }: HeaderProps) => {
       >
         <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
-      <section className="flex gap-5 items-center">
-        <Link href={'/'}>
+      <header
+        className={`flex items-center justify-between p-4 z-10 ${color} fixed w-full`}
+      >
+        <HamburgerMenuButton
+          className="mr-2 cursor-pointer"
+          onClick={handleOpenMenu}
+        />
+        <section className="flex gap-5 items-center">
+          <Link href={'/'}>
+            <a>
+              <SimplenightLogo />
+            </a>
+          </Link>
+        </section>
+        <Link href={'/itinerary'}>
           <a>
-            <SimplenightLogo />
+            <section className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded">
+              <span className="text-dark-1000 font-bold text-sm font-lato">
+                {cartQty ?? 0}
+              </span>
+              <ShoppingCart className="text-primary-1000" />
+            </section>
           </a>
         </Link>
-      </section>
-      <Link href={'/itinerary'}>
-        <a>
-          <section className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded">
-            <span className="text-dark-1000 font-bold text-sm font-lato">
-              {cartQty ?? 0}
-            </span>
-            <ShoppingCart className="text-primary-1000" />
-          </section>
-        </a>
-      </Link>
-    </header>
+      </header>
+    </>
   );
 };
 

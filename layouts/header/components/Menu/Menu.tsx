@@ -26,8 +26,8 @@ const Menu = ({ onCloseModal }: MenuProps) => {
   const languageText = t('language', 'Language');
   const currencyText = t('currency', 'Currency');
   return (
-    <>
-      <header className="sticky flex justify-between items-center pt-12 pb-5 px-5 bg-white text-dark-1000">
+    <section className="w-full h-full fixed inset-0 bg-white">
+      <header className="flex justify-between items-center pt-12 pb-5 px-5 bg-white text-dark-1000">
         <button onClick={onCloseModal}>
           <Close />
         </button>
@@ -51,7 +51,7 @@ const Menu = ({ onCloseModal }: MenuProps) => {
           <CurrencySelect />
         </TitleDrop>
       </section>
-    </>
+    </section>
   );
 };
 

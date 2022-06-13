@@ -64,8 +64,8 @@ const HotelSecondarySearchOptions = () => {
   const SORT_BY_OPTIONS = [
     { value: 'sortByPriceAsc', label: sortByPriceAsc },
     { value: 'sortByPriceDesc', label: sortByPriceDesc },
-    { value: 'sortByRatingDesc', label: sortByRatingDesc },
-    { value: 'sortByRatingAsc', label: sortByRatingAsc },
+    { value: 'sortByStarRatingDesc', label: sortByRatingDesc },
+    { value: 'sortByStarRatingAsc', label: sortByRatingAsc },
   ];
 
   const paymentTypesLabel = t('paymentTypes', 'Payment Type');
@@ -212,7 +212,7 @@ const HotelSecondarySearchOptions = () => {
 
   const FilterForm = () => (
     <section className="py-4 h-full overflow-y-scroll">
-      <KeywordSearchFilter />
+      {/* <KeywordSearchFilter /> */}
       <PriceRangeFilter />
       <SortByFilter />
       <Divider className="my-6" />
@@ -220,6 +220,12 @@ const HotelSecondarySearchOptions = () => {
       <Divider className="my-6" />
       <LabelFilter />
     </section>
+  );
+
+  const ClearFilterButton = () => (
+    <button className="text-base text-primary-1000 font-semibold underline">
+      Clear filters
+    </button>
   );
 
   const Modals = () => (
@@ -230,6 +236,7 @@ const HotelSecondarySearchOptions = () => {
         title={filtersLabel}
         primaryButtonText={applyFiltersLabel}
         primaryButtonAction={() => handleDispatchFilters()}
+        // headerAction={<ClearFilterButton />}
       >
         <FilterForm />
       </FullScreenModal>
