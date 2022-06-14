@@ -15,11 +15,12 @@ import { useTranslation } from 'react-i18next';
 interface RoomsProps {
   room: Room;
   hotelId: string;
+  hotelName: string;
 }
 
 const cancellableType = 'FREE_CANCELLATION';
 
-const RoomCard = ({ room, hotelId }: RoomsProps) => {
+const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
   const [t] = useTranslation('hotels');
   const [showAmenitiesModal, setShowAmenitiesModal] = useState(false);
   const { description: roomDescription, rates, amenities } = room;
@@ -42,7 +43,7 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
   return (
     <section className="shadow-container my-3 border border-dark-200 rounded">
       {images.length > 0 ? (
-        <ImageCarousel images={images} hotelName="" showDots={false} />
+        <ImageCarousel images={images} hotelName={hotelName} showDots={false} />
       ) : (
         <EmptyImage />
       )}

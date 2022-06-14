@@ -305,7 +305,13 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
               heightInPixels={hotelRooms.length > 4 ? 2800 : 0}
               displayButton={hotelRooms.length > 4}
             >
-              {<RoomsSection rooms={hotelRooms} hotelId={hotel.id} />}
+              {
+                <RoomsSection
+                  rooms={hotelRooms}
+                  hotelId={hotel.id}
+                  hotelName={name}
+                />
+              }
             </SeeMore>
           </section>
           <Divider />

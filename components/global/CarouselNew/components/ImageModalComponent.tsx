@@ -16,7 +16,6 @@ const ImageModalComponent = ({ image }: ImageModalProps) => {
         alt=""
       />
       <section className="w-full px-5 absolute top-[190px]">
-        <p className="text-sm text-white">Deluxe Room</p>
         <div className="relative mt-3">
           <div
             className="absolute inset-0 flex items-center"

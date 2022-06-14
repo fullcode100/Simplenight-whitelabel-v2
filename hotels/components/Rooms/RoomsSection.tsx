@@ -6,13 +6,14 @@ interface RoomsProps {
   rooms: Array<Room>;
   ref?: React.Ref<any>;
   hotelId: string;
+  hotelName: string;
 }
 
-const RoomsSection = ({ rooms, ref, hotelId }: RoomsProps) => {
+const RoomsSection = ({ rooms, ref, hotelId, hotelName }: RoomsProps) => {
   return (
     <section className="mt-4 px-4" ref={ref}>
       <RoomSectionTitle />
-      <RoomsList rooms={rooms} hotelId={hotelId} />
+      <RoomsList rooms={rooms} hotelId={hotelId} hotelName={hotelName} />
     </section>
   );
 };
