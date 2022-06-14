@@ -78,13 +78,15 @@ const RoomCard = ({ room, hotelId }: RoomsProps) => {
               onClose={() => setShowAmenitiesModal(false)}
               amenities={amenities}
             />
-            <button
-              type="button"
-              onClick={() => setShowAmenitiesModal(true)}
-              className="text-sm leading-5 text-left font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
-            >
-              {viewAllAmenitiesText}
-            </button>
+            {amenities.length > 3 && (
+              <button
+                type="button"
+                onClick={() => setShowAmenitiesModal(true)}
+                className="text-sm leading-5 text-left font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
+              >
+                {viewAllAmenitiesText}
+              </button>
+            )}
           </section>
           <Divider />
         </>
