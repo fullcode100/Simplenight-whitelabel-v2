@@ -310,6 +310,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           </section>
           <Divider />
           <DetailsSection />
+          <Divider className="mt-3" />
           <section ref={locationRef}>
             <LocationSection address={address} />
           </section>
