@@ -25,7 +25,7 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
     sn_booking_code: bookingCode,
   };
   const [t, i18next] = useTranslation('hotels');
-  const addToItineraryText = t('addToItinerary', 'Add to Itinernary');
+  const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookNowText = t('bookNow', 'Book Now');
 
   return (
