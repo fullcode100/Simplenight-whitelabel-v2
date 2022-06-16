@@ -87,8 +87,9 @@ const Client = () => {
   const getAddCustomerRequestBody = (): AddCustomerRequest => {
     const primaryContactCopy = deepCopy(primaryContactData);
     const request = { customer: primaryContactCopy };
-
-    request.customer.phone_number = primaryContactCopy.phone;
+    const phone = JSON.parse(primaryContactCopy.phone);
+    request.customer.phone_number = phone.phone_number;
+    request.customer.phone_prefix = phone.phone_prefix;
 
     delete request.customer.phone;
     delete request.customer.primary_contact;
