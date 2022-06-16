@@ -278,7 +278,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100">
+      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-16 z-10">
         <section className="h-12 flex justify-between items-center">
           <OccupancyAndDatesSection />
           <section>
