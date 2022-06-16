@@ -55,6 +55,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     starRating,
     minPrice,
     maxPrice,
+    roomsData,
   } = useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -123,7 +124,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const handleOnViewDetailClick = (hotel: Hotel) => {
     const { id } = hotel;
     router.push(
-      `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}`,
+      `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`,
     );
   };
 
