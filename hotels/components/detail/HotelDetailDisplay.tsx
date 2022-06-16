@@ -296,7 +296,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       {loaded ? (
         <main className="relative">
           {/* <ImagesSection /> */}
-          <ImageCarousel images={hotelImages} hotelName={name} />
+          <ImageCarousel images={hotelImages} title={name} />
           <GeneralInformationSection />
           <section ref={roomRef}>
             <SeeMore

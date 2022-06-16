@@ -43,7 +43,11 @@ const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
   return (
     <section className="shadow-container my-3 border border-dark-200 rounded">
       {images.length > 0 ? (
-        <ImageCarousel images={images} hotelName={hotelName} showDots={false} />
+        <ImageCarousel
+          images={images}
+          title={roomDescription}
+          showDots={false}
+        />
       ) : (
         <EmptyImage />
       )}
