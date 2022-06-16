@@ -62,7 +62,7 @@ const Button = ({
       sizeTailwindClass = 'w-full h-8';
       break;
     case 'full':
-      sizeTailwindClass = 'w-full h-12';
+      sizeTailwindClass = 'w-full h-12 text-base leading-[18px]';
       break;
     default:
       sizeTailwindClass = size;
