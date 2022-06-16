@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { formatAsDisplayDatetime } from 'helpers/dajjsUtils';
 import { useTranslation } from 'react-i18next';
 import { Booking } from 'types/booking/bookingType';
 
@@ -9,7 +10,7 @@ interface ConfirmationHeaderProps {
 const ConfirmationOrderInfo = ({ booking }: ConfirmationHeaderProps) => {
   const snOrderNumber = booking?.sn_order_number;
   const createdAt = booking?.created_at;
-  const bookingDate = dayjs(createdAt).format('MMM DD YYYY, HH:mm Z');
+  const bookingDate = formatAsDisplayDatetime(createdAt ?? '');
   const [t, i18next] = useTranslation('global');
   const simplenightOrderNumber = t(
     'simplenightOrderNumber',
