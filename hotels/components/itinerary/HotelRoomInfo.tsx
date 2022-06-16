@@ -45,7 +45,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   const resortFees = roomRateDetail?.post_paid_rate?.taxes.find(
     (tax) => tax.description === RESORT_FEES,
   );
-  const resortFeesFormatted = resortFees?.tax_amount.formatted;
+  const resortFeesFormatted = resortFees?.tax_amount.formatted ?? '$0.00';
 
   const startDate = room.extended_data?.start_date;
   const endDate = room.extended_data?.end_date;
