@@ -223,7 +223,9 @@ const Client = () => {
               <Divider />
               <CheckoutFooter type="client">
                 <CheckoutSummary
-                  amount={(cart?.total_amount as Amount) ?? empty}
+                  cart={cart}
+                  reload={reload}
+                  setReload={setReload}
                 />
                 <Button
                   value="Cancel"
