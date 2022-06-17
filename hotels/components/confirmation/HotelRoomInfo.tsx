@@ -6,6 +6,9 @@ import Button from 'components/global/Button/Button';
 
 import { diffDays } from 'helpers/dajjsUtils';
 import { Item } from 'types/booking/bookingType';
+import { ClientBookingItemRemover } from 'core/client/ClientBookingItemRemover';
+import { DeleteBookingItemRequest } from 'types/confirmation/DeleteBookingRequest';
+import { useRouter } from 'next/router';
 
 const RESORT_FEES = 'RESORT_FEES';
 const TAXES_AND_FEES = 'TAXESANDFEES';
@@ -15,6 +18,8 @@ interface HotelRoomInfoProps {
 }
 
 const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
+  const router = useRouter();
+
   const [t, i18next] = useTranslation('global');
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
   const supplierIdLabel = t('supplierReferenceID', 'Supplier Reference ID');
@@ -44,6 +49,17 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
   const endDate = room.extra_data?.end_date;
   const nights = startDate && endDate ? diffDays(startDate, endDate) : 0;
 
+  const handleItemRemoval = async () => {
+    const itemRemover = new ClientBookingItemRemover();
+    const requestData: DeleteBookingItemRequest = {
+      bookingId: room.booking_id,
+      itemId: room.booking_item_id,
+    };
+
+    await itemRemover.request(requestData, i18next);
+    router.reload();
+  };
+
   return (
     <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
       <RoomTitle roomName={roomName} nights={nights} />
@@ -65,6 +81,7 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
         size="full-sm"
         type="outlined"
         translationKey="cancelReservation"
+        onClick={handleItemRemoval}
       ></Button>
     </section>
   );
