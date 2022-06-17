@@ -20,7 +20,11 @@ const ModalHeader = ({
     <header
       className={`sticky flex justify-between items-center pt-12 pb-5 px-5 bg-dark-100 shadow-container border-b border-dark-200 text-dark-1000 ${headerClassName}`}
     >
-      <h2 className={`font-semibold text-base ${titleClassName}`}>{title}</h2>
+      <h2
+        className={`font-semibold text-base text-dark-1000 ${titleClassName}`}
+      >
+        {title}
+      </h2>
       <section className="flex justify-end gap-7 items-center">
         {headerAction}
         <button onClick={onCloseModal}>

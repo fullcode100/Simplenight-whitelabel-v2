@@ -9,6 +9,7 @@ import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import HotelResultsDisplay from 'hotels/components/search/HotelResultsDisplay';
 import HotelDetailDisplay from './components/detail/HotelDetailDisplay';
 import HotelItineraryDisplay from './components/itinerary/HotelItineraryDisplay';
+import HotelBreakdownDisplay from './components/checkout/HotelBreakdownDisplay';
 import HotelConfirmationDisplay from './components/confirmation/HotelConfirmationDisplay';
 import { HotelClientSearcher } from './core/search/HotelClientSearcher';
 import { HotelServerSearcher } from './core/search/HotelServerSearcher';
@@ -36,6 +37,7 @@ const Category: CategoryOption = {
   resultsDisplay: <></>,
   detailDisplay: <></>,
   itineraryDisplay: <></>,
+  breakdownDisplay: <></>,
   confirmationDisplay: <></>,
   core: {
     urls: {
@@ -58,6 +60,7 @@ const Category: CategoryOption = {
 Category.resultsDisplay = <HotelResultsDisplay HotelCategory={Category} />;
 Category.detailDisplay = <HotelDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <HotelItineraryDisplay Category={Category} />;
+Category.breakdownDisplay = <HotelBreakdownDisplay Category={Category} />;
 Category.confirmationDisplay = <HotelConfirmationDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new HotelClientSearcher(Category);

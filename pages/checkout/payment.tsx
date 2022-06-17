@@ -54,6 +54,7 @@ const Payment = () => {
   const [country, setCountry] = useState<string | null>(null);
   const [nameOnCard, setNameOnCard] = useState('');
   const [terms, setTerms] = useState(false);
+  const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   const storeState = useSelector((state) => state);
@@ -112,7 +113,7 @@ const Payment = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -153,7 +154,9 @@ const Payment = () => {
           </CheckoutMain>
           <CheckoutFooter type="payment">
             <Terms checkValue={terms} checkboxMethod={setTerms} />
-            {cart && <Summary amount={cart.total_amount} />}
+            {cart && (
+              <Summary cart={cart} reload={reload} setReload={setReload} />
+            )}
             <Button
               value="Back"
               onClick={() => router.back()}

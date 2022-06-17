@@ -41,6 +41,7 @@ const Client = () => {
   const [travelersUiSchema, setTravelersUiSchema] = useState();
   let primaryContactData: FormData | undefined;
 
+  const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   const [cart, setCart] = useState<CartObjectResponse | undefined>();
@@ -109,7 +110,7 @@ const Client = () => {
   useEffect(() => {
     cartId = JSON.parse(window.localStorage.getItem('cart') ?? 'null');
     handleGetCart().then(() => handleGetSchema());
-  }, []);
+  }, [reload]);
 
   return (
     <>
@@ -134,7 +135,9 @@ const Client = () => {
               <Divider />
               <CheckoutFooter type="client">
                 <CheckoutSummary
-                  amount={(cart?.total_amount as Amount) ?? empty}
+                  cart={cart}
+                  reload={reload}
+                  setReload={setReload}
                 />
                 <Button
                   value="Cancel"

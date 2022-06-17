@@ -5,7 +5,7 @@ import classnames from 'classnames';
 interface ModalFooterProps {
   primaryButtonText: string;
   secondaryButtonText?: string;
-  primaryButtonAction: (event?: MouseEvent<HTMLElement>) => void;
+  primaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   summary?: ReactNode;
   hasMultipleActions?: boolean;
@@ -30,7 +30,8 @@ const ModalFooter = ({
       className={`w-full bg-white py-6 px-5 shadow-container ${className}`}
     >
       {summary}
-      {hasMultipleActions ? (
+
+      {hasMultipleActions && (
         <section
           className={classnames(
             `grid grid-cols-2 gap-3 ${containerButtonsClassName}`,
@@ -52,7 +53,9 @@ const ModalFooter = ({
             onClick={primaryButtonAction}
           />
         </section>
-      ) : (
+      )}
+
+      {!hasMultipleActions && primaryButtonAction && (
         <Button
           value={primaryButtonText}
           size="full"

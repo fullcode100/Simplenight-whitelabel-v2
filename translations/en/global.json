@@ -49,5 +49,6 @@
   "cancelReservartion": "Cancel Reservation",
   "night": "Night",
   "country": "Country",
-  "supplierReferenceID": "Supplier Reference ID"
+  "supplierReferenceID": "Supplier Reference ID",
+  "priceBreakdown": "Price Breakdown"
 }

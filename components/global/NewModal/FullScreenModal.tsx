@@ -10,7 +10,7 @@ interface FullScreenModalProps {
   title: string;
   primaryButtonText?: string;
   secondaryButtonText?: string;
-  primaryButtonAction: (event?: MouseEvent<HTMLElement>) => void;
+  primaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   footerSummary?: ReactNode;
   hasMultipleActions?: boolean;
