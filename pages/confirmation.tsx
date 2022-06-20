@@ -10,10 +10,12 @@ import ConfirmationPayment from 'components/confirmation/ConfirmationPayment/Con
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { getBookingId } from 'core/client/services/BookingService';
 import { Booking } from 'types/booking/bookingType';
+import Loader from 'components/global/Loader/Loader';
 
 const Confirmation: NextPage = () => {
   const [booking, setBooking] = useState<Booking | undefined>(undefined);
   const [bookingId, setBookingId] = useState('');
+  const [loading, setLoading] = useState(false);
   const [t, i18next] = useTranslation('global');
   const bookedItinerary = t('bookedItinerary', 'Booked Itinerary');
   const itemsLabel = t('items', 'Items');
@@ -26,21 +28,28 @@ const Confirmation: NextPage = () => {
 
   useEffect(() => {
     if (bookingId) {
+      setLoading(true);
       getBookingId(i18next, bookingId).then((response) => {
         if (response?.booking) {
           setBooking(response?.booking);
         }
+        setLoading(false);
       });
     }
   }, [bookingId]);
 
   return (
     <main>
-      <header>
-        <ConfirmationHeader booking={booking} />
-      </header>
-
-      {booking && (
+      {loading ? (
+        <section className="p-5">
+          <Loader />
+        </section>
+      ) : (
+        <header>
+          <ConfirmationHeader booking={booking} />
+        </header>
+      )}
+      {!loading && booking && (
         <section>
           <section className="flex flex-col gap-2 px-5 pt-5 border-b border-dark-300">
             <section className="flex items-center justify-between">
