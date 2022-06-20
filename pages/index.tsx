@@ -82,7 +82,7 @@ const Home: NextPageWithLayout = () => {
     window.open(url, '_blank');
   };
   const HelpSection = () => (
-    <section className="p-4 mt-8 mb-4">
+    <section className="p-4 mt-4 mb-4">
       <section className="font-lato p-4 shadow-md rounded-4 text-center border">
         <h3 className="text-2xl">{helpTitle}</h3>
         <p className="text-lg font-light mt-4">{helpDescription}</p>
