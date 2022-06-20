@@ -52,8 +52,9 @@ const Header = ({ color }: HeaderProps) => {
         primaryButtonAction={handleCloseMenu}
         noFooter={true}
         noHeader={true}
-        className="max-w-[335px]"
+        className="max-w-[90%]"
       >
+        <div className="w-full h-full fixed inset-0 bg-black/25 z-10"></div>
         <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
       <header

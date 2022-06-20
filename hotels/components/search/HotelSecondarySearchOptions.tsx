@@ -41,11 +41,24 @@ const HotelSecondarySearchOptions = () => {
   );
 
   const [paymentTypes, setPaymentTypes] = useState<string>('');
-  let minStarRating: number;
-  let maxStarRating: number;
+
+  const initialPriceRange = {
+    min: '100',
+    max: '5000',
+  };
+  const [minPrice, setMinPrice] = useState<string>(
+    (queryFilter?.minPrice as string) || initialPriceRange.min,
+  );
+  const [maxPrice, setMaxPrice] = useState<string>(
+    (queryFilter?.maxPrice as string) || initialPriceRange.max,
+  );
+  const [minStarRating, setMinStarRating] = useState<string>(
+    (queryFilter.starRating && queryFilter?.starRating[0]) || '1',
+  );
+  const [maxStarRating, setMaxStarRating] = useState<string>(
+    (queryFilter.starRating && queryFilter?.starRating[2]) || '5',
+  );
   let starRating = queryFilter?.starRating as string;
-  let minPrice = queryFilter?.minPrice as string;
-  let maxPrice = queryFilter?.maxPrice as string;
 
   const [t, i18n] = useTranslation('hotels');
   const filtersLabel = t('filters', 'Filters');
@@ -74,25 +87,20 @@ const HotelSecondarySearchOptions = () => {
   const textMapView = t('mapView', 'Map View');
   const textListView = t('listView', 'List View');
   const priceRangeLabel = t('priceRange', 'Price Range');
+  const clearFiltersText = t('clearFilters', 'Clear filters');
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
   };
 
-  const handleMinStarRating = (value: number) => {
-    minStarRating = value;
-  };
-
-  const handleMaxStarRating = (value: number) => {
-    maxStarRating = value;
-  };
-
-  const handleMinPrice = (value: number) => {
-    minPrice = value.toString();
-  };
-
-  const handleMaxPrice = (value: number) => {
-    maxPrice = value.toString();
+  const handleClearFilters = () => {
+    setMinPrice(initialPriceRange.min);
+    setMaxPrice(initialPriceRange.max);
+    setMinStarRating('1');
+    setMaxStarRating('5');
+    setFreeCancellation(false);
+    setPayAtProperty(false);
+    setSortBy('sortByPriceAsc');
   };
 
   const setStarRatingFilter = () => {
@@ -149,15 +157,15 @@ const HotelSecondarySearchOptions = () => {
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
       <RangeSlider
-        initialMin={starRating ? parseInt(starRating.split(',')[0]) : 1}
-        initialMax={starRating ? parseInt(starRating.split(',')[1]) : 5}
+        initialMin={minStarRating ? parseInt(minStarRating) : 1}
+        initialMax={maxStarRating ? parseInt(maxStarRating) : 5}
         min={1}
         max={5}
         step={1}
         minDifference={0}
         type="star"
-        onChangeMin={handleMinStarRating}
-        onChangeMax={handleMaxStarRating}
+        setMinState={setMinStarRating}
+        setMaxState={setMaxStarRating}
       />
     </FilterContainer>
   );
@@ -173,8 +181,8 @@ const HotelSecondarySearchOptions = () => {
         step={100}
         minDifference={100}
         type="price"
-        onChangeMin={handleMinPrice}
-        onChangeMax={handleMaxPrice}
+        setMinState={setMinPrice}
+        setMaxState={setMaxPrice}
       />
     </FilterContainer>
   );
@@ -223,8 +231,11 @@ const HotelSecondarySearchOptions = () => {
   );
 
   const ClearFilterButton = () => (
-    <button className="text-base text-primary-1000 font-semibold underline">
-      Clear filters
+    <button
+      className="text-base text-primary-1000 font-semibold underline"
+      onClick={handleClearFilters}
+    >
+      {clearFiltersText}
     </button>
   );
 
@@ -236,7 +247,7 @@ const HotelSecondarySearchOptions = () => {
         title={filtersLabel}
         primaryButtonText={applyFiltersLabel}
         primaryButtonAction={() => handleDispatchFilters()}
-        // headerAction={<ClearFilterButton />}
+        headerAction={<ClearFilterButton />}
       >
         <FilterForm />
       </FullScreenModal>

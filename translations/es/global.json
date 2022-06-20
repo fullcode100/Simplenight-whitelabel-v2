@@ -69,6 +69,7 @@
   "cancelReservartion": "Cancelar Reserva",
   "night": "Noche",
   "country": "País",
+  "clearFilters": "Limpiar filtros",
   "supplierReferenceID": "ID De Referencia Del Proveedor",
   "priceBreakdown": "Desglose de Precios"
 }

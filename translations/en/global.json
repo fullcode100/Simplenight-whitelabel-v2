@@ -50,5 +50,6 @@
   "night": "Night",
   "country": "Country",
   "supplierReferenceID": "Supplier Reference ID",
+  "clearFilters": "Clear filters",
   "priceBreakdown": "Price Breakdown"
 }
