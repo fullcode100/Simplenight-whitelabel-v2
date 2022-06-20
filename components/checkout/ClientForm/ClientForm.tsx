@@ -17,7 +17,7 @@ const ClientForm = ({
   onSubmit,
 }: ClientFormProps) => {
   return (
-    <section>
+    <section className="px-4">
       {schema && uiSchema && (
         <FormSchema
           schema={schema}

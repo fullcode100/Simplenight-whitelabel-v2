@@ -54,7 +54,7 @@ export const TextTemplate = (props: any) => {
 
 export const ObjectTemplate = (props: any) => {
   const { children } = props;
-  return <section className="px-5">{children}</section>;
+  return <section>{children}</section>;
 };
 
 export const ObjectFieldTemplate = (props: any) => {

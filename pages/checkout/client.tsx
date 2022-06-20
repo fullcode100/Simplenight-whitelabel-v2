@@ -40,6 +40,10 @@ const Client = () => {
   const [travelersFormSchema, setTravelersFormSchema] = useState();
   const [travelersUiSchema, setTravelersUiSchema] = useState();
   let primaryContactData: FormData | undefined;
+  let additionalRequest = '';
+  const handleAdditionalRequestChange = (value: string) => {
+    additionalRequest = value;
+  };
 
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -132,6 +136,7 @@ const Client = () => {
                 items={cart?.items}
                 schema={travelersFormSchema}
                 uiSchema={travelersUiSchema}
+                onChange={handleAdditionalRequestChange}
               />
               <Divider />
               <CheckoutFooter type="client">

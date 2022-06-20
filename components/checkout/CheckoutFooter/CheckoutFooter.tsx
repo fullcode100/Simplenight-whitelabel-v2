@@ -7,7 +7,7 @@ type FooterProps = {
 };
 
 const CheckoutFooter = ({ children, type, className }: FooterProps) => {
-  const styles = `flex flex-col gap-4 px-5 ${className} ${
+  const styles = `flex flex-col gap-4 ${className} ${
     type === 'client'
       ? 'pt-3 pb-6 '
       : 'py-6 bg-dark-100 border-t border-dark-300'
