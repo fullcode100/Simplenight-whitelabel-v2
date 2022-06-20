@@ -4,6 +4,13 @@
 /node_modules
 /.pnp
 .pnp.js
+package-lock.json
+yarn.lock
+
+# Docker
+docker/node_modules
+docker/app
+docker/.next
 
 # testing
 /coverage
@@ -19,6 +26,7 @@
 .DS_Store
 *.pem
 .vscode
+.eslintcache
 
 # debug
 npm-debug.log*
@@ -26,6 +34,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -36,3 +45,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Eslint
+.eslintcache

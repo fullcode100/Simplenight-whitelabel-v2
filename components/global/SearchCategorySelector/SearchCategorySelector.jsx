@@ -2,20 +2,18 @@ import React from 'react';
 import cx from 'classnames';
 
 import { useSelector } from 'react-redux';
-import { useIntl } from 'react-intl';
 import { getFeatures } from '/store/selectors/core';
-import { searchTypeOptions } from '../../../helpers/searchConstants';
+import { categoryOptions } from '../../../providers/categoryProvider';
 
 import styles from './SearchCategorySelector.module.scss';
 
 const SearchCategorySelector = ({ searchType, onItemClick, className }) => {
   const features = useSelector(getFeatures);
-  const intl = useIntl();
 
   return (
     <>
       <div className={cx(styles.content, className)}>
-        {searchTypeOptions.map((item) => {
+        {categoryOptions.map((item) => {
           return features[item.value] ? (
             <div
               className={cx(styles.searchType, {
@@ -31,9 +29,7 @@ const SearchCategorySelector = ({ searchType, onItemClick, className }) => {
               >
                 {item.value === searchType ? item.selectedIcon : item.icon}
               </div>
-              <div className={styles.text}>
-                {intl.formatMessage({ id: item.name, defaultValue: item.name })}
-              </div>
+              <div className={styles.text}>{item.name}</div>
             </div>
           ) : (
             ''

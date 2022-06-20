@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import { flatten } from 'flat';
+
 export const replaceStringWithChar = (string: string, char: string) => {
   const stringChars = string.split('');
   const transformedChars = stringChars.map(() => char);
@@ -7,7 +10,7 @@ export const replaceStringWithChar = (string: string, char: string) => {
 export const obfuscateString = (
   string: string,
   amountOfCharsVisible: number,
-  defaultValue: string = '',
+  defaultValue = '',
 ) => {
   const firstChars = string.substring(0, amountOfCharsVisible);
   const lastChars = string.substring(amountOfCharsVisible - 1);
@@ -31,4 +34,47 @@ export const getHexFromRGB = (rgb: string): string => {
   const b = rgbChars[2];
 
   return `#${r}${g}${b}`;
+};
+
+export const parseQueryNumber = (query: string | string[]): number => {
+  const parsedQuery = parseInt(query as string, 10);
+  return isNaN(parsedQuery) ? 0 : parsedQuery;
+};
+
+export const camelToKebab = (key: string) =>
+  key.replace(/([A-Z])/g, '-$1').toLowerCase();
+
+export const camelKeysToKebabKeys = (obj: { [key: string]: string }) => {
+  const newObject: { [key: string]: string } = {};
+
+  Object.keys(obj).forEach((key: string) => {
+    newObject[camelToKebab(key)] = obj[key];
+  });
+
+  return newObject;
+};
+
+export const flattenObjectOfObjects = (obj: { [key: string]: string }) => {
+  const flattenedObj = {};
+  Object.keys(obj).forEach((key) => {
+    Object.assign(flattenedObj, obj[key]);
+  });
+  return flattenedObj;
+};
+
+export const flattenedObject = (obj: { [key: string]: any }, maxDepth = 1) =>
+  flatten(obj, { maxDepth });
+
+export const copy = (text: string) => {
+  navigator.clipboard.writeText(text);
+};
+
+export const fromUpperCaseToCapitilize = (text = '') => {
+  const textArr = text?.split(' ');
+
+  for (let i = 0; i < textArr.length; i++) {
+    textArr[i] = textArr[i].charAt(0) + textArr[i].slice(1).toLowerCase();
+  }
+
+  return textArr?.join(' ');
 };

@@ -1,3 +1,4 @@
+/* eslint indent: off */
 import { CoreTheme } from 'types/redux/CoreState';
 import { ReduxReducerAction } from '../../../types/redux/ReduxReducerAction';
 import { initialState } from './initialState';
@@ -45,6 +46,26 @@ const coreReducer = (
             return theme;
           }),
         },
+      };
+    case types.SET_IS_MAPS_LOADED:
+      return {
+        ...state,
+        isMapsLoaded: payload,
+      };
+    case types.SET_HOME_PAGE_SCROLL_HANDLER:
+      return {
+        ...state,
+        homepageScrollHandler: payload,
+      };
+    case types.SET_IS_PAYMENT_LOADED:
+      return {
+        ...state,
+        isPaymentLoaded: payload,
+      };
+    case types.SET_CURRENCY:
+      return {
+        ...state,
+        currency: payload,
       };
     default:
       return state;

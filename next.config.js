@@ -11,4 +11,22 @@ module.exports = withReactSvg({
   webpack(config, options) {
     return config;
   },
+  experimental: {
+    outputStandalone: true,
+  },
+  images: {
+    domains: [
+      'photos.hotelbeds.com',
+      'mobileimg.priceline.com',
+      'cataas.com',
+      'dummyimage.com',
+    ],
+  },
+  webpackDevMiddleware: (config) => {
+    config.watchOptions = {
+      poll: 500,
+      aggregateTimeout: 300,
+    };
+    return config;
+  },
 });

@@ -1,11 +1,12 @@
-import { searchTypeOptions } from '../../../helpers/searchConstants';
+import { injectProps } from 'helpers/reactUtils';
+import { useCategory } from 'hooks/categoryInjection/useCategory';
 
 const SearchCategoryForm = ({ searchType }: { searchType: string }) => {
-  const searchOption = searchTypeOptions.find(
-    (option) => option.value === searchType,
-  );
+  const searchOption = useCategory(searchType);
 
-  const searchForm = searchOption?.searchForm;
+  const searchForm = injectProps(searchOption?.searchForm, {
+    hasReRoute: true,
+  });
 
   return searchForm ?? null;
 };
