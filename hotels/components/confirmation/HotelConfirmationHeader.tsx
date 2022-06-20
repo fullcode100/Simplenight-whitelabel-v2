@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { Item } from 'types/booking/bookingType';
 import { useTranslation } from 'react-i18next';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
+import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 
 interface HotelConfirmationHeaderProps {
   item?: Item;
@@ -17,16 +18,23 @@ const HotelConfirmationHeader = ({
   const roomsAmount = item?.extra_data?.items?.length;
   const roomsLabel = t('rooms', 'Rooms');
   const roomsFormatted = `${roomsAmount} ${roomsLabel}`;
-
+  const hotelId = item?.extra_data?.id;
+  const startDate = item?.extra_data?.start_date;
+  const endDate = item?.extra_data?.end_date;
+  const rooms = item?.extra_data?.items?.length;
+  const detailHref = `/detail/hotels/${hotelId}?startDate=${startDate}&endDate=${endDate}&rooms=${rooms}`;
   return (
     <section className="flex flex-row gap-3">
       <IconRoundedContainer className="bg-primary-1000">
         <div className="text-white">{icon}</div>
       </IconRoundedContainer>
       <section className="grid gap-1">
-        <section className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-[18px] leading-[22px] ">
+        <ExternalLink
+          href={detailHref}
+          className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-[18px] leading-[22px] "
+        >
           {hotelName}
-        </section>
+        </ExternalLink>
         <section className="font-semibold text-dark-800 text-[16px] leading-[22px]">
           {roomsFormatted}
         </section>
