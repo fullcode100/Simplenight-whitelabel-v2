@@ -16,7 +16,7 @@ const ConfirmationHeader = ({ booking }: ConfirmationHeaderProps) => {
   const itemsQuantity = booking?.items.length;
 
   return (
-    <section className="flex flex-col gap-4 p-5 bg-dark-100 border-b-[1px] border-dark-300">
+    <section className="flex flex-col gap-3 p-5 bg-dark-100 border-b-[1px] border-dark-300">
       <PageTitle
         title={orderConfirmed}
         icon={<CircleConfirmation />}

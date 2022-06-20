@@ -31,7 +31,7 @@ const ConfirmationPayment = ({ booking }: ConfirmationPaymentProps) => {
             height={22}
           />
         </section>
-        <h4 className="text-base text-dark-1000 font-semibold self-center">
+        <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold self-center">
           {transactionAmount.formatted}
         </h4>
       </section>

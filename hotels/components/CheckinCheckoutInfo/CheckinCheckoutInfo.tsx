@@ -25,7 +25,7 @@ const CheckinCheckoutInfo = ({
       <section className="flex flex-row gap-1">
         <CalendarIcon className="h-3.5 mt-1 text-primary-1000" />
         {checkinDate && checkinTime && (
-          <section className="font-semibold text-sm">
+          <section className="font-semibold text-xs leading-lg">
             <p className="text-dark-800">{checkinLabel}</p>
             <p className="text-dark-1000">
               {formatAsDisplayDate(checkinDate)}{' '}
@@ -37,7 +37,7 @@ const CheckinCheckoutInfo = ({
       <section className="flex flex-row gap-1">
         <CalendarIcon className="h-3.5 mt-1 text-primary-1000" />
         {checkoutDate && checkoutTime && (
-          <section className="font-semibold text-sm">
+          <section className="font-semibold text-xs leading-lg">
             <p className="text-dark-800">{checkoutLabel}</p>
             <p className="text-dark-1000">
               {formatAsDisplayDate(checkoutDate)}{' '}

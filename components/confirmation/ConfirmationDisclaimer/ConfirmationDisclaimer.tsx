@@ -9,11 +9,13 @@ const ConfirmationDisclaimer = () => {
   );
 
   return (
-    <section className="flex bg-white gap-2.5 p-1.5 border border-gray-300 rounded">
-      <span className="text-primary-1000 h-5">
+    <section className="flex bg-white gap-2.5 px-1 border border-gray-300 rounded">
+      <span className="mt-1 text-primary-1000 h-5">
         <InfoCircle />
       </span>
-      <h1 className="font-semibold text-[14px]">{confirmationDisclaimer}</h1>
+      <p className="font-semibold text-[14px] leading-[20px]">
+        {confirmationDisclaimer}
+      </p>
     </section>
   );
 };

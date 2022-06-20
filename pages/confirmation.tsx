@@ -16,6 +16,7 @@ const Confirmation: NextPage = () => {
   const [bookingId, setBookingId] = useState('');
   const [t, i18next] = useTranslation('global');
   const bookedItinerary = t('bookedItinerary', 'Booked Itinerary');
+  const itemsLabel = t('items', 'Items');
 
   const bookingIdParams = useQuery().bookingId;
 
@@ -42,10 +43,14 @@ const Confirmation: NextPage = () => {
       {booking && (
         <section>
           <section className="flex flex-col gap-2 px-5 pt-5 border-b border-dark-300">
-            <PageTitle
-              title={bookedItinerary}
-              productsAmount={booking.items.length}
-            />
+            <section className="flex items-center justify-between">
+              <h1 className="font-semibold text-dark-800 text-lg leading-[24px]">
+                {bookedItinerary}
+              </h1>
+              <p className="font-semibold text-dark-800 text-xs leading-lg">
+                {booking.items.length} {itemsLabel}
+              </p>
+            </section>
             <ConfirmationItemList booking={booking} />
           </section>
           <ConfirmationPayment booking={booking} />

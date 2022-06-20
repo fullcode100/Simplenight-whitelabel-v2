@@ -18,7 +18,7 @@ const RoomTitle = ({ roomName, nights }: RoomTitleProps) => {
       <p className="text-[16px] leading-[22px] text-dark-1000">
         {roomNameFormatted}
       </p>
-      <p className="text-sm text-dark-800">
+      <p className="text-xs leading-lg text-dark-800">
         {nights} {nightsLabel}
       </p>
     </section>

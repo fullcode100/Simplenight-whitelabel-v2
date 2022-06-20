@@ -38,7 +38,7 @@ const RoomPriceBreakdown = ({
     <>
       <section className="flex flex-row gap-1">
         <PersonsIcon className="h-3.5 mt-1 text-primary-1000" />
-        <p className="font-semibold text-sm text-dark-1000">
+        <p className="font-semibold text-xs leading-lg text-dark-1000">
           {ADULTS_COUNT} {adultsLabel}, {CHILDREN_COUNT} {childrenLabel}
         </p>
       </section>
@@ -49,7 +49,9 @@ const RoomPriceBreakdown = ({
       <div className="border-t border-dark-200"></div>
 
       <section className="flex justify-between">
-        <p className="font-semibold text-sm text-dark-1000">{totalLabel}</p>
+        <p className="font-semibold text-xs leading-lg text-dark-1000">
+          {totalLabel}
+        </p>
         <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
           {total}
         </p>

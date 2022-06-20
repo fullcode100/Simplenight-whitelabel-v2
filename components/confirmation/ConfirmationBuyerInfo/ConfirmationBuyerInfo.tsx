@@ -21,7 +21,7 @@ const ConfirmationBuyerInfo = ({ booking }: ConfirmationBuyerInfoProps) => {
   return (
     <section className="flex flex-col gap-2">
       <section className="flex gap-2">
-        <Customer className="text-primary-1000" />
+        <Customer className="mt-0.5 text-primary-1000" />
         <section className="flex flex-col">
           <h4 className="font-semibold text-dark-700">{orderName}</h4>
           <h1 className="font-semibold text-dark-1000">
@@ -30,11 +30,11 @@ const ConfirmationBuyerInfo = ({ booking }: ConfirmationBuyerInfoProps) => {
         </section>
       </section>
       <section className="flex gap-2 items-center">
-        <Email className="text-primary-1000 h-4" />
+        <Email className="mt-0.5 text-primary-1000 h-4" />
         <h4 className="font-semibold text-dark-1000 underline">{email}</h4>
       </section>
       <section className="flex gap-2 items-center">
-        <Phone className="text-primary-1000 h-4" />
+        <Phone className="mt-0.5 text-primary-1000 h-4" />
         <h4 className="font-semibold text-dark-1000 underline">
           +{phonePrefix} {phoneNumber}
         </h4>
