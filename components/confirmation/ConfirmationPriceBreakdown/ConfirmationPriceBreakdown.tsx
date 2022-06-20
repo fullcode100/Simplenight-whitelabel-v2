@@ -12,7 +12,7 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
   const otherFees = t('otherFees', 'Other Fees');
 
   const {
-    order_total: orderTotal,
+    sub_total: orderSubTotal,
     tax_total: taxTotal,
     tax_total_postpaid: taxTotalPostpaid,
   } = booking;
@@ -24,19 +24,19 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
           {itemsSubtotal}
         </h4>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
-          {orderTotal.formatted}
+          {orderSubTotal?.formatted}
         </h4>
       </section>
       <section className="flex justify-between mb-3">
         <h4 className="font-semibold text-dark-600 text-[18px]">{taxes}</h4>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
-          {taxTotal.formatted}
+          {taxTotal?.formatted}
         </h4>
       </section>
       <section className="flex justify-between mb-3">
         <h4 className="font-semibold text-dark-600 text-[18px]">{otherFees}</h4>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
-          {taxTotalPostpaid.formatted}
+          {taxTotalPostpaid?.formatted}
         </h4>
       </section>
     </section>

@@ -31,6 +31,7 @@ export interface Booking {
   tax_total: Amount;
   tax_total_postpaid: Amount;
   updated_at: string;
+  sub_total: Amount;
 }
 
 export interface Item {
