@@ -41,11 +41,24 @@ const HotelSecondarySearchOptions = () => {
   );
 
   const [paymentTypes, setPaymentTypes] = useState<string>('');
-  let minStarRating: number;
-  let maxStarRating: number;
+
+  const initialPriceRange = {
+    min: '100',
+    max: '5000',
+  };
+  const [minPrice, setMinPrice] = useState<string>(
+    (queryFilter?.minPrice as string) || initialPriceRange.min,
+  );
+  const [maxPrice, setMaxPrice] = useState<string>(
+    (queryFilter?.maxPrice as string) || initialPriceRange.max,
+  );
+  const [minStarRating, setMinStarRating] = useState<string>(
+    (queryFilter.starRating && queryFilter?.starRating[0]) || '1',
+  );
+  const [maxStarRating, setMaxStarRating] = useState<string>(
+    (queryFilter.starRating && queryFilter?.starRating[2]) || '5',
+  );
   let starRating = queryFilter?.starRating as string;
-  let minPrice = queryFilter?.minPrice as string;
-  let maxPrice = queryFilter?.maxPrice as string;
 
   const initialPriceRange = {
     min: '100',
