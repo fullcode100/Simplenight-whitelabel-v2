@@ -38,7 +38,7 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
   const taxesAndFees = roomRateDetail?.taxes.find(
     (tax) => tax.description === TAXES_AND_FEES,
   );
-  const taxesAndFeesFormatted = taxesAndFees?.tax_amount.formatted;
+  const taxesAndFeesFormatted = taxesAndFees?.tax_amount.formatted ?? '$0.00';
 
   const resortFees = roomRateDetail?.post_paid_rate?.taxes.find(
     (tax) => tax.description === RESORT_FEES,
@@ -64,8 +64,10 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
     <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
       <RoomTitle roomName={roomName} nights={nights} />
       <section>
-        <p className="font-semibold text-sm text-dark-700">{supplierIdLabel}</p>
-        <p className="font-semibold text-sm text-primary-1000">
+        <p className="font-semibold text-xs leading-lg text-dark-700">
+          {supplierIdLabel}
+        </p>
+        <p className="font-semibold text-xs leading-lg text-primary-1000">
           {supplierReferenceID}
         </p>
       </section>
