@@ -51,6 +51,9 @@
   "country": "Country",
   "supplierReferenceID": "Supplier Reference ID",
   "priceBreakdown": "Price Breakdown",
+  "lookupYourOrder": "Look Up Your Order",
+  "reviewAndManageYourOrder": "Review and manage your order",
+  "goToOrderLookup": "Go to Order Lookup",
   "room": "Room",
   "rooms": "Rooms",
   "clearFilters": "Clear filters"

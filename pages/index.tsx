@@ -12,6 +12,7 @@ import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import Image from 'next/image';
+import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => (
   <div className="min-h-[50vh] w-[100vw] px-4 pt-[96px] pb-[26px]">
@@ -27,6 +28,12 @@ const Home: NextPageWithLayout = () => {
     'Email or call us to get support from our team.',
   );
   const homePageText = t('homePageText');
+  const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
+  const reviewAndManageYourOrder = t(
+    'reviewAndManageYourOrder',
+    'Review and manage your order',
+  );
+  const goToOrderLookup = t('goToOrderLookup', 'Go to Order Lookup');
 
   const mainRef = useRef<HTMLDivElement>(null);
   const homepageScrollHandler = getHomepageScrollHandler();
@@ -70,7 +77,7 @@ const Home: NextPageWithLayout = () => {
     window.open(url, '_blank');
   };
   const HelpSection = () => (
-    <section className="p-4 mt-8 mb-4">
+    <section className="p-4 mt-4 mb-4">
       <section className="font-lato p-4 shadow-md rounded-4 text-center border">
         <h3 className="text-2xl">{helpTitle}</h3>
         <p className="text-lg font-light mt-4">{helpDescription}</p>
@@ -92,6 +99,17 @@ const Home: NextPageWithLayout = () => {
             {customerSupportPhone}
           </button>
         </section>
+      </section>
+    </section>
+  );
+
+  const OrderLookupCard = () => (
+    <section className="p-4 mt-8">
+      <section className="font-lato p-4 shadow-md rounded-4 text-center border grid place-items-center">
+        <OrderLookupIcon />
+        <h3 className="text-2xl mt-4">{lookupYourOrder}</h3>
+        <p className="text-lg font-light mt-3">{reviewAndManageYourOrder}</p>
+        <Button value={goToOrderLookup} size="full" className="mt-4" />
       </section>
     </section>
   );
@@ -125,7 +143,7 @@ const Home: NextPageWithLayout = () => {
           </section>
         </UpperSectionBackground>
       </section>
-
+      <OrderLookupCard />
       <HelpSection />
     </main>
   );
