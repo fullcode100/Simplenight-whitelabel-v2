@@ -34,8 +34,8 @@ export class ServerCartGetter extends ServerRequester<CartServerResponse> {
     response: NextApiResponse<CartServerResponse>,
     result: CartServerResponse,
   ): void {
-    if (result.cart) {
-      const formatResult = formatCart(result.cart[0]);
+    if (result.carts) {
+      const formatResult = formatCart(result.carts[0]);
       sendSuccess(response, { cart: formatResult });
     }
   }

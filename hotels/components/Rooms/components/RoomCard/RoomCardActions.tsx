@@ -21,7 +21,6 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
   };
   const bookingCode = room.rates.min_rate.sn_booking_code;
   const itemToBook = {
-    inventory_id: hotelId,
     sn_booking_code: bookingCode,
   };
   const [t, i18next] = useTranslation('hotels');

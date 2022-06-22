@@ -27,7 +27,6 @@ const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
   const { min_rate: minRate } = rates;
   const { rate, cancellation_policy: cancellationPolicy } = minRate;
   const itemToBook = {
-    inventory_id: hotelId,
     sn_booking_code: minRate.sn_booking_code,
   };
   const viewAllAmenitiesText = t('viewAllAmenities', 'View all amenities');

@@ -17,7 +17,7 @@ export interface CartSchemaResponse {
   form_schema: any;
 }
 export interface CartServerResponse {
-  cart?: CartObjectResponse[];
+  carts?: CartObjectResponse[];
   item?: Item;
 }
 
