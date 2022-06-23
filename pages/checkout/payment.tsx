@@ -151,7 +151,6 @@ const Payment = () => {
                 </>
               )}
             </CheckoutForm>
-            Detail section - both shares margins
           </CheckoutMain>
           <CheckoutFooter type="payment">
             <Terms checkValue={terms} checkboxMethod={setTerms} />
