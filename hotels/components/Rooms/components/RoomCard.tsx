@@ -46,6 +46,7 @@ const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
           images={images}
           title={roomDescription}
           showDots={false}
+          showIndexDot={false}
         />
       ) : (
         <EmptyImage />
