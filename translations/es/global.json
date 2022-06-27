@@ -74,5 +74,7 @@
   "priceBreakdown": "Desglose de Precios",
   "lookupYourOrder": "Busque su pedido",
   "reviewAndManageYourOrder": "Revisar y gestionar su pedido.",
-  "goToOrderLookup": "Ir a la búsqueda de pedidos"
+  "goToOrderLookup": "Búsqueda de la Orden",
+  "orderLookup": "Búsqueda de pedidos",
+  "categories": "Categorías"
 }

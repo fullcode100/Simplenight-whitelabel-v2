@@ -23,29 +23,35 @@ const Footer = () => {
   const poweredByText = t({ translationKey: 'poweredBy', value: 'Powered by' });
 
   return (
-    <footer className="bg-dark-1000 text-white p-4 w-full text-center font-light text-sm">
-      <SimplenightLogo />
-      <p className="mt-3">
-        {' '}
-        {poweredByText}{' '}
-        <ExternalLink
-          href={corporateLink}
-          className="font-medium underline uppercase text-white focus:text-white focus:underline hover:text-white hover:underline"
-        >
-          Simplenight
-        </ExternalLink>
-      </p>
-      <div className="h-[1px] bg-dark-800 my-6"></div>
-      <div className="flex flex-col gap-3 underline capitalize">
+    <footer className="bg-dark-200 text-dark-1000 p-4 w-full text-center font-light text-sm lg:flex lg:justify-between lg:px-24 lg:py-9">
+      <section className="lg:text-left font-normal">
+        <SimplenightLogo className="mx-auto lg:mx-0 lg:w-[11rem] lg:h-[4.5rem]" />
+        <p className="mt-3 lg:text-[0.75rem] lg:mt-1">
+          {' '}
+          {poweredByText}{' '}
+          <ExternalLink
+            href={corporateLink}
+            className="font-medium underline uppercase focus:text-white focus:underline hover:text-white hover:underline"
+          >
+            Simplenight
+          </ExternalLink>
+        </p>
+        <p className="hidden mt-6 mb-2 lg:block lg:text-xs">
+          {' '}
+          © {currentYear} Simplenight{' '}
+        </p>
+      </section>
+      <div className="h-[1px] bg-dark-300 my-6 lg:hidden" />
+      <section className="flex flex-col gap-3 underline capitalize lg:grid lg:grid-cols-2 lg:font-normal lg:text-xs lg:place-content-start lg:text-right">
         <ExternalLink
           href={simplenightTermsOfService}
-          className="underline text-white focus:text-white focus:underline hover:text-white hover:underline"
+          className="underline focus:text-white focus:underline hover:text-white hover:underlin"
         >
           Simplenight {termsOfServiceText}
         </ExternalLink>
         <ExternalLink
           href={simplenightPrivacyPolicy}
-          className="underline text-white focus:text-white focus:underline hover:text-white hover:underline"
+          className="underline focus:text-white focus:underline hover:text-white hover:underline"
         >
           Simplenight {privacyPolicyText}
         </ExternalLink>
@@ -60,8 +66,8 @@ const Footer = () => {
             </ExternalLink>
           </>
         )}
-      </div>
-      <p className="mt-6 mb-2"> © {currentYear} Simplenight </p>
+      </section>
+      <p className="mt-6 mb-2 lg:hidden"> © {currentYear} Simplenight </p>
     </footer>
   );
 };

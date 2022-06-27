@@ -67,7 +67,7 @@ const LocationInput = ({
         onSelect={handleSelect}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <section className="relative">
+          <section className="relative lg:w-full">
             <IconInput
               icon={<LocationPin className="h-5 w-5 text-dark-700" />}
               {...getInputProps({
@@ -78,7 +78,7 @@ const LocationInput = ({
             />
             <section
               className={classnames(
-                'autocomplete-dropdown-container rounded absolute z-10 w-full',
+                'autocomplete-dropdown-container rounded absolute z-10 w-full block',
                 {
                   'shadow-md': suggestions[0],
                 },

@@ -4,11 +4,10 @@ import LanguageSelect from 'components/global/LanguageSelect/LanguageSelect';
 import TitleDrop from 'components/global/TitleDrop/TitleDrop';
 import CurrencySelect from 'components/global/CurrencySelect/CurrencySelect';
 import Divider from 'components/global/Divider/Divider';
-import { getFeatures } from 'store/selectors/core';
-import { useSelector } from 'react-redux';
 import Close from 'public/icons/assets/cross.svg';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import useDisplayCategory from 'hooks/category/useDisplayCategory';
 
 interface MenuProps {
   onCloseModal: (event?: MouseEvent<HTMLElement>) => void;
@@ -16,11 +15,7 @@ interface MenuProps {
 
 const Menu = ({ onCloseModal }: MenuProps) => {
   const [t] = useTranslation('global');
-  const features = useSelector(getFeatures);
-  const activeFeatures = Object.keys(features).filter(
-    (feature) => features[feature],
-  );
-  const displayDropdown = activeFeatures.length > 1;
+  const displayDropdown = useDisplayCategory();
   const logoUrl =
     'https://storage.googleapis.com/simplenight_public_web/Simplenight_Logo_SmallStacked_Vector.png';
   const languageText = t('language', 'Language');
