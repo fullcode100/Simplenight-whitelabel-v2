@@ -1,23 +1,12 @@
-import { Dispatch, SetStateAction } from 'react';
 import HotelRoomInfo from './HotelRoomInfo';
-import { HotelCart } from 'types/cart/CartType';
+import { Item } from 'types/cart/CartType';
 
 interface HotelRoomsInfoProps {
-  item?: HotelCart;
-  reload?: boolean;
-  setReload?: Dispatch<SetStateAction<boolean>>;
+  item?: Item;
 }
 
-const HotelRoomsInfo = ({ item, reload, setReload }: HotelRoomsInfoProps) => {
-  return (
-    <>
-      {item?.items?.map((room, index) => (
-        <section key={index}>
-          <HotelRoomInfo room={room} reload={reload} setReload={setReload} />
-        </section>
-      ))}
-    </>
-  );
+const HotelRoomsInfo = ({ item }: HotelRoomsInfoProps) => {
+  return <>{item && <HotelRoomInfo room={item} />}</>;
 };
 
 export default HotelRoomsInfo;

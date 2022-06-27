@@ -47,10 +47,6 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   );
   const resortFeesFormatted = resortFees?.tax_amount.formatted;
 
-  const startDate = room.extended_data?.start_date;
-  const endDate = room.extended_data?.end_date;
-  const nights = startDate && endDate ? diffDays(startDate, endDate) : 0;
-
   const handleRemoveRoom = () => {
     const roomToRemove = {
       cartId: room.cart_id,
@@ -63,13 +59,19 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
 
   return (
     <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
-      <RoomTitle roomName={roomName} nights={nights} />
+      <RoomTitle
+        roomName={roomName}
+        roomQty={room.room_qty}
+        nights={room.nights ?? 0}
+      />
       <RoomPriceBreakdown
         total={total}
         taxesAndFees={taxesAndFeesFormatted}
         resortFees={resortFeesFormatted}
         cancellationPolicy={cancellationPolicy}
         amenities={amenities}
+        adultsCount={room.adults}
+        childrenCount={room.children}
       />
       <Button
         value={removeLabel}

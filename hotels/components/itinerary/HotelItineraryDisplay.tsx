@@ -23,9 +23,7 @@ const HotelItineraryDisplay = ({
   return (
     <CollapseBordered
       title={<HotelItineraryHeader item={item} icon={Category.icon} />}
-      body={
-        <HotelItineraryBody item={item} reload={reload} setReload={setReload} />
-      }
+      body={<HotelItineraryBody item={item} />}
       footer={
         <HotelItineraryFooter
           item={item}

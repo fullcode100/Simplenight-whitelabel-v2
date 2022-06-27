@@ -17,11 +17,7 @@ const HotelBreakdownBody = ({
   return (
     <>
       <HotelGeneralInfo item={item?.extended_data} />
-      <HotelRoomsInfo
-        item={item?.extended_data}
-        reload={reload}
-        setReload={setReload}
-      />
+      <HotelRoomsInfo item={item} reload={reload} setReload={setReload} />
     </>
   );
 };

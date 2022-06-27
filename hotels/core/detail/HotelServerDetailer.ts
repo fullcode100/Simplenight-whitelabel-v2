@@ -36,4 +36,13 @@ export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
       params,
     });
   }
+
+  protected override postRequest(
+    request: NextApiRequest,
+    response: NextApiResponse<HotelDetailResponse>,
+    result: AxiosResponse<ApiResponse<any, HotelDetailResponse>, any>,
+  ): void {
+    result.data.data.hotels[0].nights = result.data.echo_request.nights;
+    result.data.data.hotels[0].guests = result.data.echo_request.guests;
+  }
 }

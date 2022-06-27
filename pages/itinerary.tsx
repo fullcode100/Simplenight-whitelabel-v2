@@ -64,13 +64,15 @@ const Itinerary: NextPage = () => {
         <section>
           {!hasItems && <ItineraryEmpty />}
 
-          {hasItems && <ListHeader />}
           {hasItems && (
-            <ItineraryItemList
-              cart={cart}
-              reload={reload}
-              setReload={setReload}
-            />
+            <>
+              <ListHeader />
+              <ItineraryItemList
+                cart={cart}
+                reload={reload}
+                setReload={setReload}
+              />
+            </>
           )}
         </section>
 

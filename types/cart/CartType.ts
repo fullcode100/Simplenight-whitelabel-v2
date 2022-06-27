@@ -75,6 +75,11 @@ export interface Item {
   sn_booking_code?: string;
   supplier?: string;
   thumbnail_url?: string;
+  nights?: number;
+  guests?: number;
+  adults?: number;
+  children?: number;
+  room_qty?: number;
 }
 
 export interface Customer {

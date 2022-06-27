@@ -28,6 +28,8 @@ interface DatePickerProps {
   cancellationPolicy?: CancellationPolicy;
   features: string[];
   itemToBook: Item;
+  nights: number;
+  guests: number;
 }
 
 const PriceBreakdownModal = ({
@@ -38,6 +40,8 @@ const PriceBreakdownModal = ({
   cancellationPolicy,
   features,
   itemToBook,
+  nights,
+  guests,
 }: DatePickerProps) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -88,7 +92,9 @@ const PriceBreakdownModal = ({
         addToCart(itemToBook, i18next, store);
         onClose();
       }}
-      footerSummary={<BreakdownSummary rate={rates} />}
+      footerSummary={
+        <BreakdownSummary rate={rates} nights={nights} guests={guests} />
+      }
       hasMultipleActions={true}
       noHeader={true}
       containerButtonsClassName="grid-cols-1"

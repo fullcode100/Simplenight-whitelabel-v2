@@ -7,7 +7,7 @@ interface ClientCartProps {
   items?: Item[];
   schema: any;
   uiSchema: any;
-  onChange: (value: string) => void;
+  onChange: (value: string, cartItemId: string) => void;
 }
 
 const ClientCart = ({ items, schema, uiSchema, onChange }: ClientCartProps) => {

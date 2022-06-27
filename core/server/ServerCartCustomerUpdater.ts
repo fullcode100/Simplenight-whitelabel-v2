@@ -41,8 +41,7 @@ export class ServerCartCustomerUpdater extends ServerRequester<CartServerRespons
     result: CartServerResponse,
   ): void {
     if (result.carts) {
-      const formatResult = formatCart(result.carts[0]);
-      sendSuccess(response, { cart: formatResult });
+      sendSuccess(response, { carts: result.carts[0] });
     }
   }
 }

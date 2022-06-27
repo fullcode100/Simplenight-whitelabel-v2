@@ -7,6 +7,8 @@ import FormSchema from 'components/global/FormSchema/FormSchema';
 import CartItemDropdown from 'components/checkout/CartItemDropdown/CartItemDropdown';
 import { useTranslation } from 'react-i18next';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { deepCopy } from 'helpers/objectUtils';
+import { IChangeEvent } from '@rjsf/core';
 
 const ClientCartItem = ({
   index,
@@ -20,7 +22,7 @@ const ClientCartItem = ({
   const [additionalRequest, setAdditionalRequest] = useState('');
   const handleChangeAdditionalRequest = (e: any) => {
     setAdditionalRequest(e.target.value);
-    onChange(e.target.value);
+    onChange(e.target.value, item.cart_item_id);
   };
   const additionalRequestsPlaceholder = t(
     'additionalRequestsPlaceholder',
@@ -31,7 +33,7 @@ const ClientCartItem = ({
   const roomsText = t('rooms', 'Rooms');
   const { name } = item.extended_data.details;
   const { description } = item.extended_data.min_rate_room;
-  const itemsQty = item.extended_data.items.length;
+  const itemsQty = item.room_qty;
   return (
     <CartItemDropdown
       title={name}

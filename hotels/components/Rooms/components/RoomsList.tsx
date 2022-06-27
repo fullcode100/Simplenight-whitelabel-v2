@@ -5,9 +5,17 @@ interface RoomsProps {
   rooms: Array<Room>;
   hotelId: string;
   hotelName: string;
+  nights: number;
+  guests: number;
 }
 
-const RoomsList = ({ rooms, hotelId, hotelName }: RoomsProps) => {
+const RoomsList = ({
+  rooms,
+  hotelId,
+  hotelName,
+  nights,
+  guests,
+}: RoomsProps) => {
   return (
     <section>
       {rooms.map((room) => {
@@ -17,6 +25,8 @@ const RoomsList = ({ rooms, hotelId, hotelName }: RoomsProps) => {
             room={room}
             hotelId={hotelId}
             hotelName={hotelName}
+            nights={nights}
+            guests={guests}
           />
         );
       })}

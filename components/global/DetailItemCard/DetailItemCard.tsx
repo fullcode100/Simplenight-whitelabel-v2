@@ -12,6 +12,8 @@ interface DetailItemCardProps {
   cancellationPolicy?: CancellationPolicy;
   features: string[];
   itemToBook: Item;
+  nights: number;
+  guests: number;
 }
 
 const DetailItemCard = ({
@@ -21,6 +23,8 @@ const DetailItemCard = ({
   cancellationPolicy,
   features,
   itemToBook,
+  nights,
+  guests,
 }: DetailItemCardProps) => {
   const [showPriceBreakdown, setShowPriceBreakdown] = useState(false);
 
@@ -34,6 +38,8 @@ const DetailItemCard = ({
         cancellationPolicy={cancellationPolicy}
         features={features}
         itemToBook={itemToBook}
+        nights={nights}
+        guests={guests}
       />
       <section>
         <button

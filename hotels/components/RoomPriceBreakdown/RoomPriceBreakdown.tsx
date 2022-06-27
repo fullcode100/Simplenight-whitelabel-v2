@@ -4,15 +4,14 @@ import AmountDetailItem from './components/AmountDetailItem';
 import PersonsIcon from 'public/icons/assets/multiple-persons.svg';
 import ExtraDetailItem from './components/ExtraDataItem';
 
-const ADULTS_COUNT = 2;
-const CHILDREN_COUNT = 2;
-
 interface RoomPriceBreakdownProps {
   total?: string;
   taxesAndFees?: string;
   resortFees?: string;
   cancellationPolicy?: string;
   amenities?: string;
+  adultsCount?: number;
+  childrenCount?: number;
 }
 
 const RoomPriceBreakdown = ({
@@ -21,6 +20,8 @@ const RoomPriceBreakdown = ({
   resortFees,
   cancellationPolicy,
   amenities,
+  adultsCount = 2,
+  childrenCount = 0,
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
   const adultsLabel = t('adults', 'Adults');
@@ -39,7 +40,7 @@ const RoomPriceBreakdown = ({
       <section className="flex flex-row gap-1">
         <PersonsIcon className="h-3.5 mt-1 text-primary-1000" />
         <p className="font-semibold text-xs leading-lg text-dark-1000">
-          {ADULTS_COUNT} {adultsLabel}, {CHILDREN_COUNT} {childrenLabel}
+          {adultsCount} {adultsLabel}, {childrenCount} {childrenLabel}
         </p>
       </section>
 
