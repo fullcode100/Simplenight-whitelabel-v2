@@ -74,6 +74,9 @@
   "priceBreakdown": "Desglose de Precios",
   "lookupYourOrder": "Busque su pedido",
   "reviewAndManageYourOrder": "Revisar y gestionar su pedido.",
+  "manageYourOrder": "Administre su Pedido",
+  "lastName": "Apellido",
+  "noOrderMatchResult": "No hay órdenes que coincidan con su búsqueda.",
   "goToOrderLookup": "Búsqueda de la Orden",
   "orderLookup": "Búsqueda de pedidos",
   "categories": "Categorías"

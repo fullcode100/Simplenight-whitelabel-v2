@@ -58,5 +58,8 @@
   "rooms": "Rooms",
   "clearFilters": "Clear filters",
   "orderLookup": "Order Lookup",
+  "manageYourOrder": "Manage Your Order",
+  "lastName": "Last Name",
+  "noOrderMatchResult": "No orders matching your search.",
   "categories": "Categories"
 }

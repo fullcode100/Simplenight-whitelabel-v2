@@ -2,6 +2,7 @@ import { i18n } from 'i18next';
 import { CreateBookingRequest } from 'types/checkout/CreateBookingRequest';
 import { ClientBookingCreator } from '../ClientBookingCreator';
 import { ClientBookingGetter } from '../ClientBookingGetter';
+import { ClientBookingsGetter } from '../ClientBookingsGetter';
 
 const PAYMENT_METHOD = 'TOKEN';
 
@@ -40,6 +41,25 @@ export const createBooking = (
   };
 
   return tryCreateBooking(bookingRequest, i18next);
+};
+
+export const getBookingByOrderNumber = async (
+  i18next: i18n,
+  snOrderNumber: string,
+  customerLastName: string,
+) => {
+  const bookingsGetter = new ClientBookingsGetter();
+  const bookingRequest = {
+    snOrderNumber,
+    customerLastName,
+  };
+
+  try {
+    const { booking } = await bookingsGetter.request(bookingRequest, i18next);
+    return booking;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getBookingId = async (i18next: i18n, bookingId: string) => {

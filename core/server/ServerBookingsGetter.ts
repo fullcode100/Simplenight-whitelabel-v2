@@ -1,16 +1,17 @@
+/* eslint-disable camelcase */
+import { AxiosInstance } from 'axios';
+import { NextApiRequest, NextApiResponse } from 'next';
+
 import {
   applyApiBaseUrlV2,
   sendSuccess,
 } from 'apiCalls/config/responseHelpers';
-import { AxiosInstance } from 'axios';
-import { formatBooking } from 'helpers/bookingUtils';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { GetBookingResponse } from 'types/confirmation/GetBookingResponse';
-import { ApiResponse } from 'types/global/Request';
-import { CoreOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
+import { ApiResponse } from 'types/global/Request';
+import { GetBookingResponse } from 'types/confirmation/GetBookingResponse';
+import { CoreOption } from 'types/search/SearchTypeOptions';
 
-export class ServerBookingGetter extends ServerRequester<GetBookingResponse> {
+export class ServerBookingsGetter extends ServerRequester<GetBookingResponse> {
   public constructor() {
     const BookingCoreOption: CoreOption = {
       value: 'Booking',
@@ -21,13 +22,13 @@ export class ServerBookingGetter extends ServerRequester<GetBookingResponse> {
 
   protected override doRequest(
     request: NextApiRequest,
-    _response: NextApiResponse,
+    _response: NextApiResponse<GetBookingResponse>,
     axios: AxiosInstance,
   ) {
     const { query } = request;
-    const { id } = query;
+    const { sn_order_number, customer_last_name } = query;
 
-    const endpoint = `/bookings/${id}`;
+    const endpoint = `/bookings/?sn_order_number=${sn_order_number}&customer_last_name=${customer_last_name}`;
 
     const url = applyApiBaseUrlV2(endpoint, request);
 
@@ -35,14 +36,13 @@ export class ServerBookingGetter extends ServerRequester<GetBookingResponse> {
   }
 
   protected override postRequestResult(
-    request: NextApiRequest,
+    _request: NextApiRequest,
     response: NextApiResponse<GetBookingResponse>,
     result: GetBookingResponse,
   ): void {
     if (result.booking) {
       const { booking } = result;
-      const formatResult = formatBooking(booking);
-      sendSuccess(response, { booking: formatResult });
+      sendSuccess(response, { booking });
     }
   }
 }

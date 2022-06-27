@@ -1,0 +1,72 @@
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
+
+import BaseInput from 'components/global/Input/BaseInput';
+import Button from 'components/global/Button/Button';
+import { getBookingByOrderNumber } from 'core/client/services/BookingService';
+
+const CONFIRMATION_URI = '/confirmation';
+
+const LookupForm = () => {
+  const router = useRouter();
+
+  const [t, i18next] = useTranslation('global');
+  const simplenightOrderNumber = t(
+    'simplenightOrderNumber',
+    'Simplenight Order Number',
+  );
+  const lastNameLabel = t('lastName', 'Last Name');
+  const lastNamePlaceholder = t('lastNamePlaceholder', 'Order Last Name');
+  const findOrder = t('findOrder', 'Find Order');
+  const noOrderMatch = t(
+    'noOrderMatchResult',
+    'No orders matching your search.',
+  );
+
+  const [orderNumber, setOrderNumber] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [noOrder, setNoOrder] = useState(false);
+
+  const handleFindOrder = () => {
+    getBookingByOrderNumber(i18next, orderNumber, lastName).then((response) => {
+      if (response) {
+        const bookingId = response?.booking_id;
+        router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}&lookup=true`);
+      }
+      setNoOrder(true);
+    });
+  };
+
+  useEffect(() => {
+    setNoOrder(false);
+  }, [orderNumber, lastName]);
+
+  return (
+    <section className="grid gap-5 bg-white rounded p-4">
+      <section className="grid gap-4">
+        <BaseInput
+          label={simplenightOrderNumber}
+          value={orderNumber}
+          placeholder={'E.g. ABCD1234'}
+          inputClassName={'placeholder:text-dark-600'}
+          onChange={(e) => setOrderNumber(e.target.value)}
+        />
+        <BaseInput
+          label={lastNameLabel}
+          value={lastName}
+          placeholder={lastNamePlaceholder}
+          inputClassName={'placeholder:text-dark-600'}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+        {noOrder && (
+          <p className="text-sm leading-sm text-red-1000">{noOrderMatch}</p>
+        )}
+      </section>
+
+      <Button value={findOrder} size="full" onClick={handleFindOrder} />
+    </section>
+  );
+};
+
+export default LookupForm;

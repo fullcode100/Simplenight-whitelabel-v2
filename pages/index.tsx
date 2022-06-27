@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getHomepageScrollHandler } from '../store/selectors/core';
-import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+
+import Button from 'components/global/Button/Button';
+import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
+import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
+import HelpSection from 'components/global/HelpSection/HelpSection';
+import { getHomepageScrollHandler } from '../store/selectors/core';
 import { Tab } from 'components/global/Tabs/types';
 import { tabsMock } from 'mocks/tabsMock';
-import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
-import Button from 'components/global/Button/Button';
-import EmailIcon from 'public/icons/assets/email.svg';
-import PhoneCall from 'public/icons/assets/phone-call.svg';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
-import Image from 'next/image';
 import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
 import CategorySelectDesktop from 'layouts/header/components/Menu/CategorySelectDestkop';
 
@@ -21,13 +21,12 @@ const UpperSectionBackground = ({ children }: { children?: any }) => (
   </div>
 );
 
+const LOOKUP_URI = '/lookup';
+
 const Home: NextPageWithLayout = () => {
+  const router = useRouter();
+
   const [t, i18next] = useTranslation('global');
-  const helpTitle = t('needHelpTitle', 'Need some help?');
-  const helpDescription = t(
-    'needHelpDescription',
-    'Email or call us to get support from our team.',
-  );
   const homePageText = t('homePageText');
   const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
   const reviewAndManageYourOrder = t(
@@ -40,8 +39,6 @@ const Home: NextPageWithLayout = () => {
   const homepageScrollHandler = getHomepageScrollHandler();
 
   const [searchType, setSearchType] = useState('hotels');
-  const { partnerInformation } = useBrandConfig();
-  const { customerSupportEmail, customerSupportPhone } = partnerInformation;
 
   const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
     setActiveTab(tab);
@@ -72,43 +69,9 @@ const Home: NextPageWithLayout = () => {
     };
   }, [homepageScrollHandler]);
 
-  const handleLinkOpen = (url: string) => {
-    window.open(url, '_blank');
+  const redirectToLookup = () => {
+    router.push(LOOKUP_URI);
   };
-  interface HelpLinkProps {
-    icon?: React.ReactNode;
-    link?: string;
-    text?: string;
-  }
-  const HelpLink = ({ icon, link = '', text }: HelpLinkProps) => (
-    <section className="flex gap-3 justify-center items-center mt-4 text-base text-primary-1000 underline font-semibold lg:mt-0">
-      <section className="text-white bg-primary-1000 h-8 w-8 rounded-full flex justify-center items-center">
-        {icon}
-      </section>
-      <button onClick={() => handleLinkOpen(link)}>{text}</button>
-    </section>
-  );
-  const HelpSection = () => (
-    <section className="p-4 mt-4 mb-4 lg:m-0 lg:flex lg:[50%] lg:flex-1">
-      <section className="font-lato p-4 shadow-md rounded-4 text-center border text-dark-1000 lg:w-full lg:py-10 lg:px-6">
-        <h3 className="text-2xl lg:text-3xl lg:mt-4">{helpTitle}</h3>
-        <p className="text-lg font-light mt-4">{helpDescription}</p>
-        <section className="lg:flex first-letter lg:justify-center lg:items-center lg:mt-5">
-          <HelpLink
-            icon={<EmailIcon />}
-            link={`mailto:${customerSupportEmail}`}
-            text={t('emailSupport', 'Email Support')}
-          />
-          <span className="hidden lg:block h-[1.5rem] w-[1px] bg-dark-300 mx-8" />
-          <HelpLink
-            icon={<PhoneCall />}
-            link={`tel:${customerSupportPhone}`}
-            text={customerSupportPhone}
-          />
-        </section>
-      </section>
-    </section>
-  );
 
   const OrderLookupCard = () => (
     <section className="p-4 mt-8 text-dark-1000 lg:m-0 lg:flex lg:w-[50%] lg:flex-1">
@@ -125,6 +88,7 @@ const Home: NextPageWithLayout = () => {
             value={goToOrderLookup}
             size="full"
             className="mt-4 lg:mt-2 lg:w-auto lg:px-5 lg:font-normal lg:h-11"
+            onClick={redirectToLookup}
           />
         </section>
       </section>
@@ -161,7 +125,7 @@ const Home: NextPageWithLayout = () => {
           </section>
         </UpperSectionBackground>
       </section>
-      <section className="lg:flex lg:px-20 lg:py-10">
+      <section className="py-0.5 lg:flex lg:px-20 lg:py-10">
         <OrderLookupCard />
         <HelpSection />
       </section>
