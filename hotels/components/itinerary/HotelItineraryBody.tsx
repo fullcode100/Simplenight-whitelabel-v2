@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Item } from 'types/cart/CartType';
 import HotelGeneralInfo from './HotelGeneralInfo';
 import HotelRoomsInfo from './HotelRoomsInfo';
