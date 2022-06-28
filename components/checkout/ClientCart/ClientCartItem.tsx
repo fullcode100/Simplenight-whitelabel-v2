@@ -29,12 +29,12 @@ const ClientCartItem = ({
   const toggleText = t('useOrderName', 'Use Order Name');
   const roomText = t('room', 'Room');
   const roomsText = t('rooms', 'Rooms');
-  const { chain_name } = item.extended_data.details.chain;
+  const { name } = item.extended_data.details;
   const { description } = item.extended_data.min_rate_room;
   const itemsQty = item.extended_data.items.length;
   return (
     <CartItemDropdown
-      title={chain_name}
+      title={name}
       description={`${itemsQty} ${usePlural(itemsQty, roomText, roomsText)}`}
     >
       <section className="grid gap-3 mt-5">
