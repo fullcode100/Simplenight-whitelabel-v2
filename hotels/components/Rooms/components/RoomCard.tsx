@@ -45,7 +45,7 @@ const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
         <ImageCarousel
           images={images}
           title={roomDescription}
-          showDots={false}
+          showDots={true}
           showIndexDot={false}
         />
       ) : (
