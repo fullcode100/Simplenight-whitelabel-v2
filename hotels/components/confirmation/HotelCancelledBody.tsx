@@ -1,30 +1,24 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import { Item, PrimaryContact } from 'types/booking/bookingType';
 import HotelGeneralInfo from './HotelGeneralInfo';
 import HotelCustomerInfo from './HotelCustomerInfo';
-import HotelRoomsInfo from './HotelRoomsInfo';
+import HotelRefundInfo from './HotelRefundInfo';
 
-interface HotelConfirmationBodyProps {
+interface HotelCancelledBodyProps {
   item?: Item;
   primaryContact?: PrimaryContact;
-  loading?: boolean;
-  setLoading?: Dispatch<SetStateAction<boolean>>;
 }
 
-const HotelConfirmationBody = ({
+const HotelCancelledBody = ({
   item,
   primaryContact,
-  loading,
-  setLoading,
-}: HotelConfirmationBodyProps) => {
+}: HotelCancelledBodyProps) => {
   return (
     <section className="border-t border-dark-300">
       <HotelCustomerInfo item={item} primaryContact={primaryContact} />
       <HotelGeneralInfo item={item} />
-      <HotelRoomsInfo item={item} loading={loading} setLoading={setLoading} />
+      <HotelRefundInfo item={item} />
     </section>
   );
 };
 
-export default HotelConfirmationBody;
+export default HotelCancelledBody;

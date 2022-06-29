@@ -15,14 +15,17 @@ const HotelConfirmationHeader = ({
 }: HotelConfirmationHeaderProps) => {
   const [t, i18next] = useTranslation('hotels');
   const hotelName = item?.name;
-  const roomsAmount = item?.extra_data?.items?.length;
-  const roomsLabel = t('rooms', 'Rooms');
+  const roomsAmount = item?.quantity;
+  const room = t('room', 'Room');
+  const rooms = t('rooms', 'Rooms');
+  const roomsLabel = item?.room_qty == 1 ? room : rooms;
   const roomsFormatted = `${roomsAmount} ${roomsLabel}`;
+
   const hotelId = item?.extra_data?.id;
   const startDate = item?.extra_data?.start_date;
   const endDate = item?.extra_data?.end_date;
-  const rooms = item?.extra_data?.items?.length;
-  const detailHref = `/detail/hotels/${hotelId}?startDate=${startDate}&endDate=${endDate}&rooms=${rooms}`;
+  const detailHref = `/detail/hotels/${hotelId}?startDate=${startDate}&endDate=${endDate}&rooms=${roomsAmount}`;
+
   return (
     <section className="flex flex-row gap-3">
       <IconRoundedContainer className="bg-primary-1000">

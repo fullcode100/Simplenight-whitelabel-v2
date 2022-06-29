@@ -3,7 +3,6 @@ import {
   sendSuccess,
 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
-import { formatBooking } from 'helpers/bookingUtils';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { GetBookingResponse } from 'types/confirmation/GetBookingResponse';
 import { ApiResponse } from 'types/global/Request';
@@ -41,8 +40,7 @@ export class ServerBookingGetter extends ServerRequester<GetBookingResponse> {
   ): void {
     if (result.booking) {
       const { booking } = result;
-      const formatResult = formatBooking(booking);
-      sendSuccess(response, { booking: formatResult });
+      sendSuccess(response, { booking });
     }
   }
 }

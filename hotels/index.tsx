@@ -11,6 +11,7 @@ import HotelDetailDisplay from './components/detail/HotelDetailDisplay';
 import HotelItineraryDisplay from './components/itinerary/HotelItineraryDisplay';
 import HotelBreakdownDisplay from './components/checkout/HotelBreakdownDisplay';
 import HotelConfirmationDisplay from './components/confirmation/HotelConfirmationDisplay';
+import HotelCancelledDisplay from './components/confirmation/HotelCancelledDisplay';
 import { HotelClientSearcher } from './core/search/HotelClientSearcher';
 import { HotelServerSearcher } from './core/search/HotelServerSearcher';
 import { HotelClientDetailer } from './core/detail/HotelClientDetailer';
@@ -39,6 +40,7 @@ const Category: CategoryOption = {
   itineraryDisplay: <></>,
   breakdownDisplay: <></>,
   confirmationDisplay: <></>,
+  cancelledDisplay: <></>,
   core: {
     urls: {
       search: {
@@ -62,6 +64,7 @@ Category.detailDisplay = <HotelDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <HotelItineraryDisplay Category={Category} />;
 Category.breakdownDisplay = <HotelBreakdownDisplay Category={Category} />;
 Category.confirmationDisplay = <HotelConfirmationDisplay Category={Category} />;
+Category.cancelledDisplay = <HotelCancelledDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new HotelClientSearcher(Category);
 Category.core.ServerSearcher = new HotelServerSearcher(Category);

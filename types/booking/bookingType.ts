@@ -35,15 +35,18 @@ export interface Booking {
 }
 
 export interface Item {
+  adults: number;
   booking_id: string;
   booking_item_id: string;
   cancellation_policy: CancellationPolicy;
+  children: number;
   extra_data: ItemExtraData;
   inventory_id: string;
   name: string;
   payment_type_status: string;
   product_order_number: string;
   quantity: string;
+  room_qty: number;
   status: string;
   supplier: string;
   supplier_order_number: string;

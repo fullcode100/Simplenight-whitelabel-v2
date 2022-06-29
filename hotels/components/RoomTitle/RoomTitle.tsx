@@ -4,13 +4,17 @@ import { fromUpperCaseToCapitilize } from 'helpers/stringUtils';
 
 interface RoomTitleProps {
   roomName?: string;
-  nights: number;
   roomQty?: number;
+  nights?: number;
 }
 
 const RoomTitle = ({ roomName, nights, roomQty = 1 }: RoomTitleProps) => {
   const [t, i18next] = useTranslation('hotels');
+  const nightLabel = t('night', 'Night');
   const nightsLabel = t('nights', 'Nights');
+  const cancelled = t('cancelled', 'Cancelled');
+
+  const nightsCountLabel = nights == 1 ? nightLabel : nightsLabel;
 
   const roomNameFormatted = fromUpperCaseToCapitilize(roomName);
 
@@ -19,9 +23,13 @@ const RoomTitle = ({ roomName, nights, roomQty = 1 }: RoomTitleProps) => {
       <p className="text-[16px] leading-[22px] text-dark-1000">
         {roomQty}x {roomNameFormatted}
       </p>
-      <p className="text-xs leading-lg text-dark-800">
-        {nights} {nightsLabel}
-      </p>
+      {nights != undefined ? (
+        <p className="text-xs leading-lg text-dark-800">
+          {nights} {nightsCountLabel}
+        </p>
+      ) : (
+        <p className="text-xs leading-lg text-dark-800">{cancelled}</p>
+      )}
     </section>
   );
 };

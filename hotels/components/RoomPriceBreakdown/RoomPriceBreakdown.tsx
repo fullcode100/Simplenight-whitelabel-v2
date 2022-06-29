@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
 import AmountDetailItem from './components/AmountDetailItem';
-import PersonsIcon from 'public/icons/assets/multiple-persons.svg';
 import ExtraDetailItem from './components/ExtraDataItem';
+import AdultChildrenAmount from '../AdultChildrenAmount/AdultChildrenAmount';
 
 interface RoomPriceBreakdownProps {
   total?: string;
@@ -24,8 +24,6 @@ const RoomPriceBreakdown = ({
   childrenCount = 0,
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
-  const adultsLabel = t('adults', 'Adults');
-  const childrenLabel = t('children', 'Children');
   const resortFeeLabel = t('resortFee', 'Resort Fee');
   const taxesAndFeesLabel = t('taxesAndFees', 'Taxes And Fees');
   const totalLabel = t('total', 'Total');
@@ -37,12 +35,7 @@ const RoomPriceBreakdown = ({
 
   return (
     <>
-      <section className="flex flex-row gap-1">
-        <PersonsIcon className="h-3.5 mt-1 text-primary-1000" />
-        <p className="font-semibold text-xs leading-lg text-dark-1000">
-          {adultsCount} {adultsLabel}, {childrenCount} {childrenLabel}
-        </p>
-      </section>
+      <AdultChildrenAmount adults={adultsCount} child={childrenCount} />
 
       <AmountDetailItem amount={resortFees} label={resortFeeLabel} />
       <AmountDetailItem amount={taxesAndFees} label={taxesAndFeesLabel} />
