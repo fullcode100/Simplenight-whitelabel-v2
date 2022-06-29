@@ -20,10 +20,12 @@ import {
   initialYear,
 } from 'helpers/dajjsUtils';
 import { useTranslation } from 'react-i18next';
+import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isBetween);
+require('dayjs/locale/es');
 
 interface DatePickerProps {
   showDatePicker: boolean;
@@ -44,7 +46,8 @@ const DatePicker = ({
   onEndDateChange,
   openOnStart,
 }: DatePickerProps) => {
-  const [t] = useTranslation('hotels');
+  const [t, i18n] = useTranslation('hotels');
+  dayjs.locale(i18n.resolvedLanguage);
   const datesText = t('dates', 'Dates');
   const applyText = t('apply', 'Apply');
   const [calendar, setCalendar] = useState(
@@ -119,7 +122,9 @@ const DatePicker = ({
         {calendar.map((month: MonthObject, index) => {
           return (
             <Fragment key={index}>
-              <h1 className="col-span-7 font-semibold text-dark-1000 mt-3 bg-white">{`${month.monthName} ${month.yearNumber}`}</h1>
+              <h1 className="col-span-7 font-semibold text-dark-1000 mt-3 bg-white">{`${fromLowerCaseToCapitilize(
+                month.monthName,
+              )} ${month.yearNumber}`}</h1>
               <WeekDays />
               {month.days.map((day: DayObject, index) => (
                 <Day

@@ -32,7 +32,7 @@
   "hotelsFound": "Hoteles Encontrados",
   "hotel": "Hotel",
   "locationInputLabel": "Destino",
-  "locationInputPlaceholder": "A donde quieres ir?",
+  "locationInputPlaceholder": "¿A dónde quieres ir?",
   "checkIn": "Entrada",
   "checkOut": "Salida",
   "dates": "Fechas",
@@ -52,5 +52,7 @@
   "taxesAndFees": "Impuestos y Honorarios",
   "cancellationPolicy": "Política de Cancelación",
   "priceIncludes": "Precio Incluye",
-  "guestsAndRooms": "Huéspedes y habitaciones"
+  "guestsAndRooms": "Huéspedes y habitaciones",
+  "guest": "Huésped",
+  "guests": "Huéspedes"
 }

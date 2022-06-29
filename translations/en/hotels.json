@@ -52,5 +52,7 @@
   "taxesAndFees": "Taxes And Fees",
   "cancellationPolicy": "Cancellation Policy",
   "priceIncludes": "Price Includes",
-  "guestsAndRooms": "Guests & Rooms"
+  "guestsAndRooms": "Guests & Rooms",
+  "guest": "Guest",
+  "guests": "Guests"
 }

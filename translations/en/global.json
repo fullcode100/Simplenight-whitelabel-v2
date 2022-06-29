@@ -61,5 +61,19 @@
   "manageYourOrder": "Manage Your Order",
   "lastName": "Last Name",
   "noOrderMatchResult": "No orders matching your search.",
-  "categories": "Categories"
+  "categories": "Categories",
+  "sundayText": "Sunday",
+  "sundayAbbr": "S",
+  "mondayText": "Monday",
+  "mondayAbbr": "M",
+  "tuesdayText": "Tuesday",
+  "tuesdayAbbr": "T",
+  "wednesdayText": "Wednesday",
+  "wednesdayAbbr": "W",
+  "thursdayText": "Thursday",
+  "thursdayAbbr": "T",
+  "fridayText": "Friday",
+  "fridayAbbr": "F",
+  "saturdayText": "Saturday",
+  "saturdayAbbr": "S"
 }

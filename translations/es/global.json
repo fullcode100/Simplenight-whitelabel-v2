@@ -79,5 +79,19 @@
   "noOrderMatchResult": "No hay órdenes que coincidan con su búsqueda.",
   "goToOrderLookup": "Búsqueda de la Orden",
   "orderLookup": "Búsqueda de pedidos",
-  "categories": "Categorías"
+  "categories": "Categorías",
+  "sundayText": "Domingo",
+  "sundayAbbr": "D",
+  "mondayText": "Lunes",
+  "mondayAbbr": "L",
+  "tuesdayText": "Martes",
+  "tuesdayAbbr": "M",
+  "wednesdayText": "Miércoles",
+  "wednesdayAbbr": "M",
+  "thursdayText": "Jueves",
+  "thursdayAbbr": "J",
+  "fridayText": "Viernes",
+  "fridayAbbr": "V",
+  "saturdayText": "Sábado",
+  "saturdayAbbr": "S"
 }
