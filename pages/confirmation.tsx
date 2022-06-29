@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useTranslation } from 'react-i18next';
 
-import PageTitle from 'components/global/PageTitle/PageTitle';
 import ConfirmationFooter from 'components/confirmation/ConfirmationFooter/ConfirmationFooter';
 import ConfirmationHeader from 'components/confirmation/ConfirmationHeader/ConfirmationHeader';
 import ConfirmationPayment from 'components/confirmation/ConfirmationPayment/ConfirmationPayment';
