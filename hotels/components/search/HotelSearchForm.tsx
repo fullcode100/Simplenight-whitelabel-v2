@@ -37,6 +37,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import Label from 'components/global/Label/Label';
 import useLocalStorage from 'hooks/localStorage/useLocalStorage';
+import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 
 const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -74,7 +75,10 @@ const HotelSearchForm = ({
   const checkInText = t('checkIn');
   const checkOutText = t('checkOut');
   const guestsLabel = t('guests', 'Guests');
+  const guestLabel = t('guest', 'Guest');
   const roomsLabel = t('rooms', 'Rooms');
+  const roomLabel = t('room', 'Room');
+  const guestsAndRoomsLabel = t('guestsAndRooms', 'Guests & Rooms');
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
@@ -200,18 +204,25 @@ const HotelSearchForm = ({
           setRooms={setRoomsData}
         />
         <section className="mt-4 lg:mt-0 lg:w-full">
-          <p className="text-sm font-medium text-dark-800">Guests & Rooms</p>
+          <p className="text-sm font-medium text-dark-800">
+            {guestsAndRoomsLabel}
+          </p>
           <button
             onClick={() => setShowTravelersInput(true)}
             className="mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"
           >
             <section className="flex items-center gap-2">
               <MultiplePersons className="text-dark-700" />
-              {parseInt(adults) + parseInt(children)} {guestsLabel}
+              {parseInt(adults) + parseInt(children)}{' '}
+              {usePlural(
+                parseInt(adults) + parseInt(children),
+                guestLabel,
+                guestsLabel,
+              )}
             </section>
             <section className="flex items-center gap-2">
               <Bed className="text-dark-700" />
-              {rooms} {roomsLabel}
+              {rooms} {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
             </section>
           </button>
         </section>
@@ -233,7 +244,7 @@ const HotelSearchForm = ({
             className="mt-4 lg:mt-0"
             orientation="left"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
-            value={formatAsDisplayDate(startDate)}
+            value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
             onChange={(event) => handleStartDateChange(event.target.value)}
             onClick={() => {
               setClickOnStart(true);
@@ -248,7 +259,7 @@ const HotelSearchForm = ({
             orientation="left"
             className="mt-4 lg:mt-0"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
-            value={formatAsDisplayDate(endDate)}
+            value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
             onChange={(event) => handleEndDateChange(event.target.value)}
             onClick={() => {
               setClickOnStart(false);
