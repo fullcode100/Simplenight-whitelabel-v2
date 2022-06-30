@@ -11,6 +11,10 @@ import PageTitle from 'components/global/PageTitle/PageTitle';
 import ConfirmationBuyerInfo from '../ConfirmationBuyerInfo/ConfirmationBuyerInfo';
 import ConfirmationOrderInfo from '../ConfirmationOrderInfo/ConfirmationOrderInfo';
 import Disclaimer from 'components/global/Disclaimer/Disclaimer';
+import { Booking } from 'types/booking/bookingType';
+
+import CircleConfirmation from 'public/icons/assets/check-round.svg';
+import Chevron from 'public/icons/assets/chevron-down.svg';
 
 import CircleConfirmation from 'public/icons/assets/check-round.svg';
 import Chevron from 'public/icons/assets/chevron-down.svg';
