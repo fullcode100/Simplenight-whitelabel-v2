@@ -18,7 +18,8 @@ const Confirmation: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [t, i18next] = useTranslation('global');
 
-  const { bookingId: bookingIdParams, lookup: fromLookup } = useQuery();
+  const { bookingId: bookingIdParams, lookup } = useQuery();
+  const fromLookup = lookup == 'true';
 
   const flatBookingItems = booking?.items
     .map((item) => (item.extra_data.items ? [...item.extra_data.items] : item))
@@ -56,7 +57,11 @@ const Confirmation: NextPage = () => {
         </section>
       ) : (
         <header>
-          <ConfirmationHeader booking={booking} itemsAmount={itemsAmount} />
+          <ConfirmationHeader
+            booking={booking}
+            fromLookup={fromLookup}
+            itemsAmount={itemsAmount}
+          />
         </header>
       )}
       {!loading && booking && (
