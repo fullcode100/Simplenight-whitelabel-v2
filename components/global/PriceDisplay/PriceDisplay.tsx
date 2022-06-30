@@ -9,8 +9,9 @@ interface PriceDisplayProps {
 }
 
 const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
-  const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rate;
-  const { discounts } = rateBreakdown;
+  const totalAmount = rate?.total_amount;
+  const rateBreakdown = rate?.rate_breakdown;
+  const discounts = rateBreakdown?.discounts;
   let totalBeforeDiscount;
   let percentageToApply;
   if (discounts) {
@@ -39,7 +40,7 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
       >
         <span className="text-dark-800 font-normal">{totalLabel}</span>
         <span className="text-base text-dark-1000 font-bold">
-          {totalAmount.formatted}
+          {totalAmount?.formatted}
         </span>
       </p>
     </section>

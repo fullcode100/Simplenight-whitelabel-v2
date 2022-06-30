@@ -8,10 +8,14 @@ import { useState } from 'react';
 import classnames from 'classnames';
 import { MapViewProps } from '../MapView/MapViewTypes';
 import HotelItemRateInfo from 'hotels/components/search/HotelItemRateInfo';
+import { MinRate, Rate } from 'hotels/types/response/SearchResponse';
+import PriceDisplay from '../PriceDisplay/PriceDisplay';
+import HotelCancellable from 'hotels/components/search/HotelCancellable';
 
 const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
   const [t, i18next] = useTranslation('hotels');
   const hotelLabel = t('hotel', 'Hotel');
+  const fromLabel = t('from', 'From');
 
   const [activeItem, setActiveItem] = useState(0);
   const nextItem = activeItem + 1;
@@ -90,7 +94,7 @@ const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
               const itemKey = item.id + index;
               const isNext = index === nextItem;
               const minRate = minRateRoom.rates.min_rate;
-              const formattedLocation = `${address.address1}, ${address.country_code}, ${address.postal_code}`;
+              const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
               const cardClassName = classnames(
                 'flex-0-0-auto transition-all duration-300',
@@ -113,6 +117,15 @@ const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
                     address={formattedLocation}
                     className={cardClassName}
                     rating={parseInt(starRating)}
+                    priceDisplay={
+                      <PriceDisplay
+                        rate={minRate?.rate as Rate}
+                        totalLabel={fromLabel}
+                      />
+                    }
+                    cancellable={
+                      <HotelCancellable minRate={minRate as MinRate} />
+                    }
                   />
                 </section>
               );

@@ -1,9 +1,9 @@
 import { checkUrl } from 'helpers/urlUtils';
 import React, { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { WithId } from 'types/global/WithId';
 import EmptyImage from '../EmptyImage/EmptyImage';
 import Rating from '../Rating/Rating';
-
 interface CardProps<T extends WithId> {
   handleOnViewDetailClick: any;
   item: T;
@@ -15,6 +15,8 @@ interface CardProps<T extends WithId> {
   price?: ReactNode;
   className?: string;
   rating?: number;
+  priceDisplay?: ReactNode;
+  cancellable?: ReactNode;
 }
 
 function HorizontalItemCard<T extends WithId>({
@@ -28,13 +30,17 @@ function HorizontalItemCard<T extends WithId>({
   address = '',
   className = '',
   rating,
+  priceDisplay,
+  cancellable,
 }: CardProps<T>) {
+  const [t, i18next] = useTranslation('global');
+  const fromLabel = t('from', 'From');
   const AddressSection = () => (
     <span className="font-normal text-dark-1000 text-sm py-2">{address}</span>
   );
 
   const TitleSection = () => (
-    <header className=" font-semibold text-dark-1000 text-[18px] leading-[22px]">
+    <header className=" font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg">
       {title}
     </header>
   );
@@ -56,7 +62,7 @@ function HorizontalItemCard<T extends WithId>({
     >
       <section className="flex flex-row">
         <section
-          className="min-w-[45%] min-h-[150px] "
+          className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] "
           style={{
             backgroundImage: `url(${image})`,
             backgroundRepeat: 'round',
@@ -65,15 +71,19 @@ function HorizontalItemCard<T extends WithId>({
           <CategoryTag />
           {!load && <EmptyImage />}
         </section>
-        <section className="flex flex-col justify-between p-4">
+        <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
           <TitleSection />
           <AddressSection />
           <section className="mt-2">
             {rating && <Rating value={rating} />}
           </section>
         </section>
+        <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
+          <section className="text-left">{cancellable}</section>
+          {priceDisplay}
+        </section>
       </section>
-      {price}
+      <section className="lg:hidden">{price}</section>
     </li>
   );
 }
