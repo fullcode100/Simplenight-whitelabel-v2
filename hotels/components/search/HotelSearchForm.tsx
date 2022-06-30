@@ -209,7 +209,7 @@ const HotelSearchForm = ({
           </p>
           <button
             onClick={() => setShowTravelersInput(true)}
-            className="mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"
+            className="bg-white mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"
           >
             <section className="flex items-center gap-2">
               <MultiplePersons className="text-dark-700" />

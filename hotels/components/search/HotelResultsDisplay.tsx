@@ -4,8 +4,10 @@ import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
 import {
   Hotel,
   HotelSearchResponse,
+  MinRate,
+  Rate,
 } from 'hotels/types/response/SearchResponse';
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
@@ -24,6 +26,13 @@ import HotelItemRateInfo from './HotelItemRateInfo';
 import useFilter from 'hooks/pageInteraction/useFilter';
 import { sortByAdapter } from 'hotels/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'hotels/adapters/cancellation-type.adapter';
+import MapIcon from 'public/icons/assets/map.svg';
+import ListIcon from 'public/icons/assets/list.svg';
+import classnames from 'classnames';
+import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+import HotelFilterFormDesktop from './HotelFilterFormDesktop';
+import PriceDisplay from 'components/global/PriceDisplay/PriceDisplay';
+import HotelCancellable from './HotelCancellable';
 
 declare let window: CustomWindow;
 
@@ -31,15 +40,23 @@ interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
 }
 
+interface ViewButtonProps {
+  children: ReactNode;
+  viewParam: 'list' | 'map';
+}
+
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [loaded, setLoaded] = useState(false);
   const { ClientSearcher: Searcher } = HotelCategory.core;
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
+  const hotelsFoundLabelDesktop = t('results', 'Results');
   const hotelLabel = t('hotel', 'Hotel');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
+  const fromLabel = t('from', 'From');
   const { language } = i18next;
   const router = useRouter();
+  const setQueryParams = useQuerySetter();
 
   const {
     adults,
@@ -146,7 +163,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
         const itemKey = hotel.id + index;
         const minRate = minRateRoom.rates.min_rate;
-        const formattedLocation = `${address.address1}, ${address.country_code}, ${address.postal_code}`;
+        const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
         const itemKey = hotel.id + index;
 
@@ -163,6 +180,13 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             address={formattedLocation}
             className=" flex-0-0-auto"
             rating={parseInt(starRating)}
+            priceDisplay={
+              <PriceDisplay
+                rate={minRate?.rate as Rate}
+                totalLabel={fromLabel}
+              />
+            }
+            cancellable={<HotelCancellable minRate={minRate as MinRate} />}
           />
         );
       })}
@@ -186,23 +210,43 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   return (
     <>
       {hotels.length > 0 ? (
-        <>
-          {isListView && (
-            <section className="w-full h-full px-5 pb-6">
-              <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px]">
-                {hotels.length} {hotelsFoundLabel}
+        <section className="lg:flex lg:w-full">
+          <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
+            <HotelFilterFormDesktop />
+          </section>
+          <section className="lg:flex-1 lg:w-[75%]">
+            {isListView && (
+              <section className="w-full h-full px-5 pb-6">
+                <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
+                  <span>
+                    {hotels.length}
+                    <span className="lg:hidden"> {hotelsFoundLabel}</span>
+                    <span className="hidden lg:inline">
+                      {' '}
+                      {hotelsFoundLabelDesktop}
+                    </span>
+                  </span>
+                  <section className="hidden lg:block">
+                    <ViewActions />
+                  </section>
+                </section>
+                <HotelList />
               </section>
-              <HotelList />
-            </section>
-          )}
-          {!isListView && (
-            <HotelMapView
-              HotelCategory={HotelCategory}
-              items={hotels}
-              onViewDetailClick={handleOnViewDetailClick}
-            />
-          )}
-        </>
+            )}
+            {!isListView && (
+              <section className="relative">
+                <section className="hidden lg:block absolute z-[1] right-6 top-6">
+                  <ViewActions />
+                </section>
+                <HotelMapView
+                  HotelCategory={HotelCategory}
+                  items={hotels}
+                  onViewDetailClick={handleOnViewDetailClick}
+                />
+              </section>
+            )}
+          </section>
+        </section>
       ) : (
         <EmptyState
           text={noResultsLabel}
