@@ -11,6 +11,7 @@ import { Booking } from 'types/booking/bookingType';
 import Loader from 'components/global/Loader/Loader';
 import ConfirmationCancelled from 'components/confirmation/ConfirmationCancelled/ConfirmationCancelled';
 import ConfirmationBooked from 'components/confirmation/ConfirmationBooked/ConfirmationBooked';
+import HelpSection from 'components/global/HelpSection/HelpSection';
 
 const Confirmation: NextPage = () => {
   const [booking, setBooking] = useState<Booking | undefined>(undefined);
@@ -82,6 +83,8 @@ const Confirmation: NextPage = () => {
 
           <ConfirmationPayment booking={booking} />
           <ConfirmationFooter booking={booking} />
+
+          {fromLookup && <HelpSection />}
         </section>
       )}
     </main>
