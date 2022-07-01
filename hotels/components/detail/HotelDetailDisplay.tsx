@@ -78,7 +78,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const { language } = i18next;
   const starHotelLabel = t('starHotel', 'Star Hotel');
   const roomsLabel = t('rooms', 'Rooms');
-  const mapLabel = t('map', 'Map');
+  const locationLabel = t('location', 'Location');
   const detailsLabel = t('details', 'Details');
   const toLabel = tg('to', 'to');
 
@@ -146,11 +146,11 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   );
 
   const GeneralInformationSection = () => {
-    const tabs: Tab[] = [{ value: roomsLabel }, { value: mapLabel }];
+    const tabs: Tab[] = [{ value: roomsLabel }, { value: locationLabel }];
 
     const scrollFunctions: { [key: string]: () => void } = {
-      Rooms: scrollToRoom,
-      Location: scrollToLocation,
+      [roomsLabel]: scrollToRoom,
+      [locationLabel]: scrollToLocation,
       Amenities: scrollToAmeneties,
     };
 
