@@ -186,14 +186,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
 
-  if (!loaded) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
-  }
-
   const ViewButton = ({ children, viewParam }: ViewButtonProps) => {
     const active = viewParam === 'list' ? isListView : !isListView;
     const onClick = () => {
@@ -232,50 +224,54 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   return (
     <>
-      {hotels.length > 0 ? (
-        <section className="lg:flex lg:w-full">
-          <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
-            <HotelFilterFormDesktop />
-          </section>
-          <section className="lg:flex-1 lg:w-[75%]">
-            {isListView && (
-              <section className="w-full h-full px-5 pb-6">
-                <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                  <span>
-                    {hotels.length}
-                    <span className="lg:hidden"> {hotelsFoundLabel}</span>
-                    <span className="hidden lg:inline">
-                      {' '}
-                      {hotelsFoundLabelDesktop}
+      <section className="lg:flex lg:w-full">
+        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
+          <HotelFilterFormDesktop />
+        </section>
+        <section className="lg:flex-1 lg:w-[75%] h-full">
+          {!loaded ? (
+            <Loader />
+          ) : hotels.length > 0 ? (
+            <>
+              {isListView && (
+                <section className="w-full h-full px-5 pb-6">
+                  <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
+                    <span>
+                      {hotels.length}
+                      <span className="lg:hidden"> {hotelsFoundLabel}</span>
+                      <span className="hidden lg:inline">
+                        {' '}
+                        {hotelsFoundLabelDesktop}
+                      </span>
                     </span>
-                  </span>
-                  <section className="hidden lg:block">
+                    <section className="hidden lg:block">
+                      <ViewActions />
+                    </section>
+                  </section>
+                  <HotelList />
+                </section>
+              )}
+              {!isListView && (
+                <section className="relative">
+                  <section className="hidden lg:block absolute z-[1] right-6 top-6">
                     <ViewActions />
                   </section>
+                  <HotelMapView
+                    HotelCategory={HotelCategory}
+                    items={hotels}
+                    onViewDetailClick={handleOnViewDetailClick}
+                  />
                 </section>
-                <HotelList />
-              </section>
-            )}
-            {!isListView && (
-              <section className="relative">
-                <section className="hidden lg:block absolute z-[1] right-6 top-6">
-                  <ViewActions />
-                </section>
-                <HotelMapView
-                  HotelCategory={HotelCategory}
-                  items={hotels}
-                  onViewDetailClick={handleOnViewDetailClick}
-                />
-              </section>
-            )}
-          </section>
+              )}
+            </>
+          ) : (
+            <EmptyState
+              text={noResultsLabel}
+              image={<EmptyStateIcon className="mx-auto" />}
+            />
+          )}
         </section>
-      ) : (
-        <EmptyState
-          text={noResultsLabel}
-          image={<EmptyStateIcon className="mx-auto" />}
-        />
-      )}
+      </section>
     </>
   );
 };
