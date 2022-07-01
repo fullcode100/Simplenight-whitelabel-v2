@@ -11,7 +11,7 @@ interface LocationSectionProps {
 
 const LocationSection = ({ address }: LocationSectionProps) => {
   const [t, i18n] = useTranslation('hotels');
-  const mapLabel = t('map', 'Map');
+  const locationLabel = t('location', 'Location');
   const { coordinates, address1, country, country_code, postal_code } = address;
 
   return (
@@ -21,7 +21,7 @@ const LocationSection = ({ address }: LocationSectionProps) => {
           <IconRoundedContainer className="bg-primary-1000">
             <LocationPin className="text-white" />
           </IconRoundedContainer>
-          <span className="h4 text-dark-800">{mapLabel}</span>
+          <span className="h4 text-dark-800">{locationLabel}</span>
         </p>
         <p className="text-dark-1000 text-right">
           <p>{address1}</p>
