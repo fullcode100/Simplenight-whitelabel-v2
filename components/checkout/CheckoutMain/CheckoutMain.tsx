@@ -5,9 +5,7 @@ type MainProps = {
 };
 
 const CheckoutMain = ({ children }: MainProps) => {
-  const styles = 'px-5 py-6';
-
-  return <section className={styles}>{children}</section>;
+  return <section>{children}</section>;
 };
 
 export default CheckoutMain;
