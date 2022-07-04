@@ -67,10 +67,7 @@ const PriceBreakdownModal = ({
     total_base_amount: totalBaseAmount,
     total_taxes: totalTaxes,
     post_paid_rate: postPaidRate,
-    discounts,
   } = rateBreakdown;
-
-  const { total_amount_before_apply: totalAmountBeforeApply } = discounts;
 
   const resortFees = postPaidRate?.taxes.find(
     (tax) => tax.description === RESORT_FEES,
@@ -127,7 +124,7 @@ const PriceBreakdownModal = ({
         <Divider className="mt-2" />
         <BreakdownRow
           label={payNowLabel}
-          price={totalAmountBeforeApply.formatted}
+          price={totalAmount.formatted}
           priceClassName="font-semibold text-lg"
         />
         <BreakdownSubtitle
