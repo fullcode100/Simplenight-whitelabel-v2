@@ -10,7 +10,7 @@ const CheckoutHeader = ({ step }: CheckoutStepsProps) => {
   const checkoutTitle = t('checkoutTitle', 'Checkout');
 
   return (
-    <header className="bg-dark-100 p-5">
+    <header className="bg-dark-100 p-5 lg:px-20">
       <h4 className="font-semibold text-dark-800 text-lg">{checkoutTitle}</h4>
       <CheckoutSteps step={step} />
     </header>

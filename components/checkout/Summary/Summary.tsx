@@ -22,7 +22,7 @@ const Summary = ({ cart, reload, setReload, href = '#' }: SummaryProps) => {
   );
 
   return (
-    <section className="flex w-full items-center justify-between">
+    <section className="flex w-full lg:max-w-[470px] items-center justify-between">
       <h4 className="text-base leading-[22px] text-dark-1000">Total</h4>
       <section className="flex flex-col justify-end font-lato text-right">
         <p className="text-[18px] leading-6 font-bold text-dark-1000">
@@ -32,7 +32,7 @@ const Summary = ({ cart, reload, setReload, href = '#' }: SummaryProps) => {
           {taxesAndFeesLabel}
         </p>
         <a
-          className="text-base leading-[22px] font-semibold underline text-primary-1000 hover:text-primary-1000 hover:underline"
+          className="block lg:hidden text-base leading-[22px] font-semibold underline text-primary-1000 hover:text-primary-1000 hover:underline"
           href={href}
           onClick={() => setOpenPriceBreakdown(true)}
         >
