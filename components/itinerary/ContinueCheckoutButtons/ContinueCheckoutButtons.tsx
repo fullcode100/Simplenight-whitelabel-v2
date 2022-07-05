@@ -11,13 +11,13 @@ const ContinueCheckoutButtons = ({ productsAmount }: ContinueCheckoutProps) => {
   const router = useRouter();
   const [t, i18next] = useTranslation('global');
   const continueShopping = t('continueShopping', 'Continue Shopping');
-  const [storedValue] = useLocalStorage('lastSearch', '');
+  const [storedValue] = useLocalStorage('lastSearch', '/');
   const checkOut = t('checkoutTitle', 'Check Out');
 
   const showCheckOut = !!productsAmount && productsAmount > 0;
 
   const handleContinue = () => {
-    router.push(storedValue);
+    router.push(storedValue.toString());
   };
 
   return (
