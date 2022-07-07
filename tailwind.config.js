@@ -84,6 +84,7 @@ module.exports = {
         sm: '1rem',
         base: '1.125rem',
         lg: '1.25rem',
+        '3.5xl': '2rem',
       },
       fontFamily: {
         manrope: ['Manrope', 'sans-serif'],

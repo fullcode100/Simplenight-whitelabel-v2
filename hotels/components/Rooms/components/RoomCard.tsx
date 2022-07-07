@@ -42,7 +42,7 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
     </button>
   );
   return (
-    <section className="shadow-container my-3 border border-dark-200 rounded">
+    <section className="shadow-container my-3 lg:my-0 border border-dark-200 rounded">
       {images.length > 0 ? (
         <ImageCarousel
           images={images}
