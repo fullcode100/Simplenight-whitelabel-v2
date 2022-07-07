@@ -91,12 +91,14 @@ const Payment = () => {
       countryCode: country,
     };
 
-    createBooking(paymentParameters, i18next).then((response) => {
-      const bookingId = response?.booking.booking_id;
-      dispatch(clearCart());
-      localStorage.removeItem('cart');
-      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
-    });
+    createBooking(paymentParameters, i18next)
+      .then((response) => {
+        const bookingId = response?.booking.booking_id;
+        dispatch(clearCart());
+        localStorage.removeItem('cart');
+        router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+      })
+      .catch((error) => console.error(error));
   };
 
   const redirectToItinerary = () => {

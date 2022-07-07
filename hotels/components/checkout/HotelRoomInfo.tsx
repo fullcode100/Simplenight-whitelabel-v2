@@ -52,9 +52,9 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
       cartId: room.cart_id,
       itemId: room.cart_item_id,
     };
-    removeFromCart(i18next, roomToRemove, dispatch).then(() =>
-      setReload?.(!reload),
-    );
+    removeFromCart(i18next, roomToRemove, dispatch)
+      .then(() => setReload?.(!reload))
+      .catch((error) => console.error(error));
   };
 
   return (

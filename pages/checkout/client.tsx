@@ -140,7 +140,9 @@ const Client = () => {
 
   useEffect(() => {
     cartId = JSON.parse(window.localStorage.getItem('cart') ?? 'null');
-    handleGetCart().then(() => handleGetSchema());
+    handleGetCart()
+      .then(() => handleGetSchema())
+      .catch((error) => console.error(error));
   }, [reload]);
 
   return (
