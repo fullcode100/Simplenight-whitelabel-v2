@@ -35,10 +35,12 @@ const HelpSection = () => {
   );
 
   return (
-    <section className="p-4 mt-4 mb-4 lg:m-0 lg:flex lg:[50%] lg:flex-1">
+    <section className="p-4 mt-6 mb-4 lg:m-0 lg:flex lg:[50%] lg:flex-1">
       <section className="font-lato p-4 shadow-md rounded-4 text-center border text-dark-1000 lg:w-full lg:py-10 lg:px-6">
-        <h3 className="text-2xl lg:text-3xl lg:mt-4">{helpTitle}</h3>
-        <p className="text-lg font-light mt-4">{helpDescription}</p>
+        <h3 className="text-2xl font-semibold lg:text-3xl lg:mt-4">
+          {helpTitle}
+        </h3>
+        <p className="text-lg font-normal mt-4">{helpDescription}</p>
         <section className="lg:flex first-letter lg:justify-center lg:items-center lg:mt-5">
           <HelpLink
             icon={<EmailIcon />}
