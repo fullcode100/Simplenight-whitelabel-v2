@@ -121,6 +121,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       .then(({ hotels: searchedHotels }: HotelSearchResponse) => {
         setHotels(searchedHotels);
       })
+      .catch((error) => console.error(error))
       .then(() => setLoaded(true));
   }, [
     adults,

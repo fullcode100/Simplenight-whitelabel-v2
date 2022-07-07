@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
@@ -19,14 +19,9 @@ const LookupForm = () => {
   const lastNameLabel = t('lastName', 'Last Name');
   const lastNamePlaceholder = t('lastNamePlaceholder', 'Order Last Name');
   const findOrder = t('findOrder', 'Find Order');
-  const noOrderMatch = t(
-    'noOrderMatchResult',
-    'No orders matching your search.',
-  );
 
   const [orderNumber, setOrderNumber] = useState('');
   const [lastName, setLastName] = useState('');
-  const [noOrder, setNoOrder] = useState(false);
 
   const handleFindOrder = () => {
     getBookingByOrderNumber(i18next, orderNumber, lastName).then((response) => {
@@ -34,13 +29,8 @@ const LookupForm = () => {
         const bookingId = response?.booking_id;
         router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}&lookup=true`);
       }
-      setNoOrder(true);
     });
   };
-
-  useEffect(() => {
-    setNoOrder(false);
-  }, [orderNumber, lastName]);
 
   return (
     <section className="grid gap-5 bg-white rounded p-4">
@@ -59,9 +49,6 @@ const LookupForm = () => {
           inputClassName={'placeholder:text-dark-600'}
           onChange={(e) => setLastName(e.target.value)}
         />
-        {noOrder && (
-          <p className="text-sm leading-sm text-red-1000">{noOrderMatch}</p>
-        )}
       </section>
 
       <Button value={findOrder} size="full" onClick={handleFindOrder} />

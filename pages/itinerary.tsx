@@ -33,10 +33,12 @@ const Itinerary: NextPage = () => {
   useEffect(() => {
     if (cartId) {
       setLoading(true);
-      getCartId(i18next, cartId).then((response) => {
-        setCart(response);
-        setLoading(false);
-      });
+      getCartId(i18next, cartId)
+        .then((response) => {
+          setCart(response);
+          setLoading(false);
+        })
+        .catch((error) => console.error(error));
     }
   }, [cartId, i18next, reload]);
 

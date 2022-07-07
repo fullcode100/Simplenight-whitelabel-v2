@@ -47,9 +47,9 @@ const HotelItineraryFooter = ({
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, roomToRemove, dispatch).then(() =>
-      setReload?.(!reload),
-    );
+    removeFromCart(i18g, roomToRemove, dispatch)
+      .then(() => setReload?.(!reload))
+      .catch((error) => console.error(error));
   };
 
   const handleRemoveAllRooms = () => {

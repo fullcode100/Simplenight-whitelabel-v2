@@ -46,7 +46,9 @@ const HotelRoomsInfo = ({ item, loading, setLoading }: HotelRoomsInfoProps) => {
     };
 
     setLoading?.(!loading);
-    await itemRemover.request(requestData, i18next);
+    await itemRemover
+      .request(requestData, i18next)
+      .catch((error) => console.error(error));
 
     setLoading?.(!loading);
     router.reload();

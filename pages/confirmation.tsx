@@ -41,12 +41,14 @@ const Confirmation: NextPage = () => {
   useEffect(() => {
     if (bookingId) {
       setLoading(true);
-      getBookingId(i18next, bookingId).then((response) => {
-        if (response?.booking) {
-          setBooking(response?.booking);
-        }
-        setLoading(false);
-      });
+      getBookingId(i18next, bookingId)
+        .then((response) => {
+          if (response?.booking) {
+            setBooking(response?.booking);
+          }
+          setLoading(false);
+        })
+        .catch((error) => console.error(error));
     }
   }, [bookingId]);
 

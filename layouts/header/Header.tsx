@@ -39,14 +39,16 @@ const Header = ({ color }: HeaderProps) => {
     if (!state.cartStore) {
       return;
     }
-    getCart(i18next, state).then((cart) => {
-      if (cart?.status === 'BOOKED') {
-        localStorage.removeItem('cart');
-        dispatch(clearCart());
-      } else if (cart) {
-        setCartQty(cart.total_item_qty);
-      }
-    });
+    getCart(i18next, state)
+      .then((cart) => {
+        if (cart?.status === 'BOOKED') {
+          localStorage.removeItem('cart');
+          dispatch(clearCart());
+        } else if (cart) {
+          setCartQty(cart.total_item_qty);
+        }
+      })
+      .catch((error) => console.error(error));
   }, [state.cartStore]);
 
   return (
