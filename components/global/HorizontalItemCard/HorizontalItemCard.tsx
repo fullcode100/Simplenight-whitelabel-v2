@@ -69,7 +69,7 @@ function HorizontalItemCard<T extends WithId>({
           }}
         >
           <CategoryTag />
-          {!load && <EmptyImage />}
+          {(!load || !image) && <EmptyImage />}
         </section>
         <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
           <TitleSection />

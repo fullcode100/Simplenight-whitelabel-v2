@@ -36,6 +36,11 @@ import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
+import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
+import EmptyState from 'components/global/EmptyState/EmptyState';
+import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
+import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -65,6 +70,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const [descriptionHeight, setDescriptionHeight] = useState(232);
   const [loaded, setLoaded] = useState(false);
   const [hotel, setHotel] = useState<Hotel>(initialState[0]);
+  const [emptyState, setEmptyState] = useState<boolean>(false);
   const {
     details: { name, address, description, star_rating: starRating },
     rooms: hotelRooms,
@@ -81,6 +87,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const locationLabel = t('location', 'Location');
   const detailsLabel = t('details', 'Details');
   const toLabel = tg('to', 'to');
+  const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
 
   const storeCurrency = useSelector((state: any) => state.core.currency);
   const [currency, setCurrency] = useState<string>(storeCurrency);
@@ -111,9 +118,12 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       .then(({ hotels }: HotelSearchResponse) => {
         setHotel(hotels[0]);
         setLoaded(true);
+        setEmptyState(false);
       })
       .catch((e) => {
         console.error(e);
+        setLoaded(true);
+        setEmptyState(true);
       });
   }, [currency, language]);
 
@@ -136,8 +146,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   };
 
   const RatingSection = () => (
-    <section className="flex mt-4 w-full justify-between items-center">
-      <span className="text-sm text-primary-1000 font-semibold">
+    <section className="flex mt-4 w-full justify-between items-center lg:justify-start lg:gap-2 lg:mt-0">
+      <span className="text-sm lg:text-base text-primary-1000 font-semibold">
         <span className="">{starRating}-</span>
         {starHotelLabel}
       </span>
@@ -180,7 +190,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   };
 
   const DetailsSection = () => (
-    <section className="mt-10 px-4">
+    <section className="mt-10 px-4 lg:px-0">
       <section>
         <p className="flex items-center gap-3 mb-6">
           <IconRoundedContainer className="bg-primary-1000">
@@ -279,7 +289,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-16 z-10">
+      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-16 z-10 lg:hidden">
         <section className="h-12 flex justify-between items-center">
           <OccupancyAndDatesSection />
           <section>
@@ -294,12 +304,37 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           </section>
         </section>
       </header>
-      {loaded ? (
+      {loaded && emptyState && (
+        <>
+          <section className="px-20 hidden lg:block pt-12">
+            <RoomSectionTitle />
+            <section className=" bg-dark-100 p-4 rounded-md my-8">
+              <HotelRoomAvailabilityForm />
+            </section>
+          </section>
+          <EmptyState
+            text={noResultsLabel}
+            image={<EmptyStateIcon className="mx-auto" />}
+          />
+        </>
+      )}
+      {loaded && !emptyState && (
         <main className="relative">
           {/* <ImagesSection /> */}
-          <ImageCarousel images={hotelImages} title={name} />
-          <GeneralInformationSection />
-          <section ref={roomRef}>
+          <section className="lg:hidden">
+            <ImageCarousel images={hotelImages} title={name} />
+          </section>
+          <section className="hidden lg:block w-full pt-16 bg-dark-100">
+            <ImageCarouselLargeScreen images={hotelImages} title={name} />
+          </section>
+          <section className="lg:hidden">
+            <GeneralInformationSection />
+          </section>
+          <section className="hidden lg:block px-20 text-left bg-dark-100 py-6">
+            <p className="text-[2rem]">{name}</p>
+            <RatingSection />
+          </section>
+          <section ref={roomRef} className="lg:hidden">
             <SeeMore
               textOpened="See less"
               textClosed="See more"
@@ -317,16 +352,37 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
               }
             </SeeMore>
           </section>
-          <Divider />
-          <DetailsSection />
-          <Divider className="mt-3" />
-          <section ref={locationRef}>
-            <LocationSection address={address} />
+          <section className="hidden lg:block px-20">
+            <RoomsSection
+              rooms={hotelRooms}
+              hotelId={hotel.id}
+              hotelName={name}
+              nights={nights}
+              guests={guests}
+            />
           </section>
-          {/* <CustomerReviewsSection /> */}
+          <Divider />
+          <section className="lg:flex lg:px-20">
+            <section className="lg:w-[50%] lg:pr-6">
+              <DetailsSection />
+            </section>
+            <Divider className="mt-3 lg:hidden" />
+            <span className="hidden lg:block w-[1px] bg-dark-300 m-6" />
+            <section ref={locationRef} className="lg:w-[50%] lg:flex-1">
+              <LocationSection address={address} />
+            </section>
+          </section>
+          <Divider />
+          {/* It is not yet applicable but I have left the desktop styles configured for when it is to be used */}
+          {/* <section className="lg:px-20 lg:py-8">
+            <CustomerReviewsSection />
+          </section> */}
         </main>
-      ) : (
-        <Loader />
+      )}
+      {!loaded && (
+        <section className="lg:pt-14">
+          <Loader />
+        </section>
       )}
     </>
   );
