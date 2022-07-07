@@ -97,10 +97,10 @@ const Home: NextPageWithLayout = () => {
       <section className="font-lato p-4 shadow-md rounded-4 text-center border grid place-items-center lg:flex lg:first-line lg:gap-8 lg:w-full lg:px-8 lg:py-10">
         <OrderLookupIcon className="lg:w-[11rem] lg:h-[10rem]" />
         <section className="grid place-items-center w-full lg:place-items-start">
-          <h3 className="text-2xl mt-4 lg:text-3xl lg:mt-0">
+          <h3 className="text-2xl mt-4 lg:text-3xl lg:mt-0 font-semibold">
             {lookupYourOrder}
           </h3>
-          <p className="text-lg font-light mt-3 lg:text-xl lg:mt-2">
+          <p className="text-lg font-normal mt-3 lg:text-xl lg:mt-2">
             {reviewAndManageYourOrder}
           </p>
           <Button
