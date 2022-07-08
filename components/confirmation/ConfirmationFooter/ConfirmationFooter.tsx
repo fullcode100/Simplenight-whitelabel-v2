@@ -15,7 +15,7 @@ const ConfirmationFooter = ({ booking }: ConfirmationFooterProps) => {
   const { order_total: orderTotal } = booking;
 
   return (
-    <section className="flex flex-col px-5 py-6 bg-dark-100">
+    <section className="flex flex-col px-5 py-6 bg-dark-100 lg:bg-white lg:shadow-container border-b lg:border lg:rounded border-dark-300">
       <ConfirmationPriceBreakdown booking={booking} />
       <Divider className="mt-1.5" />
       <section className="flex py-6 justify-center">

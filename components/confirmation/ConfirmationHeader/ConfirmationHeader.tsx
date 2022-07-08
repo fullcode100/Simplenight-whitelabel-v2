@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
-import PageTitle from 'components/global/PageTitle/PageTitle';
 import ConfirmationBuyerInfo from '../ConfirmationBuyerInfo/ConfirmationBuyerInfo';
 import ConfirmationOrderInfo from '../ConfirmationOrderInfo/ConfirmationOrderInfo';
 import Disclaimer from 'components/global/Disclaimer/Disclaimer';
@@ -22,7 +21,6 @@ const ConfirmationHeader = ({
   itemsAmount,
 }: ConfirmationHeaderProps) => {
   const [t, i18next] = useTranslation('global');
-  const orderConfirmed = t('orderConfirmed', 'Order Confirmed');
   const confirmationDisclaimer = t(
     'confirmationDisclaimer',
     'Supplier Reference ID and Vendor Confirmation Number Can Be Found Below.',
@@ -30,7 +28,6 @@ const ConfirmationHeader = ({
 
   const LookupHeader = () => {
     const router = useRouter();
-
     const orderLookup = t('orderLookup', 'Order Lookup');
 
     return (
@@ -49,19 +46,47 @@ const ConfirmationHeader = ({
     );
   };
 
+  const PageTitle = () => {
+    const item = t('item', 'Item');
+    const items = t('items', 'Items');
+    const orderConfirmed = t('orderConfirmed', 'Order Confirmed');
+
+    const itemsLabel = itemsAmount == 1 ? item : items;
+    const showItemsAmount = !!itemsAmount && itemsAmount > 0;
+
+    return (
+      <section className="flex items-center justify-between">
+        <section className="flex items-center gap-3 lg:gap-4">
+          <span className=" text-primary-1000">
+            <CircleConfirmation className="h-5 w-5 lg:h-[50px] lg:w-[50px]" />
+          </span>
+          <h1 className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+            {orderConfirmed}
+          </h1>
+        </section>
+
+        {showItemsAmount && (
+          <section className="block lg:hidden font-semibold text-dark-800 text-[16px] leading-[20px]">
+            {itemsAmount} {itemsLabel}
+          </section>
+        )}
+      </section>
+    );
+  };
+
   return (
-    <section className="bg-dark-100">
+    <section className="bg-dark-100 lg:mt-[125px]">
       {fromLookup && <LookupHeader />}
 
-      <section className="flex flex-col gap-3 p-5 border-b-[1px] border-dark-300">
-        <PageTitle
-          title={orderConfirmed}
-          icon={<CircleConfirmation />}
-          productsAmount={itemsAmount}
-        />
-        <ConfirmationBuyerInfo booking={booking} />
-        <ConfirmationOrderInfo booking={booking} />
-        <Disclaimer message={confirmationDisclaimer} />
+      <section className="flex flex-col lg:flex-row justify-between gap-3 p-5 lg:py-6 lg:px-20 border-b-[1px] border-dark-300">
+        <PageTitle />
+        <section className="grid gap-3">
+          <section className="flex flex-col lg:flex-row gap-3 lg:gap-[100px]">
+            <ConfirmationBuyerInfo booking={booking} />
+            <ConfirmationOrderInfo booking={booking} />
+          </section>
+          <Disclaimer message={confirmationDisclaimer} />
+        </section>
       </section>
     </section>
   );

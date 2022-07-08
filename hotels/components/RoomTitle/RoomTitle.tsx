@@ -20,15 +20,17 @@ const RoomTitle = ({ roomName, nights, roomQty = 1 }: RoomTitleProps) => {
 
   return (
     <section className="flex justify-between font-semibold">
-      <p className="text-[16px] leading-[22px] text-dark-1000">
+      <p className="text-sm lg:text-lg leading-[22px] lg:leading-[26px] text-dark-1000">
         {roomQty}x {roomNameFormatted}
       </p>
       {nights != undefined ? (
-        <p className="text-xs leading-lg text-dark-800">
+        <p className="text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-800">
           {nights} {nightsCountLabel}
         </p>
       ) : (
-        <p className="text-xs leading-lg text-dark-800">{cancelled}</p>
+        <p className="text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-800">
+          {cancelled}
+        </p>
       )}
     </section>
   );
