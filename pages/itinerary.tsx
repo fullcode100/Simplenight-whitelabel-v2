@@ -14,6 +14,7 @@ import ListHeader from '../components/itinerary/ListHeader/ListHeader';
 import ContinueShopping from '../components/itinerary/ContinueShopping/ContinueShopping';
 import classnames from 'classnames';
 import Loader from 'components/global/Loader/Loader';
+import HelpSection from '../components/global/HelpSection/HelpSection';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
@@ -62,36 +63,48 @@ const Itinerary: NextPage = () => {
         <ItineraryHeader productsAmount={cart?.total_item_qty} />
       </header>
       {loading && <Loader />}
-      <section className={classnames({ hidden: loading })}>
-        <section>
-          {!hasItems && <ItineraryEmpty />}
-
-          {hasItems && (
-            <>
+      <section
+        className={classnames(
+          { hidden: loading },
+          'px-0 py-0 lg:px-20 lg:py-12 lg:flex gap-8 items-start justify-center',
+        )}
+      >
+        {!hasItems && !loading && <ItineraryEmpty />}
+        {hasItems && (
+          <>
+            <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
               <ListHeader />
               <ItineraryItemList
                 cart={cart}
                 reload={reload}
                 setReload={setReload}
               />
-            </>
-          )}
-        </section>
-
-        <aside>
-          <section ref={footerContainerRef}>
-            {cart && (
-              <ListFooter
-                totalAmount={cart?.total_amount}
-                className={classnames({
-                  'fixed bottom-0 z-30': !staticFooter,
-                })}
-              />
-            )}
-            <ContinueShopping />
-          </section>
-        </aside>
+            </section>
+            <aside className="w-full lg:w-[405px]">
+              {cart && (
+                <>
+                  <section className="lg:hidden" ref={footerContainerRef}>
+                    <ListFooter
+                      totalAmount={cart?.total_amount}
+                      className={classnames({
+                        'fixed bottom-0 z-30': !staticFooter,
+                      })}
+                    />
+                  </section>
+                  <section className="hidden lg:block space-y-8">
+                    <ListFooter
+                      totalAmount={cart?.total_amount}
+                      className="lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container"
+                    />
+                    <HelpSection inItinerary={true} />
+                  </section>
+                </>
+              )}
+            </aside>
+          </>
+        )}
       </section>
+      <ContinueShopping />
     </main>
   );
 };
