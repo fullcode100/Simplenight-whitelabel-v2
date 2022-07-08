@@ -13,8 +13,8 @@ const ContinueShopping = () => {
   );
 
   return (
-    <section className="px-5 py-6 bg-dark-100">
-      <h4 className="font-semibold text-dark-800 text-lg">
+    <section className="py-6 bg-dark-100 space-y-6">
+      <h4 className="px-5 font-semibold text-dark-800 text-lg">
         {continueShoppingTitle}
       </h4>
       <CategoryList categoryList={filterCategories} />

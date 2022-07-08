@@ -93,7 +93,7 @@ const Home: NextPageWithLayout = () => {
   };
 
   const OrderLookupCard = () => (
-    <section className="p-4 mt-8 text-dark-1000 lg:m-0 lg:flex lg:w-[50%] lg:flex-1">
+    <section className="mt-8 text-dark-1000 lg:m-0 lg:flex lg:w-[50%] lg:flex-1">
       <section className="font-lato p-4 shadow-md rounded-4 text-center border grid place-items-center lg:flex lg:first-line lg:gap-8 lg:w-full lg:px-8 lg:py-10">
         <OrderLookupIcon className="lg:w-[11rem] lg:h-[10rem]" />
         <section className="grid place-items-center w-full lg:place-items-start">
@@ -144,7 +144,7 @@ const Home: NextPageWithLayout = () => {
           </section>
         </UpperSectionBackground>
       </section>
-      <section className="py-0.5 lg:flex lg:px-20 lg:py-10">
+      <section className="py-4 px-4 space-x-4 lg:flex lg:px-20 lg:py-10">
         <OrderLookupCard />
         <HelpSection />
       </section>
