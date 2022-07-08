@@ -43,7 +43,7 @@ const RoomPriceBreakdown = ({
       <div className="border-t border-dark-200"></div>
 
       <section className="flex justify-between">
-        <p className="font-semibold text-xs leading-lg text-dark-1000">
+        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
           {totalLabel}
         </p>
         <p className="font-bold text-[18px] leading-[24px] text-dark-1000">

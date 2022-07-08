@@ -19,9 +19,9 @@ const AdultChildrenAmount = ({ adults, child }: AdultChildrenAmountProps) => {
   const childrenTitle = child == 1 ? childLabel : childrenLabel;
 
   return (
-    <section className="flex flex-row gap-1">
-      <PersonsIcon className="h-3.5 mt-1 text-primary-1000" />
-      <p className="font-semibold text-xs leading-lg text-dark-1000">
+    <section className="flex flex-row gap-1 lg:gap-3">
+      <PersonsIcon className="h-3.5 lg:h-5 lg:w-5 mt-1 lg:mt-0 text-primary-1000" />
+      <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
         {adults} {adultsTitle}, {child} {childrenTitle}
       </p>
     </section>

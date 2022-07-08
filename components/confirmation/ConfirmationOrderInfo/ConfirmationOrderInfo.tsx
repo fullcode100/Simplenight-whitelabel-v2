@@ -19,7 +19,7 @@ const ConfirmationOrderInfo = ({ booking }: ConfirmationHeaderProps) => {
   const bookingDateLabel = t('bookingDate', 'Booking Date');
 
   return (
-    <section className="flex gap-2 justify-between">
+    <section className="flex lg:flex-col justify-between lg:justify-start lg:gap-2 lg:text-sm lg:leading-[22px]">
       <section className="flex flex-col">
         <h4 className="font-semibold text-dark-700">
           {simplenightOrderNumber}
