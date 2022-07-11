@@ -218,7 +218,7 @@ const HotelSecondarySearchOptions = () => {
     </FilterContainer>
   );
 
-  const FilterForm = () => (
+  const FilterForm = (
     <section className="py-4 h-full overflow-y-scroll">
       {/* <KeywordSearchFilter /> */}
       <PriceRangeFilter />
@@ -239,7 +239,7 @@ const HotelSecondarySearchOptions = () => {
     </button>
   );
 
-  const Modals = () => (
+  const Modals = (
     <>
       <FullScreenModal
         open={isFilterModalOpen}
@@ -249,7 +249,7 @@ const HotelSecondarySearchOptions = () => {
         primaryButtonAction={() => handleDispatchFilters()}
         headerAction={<ClearFilterButton />}
       >
-        <FilterForm />
+        {FilterForm}
       </FullScreenModal>
     </>
   );
@@ -283,7 +283,7 @@ const HotelSecondarySearchOptions = () => {
         leftIcon={icon}
         onClick={handleChangeResultView}
       />
-      <Modals />
+      {Modals}
     </section>
   );
 };
