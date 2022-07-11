@@ -12,11 +12,8 @@ interface HelpSectionProps {
 
 const HelpSection = ({ inItinerary = false }: HelpSectionProps) => {
   const [t, i18next] = useTranslation('global');
-  const helpTitle = t('needHelpTitle', 'Need some help?');
-  const helpDescription = t(
-    'needHelpDescription',
-    'Email or call us to get support from our team.',
-  );
+  const helpTitle = t('needHelpTitle', 'Need Some Help?');
+  const helpDescription = t('needHelpDescription', 'Contact Us For Support.');
 
   const { partnerInformation } = useBrandConfig();
   const { customerSupportEmail, customerSupportPhone } = partnerInformation;
@@ -46,19 +43,23 @@ const HelpSection = ({ inItinerary = false }: HelpSectionProps) => {
   );
 
   return (
-    <section className="mt-4 mb-4 lg:m-0 lg:flex lg:[50%] lg:flex-1">
+    <section className="lg:m-0 lg:flex lg:[50%] lg:flex-1">
       <section
-        className={`font-lato p-4 shadow-md rounded-4 ${
+        className={`flex flex-col gap-3 font-lato p-4 shadow-container rounded ${
           inItinerary ? 'text-left' : 'text-center'
         } border text-dark-1000 lg:w-full lg:py-10 lg:px-6`}
       >
-        <h3 className={`text-2xl lg:text-3xl ${!inItinerary && 'lg:mt-4'}`}>
+        <h3
+          className={`font-semibold text-2xl leading-[28px] text-dark-1000 lg:text-3xl ${
+            !inItinerary && 'lg:mt-4'
+          }`}
+        >
           {helpTitle}
         </h3>
-        <p className="text-lg font-light mt-4">{helpDescription}</p>
+        <p className="text-lg leading-[26px] font-normal">{helpDescription}</p>
         <section
           className={classnames({
-            'lg:flex first-letter lg:justify-center lg:items-center lg:mt-5':
+            'flex flex-col gap-3 lg:gap-0 first-letter lg:flex-row lg:justify-center lg:items-center lg:mt-2':
               !inItinerary,
           })}
         >

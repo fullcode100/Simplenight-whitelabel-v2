@@ -79,5 +79,7 @@
   "fridayText": "Friday",
   "fridayAbbr": "F",
   "saturdayText": "Saturday",
-  "saturdayAbbr": "S"
+  "saturdayAbbr": "S",
+  "needHelpTitle": "Need Some Help?",
+  "needHelpDescription": "Contact Us For Support."
 }
