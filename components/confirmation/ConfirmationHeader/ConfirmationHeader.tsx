@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import ConfirmationBuyerInfo from '../ConfirmationBuyerInfo/ConfirmationBuyerInfo';
 import ConfirmationOrderInfo from '../ConfirmationOrderInfo/ConfirmationOrderInfo';
 import Disclaimer from 'components/global/Disclaimer/Disclaimer';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { Booking } from 'types/booking/bookingType';
 
 import CircleConfirmation from 'public/icons/assets/check-round.svg';
@@ -31,7 +32,7 @@ const ConfirmationHeader = ({
     const orderLookup = t('orderLookup', 'Order Lookup');
 
     return (
-      <section className="flex flex-row gap-2 py-3.5 px-5 border-y-[1px] border-dark-300">
+      <section className="flex flex-row gap-2 py-3.5 px-5 lg:px-20 border-y-[1px] border-dark-300 lg:border-t-0">
         <p
           className="text-primary-1000 text-sm leading-[22px] underline underline-offset-4 decoration-1"
           onClick={() => router.push('/lookup')}
@@ -51,7 +52,7 @@ const ConfirmationHeader = ({
     const items = t('items', 'Items');
     const orderConfirmed = t('orderConfirmed', 'Order Confirmed');
 
-    const itemsLabel = itemsAmount == 1 ? item : items;
+    const itemsLabel = usePlural(itemsAmount, item, items);
     const showItemsAmount = !!itemsAmount && itemsAmount > 0;
 
     return (
@@ -75,7 +76,7 @@ const ConfirmationHeader = ({
   };
 
   return (
-    <section className="bg-dark-100 lg:mt-[125px]">
+    <section className="bg-dark-100 lg:flex lg:flex-col-reverse lg:mt-[125px]">
       {fromLookup && <LookupHeader />}
 
       <section className="flex flex-col lg:flex-row justify-between gap-3 p-5 lg:py-6 lg:px-20 border-b-[1px] border-dark-300">

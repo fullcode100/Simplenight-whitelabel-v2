@@ -14,7 +14,7 @@ const HotelRefundInfo = ({ item }: HotelRefundInfoProps) => {
   const roomName = roomDetail?.name;
 
   return (
-    <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
+    <section className="flex flex-col gap-2 border-t border-dark-300 py-6 lg:gap-3 lg:pt-6 lg:pb-0">
       <RoomTitle roomName={roomName} roomQty={item?.room_qty} />
 
       {supplierReferenceID && (

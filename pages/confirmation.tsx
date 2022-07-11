@@ -126,8 +126,8 @@ const Confirmation: NextPage = () => {
             />
           </header>
           {booking && (
-            <section className="lg:flex lg:flex-row lg:gap-8 lg:justify-between lg:px-20 lg:py-12">
-              <section>
+            <section className="lg:flex lg:flex-row lg:justify-center lg:gap-8 lg:px-20 lg:py-12">
+              <section className="lg:flex lg:flex-col lg:gap-8">
                 {bookedItemsAmount > 0 && (
                   <ConfirmationBooked
                     booking={booking}
@@ -145,7 +145,7 @@ const Confirmation: NextPage = () => {
                 )}
               </section>
 
-              <section className="lg:flex lg:flex-col lg:gap-8 lg:min-w-[405px]">
+              <section className="lg:flex lg:flex-col lg:gap-8 lg:w-[405px]">
                 <ConfirmationPayment booking={booking} />
                 <ConfirmationFooter booking={booking} />
 
