@@ -48,11 +48,11 @@ const HelpSection = ({
   );
 
   return (
-    <section className="p-4 mt-6 mb-4 lg:m-0 lg:flex lg:[50%] lg:flex-1">
+    <section className="lg:m-0 lg:flex lg:[50%] lg:flex-1">
       <section
         className={`flex flex-col gap-3 font-lato p-4 shadow-container rounded ${
           inItinerary ? 'text-left' : 'text-center'
-        } border text-dark-1000 lg:w-full lg:py-10 lg:px-6`}
+        } border border-dark-300 text-dark-1000 lg:w-full lg:py-10 lg:px-6`}
       >
         <h3
           className={`font-semibold text-2xl leading-[28px] text-dark-1000 lg:text-3xl ${
@@ -61,7 +61,9 @@ const HelpSection = ({
         >
           {helpTitle}
         </h3>
-        <p className={`text-lg leading-[26px] font-normal mt-4 ${descriptionClass}`}>
+        <p
+          className={`text-lg leading-[26px] font-normal mt-4 ${descriptionClass}`}
+        >
           {helpDescription}
         </p>
         <section
