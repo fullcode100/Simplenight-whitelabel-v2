@@ -79,6 +79,7 @@ const HotelSearchForm = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
   const [showTravelersInput, setShowTravelersInput] = useState(false);
+  const [showLocationError, setShowLocationError] = useState(false);
 
   const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
 
@@ -104,8 +105,17 @@ const HotelSearchForm = ({
     router.push(route);
   };
 
+  const handleChangeLocation = () => {
+    setShowLocationError(false);
+  };
+
+  const geolocationIsNull = geolocation === `${NaN},${NaN}`;
   const handleSearchClick = () => {
     if (hasReRoute) {
+      if (geolocationIsNull) {
+        setShowLocationError(true);
+        return;
+      }
       rerouteToSearchPage();
       return;
     }
@@ -162,6 +172,8 @@ const HotelSearchForm = ({
           placeholder={locationPlaceholder}
           routeParams={['type']}
           onSelect={handleSelectLocation}
+          error={showLocationError}
+          onChange={handleChangeLocation}
         />
         <TravelersInput
           showTravelersInput={showTravelersInput}
