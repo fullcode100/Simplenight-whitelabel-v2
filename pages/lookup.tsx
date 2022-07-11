@@ -21,7 +21,7 @@ const Lookup: NextPageWithLayout = () => {
           <LookupForm />
         </section>
       </section>
-      <section className="py-1 lg:w-[45%] lg:mx-auto lg:py-8">
+      <section className="py-6 px-5 lg:w-[45%] lg:mx-auto lg:py-8">
         <HelpSection titleClass="lg:mt-[0px] lg:text-3.5xl" />
       </section>
     </main>
