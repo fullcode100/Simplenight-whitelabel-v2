@@ -7,10 +7,17 @@ import MinusIcon from 'public/icons/assets/minus.svg';
 
 type NumberInputProps = Omit<BaseInputProps, 'onChange'> & {
   onChange?: (e: number) => void;
+  min?: number;
   max?: number;
 };
 
-const NumberInput = ({ value, onChange, max, ...others }: NumberInputProps) => {
+const NumberInput = ({
+  value,
+  onChange,
+  min = 0,
+  max,
+  ...others
+}: NumberInputProps) => {
   const handlePlusClick = () => {
     if (max) {
       if (onChange) onChange(value < max ? value + 1 : max);
@@ -20,7 +27,7 @@ const NumberInput = ({ value, onChange, max, ...others }: NumberInputProps) => {
   };
 
   const handleMinusClick = () => {
-    const positiveValue = value > 0 ? value - 1 : 0;
+    const positiveValue = value > min ? value - 1 : min;
     if (onChange) onChange(positiveValue);
   };
 
@@ -48,7 +55,7 @@ const NumberInput = ({ value, onChange, max, ...others }: NumberInputProps) => {
         type="dual"
         size="w-11 h-11"
         containerClassName="h-full"
-        disabledLeft={value === 0 ? true : false}
+        disabledLeft={value === min ? true : false}
         disabledRight={value === max ? true : false}
       />
     </section>

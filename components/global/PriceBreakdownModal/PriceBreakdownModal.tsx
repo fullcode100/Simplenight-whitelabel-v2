@@ -124,7 +124,7 @@ const PriceBreakdownModal = ({
         <Divider className="mt-2" />
         <BreakdownRow
           label={payNowLabel}
-          price={totalAmountBeforeApply.formatted}
+          price={totalAmount.formatted}
           priceClassName="font-semibold text-lg"
         />
         <BreakdownSubtitle

@@ -25,6 +25,7 @@ const TravelersCount = ({
         label={adultsLabel}
         value={room.adults}
         onChange={(value) => handleCountChange(value, index, 'adults')}
+        min={1}
         max={10}
         disabled
       />
