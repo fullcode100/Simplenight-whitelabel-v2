@@ -22,7 +22,7 @@ const Lookup: NextPageWithLayout = () => {
         </section>
       </section>
 
-      <section className="py-1">
+      <section className="py-6 px-5 lg:py-12 lg:px-[419px]">
         <HelpSection />
       </section>
     </main>

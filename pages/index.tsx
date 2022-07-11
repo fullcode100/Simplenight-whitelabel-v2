@@ -52,8 +52,8 @@ const Home: NextPageWithLayout = () => {
     children?: any;
     className?: string;
   }) => (
-    <section className={`bg-white shadow rounded-lg ${className}`}>
-      <section className="px-4 py-5 sm:p-6">{children}</section>
+    <section className={`bg-white shadow rounded ${className}`}>
+      <section className="p-4 lg:p-6">{children}</section>
     </section>
   );
   useEffect(() => {
@@ -74,20 +74,20 @@ const Home: NextPageWithLayout = () => {
   };
 
   const OrderLookupCard = () => (
-    <section className="mt-8 text-dark-1000 lg:m-0 lg:flex lg:w-[50%] lg:flex-1">
-      <section className="font-lato p-4 shadow-md rounded-4 text-center border grid place-items-center lg:flex lg:first-line lg:gap-8 lg:w-full lg:px-8 lg:py-10">
+    <section className="text-dark-1000 lg:m-0 lg:flex lg:w-[50%] lg:flex-1">
+      <section className="font-lato p-4 shadow-container rounded text-center border grid place-items-center lg:flex lg:first-line lg:gap-8 lg:w-full lg:px-8 lg:py-10">
         <OrderLookupIcon className="lg:w-[11rem] lg:h-[10rem]" />
         <section className="grid place-items-center w-full lg:place-items-start">
-          <h3 className="text-2xl mt-4 lg:text-3xl lg:mt-0 font-semibold">
+          <h3 className="text-2xl mt-4 text-dark-1000 lg:text-3xl lg:mt-0 font-semibold">
             {lookupYourOrder}
           </h3>
-          <p className="text-lg font-normal mt-3 lg:text-xl lg:mt-2">
+          <p className="text-lg font-normal mt-3 text-dark-1000 lg:text-xl lg:mt-2">
             {reviewAndManageYourOrder}
           </p>
           <Button
             value={goToOrderLookup}
             size="full"
-            className="mt-4 lg:mt-2 lg:w-auto lg:px-5 lg:font-normal lg:h-11"
+            className="mt-5 lg:mt-4 lg:w-auto lg:px-5 lg:font-normal lg:h-11"
             onClick={redirectToLookup}
           />
         </section>
@@ -125,7 +125,7 @@ const Home: NextPageWithLayout = () => {
           </section>
         </UpperSectionBackground>
       </section>
-      <section className="py-4 px-4 space-x-4 lg:flex lg:px-20 lg:py-10">
+      <section className="flex flex-col gap-4 py-6 px-5 lg:flex-row lg:gap-8 lg:px-20 lg:py-12">
         <OrderLookupCard />
         <HelpSection />
       </section>
