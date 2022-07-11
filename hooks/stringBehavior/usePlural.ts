@@ -9,7 +9,7 @@ export const usePlural = (
 
   useEffect(() => {
     setValue(counter === 1 ? singular : plural);
-  }, [counter]);
+  }, [counter, singular, plural]);
 
   return value;
 };

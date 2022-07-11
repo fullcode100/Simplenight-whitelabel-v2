@@ -176,10 +176,7 @@ const Payment = () => {
 
   return (
     <>
-      {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
-        Header Wizzard
-      </section> */}
-      <CheckoutHeader step="payment" />
+      <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
         <section className="px-0 py-0 lg:px-20 lg:py-12 flex gap-8 items-start">
           <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">

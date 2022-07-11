@@ -1,5 +1,5 @@
 // Libraries
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 // Types
 import { Amount } from 'types/global/Amount';
 // Components
@@ -24,12 +24,17 @@ import { IChangeEvent } from '@rjsf/core';
 import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
 import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
+import BreakdownItemList from 'components/checkout/BreakdownItemList/BreakdownItemList';
 
 const empty: Amount = {
   formatted: '$0.00',
   amount: 0,
   currency: 'USD',
 };
+
+interface LayoutProps {
+  children: ReactNode;
+}
 
 const ITINERARY_URI = '/itinerary';
 
@@ -69,6 +74,7 @@ const Client = () => {
   };
 
   const primaryContactText = t('orderName', 'Order Name');
+  const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
 
   const handleGetSchema = async () => {
     try {
@@ -145,51 +151,80 @@ const Client = () => {
       .catch((error) => console.error(error));
   }, [reload]);
 
+  const Title = ({ children }: LayoutProps) => (
+    <p className="px-5 mt-3 lg:mt-0 mb-2 text-lg lg:text-2xl text-dark-800 lg:bg-dark-100 lg:py-6 lg:border-b lg:font-semibold">
+      {children}
+    </p>
+  );
+
+  const Card = ({ children }: LayoutProps) => (
+    <section className="lg:border lg:rounded-md lg:shadow-sm">
+      {children}
+    </section>
+  );
+
+  const itemsNumber = cart?.items?.length;
+
   return (
     <>
-      <CheckoutHeader step="client" />
+      <CheckoutHeader step="client" itemsNumber={itemsNumber} />
       {loaded ? (
-        <>
-          <p className="px-5 mt-3 mb-2 text-lg text-dark-800">
-            {primaryContactText}
-          </p>
-          <section>
-            <ClientForm
-              schema={travelersFormSchema}
-              uiSchema={travelersUiSchema}
-              onChange={handlePrimaryContactFormChange}
-              onSubmit={continueToPayment}
-            >
-              <ClientCart
-                items={cart?.items}
-                schema={travelersFormSchema}
-                uiSchema={travelersUiSchema}
-                onChange={handleAdditionalRequestChange}
-              />
-              <Divider />
-              <CheckoutFooter type="client">
-                <CheckoutSummary
+        <section className="lg:flex lg:px-20 lg:py-12 lg:gap-8 lg:justify-start">
+          <section className="lg:w-[68%]">
+            <Card>
+              <Title>{primaryContactText}</Title>
+              <section>
+                <ClientForm
+                  schema={travelersFormSchema}
+                  uiSchema={travelersUiSchema}
+                  onChange={handlePrimaryContactFormChange}
+                  onSubmit={continueToPayment}
+                >
+                  <ClientCart
+                    items={cart?.items}
+                    schema={travelersFormSchema}
+                    uiSchema={travelersUiSchema}
+                    onChange={handleAdditionalRequestChange}
+                  />
+                  <Divider />
+                  <CheckoutFooter type="client">
+                    <CheckoutSummary
+                      cart={cart}
+                      reload={reload}
+                      setReload={setReload}
+                    />
+                    <Button
+                      value="Cancel"
+                      size={'full'}
+                      onClick={redirectToItinerary}
+                      color="outlined"
+                      className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+                    />
+                    <Button
+                      value="Continue"
+                      size={'full'}
+                      disabled={isDisabled}
+                      className="lg:w-[35%] text-[18px] font-normal"
+                    />
+                  </CheckoutFooter>
+                </ClientForm>
+              </section>
+            </Card>
+          </section>
+          <section className="hidden lg:block lg:w-[32%]">
+            <Card>
+              <Title> {priceBreakdownText}</Title>
+              <section>
+                <BreakdownItemList
                   cart={cart}
                   reload={reload}
                   setReload={setReload}
+                  className="px-4 py-1"
                 />
-                <Button
-                  value="Cancel"
-                  size={'full'}
-                  onClick={redirectToItinerary}
-                  color="outlined"
-                  className="text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                />
-                <Button
-                  value="Continue"
-                  size={'full'}
-                  disabled={isDisabled}
-                  className="text-[18px] font-normal"
-                />
-              </CheckoutFooter>
-            </ClientForm>
+              </section>
+            </Card>
           </section>
-        </>
+        </section>
       ) : (
         <Loader />
       )}

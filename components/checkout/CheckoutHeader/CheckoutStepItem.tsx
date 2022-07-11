@@ -17,7 +17,7 @@ const CheckoutStepItem = ({ icon, text, status }: CheckoutStepItemProps) => {
       })}
     >
       {icon}
-      <p className="font-semibold text-base">{text}</p>
+      <p className="font-semibold text-base lg:text-lg">{text}</p>
     </section>
   );
 };

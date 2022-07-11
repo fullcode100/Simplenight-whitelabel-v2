@@ -82,7 +82,7 @@ export const ObjectFieldTemplate = (props: any) => {
           </section>
         </>
       )}
-      <section className={contentClass}>
+      <section className={`${contentClass} lg:grid lg:grid-cols-2 lg:gap-x-4`}>
         {properties.map((element: any, i: number) => (
           <section key={`s${i}`} className="property-wrapper mt-4">
             {element.content}
