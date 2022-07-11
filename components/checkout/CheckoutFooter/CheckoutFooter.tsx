@@ -13,7 +13,9 @@ const CheckoutFooter = ({ children, type, className }: FooterProps) => {
       : 'py-6 bg-dark-100 lg:bg-transparent px-5 border-t border-dark-300'
   }`;
 
-  return <section className={styles}>{children}</section>;
+  return (
+    <section className={`${styles} lg:flex-row lg:pt-5`}>{children}</section>
+  );
 };
 
 export default CheckoutFooter;
