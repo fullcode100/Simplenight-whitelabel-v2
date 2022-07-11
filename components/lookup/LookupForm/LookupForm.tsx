@@ -33,8 +33,8 @@ const LookupForm = () => {
   };
 
   return (
-    <section className="grid gap-5 bg-white rounded p-4">
-      <section className="grid gap-4">
+    <section className="grid gap-5 bg-white rounded p-4 lg:flex lg:items-end lg:gap-4">
+      <section className="grid gap-4 lg:flex lg:w-[80%] lg:flex-1 lg:items-end">
         <BaseInput
           label={simplenightOrderNumber}
           value={orderNumber}
@@ -51,7 +51,12 @@ const LookupForm = () => {
         />
       </section>
 
-      <Button value={findOrder} size="full" onClick={handleFindOrder} />
+      <Button
+        value={findOrder}
+        size="full"
+        onClick={handleFindOrder}
+        className="lg:w-[20%] lg:h-[2.7rem]"
+      />
     </section>
   );
 };

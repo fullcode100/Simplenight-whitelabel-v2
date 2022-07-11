@@ -8,9 +8,15 @@ import classnames from 'classnames';
 
 interface HelpSectionProps {
   inItinerary?: boolean;
+  titleClass?: string;
+  descriptionClass?: string;
 }
 
-const HelpSection = ({ inItinerary = false }: HelpSectionProps) => {
+const HelpSection = ({
+  inItinerary = false,
+  titleClass,
+  descriptionClass,
+}: HelpSectionProps) => {
   const [t, i18next] = useTranslation('global');
   const helpTitle = t('needHelpTitle', 'Need Some Help?');
   const helpDescription = t('needHelpDescription', 'Contact Us For Support.');
@@ -21,7 +27,6 @@ const HelpSection = ({ inItinerary = false }: HelpSectionProps) => {
   const handleLinkOpen = (url: string) => {
     window.open(url, '_blank');
   };
-
   interface HelpLinkProps {
     icon?: React.ReactNode;
     link?: string;
@@ -43,7 +48,7 @@ const HelpSection = ({ inItinerary = false }: HelpSectionProps) => {
   );
 
   return (
-    <section className="lg:m-0 lg:flex lg:[50%] lg:flex-1">
+    <section className="p-4 mt-6 mb-4 lg:m-0 lg:flex lg:[50%] lg:flex-1">
       <section
         className={`flex flex-col gap-3 font-lato p-4 shadow-container rounded ${
           inItinerary ? 'text-left' : 'text-center'
@@ -52,11 +57,13 @@ const HelpSection = ({ inItinerary = false }: HelpSectionProps) => {
         <h3
           className={`font-semibold text-2xl leading-[28px] text-dark-1000 lg:text-3xl ${
             !inItinerary && 'lg:mt-4'
-          }`}
+          } ${titleClass}`}
         >
           {helpTitle}
         </h3>
-        <p className="text-lg leading-[26px] font-normal">{helpDescription}</p>
+        <p className={`text-lg leading-[26px] font-normal mt-4 ${descriptionClass}`}>
+          {helpDescription}
+        </p>
         <section
           className={classnames({
             'flex flex-col gap-3 lg:gap-0 first-letter lg:flex-row lg:justify-center lg:items-center lg:mt-2':
