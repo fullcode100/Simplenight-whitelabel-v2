@@ -1,5 +1,5 @@
-import DatePicker from '../Calendar/Calendar';
-import IconInput from '../Input/IconInput';
+import DatePicker from '../../../components/global/Calendar/Calendar';
+import IconInput from '../../../components/global/Input/IconInput';
 import Calendar from 'public/icons/assets/calendar.svg';
 import { useState } from 'react';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';

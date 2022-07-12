@@ -2,7 +2,7 @@ import FullScreenModal from '../../../components/global/NewModal/FullScreenModal
 import CheckInOutInput, {
   useCheckInOutInput,
   UseCheckInOutInputPropsComponentReturn,
-} from 'components/global/CheckInOutInput/CheckInOutInput';
+} from 'hotels/components/CheckInOutInput/CheckInOutInput';
 import { useTranslation } from 'react-i18next';
 import GuestsRoomsInput from 'hotels/components/GuestsRoomsInput/GuestsRoomsInput';
 import { useState } from 'react';
