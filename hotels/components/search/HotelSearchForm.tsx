@@ -208,6 +208,8 @@ const HotelSearchForm = ({
         <DatePicker
           showDatePicker={showDatePicker}
           onClose={() => setShowDatePicker(false)}
+          startDateLabel={checkInText}
+          endDateLabel={checkOutText}
           initialStartDate={startDate}
           initialEndDate={endDate}
           onStartDateChange={handleStartDateChange}

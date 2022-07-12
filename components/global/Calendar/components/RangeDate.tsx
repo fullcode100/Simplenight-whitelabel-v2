@@ -1,9 +1,10 @@
-import { useTranslation } from 'react-i18next';
 import { fromLowerCaseToCapitilize } from '../../../../helpers/stringUtils';
 
 interface RangeDateProps {
   isStartDateTurn: boolean;
   onDateTurn: any;
+  startDateLabel: string;
+  endDateLabel: string;
   startDate: string;
   endDate: string;
 }
@@ -11,12 +12,11 @@ interface RangeDateProps {
 const RangeDate = ({
   isStartDateTurn,
   onDateTurn,
+  startDateLabel,
+  endDateLabel,
   startDate,
   endDate,
 }: RangeDateProps) => {
-  const [t] = useTranslation('hotels');
-  const checkInText = t('checkIn');
-  const checkOutText = t('checkOut');
   return (
     <section className="grid grid-cols-2 justify-center pt-4 px-5">
       <div
@@ -24,7 +24,7 @@ const RangeDate = ({
           isStartDateTurn ? 'border-primary-1000' : 'border-dark-300'
         }`}
       >
-        <p className="text-sm text-dark-800">{checkInText}</p>
+        <p className="text-sm text-dark-800">{startDateLabel}</p>
         <button
           onClick={onDateTurn}
           className={`text-base font-semibold ${
@@ -39,7 +39,7 @@ const RangeDate = ({
           !isStartDateTurn ? 'border-primary-1000' : 'border-dark-300'
         }`}
       >
-        <p className="text-sm text-dark-800">{checkOutText}</p>
+        <p className="text-sm text-dark-800">{endDateLabel}</p>
         <button
           onClick={onDateTurn}
           className={`text-base font-semibold ${
