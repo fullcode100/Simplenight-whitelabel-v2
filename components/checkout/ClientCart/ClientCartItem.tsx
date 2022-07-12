@@ -31,9 +31,10 @@ const ClientCartItem = ({
   const toggleText = t('useOrderName', 'Use Order Name');
   const roomText = t('room', 'Room');
   const roomsText = t('rooms', 'Rooms');
-  const { name } = item.extended_data.details;
-  const { description } = item.extended_data.min_rate_room;
-  const itemsQty = item.room_qty;
+  // eslint-disable-next-line no-unsafe-optional-chaining
+  const name = item?.extended_data?.details?.name;
+  const description = item?.extended_data?.min_rate_room?.description;
+  const itemsQty = item?.room_qty;
   return (
     <CartItemDropdown
       title={name}
