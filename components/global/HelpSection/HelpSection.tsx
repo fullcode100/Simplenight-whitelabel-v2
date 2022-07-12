@@ -54,11 +54,7 @@ const HelpSection = ({
           inItinerary ? 'text-left' : 'text-center'
         } border border-dark-300 text-dark-1000 lg:w-full lg:py-10 lg:px-6`}
       >
-        <h3
-          className={`font-semibold text-2xl leading-[28px] text-dark-1000 lg:text-3xl ${
-            !inItinerary && 'lg:mt-4'
-          } ${titleClass}`}
-        >
+        <h3 className={`${!inItinerary && 'lg:mt-4'} ${titleClass}`}>
           {helpTitle}
         </h3>
         <p

@@ -28,6 +28,32 @@
   h6 {
     margin-bottom: 0px !important;
   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-lato font-semibold text-dark-1000;
+  }
+  h1 {
+    @apply text-[40px] leading-[46px] lg:text-[60px] lg:leading-[68px];
+  }
+  h2 {
+    @apply text-[32px] leading-tight lg:text-[44px] lg:leading-[50px];
+  }
+  h3 {
+    @apply text-[24px] leading-7 lg:text-[32px] lg:leading-[38px];
+  }
+  h4 {
+    @apply text-lg leading-6 lg:text-[24px] lg:leading-[29px];
+  }
+  h5 {
+    @apply text-[18px] leading-[22px] lg:text-lg lg:leading-6;
+  }
+  h6 {
+    @apply text-sm leading-5 lg:text-[18px] lg:leading-[22px];
+  }
   input[type='radio'] {
     @apply relative h-6 w-6 text-primary-600 border-dark-300 checked:bg-none checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
   }
@@ -41,26 +67,6 @@
   input[type='checkbox'] {
     @apply relative h-6 w-6 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
   }
-}
-
-.h1 {
-  @apply font-manrope font-semibold text-[40px] leading-[68px] sm:text-6xl sm:leading-[46px];
-}
-
-.h2 {
-  @apply font-manrope font-semibold text-[32px] sm:text-[44px] leading-[50px] sm:leading-[40px];
-}
-
-.h3 {
-  @apply font-manrope font-semibold text-[38px] /*sm:text-[24px]*/ leading-[32px] /*sm:leading-[28px]*/;
-}
-
-.h4 {
-  @apply font-manrope font-semibold text-lg sm:text-2xl leading-[29px] sm:leading-[24px];
-}
-
-.h5 {
-  @apply font-manrope font-semibold text-base md:text-xl leading-[24px] sm:leading-[22px];
 }
 
 .plg {
