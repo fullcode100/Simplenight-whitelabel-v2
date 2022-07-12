@@ -1,63 +1,29 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-// import { SEARCH_DATE_FORMAT } from '../../../../helpers/searchConstants';
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
-import { HotelSearchFormData } from '../../../types/search/categories/HotelSearchFormData';
-import { LocationPrefix } from '../../../types/search/LocationPrefixResponse';
-import LocationAutoComplete from '../../../components/global/AutoComplete/LocationAutoComplete';
 import DatePicker from '../../../components/global/Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
 import { Room, createRoom } from 'hotels/helpers/room';
-import OccupancySelector, {
-  OccupancyData,
-} from './OcupancySelector/OccupancySelector';
 
 import Bed from 'public/icons/assets/bed.svg';
-import LocationPin from 'public/icons/assets/location-pin.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
 import Button from 'components/global/Button/Button';
 import { SearchFormProps } from 'types/search/SearchFormProps';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import LocationInput from 'components/global/Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
-import { parseQueryNumber } from 'helpers/stringUtils';
 import { setTravelersTotals } from 'hotels/helpers/travelers';
 import {
   StringGeolocation,
-  latLngProp,
-  GEOLOCATION_SEPARATOR,
   LATITUDE_INDEX,
   LONGITUDE_INDEX,
 } from 'types/search/Geolocation';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import Label from 'components/global/Label/Label';
-import useLocalStorage from 'hooks/localStorage/useLocalStorage';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
-
-const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
-
-const getInitialHotelSearchState = (): HotelSearchFormData => {
-  const tomorrow = dayjs().add(1, 'day').format(SEARCH_DATE_FORMAT);
-
-  return {
-    startLocation: null,
-    startDate: tomorrow,
-    roomCount: 1,
-    adultCount: 1,
-    childCount: 0,
-  };
-};
-
-const getInitialHotelOccupancyState = (): OccupancyData => ({
-  adultCount: 1,
-  childCount: 0,
-  roomCount: 1,
-});
 
 const HotelRoomAvailabilityForm = ({
   setIsSearching,
@@ -204,6 +170,8 @@ const HotelRoomAvailabilityForm = ({
         <DatePicker
           showDatePicker={showDatePicker}
           onClose={() => setShowDatePicker(false)}
+          startDateLabel={checkInText}
+          endDateLabel={checkOutText}
           initialStartDate={startDate}
           initialEndDate={endDate}
           onStartDateChange={handleStartDateChange}
