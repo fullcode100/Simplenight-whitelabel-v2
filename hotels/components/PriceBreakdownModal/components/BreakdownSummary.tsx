@@ -1,6 +1,6 @@
 import React from 'react';
 import PriceDisplay from 'components/global/PriceDisplay/PriceDisplay';
-import { Rate } from '../../../../hotels/types/response/SearchResponse';
+import { Rate } from '../../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
 
 interface BreakdownSummaryProps {
