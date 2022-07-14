@@ -57,9 +57,7 @@ const HelpSection = ({
         <h3 className={`${!inItinerary && 'lg:mt-4'} ${titleClass}`}>
           {helpTitle}
         </h3>
-        <p
-          className={`text-lg leading-[26px] font-normal mt-4 ${descriptionClass}`}
-        >
+        <p className={`text-lg leading-[26px] font-normal ${descriptionClass}`}>
           {helpDescription}
         </p>
         <section
