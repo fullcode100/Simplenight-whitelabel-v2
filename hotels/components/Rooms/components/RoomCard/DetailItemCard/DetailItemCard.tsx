@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import {
   Rate,
   CancellationPolicy,
-} from '../../../hotels/types/response/SearchResponse';
-import PriceBreakdownModal from '../PriceBreakdownModal/PriceBreakdownModal';
-import { Item } from '../../../types/cart/CartType';
+} from '../../../../../types/response/SearchResponse';
+import PriceBreakdownModal from '../../../../../../components/global/PriceBreakdownModal/PriceBreakdownModal';
+import { Item } from '../../../../../../types/cart/CartType';
 interface DetailItemCardProps {
   label: string;
   description: string;

@@ -2,7 +2,7 @@ import {
   Rate,
   CancellationPolicy,
 } from '../../../../types/response/SearchResponse';
-import DetailItemCard from 'components/global/DetailItemCard/DetailItemCard';
+import DetailItemCard from './DetailItemCard/DetailItemCard';
 import { Item } from '../../../../../types/cart/CartType';
 import { useTranslation } from 'react-i18next';
 
