@@ -54,9 +54,7 @@ const DatePicker = ({
   dayjs.locale(i18n.resolvedLanguage);
   const datesText = t('dates', 'Dates');
   const applyText = t('apply', 'Apply');
-  const [calendar, setCalendar] = useState(
-    createCalendar(initialYear, initialMonth),
-  );
+  const [calendar, setCalendar] = useState<MonthObject[]>();
   const [startDate, setStartDate] = useState<string>(
     dayjs().format('YYYY-MM-DD'),
   );
@@ -66,6 +64,7 @@ const DatePicker = ({
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
 
   useEffect(() => {
+    setCalendar(createCalendar(initialYear, initialMonth));
     setStartDate(initialStartDate ?? startDate);
     setEndDate(initialEndDate ?? endDate);
   }, []);
@@ -125,7 +124,7 @@ const DatePicker = ({
         endDate={formatAsRangeDate(endDate)}
       />
       <section className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5">
-        {calendar.map((month: MonthObject, index) => {
+        {calendar?.map((month: MonthObject, index) => {
           return (
             <Fragment key={index}>
               <p className="col-span-7 font-semibold text-dark-1000 text-base leading-base mt-3">{`${fromLowerCaseToCapitilize(
