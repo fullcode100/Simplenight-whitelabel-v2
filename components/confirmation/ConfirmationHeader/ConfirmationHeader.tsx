@@ -70,9 +70,9 @@ const ConfirmationHeader = ({
           <span className=" text-primary-1000">
             <CircleConfirmation className="h-5 w-5 lg:h-[50px] lg:w-[50px]" />
           </span>
-          <h1 className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+          <p className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
             {orderConfirmed}
-          </h1>
+          </p>
         </section>
 
         {showItemsAmount && (

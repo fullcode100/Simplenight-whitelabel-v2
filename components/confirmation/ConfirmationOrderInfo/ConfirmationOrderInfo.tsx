@@ -21,14 +21,12 @@ const ConfirmationOrderInfo = ({ booking }: ConfirmationHeaderProps) => {
   return (
     <section className="flex lg:flex-col justify-between lg:justify-start lg:gap-2 lg:text-sm lg:leading-[22px]">
       <section className="flex flex-col">
-        <h4 className="font-semibold text-dark-700">
-          {simplenightOrderNumber}
-        </h4>
-        <h1 className="font-semibold text-dark-1000">{snOrderNumber}</h1>
+        <p className="font-semibold text-dark-700">{simplenightOrderNumber}</p>
+        <p className="font-semibold text-dark-1000">{snOrderNumber}</p>
       </section>
       <section className="flex flex-col">
-        <h4 className="font-semibold text-dark-700">{bookingDateLabel}</h4>
-        <h1 className="font-semibold text-dark-1000">{bookingDate}</h1>
+        <p className="font-semibold text-dark-700">{bookingDateLabel}</p>
+        <p className="font-semibold text-dark-1000">{bookingDate}</p>
       </section>
     </section>
   );
