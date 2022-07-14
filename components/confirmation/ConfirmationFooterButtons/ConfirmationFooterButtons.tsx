@@ -1,9 +1,34 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
-const ConfirmationFooterButtons = () => {
+import Button from 'components/global/Button/Button';
+import { cancelBooking } from 'core/client/services/BookingService';
+
+interface ConfirmationFooterButtonsProps {
+  bookingId: string;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+const ConfirmationFooterButtons = ({
+  bookingId,
+  loading,
+  setLoading,
+}: ConfirmationFooterButtonsProps) => {
+  const router = useRouter();
+
   const [t, i18next] = useTranslation('global');
   const continueShopping = t('continueShopping', 'Continue Shopping');
   const cancelOrder = t('cancelOrder', 'Cancel Order');
+
+  const handleCancelBooking = () => {
+    setLoading(!loading);
+    cancelBooking(i18next, bookingId).then(() => {
+      setLoading(!loading);
+      router.reload();
+    });
+  };
 
   return (
     <section className="flex flex-col">
@@ -12,11 +37,13 @@ const ConfirmationFooterButtons = () => {
           {continueShopping}
         </h4>
       </button>
-      <button className="h-11 rounded border border-dark-1000">
-        <h4 className="font-semibold text-dark-1000 text-[18px]">
-          {cancelOrder}
-        </h4>
-      </button>
+      <Button
+        value={cancelOrder}
+        size="full"
+        type="outlined"
+        translationKey="cancelOrder"
+        onClick={handleCancelBooking}
+      />
     </section>
   );
 };

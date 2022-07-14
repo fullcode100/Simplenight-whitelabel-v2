@@ -1,5 +1,7 @@
-import { i18n } from 'i18next';
+import i18next, { i18n } from 'i18next';
 import { CreateBookingRequest } from 'types/checkout/CreateBookingRequest';
+import { CancelBookingRequest } from 'types/confirmation/DeleteBookingRequest';
+import { ClientBookingCancel } from '../ClientBookingCancel';
 import { ClientBookingCreator } from '../ClientBookingCreator';
 import { ClientBookingGetter } from '../ClientBookingGetter';
 import { ClientBookingsGetter } from '../ClientBookingsGetter';
@@ -73,6 +75,19 @@ export const getBookingId = async (i18next: i18n, bookingId: string) => {
       const response = await bookingGetter.request(bookingRequest, i18next);
       return response;
     }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const cancelBooking = async (i18next: i18n, bookingId: string) => {
+  const bookingCancel = new ClientBookingCancel();
+  const requestData: CancelBookingRequest = {
+    bookingId,
+  };
+
+  try {
+    await bookingCancel.request(requestData, i18next);
   } catch (error) {
     console.error(error);
   }

@@ -1,18 +1,26 @@
-import Divider from 'components/global/Divider/Divider';
+import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { Booking } from 'types/booking/bookingType';
+import Divider from 'components/global/Divider/Divider';
 import ConfirmationFooterButtons from '../ConfirmationFooterButtons/ConfirmationFooterButtons';
 import ConfirmationPriceBreakdown from '../ConfirmationPriceBreakdown/ConfirmationPriceBreakdown';
 
 interface ConfirmationFooterProps {
   booking: Booking;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const ConfirmationFooter = ({ booking }: ConfirmationFooterProps) => {
+const ConfirmationFooter = ({
+  booking,
+  loading,
+  setLoading,
+}: ConfirmationFooterProps) => {
   const [t, i18next] = useTranslation('global');
   const orderTotalLabel = t('orderTotal', 'Order Total');
 
-  const { order_total: orderTotal } = booking;
+  const { order_total: orderTotal, booking_id: bookingId } = booking;
 
   return (
     <section className="flex flex-col px-5 py-6 bg-dark-100 lg:bg-white lg:shadow-container border-b lg:border lg:rounded border-dark-300">
@@ -28,7 +36,11 @@ const ConfirmationFooter = ({ booking }: ConfirmationFooterProps) => {
           </h1>
         </section>
       </section>
-      <ConfirmationFooterButtons />
+      <ConfirmationFooterButtons
+        bookingId={bookingId}
+        loading={loading}
+        setLoading={setLoading}
+      />
     </section>
   );
 };

@@ -144,11 +144,13 @@ const Confirmation: NextPage = () => {
                   />
                 )}
               </section>
-
               <section className="lg:flex lg:flex-col lg:gap-8 lg:w-[405px]">
                 <ConfirmationPayment booking={booking} />
-                <ConfirmationFooter booking={booking} />
-
+                <ConfirmationFooter
+                  booking={booking}
+                  loading={loading}
+                  setLoading={setLoading}
+                />
                 <HelpSection />
               </section>
             </section>
