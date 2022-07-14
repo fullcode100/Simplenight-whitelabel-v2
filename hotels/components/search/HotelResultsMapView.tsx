@@ -1,4 +1,4 @@
-import MapView from 'components/global/MapView/MapView';
+import MapView from 'hotels/components/search/MapView/MapView';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { Hotel } from 'hotels/types/response/SearchResponse';
 

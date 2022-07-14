@@ -1,15 +1,15 @@
 import Carousel from 'react-multi-carousel';
 import { useTranslation } from 'react-i18next';
 
-import CustomArrow from '../CarouselNew/components/CustomArrow';
-import HorizontalItemCard from '../HorizontalItemCard/HorizontalItemCard';
-import LocationMap from '../LocationMap/LocationMap';
+import CustomArrow from '../../../../components/global/CarouselNew/components/CustomArrow';
+import HorizontalItemCard from '../../../../components/global/HorizontalItemCard/HorizontalItemCard';
+import LocationMap from '../../../../components/global/LocationMap/LocationMap';
 import { useState } from 'react';
 import classnames from 'classnames';
-import { MapViewProps } from '../MapView/MapViewTypes';
+import { MapViewProps } from './MapViewTypes';
 import HotelItemRateInfo from 'hotels/components/search/HotelItemRateInfo';
 import { MinRate, Rate } from 'hotels/types/response/SearchResponse';
-import PriceDisplay from '../PriceDisplay/PriceDisplay';
+import PriceDisplay from '../../../../components/global/PriceDisplay/PriceDisplay';
 import HotelCancellable from 'hotels/components/search/HotelCancellable';
 
 const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
