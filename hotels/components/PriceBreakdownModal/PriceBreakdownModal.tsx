@@ -1,22 +1,19 @@
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FullScreenModal from '../NewModal/FullScreenModal';
-import Divider from '../Divider/Divider';
+import FullScreenModal from '../../../components/global/NewModal/FullScreenModal';
+import Divider from '../../../components/global/Divider/Divider';
 import BreakdownRoomDescription from './components/BreakdownRoomDescription';
 import BreakdownSubtitle from './components/BreakdownSubtitle';
 import BreakdownRow from './components/BreakdownRow';
-import {
-  Rate,
-  CancellationPolicy,
-} from '../../../hotels/types/response/SearchResponse';
+import { Rate, CancellationPolicy } from '../../types/response/SearchResponse';
 import BreakdownSummary from './components/BreakdownSummary';
-import FreeCancellationExtended from '../FreeCancellation/FreeCancellationExtended';
-import AmenitiesSection from '../../../hotels/components/Amenities/AmenitiesSection';
+import FreeCancellationExtended from '../../../components/global/FreeCancellation/FreeCancellationExtended';
+import AmenitiesSection from '../Amenities/AmenitiesSection';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../../../types/cart/CartType';
-import ModalHeader from '../NewModal/components/ModalHeader';
+import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
 
 const RESORT_FEES = 'RESORT_FEES';
 

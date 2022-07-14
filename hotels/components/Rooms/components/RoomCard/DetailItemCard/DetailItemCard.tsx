@@ -3,7 +3,7 @@ import {
   Rate,
   CancellationPolicy,
 } from '../../../../../types/response/SearchResponse';
-import PriceBreakdownModal from '../../../../../../components/global/PriceBreakdownModal/PriceBreakdownModal';
+import PriceBreakdownModal from 'hotels/components/PriceBreakdownModal/PriceBreakdownModal';
 import { Item } from '../../../../../../types/cart/CartType';
 interface DetailItemCardProps {
   label: string;

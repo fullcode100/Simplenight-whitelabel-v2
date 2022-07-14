@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
-import BreakdownSummary from 'components/global/PriceBreakdownModal/components/BreakdownSummary';
+import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary';
 import { Item } from 'types/cart/CartType';
 
 import TrashIcon from 'public/icons/assets/small-trash.svg';
