@@ -31,7 +31,7 @@ const LocationInput = ({
   const [address, setAddress] = useState(defaultAddress);
   const isMapLoaded = getIsMapLoaded();
 
-  const [t, i18next] = useTranslation('hotels');
+  const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
 
   const handleChange = (newAddress: string) => {
