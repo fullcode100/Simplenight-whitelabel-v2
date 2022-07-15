@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import PriceDisplay from 'components/global/PriceDisplay/PriceDisplay';
-import { MinRate } from 'hotels/types/response/SearchResponse';
+import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import HotelCancellable from './HotelCancellable';
+import { MinRate } from 'hotels/types/response/SearchResponse';
 
 interface HotelItemRateInfoProps {
   minRate: MinRate;

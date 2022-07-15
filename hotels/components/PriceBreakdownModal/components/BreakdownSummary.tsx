@@ -1,5 +1,5 @@
 import React from 'react';
-import PriceDisplay from 'components/global/PriceDisplay/PriceDisplay';
+import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import { Rate } from '../../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
 
