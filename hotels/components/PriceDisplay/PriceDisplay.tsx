@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import { Rate } from '../../../hotels/types/response/SearchResponse';
+import { Rate } from '../../types/response/SearchResponse';
 
 interface PriceDisplayProps {
   rate: Rate;

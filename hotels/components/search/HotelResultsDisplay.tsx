@@ -29,7 +29,7 @@ import ListIcon from 'public/icons/assets/list.svg';
 import classnames from 'classnames';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import HotelFilterFormDesktop from './HotelFilterFormDesktop';
-import PriceDisplay from 'components/global/PriceDisplay/PriceDisplay';
+import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import HotelCancellable from './HotelCancellable';
 
 declare let window: CustomWindow;
