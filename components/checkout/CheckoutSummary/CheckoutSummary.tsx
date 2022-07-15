@@ -19,7 +19,7 @@ const CheckoutSummary = ({
 }: CheckoutSummaryProps) => {
   const [openPriceBreakdown, setOpenPriceBreakdown] = useState(false);
 
-  const [t] = useTranslation('hotels');
+  const [t] = useTranslation('global');
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const taxesAndFeesLabel = t(
     'includesTaxesAndFees',
