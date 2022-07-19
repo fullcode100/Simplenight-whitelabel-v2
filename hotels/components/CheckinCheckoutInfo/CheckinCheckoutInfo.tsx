@@ -26,7 +26,7 @@ const CheckinCheckoutInfo = ({
         <CalendarIcon className="h-3.5 lg:h-5 lg:w-5 mt-1 lg:mt-0 text-primary-1000" />
         {checkinDate && checkinTime && (
           <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
-            <p className="text-dark-800">{checkinLabel}</p>
+            <p className="text-dark-700">{checkinLabel}</p>
             <p className="text-dark-1000">
               {formatAsDisplayDate(checkinDate)}{' '}
               {formatAsDisplayHour(checkinTime)}
@@ -38,7 +38,7 @@ const CheckinCheckoutInfo = ({
         <CalendarIcon className="h-3.5 lg:h-5 lg:w-5 mt-1 lg:mt-0 text-primary-1000" />
         {checkoutDate && checkoutTime && (
           <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
-            <p className="text-dark-800">{checkoutLabel}</p>
+            <p className="text-dark-700">{checkoutLabel}</p>
             <p className="text-dark-1000">
               {formatAsDisplayDate(checkoutDate)}{' '}
               {formatAsDisplayHour(checkoutTime)}

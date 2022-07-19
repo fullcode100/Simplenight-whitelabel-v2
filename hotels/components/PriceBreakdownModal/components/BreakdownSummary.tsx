@@ -2,6 +2,7 @@ import React from 'react';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import { Rate } from '../../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
+import Paragraph from '../../../../components/global/Typography/Paragraph';
 
 interface BreakdownSummaryProps {
   rate: Rate;
@@ -12,8 +13,6 @@ interface BreakdownSummaryProps {
 
 const BreakdownSummary = ({
   rate,
-  nights = 0,
-  guests = 0,
   CustomPriceBreakdown,
 }: BreakdownSummaryProps) => {
   const [tg] = useTranslation('global');
@@ -22,22 +21,12 @@ const BreakdownSummary = ({
     'includesTaxesAndFees',
     'Includes Taxes And Fees',
   );
-  const tGuest = tg('guests', 'Guests');
-  const tGuests = tg('guests', 'Guests');
-  const GUEST_TEXT = guests === 1 ? tGuest : tGuests;
-  const tNight = tg('night', 'Night');
-  const tNights = tg('nights', 'Nights');
-  const NIGHT_TEXT = nights === 1 ? tNight : tNights;
+  const totalLabel = tg('total', 'Total');
   return (
     <section className="flex justify-between items-center">
-      <section className="text-sm text-dark-1000">
-        <p>
-          {nights} {NIGHT_TEXT}
-        </p>
-        <p>
-          {guests} {GUEST_TEXT}
-        </p>
-      </section>
+      <Paragraph size="small" fontWeight="normal">
+        {totalLabel}
+      </Paragraph>
       <section className="text-right">
         <PriceDisplay rate={rate} />
         <p className="text-dark-800 text-xs">{includesTaxesAndFeesText}</p>

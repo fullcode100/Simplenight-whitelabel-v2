@@ -20,7 +20,7 @@ const ListHeader = () => {
           <section className="mt-1">
             <Tag />
           </section>
-          <section className="text-green-1000 text-xs">
+          <section className="text-green-1000 text-xs lg:flex lg:gap-1">
             <p className="font-semibold">{checkoutTagTitle}</p>
             <p>{checkoutTagText}</p>
           </section>

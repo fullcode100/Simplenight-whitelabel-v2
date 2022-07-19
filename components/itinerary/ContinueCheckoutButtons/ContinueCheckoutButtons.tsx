@@ -28,6 +28,7 @@ const ContinueCheckoutButtons = ({ productsAmount }: ContinueCheckoutProps) => {
         translationKey="continueShopping"
         value={continueShopping}
         onClick={handleContinue}
+        className="lg:w-[200px] lg:h-[44px]"
       />
       {showCheckOut && (
         <Button
@@ -37,6 +38,7 @@ const ContinueCheckoutButtons = ({ productsAmount }: ContinueCheckoutProps) => {
           onClick={() => {
             router.replace('/checkout/client');
           }}
+          className="lg:w-[134px] lg:h-[44px]"
         />
       )}
     </section>

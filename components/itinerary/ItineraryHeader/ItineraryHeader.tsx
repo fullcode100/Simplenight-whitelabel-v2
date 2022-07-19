@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
 import PageTitle from 'components/global/PageTitle/PageTitle';
-import ContinueCheckoutButtons from '../ContinueCheckoutButtons/ContinueCheckoutButtons';
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
 
 interface ItineraryHeaderProps {
@@ -19,7 +18,6 @@ const ItineraryHeader = ({ productsAmount }: ItineraryHeaderProps) => {
         icon={<ShoppingCart />}
         productsAmount={productsAmount}
       />
-      <ContinueCheckoutButtons productsAmount={productsAmount} />
     </section>
   );
 };

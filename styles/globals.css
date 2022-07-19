@@ -78,6 +78,9 @@
   input[data-autocompleted] {
     background-color: transparent !important;
   }
+  p {
+    margin: 0 !important;
+  }
 }
 
 .plg {

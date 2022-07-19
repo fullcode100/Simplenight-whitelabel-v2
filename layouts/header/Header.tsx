@@ -81,7 +81,7 @@ const Header = ({ color }: HeaderProps) => {
         </section>
         <Link href={'/itinerary'}>
           <a>
-            <section className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded">
+            <section className="flex justify-between items-center gap-2 w-14 border border-dark-300 bg-white px-2 py-1 rounded">
               <span className="text-dark-1000 font-bold text-sm font-lato">
                 {cartQty ?? 0}
               </span>
