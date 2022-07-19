@@ -89,7 +89,7 @@ const HeaderDesktop = ({ color, cartQty }: HeaderDesktopProps) => {
         </ButtonDropdown>
         <Link href={'/itinerary'}>
           <a>
-            <button className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded">
+            <button className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 h-8 rounded">
               <span className="text-dark-1000 font-bold text-sm font-lato">
                 {cartQty ?? 0}
               </span>

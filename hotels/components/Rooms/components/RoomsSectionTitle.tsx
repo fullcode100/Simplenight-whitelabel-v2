@@ -10,7 +10,7 @@ const RoomSectionTitle = () => {
       <IconRoundedContainer className="bg-primary-1000">
         <SingleBedIcon className="text-white" />
       </IconRoundedContainer>
-      <span className="h4 text-dark-800">{roomsText}</span>
+      <span className="h4 text-dark-800 lg:h3">{roomsText}</span>
     </p>
   );
 };
