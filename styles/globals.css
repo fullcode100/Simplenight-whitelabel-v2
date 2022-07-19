@@ -36,22 +36,28 @@
   .h6 {
     @apply font-lato font-semibold text-dark-1000 !mb-0;
   }
-  h1, .h1 {
+  h1,
+  .h1 {
     @apply text-[40px] leading-[46px] lg:text-[60px] lg:leading-[68px];
   }
-  h2, .h2 {
+  h2,
+  .h2 {
     @apply text-[32px] leading-tight lg:text-[44px] lg:leading-[50px];
   }
-  h3, .h3 {
+  h3,
+  .h3 {
     @apply text-[24px] leading-7 lg:text-[32px] lg:leading-[38px];
   }
-  h4, .h4 {
+  h4,
+  .h4 {
     @apply text-lg leading-6 lg:text-[24px] lg:leading-[29px];
   }
-  h5, .h5 {
+  h5,
+  .h5 {
     @apply text-[18px] leading-[22px] lg:text-lg lg:leading-6;
   }
-  h6, .h6 {
+  h6,
+  .h6 {
     @apply text-sm leading-5 lg:text-[18px] lg:leading-[22px];
   }
   input[type='radio'] {
@@ -63,6 +69,14 @@
   }
   input[type='checkbox'] {
     @apply relative h-6 w-6 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+  input[data-autocompleted] {
+    background-color: transparent !important;
   }
 }
 
