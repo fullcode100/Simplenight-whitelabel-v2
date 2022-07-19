@@ -27,6 +27,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
+import Label from 'components/global/Label/Label';
 
 const HotelSearchForm = ({
   setIsSearching,
@@ -182,9 +183,7 @@ const HotelSearchForm = ({
           setRooms={setRoomsData}
         />
         <section className="lg:mt-0 lg:w-full">
-          <p className="text-sm leading-[16px] font-medium text-dark-800">
-            {guestsAndRoomsLabel}
-          </p>
+          <Label value={guestsAndRoomsLabel} />
           <button
             onClick={() => setShowTravelersInput(true)}
             className="bg-white mt-2 grid grid-cols-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"

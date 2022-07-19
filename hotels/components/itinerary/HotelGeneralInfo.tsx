@@ -14,13 +14,13 @@ const HotelGeneralInfo = ({ item }: HotelGeneralInfoProps) => {
 
   return (
     <section className="flex flex-col gap-2 py-4 px-4">
-      <LocationInfo address={item?.details?.address} />
       <CheckinCheckoutInfo
         checkinDate={checkinDate}
         checkoutDate={checkoutDate}
         checkinTime={checkinTime}
         checkoutTime={checkoutTime}
       />
+      <LocationInfo address={item?.details?.address} />
     </section>
   );
 };

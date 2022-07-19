@@ -70,20 +70,24 @@ const HotelItineraryFooter = ({
           guests={item.guests}
         />
       )}
-      <Button
-        value={removeRoomsFormatted}
-        size="full-sm"
-        type="outlined"
-        leftIcon={<TrashIcon />}
-        onClick={handleRemoveAllRooms}
-      ></Button>
-      <Button
-        value={editLabel}
-        translationKey="edit"
-        size="full-sm"
-        leftIcon={<EdtiIcon />}
-        onClick={handleEdit}
-      ></Button>
+      <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
+        <Button
+          value={removeRoomsFormatted}
+          size="full-sm"
+          type="outlined"
+          leftIcon={<TrashIcon />}
+          onClick={handleRemoveAllRooms}
+          className="lg:w-[170px]"
+        ></Button>
+        <Button
+          value={editLabel}
+          translationKey="edit"
+          size=""
+          leftIcon={<EdtiIcon />}
+          onClick={handleEdit}
+          className="lg:w-[170px] h-8"
+        ></Button>
+      </section>
     </section>
   );
 };
