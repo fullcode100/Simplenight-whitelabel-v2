@@ -9,9 +9,10 @@ module.exports = {
   purge: {
     options: {
       safelist: [
-        { pattern: /primary/, variants: ['hover'] },
-        { pattern: /dark/, variants: ['hover'] },
-        { pattern: /border/ },
+        { pattern: /primary/, variants: ['hover', 'focus', 'active'] },
+        { pattern: /dark/, variants: ['hover', 'focus', 'active'] },
+        { pattern: /error/, variants: ['hover', 'focus', 'active'] },
+        { pattern: /border/, variants: ['hover', 'focus', 'active'] },
         'bg-transparent',
       ],
     },
