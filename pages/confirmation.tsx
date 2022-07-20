@@ -137,7 +137,7 @@ const Confirmation: NextPage = () => {
                   />
                 )}
 
-                {fromLookup && cancelledItemsAmount > 0 && (
+                {cancelledItemsAmount > 0 && (
                   <ConfirmationCancelled
                     booking={booking}
                     cancelledAmount={cancelledItemsAmount}
@@ -150,6 +150,7 @@ const Confirmation: NextPage = () => {
                   booking={booking}
                   loading={loading}
                   setLoading={setLoading}
+                  bookedAmount={bookedItemsAmount}
                 />
                 <HelpSection />
               </section>

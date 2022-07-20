@@ -9,12 +9,14 @@ interface ConfirmationFooterButtonsProps {
   bookingId: string;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  bookedAmount: number;
 }
 
 const ConfirmationFooterButtons = ({
   bookingId,
   loading,
   setLoading,
+  bookedAmount,
 }: ConfirmationFooterButtonsProps) => {
   const router = useRouter();
 
@@ -37,13 +39,15 @@ const ConfirmationFooterButtons = ({
           {continueShopping}
         </h4>
       </button>
-      <Button
-        value={cancelOrder}
-        size="full"
-        type="outlined"
-        translationKey="cancelOrder"
-        onClick={handleCancelBooking}
-      />
+      {bookedAmount > 0 && (
+        <Button
+          value={cancelOrder}
+          size="full"
+          type="outlined"
+          translationKey="cancelOrder"
+          onClick={handleCancelBooking}
+        />
+      )}
     </section>
   );
 };
