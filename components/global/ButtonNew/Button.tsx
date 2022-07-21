@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+import { MouseEvent } from 'react';
 import classnames from 'classnames';
 
 import { useColor } from 'hooks/layoutAndUITooling/useColorNew';
@@ -9,6 +10,7 @@ interface ButtonProps {
   disabled?: boolean;
   height?: string;
   width?: string;
+  onClick: (event?: MouseEvent<HTMLElement>) => void;
 }
 
 const Button = ({
@@ -17,6 +19,7 @@ const Button = ({
   disabled = false,
   height = 'large',
   width = '',
+  onClick,
 }: ButtonProps) => {
   const colors = useColor(type);
 
@@ -43,6 +46,7 @@ const Button = ({
           [`cursor-not-allowed ${colors.disabled}`]: disabled,
         },
       )}
+      onClick={onClick}
     >
       {children}
     </button>
