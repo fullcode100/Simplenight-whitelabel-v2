@@ -122,17 +122,6 @@
   .h6 {
     @apply text-sm leading-5 lg:text-[18px] lg:leading-[22px];
   }
-  input[type='radio'] {
-    @apply relative h-6 w-6 text-primary-600 border-dark-300 checked:bg-none checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
-  }
-  input[type='radio']:checked::before {
-    content: '';
-    @apply bg-primary-1000 border-white border-4 rounded-full absolute inset-[2px];
-  }
-  input[type='checkbox'] {
-    @apply relative h-6 w-6 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
-  }
-
   input:-webkit-autofill,
   input:-webkit-autofill:focus {
     transition: background-color 600000s 0s, color 600000s 0s;

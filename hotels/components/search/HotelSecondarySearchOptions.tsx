@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
-import Checkbox from 'hotels/components/search/Checkbox/Checkbox';
+import Checkbox from 'components/global/Checkbox/Checkbox';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
@@ -13,7 +13,7 @@ import ListIcon from 'public/icons/assets/list.svg';
 import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
-import Radio from 'components/global/Radio/Radio';
+import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 
 const Divider = ({ className }: { className?: string }) => (
@@ -192,29 +192,26 @@ const HotelSecondarySearchOptions = () => {
       <FilterTitle label={paymentTypesLabel} />
       <Checkbox
         value={'freeCancellation'}
-        state={freeCancellation}
-        label={freeCancellationLabel}
+        checked={freeCancellation}
         name={'paymentTypes'}
         className="mb-5"
         onChange={setFreeCancellation}
-      />
+      >
+        {freeCancellationLabel}
+      </Checkbox>
     </FilterContainer>
   );
 
   const SortByFilter = () => (
     <FilterContainer>
       <FilterTitle label={sortByLabel} className="mb-3" />
-      {SORT_BY_OPTIONS.map((option, i) => (
-        <Radio
-          key={i}
-          value={option.value}
-          state={sortBy}
-          label={option.label}
-          name="sortBy"
-          className="mb-4"
-          onChange={setSortBy}
-        />
-      ))}
+      <RadioGroup onChange={setSortBy} value={sortBy}>
+        {SORT_BY_OPTIONS.map((option, i) => (
+          <Radio key={i} value={option?.value} containerClass="mb-4">
+            {option.label}
+          </Radio>
+        ))}
+      </RadioGroup>
     </FilterContainer>
   );
 
