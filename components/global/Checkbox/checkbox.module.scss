@@ -1,0 +1,3 @@
+.inputCheckbox {
+  @apply relative h-6 w-6 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
+}

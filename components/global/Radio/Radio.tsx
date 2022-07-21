@@ -1,44 +1,57 @@
-import React, { BaseSyntheticEvent, useState } from 'react';
+import React from 'react';
+import styles from './radio.module.scss';
 
-interface IRadio {
-  value: string;
-  state: any;
-  label: string;
-  name: string;
-  className?: string;
-  checked?: boolean;
+interface IRadioGroup {
+  children?: React.ReactNode[];
+  value?: string;
   onChange?: (value: any) => void;
 }
+interface IRadio {
+  value?: string;
+  children?: React.ReactNode;
+  containerClass?: string;
+}
 
-const Radio = ({
+export const Radio = ({
   value,
-  state,
-  label,
-  name,
-  className = '',
-  onChange,
+  children,
+  containerClass,
+  ...others
 }: IRadio) => {
-  const handleChange = () => {
-    if (onChange) onChange(value);
-  };
-
   return (
-    <div className={`flex items-center ${className}`}>
+    <section className={`flex items-center ${containerClass}`}>
       <input
         id={value}
-        name={name}
         type="radio"
-        defaultChecked={state === value}
-        onChange={handleChange}
+        value={value}
+        className={styles.inputRadio}
+        {...others}
       />
       <label
         htmlFor={value}
         className="ml-3 block text-sm font-semibold text-dark-1000"
       >
-        {label}
+        {children}
       </label>
-    </div>
+    </section>
   );
 };
 
-export default Radio;
+export const RadioGroup = ({ children, onChange, value }: IRadioGroup) => {
+  const handleChange = (e: any) => {
+    if (onChange) onChange(e.target.value);
+  };
+
+  const newChildren = children?.map?.((element: any) => {
+    return {
+      ...element,
+      props: {
+        ...element?.props,
+        onChange: handleChange,
+        checked: element?.props?.value === value,
+      },
+    };
+  });
+
+  return <>{newChildren}</>;
+};

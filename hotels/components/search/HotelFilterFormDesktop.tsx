@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Checkbox from 'hotels/components/search/Checkbox/Checkbox';
+import Checkbox from 'components/global/Checkbox/Checkbox';
 
 import IconInput from 'components/global/Input/IconInput';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
-import Radio from 'components/global/Radio/Radio';
+import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 import MultipleSelect from 'components/global/MultipleSelect/MultipleSelect';
 import CloseIcon from 'public/icons/assets/close.svg';
@@ -15,7 +15,9 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
-
+const FilterContainer = ({ children }: { children?: any }) => (
+  <section className="pr-6 mt-4 mb-6 flex flex-col">{children}</section>
+);
 const HotelFilterFormDesktop = () => {
   const router = useRouter();
   const setQueryParams = useQuerySetter();
@@ -27,6 +29,7 @@ const HotelFilterFormDesktop = () => {
   const [sortBy, setSortBy] = useState<string>(
     (queryFilter?.sortBy as string) || 'sortByPriceAsc',
   );
+
   const [freeCancellation, setFreeCancellation] = useState<boolean>(
     queryFilter?.paymentTypes?.includes('freeCancellation') || false,
   );
@@ -98,10 +101,6 @@ const HotelFilterFormDesktop = () => {
     setPayAtProperty(false);
     setSortBy('sortByPriceAsc');
   };
-
-  const FilterContainer = ({ children }: { children?: any }) => (
-    <section className="pr-6 mt-4 mb-6 flex flex-col">{children}</section>
-  );
 
   const onChangeMinPrice = (value: string) => {
     setMinPrice(value);
@@ -210,38 +209,33 @@ const HotelFilterFormDesktop = () => {
     <FilterContainer>
       <FilterTitle label={paymentTypesLabel} />
       <Checkbox
-        value={'freeCancellation'}
-        state={freeCancellation}
-        label={freeCancellationLabel}
-        name={'paymentTypes'}
+        checked={freeCancellation}
+        name={'freeCancellation'}
         className="mb-4"
         onChange={onChangeFreeCancellation}
-      />
+      >
+        {freeCancellationLabel}
+      </Checkbox>
       <Checkbox
-        value={'payAtProperty'}
-        state={payAtProperty}
-        label={payAtPropertyLabel}
-        name={'paymentTypes'}
+        checked={payAtProperty}
+        name={'payAtProperty'}
         className="mb-4"
         onChange={onChangePayAtProperty}
-      />
+      >
+        {payAtPropertyLabel}
+      </Checkbox>
     </FilterContainer>
   );
-
   const SortByFilter = () => (
     <FilterContainer>
       <FilterTitle label={sortByLabel} className="mb-3" />
-      {SORT_BY_OPTIONS.map((option, i) => (
-        <Radio
-          key={i}
-          value={option.value}
-          state={sortBy}
-          label={option.label}
-          name="sortBy"
-          className="mb-4"
-          onChange={onChangeSortBy}
-        />
-      ))}
+      <RadioGroup onChange={onChangeSortBy} value={sortBy}>
+        {SORT_BY_OPTIONS.map((option, i) => (
+          <Radio key={i} value={option?.value} containerClass="mb-4">
+            {option.label}
+          </Radio>
+        ))}
+      </RadioGroup>
     </FilterContainer>
   );
 
