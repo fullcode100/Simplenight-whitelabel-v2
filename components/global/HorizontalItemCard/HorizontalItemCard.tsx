@@ -1,5 +1,4 @@
-import { checkUrl } from 'helpers/urlUtils';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WithId } from 'types/global/WithId';
 import EmptyImage from '../EmptyImage/EmptyImage';
@@ -34,7 +33,11 @@ function HorizontalItemCard<T extends WithId>({
   cancellable,
 }: CardProps<T>) {
   const [t, i18next] = useTranslation('global');
+  const [invalidImage, setInvalidImage] = useState(false);
   const fromLabel = t('from', 'From');
+  useEffect(() => {
+    checkValidImage();
+  }, []);
   const AddressSection = () => (
     <span className="font-normal text-dark-1000 text-sm py-2">{address}</span>
   );
@@ -52,7 +55,13 @@ function HorizontalItemCard<T extends WithId>({
     </section>
   );
 
-  const load = checkUrl(image);
+  const checkValidImage = () => {
+    const img = new Image();
+    img.src = image;
+    img.onerror = () => setInvalidImage(true);
+  };
+
+  const displayEmpty = invalidImage || !image;
 
   return (
     <li
@@ -69,7 +78,7 @@ function HorizontalItemCard<T extends WithId>({
           }}
         >
           <CategoryTag />
-          {(!load || !image) && <EmptyImage />}
+          {displayEmpty && <EmptyImage />}
         </section>
         <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
           <TitleSection />
