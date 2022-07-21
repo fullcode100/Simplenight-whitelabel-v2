@@ -23,6 +23,9 @@ const Paragraph = ({
         {
           'font-medium': fontWeight == 'medium',
         },
+        {
+          'font-normal': fontWeight == 'normal',
+        },
         'font-lato m-0',
       )}
     >
