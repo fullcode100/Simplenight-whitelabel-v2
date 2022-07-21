@@ -1,4 +1,4 @@
-type ColorName = 'primary' | 'dark';
+type ColorName = 'primary' | 'dark' | 'green';
 
 type ColorVariant =
   | '100'
@@ -16,7 +16,7 @@ type ColorWithVariant = `${ColorName}-${ColorVariant}`;
 
 type ColorWithoutVariant = 'white' | 'transparent';
 
-type TextColor = `text-${ColorWithVariant | ColorWithoutVariant}`;
+export type TextColor = `text-${ColorWithVariant | ColorWithoutVariant}`;
 
 export interface HeadingProps {
   tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
