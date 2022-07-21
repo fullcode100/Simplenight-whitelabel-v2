@@ -21,7 +21,7 @@ const FreeCancellation = ({
   return (
     <section
       className={classnames(
-        'bg-green-100 min-h-8 border border-green-300 rounded',
+        'bg-green-100 min-h-8 w-fit border border-green-300 rounded',
         { 'w-full': wfull },
       )}
     >
