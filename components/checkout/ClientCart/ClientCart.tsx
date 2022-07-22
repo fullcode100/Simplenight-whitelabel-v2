@@ -12,8 +12,8 @@ interface ClientCartProps {
 
 const ClientCart = ({ items, schema, uiSchema, onChange }: ClientCartProps) => {
   return (
-    <section className="mb-6">
-      {items && <BlockDivider className="mb-6 mt-6" />}
+    <>
+      {items && <BlockDivider className="mt-6" />}
       {items?.map?.((item: Item, index: number) => {
         const showDivider = index !== items.length - 1;
         return (
@@ -25,11 +25,11 @@ const ClientCart = ({ items, schema, uiSchema, onChange }: ClientCartProps) => {
               formUiSchema={uiSchema}
               onChange={onChange}
             />
-            {showDivider && <Divider className="py-6" />}
+            {showDivider && <Divider />}
           </section>
         );
       })}
-    </section>
+    </>
   );
 };
 

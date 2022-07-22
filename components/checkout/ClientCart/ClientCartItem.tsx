@@ -4,11 +4,10 @@ import ToggleSwitch from 'components/global/ToggleSwitch/ToggleSwitch';
 import Label from 'components/global/Label/Label';
 import Textarea from 'components/global/Textarea/Textarea';
 import FormSchema from 'components/global/FormSchema/FormSchema';
-import CartItemDropdown from 'components/checkout/CartItemDropdown/CartItemDropdown';
 import { useTranslation } from 'react-i18next';
-import { usePlural } from 'hooks/stringBehavior/usePlural';
-import { deepCopy } from 'helpers/objectUtils';
-import { IChangeEvent } from '@rjsf/core';
+import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
+import { useCategory } from 'hooks/categoryInjection/useCategory';
+import { injectProps } from 'helpers/reactUtils';
 
 const ClientCartItem = ({
   index,
@@ -26,21 +25,20 @@ const ClientCartItem = ({
   };
   const additionalRequestsPlaceholder = t(
     'additionalRequestsPlaceholder',
-    'Add a special request...',
+    'Add A Special Request.',
   );
   const toggleText = t('useOrderName', 'Use Order Name');
-  const roomText = t('room', 'Room');
-  const roomsText = t('rooms', 'Rooms');
-  // eslint-disable-next-line no-unsafe-optional-chaining
-  const name = item?.extended_data?.details?.name;
-  const description = item?.extended_data?.min_rate_room?.description;
-  const itemsQty = item?.room_qty;
-  return (
-    <CartItemDropdown
-      title={name}
-      description={`${itemsQty} ${usePlural(itemsQty, roomText, roomsText)}`}
-    >
-      <section className="grid gap-3 mt-5">
+
+  const CartItemHeader = () => {
+    const category = useCategory(item.category.toLowerCase());
+    return injectProps(category?.checkoutDisplay, {
+      item: item,
+    });
+  };
+
+  const CartItemBody = () => {
+    return (
+      <section className="grid mb-6">
         <section className="flex items-center">
           <ToggleSwitch
             onChange={() => setUsePrimaryContact(!usePrimaryContact)}
@@ -55,7 +53,7 @@ const ClientCartItem = ({
           />
         </section>
         {!usePrimaryContact && (
-          <section>
+          <section className="mt-1.5">
             {formSchema && formUiSchema && (
               <FormSchema schema={formSchema} uiSchema={formUiSchema}>
                 {<></>}
@@ -66,7 +64,7 @@ const ClientCartItem = ({
         <section>
           <Label
             value="Additional Requests"
-            className="mb-2"
+            className="mt-5 mb-2"
             translationKey="additionalRequests"
           />
           <Textarea
@@ -79,7 +77,11 @@ const ClientCartItem = ({
           />
         </section>
       </section>
-    </CartItemDropdown>
+    );
+  };
+
+  return (
+    <CollapseUnbordered title={<CartItemHeader />} body={<CartItemBody />} />
   );
 };
 
