@@ -19,6 +19,7 @@ import { HotelServerDetailer } from './core/detail/HotelServerDetailer';
 import HotelSearchFormReadState from './components/search/HotelSearchFormReadState';
 import BedIcon from 'public/icons/assets/bed.svg';
 import HotelSecondarySearchOptions from './components/search/HotelSecondarySearchOptions';
+import HotelCheckoutDisplay from './components/checkout/HotelCheckoutDisplay';
 
 export const HOTEL_CATEGORY = 'hotels';
 
@@ -39,6 +40,7 @@ const Category: CategoryOption = {
   detailDisplay: <></>,
   itineraryDisplay: <></>,
   breakdownDisplay: <></>,
+  checkoutDisplay: <></>,
   confirmationDisplay: <></>,
   cancelledDisplay: <></>,
   core: {
@@ -63,6 +65,7 @@ Category.resultsDisplay = <HotelResultsDisplay HotelCategory={Category} />;
 Category.detailDisplay = <HotelDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <HotelItineraryDisplay Category={Category} />;
 Category.breakdownDisplay = <HotelBreakdownDisplay Category={Category} />;
+Category.checkoutDisplay = <HotelCheckoutDisplay Category={Category} />;
 Category.confirmationDisplay = <HotelConfirmationDisplay Category={Category} />;
 Category.cancelledDisplay = <HotelCancelledDisplay Category={Category} />;
 
