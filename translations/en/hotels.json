@@ -38,6 +38,7 @@
   "dates": "Dates",
   "apply": "Apply",
   "children": "Children",
+  "child": "Child",
   "infants": "Infants",
   "starHotel": "Star hotel",
   "addToItinerary": "Add to itinerary",
@@ -49,7 +50,11 @@
   "includesTaxesAndFees": "Includes Taxes and Fees",
   "checkRoomAvailability": "Check Room Availability",
   "nights": "Nights",
+  "night": "Night",
   "taxesAndFees": "Taxes And Fees",
   "cancellationPolicy": "Cancellation Policy",
-  "priceIncludes": "Price Includes"
+  "priceIncludes": "Price Includes",
+  "guestsAndRooms": "Guests & Rooms",
+  "guest": "Guest",
+  "guests": "Guests"
 }

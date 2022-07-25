@@ -69,6 +69,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     details: { name, address, description, star_rating: starRating },
     rooms: hotelRooms,
     photos,
+    nights,
   } = hotel;
 
   const hotelImages = photos.map((photo) => photo.url);
@@ -278,7 +279,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100">
+      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-16 z-10">
         <section className="h-12 flex justify-between items-center">
           <OccupancyAndDatesSection />
           <section>
@@ -296,7 +297,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       {loaded ? (
         <main className="relative">
           {/* <ImagesSection /> */}
-          <ImageCarousel images={hotelImages} hotelName={name} />
+          <ImageCarousel images={hotelImages} title={name} />
           <GeneralInformationSection />
           <section ref={roomRef}>
             <SeeMore
@@ -310,6 +311,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                   rooms={hotelRooms}
                   hotelId={hotel.id}
                   hotelName={name}
+                  nights={nights}
+                  guests={guests}
                 />
               }
             </SeeMore>

@@ -5,12 +5,12 @@ import {
 import { AxiosInstance } from 'axios';
 import { formatCart } from 'helpers/cartUtils';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { CartResponse } from 'types/cart/CartType';
+import { CartServerResponse } from 'types/cart/CartType';
 import { ApiResponse } from 'types/global/Request';
 import { CoreOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
 
-export class ServerCartCustomerUpdater extends ServerRequester<CartResponse> {
+export class ServerCartCustomerUpdater extends ServerRequester<CartServerResponse> {
   public constructor() {
     const category = {
       name: 'cart',
@@ -30,19 +30,18 @@ export class ServerCartCustomerUpdater extends ServerRequester<CartResponse> {
     const cartUrl = `/carts/${id}`;
     const url = applyApiBaseUrlV2(cartUrl, request);
 
-    return axios.put<ApiResponse<any, CartResponse>>(url, {
+    return axios.put<ApiResponse<any, CartServerResponse>>(url, {
       ...body.data,
     });
   }
 
   protected override postRequestResult(
     _request: NextApiRequest,
-    response: NextApiResponse<CartResponse>,
-    result: CartResponse,
+    response: NextApiResponse<CartServerResponse>,
+    result: CartServerResponse,
   ): void {
-    if (result.cart) {
-      const formatResult = formatCart(result.cart[0]);
-      sendSuccess(response, { cart: formatResult });
+    if (result.carts) {
+      sendSuccess(response, { carts: result.carts[0] });
     }
   }
 }

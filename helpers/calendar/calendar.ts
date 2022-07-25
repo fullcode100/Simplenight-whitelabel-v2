@@ -6,11 +6,6 @@ import { deepCopy } from 'helpers/objectUtils';
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
 
-interface WeekDays {
-  day: string;
-  abbr: string;
-}
-
 export interface DayObject {
   date: string;
   dayOfMonth: number;
@@ -25,16 +20,6 @@ export interface MonthObject {
   monthName: string;
   days: Array<DayObject>;
 }
-
-export const weekDays: Array<WeekDays> = [
-  { day: 'Sunday', abbr: 'S' },
-  { day: 'Monday', abbr: 'M' },
-  { day: 'Tuesday', abbr: 'T' },
-  { day: 'Wednesday', abbr: 'W' },
-  { day: 'Thursday', abbr: 'T' },
-  { day: 'Friday', abbr: 'F' },
-  { day: 'Saturday', abbr: 'S' },
-];
 
 const getNumberOfDaysInMonth = (year: number, month: number): number => {
   return dayjs(`${year}-${month}-01`).daysInMonth();

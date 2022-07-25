@@ -10,14 +10,14 @@ interface ImageCarouselProps {
   images: string[];
   open: boolean;
   closeModal: (event?: MouseEvent<HTMLElement>) => void;
-  hotelName: string;
+  title: string;
 }
 
 const ImageZoomModal = ({
   images,
   open,
   closeModal,
-  hotelName,
+  title,
 }: ImageCarouselProps) => {
   const responsive = {
     superLargeDesktop: {
@@ -46,7 +46,7 @@ const ImageZoomModal = ({
         { ['hidden']: !open },
       )}
     >
-      <ImageModalHeader hotelName={hotelName} closeModal={closeModal} />
+      <ImageModalHeader title={title} closeModal={closeModal} />
       <section className="h-full">
         <Carousel
           className="h-full flex justify-items-stretch"
@@ -80,6 +80,16 @@ const ImageZoomModal = ({
             return <ImageModalComponent image={image} key={index + image} />;
           })}
         </Carousel>
+        <section className="w-full px-5 absolute bottom-16">
+          <div className="relative mt-3">
+            <div
+              className="absolute inset-0 flex items-center"
+              aria-hidden="true"
+            >
+              <div className="w-full border-t border-dark-800" />
+            </div>
+          </div>
+        </section>
       </section>
     </section>
   );

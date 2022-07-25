@@ -16,18 +16,19 @@ interface RoomsProps {
   room: Room;
   hotelId: string;
   hotelName: string;
+  nights: number;
+  guests: number;
 }
 
 const cancellableType = 'FREE_CANCELLATION';
 
-const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
+const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
   const [t] = useTranslation('hotels');
   const [showAmenitiesModal, setShowAmenitiesModal] = useState(false);
-  const { description: roomDescription, rates, amenities } = room;
+  const { name: roomName, rates, amenities } = room;
   const { min_rate: minRate } = rates;
   const { rate, cancellation_policy: cancellationPolicy } = minRate;
   const itemToBook = {
-    inventory_id: hotelId,
     sn_booking_code: minRate.sn_booking_code,
   };
   const viewAllAmenitiesText = t('viewAllAmenities', 'View all amenities');
@@ -43,16 +44,23 @@ const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
   return (
     <section className="shadow-container my-3 border border-dark-200 rounded">
       {images.length > 0 ? (
-        <ImageCarousel images={images} hotelName={hotelName} showDots={false} />
+        <ImageCarousel
+          images={images}
+          title={roomName}
+          showDots={true}
+          showIndexDot={false}
+        />
       ) : (
         <EmptyImage />
       )}
       <RoomCardHeader
-        roomDescription={roomDescription}
+        roomDescription={roomName}
         rates={rate}
         cancellationPolicy={cancellationPolicy}
         amenities={amenities}
         itemToBook={itemToBook}
+        nights={nights}
+        guests={guests}
       />
       <Divider />
       {amenities.length > 0 && (
@@ -106,6 +114,8 @@ const RoomCard = ({ room, hotelId, hotelName }: RoomsProps) => {
         <BreakdownSummary
           rate={rate}
           CustomPriceBreakdown={<PriceBreakDown />}
+          nights={nights}
+          guests={guests}
         />
       </section>
       <Divider />

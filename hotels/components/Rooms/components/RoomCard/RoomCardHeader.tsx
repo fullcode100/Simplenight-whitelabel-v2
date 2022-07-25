@@ -12,6 +12,8 @@ interface RoomHeaderProps {
   cancellationPolicy?: CancellationPolicy;
   amenities: string[];
   itemToBook: Item;
+  nights: number;
+  guests: number;
 }
 
 const RoomCardHeader = ({
@@ -20,6 +22,8 @@ const RoomCardHeader = ({
   cancellationPolicy,
   amenities,
   itemToBook,
+  nights,
+  guests,
 }: RoomHeaderProps) => {
   const [t] = useTranslation('hotels');
   const roomDetailsText = t('roomDetails', 'Room Details');
@@ -35,6 +39,8 @@ const RoomCardHeader = ({
         cancellationPolicy={cancellationPolicy}
         features={amenities}
         itemToBook={itemToBook}
+        nights={nights}
+        guests={guests}
       />
     </header>
   );

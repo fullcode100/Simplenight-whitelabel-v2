@@ -15,6 +15,8 @@ export interface Hotel {
   rooms: Room[];
   relevance?: number;
   thumbnail: string;
+  nights?: number;
+  guests?: number;
 }
 
 export interface Photo {

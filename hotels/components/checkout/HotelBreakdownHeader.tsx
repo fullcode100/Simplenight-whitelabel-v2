@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import { Item } from 'types/cart/CartType';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface HotelBreakdownHeaderProps {
   item?: Item;
@@ -13,9 +14,14 @@ const HotelBreakdownHeader = ({ item, icon }: HotelBreakdownHeaderProps) => {
   const [t, i18next] = useTranslation('hotels');
 
   const hotelName = item?.extended_data?.details?.name;
-  const roomsAmount = item?.extended_data?.items?.length;
-  const roomsLabel = t('rooms', 'Rooms');
-  const roomsFormatted = `${roomsAmount} ${roomsLabel}`;
+  const roomsAmount = item?.room_qty ?? 1;
+  const roomText = t('room', 'Room');
+  const roomsText = t('rooms', 'Rooms');
+  const roomsFormatted = `${roomsAmount} ${usePlural(
+    roomsAmount,
+    roomText,
+    roomsText,
+  )}`;
 
   return (
     <section className="flex flex-row gap-3">

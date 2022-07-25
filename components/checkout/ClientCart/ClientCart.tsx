@@ -7,11 +7,12 @@ interface ClientCartProps {
   items?: Item[];
   schema: any;
   uiSchema: any;
+  onChange: (value: string, cartItemId: string) => void;
 }
 
-const ClientCart = ({ items, schema, uiSchema }: ClientCartProps) => {
+const ClientCart = ({ items, schema, uiSchema, onChange }: ClientCartProps) => {
   return (
-    <section className="mb-6 px-5">
+    <section className="mb-6">
       {items && <BlockDivider className="mb-6 mt-6" />}
       {items?.map?.((item: Item, index: number) => {
         const showDivider = index !== items.length - 1;
@@ -22,6 +23,7 @@ const ClientCart = ({ items, schema, uiSchema }: ClientCartProps) => {
               item={item}
               formSchema={schema}
               formUiSchema={uiSchema}
+              onChange={onChange}
             />
             {showDivider && <Divider className="py-6" />}
           </section>

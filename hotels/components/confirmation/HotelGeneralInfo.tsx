@@ -1,10 +1,9 @@
 import CheckinCheckoutInfo from '../CheckinCheckoutInfo/CheckinCheckoutInfo';
 import LocationInfo from '../LocationInfo/LocationInfo';
-import { Item, PrimaryContact } from 'types/booking/bookingType';
+import { Item } from 'types/booking/bookingType';
 
 interface HotelGeneralInfoProps {
   item?: Item;
-  primaryContact?: PrimaryContact;
 }
 
 const HotelGeneralInfo = ({ item }: HotelGeneralInfoProps) => {

@@ -7,20 +7,22 @@ import CustomDot from './components/CustomDot';
 
 interface ImageCarouselProps {
   images: string[];
-  hotelName: string;
+  title: string;
   showDots?: boolean;
   autoPlay?: boolean;
   shouldResetAutoPlay?: boolean;
   infinite?: boolean;
+  showIndexDot?: boolean;
 }
 
 const ImageCarousel = ({
   images,
-  hotelName,
+  title,
   showDots = true,
   autoPlay = false,
   shouldResetAutoPlay = false,
   infinite = true,
+  showIndexDot = true,
 }: ImageCarouselProps) => {
   const [showImageZoomModal, setShowImageZoomModal] = useState(false);
 
@@ -50,7 +52,7 @@ const ImageCarousel = ({
         images={images}
         open={showImageZoomModal}
         closeModal={() => setShowImageZoomModal(false)}
-        hotelName={hotelName}
+        title={title}
       />
       <Carousel
         partialVisible={false}
@@ -63,6 +65,7 @@ const ImageCarousel = ({
             className="absolute flex items-center gap-2 bottom-5 right-3 bg-white/80 rounded-lg py-1 px-2 text-sm text-dark-1000"
             icon={true}
             length={images.length}
+            showIndex={showIndexDot}
           />
         }
         autoPlay={autoPlay}

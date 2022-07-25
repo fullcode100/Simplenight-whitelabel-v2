@@ -5,10 +5,9 @@ import { useColor } from 'hooks/layoutAndUITooling/useColor';
 import NormalButton from './components/NormalButton';
 import I18nHOC from '../I18nHOC/I18nHOC';
 import DualButton from './components/DualButton';
-
 interface ButtonProps {
   value?: string;
-  size?: string;
+  size?: string | 'sm' | 'md' | 'lg' | 'square' | 'full-sm' | 'full';
   /** Button tailwind class color, e.g. 'blue-500' . */
   color?: string;
   /** Button tailwind class text color, e.g. 'white' . */
@@ -62,7 +61,7 @@ const Button = ({
       sizeTailwindClass = 'w-full h-8';
       break;
     case 'full':
-      sizeTailwindClass = 'w-full h-12';
+      sizeTailwindClass = 'w-full h-12 text-base leading-[18px]';
       break;
     default:
       sizeTailwindClass = size;

@@ -30,6 +30,7 @@ export interface CategoryOption {
   itineraryDisplay?: ReactElement;
   breakdownDisplay?: ReactElement;
   confirmationDisplay?: ReactElement;
+  cancelledDisplay?: ReactElement;
 }
 
 export interface CategoryStore {

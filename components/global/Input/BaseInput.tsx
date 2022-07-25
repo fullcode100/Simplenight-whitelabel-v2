@@ -48,9 +48,6 @@ const BaseInput = ({
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [value]);
 
   const internalInputClassName = classnames({
     'w-11 h-11 text-center': type === 'number',
@@ -81,7 +78,7 @@ const BaseInput = ({
       ref={inputRef}
       value={value}
       disabled={disabled}
-      className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md ${inputClassName} ${internalInputClassName}`}
+      className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded ${inputClassName} ${internalInputClassName}`}
       placeholder={placeholder}
       onChange={onChange}
       autoFocus={autoFocus}

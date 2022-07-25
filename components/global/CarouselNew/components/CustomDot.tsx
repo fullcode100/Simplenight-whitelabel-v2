@@ -6,6 +6,7 @@ interface DotPropsExtended extends DotProps {
   icon: boolean;
   className: string;
   length: number;
+  showIndex?: boolean;
 }
 
 const CustomDot = ({
@@ -14,13 +15,15 @@ const CustomDot = ({
   length,
   active,
   index,
+  showIndex = true,
 }: DotPropsExtended) => {
   const newIndex = index ?? 0;
   if (active) {
     return (
       <section className={className}>
         <p className="my-0">
-          <span className="font-semibold">{newIndex + 1}</span>/{length}
+          {showIndex && <span className="font-semibold">{newIndex + 1}/</span>}
+          {length}
         </p>
         {icon && <ImageCarouselIcon />}
       </section>

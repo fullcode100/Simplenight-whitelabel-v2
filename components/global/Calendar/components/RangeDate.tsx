@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { fromLowerCaseToCapitilize } from '../../../../helpers/stringUtils';
 
 interface RangeDateProps {
   isStartDateTurn: boolean;
@@ -30,7 +31,7 @@ const RangeDate = ({
             isStartDateTurn ? 'text-primary-1000' : 'text-dark-1000'
           }`}
         >
-          {startDate}
+          {fromLowerCaseToCapitilize(startDate)}
         </button>
       </div>
       <div
@@ -45,7 +46,7 @@ const RangeDate = ({
             !isStartDateTurn ? 'text-primary-1000' : 'text-dark-1000'
           }`}
         >
-          {endDate}
+          {fromLowerCaseToCapitilize(endDate)}
         </button>
       </div>
     </section>

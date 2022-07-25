@@ -91,6 +91,7 @@ const Payment = () => {
     createBooking(paymentParameters, i18next).then((response) => {
       const bookingId = response?.booking.booking_id;
       dispatch(clearCart());
+      localStorage.removeItem('cart');
       router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
     });
   };
@@ -150,7 +151,6 @@ const Payment = () => {
                 </>
               )}
             </CheckoutForm>
-            Detail section - both shares margins
           </CheckoutMain>
           <CheckoutFooter type="payment">
             <Terms checkValue={terms} checkboxMethod={setTerms} />

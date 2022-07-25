@@ -9,8 +9,8 @@ interface RangeSliderProps {
   step: number;
   minDifference: number;
   type: 'price' | 'star';
-  onChangeMin?: (value: number) => void;
-  onChangeMax?: (value: number) => void;
+  setMinState: (value: string) => void;
+  setMaxState: (value: string) => void;
 }
 
 const RangeSlider = ({
@@ -21,8 +21,8 @@ const RangeSlider = ({
   step,
   minDifference,
   type,
-  onChangeMin,
-  onChangeMax,
+  setMinState,
+  setMaxState,
 }: RangeSliderProps) => {
   const progressRef: any = useRef(null);
   const [minValue, setMinValue] = useState(initialMin);
@@ -30,12 +30,10 @@ const RangeSlider = ({
 
   const setMin = (value: number) => {
     setMinValue(value);
-    onChangeMin && onChangeMin(value);
   };
 
   const setMax = (value: number) => {
     setMaxValue(value);
-    onChangeMax && onChangeMax(value);
   };
 
   const handleMin = (e: ChangeEvent<any>) => {
@@ -107,6 +105,8 @@ const RangeSlider = ({
         <div className="relative">
           <input
             onChange={handleMin}
+            onMouseUp={() => setMinState(minValue.toString())}
+            onTouchEnd={() => setMinState(minValue.toString())}
             type="range"
             min={min}
             step={step}
@@ -122,6 +122,8 @@ const RangeSlider = ({
 
           <input
             onChange={handleMax}
+            onMouseUp={() => setMaxState(maxValue.toString())}
+            onTouchEnd={() => setMaxState(maxValue.toString())}
             type="range"
             min={min}
             step={step}

@@ -23,7 +23,9 @@ const PhoneNumberInput = ({
 
   const handleChange = (value: string) => {
     setPhoneNumber(value);
-    onChange(`+${phoneCode}${value}`);
+    onChange(
+      JSON.stringify({ phone_prefix: phoneCode, phone_number: phoneNumber }),
+    );
   };
 
   const handleChangeCode = (e: any) => {

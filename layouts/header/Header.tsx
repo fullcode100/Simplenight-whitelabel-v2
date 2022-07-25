@@ -14,9 +14,15 @@ import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import Menu from './components/Menu/Menu';
 import { clearCart } from 'store/actions/cartActions';
 import Link from 'next/link';
+import HeaderDesktop from './components/Menu/HeaderDesktop';
 
 interface HeaderProps {
   color: string;
+}
+
+interface HeaderButtonProps {
+  children?: any;
+  onClick?: () => void;
 }
 
 const Header = ({ color }: HeaderProps) => {
@@ -52,12 +58,13 @@ const Header = ({ color }: HeaderProps) => {
         primaryButtonAction={handleCloseMenu}
         noFooter={true}
         noHeader={true}
-        className="max-w-[335px]"
+        className="max-w-[90%] lg:hidden"
       >
+        <div className="w-full h-full fixed inset-0 bg-black/25 z-10"></div>
         <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
       <header
-        className={`flex items-center justify-between p-4 z-10 ${color} fixed w-full`}
+        className={`flex items-center justify-between p-4 z-10 ${color} fixed w-full lg:hidden`}
       >
         <HamburgerMenuButton
           className="mr-2 cursor-pointer"
@@ -81,6 +88,7 @@ const Header = ({ color }: HeaderProps) => {
           </a>
         </Link>
       </header>
+      <HeaderDesktop color={color} cartQty={cartQty} />
     </>
   );
 };
@@ -94,5 +102,4 @@ const HeaderBrandingHoc = ({ color }: HeaderProps) => {
     </BrandingHOC>
   );
 };
-
 export default HeaderBrandingHoc;

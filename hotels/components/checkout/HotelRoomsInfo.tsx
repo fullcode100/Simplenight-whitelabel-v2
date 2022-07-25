@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import HotelRoomInfo from './HotelRoomInfo';
-import { HotelCart } from 'types/cart/CartType';
+import { Item } from 'types/cart/CartType';
 
 interface HotelRoomsInfoProps {
-  item?: HotelCart;
+  item?: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
 }
@@ -11,11 +11,9 @@ interface HotelRoomsInfoProps {
 const HotelRoomsInfo = ({ item, reload, setReload }: HotelRoomsInfoProps) => {
   return (
     <>
-      {item?.items?.map((room, index) => (
-        <section key={index}>
-          <HotelRoomInfo room={room} reload={reload} setReload={setReload} />
-        </section>
-      ))}
+      {item && (
+        <HotelRoomInfo room={item} reload={reload} setReload={setReload} />
+      )}
     </>
   );
 };

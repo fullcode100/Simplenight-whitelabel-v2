@@ -9,7 +9,9 @@ interface PageTitleProps {
 
 const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
   const [t, i18next] = useTranslation('global');
-  const itemsLabel = t('items', 'Items');
+  const item = t('item', 'Item');
+  const items = t('items', 'Items');
+  const itemsLabel = productsAmount == 1 ? item : items;
 
   const showProductsAmount = !!productsAmount && productsAmount > 0;
 

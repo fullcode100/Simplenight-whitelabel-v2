@@ -23,7 +23,7 @@ const HotelCustomerInfo = ({
   const lastName = primaryContact?.last_name;
 
   return (
-    <section className="bg-primary-100 mt-6 flex p-3.5 border rounded border-primary-300">
+    <section className="bg-primary-100 mt-6 flex p-3 border rounded border-primary-300">
       <Buyer className="text-primary-1000 h-5 w-5 mr-2.5" />
       <section className="flex flex-col">
         <section className="mb-1">

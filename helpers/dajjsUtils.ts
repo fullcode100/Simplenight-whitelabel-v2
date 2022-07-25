@@ -10,9 +10,11 @@ const DISPLAY_DATE_FORMAT = 'MMM DD YYYY';
 
 export const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
-const DISPLAY_HOUR_FORMAT = 'hh:mm A';
+const DISPLAY_HOUR_FORMAT = 'h:mm A';
 
 const EXACT_HOUR_FORMAT = 'HH:MM:SS';
+
+const EXACT_DATETIME_FORMAT = 'MMM DD YYYY, h:mm A';
 
 dayjs.extend(customParseFormat);
 
@@ -39,6 +41,9 @@ export const formatAsDisplayHour = (hour: string | number) => {
     DISPLAY_HOUR_FORMAT,
   );
 };
+
+export const formatAsDisplayDatetime = (datetime: string) =>
+  dayjs(datetime).format(EXACT_DATETIME_FORMAT);
 
 export const diffDays = (
   startDate: string | number | Date | dayjs.Dayjs,

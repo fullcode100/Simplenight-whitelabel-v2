@@ -1,6 +1,6 @@
 interface BreakdownRowProps {
   label: string;
-  price: string;
+  price?: string;
   additionalInfo?: string;
   labelClassName?: string;
   priceClassName?: string;

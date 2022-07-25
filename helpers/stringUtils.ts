@@ -78,3 +78,13 @@ export const fromUpperCaseToCapitilize = (text = '') => {
 
   return textArr?.join(' ');
 };
+
+export const fromLowerCaseToCapitilize = (text = '') => {
+  const textArr = text?.split(' ');
+
+  for (let i = 0; i < textArr.length; i++) {
+    textArr[i] = textArr[i].charAt(0).toUpperCase() + textArr[i].slice(1);
+  }
+
+  return textArr?.join(' ');
+};

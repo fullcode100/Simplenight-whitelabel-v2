@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 const path = require('path');
 const withReactSvg = require('next-react-svg');
@@ -20,6 +21,7 @@ module.exports = withReactSvg({
       'mobileimg.priceline.com',
       'cataas.com',
       'dummyimage.com',
+      'q-xx.bstatic.com',
     ],
   },
   webpackDevMiddleware: (config) => {

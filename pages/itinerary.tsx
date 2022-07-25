@@ -13,11 +13,13 @@ import ListFooter from '../components/itinerary/ListFooter/ListFooter';
 import ListHeader from '../components/itinerary/ListHeader/ListHeader';
 import ContinueShopping from '../components/itinerary/ContinueShopping/ContinueShopping';
 import classnames from 'classnames';
+import Loader from 'components/global/Loader/Loader';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
   const [cartId, setCartId] = useState('');
   const [reload, setReload] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [t, i18next] = useTranslation('global');
   const footerContainerRef = useRef(null);
   const [staticFooter, setStaticFooter] = useState(false);
@@ -30,8 +32,10 @@ const Itinerary: NextPage = () => {
 
   useEffect(() => {
     if (cartId) {
+      setLoading(true);
       getCartId(i18next, cartId).then((response) => {
         setCart(response);
+        setLoading(false);
       });
     }
   }, [cartId, i18next, reload]);
@@ -55,31 +59,37 @@ const Itinerary: NextPage = () => {
       <header>
         <ItineraryHeader productsAmount={cart?.total_item_qty} />
       </header>
+      {loading && <Loader />}
+      <section className={classnames({ hidden: loading })}>
+        <section>
+          {!hasItems && <ItineraryEmpty />}
 
-      <section>
-        {!hasItems && <ItineraryEmpty />}
-
-        {hasItems && <ListHeader />}
-        {hasItems && (
-          <ItineraryItemList
-            cart={cart}
-            reload={reload}
-            setReload={setReload}
-          />
-        )}
-      </section>
-
-      <aside>
-        <section ref={footerContainerRef}>
-          {cart && (
-            <ListFooter
-              totalAmount={cart?.total_amount}
-              className={classnames({ 'fixed bottom-0 z-30': !staticFooter })}
-            />
+          {hasItems && (
+            <>
+              <ListHeader />
+              <ItineraryItemList
+                cart={cart}
+                reload={reload}
+                setReload={setReload}
+              />
+            </>
           )}
-          <ContinueShopping />
         </section>
-      </aside>
+
+        <aside>
+          <section ref={footerContainerRef}>
+            {cart && (
+              <ListFooter
+                totalAmount={cart?.total_amount}
+                className={classnames({
+                  'fixed bottom-0 z-30': !staticFooter,
+                })}
+              />
+            )}
+            <ContinueShopping />
+          </section>
+        </aside>
+      </section>
     </main>
   );
 };

@@ -13,7 +13,11 @@ const changeAllLanguages = (
   });
 };
 
-const LanguageSelect = () => {
+interface LanguageSelectProps {
+  horizontal?: boolean;
+}
+
+const LanguageSelect = ({ horizontal = false }: LanguageSelectProps) => {
   const [t, i18n] = useTranslation('global');
   const [tHotels, i18nHotels] = useTranslation('hotels');
   const { language } = i18n;
@@ -43,7 +47,11 @@ const LanguageSelect = () => {
   return (
     <div className="w-ful mt-3">
       <div className="relative">
-        <section className="p-2 bg-dark-100 flex flex-col rounded-md gap-1">
+        <section
+          className={classnames('p-2 bg-dark-100 flex rounded-md gap-1', {
+            'flex-col': !horizontal,
+          })}
+        >
           {languages.map((lang: string) => {
             const isActive = lang === language;
             const className = classnames(

@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../../../types/cart/CartType';
 import ModalHeader from '../NewModal/components/ModalHeader';
 
+const RESORT_FEES = 'RESORT_FEES';
+
 interface DatePickerProps {
   showPriceBreakdown: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
@@ -26,6 +28,8 @@ interface DatePickerProps {
   cancellationPolicy?: CancellationPolicy;
   features: string[];
   itemToBook: Item;
+  nights: number;
+  guests: number;
 }
 
 const PriceBreakdownModal = ({
@@ -36,6 +40,8 @@ const PriceBreakdownModal = ({
   cancellationPolicy,
   features,
   itemToBook,
+  nights,
+  guests,
 }: DatePickerProps) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -57,8 +63,16 @@ const PriceBreakdownModal = ({
   const bookNowText = t('bookNow', 'Book Now');
 
   const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rates;
-  const { total_base_amount: totalBaseAmount, total_taxes: totalTaxes } =
-    rateBreakdown;
+  const {
+    total_base_amount: totalBaseAmount,
+    total_taxes: totalTaxes,
+    post_paid_rate: postPaidRate,
+  } = rateBreakdown;
+
+  const resortFees = postPaidRate?.taxes.find(
+    (tax) => tax.description === RESORT_FEES,
+  );
+  const resortFeesFormatted = resortFees?.tax_amount.formatted ?? '$0.00';
 
   return (
     <FullScreenModal
@@ -75,7 +89,9 @@ const PriceBreakdownModal = ({
         addToCart(itemToBook, i18next, store);
         onClose();
       }}
-      footerSummary={<BreakdownSummary rate={rates} />}
+      footerSummary={
+        <BreakdownSummary rate={rates} nights={nights} guests={guests} />
+      }
       hasMultipleActions={true}
       noHeader={true}
       containerButtonsClassName="grid-cols-1"
@@ -115,12 +131,9 @@ const PriceBreakdownModal = ({
           className="text-primary-1000 text-base mt-6 font-semibold"
           value={additionalFeesLabel}
         />
-        <BreakdownRow label={resortFeeLabel} price={totalAmount.formatted} />
+        <BreakdownRow label={resortFeeLabel} price={resortFeesFormatted} />
         <Divider className="mt-2" />
-        <BreakdownRow
-          label={payAtPropertyLabel}
-          price={totalAmount.formatted}
-        />
+        <BreakdownRow label={payAtPropertyLabel} price={resortFeesFormatted} />
         <section className="py-6">
           <FreeCancellationExtended policy={cancellationPolicy?.description} />
         </section>
