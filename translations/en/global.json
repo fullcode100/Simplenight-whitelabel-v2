@@ -84,5 +84,8 @@
   "needHelpDescription": "Contact Us For Support.",
   "dates": "Dates",
   "apply": "Apply",
-  "loading": "Loading"
+  "loading": "Loading",
+  "total": "Total",
+  "goToItinerary": "Go to Itinerary",
+  "itinerary": "Itinerary"
 }
