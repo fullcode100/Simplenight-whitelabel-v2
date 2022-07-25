@@ -98,5 +98,8 @@
   "fridayAbbr": "V",
   "saturdayText": "Sábado",
   "saturdayAbbr": "S",
-  "dates": "Fechas"
+  "dates": "Fechas",
+  "total": "Total",
+  "goToItinerary": "Ir Al Itinerario",
+  "itinerary": "Itinerario"
 }
