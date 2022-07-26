@@ -10,7 +10,7 @@ interface ButtonProps {
   disabled?: boolean;
   height?: string;
   width?: string;
-  onClick: (event?: MouseEvent<HTMLElement>) => void;
+  onClick?: (event?: MouseEvent<HTMLElement>) => void;
 }
 
 const Button = ({
