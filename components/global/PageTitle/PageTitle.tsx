@@ -37,23 +37,23 @@ const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
         </h1> */}
         </section>
 
+        <section className="lg:flex flex-col gap-4 items-end hidden">
+          {showProductsAmount && (
+            <Heading
+              tag="h4"
+              textColor="text-dark-800"
+            >{`${productsAmount} ${itemsLabel}`}</Heading>
+          )}
+          <ContinueCheckoutButtons productsAmount={productsAmount} />
+        </section>
         {showProductsAmount && (
-          <>
-            <section className="lg:flex flex-col gap-4 items-end hidden">
-              <Heading
-                tag="h4"
-                textColor="text-dark-800"
-              >{`${productsAmount} ${itemsLabel}`}</Heading>
-              <ContinueCheckoutButtons productsAmount={productsAmount} />
-            </section>
-            <section className="lg:hidden">
-              <Paragraph
-                size="xsmall"
-                textColor="text-dark-800"
-                fontWeight="semibold"
-              >{`${productsAmount} ${itemsLabel}`}</Paragraph>
-            </section>
-          </>
+          <section className="lg:hidden">
+            <Paragraph
+              size="xsmall"
+              textColor="text-dark-800"
+              fontWeight="semibold"
+            >{`${productsAmount} ${itemsLabel}`}</Paragraph>
+          </section>
         )}
       </section>
       <section className="lg:hidden">

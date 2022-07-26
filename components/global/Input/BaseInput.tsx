@@ -73,7 +73,7 @@ const BaseInput = ({
 
   const CustomInput = customInput;
   const inputBaseClass =
-    'shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full h-11 sm:text-sm border-gray-300 rounded';
+    'focus:ring-primary-500 focus:border-primary-500 block w-full h-11 sm:text-sm border-gray-300 rounded';
   const inputDynamicClass = classnames(
     `${inputBaseClass} ${inputClassName} ${internalInputClassName}`,
     {
