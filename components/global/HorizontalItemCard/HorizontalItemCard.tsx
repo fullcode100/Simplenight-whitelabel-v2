@@ -43,7 +43,7 @@ function HorizontalItemCard<T extends WithId>({
   );
 
   const TitleSection = () => (
-    <header className=" font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg">
+    <header className=" font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg break-words">
       {title}
     </header>
   );
