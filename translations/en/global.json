@@ -87,5 +87,6 @@
   "loading": "Loading",
   "total": "Total",
   "goToItinerary": "Go to Itinerary",
-  "itinerary": "Itinerary"
+  "itinerary": "Itinerary",
+  "required": "Required"
 }
