@@ -5,6 +5,7 @@ import { getRequestHost } from './requestHelpers';
 
 const API_V2_URL = 'https://dev-api.simplenight.com/v2';
 const API_QA_V2_URL = 'https://qa-api.simplenight.com/v2';
+const API_PROD_V2_URL = 'https://api.simplenight.com/v2';
 
 export const applyApiBaseUrl = (req: NextApiRequest, endpoint: string) => {
   const originUrl = getRequestHost(req);
@@ -18,7 +19,10 @@ export const applyApiBaseUrlV2 = (
 ) => {
   const host = request.headers.host;
   if (host && host.includes('qa')) return `${API_QA_V2_URL}${endpoint}`;
-  return `${API_V2_URL}${endpoint}`;
+  if (host && host.includes('dev')) return `${API_V2_URL}${endpoint}`;
+  if (host && host.includes('localhost:3000'))
+    return `${API_V2_URL}${endpoint}`;
+  return `${API_PROD_V2_URL}${endpoint}`;
 };
 
 export const forwardError = (err: any, res: any) => {
