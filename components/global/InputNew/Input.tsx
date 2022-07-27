@@ -15,7 +15,8 @@ export interface InputProps {
   error?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
-  innerRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement>;
+  required?: boolean;
 }
 
 const Input = ({
@@ -30,9 +31,10 @@ const Input = ({
   max,
   min,
   error,
-  innerRef,
+  inputRef,
   onFocus,
   onBlur,
+  required = false,
   ...others
 }: InputProps) => {
   const inputStateClasses = classnames(
@@ -47,9 +49,10 @@ const Input = ({
       type={type}
       name={name}
       id={name}
-      ref={innerRef}
+      ref={inputRef}
       value={value}
       disabled={disabled}
+      required={required}
       className={classnames(
         'focus:ring-0 focus:ring-offset-0 border-none w-full bg-transparent h-11 text-sm p-3',
         className,
