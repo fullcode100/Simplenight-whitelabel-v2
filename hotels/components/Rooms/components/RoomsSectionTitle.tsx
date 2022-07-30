@@ -8,9 +8,11 @@ const RoomSectionTitle = () => {
   return (
     <p className="flex items-center gap-3 mb-6">
       <IconRoundedContainer className="bg-primary-1000">
-        <SingleBedIcon className="text-white" />
+        <SingleBedIcon className="text-white h-5 w-5 lg:h-[30px] lg:w-[30px]" />
       </IconRoundedContainer>
-      <span className="h4 text-dark-800 lg:h3">{roomsText}</span>
+      <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+        {roomsText}
+      </span>
     </p>
   );
 };

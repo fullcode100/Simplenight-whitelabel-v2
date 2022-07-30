@@ -21,7 +21,7 @@ const RoomsSection = ({
   guests = 0,
 }: RoomsProps) => {
   return (
-    <section className="mt-4 px-4 lg:px-0" ref={ref}>
+    <section className="mt-6 px-4 lg:mt-12 lg:px-0" ref={ref}>
       <RoomSectionTitle />
       <section className="hidden lg:block bg-dark-100 p-4 rounded-md my-8">
         <HotelRoomAvailabilityForm />

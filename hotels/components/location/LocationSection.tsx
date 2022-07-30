@@ -15,13 +15,15 @@ const LocationSection = ({ address }: LocationSectionProps) => {
   const { coordinates, address1, country, country_code, postal_code } = address;
 
   return (
-    <section className="p-6">
-      <section className="flex justify-between place-items-center gap-3 py-2 mb-3">
+    <section className="py-6 px-5 lg:px-0 lg:py-0">
+      <section className="flex justify-between place-items-center mb-5 lg:mb-8">
         <p className="flex items-center gap-3">
           <IconRoundedContainer className="bg-primary-1000">
-            <LocationPin className="text-white" />
+            <LocationPin className="text-white h-5 w-5 lg:h-[30px] lg:w-[30px]" />
           </IconRoundedContainer>
-          <span className="h4 text-dark-800">{locationLabel}</span>
+          <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+            {locationLabel}
+          </span>
         </p>
         <p className="text-dark-1000 text-right">
           <p>{address1}</p>
