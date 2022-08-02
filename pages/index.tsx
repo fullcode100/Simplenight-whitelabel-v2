@@ -75,13 +75,13 @@ const Home: NextPageWithLayout = () => {
 
   const OrderLookupCard = () => (
     <section className="text-dark-1000 lg:m-0 lg:flex lg:w-[50%] lg:flex-1">
-      <section className="grid p-4 text-center border rounded font-lato shadow-container border-dark-300 place-items-center lg:flex lg:first-line lg:gap-8 lg:w-full lg:px-8 lg:py-10">
+      <section className="font-lato p-4 shadow-container rounded text-center border border-dark-300 grid place-items-center lg:flex lg:first-line lg:gap-8 lg:w-full lg:px-8 lg:py-10">
         <OrderLookupIcon className="lg:w-[11rem] lg:h-[10rem]" />
-        <section className="grid w-full place-items-center lg:place-items-start">
-          <h3 className="mt-4 text-2xl font-semibold text-dark-1000 lg:text-3xl lg:mt-0">
+        <section className="grid place-items-center w-full lg:place-items-start">
+          <h3 className="text-2xl mt-4 text-dark-1000 lg:text-3xl lg:mt-0 font-semibold">
             {lookupYourOrder}
           </h3>
-          <p className="mt-3 text-lg font-normal text-dark-1000 lg:text-xl lg:mt-2">
+          <p className="text-lg font-normal mt-3 text-dark-1000 lg:text-xl lg:mt-2">
             {reviewAndManageYourOrder}
           </p>
           <Button
@@ -125,7 +125,7 @@ const Home: NextPageWithLayout = () => {
           </section>
         </UpperSectionBackground>
       </section>
-      <section className="flex flex-col gap-4 px-5 py-6 lg:flex-row lg:gap-8 lg:px-20 lg:py-12">
+      <section className="flex flex-col gap-4 py-6 px-5 lg:flex-row lg:gap-8 lg:px-20 lg:py-12">
         <OrderLookupCard />
         <HelpSection />
       </section>

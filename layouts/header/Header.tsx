@@ -57,24 +57,6 @@ const Header = ({ color }: HeaderProps) => {
       .catch((error) => console.error(error));
   }, [state.cartStore]);
 
-  useEffect(() => {
-    if (state.cartStore) {
-      getCart(i18next, state).then((cart) => {
-        if (cart) {
-          setCartQty(cart.total_item_qty);
-        }
-      });
-    }
-    getCart(i18next, state).then((cart) => {
-      if (cart?.status === 'BOOKED') {
-        localStorage.removeItem('cart');
-        dispatch(clearCart());
-      } else if (cart) {
-        setCartQty(cart.total_item_qty);
-      }
-    });
-  }, [state.cartStore]);
-
   return (
     <>
       <ItineraryOverlay isOpen={isOpen} onClose={onClose} cart={cart} />

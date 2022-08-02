@@ -72,7 +72,7 @@ const Itinerary: NextPage = () => {
         {!hasItems && !loading && <ItineraryEmpty />}
         {hasItems && (
           <>
-            <section className="lg:w-[843px] overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
+            <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
               <ListHeader />
               <ItineraryItemList
                 cart={cart}
@@ -91,7 +91,7 @@ const Itinerary: NextPage = () => {
                       })}
                     />
                   </section>
-                  <section className="hidden space-y-8 lg:block">
+                  <section className="hidden lg:block space-y-8">
                     <ListFooter
                       totalAmount={cart?.total_amount}
                       className="lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container"

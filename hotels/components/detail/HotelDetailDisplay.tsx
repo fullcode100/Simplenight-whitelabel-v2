@@ -195,7 +195,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     <section className="pt-6 pb-3 px-5 lg:pt-0 lg:pb-0 lg:px-0">
       <section className="mb-5 lg:mb-8">
         <p className="flex items-center gap-3 mb-6">
-          <IconRoundedContainer isLarge className="bg-primary-1000">
+          <IconRoundedContainer className="bg-primary-1000">
             <InformationIcon className="h-5 w-5 lg:h-[30px] lg:w-[30px]" />
           </IconRoundedContainer>
           <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
@@ -333,7 +333,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           <section className="lg:hidden">
             <ImageCarousel images={hotelImages} title={name} />
           </section>
-          <section className="hidden lg:block w-full pt-8 bg-dark-100">
+          <section className="hidden lg:block w-full pt-16 bg-dark-100">
             <ImageCarouselLargeScreen images={hotelImages} title={name} />
           </section>
           <section className="lg:hidden">

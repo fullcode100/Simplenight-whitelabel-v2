@@ -2,11 +2,10 @@ import DatePicker from '../../../components/global/Calendar/Calendar';
 import IconInput from '../../../components/global/Input/IconInput';
 import Calendar from 'public/icons/assets/calendar.svg';
 import { useState } from 'react';
-import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
+import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 interface CheckInOutInputProps {
   showDatePicker: boolean;
   startDate: string;
@@ -49,8 +48,8 @@ const CheckInOutInput = ({
           placeholder={checkInText}
           className="mt-4"
           orientation="right"
-          icon={<Calendar className="w-5 h-5 text-dark-700" />}
-          value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
+          icon={<Calendar className="h-5 w-5 text-dark-700" />}
+          value={startDate}
           onChange={(event) => handleStartDateChange(event.target.value)}
           onClick={handleOpenDatePicker}
         />
@@ -60,8 +59,8 @@ const CheckInOutInput = ({
           placeholder={checkOutText}
           orientation="right"
           className="mt-4"
-          icon={<Calendar className="w-5 h-5 text-dark-700" />}
-          value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
+          icon={<Calendar className="h-5 w-5 text-dark-700" />}
+          value={endDate}
           onChange={(event) => handleEndDateChange(event.target.value)}
           onClick={handleOpenDatePicker}
         />

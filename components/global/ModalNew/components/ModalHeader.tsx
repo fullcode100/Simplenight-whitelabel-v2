@@ -12,7 +12,7 @@ interface ModalHeaderPops {
 
 const ModalHeader = ({ onClose, title, headerAction }: ModalHeaderPops) => {
   return (
-    <header className="w-full flex justify-between items-center bg-dark-100 shadow-container border-b border-dark-300 p-5 lg:px-6 lg:rounded-t-4">
+    <header className="fixed w-full flex justify-between items-center bg-dark-100 shadow-container border-b border-dark-300 px-5 pb-[18px] pt-[50px]">
       <Dialog.Title>
         <Paragraph size="medium" fontWeight="semibold">
           {title}

@@ -67,7 +67,7 @@ const HotelRoomsInfo = ({
   };
 
   return (
-    <section className="flex flex-col gap-2 py-6 border-t lg:gap-3 border-dark-300 lg:pt-6 lg:pb-0">
+    <section className="flex flex-col gap-2 lg:gap-3 border-t border-dark-300 py-6 lg:pt-6 lg:pb-0">
       <RoomTitle roomName={roomName} roomQty={item?.room_qty} nights={nights} />
 
       {supplierReferenceID && (
@@ -90,17 +90,8 @@ const HotelRoomsInfo = ({
             size="full-sm"
             type="outlined"
             translationKey="cancelReservation"
-            onClick={onOpen}
-          />
-          <CancelModal
-            open={isOpen}
-            onClose={onClose}
-            bookingItemsList={bookingItemsList}
-            payment={payment}
-            loading={loading}
-            setLoading={setLoading}
-            handleCancel={handleItemRemoval}
-          />
+            onClick={handleItemRemoval}
+          ></Button>
         </section>
       </section>
     </section>

@@ -1,6 +1,5 @@
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
 
 import FullScreenModal from '../../../components/global/NewModal/FullScreenModal';
 import Divider from '../../../components/global/Divider/Divider';
@@ -47,8 +46,6 @@ const PriceBreakdownModal = ({
     state,
     dispatch,
   };
-  const router = useRouter();
-
   const [t, i18next] = useTranslation('hotels');
   const roomLabel = t('room', 'Room');
   const taxesLabel = t('taxes', 'Taxes');
@@ -82,12 +79,12 @@ const PriceBreakdownModal = ({
       primaryButtonText={bookNowText}
       primaryButtonAction={() => {
         addToCart(itemToBook, i18next, store);
-        router.replace('/checkout/client');
+        onClose();
       }}
       secondaryButtonText={addToItineraryText}
       secondaryButtonAction={() => {
         addToCart(itemToBook, i18next, store);
-        router.replace('/itinerary');
+        onClose();
       }}
       footerSummary={
         <BreakdownSummary rate={rates} nights={nights} guests={guests} />
@@ -106,17 +103,17 @@ const PriceBreakdownModal = ({
         <BreakdownRoomDescription value={description} />
         <Divider className="mt-2" />
         <BreakdownSubtitle
-          className="mt-6 text-base font-semibold text-dark-800"
+          className="text-dark-800 font-semibold text-base mt-6"
           value={roomAmenitiesText}
         />
         <AmenitiesSection amenities={features} />
         <Divider className="mt-2" />
         <BreakdownSubtitle
-          className="mt-6 text-base font-semibold text-dark-800"
+          className="text-dark-800 font-semibold text-base mt-6"
           value={priceBreakdownText}
         />
         <BreakdownSubtitle
-          className="mt-6 text-base font-semibold text-primary-1000"
+          className="text-primary-1000 text-base mt-6 font-semibold"
           value="Base Price"
         />
         <BreakdownRow label={roomLabel} price={totalBaseAmount.formatted} />
@@ -128,7 +125,7 @@ const PriceBreakdownModal = ({
           priceClassName="font-semibold text-lg"
         />
         <BreakdownSubtitle
-          className="mt-6 text-base font-semibold text-primary-1000"
+          className="text-primary-1000 text-base mt-6 font-semibold"
           value={additionalFeesLabel}
         />
         <BreakdownRow label={resortFeeLabel} price={resortFeesFormatted} />

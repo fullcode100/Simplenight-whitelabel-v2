@@ -1,5 +1,4 @@
 import classnames from 'classnames';
-import { useTranslation } from 'react-i18next';
 import { Listbox, Transition } from '@headlessui/react';
 import {
   CheckIcon,
@@ -7,17 +6,11 @@ import {
   ChevronUpIcon,
 } from '@heroicons/react/solid';
 
-export interface Option {
-  value: string;
-  label: string;
-}
-
 interface MultipleSelectProps {
-  options: Option[];
-  onChange?: (value: Option) => void;
+  options: string[];
+  onChange?: (value: string) => void;
   placeholder?: string;
-  values: Option[];
-  translation: string;
+  values: string[];
 }
 
 const MultipleSelect = ({
@@ -25,44 +18,32 @@ const MultipleSelect = ({
   onChange,
   values: selectedOptions,
   placeholder,
-  translation,
 }: MultipleSelectProps) => {
-  const [t, i18n] = useTranslation(translation);
-  const [tg, i18ng] = useTranslation('global');
-
-  const selectAnyOption = tg('selectAnyOption', 'Select Any Option');
-
-  const selectedOptionsLabels = selectedOptions.map((option) =>
-    t(option.label),
-  );
-
   return (
     <Listbox value="" onChange={() => null}>
       {({ open }) => (
         <section className="relative">
           <Listbox.Button
             className={classnames(
-              'bg-white relative w-full border border-gray-300 pl-3 pr-10 py-2 text-left cursor-default text-sm font-normal',
+              'bg-white relative w-full border border-gray-300 shadow-sm pl-3 pr-10 py-2 text-left cursor-default sm:text-sm',
               {
                 'border-primary-1000 rounded-t-md': open,
                 'rounded-md': !open,
               },
             )}
           >
-            <span className="block truncate">
-              {selectedOptionsLabels.join(', ') ||
-                placeholder ||
-                selectAnyOption}
+            <span className="block truncate capitalize">
+              {selectedOptions.join(', ') || placeholder || 'Select any option'}
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               {open ? (
                 <ChevronUpIcon
-                  className="w-6 h-6 text-dark-700"
+                  className="h-6 w-6 text-dark-700"
                   aria-hidden="true"
                 />
               ) : (
                 <ChevronDownIcon
-                  className="w-6 h-6 text-dark-700"
+                  className="h-6 w-6 text-dark-700"
                   aria-hidden="true"
                 />
               )}
@@ -77,7 +58,7 @@ const MultipleSelect = ({
           >
             <Listbox.Options
               className={classnames(
-                'absolute mt-[-1px] z-10 w-full bg-dark-200 max-h-60 rounded-b-md text-sm font-normal overflow-auto focus:outline-none ',
+                'absolute mt-[-1px] z-10 w-full bg-dark-200 shadow-lg max-h-60 rounded-b-md text-base overflow-auto focus:outline-none sm:text-sm',
                 {
                   'border border-primary-1000': open,
                 },
@@ -85,10 +66,10 @@ const MultipleSelect = ({
             >
               <section className="grid gap-[1px]">
                 {options.map((option) => {
-                  const isSelected = selectedOptions.includes(option);
+                  const isSelected = selectedOptions.includes(option as never);
                   return (
                     <button
-                      key={option.value}
+                      key={option}
                       onClick={() => onChange?.(option)}
                       className={classnames(
                         'block w-full p-2 text-left bg-white hover:bg-dark-100',
@@ -97,11 +78,11 @@ const MultipleSelect = ({
                         },
                       )}
                     >
-                      {t(option.label)}
+                      {option}
 
                       {isSelected && (
                         <CheckIcon
-                          className="w-4 h-4 text-primary-1000"
+                          className="h-4 w-4 text-primary-1000"
                           aria-hidden="true"
                         />
                       )}

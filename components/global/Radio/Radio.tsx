@@ -53,5 +53,5 @@ export const RadioGroup = ({ children, onChange, value }: IRadioGroup) => {
     };
   });
 
-  return <section className="grid gap-4">{newChildren}</section>;
+  return <>{newChildren}</>;
 };

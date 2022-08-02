@@ -9,8 +9,8 @@ interface HotelCancelledBodyProps {
 
 const HotelCancelledBody = ({ item }: HotelCancelledBodyProps) => {
   return (
-    <section className="ml-[52px] border-t border-dark-300 lg:border-0 lg:pb-6">
-      <HotelCustomerInfo item={item} />
+    <section className="ml-[52px] border-t border-dark-300 lg:border-0">
+      <HotelCustomerInfo item={item} primaryContact={primaryContact} />
       <HotelGeneralInfo item={item} />
       <HotelRefundInfo item={item} />
     </section>

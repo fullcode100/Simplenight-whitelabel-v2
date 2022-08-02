@@ -4,14 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
-import { Option } from 'components/global/MultipleSelect/MultipleSelect';
-import AmenitiesFilter from './Filters/AmenitiesFilter';
-import PaymentFilter from './Filters/PaymentFilter';
-import StarRatingFilter from './Filters/StarRatingFilter';
-import SortByFilter from './Filters/SortByFilter';
-import PriceRangeFilter from './Filters/PriceRangeFilter';
-
-import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
+import Checkbox from 'components/global/Checkbox/Checkbox';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
@@ -20,6 +13,9 @@ import MapIcon from 'public/icons/assets/map.svg';
 import ListIcon from 'public/icons/assets/list.svg';
 import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
+import { useRouter } from 'next/router';
+import { RadioGroup, Radio } from 'components/global/Radio/Radio';
+import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -174,14 +170,42 @@ const HotelSecondarySearchOptions = () => {
         onChangeMinPrice={setMinPrice}
         onChangeMaxPrice={setMaxPrice}
       />
-      <SortByFilter sortBy={sortBy} onChangeSortBy={setSortBy} />
-      <Divider className="my-6" />
-      <StarRatingFilter
-        minStarRating={minStarRating}
-        maxStarRating={maxStarRating}
-        onChangeMinRating={setMinStarRating}
-        onChangeMaxRating={setMaxStarRating}
-      />
+    </FilterContainer>
+  );
+
+  const LabelFilter = () => (
+    <FilterContainer>
+      <FilterTitle label={paymentTypesLabel} />
+      <Checkbox
+        value={'freeCancellation'}
+        checked={freeCancellation}
+        name={'paymentTypes'}
+        className="mb-5"
+        onChange={setFreeCancellation}
+      >
+        {freeCancellationLabel}
+      </Checkbox>
+    </FilterContainer>
+  );
+
+  const SortByFilter = () => (
+    <FilterContainer>
+      <FilterTitle label={sortByLabel} className="mb-3" />
+      <RadioGroup onChange={setSortBy} value={sortBy}>
+        {SORT_BY_OPTIONS.map((option, i) => (
+          <Radio key={i} value={option?.value} containerClass="mb-4">
+            {option.label}
+          </Radio>
+        ))}
+      </RadioGroup>
+    </FilterContainer>
+  );
+
+  const FilterForm = (
+    <section className="py-4 h-full overflow-y-scroll">
+      {/* <KeywordSearchFilter /> */}
+      <PriceRangeFilter />
+      <SortByFilter />
       <Divider className="my-6" />
       <PaymentFilter
         freeCancellation={freeCancellation}

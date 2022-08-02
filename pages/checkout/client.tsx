@@ -102,8 +102,6 @@ const Client = () => {
 
   const primaryContactText = t('orderName', 'Order Name');
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
-  const cancelButton = t('cancel', 'Cancel');
-  const continueButton = t('continue', 'Continue');
 
   const handleGetSchema = async () => {
     try {
@@ -216,14 +214,14 @@ const Client = () => {
                       setReload={setReload}
                     />
                     <Button
-                      value={cancelButton}
+                      value="Cancel"
                       size={'full'}
                       onClick={redirectToItinerary}
                       color="outlined"
                       className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
                     />
                     <Button
-                      value={continueButton}
+                      value="Continue"
                       size={'full'}
                       disabled={isDisabled}
                       className="lg:w-[35%] text-[18px] font-normal"

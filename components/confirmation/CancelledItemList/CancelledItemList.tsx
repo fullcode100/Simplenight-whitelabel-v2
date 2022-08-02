@@ -7,7 +7,7 @@ interface CancelledItemListProps {
 
 const CancelledItemList = ({ booking }: CancelledItemListProps) => {
   return (
-    <section className="grid divide-y lg:px-6 divide-dark-300">
+    <section className="grid lg:gap-6 lg:p-6">
       {booking.items.map((item, index) => {
         const isCancelled = item.status == 'cancelled';
         if (!isCancelled) return null;

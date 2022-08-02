@@ -34,7 +34,7 @@ const HotelConfirmationHeader = ({
       <section className="grid gap-1">
         <ExternalLink
           href={detailHref}
-          className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-base leading-[22px] lg:text-lg lg:leading-[26px]"
+          className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-base leading-[22px] lg:text-lg leading-[26px]"
         >
           {hotelName}
         </ExternalLink>

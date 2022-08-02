@@ -18,7 +18,7 @@ const LocationSection = ({ address }: LocationSectionProps) => {
     <section className="py-6 px-5 lg:px-0 lg:py-0">
       <section className="flex justify-between place-items-center mb-5 lg:mb-8">
         <p className="flex items-center gap-3">
-          <IconRoundedContainer isLarge className="bg-primary-1000">
+          <IconRoundedContainer className="bg-primary-1000">
             <LocationPin className="text-white h-5 w-5 lg:h-[30px] lg:w-[30px]" />
           </IconRoundedContainer>
           <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
