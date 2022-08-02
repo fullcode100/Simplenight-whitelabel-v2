@@ -33,6 +33,8 @@ const CheckInOutInput = ({
       <DatePicker
         showDatePicker={showDatePicker}
         onClose={handleCloseDatePicker}
+        startDateLabel={checkInText}
+        endDateLabel={checkOutText}
         initialStartDate={startDate}
         initialEndDate={endDate}
         onStartDateChange={handleStartDateChange}
