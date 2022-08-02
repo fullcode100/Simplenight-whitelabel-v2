@@ -24,6 +24,10 @@ const ConfirmationFooterButtons = ({
   const continueShopping = t('continueShopping', 'Continue Shopping');
   const cancelOrder = t('cancelOrder', 'Cancel Order');
 
+  const handleContinueShopping = () => {
+    router.push('/');
+  };
+
   const handleCancelBooking = () => {
     setLoading(!loading);
     cancelBooking(i18next, bookingId).then(() => {
@@ -34,7 +38,10 @@ const ConfirmationFooterButtons = ({
 
   return (
     <section className="flex flex-col">
-      <button className="h-11 bg-primary-1000 rounded mb-3">
+      <button
+        onClick={handleContinueShopping}
+        className="h-11 bg-primary-1000 rounded mb-3"
+      >
         <h4 className="font-semibold text-white  text-[18px]">
           {continueShopping}
         </h4>

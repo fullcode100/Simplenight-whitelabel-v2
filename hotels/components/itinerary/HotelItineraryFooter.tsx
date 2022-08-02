@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
-import BreakdownSummary from 'components/global/PriceBreakdownModal/components/BreakdownSummary';
+import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary';
 import { Item } from 'types/cart/CartType';
 
 import TrashIcon from 'public/icons/assets/small-trash.svg';
@@ -47,9 +47,9 @@ const HotelItineraryFooter = ({
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, roomToRemove, dispatch).then(() =>
-      setReload?.(!reload),
-    );
+    removeFromCart(i18g, roomToRemove, dispatch)
+      .then(() => setReload?.(!reload))
+      .catch((error) => console.error(error));
   };
 
   const handleRemoveAllRooms = () => {
@@ -70,20 +70,24 @@ const HotelItineraryFooter = ({
           guests={item.guests}
         />
       )}
-      <Button
-        value={removeRoomsFormatted}
-        size="full-sm"
-        type="outlined"
-        leftIcon={<TrashIcon />}
-        onClick={handleRemoveAllRooms}
-      ></Button>
-      <Button
-        value={editLabel}
-        translationKey="edit"
-        size="full-sm"
-        leftIcon={<EdtiIcon />}
-        onClick={handleEdit}
-      ></Button>
+      <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
+        <Button
+          value={removeRoomsFormatted}
+          size="full-sm"
+          type="outlined"
+          leftIcon={<TrashIcon />}
+          onClick={handleRemoveAllRooms}
+          className="lg:w-[170px]"
+        ></Button>
+        <Button
+          value={editLabel}
+          translationKey="edit"
+          size=""
+          leftIcon={<EdtiIcon />}
+          onClick={handleEdit}
+          className="lg:w-[170px] h-8"
+        ></Button>
+      </section>
     </section>
   );
 };

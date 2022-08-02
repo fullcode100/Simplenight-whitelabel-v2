@@ -9,9 +9,10 @@ module.exports = {
   purge: {
     options: {
       safelist: [
-        { pattern: /primary/, variants: ['hover'] },
-        { pattern: /dark/, variants: ['hover'] },
-        { pattern: /border/ },
+        { pattern: /primary/, variants: ['hover', 'focus', 'active'] },
+        { pattern: /dark/, variants: ['hover', 'focus', 'active'] },
+        { pattern: /error/, variants: ['hover', 'focus', 'active'] },
+        { pattern: /border/, variants: ['hover', 'focus', 'active'] },
         'bg-transparent',
       ],
     },
@@ -72,8 +73,10 @@ module.exports = {
           300: '#C7F0D4',
           100: '#F5FCF7',
         },
-        red: {
-          1000: '#D10808',
+        warning: {
+          600: '#DE9812',
+          300: '#FFC85C',
+          100: '#FFF4DE',
         },
         'primary-light': 'var(--primary-light-color)',
       },
@@ -82,6 +85,8 @@ module.exports = {
         sm: '1rem',
         base: '1.125rem',
         lg: '1.25rem',
+        '3.5xl': '2rem',
+        '4.5xl': '2.5rem',
       },
       fontFamily: {
         manrope: ['Manrope', 'sans-serif'],

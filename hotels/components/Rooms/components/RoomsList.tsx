@@ -17,7 +17,7 @@ const RoomsList = ({
   guests,
 }: RoomsProps) => {
   return (
-    <section>
+    <section className="mt-6 lg:grid lg:grid-cols-3 lg:gap-8 lg:mt-3 lg:mb-12">
       {rooms.map((room) => {
         return (
           <RoomCard

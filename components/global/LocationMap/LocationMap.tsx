@@ -44,7 +44,7 @@ const LocationMap = ({
           lat: center?.latitude as number,
           lng: center?.longitude as number,
         }}
-        options={{ zoomControl: false }}
+        options={{ zoomControl: false, fullscreenControl: false }}
       >
         {coords?.map(({ latitude, longitude }, i) => {
           return (

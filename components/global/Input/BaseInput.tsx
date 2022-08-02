@@ -17,6 +17,7 @@ export interface BaseInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   max?: number;
+  error?: boolean;
 }
 
 type InputType = 'text' | 'number' | 'date' | 'select';
@@ -45,6 +46,7 @@ const BaseInput = ({
   children,
   autoFocus = false,
   max,
+  error,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -70,6 +72,14 @@ const BaseInput = ({
   );
 
   const CustomInput = customInput;
+  const inputBaseClass =
+    'focus:ring-primary-500 focus:border-primary-500 block w-full h-11 sm:text-sm border-gray-300 rounded';
+  const inputDynamicClass = classnames(
+    `${inputBaseClass} ${inputClassName} ${internalInputClassName}`,
+    {
+      'border-error-500 focus:border-error-500': error,
+    },
+  );
   const Input = (customInput && <CustomInput />) || (
     <input
       type={type}
@@ -78,7 +88,7 @@ const BaseInput = ({
       ref={inputRef}
       value={value}
       disabled={disabled}
-      className={`shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded ${inputClassName} ${internalInputClassName}`}
+      className={inputDynamicClass}
       placeholder={placeholder}
       onChange={onChange}
       autoFocus={autoFocus}

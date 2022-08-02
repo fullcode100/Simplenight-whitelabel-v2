@@ -29,6 +29,7 @@ export interface CategoryOption {
   detailDisplay?: ReactElement;
   itineraryDisplay?: ReactElement;
   breakdownDisplay?: ReactElement;
+  checkoutDisplay?: ReactElement;
   confirmationDisplay?: ReactElement;
   cancelledDisplay?: ReactElement;
 }

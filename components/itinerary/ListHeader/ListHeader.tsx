@@ -11,14 +11,16 @@ const ListHeader = () => {
   );
 
   return (
-    <header className="px-5 mt-6">
-      <h4 className="font-semibold text-dark-800 text-lg">{checkoutLabel}</h4>
-      <section className="border border-green-300 bg-green-100 rounded mt-6">
+    <header>
+      <h4 className="text-lg leading-6 text-dark-800 font-semibold lg:bg-dark-100 bg-white px-5 py-6">
+        {checkoutLabel}
+      </h4>
+      <section className="border border-green-300 bg-green-100 rounded mx-5 lg:mt-6">
         <section className="flex items-start gap-2 py-1 pl-1.5 pr-1 text-green-1000">
           <section className="mt-1">
             <Tag />
           </section>
-          <section className="text-green-1000 text-xs">
+          <section className="text-green-1000 text-xs lg:flex lg:gap-1">
             <p className="font-semibold">{checkoutTagTitle}</p>
             <p>{checkoutTagText}</p>
           </section>

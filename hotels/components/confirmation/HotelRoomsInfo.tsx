@@ -55,7 +55,7 @@ const HotelRoomsInfo = ({ item, loading, setLoading }: HotelRoomsInfoProps) => {
   };
 
   return (
-    <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
+    <section className="flex flex-col gap-2 lg:gap-3 border-t border-dark-300 py-6 lg:pt-6 lg:pb-0">
       <RoomTitle roomName={roomName} roomQty={item?.room_qty} nights={nights} />
 
       {supplierReferenceID && (
@@ -71,13 +71,17 @@ const HotelRoomsInfo = ({ item, loading, setLoading }: HotelRoomsInfoProps) => {
         adultsCount={item?.adults}
         childrenCount={item?.children}
       />
-      <Button
-        value={cancelLabel}
-        size="full-sm"
-        type="outlined"
-        translationKey="cancelReservation"
-        onClick={handleItemRemoval}
-      ></Button>
+      <section className="lg:flex lg:justify-end">
+        <section className="lg:w-1/4">
+          <Button
+            value={cancelLabel}
+            size="full-sm"
+            type="outlined"
+            translationKey="cancelReservation"
+            onClick={handleItemRemoval}
+          ></Button>
+        </section>
+      </section>
     </section>
   );
 };

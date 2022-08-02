@@ -19,7 +19,7 @@ const CheckoutSummary = ({
 }: CheckoutSummaryProps) => {
   const [openPriceBreakdown, setOpenPriceBreakdown] = useState(false);
 
-  const [t] = useTranslation('hotels');
+  const [t] = useTranslation('global');
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const taxesAndFeesLabel = t(
     'includesTaxesAndFees',
@@ -27,7 +27,7 @@ const CheckoutSummary = ({
   );
 
   return (
-    <section className="flex w-full items-center justify-between">
+    <section className="flex w-full items-center justify-between lg:w-full">
       <section>
         <p className="text-sm">Total</p>
       </section>
@@ -39,7 +39,7 @@ const CheckoutSummary = ({
           {taxesAndFeesLabel}
         </p>
         <a
-          className="text-base leading-[22px] font-semibold underline text-primary-1000 hover:text-primary-1000 hover:underline"
+          className="lg:hidden text-base leading-[22px] font-semibold underline text-primary-1000 hover:text-primary-1000 hover:underline"
           href={href}
           onClick={() => setOpenPriceBreakdown(true)}
         >

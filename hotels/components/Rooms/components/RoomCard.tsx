@@ -1,7 +1,7 @@
 import { Room } from 'hotels/types/response/SearchResponse';
 import RoomCardHeader from './RoomCard/RoomCardHeader';
 import Divider from 'components/global/Divider/Divider';
-import BreakdownSummary from 'components/global/PriceBreakdownModal/components/BreakdownSummary';
+import BreakdownSummary from 'hotels/components/PriceBreakdownModal/components/BreakdownSummary';
 import RoomCardActions from './RoomCard/RoomCardActions';
 import AmenitiesItem from '../../Amenities/components/AmenitiesItem';
 import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
@@ -42,7 +42,7 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
     </button>
   );
   return (
-    <section className="shadow-container my-3 border border-dark-200 rounded">
+    <section className="shadow-container my-3 lg:my-0 border border-dark-200 rounded">
       {images.length > 0 ? (
         <ImageCarousel
           images={images}

@@ -9,7 +9,7 @@
   "primaryContact": "Contacto Principal",
   "usePrimaryContact": "Usar Contacto Principal",
   "additionalRequests": "Solicitudes Adicionales",
-  "additionalRequestsPlaceholder": "Añadir una petición especial.",
+  "additionalRequestsPlaceholder": "Añadir Una Petición Especial.",
   "homePageText": "Reserve Todo, En Cualquier Lugar",
   "language": "Idioma",
   "currency": "Moneda",
@@ -39,7 +39,7 @@
   "childrenRange": "10 a 17 años",
   "infantsRange": "1 a 9 años",
   "needHelpTitle": "¿Necesita ayuda?",
-  "needHelpDescription": "Envíenos un correo electrónico o llámenos para obtener ayuda",
+  "needHelpDescription": "Contáctenos Para Soporte.",
   "from": "Desde",
   "to": "a",
   "guest": "Visitante",
@@ -97,5 +97,10 @@
   "fridayText": "Viernes",
   "fridayAbbr": "V",
   "saturdayText": "Sábado",
-  "saturdayAbbr": "S"
+  "saturdayAbbr": "S",
+  "dates": "Fechas",
+  "total": "Total",
+  "goToItinerary": "Ir Al Itinerario",
+  "itinerary": "Itinerario",
+  "required": "Requerido"
 }

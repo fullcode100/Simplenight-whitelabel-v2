@@ -9,7 +9,7 @@ const CancelledItemList = ({ booking }: CancelledItemListProps) => {
   const primaryContact = booking.primary_contact;
 
   return (
-    <section className="grid gap-3">
+    <section className="grid lg:gap-6 lg:p-6">
       {booking.items.map((item, index) => {
         const isCancelled = item.status == 'cancelled';
         if (!isCancelled) return null;

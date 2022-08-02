@@ -15,6 +15,7 @@ import useDisplayCategory from 'hooks/category/useDisplayCategory';
 interface HeaderDesktopProps {
   color?: string;
   cartQty?: number;
+  onOpen: () => void;
 }
 
 interface CustomLinkProps {
@@ -22,7 +23,7 @@ interface CustomLinkProps {
   children: any;
 }
 
-const HeaderDesktop = ({ color, cartQty }: HeaderDesktopProps) => {
+const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   const [tg, i18n] = useTranslation('global');
   const currentCurrency = getCurrency();
   const poweredByText = tg('poweredBy', 'Powered by');
@@ -87,16 +88,15 @@ const HeaderDesktop = ({ color, cartQty }: HeaderDesktopProps) => {
         >
           <CurrencySelect />
         </ButtonDropdown>
-        <Link href={'/itinerary'}>
-          <a>
-            <button className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded">
-              <span className="text-dark-1000 font-bold text-sm font-lato">
-                {cartQty ?? 0}
-              </span>
-              <ShoppingCart className="text-primary-1000" />
-            </button>
-          </a>
-        </Link>
+        <button
+          onClick={onOpen}
+          className="flex justify-between items-center gap-2 w-14 h-8 border border-dark-300 bg-white px-2 py-1 rounded"
+        >
+          <span className="text-dark-1000 font-bold text-sm font-lato">
+            {cartQty ?? 0}
+          </span>
+          <ShoppingCart className="text-primary-1000" />
+        </button>
       </section>
     </header>
   );

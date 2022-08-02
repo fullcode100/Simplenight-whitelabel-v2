@@ -13,7 +13,7 @@ const HotelCancelledBody = ({
   primaryContact,
 }: HotelCancelledBodyProps) => {
   return (
-    <section className="border-t border-dark-300">
+    <section className="ml-[52px] border-t border-dark-300 lg:border-0">
       <HotelCustomerInfo item={item} primaryContact={primaryContact} />
       <HotelGeneralInfo item={item} />
       <HotelRefundInfo item={item} />

@@ -1,5 +1,6 @@
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 import { useStore } from '../store';
 import InitAppHOC from '../components/global/InitAppHOC';
 import { AppPropsWithLayout } from 'types/layout/pageTypes';
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Provider store={store}>
       <InitAppHOC i18next={i18next}>
+        <Toaster />
         <PageWithLayout />
       </InitAppHOC>
     </Provider>

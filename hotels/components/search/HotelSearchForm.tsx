@@ -1,17 +1,10 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-// import { SEARCH_DATE_FORMAT } from '../../../../helpers/searchConstants';
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
-import { HotelSearchFormData } from '../../../types/search/categories/HotelSearchFormData';
-import { LocationPrefix } from '../../../types/search/LocationPrefixResponse';
-import LocationAutoComplete from '../../../components/global/AutoComplete/LocationAutoComplete';
 import DatePicker from '../../../components/global/Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
 import { Room, createRoom } from 'hotels/helpers/room';
-import OccupancySelector, {
-  OccupancyData,
-} from './OcupancySelector/OccupancySelector';
 
 import Bed from 'public/icons/assets/bed.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
@@ -24,40 +17,17 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import LocationInput from 'components/global/Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
-import { parseQueryNumber } from 'helpers/stringUtils';
 import { setTravelersTotals } from 'hotels/helpers/travelers';
 import {
   StringGeolocation,
   latLngProp,
-  GEOLOCATION_SEPARATOR,
   LATITUDE_INDEX,
   LONGITUDE_INDEX,
 } from 'types/search/Geolocation';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import Label from 'components/global/Label/Label';
-import useLocalStorage from 'hooks/localStorage/useLocalStorage';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
-
-const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
-
-const getInitialHotelSearchState = (): HotelSearchFormData => {
-  const tomorrow = dayjs().add(1, 'day').format(SEARCH_DATE_FORMAT);
-
-  return {
-    startLocation: null,
-    startDate: tomorrow,
-    roomCount: 1,
-    adultCount: 1,
-    childCount: 0,
-  };
-};
-
-const getInitialHotelOccupancyState = (): OccupancyData => ({
-  adultCount: 1,
-  childCount: 0,
-  roomCount: 1,
-});
+import Label from 'components/global/Label/Label';
 
 const HotelSearchForm = ({
   setIsSearching,
@@ -67,9 +37,6 @@ const HotelSearchForm = ({
   const router = useRouter();
 
   const [t, i18next] = useTranslation('hotels');
-  const adultsLabel = t('adults', 'Adults');
-  const childrenLabel = t('children', 'Children');
-  const infantsLabel = t('infants', 'Infants');
   const locationInputLabel = t('locationInputLabel', 'Destination');
   const textSearch = t('search', 'Search');
   const checkInText = t('checkIn');
@@ -113,6 +80,7 @@ const HotelSearchForm = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
   const [showTravelersInput, setShowTravelersInput] = useState(false);
+  const [showLocationError, setShowLocationError] = useState(false);
 
   const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
 
@@ -138,8 +106,17 @@ const HotelSearchForm = ({
     router.push(route);
   };
 
+  const handleChangeLocation = () => {
+    setShowLocationError(false);
+  };
+
+  const geolocationIsNull = geolocation === `${NaN},${NaN}`;
   const handleSearchClick = () => {
     if (hasReRoute) {
+      if (geolocationIsNull) {
+        setShowLocationError(true);
+        return;
+      }
       rerouteToSearchPage();
       return;
     }
@@ -186,9 +163,9 @@ const HotelSearchForm = ({
 
   return (
     <section
-      className={`flex flex-col px-4 pb-4 justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
+      className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
     >
-      <section className="lg:flex lg:w-[90%] lg:justify-between lg:items-center lg:gap-4">
+      <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
         <LocationInput
           icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
           label={locationInputLabel}
@@ -196,6 +173,8 @@ const HotelSearchForm = ({
           placeholder={locationPlaceholder}
           routeParams={['type']}
           onSelect={handleSelectLocation}
+          error={showLocationError}
+          onChange={handleChangeLocation}
         />
         <TravelersInput
           showTravelersInput={showTravelersInput}
@@ -203,13 +182,11 @@ const HotelSearchForm = ({
           rooms={roomsData}
           setRooms={setRoomsData}
         />
-        <section className="mt-4 lg:mt-0 lg:w-full">
-          <p className="text-sm font-medium text-dark-800">
-            {guestsAndRoomsLabel}
-          </p>
+        <section className="lg:mt-0 lg:w-full">
+          <Label value={guestsAndRoomsLabel} />
           <button
             onClick={() => setShowTravelersInput(true)}
-            className="mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"
+            className="bg-white mt-2 grid grid-cols-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
           >
             <section className="flex items-center gap-2">
               <MultiplePersons className="text-dark-700" />
@@ -230,18 +207,20 @@ const HotelSearchForm = ({
         <DatePicker
           showDatePicker={showDatePicker}
           onClose={() => setShowDatePicker(false)}
+          startDateLabel={checkInText}
+          endDateLabel={checkOutText}
           initialStartDate={startDate}
           initialEndDate={endDate}
           onStartDateChange={handleStartDateChange}
           onEndDateChange={handleEndDateChange}
           openOnStart={clickOnStart ? true : false}
         />
-        <section className="flex gap-4 mt-2 lg:mt-0 lg:w-full">
+        <section className="flex gap-4 lg:mt-0 lg:w-full">
           <IconInput
             label={checkInText}
             name="Check-in"
             placeholder={checkInText}
-            className="mt-4 lg:mt-0"
+            className="lg:mt-0"
             orientation="left"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
@@ -257,7 +236,7 @@ const HotelSearchForm = ({
             name="Check-out"
             placeholder={checkOutText}
             orientation="left"
-            className="mt-4 lg:mt-0"
+            className="lg:mt-0"
             icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
             onChange={(event) => handleEndDateChange(event.target.value)}
@@ -270,10 +249,11 @@ const HotelSearchForm = ({
         </section>
       </section>
 
-      <section className="w-full flex items-center justify-center mt-8 lg:w-[10%]">
+      <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
         <Button
           key="hotels.searchBtn"
-          className="h-12 min-w-full text-base lg:h-10 lg:mb-1"
+          size="full"
+          className="min-w-full text-base"
           value={textSearch}
           onClick={handleSearchClick}
         />

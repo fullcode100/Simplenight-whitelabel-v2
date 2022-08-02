@@ -30,6 +30,8 @@ require('dayjs/locale/es');
 interface DatePickerProps {
   showDatePicker: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
+  startDateLabel: string;
+  endDateLabel: string;
   initialStartDate: string;
   initialEndDate: string;
   onStartDateChange: (value: string) => void;
@@ -40,19 +42,19 @@ interface DatePickerProps {
 const DatePicker = ({
   showDatePicker,
   onClose,
+  startDateLabel,
+  endDateLabel,
   initialStartDate,
   initialEndDate,
   onStartDateChange,
   onEndDateChange,
   openOnStart,
 }: DatePickerProps) => {
-  const [t, i18n] = useTranslation('hotels');
+  const [t, i18n] = useTranslation('globals');
   dayjs.locale(i18n.resolvedLanguage);
   const datesText = t('dates', 'Dates');
   const applyText = t('apply', 'Apply');
-  const [calendar, setCalendar] = useState(
-    createCalendar(initialYear, initialMonth),
-  );
+  const [calendar, setCalendar] = useState<MonthObject[]>();
   const [startDate, setStartDate] = useState<string>(
     dayjs().format('YYYY-MM-DD'),
   );
@@ -62,6 +64,7 @@ const DatePicker = ({
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
 
   useEffect(() => {
+    setCalendar(createCalendar(initialYear, initialMonth));
     setStartDate(initialStartDate ?? startDate);
     setEndDate(initialEndDate ?? endDate);
   }, []);
@@ -115,16 +118,18 @@ const DatePicker = ({
       <RangeDate
         isStartDateTurn={isStartDateTurn}
         onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
+        startDateLabel={startDateLabel}
+        endDateLabel={endDateLabel}
         startDate={formatAsRangeDate(startDate)}
         endDate={formatAsRangeDate(endDate)}
       />
       <section className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5">
-        {calendar.map((month: MonthObject, index) => {
+        {calendar?.map((month: MonthObject, index) => {
           return (
             <Fragment key={index}>
-              <h1 className="col-span-7 font-semibold text-dark-1000 mt-3 bg-white">{`${fromLowerCaseToCapitilize(
+              <p className="col-span-7 font-semibold text-dark-1000 text-base leading-base mt-3">{`${fromLowerCaseToCapitilize(
                 month.monthName,
-              )} ${month.yearNumber}`}</h1>
+              )} ${month.yearNumber}`}</p>
               <WeekDays />
               {month.days.map((day: DayObject, index) => (
                 <Day

@@ -19,25 +19,25 @@ const ConfirmationBuyerInfo = ({ booking }: ConfirmationBuyerInfoProps) => {
   const orderName = t('orderName', 'Order Name');
 
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-2 lg:text-sm lg:leading-[22px]">
       <section className="flex gap-2">
-        <Customer className="mt-0.5 text-primary-1000" />
+        <Customer className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000" />
         <section className="flex flex-col">
-          <h4 className="font-semibold text-dark-700">{orderName}</h4>
-          <h1 className="font-semibold text-dark-1000">
+          <p className="font-semibold text-dark-700">{orderName}</p>
+          <p className="font-semibold text-dark-1000">
             {firstName} {lastName}
-          </h1>
+          </p>
         </section>
       </section>
       <section className="flex gap-2 items-center">
-        <Email className="mt-0.5 text-primary-1000 h-4" />
-        <h4 className="font-semibold text-dark-1000 underline">{email}</h4>
+        <Email className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000 h-4" />
+        <p className="font-semibold text-dark-1000 underline">{email}</p>
       </section>
       <section className="flex gap-2 items-center">
-        <Phone className="mt-0.5 text-primary-1000 h-4" />
-        <h4 className="font-semibold text-dark-1000 underline">
+        <Phone className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000 h-4" />
+        <p className="font-semibold text-dark-1000 underline">
           +{phonePrefix} {phoneNumber}
-        </h4>
+        </p>
       </section>
     </section>
   );

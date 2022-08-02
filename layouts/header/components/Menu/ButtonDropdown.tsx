@@ -20,7 +20,7 @@ const ButtonDropdown = ({
   return (
     <section className="relative">
       <button
-        className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded"
+        className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 h-8 rounded"
         onClick={() => setOpen(!open)}
       >
         {icon} {value}

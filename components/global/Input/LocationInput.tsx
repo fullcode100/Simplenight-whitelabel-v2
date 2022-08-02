@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import IconInput from './IconInput';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { getIsMapLoaded } from 'store/selectors/core';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -31,9 +30,8 @@ const LocationInput = ({
   const defaultAddress = params?.address?.toString() || '';
   const [address, setAddress] = useState(defaultAddress);
   const isMapLoaded = getIsMapLoaded();
-  const setQueryParams = useQuerySetter();
 
-  const [t, i18next] = useTranslation('hotels');
+  const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
 
   const handleChange = (newAddress: string) => {

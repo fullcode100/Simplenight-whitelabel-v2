@@ -27,6 +27,7 @@ export class ServerBookingGetter extends ServerRequester<GetBookingResponse> {
     const { id } = query;
 
     const endpoint = `/bookings/${id}`;
+
     const url = applyApiBaseUrlV2(endpoint, request);
 
     return axios.get<ApiResponse<any, GetBookingResponse>>(url);

@@ -15,6 +15,9 @@ import Menu from './components/Menu/Menu';
 import { clearCart } from 'store/actions/cartActions';
 import Link from 'next/link';
 import HeaderDesktop from './components/Menu/HeaderDesktop';
+import ItineraryOverlay from '../../components/itinerary/ItineraryOverlay/ItineraryOverlay';
+import useModal from 'hooks/layoutAndUITooling/useModal';
+import { CartObjectResponse } from '../../types/cart/CartType';
 
 interface HeaderProps {
   color: string;
@@ -26,10 +29,12 @@ interface HeaderButtonProps {
 }
 
 const Header = ({ color }: HeaderProps) => {
+  const [isOpen, onOpen, onClose] = useModal();
   const state = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
 
   const [cartQty, setCartQty] = useState(0);
+  const [cart, setCart] = useState<CartObjectResponse>();
   const [t, i18next] = useTranslation('global');
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () => setOpenMenu(true);
@@ -39,18 +44,22 @@ const Header = ({ color }: HeaderProps) => {
     if (!state.cartStore) {
       return;
     }
-    getCart(i18next, state).then((cart) => {
-      if (cart?.status === 'BOOKED') {
-        localStorage.removeItem('cart');
-        dispatch(clearCart());
-      } else if (cart) {
-        setCartQty(cart.total_item_qty);
-      }
-    });
+    getCart(i18next, state)
+      .then((cart) => {
+        if (cart?.status === 'BOOKED') {
+          localStorage.removeItem('cart');
+          dispatch(clearCart());
+        } else if (cart) {
+          setCartQty(cart.total_item_qty);
+          setCart(cart);
+        }
+      })
+      .catch((error) => console.error(error));
   }, [state.cartStore]);
 
   return (
     <>
+      <ItineraryOverlay isOpen={isOpen} onClose={onClose} cart={cart} />
       <FullScreenModal
         open={openMenu}
         closeModal={handleCloseMenu}
@@ -64,7 +73,7 @@ const Header = ({ color }: HeaderProps) => {
         <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
       <header
-        className={`flex items-center justify-between p-4 z-10 ${color} fixed w-full lg:hidden`}
+        className={`flex items-center justify-between p-3 z-10 ${color} fixed w-full lg:hidden`}
       >
         <HamburgerMenuButton
           className="mr-2 cursor-pointer"
@@ -77,18 +86,16 @@ const Header = ({ color }: HeaderProps) => {
             </a>
           </Link>
         </section>
-        <Link href={'/itinerary'}>
-          <a>
-            <section className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 rounded">
-              <span className="text-dark-1000 font-bold text-sm font-lato">
-                {cartQty ?? 0}
-              </span>
-              <ShoppingCart className="text-primary-1000" />
-            </section>
-          </a>
-        </Link>
+        <button onClick={onOpen}>
+          <section className="flex justify-between items-center gap-2 w-14 border border-dark-300 bg-white px-2 py-1 rounded">
+            <span className="text-dark-1000 font-bold text-sm font-lato">
+              {cartQty ?? 0}
+            </span>
+            <ShoppingCart className="text-primary-1000" />
+          </section>
+        </button>
       </header>
-      <HeaderDesktop color={color} cartQty={cartQty} />
+      <HeaderDesktop color={color} cartQty={cartQty} onOpen={onOpen} />
     </>
   );
 };

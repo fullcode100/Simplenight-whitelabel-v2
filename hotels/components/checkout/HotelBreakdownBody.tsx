@@ -15,10 +15,10 @@ const HotelBreakdownBody = ({
   setReload,
 }: HotelBreakdownBodyProps) => {
   return (
-    <>
+    <section className="pl-[52px]">
       <HotelGeneralInfo item={item?.extended_data} />
       <HotelRoomsInfo item={item} reload={reload} setReload={setReload} />
-    </>
+    </section>
   );
 };
 

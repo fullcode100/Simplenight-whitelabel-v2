@@ -7,12 +7,14 @@ import SecondaryCategorySearchOptions from 'components/global/SecondaryCategoryS
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import { tabsMock } from 'mocks/tabsMock';
 import { Tab } from 'components/global/Tabs/types';
+import SearchCategoryForm from 'components/global/SearchCategoryForm/SearchCategoryForm';
 
 const Search: NextPage = () => {
   const { type } = useQuery();
   const [internalSearchType, setInternalSearchType] = useState(
     (type as unknown as string) ?? '',
   );
+  const [searchType, setSearchType] = useState('hotels');
 
   const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
     setInternalSearchType(tab.value.toLowerCase());
@@ -21,7 +23,7 @@ const Search: NextPage = () => {
 
   return (
     <main>
-      <header className="flex flex-col bg-dark-100 border-y border-dark-300 pt-2 fixed z-20 w-full">
+      <header className="flex flex-col bg-dark-100 border-y border-dark-300 pt-2 fixed z-20 w-full lg:hidden">
         <HorizontalTabs
           tabs={tabsMock}
           onClick={handleTabClick}
@@ -32,7 +34,10 @@ const Search: NextPage = () => {
         <ExtendedSearchCategoryForm searchType={internalSearchType} />
         <SecondaryCategorySearchOptions searchType={internalSearchType} />
       </header>
-      <section className="pt-[153px]">
+      <section className="hidden lg:block w-full px-20 py-10 bg-dark-100 border-b border-dark-300">
+        <SearchCategoryForm searchType={searchType} />
+      </section>
+      <section className="pt-[153px] lg:pt-0 lg:w-full lg:px-20">
         <SearchResultDisplay searchType={internalSearchType} />
       </section>
     </main>

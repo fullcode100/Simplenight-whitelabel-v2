@@ -9,7 +9,7 @@ interface LabelProps {
 const Label = ({ value, htmlFor, className, ...others }: LabelProps) => (
   <label
     htmlFor={htmlFor}
-    className={`${className} block text-sm font-medium text-dark-800 hover:cursor-pointer`}
+    className={`${className} block text-sm font-semibold text-dark-800 hover:cursor-pointer`}
     {...others}
   >
     {value}

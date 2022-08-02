@@ -30,6 +30,7 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { clearCart } from 'store/actions/cartActions';
+import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -45,6 +46,8 @@ const Payment = () => {
   const dispatch = useDispatch();
 
   const [t, i18next] = useTranslation('global');
+
+  const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
 
   const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
   const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
@@ -88,12 +91,14 @@ const Payment = () => {
       countryCode: country,
     };
 
-    createBooking(paymentParameters, i18next).then((response) => {
-      const bookingId = response?.booking.booking_id;
-      dispatch(clearCart());
-      localStorage.removeItem('cart');
-      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
-    });
+    createBooking(paymentParameters, i18next)
+      .then((response) => {
+        const bookingId = response?.booking.booking_id;
+        dispatch(clearCart());
+        localStorage.removeItem('cart');
+        router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+      })
+      .catch((error) => console.error(error));
   };
 
   const redirectToItinerary = () => {
@@ -116,62 +121,81 @@ const Payment = () => {
       });
   }, [reload]);
 
+  const itemsNumber = cart?.items?.length;
+
   return (
     <>
-      {/* <section className="bg-dark-100 h-[100px] w-full grid place-items-center">
-        Header Wizzard
-      </section> */}
-      <CheckoutHeader step="payment" />
+      <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
-        <>
-          <CheckoutMain>
-            <CheckoutForm title={'Payment Information'}>
-              <InputWrapper label="Country" labelKey="country">
-                <CountrySelect value={country} onChange={setCountry} />
-              </InputWrapper>
-              {cart && (
-                <>
-                  <SquarePaymentForm
-                    applicationId={appId}
-                    locationId={locationId}
-                    onPaymentToken={handlePaymentToken}
-                    amount={cart.total_amount.amount}
-                    currencyCode={cart.total_amount.currency}
-                    ref={payClickRef}
-                  />
+        <section className="px-0 py-0 lg:px-20 lg:py-12 flex gap-8 items-start">
+          <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
+            <CheckoutMain>
+              <CheckoutForm title={'Payment Information'}>
+                <InputWrapper label="Country" labelKey="country">
+                  <CountrySelect value={country} onChange={setCountry} />
+                </InputWrapper>
+                {cart && (
+                  <>
+                    <SquarePaymentForm
+                      applicationId={appId}
+                      locationId={locationId}
+                      onPaymentToken={handlePaymentToken}
+                      amount={cart.total_amount.amount}
+                      currencyCode={cart.total_amount.currency}
+                      ref={payClickRef}
+                    />
 
-                  <InputWrapper
-                    label={'Amount For This Card'}
-                    labelKey={'amountForThisCard'}
-                    subLabel={'Full Amount'}
-                    subLabelKey={'fullAmount'}
-                    value={cart?.total_amount.formatted}
-                    disabled={true}
-                  />
-                </>
+                    <InputWrapper
+                      label={'Amount For This Card'}
+                      labelKey={'amountForThisCard'}
+                      subLabel={'Full Amount'}
+                      subLabelKey={'fullAmount'}
+                      value={cart?.total_amount.formatted}
+                      disabled={true}
+                    />
+                  </>
+                )}
+              </CheckoutForm>
+              <section className="px-5 pb-6">
+                <Terms checkValue={terms} checkboxMethod={setTerms} />
+              </section>
+            </CheckoutMain>
+            <CheckoutFooter type="payment">
+              {cart && (
+                <Summary cart={cart} reload={reload} setReload={setReload} />
               )}
-            </CheckoutForm>
-          </CheckoutMain>
-          <CheckoutFooter type="payment">
-            <Terms checkValue={terms} checkboxMethod={setTerms} />
-            {cart && (
-              <Summary cart={cart} reload={reload} setReload={setReload} />
-            )}
-            <Button
-              value="Back"
-              onClick={() => router.back()}
-              size={'full'}
-              color="outlined"
-              className="text-[18px] hover:text-white hover:bg-primary-800"
-            />
-            <Button
-              value="Check Out"
-              size={'full'}
-              className="text-[18px]"
-              onClick={handleBooking}
-            />
-          </CheckoutFooter>
-        </>
+              <section className="w-full lg:w-[145px]">
+                <Button
+                  value="Back"
+                  onClick={() => router.back()}
+                  size={'full'}
+                  color="outlined"
+                  className="text-[18px] hover:text-white hover:bg-primary-800"
+                />
+              </section>
+              <section className="w-full lg:w-[145px]">
+                <Button
+                  value="Check Out"
+                  size={'full'}
+                  className="text-[18px]"
+                  onClick={handleBooking}
+                />
+              </section>
+            </CheckoutFooter>
+          </section>
+          {cart && (
+            <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
+              <h2 className="text-lg leading-6 text-dark-800 font-semibold lg:bg-dark-100 bg-white px-5 py-6">
+                {priceBreakdownLabel}
+              </h2>
+              <BreakdownItemList
+                cart={cart}
+                reload={reload}
+                setReload={setReload}
+              />
+            </section>
+          )}
+        </section>
       ) : (
         <Loader />
       )}

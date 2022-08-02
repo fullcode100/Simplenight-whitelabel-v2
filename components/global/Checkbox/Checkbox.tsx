@@ -1,58 +1,47 @@
-import { BaseSyntheticEvent, useState } from 'react';
-
-interface CheckboxProps {
-  items: string[];
-  onChange?: (value: string, isChecked: boolean) => void;
-  title?: string;
+import styles from './checkbox.module.scss';
+interface ICheckbox {
+  value?: string;
+  checked?: boolean;
+  name?: string;
+  onChange?: (value: any) => void;
+  children?: React.ReactNode;
+  className?: string;
+  isBoolean?: boolean;
 }
 
-export default function Checkbox({
-  items,
-  title = 'Checkbox',
+const Checkbox = ({
+  value,
+  checked,
+  name,
+  children,
+  className = '',
   onChange,
-}: CheckboxProps) {
-  const handleCheckboxChange = (event: BaseSyntheticEvent, value: string) => {
-    const isChecked = event.target.checked;
-    if (onChange) onChange(value, isChecked);
+}: ICheckbox) => {
+  const handleChange = () => {
+    if (onChange) onChange(!checked);
   };
-
-  const CheckboxItem = ({ item }: { item: string }) => {
-    const [isChecked, setIsChecked] = useState(false);
-
-    const handleChange = (event: BaseSyntheticEvent) => {
-      setIsChecked(event.target.checked);
-      handleCheckboxChange(event, item);
-    };
-
-    return (
-      <section className="relative flex items-start">
-        <section className="flex items-center h-5">
-          <input
-            id={item}
-            aria-describedby={`${item}-description`}
-            name="comments"
-            type="checkbox"
-            className="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300 rounded"
-            onChange={handleChange}
-            checked={isChecked}
-          />
-        </section>
-        <section className="ml-3 text-sm">
-          <label htmlFor="comments" className="font-medium text-gray-700">
-            {item}
-          </label>
-        </section>
-      </section>
-    );
-  };
-
   return (
-    <fieldset className="space-y-5">
-      <legend className="sr-only">{title}</legend>
-
-      {items.map((item, index) => (
-        <CheckboxItem key={item + index} item={item} />
-      ))}
-    </fieldset>
+    <div className={`flex items-center ${className}`}>
+      <div className="flex items-center h-5">
+        <input
+          id={value}
+          type="checkbox"
+          aria-describedby={`${value}`}
+          name={name}
+          value={value}
+          defaultChecked={checked}
+          checked={checked}
+          className={styles.inputCheckbox}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="ml-3 text-sm">
+        <label htmlFor={value} className="font-semibold text-sm text-dark-1000">
+          {children}
+        </label>
+      </div>
+    </div>
   );
-}
+};
+
+export default Checkbox;

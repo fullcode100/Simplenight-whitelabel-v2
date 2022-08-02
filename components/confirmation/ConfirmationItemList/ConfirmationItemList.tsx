@@ -17,7 +17,7 @@ const ConfirmationItemList = ({
   const primaryContact = booking.primary_contact;
 
   return (
-    <section className="grid gap-3">
+    <section className="grid lg:gap-6 lg:p-6">
       {booking.items.map((item, index) => {
         const isBooked = item.status == 'booked';
         if (!isBooked) return null;

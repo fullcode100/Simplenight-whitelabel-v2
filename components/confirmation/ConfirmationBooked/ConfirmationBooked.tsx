@@ -25,12 +25,12 @@ const ConfirmationBooked = ({
   const bookedItemsAmountLabel = bookedAmount == 1 ? item : items;
 
   return (
-    <section className="flex flex-col gap-2 px-5 pt-6 border-b border-dark-300">
-      <section className="flex items-center justify-between">
-        <h1 className="font-semibold text-dark-800 text-lg leading-[24px]">
+    <section className="flex flex-col gap-2 lg:gap-0 px-5 lg:px-0 pt-6 lg:pt-0 lg:w-[845px] lg:shadow-container border-b border-dark-300 lg:border lg:rounded">
+      <section className="flex items-center justify-between lg:p-6 lg:bg-dark-100 lg:border-b lg:border-dark-300">
+        <h1 className="font-semibold text-dark-800 text-lg lg:text-[24px] leading-[24px] lg:leading-[29px]">
           {bookedItinerary}
         </h1>
-        <p className="font-semibold text-dark-800 text-xs leading-lg">
+        <p className="font-semibold text-dark-800 text-xs lg:text-sm leading-lg lg:leading-[22px]">
           {bookedAmount} {bookedItemsAmountLabel}
         </p>
       </section>

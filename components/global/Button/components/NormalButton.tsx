@@ -14,7 +14,7 @@ const NormalButton = ({
   return (
     <button
       className={classnames(
-        `font-semibold rounded-4 ${sizeClassname}`,
+        `font-semibold rounded ${sizeClassname}`,
         {
           [`cursor-pointer ${colors.normal}  ${colors.active} ${colors.hover}`]:
             !disabled,

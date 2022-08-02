@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import Arrow from 'public/icons/assets/arrow.svg';
 
 interface CategoryItemProps {
   text: string;
@@ -10,14 +9,15 @@ interface CategoryItemProps {
 
 const CategoryItem = ({ text, icon, url }: CategoryItemProps) => {
   return (
-    <section className="py-4">
-      <Link href={`/search/${url}`}>
-        <a className="text-gray-500 flex items-center gap-2">
-          <section className="text-primary-1000">{icon}</section>
-          <section className="flex justify-between items-center w-full text-dark-1000">
-            <p className="text-sm font-semibold">{text}</p>
-            <Arrow />
+    <section className="h-[120px] w-[120px] lg:h-40 lg:w-40 bg-white rounded-4 flex items-center justify-center shadow-container">
+      <Link href={'/'}>
+        <a className="text-gray-500 space-y-3">
+          <section className="text-primary-1000 h-8 w-8 lg:h-[60px] lg:w-[60px] mx-auto flex justify-center items-center">
+            {icon}
           </section>
+          <p className="text-sm font-semibold text-center w-full text-dark-1000">
+            {text}
+          </p>
         </a>
       </Link>
     </section>
