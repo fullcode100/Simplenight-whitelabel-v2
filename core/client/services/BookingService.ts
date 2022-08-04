@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import i18next, { i18n } from 'i18next';
 import { CreateBookingRequest } from 'types/checkout/CreateBookingRequest';
 import { CancelBookingRequest } from 'types/confirmation/DeleteBookingRequest';
@@ -31,8 +32,10 @@ export const createBooking = (
   i18next: i18n,
 ) => {
   const { cartId, paymentToken, countryCode } = paymentParameters;
+  const customerTimeCreatedAt = dayjs().format();
   const bookingRequest: CreateBookingRequest = {
     cart_id: cartId,
+    customer_time_created_at: customerTimeCreatedAt,
     payment_request: {
       payment_method: PAYMENT_METHOD,
       payment_token: paymentToken,
