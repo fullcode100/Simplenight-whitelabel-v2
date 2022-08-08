@@ -170,7 +170,7 @@ const Payment = () => {
                   onClick={() => router.back()}
                   size={'full'}
                   color="outlined"
-                  className="text-[18px] hover:text-white hover:bg-primary-800"
+                  className="text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
                 />
               </section>
               <section className="w-full lg:w-[145px]">
