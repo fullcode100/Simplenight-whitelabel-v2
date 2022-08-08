@@ -20,7 +20,7 @@ export interface CategoryOption {
   value: string;
   icon: ReactElement;
   selectedIcon: ReactElement;
-  store: CategoryStore;
+  store?: CategoryStore;
   core: CategoryCore<any>;
   searchForm?: ReactElement;
   secondarySearchOptions?: ReactElement;
