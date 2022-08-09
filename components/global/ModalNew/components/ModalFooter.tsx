@@ -1,7 +1,6 @@
 import { MouseEvent, ReactNode } from 'react';
 
 import Button from 'components/global/ButtonNew/Button';
-import Paragraph from 'components/global/Typography/Paragraph';
 
 interface ModalFooterProps {
   primaryButtonText?: string;
@@ -20,11 +19,11 @@ const ModalFooter = ({
 }: ModalFooterProps) => {
   const renderButtons = !!primaryButtonText || !!secondaryButtonText;
   return (
-    <footer className="fixed bottom-0 w-full bg-white shadow-container px-5 py-6">
+    <footer className="w-full bg-white shadow-container px-5 py-6 lg:px-6 lg:rounded-b-4">
       <section className={renderButtons ? 'grid gap-4' : ''}>
         {footerSummary}
 
-        <section className="grid gap-3">
+        <section className="grid gap-3 lg:flex lg:w-[337px] lg:justify-self-end">
           {secondaryButtonText && (
             <Button
               type="outlined"
