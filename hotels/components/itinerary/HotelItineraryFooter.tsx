@@ -57,8 +57,18 @@ const HotelItineraryFooter = ({
   };
 
   const handleEdit = () => {
+    const adults = item.adults;
+    const children = item.children;
+    const startDate = item.extended_data?.start_date;
+    const endDate = item.extended_data?.end_date;
+    const coordinates = item.extended_data?.details?.address.coordinates;
+    const geolocation = `${coordinates?.latitude},${coordinates?.longitude}`;
+    const rooms = item.room_qty;
+
     removeAllRooms();
-    router.push(`/detail/hotels/${item.extended_data?.id}`);
+    router.push(
+      `/detail/hotels/${item.extended_data?.id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}&rooms=${rooms}`,
+    );
   };
 
   return (
