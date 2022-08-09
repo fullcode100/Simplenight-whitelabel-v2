@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 import Checkbox from 'components/global/Checkbox/Checkbox';
+import { RadioGroup, Radio } from 'components/global/Radio/Radio';
+import RangeSlider from 'components/global/RangeSlider/RangeSlider';
+import MultipleSelect, {
+  Option,
+} from 'components/global/MultipleSelect/MultipleSelect';
+
+import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
+import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
 import IconInput from 'components/global/Input/IconInput';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
-import { useRouter } from 'next/router';
-import { RadioGroup, Radio } from 'components/global/Radio/Radio';
-import RangeSlider from 'components/global/RangeSlider/RangeSlider';
-import MultipleSelect from 'components/global/MultipleSelect/MultipleSelect';
 import CloseIcon from 'public/icons/assets/close.svg';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 const FilterContainer = ({ children }: { children?: any }) => (
-  <section className="pr-6 mt-4 mb-6 flex flex-col">{children}</section>
+  <section className="flex flex-col pr-6 mt-4 mb-6">{children}</section>
 );
 const HotelFilterFormDesktop = () => {
   const router = useRouter();
@@ -37,7 +41,18 @@ const HotelFilterFormDesktop = () => {
     queryFilter?.paymentTypes?.includes('payAtProperty') || false,
   );
 
-  const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const getAmenities = () => {
+    const amenitiesListParams =
+      queryFilter?.amenities?.toString().split(',') || [];
+
+    return AMENITIES_OPTIONS.filter((amenity) =>
+      amenitiesListParams.includes(amenity.value),
+    );
+  };
+
+  const [selectedAmenities, setSelectedAmenities] = useState<Option[]>(
+    getAmenities(),
+  );
 
   const initialPriceRange = {
     min: '100',
@@ -100,6 +115,7 @@ const HotelFilterFormDesktop = () => {
     setFreeCancellation(false);
     setPayAtProperty(false);
     setSortBy('sortByPriceAsc');
+    setSelectedAmenities([]);
   };
 
   const onChangeMinPrice = (value: string) => {
@@ -241,10 +257,10 @@ const HotelFilterFormDesktop = () => {
 
   const FilterHeader = () => (
     <FilterContainer>
-      <section className="flex justify-between items-center">
+      <section className="flex items-center justify-between">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
         <button
-          className="font-semibold text-base text-primary-1000 capitalize"
+          className="text-base font-semibold capitalize text-primary-1000"
           onClick={handleClearFilters}
         >
           {clearFiltersText}
@@ -253,39 +269,48 @@ const HotelFilterFormDesktop = () => {
     </FilterContainer>
   );
 
-  const onChangeAmenities = (value: string) => {
-    let stateOptions = [...selectedAmenities];
-    const index = stateOptions.indexOf(value as never);
-    if (index > -1) stateOptions.splice(index, 1);
-    else stateOptions = [...stateOptions, value as never];
-    setSelectedAmenities(stateOptions);
+  const onChangeAmenitiesParams = (amenitiesList: Option[]) => {
+    const amenities = amenitiesList.map((amenity) => amenity.value).join(',');
+
+    setQueryParams({
+      amenities,
+    });
   };
 
-  const handleDeleteAmenitie = (value: string) => {
-    const amenities = selectedAmenities.filter(
-      (amenitie) => amenitie !== value,
-    );
+  const onChangeAmenities = (value: Option) => {
+    let stateOptions = [...selectedAmenities];
+    const index = stateOptions.indexOf(value);
+    if (index > -1) stateOptions.splice(index, 1);
+    else stateOptions = [...stateOptions, value];
+    setSelectedAmenities(stateOptions);
+    onChangeAmenitiesParams(stateOptions);
+  };
+
+  const handleDeleteAmenitie = (value: Option) => {
+    const amenities = selectedAmenities.filter((amenity) => amenity !== value);
     setSelectedAmenities(amenities);
+    onChangeAmenitiesParams(amenities);
   };
 
   const AmenitiesFilter = () => (
     <FilterContainer>
       <FilterTitle label={amenitiesText} />
       <MultipleSelect
-        options={['Bar', 'Dining', 'Pool', 'Parking', 'Casino']}
+        options={AMENITIES_OPTIONS}
         values={selectedAmenities}
         onChange={onChangeAmenities}
+        translation="hotels"
       />
-      <section className="flex gap-3 mt-6 flex-wrap">
-        {selectedAmenities.map((amenitie) => (
+      <section className="flex flex-wrap gap-3 mt-6">
+        {selectedAmenities.map((amenity) => (
           <section
-            key={amenitie}
-            className="bg-dark-100 rounded-md py-1 px-2 border border-dark-200 flex gap-2 items-center"
+            key={amenity.value}
+            className="flex items-center gap-2 px-2 py-1 border rounded-md bg-dark-100 border-dark-200"
           >
-            {amenitie}
+            {t(amenity.label)}
             <button
               className="text-base text-dark-1000"
-              onClick={() => handleDeleteAmenitie(amenitie)}
+              onClick={() => handleDeleteAmenitie(amenity)}
             >
               <CloseIcon className="text-dark-800" />
             </button>
@@ -296,7 +321,7 @@ const HotelFilterFormDesktop = () => {
   );
 
   return (
-    <section className="py-4 h-full overflow-y-scroll">
+    <section className="h-full py-4 overflow-y-scroll">
       <FilterHeader />
       {/* <KeywordSearchFilter /> */}
       <PriceRangeFilter />
@@ -306,6 +331,8 @@ const HotelFilterFormDesktop = () => {
       <StarRatingFilter />
       <Divider className="my-6" />
       <LabelFilter />
+      <Divider className="my-6" />
+      <AmenitiesFilter />
     </section>
   );
 };

@@ -71,6 +71,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     minPrice,
     maxPrice,
     roomsData,
+    amenities,
   } = useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -120,6 +121,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       star_rating: starRating as string,
       min_price: minPrice as string,
       max_price: maxPrice as string,
+      amenities: amenities as string,
     };
 
     Searcher?.request(params, i18next)
@@ -142,6 +144,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     starRating,
     minPrice,
     maxPrice,
+    amenities,
   ]);
 
   const handleOnViewDetailClick = (hotel: Hotel) => {

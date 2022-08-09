@@ -5,4 +5,5 @@ export interface HotelSearchRequest extends SearchRequest {
   adults: number;
   children: number;
   star_rating: string;
+  amenities: string;
 }
