@@ -18,7 +18,7 @@ const ModalHeader = ({
 }: ModalHeaderProps) => {
   return (
     <header
-      className={`sticky flex justify-between items-center pt-12 pb-5 px-5 bg-dark-100 shadow-container border-b border-dark-200 text-dark-1000 ${headerClassName}`}
+      className={`sticky flex justify-between items-center p-5 bg-dark-100 shadow-container border-b border-dark-200 text-dark-1000 ${headerClassName}`}
     >
       <h2
         className={`font-semibold text-base text-dark-1000 ${titleClassName}`}
