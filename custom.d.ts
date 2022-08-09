@@ -10,3 +10,5 @@ declare module 'react-dynamic-import';
 declare module 'react-rating-stars-component';
 
 declare module 'react-collapse';
+
+declare module 'axios-curlirize';
