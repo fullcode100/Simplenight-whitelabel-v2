@@ -16,6 +16,7 @@ import {
 import { getSimplenightApiKey } from './middlewares/authHeaderMiddleware';
 import { i18n } from 'i18next';
 import { handleError } from 'helpers/errorUtils';
+import curlirize from 'axios-curlirize';
 
 export const API_KEY_HEADER_KEY = 'X-API-KEY';
 
@@ -118,6 +119,15 @@ export const createServerAxiosInstance = (req: any) => {
       'Accept-Encoding': 'gzip, deflate, br',
       [apiHeader.header]: apiHeader.key,
     },
+  });
+
+  curlirize(axiosInstance, (result: any, err: any) => {
+    const curl = result.command;
+    if (err) {
+      console.error(`Failed request curl: ${curl}`);
+    } else {
+      console.log(`Successful request curl: ${curl}`);
+    }
   });
 
   axiosInstance.interceptors.request.use(
