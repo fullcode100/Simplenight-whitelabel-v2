@@ -1,18 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import { Booking } from 'types/booking/bookingType';
-import Image from 'next/image';
+import CardLogo from './CardLogo';
 
 interface ConfirmationPaymentProps {
   booking: Booking;
 }
 
 const ConfirmationPayment = ({ booking }: ConfirmationPaymentProps) => {
-  const [t, i18next] = useTranslation('global');
+  const [t] = useTranslation('global');
   const paymentMethods = t('paymentMethods', 'Payment Methods');
 
   const payment = booking.payments[0];
-  const { last_four: lastFour, transaction_amount: transactionAmount } =
-    payment;
+  const {
+    last_four: lastFour,
+    transaction_amount: transactionAmount,
+    card_brand: cardBrand,
+  } = payment;
 
   return (
     <section className="flex flex-col gap-5 lg:gap-0 lg:shadow-container px-5 lg:px-0 py-6 lg:py-0 lg:border lg:rounded lg:border-dark-300">
@@ -24,12 +27,7 @@ const ConfirmationPayment = ({ booking }: ConfirmationPaymentProps) => {
           <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold mr-3">
             ···· ···· ···· {lastFour}
           </h4>
-          <Image
-            src={'/images/visa-image.png'}
-            alt={''}
-            width={40}
-            height={22}
-          />
+          <CardLogo cardBrand={cardBrand} />
         </section>
         <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold self-center">
           {transactionAmount.formatted}
