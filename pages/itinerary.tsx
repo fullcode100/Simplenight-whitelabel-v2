@@ -57,8 +57,6 @@ const Itinerary: NextPage = () => {
 
   const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
-  const hasItems = (cart?.total_item_qty ?? 0) > 0;
-
   return (
     <main>
       <header>

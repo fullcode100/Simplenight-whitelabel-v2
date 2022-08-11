@@ -100,17 +100,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     console.log(detailsLabel);
   }, [detailsLabel]);
 
-  const storeCurrency = useSelector((state: any) => state.core.currency);
-  const [currency, setCurrency] = useState<string>(storeCurrency);
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
-
-  useEffect(() => {
-    console.log(detailsLabel);
-  }, [detailsLabel]);
-
   useEffect(() => {
     const occupancy: Occupancy = {
       adults: parseQueryNumber(adults ?? '1') + '',
@@ -156,24 +145,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     }
   };
 
-  const scrollToRoom = () => {
-    if (roomRef.current) {
-      roomRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToLocation = () => {
-    if (locationRef.current) {
-      locationRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToAmeneties = () => {
-    if (amenitiesRef.current) {
-      amenitiesRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const RatingSection = () => (
     <section className="flex mt-4 w-full justify-between items-center lg:justify-start lg:gap-2 lg:mt-0">
       <span className="text-sm lg:text-base text-primary-1000 font-semibold">
@@ -190,18 +161,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     const scrollFunctions: { [key: string]: () => void } = {
       [roomsLabel]: scrollToRoom,
       [locationLabel]: scrollToLocation,
-      Amenities: scrollToAmeneties,
-    };
-
-    const scrollTo = (tab: string) => {
-      const scrollFunction = scrollFunctions[tab];
-
-      if (scrollFunction) scrollFunction();
-    };
-
-    const scrollFunctions: { [key: string]: () => void } = {
-      Rooms: scrollToRoom,
-      Location: scrollToLocation,
       Amenities: scrollToAmeneties,
     };
 
@@ -286,72 +245,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const guests = adultsNumber + childrenNumber;
   const tGuest = tg('guest', 'Guest');
   const tGuests = tg('guests', 'Guests');
-  const GUEST_TEXT = guests === 1 ? tGuest : tGuests;
-
-  const DatesSection = () => (
-    <section>
-      <span>{startDate}</span>
-      <span> {toLabel} </span>
-      <span>{endDate}</span>
-    </section>
-  );
-
-  const VerticalDivider = () => (
-    <div className="px-2">
-      <div className="h-6 border-l border-dark-200" />
-    </div>
-  );
-
-  const OccupancySection = () => (
-    <section className="flex flex-row gap-1">
-      <span>{guests ?? ' - '} </span>
-      <span>{GUEST_TEXT} </span>
-      <VerticalDivider />
-      <span>{rooms ?? ' - '}</span>
-      <span>{ROOMS_TEXT}</span>
-    </section>
-  );
-
-  const OccupancyAndDatesSection = () => (
-    <section className="grid gap-2 font-lato text-sm text-dark-1000">
-      <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
-          <CalendarIcon className="text-primary-1000" />
-        </section>
-        <DatesSection />
-      </section>
-      <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
-          <MultiplePersonsIcon className="text-primary-1000" />
-        </section>
-        <OccupancySection />
-      </section>
-    </section>
-  );
-
-  const [openCheckRoom, setOpenCheckRoom] = useState<boolean>(false);
-
-  const handleOpenCheckRoom = () => {
-    setOpenCheckRoom(true);
-  };
-
-  const AdultsChildrenRooms = () => (
-    <>
-      <span>
-        {adults ?? '-'} {ADULT_TEXT}, {children ?? '-'} {CHILDREN_TEXT}
-      </span>
-      <span className="text-dark-200 mx-4">|</span>
-      <span>
-        {rooms ?? '-'} {ROOMS_TEXT}
-      </span>
-    </>
-  );
-
-  const adultsNumber = parseInt((adults && adults[0]) || '0');
-  const childrenNumber = parseInt((children && children[0]) || '0');
-  const guests = adultsNumber + childrenNumber;
-  const tGuest = t('guest', 'guest');
-  const tGuests = t('guests', 'guests');
   const GUEST_TEXT = guests === 1 ? tGuest : tGuests;
 
   const DatesSection = () => (

@@ -10,9 +10,6 @@ import HelpSection from 'components/global/HelpSection/HelpSection';
 import { getHomepageScrollHandler } from '../store/selectors/core';
 import { Tab } from 'components/global/Tabs/types';
 import { tabsMock } from 'mocks/tabsMock';
-import EmailIcon from 'public/icons/assets/email.svg';
-import PhoneCall from 'public/icons/assets/phone-call.svg';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
@@ -28,6 +25,7 @@ const LOOKUP_URI = '/lookup';
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
+
   const [t, i18next] = useTranslation('global');
   const homePageText = t('homePageText');
   const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
@@ -58,23 +56,6 @@ const Home: NextPageWithLayout = () => {
       <section className="p-4 lg:p-6">{children}</section>
     </section>
   );
-  useEffect(() => {
-    const mainTag = mainRef.current;
-    if (homepageScrollHandler) {
-      mainTag?.addEventListener('scroll', homepageScrollHandler);
-    }
-
-    return () => {
-      if (homepageScrollHandler) {
-        mainTag?.removeEventListener('scroll', homepageScrollHandler);
-      }
-    };
-  }, [homepageScrollHandler]);
-
-  const redirectToLookup = () => {
-    router.push(LOOKUP_URI);
-  };
-
   useEffect(() => {
     const mainTag = mainRef.current;
     if (homepageScrollHandler) {
@@ -148,7 +129,6 @@ const Home: NextPageWithLayout = () => {
         <OrderLookupCard />
         <HelpSection />
       </section>
-      <HelpSection />
     </main>
   );
 };

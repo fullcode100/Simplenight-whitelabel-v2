@@ -95,19 +95,3 @@ export const cancelBooking = async (i18next: i18n, bookingId: string) => {
     console.error(error);
   }
 };
-
-export const getBookingId = async (i18next: i18n, bookingId: string) => {
-  const bookingGetter = new ClientBookingGetter();
-  const bookingRequest = {
-    id: bookingId,
-  };
-
-  try {
-    if (bookingId) {
-      const response = await bookingGetter.request(bookingRequest, i18next);
-      return response;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};

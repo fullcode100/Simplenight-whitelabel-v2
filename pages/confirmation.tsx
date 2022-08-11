@@ -118,15 +118,8 @@ const Confirmation: NextPage = () => {
         </section>
       ) : (
         <section>
-          <ConfirmationBooked
-            booking={booking}
-            loading={loading}
-            setLoading={setLoading}
-            bookedAmount={bookedItemsAmount}
-          />
-
-          {cancelledItemsAmount > 0 && (
-            <ConfirmationCancelled
+          <header>
+            <ConfirmationHeader
               booking={booking}
               fromLookup={fromLookup}
               itemsAmount={itemsAmount}
@@ -151,15 +144,14 @@ const Confirmation: NextPage = () => {
                   />
                 )}
               </section>
-
-          <ConfirmationPayment booking={booking} />
-          <ConfirmationFooter
-            booking={booking}
-            loading={loading}
-            setLoading={setLoading}
-            bookedAmount={bookedItemsAmount}
-          />
-
+              <section className="lg:flex lg:flex-col lg:gap-8 lg:w-[405px]">
+                <ConfirmationPayment booking={booking} />
+                <ConfirmationFooter
+                  booking={booking}
+                  loading={loading}
+                  setLoading={setLoading}
+                  bookedAmount={bookedItemsAmount}
+                />
                 <HelpSection />
               </section>
             </section>

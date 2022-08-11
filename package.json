@@ -101,6 +101,11 @@
     "ts-loader": "^9.2.6",
     "typescript": "4.5.4"
   },
+  "resolutions": {
+    "@types/node": "17.0.5",
+    "@types/react": "17.0.38",
+    "@types/react-dom": "^17.0.11"
+  },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "**/*.ts": "eslint --cache --fix",

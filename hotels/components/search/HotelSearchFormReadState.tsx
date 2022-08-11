@@ -10,10 +10,6 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
-import LocationPin from 'public/icons/assets/location-pin.svg';
-import CalendarIcon from 'public/icons/assets/calendar.svg';
-import useQuery from 'hooks/pageInteraction/useQuery';
-import Button from 'components/global/Button/Button';
 
 interface HotelSearchFormReadStateProps {
   setIsSearching?: (isReading: boolean) => void;

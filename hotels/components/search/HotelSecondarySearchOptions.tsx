@@ -67,23 +67,18 @@ const HotelSecondarySearchOptions = () => {
 
   let starRating = queryFilter?.starRating as string;
 
-  const initialPriceRange = {
-    min: '100',
-    max: '5000',
+  const getAmenities = () => {
+    const amenitiesListParams =
+      queryFilter?.amenities?.toString().split(',') || [];
+
+    return AMENITIES_OPTIONS.filter((amenity) =>
+      amenitiesListParams.includes(amenity.value),
+    );
   };
-  const [minPrice, setMinPrice] = useState<string>(
-    (queryFilter?.minPrice as string) || initialPriceRange.min,
+
+  const [selectedAmenities, setSelectedAmenities] = useState<Option[]>(
+    getAmenities(),
   );
-  const [maxPrice, setMaxPrice] = useState<string>(
-    (queryFilter?.maxPrice as string) || initialPriceRange.max,
-  );
-  const [minStarRating, setMinStarRating] = useState<string>(
-    (queryFilter.starRating && queryFilter?.starRating[0]) || '1',
-  );
-  const [maxStarRating, setMaxStarRating] = useState<string>(
-    (queryFilter.starRating && queryFilter?.starRating[2]) || '5',
-  );
-  let starRating = queryFilter?.starRating as string;
 
   const [t, i18n] = useTranslation('hotels');
   const filtersLabel = t('filters', 'Filters');

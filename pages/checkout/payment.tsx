@@ -121,58 +121,7 @@ const Payment = () => {
       });
   }, [reload]);
 
-  const storeState = useSelector((state) => state);
-  const [cart, setCart] = useState<CartObjectResponse | null>(null);
-
-  const triggerPaymentFormTokenGeneration = () => payClickRef.current?.click();
-
-  const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
-    const { paymentMethodData } = paymentRequest;
-    const { tokenizationData } = paymentMethodData;
-    const { token: newToken } = tokenizationData;
-
-    setToken(newToken);
-  };
-
-  const handlePaymentToken = (newToken: string) => {
-    setToken(newToken);
-    handleBooking();
-  };
-
-  const handleBooking = () => {
-    if (!token) {
-      triggerPaymentFormTokenGeneration();
-      return;
-    }
-    if (!token || !country || !terms || !cart) return;
-
-    const paymentParameters = {
-      cartId: cart.cart_id,
-      paymentToken: token,
-      countryCode: country,
-    };
-    createBooking(paymentParameters, i18next);
-  };
-
-  const redirectToItinerary = () => {
-    router.push(ITINERARY_URI);
-  };
-
-  useEffect(() => {
-    getCart(i18next, storeState)
-      .then((returnedCart) => {
-        if (!returnedCart) {
-          redirectToItinerary();
-          throw new Error('No active cart');
-        }
-
-        setCart(returnedCart);
-        setLoaded(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  const itemsNumber = cart?.items?.length;
 
   return (
     <>

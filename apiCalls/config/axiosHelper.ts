@@ -143,14 +143,6 @@ export const createServerAxiosInstance = (req: any) => {
   return axiosInstance;
 };
 
-const tryGetWindow = () => {
-  try {
-    return window;
-  } catch (e) {
-    return undefined;
-  }
-};
-
 export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
   const Window = tryGetWindow();
 
@@ -189,29 +181,6 @@ const tryGetWindow = () => {
   } catch (e) {
     return undefined;
   }
-};
-
-export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
-  const Window = tryGetWindow();
-
-  const axiosInstance = axios.create({
-    baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  axiosInstance.interceptors.request.use(
-    axiosI18nInterceptor(i18next),
-    (error) => Promise.reject(error),
-  );
-
-  axiosInstance.interceptors.request.use(
-    axiosCurrencyInterceptor(currency),
-    (error) => Promise.reject(error),
-  );
-
-  return axiosInstance;
 };
 
 export default (() => {

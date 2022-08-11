@@ -63,46 +63,6 @@ export const initializeI18Next = () => {
         global: globalEs,
         hotels: hotelsEs,
       },
-      // lng: 'en',
-      // resources: {
-      //   en: {
-      //     global: globalEn,
-      //   },
-      //   es: {
-      //     global: globalEs,
-      //   },
-      // },
-    });
-  return i18next;
-};
-
-export const useI18Next = () => {
-  const isUsingLocize = process.env.NEXT_PUBLIC_USE_LOCIZE === 'true' ? true : false;
-  if (isUsingLocize) {
-    return withLocize();
-  }
-
-  i18next.init({
-    ns: ['global'],
-    defaultNS: 'global',
-    interpolation: {
-      escapeValue: false,
-    },
-    fallbackLng: 'en',
-    react: {
-      useSuspense: false,
-    },
-    backend: undefined,
-    lng: 'en',
-    resources: {
-      en: {
-        global: globalEn,
-        hotels: hotelsEn,
-      },
-      es: {
-        global: globalEs,
-        hotels: hotelsEs,
-      },
     },
   });
   return i18next;

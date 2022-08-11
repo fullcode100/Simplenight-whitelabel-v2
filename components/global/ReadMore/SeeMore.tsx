@@ -36,9 +36,6 @@ const SeeMore = ({
       setSectionHeight(`${heightInPixels}px`);
       return;
     }
-
-    const newText = text.substring(0, charCount);
-    setFormattedText(newText + '...');
   }, [isOpen]);
 
   useEffect(() => {
@@ -46,8 +43,6 @@ const SeeMore = ({
       setIsOpen(true);
     }
   }, []);
-
-  const toggle = () => setIsOpen(!isOpen);
 
   const toggle = () => setIsOpen(!isOpen);
 

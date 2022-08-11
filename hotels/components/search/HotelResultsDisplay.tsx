@@ -85,13 +85,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
   }, [storeCurrency]);
 
-  const [currency, setCurrency] = useState<string>(window.currency);
-  const storeCurrency = useSelector((state: any) => state.core.currency);
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
-
   useEffect(() => {
     const hasEmptyValues = checkIfAnyNull([
       rooms,
@@ -167,8 +160,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         const minRate = minRateRoom.rates.min_rate;
         const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
-        const itemKey = hotel.id + index;
-
         return (
           <HorizontalItemCard
             key={itemKey}
@@ -197,16 +188,40 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
 
-  if (!loaded) {
+  const ViewButton = ({ children, viewParam }: ViewButtonProps) => {
+    const active = viewParam === 'list' ? isListView : !isListView;
+    const onClick = () => {
+      setQueryParams({
+        view: viewParam,
+      });
+    };
     return (
-      <>
-        <Loader />
-      </>
+      <button
+        onClick={onClick}
+        className={classnames(
+          'h-[2.75rem] w-[2.75rem] grid place-content-center',
+          {
+            'bg-white text-primary-1000': !active,
+            'bg-primary-1000 text-white': active,
+          },
+        )}
+      >
+        {children}
+      </button>
     );
-  }
+  };
 
-  const handleOnViewDetailClick = (hotel: Hotel) => {
-    console.log(hotel);
+  const ViewActions = () => {
+    return (
+      <section className="flex rounded-4 overflow-hidden w-[5.5rem] border border-primary-1000">
+        <ViewButton viewParam="list">
+          <ListIcon className="w-[1.3rem] h-[1.3rem]" />
+        </ViewButton>
+        <ViewButton viewParam="map">
+          <MapIcon className="w-[1.3rem] h-[1.3rem]" />
+        </ViewButton>
+      </section>
+    );
   };
 
   return (
