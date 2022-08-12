@@ -29,7 +29,7 @@ export const Radio = ({
       />
       <label
         htmlFor={value}
-        className="ml-3 block text-sm font-semibold text-dark-1000"
+        className="block ml-3 text-sm font-normal leading-[22px] text-dark-1000"
       >
         {children}
       </label>
@@ -53,5 +53,5 @@ export const RadioGroup = ({ children, onChange, value }: IRadioGroup) => {
     };
   });
 
-  return <>{newChildren}</>;
+  return <section className="grid gap-4">{newChildren}</section>;
 };

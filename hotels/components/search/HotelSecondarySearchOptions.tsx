@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
-import Checkbox from 'components/global/Checkbox/Checkbox';
-import MultipleSelect, {
-  Option,
-} from 'components/global/MultipleSelect/MultipleSelect';
-import RangeSlider from 'components/global/RangeSlider/RangeSlider';
-import { RadioGroup, Radio } from 'components/global/Radio/Radio';
+import { Option } from 'components/global/MultipleSelect/MultipleSelect';
+import AmenitiesFilter from './Filters/AmenitiesFilter';
+import PaymentFilter from './Filters/PaymentFilter';
+import StarRatingFilter from './Filters/StarRatingFilter';
+import SortByFilter from './Filters/SortByFilter';
+import PriceRangeFilter from './Filters/PriceRangeFilter';
 
 import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -20,7 +20,6 @@ import MapIcon from 'public/icons/assets/map.svg';
 import ListIcon from 'public/icons/assets/list.svg';
 import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
-import CloseIcon from 'public/icons/assets/close.svg';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -88,27 +87,10 @@ const HotelSecondarySearchOptions = () => {
     'searchKeywordPlaceholder',
     'Venue Name, Landmark, Location, etc.',
   );
-  const starRatingLabel = t('starRating', 'Star Rating');
-  const sortByLabel = t('sortBy', 'Sort By');
-  const sortByPriceAsc = t('sortByPriceAsc', 'Price (Lowest First)');
-  const sortByPriceDesc = t('sortByPriceDesc', 'Price (Highest First)');
-  const sortByRatingAsc = t('sortByRatingAsc', 'Rating (Lowest First)');
-  const sortByRatingDesc = t('sortByRatingDesc', 'Rating (Highest First)');
-  const SORT_BY_OPTIONS = [
-    { value: 'sortByPriceAsc', label: sortByPriceAsc },
-    { value: 'sortByPriceDesc', label: sortByPriceDesc },
-    { value: 'sortByStarRatingDesc', label: sortByRatingDesc },
-    { value: 'sortByStarRatingAsc', label: sortByRatingAsc },
-  ];
 
-  const paymentTypesLabel = t('paymentTypes', 'Payment Type');
-  const freeCancellationLabel = t('freeCancellation', 'Free Cancellation');
-  const payAtPropertyLabel = t('payAtProperty', 'Pay at Property');
   const textMapView = t('mapView', 'Map View');
   const textListView = t('listView', 'List View');
-  const priceRangeLabel = t('priceRange', 'Price Range');
   const clearFiltersText = t('clearFilters', 'Clear filters');
-  const amenitiesText = t('amenities', 'Amenities');
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
@@ -156,91 +138,19 @@ const HotelSecondarySearchOptions = () => {
     setPaymentTypes(paymentTypes.join('-'));
   }, [freeCancellation, payAtProperty]);
 
-  const FilterTitle = ({
-    label,
-    className = '',
-  }: {
-    label: string;
-    className?: string;
-  }) => <label className={`mb-2 ${className}`}>{label}</label>;
+  // Filters to add in the future
 
-  const FilterContainer = ({ children }: { children?: any }) => (
-    <section className="flex flex-col px-4 mt-4 mb-6">{children}</section>
-  );
-
-  const KeywordSearchFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={keywordSearchLabel} />
-      <IconInput
-        value={keywordSearch}
-        placeholder={searchKeywordPlaceholder}
-        icon={<SearchIcon className="text-dark-700" />}
-        onChange={(e) => setKeywordSearch(e.target.value)}
-      />
-    </FilterContainer>
-  );
-
-  const StarRatingFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={starRatingLabel} />
-      <RangeSlider
-        initialMin={minStarRating ? parseInt(minStarRating) : 1}
-        initialMax={maxStarRating ? parseInt(maxStarRating) : 5}
-        min={1}
-        max={5}
-        step={1}
-        minDifference={0}
-        type="star"
-        setMinState={setMinStarRating}
-        setMaxState={setMaxStarRating}
-      />
-    </FilterContainer>
-  );
-
-  const PriceRangeFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={priceRangeLabel} />
-      <RangeSlider
-        initialMin={minPrice ? parseInt(minPrice) : 100}
-        initialMax={maxPrice ? parseInt(maxPrice) : 5000}
-        min={100}
-        max={5000}
-        step={100}
-        minDifference={100}
-        type="price"
-        setMinState={setMinPrice}
-        setMaxState={setMaxPrice}
-      />
-    </FilterContainer>
-  );
-
-  const LabelFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={paymentTypesLabel} />
-      <Checkbox
-        value={'freeCancellation'}
-        checked={freeCancellation}
-        name={'paymentTypes'}
-        className="mb-5"
-        onChange={setFreeCancellation}
-      >
-        {freeCancellationLabel}
-      </Checkbox>
-    </FilterContainer>
-  );
-
-  const SortByFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={sortByLabel} className="mb-3" />
-      <RadioGroup onChange={setSortBy} value={sortBy}>
-        {SORT_BY_OPTIONS.map((option, i) => (
-          <Radio key={i} value={option?.value} containerClass="mb-4">
-            {option.label}
-          </Radio>
-        ))}
-      </RadioGroup>
-    </FilterContainer>
-  );
+  // const KeywordSearchFilter = () => (
+  //   <FilterContainer>
+  //     <FilterTitle label={keywordSearchLabel} />
+  //     <IconInput
+  //       value={keywordSearch}
+  //       placeholder={searchKeywordPlaceholder}
+  //       icon={<SearchIcon className="text-dark-700" />}
+  //       onChange={(e) => setKeywordSearch(e.target.value)}
+  //     />
+  //   </FilterContainer>
+  // );
 
   const onChangeAmenities = (value: Option) => {
     let stateOptions = [...selectedAmenities];
@@ -250,50 +160,39 @@ const HotelSecondarySearchOptions = () => {
     setSelectedAmenities(stateOptions);
   };
 
-  const handleDeleteAmenitie = (value: Option) => {
+  const handleDeleteAmenity = (value: Option) => {
     const amenities = selectedAmenities.filter((amenity) => amenity !== value);
     setSelectedAmenities(amenities);
   };
 
-  const AmenitiesFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={amenitiesText} />
-      <MultipleSelect
-        options={AMENITIES_OPTIONS}
-        values={selectedAmenities}
-        onChange={onChangeAmenities}
-        translation="hotels"
-      />
-      <section className="flex flex-wrap gap-3 mt-6">
-        {selectedAmenities.map((amenity) => (
-          <section
-            key={amenity.value}
-            className="flex items-center gap-2 px-2 py-1 text-xs font-semibold border rounded-md leading-lg bg-dark-100 border-dark-200"
-          >
-            {t(amenity.label)}
-            <button
-              className="text-base text-dark-1000"
-              onClick={() => handleDeleteAmenitie(amenity)}
-            >
-              <CloseIcon className="text-dark-800" />
-            </button>
-          </section>
-        ))}
-      </section>
-    </FilterContainer>
-  );
-
   const FilterForm = (
-    <section className="h-full py-4 overflow-y-scroll">
+    <section className="h-full px-5 py-4 overflow-y-scroll">
       {/* <KeywordSearchFilter /> */}
-      <PriceRangeFilter />
-      <SortByFilter />
+      <PriceRangeFilter
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        onChangeMinPrice={setMinPrice}
+        onChangeMaxPrice={setMaxPrice}
+      />
+      <SortByFilter sortBy={sortBy} onChangeSortBy={setSortBy} />
       <Divider className="my-6" />
-      <StarRatingFilter />
+      <StarRatingFilter
+        minStarRating={minStarRating}
+        maxStarRating={maxStarRating}
+        onChangeMinRating={setMinStarRating}
+        onChangeMaxRating={setMaxStarRating}
+      />
       <Divider className="my-6" />
-      <LabelFilter />
+      <PaymentFilter
+        freeCancellation={freeCancellation}
+        onChangeFreeCancellation={setFreeCancellation}
+      />
       <Divider className="my-6" />
-      <AmenitiesFilter />
+      <AmenitiesFilter
+        selectedAmenities={selectedAmenities}
+        onChangeAmenities={onChangeAmenities}
+        handleDeleteAmenity={handleDeleteAmenity}
+      />
     </section>
   );
 
