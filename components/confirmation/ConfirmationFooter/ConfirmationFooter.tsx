@@ -22,13 +22,13 @@ const ConfirmationFooter = ({
   const [t, i18next] = useTranslation('global');
   const orderTotalLabel = t('orderTotal', 'Order Total');
 
-  const { order_total: orderTotal, booking_id: bookingId } = booking;
+  const { order_total: orderTotal } = booking;
 
   return (
-    <section className="flex flex-col px-5 py-6 bg-dark-100 lg:bg-white lg:shadow-container border-b lg:border lg:rounded border-dark-300">
+    <section className="flex flex-col px-5 py-6 border-b bg-dark-100 lg:bg-white lg:shadow-container lg:border lg:rounded border-dark-300">
       <ConfirmationPriceBreakdown booking={booking} />
       <Divider className="mt-1.5" />
-      <section className="flex py-6 justify-center">
+      <section className="flex justify-center py-6">
         <section className="flex">
           <h1 className="font-semibold text-dark-600 text-[20px] mr-3">
             {orderTotalLabel}
@@ -39,7 +39,7 @@ const ConfirmationFooter = ({
         </section>
       </section>
       <ConfirmationFooterButtons
-        bookingId={bookingId}
+        booking={booking}
         loading={loading}
         setLoading={setLoading}
         bookedAmount={bookedAmount}

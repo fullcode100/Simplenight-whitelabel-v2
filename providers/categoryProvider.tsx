@@ -1,5 +1,4 @@
 import { HotelCategory } from 'hotels';
 
-import { CategoryOptions } from '../types/search/SearchTypeOptions';
-
-export const categoryOptions: CategoryOptions = [HotelCategory];
+const categoryExists = (category: any) => !!category;
+export const getCategoryOptions = () => [HotelCategory].filter(categoryExists);

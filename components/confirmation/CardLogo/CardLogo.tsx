@@ -1,5 +1,5 @@
 import React from 'react';
-import brandsList from './brandsList';
+import brandsList from '../ConfirmationPayment/brandsList';
 
 interface Props {
   cardBrand: string;
