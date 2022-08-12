@@ -227,7 +227,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   return (
     <>
       <section className="lg:flex lg:w-full">
-        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
+        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <HotelFilterFormDesktop />
         </section>
         <section className="lg:flex-1 lg:w-[75%] h-full">
@@ -236,7 +236,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
           ) : hotels.length > 0 ? (
             <>
               {isListView && (
-                <section className="w-full h-full px-5 pb-6">
+                <section className="w-full h-full px-5 pb-6 lg:px-0">
                   <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
                     <span>
                       {hotels.length}
