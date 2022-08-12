@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { Item, PrimaryContact } from 'types/booking/bookingType';
+import { Item, Payment, PrimaryContact } from 'types/booking/bookingType';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import HotelConfirmationHeader from './HotelConfirmationHeader';
@@ -9,6 +9,7 @@ import HotelConfirmationBody from './HotelConfirmationBody';
 interface HotelConfirmationDisplayProps {
   item?: Item;
   primaryContact?: PrimaryContact;
+  payment?: Payment;
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
   Category: CategoryOption;
@@ -17,6 +18,7 @@ interface HotelConfirmationDisplayProps {
 const HotelConfirmationDisplay = ({
   item,
   primaryContact,
+  payment,
   loading,
   setLoading,
   Category,
@@ -28,6 +30,7 @@ const HotelConfirmationDisplay = ({
         <HotelConfirmationBody
           item={item}
           primaryContact={primaryContact}
+          payment={payment}
           loading={loading}
           setLoading={setLoading}
         />

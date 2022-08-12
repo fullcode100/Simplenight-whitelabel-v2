@@ -89,5 +89,9 @@
   "goToItinerary": "Go to Itinerary",
   "itinerary": "Itinerary",
   "required": "Required",
-  "selectAnyOption": "Select Any Option"
+  "selectAnyOption": "Select Any Option",
+  "close": "Close",
+  "doYouWishToCancelYourOrder": "Do You Wish To Cancel Your Order?",
+  "doYouWishToCancelYourReservation": "Do You Wish To Cancel Your Reservation?",
+  "youWillBeRefunded": "You Will Be Refunded"
 }

@@ -103,5 +103,9 @@
   "goToItinerary": "Ir Al Itinerario",
   "itinerary": "Itinerario",
   "required": "Requerido",
-  "selectAnyOption": "Seleccione Cualquier Opción"
+  "selectAnyOption": "Seleccione Cualquier Opción",
+  "close": "Cerrar",
+  "doYouWishToCancelYourOrder": "¿Desea Cancelar Su Pedido?",
+  "doYouWishToCancelYourReservation": "¿Desea Cancelar Su Reserva?",
+  "youWillBeRefunded": "Se Le Reembolsará"
 }

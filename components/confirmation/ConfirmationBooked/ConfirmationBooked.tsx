@@ -23,6 +23,9 @@ const ConfirmationBooked = ({
   const items = t('items', 'Items');
 
   const bookedItemsAmountLabel = bookedAmount == 1 ? item : items;
+  const primaryContact = booking.primary_contact;
+  const payment = booking.payments[0];
+  const bookingItemsList = booking.items;
 
   return (
     <section className="flex flex-col gap-2 lg:gap-0 px-5 lg:px-0 pt-6 lg:pt-0 lg:w-[845px] lg:shadow-container border-b border-dark-300 lg:border lg:rounded">
@@ -35,7 +38,9 @@ const ConfirmationBooked = ({
         </p>
       </section>
       <ConfirmationItemList
-        booking={booking}
+        bookingItemsList={bookingItemsList}
+        primaryContact={primaryContact}
+        payment={payment}
         loading={loading}
         setLoading={setLoading}
       />

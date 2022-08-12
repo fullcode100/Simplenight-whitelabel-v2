@@ -6,20 +6,31 @@ import Button from 'components/global/Button/Button';
 import RoomTitle from '../RoomTitle/RoomTitle';
 import RoomPriceBreakdown from '../RoomPriceBreakdown/RoomPriceBreakdown';
 import SupplierReference from '../SupplierReference/SupplierReference';
+import CancelModal from 'components/confirmation/CancelModal/CancelModal';
 
 import { ClientBookingItemRemover } from 'core/client/ClientBookingItemRemover';
 import { DeleteBookingItemRequest } from 'types/confirmation/DeleteBookingRequest';
+import useModal from 'hooks/layoutAndUITooling/useModal';
 import { diffDays } from 'helpers/dajjsUtils';
-import { Item } from 'types/booking/bookingType';
+import { Item, Payment, PrimaryContact } from 'types/booking/bookingType';
 
 interface HotelRoomsInfoProps {
   item?: Item;
+  primaryContact?: PrimaryContact;
+  payment?: Payment;
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
 }
 
-const HotelRoomsInfo = ({ item, loading, setLoading }: HotelRoomsInfoProps) => {
+const HotelRoomsInfo = ({
+  item,
+  primaryContact,
+  payment,
+  loading,
+  setLoading,
+}: HotelRoomsInfoProps) => {
   const router = useRouter();
+  const [isOpen, onOpen, onClose] = useModal();
 
   const [t, i18next] = useTranslation('global');
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
@@ -38,6 +49,8 @@ const HotelRoomsInfo = ({ item, loading, setLoading }: HotelRoomsInfoProps) => {
   const endDate = item?.extra_data?.end_date;
   const nights = startDate && endDate ? diffDays(startDate, endDate) : 0;
 
+  const bookingItemsList = item ? [item] : [];
+
   const handleItemRemoval = async () => {
     const itemRemover = new ClientBookingItemRemover();
     const requestData: DeleteBookingItemRequest = {
@@ -55,7 +68,7 @@ const HotelRoomsInfo = ({ item, loading, setLoading }: HotelRoomsInfoProps) => {
   };
 
   return (
-    <section className="flex flex-col gap-2 lg:gap-3 border-t border-dark-300 py-6 lg:pt-6 lg:pb-0">
+    <section className="flex flex-col gap-2 py-6 border-t lg:gap-3 border-dark-300 lg:pt-6 lg:pb-0">
       <RoomTitle roomName={roomName} roomQty={item?.room_qty} nights={nights} />
 
       {supplierReferenceID && (
@@ -78,8 +91,18 @@ const HotelRoomsInfo = ({ item, loading, setLoading }: HotelRoomsInfoProps) => {
             size="full-sm"
             type="outlined"
             translationKey="cancelReservation"
-            onClick={handleItemRemoval}
-          ></Button>
+            onClick={onOpen}
+          />
+          <CancelModal
+            open={isOpen}
+            onClose={onClose}
+            bookingItemsList={bookingItemsList}
+            payment={payment}
+            primaryContact={primaryContact}
+            loading={loading}
+            setLoading={setLoading}
+            handleCancel={handleItemRemoval}
+          />
         </section>
       </section>
     </section>

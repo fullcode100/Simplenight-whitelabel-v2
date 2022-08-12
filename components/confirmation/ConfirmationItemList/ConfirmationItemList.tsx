@@ -1,24 +1,26 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import ConfirmationItem from '../ConfirmationItem/ConfirmationItem';
-import { Booking } from 'types/booking/bookingType';
+import { Item, Payment, PrimaryContact } from 'types/booking/bookingType';
 
 interface ConfirmationItemListProps {
-  booking: Booking;
+  bookingItemsList: Item[];
+  primaryContact?: PrimaryContact;
+  payment?: Payment;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const ConfirmationItemList = ({
-  booking,
+  bookingItemsList,
+  primaryContact,
+  payment,
   loading,
   setLoading,
 }: ConfirmationItemListProps) => {
-  const primaryContact = booking.primary_contact;
-
   return (
     <section className="grid lg:gap-6 lg:p-6">
-      {booking.items.map((item, index) => {
+      {bookingItemsList.map((item, index) => {
         const isBooked = item.status == 'booked';
         if (!isBooked) return null;
         return (
@@ -26,6 +28,7 @@ const ConfirmationItemList = ({
             <ConfirmationItem
               item={item}
               primaryContact={primaryContact}
+              payment={payment}
               loading={loading}
               setLoading={setLoading}
             />
