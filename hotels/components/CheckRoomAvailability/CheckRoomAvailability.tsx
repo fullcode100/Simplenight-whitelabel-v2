@@ -24,6 +24,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
   const [t] = useTranslation('hotels');
   const setQueryParam = useQuerySetter();
   const title = t('checkRoomAvailability', 'Check Room Availability');
+  const textCheckAvailability = t('checkAvailability', 'Check Availability');
   const onClose = () => setOpen(false);
   const params = useQuery();
   const [checkInOutProps, startDate, endDate] = useCheckInOutInput();
@@ -92,7 +93,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
       open={open}
       closeModal={onClose}
       title={title}
-      primaryButtonText="Check Availability"
+      primaryButtonText={textCheckAvailability}
       primaryButtonAction={onApply}
     >
       <section className="px-5 py-3 h-full">

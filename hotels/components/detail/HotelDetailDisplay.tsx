@@ -1,7 +1,10 @@
 import Button from 'components/global/Button/Button';
 import Rating from 'components/global/Rating/Rating';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
-import { parseQueryNumber } from 'helpers/stringUtils';
+import {
+  fromLowerCaseToCapitilize,
+  parseQueryNumber,
+} from 'helpers/stringUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
 import initialState from './utils/initialState';
@@ -96,9 +99,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
   }, [storeCurrency]);
 
-  useEffect(() => {
-    console.log(detailsLabel);
-  }, [detailsLabel]);
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  useEffect(() => {}, [detailsLabel]);
 
   useEffect(() => {
     const occupancy: Occupancy = {
@@ -201,24 +203,29 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           </span>
         </p>
       </section>
-      <SeeMore
-        textOpened="See less"
-        textClosed="See more"
-        heightInPixels={descriptionHeight}
-        displayButton={displaySeeMore}
-      >
-        <p
-          ref={(desc) => {
-            if (desc && desc?.clientHeight < 232) {
-              setDisplaySeeMore(false);
-              setDescriptionHeight(0);
-            }
-          }}
-          className="text-base text-dark-1000 mt-3"
+      <section ref={roomRef} className="lg:hidden">
+        <SeeMore
+          textOpened="See less"
+          textClosed="See more"
+          heightInPixels={descriptionHeight}
+          displayButton={displaySeeMore}
         >
-          {description}
-        </p>
-      </SeeMore>
+          <p
+            ref={(desc) => {
+              if (desc && desc?.clientHeight < 232) {
+                setDisplaySeeMore(false);
+                setDescriptionHeight(0);
+              }
+            }}
+            className="text-base text-dark-1000 mt-3"
+          >
+            {description}
+          </p>
+        </SeeMore>
+      </section>
+      <section className="hidden lg:block">
+        <p className="text-base text-dark-1000 mt-3">{description}</p>
+      </section>
     </section>
   );
 
@@ -249,9 +256,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   const DatesSection = () => (
     <section>
-      <span>{startDate}</span>
+      <span>{fromLowerCaseToCapitilize(startDate)}</span>
       <span> {toLabel} </span>
-      <span>{endDate}</span>
+      <span>{fromLowerCaseToCapitilize(endDate)}</span>
     </section>
   );
 
@@ -326,7 +333,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           <section className="lg:hidden">
             <ImageCarousel images={hotelImages} title={name} />
           </section>
-          <section className="hidden lg:block w-full pt-16 bg-dark-100">
+          <section className="hidden lg:block w-full pt-8 bg-dark-100">
             <ImageCarouselLargeScreen images={hotelImages} title={name} />
           </section>
           <section className="lg:hidden">

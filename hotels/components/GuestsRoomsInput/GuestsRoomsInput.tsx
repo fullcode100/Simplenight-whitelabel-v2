@@ -25,7 +25,7 @@ const GuestsRoomsInput = ({
   const [showTravelersInput, setShowTravelersInout] = useState(false);
   const guestsLabel = t('guests', 'Guests');
   const roomsLabel = t('rooms', 'Rooms');
-  const guestAndRoomsText = t('guestAndRooms', 'Guests & Rooms');
+  const guestAndRoomsText = t('guestsAndRooms', 'Guests & Rooms');
   return (
     <>
       <TravelersInput

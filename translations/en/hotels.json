@@ -74,5 +74,6 @@
   "restaurant": "Restaurant",
   "petFriendly": "Pet friendly",
   "spa": "Spa",
-  "casino": "Casino"
+  "casino": "Casino",
+  "checkAvailability": "Check Availability"
 }
