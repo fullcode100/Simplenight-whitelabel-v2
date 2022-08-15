@@ -26,7 +26,7 @@ const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
 
   const searchFormWithProps = injectProps(searchForm, {
     ...injectableProps,
-    className: 'h-full mt-8',
+    className: 'h-full mt-8 px-5 pb-6',
   });
 
   return isSearching ? (
@@ -40,7 +40,6 @@ const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
       noFooter
     >
       <section className="h-full relative flex flex-col gap-4">
-        <ModalDivider className="inset-y-14 left-[-1rem]" />
         {searchFormWithProps}
       </section>
     </FullScreenModal>
