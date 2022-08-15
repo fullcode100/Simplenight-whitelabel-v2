@@ -57,5 +57,22 @@
   "guestsAndRooms": "Huéspedes y habitaciones",
   "guest": "Huésped",
   "guests": "Huéspedes",
-  "location": "Ubicación"
+  "location": "Ubicación",
+  "amenities": "Comodidades",
+  "breakfastIncluded": "Desayuno incluido",
+  "freeWifi": "WiFi gratis",
+  "parking": "Estacionamiento",
+  "freeAirportShuttle": "Transporte gratuito al aeropuerto",
+  "allInclusivePlanAvailable": "Plan todo incluido disponible",
+  "hotTub": "Bañera de hidromasaje",
+  "kitchen": "Cocina",
+  "oceanView": "Vista al océano",
+  "airConditioned": "Aire acondicionado",
+  "gym": "Gimnasio",
+  "pool": "Piscina",
+  "washerAndDryer": "Lavadora y secadora",
+  "restaurant": "Restaurante",
+  "petFriendly": "Apto para mascotas",
+  "spa": "Spa",
+  "casino": "Casino"
 }

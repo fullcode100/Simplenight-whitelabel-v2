@@ -32,6 +32,7 @@ export interface Details {
   description: string;
   email: string;
   facilities: string[];
+  sn_amenities: string[];
   name: string;
   phones: Phone[];
   star_rating: string;

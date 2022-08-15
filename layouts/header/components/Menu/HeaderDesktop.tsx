@@ -53,7 +53,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   );
   return (
     <header
-      className={`hidden items-center justify-between px-4 py-5 z-20 ${color} fixed w-full lg:flex lg:px-20`}
+      className={`hidden items-center justify-between px-4 py-5 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
     >
       <section className="flex gap-5 items-center">
         <Link href={'/'}>

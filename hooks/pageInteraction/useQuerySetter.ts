@@ -8,8 +8,8 @@ const hasMoreQuery = (router: NextRouter, paramsToExclude: string[]) => {
 };
 
 export const removeURLParameter = (url: string, parameter: string) => {
-  let parsedUrl = new URL(url);
-  let params = new URLSearchParams(parsedUrl.search);
+  const parsedUrl = new URL(url);
+  const params = new URLSearchParams(parsedUrl.search);
 
   params.delete(parameter);
 
@@ -23,7 +23,8 @@ const useQuerySetter = () => {
   return (params: { [key: string]: string }) => {
     const urlParams = new URLSearchParams(query as unknown as string);
     Object.keys(params).forEach((key) => {
-      urlParams.set(key, params[key]);
+      params[key].length > 0 && urlParams.set(key, params[key]);
+      params[key].length === 0 && urlParams.delete(key);
     });
     router.push(`?${urlParams.toString()}`);
   };
