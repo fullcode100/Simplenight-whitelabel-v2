@@ -93,5 +93,12 @@
   "close": "Close",
   "doYouWishToCancelYourOrder": "Do You Wish To Cancel Your Order?",
   "doYouWishToCancelYourReservation": "Do You Wish To Cancel Your Reservation?",
-  "youWillBeRefunded": "You Will Be Refunded"
+  "youWillBeRefunded": "You Will Be Refunded",
+  "cancel": "Cancel",
+  "continue": "Continue",
+  "amountForThisCard": "Amount For This Card",
+  "fullAmount": "Full Amount",
+  "ofTheSimplenight": " of Simplenight and the ",
+  "ofSimplenight": " of Simplenight. I understand and accept that Simplenight is the merchant of record for this transaction, and is the name that will appear on my bank statement.",
+  "back": "Back"
 }

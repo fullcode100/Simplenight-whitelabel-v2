@@ -5,6 +5,7 @@ import InfoCircle from 'public/icons/assets/info-circle.svg';
 import classnames from 'classnames';
 import { useState } from 'react';
 import AngleTop from 'public/icons/assets/angle-top.svg';
+import { useTranslation } from 'react-i18next';
 
 interface DescriptionProps {
   description: string;
@@ -38,11 +39,13 @@ export const CheckBoxTemplate = (props: any) => {
 
 export const TextTemplate = (props: any) => {
   const { id, label, required, children, description } = props;
+  const [t] = useTranslation('global');
+  const requiredText = t('required', 'Required');
   return (
     <>
       <section className="flex justify-between mb-[4px]">
         <Label value={label} />
-        {required && <span className="text-primary-1000">Required</span>}
+        {required && <span className="text-primary-1000">{requiredText}</span>}
       </section>
       {children}
       {description?.props?.description && (

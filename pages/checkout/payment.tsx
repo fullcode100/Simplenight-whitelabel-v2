@@ -48,6 +48,10 @@ const Payment = () => {
   const [t, i18next] = useTranslation('global');
 
   const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
+  const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
+  const fullAmountLabel = t('fullAmount', 'Full Amount');
+  const checkoutLabel = t('checkoutTitle', 'Check Out');
+  const backLabel = t('back', 'Back');
 
   const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
   const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
@@ -146,9 +150,9 @@ const Payment = () => {
                     />
 
                     <InputWrapper
-                      label={'Amount For This Card'}
+                      label={amountForThisCardLabel}
                       labelKey={'amountForThisCard'}
-                      subLabel={'Full Amount'}
+                      subLabel={fullAmountLabel}
                       subLabelKey={'fullAmount'}
                       value={cart?.total_amount.formatted}
                       disabled={true}
@@ -166,7 +170,7 @@ const Payment = () => {
               )}
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value="Back"
+                  value={backLabel}
                   onClick={() => router.back()}
                   size={'full'}
                   color="outlined"
@@ -175,7 +179,7 @@ const Payment = () => {
               </section>
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value="Check Out"
+                  value={checkoutLabel}
                   size={'full'}
                   className="text-[18px]"
                   onClick={handleBooking}

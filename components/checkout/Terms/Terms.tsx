@@ -18,13 +18,13 @@ const Terms = ({
     'I have reviewed and agree to the ',
   );
   const termsLabel = t('terms', 'Terms of Service');
-  const ofTheSimpleNightLabel = t(
-    'ofTheSimpleNight',
+  const ofTheSimplenightLabel = t(
+    'ofTheSimplenight',
     ' of Simplenight and the ',
   );
   const privacyLabel = t('privacy', 'Privacy Statement');
-  const ofSimpleNightLabel = t(
-    'ofSimpleNight',
+  const ofSimplenightLabel = t(
+    'ofSimplenight',
     ' of Simplenight. I understand and accept that Simplenight is the merchant of record for this transaction, and is the name that will appear on my bank statement.',
   );
   const handleCheckbox = (e: BaseSyntheticEvent) => {
@@ -47,21 +47,21 @@ const Terms = ({
         htmlFor="checkout-terms"
         className="text-base leading-[22px] text-dark-1000 font-normal"
       >
-        {iHaveReviewedLabel}
+        {iHaveReviewedLabel}&nbsp;
         <a
           className="text-primary-1000 underline hover:underline"
           href="/terms"
         >
           {termsLabel}
         </a>
-        {ofTheSimpleNightLabel}
+        {ofTheSimplenightLabel}
         <a
           className="text-primary-1000 underline hover:underline"
           href="/privacy"
         >
           {privacyLabel}
         </a>
-        {ofSimpleNightLabel}
+        {ofSimplenightLabel}
       </label>
     </section>
   );
