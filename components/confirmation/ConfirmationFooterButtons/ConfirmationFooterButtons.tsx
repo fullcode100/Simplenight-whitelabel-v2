@@ -31,7 +31,6 @@ const ConfirmationFooterButtons = ({
 
   const bookingId = booking.booking_id;
   const payment = booking.payments[0];
-  const primaryContact = booking.primary_contact;
   const bookingItemsList = booking.items;
 
   const handleContinueShopping = () => {
@@ -70,7 +69,6 @@ const ConfirmationFooterButtons = ({
             onClose={onClose}
             bookingItemsList={bookingItemsList}
             payment={payment}
-            primaryContact={primaryContact}
             loading={loading}
             setLoading={setLoading}
             handleCancel={handleCancelBooking}

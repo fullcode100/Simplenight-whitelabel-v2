@@ -6,14 +6,13 @@ import Disclaimer from 'components/global/Disclaimer/Disclaimer';
 import ConfirmationItemList from '../ConfirmationItemList/ConfirmationItemList';
 import CardLogo from '../CardLogo/CardLogo';
 
-import { Item, Payment, PrimaryContact } from 'types/booking/bookingType';
+import { Item, Payment } from 'types/booking/bookingType';
 
 interface CancelModalProps {
   open: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
   bookingItemsList: Item[];
   payment?: Payment;
-  primaryContact?: PrimaryContact;
   handleCancel: () => void;
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
@@ -25,7 +24,6 @@ const CancelModal = ({
   onClose,
   bookingItemsList,
   payment,
-  primaryContact,
   handleCancel,
   loading = false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -97,7 +95,6 @@ const CancelModal = ({
         <section className="px-6 border bg-dark-100 border-dark-300">
           <ConfirmationItemList
             bookingItemsList={bookingItemsList}
-            primaryContact={primaryContact}
             payment={payment}
             loading={loading}
             setLoading={setLoading}

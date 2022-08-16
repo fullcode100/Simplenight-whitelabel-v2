@@ -1,11 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
 
 import ConfirmationItem from '../ConfirmationItem/ConfirmationItem';
-import { Item, Payment, PrimaryContact } from 'types/booking/bookingType';
+import { Item, Payment } from 'types/booking/bookingType';
 
 interface ConfirmationItemListProps {
   bookingItemsList: Item[];
-  primaryContact?: PrimaryContact;
   payment?: Payment;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -13,7 +12,6 @@ interface ConfirmationItemListProps {
 
 const ConfirmationItemList = ({
   bookingItemsList,
-  primaryContact,
   payment,
   loading,
   setLoading,
@@ -27,7 +25,6 @@ const ConfirmationItemList = ({
           <section key={index}>
             <ConfirmationItem
               item={item}
-              primaryContact={primaryContact}
               payment={payment}
               loading={loading}
               setLoading={setLoading}

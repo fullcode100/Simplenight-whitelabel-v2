@@ -1,13 +1,12 @@
-import { Item, PrimaryContact } from 'types/booking/bookingType';
+import { Item } from 'types/booking/bookingType';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
 
 interface CancelledItemProps {
   item: Item;
-  primaryContact: PrimaryContact;
 }
 
-const CancelledItem = ({ item, primaryContact }: CancelledItemProps) => {
+const CancelledItem = ({ item }: CancelledItemProps) => {
   const categoryName =
     item.supplier === 'HOTELBEDS' || item.supplier === 'PRICELINE'
       ? 'hotels'
@@ -17,7 +16,6 @@ const CancelledItem = ({ item, primaryContact }: CancelledItemProps) => {
   return (
     injectProps(category?.cancelledDisplay, {
       item: item,
-      primaryContact: primaryContact,
     }) ?? null
   );
 };

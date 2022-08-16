@@ -16,7 +16,6 @@ import { Item, Payment, PrimaryContact } from 'types/booking/bookingType';
 
 interface HotelRoomsInfoProps {
   item?: Item;
-  primaryContact?: PrimaryContact;
   payment?: Payment;
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
@@ -24,7 +23,6 @@ interface HotelRoomsInfoProps {
 
 const HotelRoomsInfo = ({
   item,
-  primaryContact,
   payment,
   loading,
   setLoading,
@@ -36,6 +34,7 @@ const HotelRoomsInfo = ({
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
 
   const supplierReferenceID = item?.supplier_order_number;
+  const customer = item?.customer;
   const roomDetail = item?.extra_data?.rooms?.[0];
   const roomName = roomDetail?.name;
   const amenities = roomDetail?.amenities.join(', ');
@@ -98,7 +97,6 @@ const HotelRoomsInfo = ({
             onClose={onClose}
             bookingItemsList={bookingItemsList}
             payment={payment}
-            primaryContact={primaryContact}
             loading={loading}
             setLoading={setLoading}
             handleCancel={handleItemRemoval}

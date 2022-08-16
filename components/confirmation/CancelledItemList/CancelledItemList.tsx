@@ -6,8 +6,6 @@ interface CancelledItemListProps {
 }
 
 const CancelledItemList = ({ booking }: CancelledItemListProps) => {
-  const primaryContact = booking.primary_contact;
-
   return (
     <section className="grid lg:gap-6 lg:p-6">
       {booking.items.map((item, index) => {
@@ -15,7 +13,7 @@ const CancelledItemList = ({ booking }: CancelledItemListProps) => {
         if (!isCancelled) return null;
         return (
           <section key={index}>
-            <CancelledItem item={item} primaryContact={primaryContact} />
+            <CancelledItem item={item} />
           </section>
         );
       })}

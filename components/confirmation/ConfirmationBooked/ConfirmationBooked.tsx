@@ -23,7 +23,6 @@ const ConfirmationBooked = ({
   const items = t('items', 'Items');
 
   const bookedItemsAmountLabel = bookedAmount == 1 ? item : items;
-  const primaryContact = booking.primary_contact;
   const payment = booking.payments[0];
   const bookingItemsList = booking.items;
 
@@ -39,7 +38,6 @@ const ConfirmationBooked = ({
       </section>
       <ConfirmationItemList
         bookingItemsList={bookingItemsList}
-        primaryContact={primaryContact}
         payment={payment}
         loading={loading}
         setLoading={setLoading}
