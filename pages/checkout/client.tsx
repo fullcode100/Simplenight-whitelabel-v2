@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // Libraries
 import React, { ReactNode, useEffect, useState } from 'react';
 // Types
@@ -5,7 +6,6 @@ import { Amount } from 'types/global/Amount';
 // Components
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Divider from 'components/global/Divider/Divider';
-import Summary from 'components/checkout/Summary/Summary';
 import Button from 'components/global/Button/Button';
 import ClientForm from 'components/checkout/ClientForm/ClientForm';
 import {
@@ -15,7 +15,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import ClientCart from 'components/checkout/ClientCart/ClientCart';
 import { CartObjectResponse, Item } from 'types/cart/CartType';
-import { getStoreCartId } from 'store/selectors/cart';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
@@ -45,31 +44,59 @@ const Client = () => {
   const [travelersFormSchema, setTravelersFormSchema] = useState();
   const [travelersUiSchema, setTravelersUiSchema] = useState();
   let primaryContactData: FormData | undefined;
-  let additionalRequest = '';
-  let itemsForm: Item[] = [];
+  let itemsForm: Item[] | undefined = [];
   let hasAdditionalRequests = false;
+
+  const createAdditionalItem = (item: any) => {
+    const { cart_item_id, customer, customer_additional_requests } = item;
+    if (customer) {
+      const phone = JSON.parse(customer.phone);
+      customer.phone_number = phone.phone_number;
+      delete customer.phone;
+    }
+
+    return {
+      cart_item_id,
+      ...(customer && { customer }),
+      ...(customer_additional_requests && { customer_additional_requests }),
+    };
+  };
 
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  const [cart, setCart] = useState<CartObjectResponse | undefined>();
+  const [cart, setCart] = useState<CartObjectResponse>();
   const [isDisabled, setIsDisabled] = useState(true);
   let cartId: string | null = null;
-  const handleAdditionalRequestChange = (value: string, cartItemId: string) => {
-    additionalRequest = value;
+
+  const handleAdditionalRequestChange = (
+    data: any,
+    cartItemId: string,
+    isAddingSpecialRequest?: boolean,
+  ) => {
     const newItemsForm =
-      itemsForm &&
-      itemsForm.map((item) => {
+      cart &&
+      cart.items.map((item) => {
         if (item.cart_item_id === cartItemId) {
           return {
             ...item,
-            customer_additional_requests: additionalRequest,
+            cart_item_id: cartItemId,
+            ...(isAddingSpecialRequest && {
+              customer_additional_requests: data,
+            }),
+            ...(!isAddingSpecialRequest && {
+              customer: data.formData,
+            }),
           };
         }
         return item;
       });
+    if (cart) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      cart.items = newItemsForm!;
+      itemsForm = cart?.items;
+    }
 
-    itemsForm = newItemsForm;
     hasAdditionalRequests = true;
   };
 
@@ -95,14 +122,6 @@ const Client = () => {
       if (cartId) {
         const response = await getCartId(i18n, cartId);
         setCart(response);
-        if (response) {
-          const itemsId = response.items.map((item) => {
-            return {
-              cart_item_id: item.cart_item_id,
-            };
-          });
-          itemsForm = itemsId;
-        }
         setIsDisabled(false);
         setLoaded(true);
       }
@@ -122,8 +141,9 @@ const Client = () => {
 
   const getAddCustomerRequestBody = (): AddCustomerRequest => {
     const primaryContactCopy = deepCopy(primaryContactData);
+    const requestItems = itemsForm?.map(createAdditionalItem);
     const request = hasAdditionalRequests
-      ? { customer: primaryContactCopy, items: itemsForm }
+      ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
     const phone = JSON.parse(primaryContactCopy.phone);
     request.customer.phone_number = phone.phone_number;
