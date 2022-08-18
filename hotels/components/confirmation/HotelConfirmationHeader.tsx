@@ -15,7 +15,7 @@ const HotelConfirmationHeader = ({
 }: HotelConfirmationHeaderProps) => {
   const [t, i18next] = useTranslation('hotels');
   const hotelName = item?.name;
-  const roomsAmount = item?.quantity;
+  const roomsAmount = item?.room_qty;
   const room = t('room', 'Room');
   const rooms = t('rooms', 'Rooms');
   const roomsLabel = item?.room_qty == 1 ? room : rooms;
