@@ -18,11 +18,16 @@ const ClientCartItem = ({
 }: any) => {
   const [t, i18n] = useTranslation('global');
   const [usePrimaryContact, setUsePrimaryContact] = useState(true);
-  const [additionalRequest, setAdditionalRequest] = useState('');
+
+  let additionalRequest: string;
   const handleChangeAdditionalRequest = (e: any) => {
-    setAdditionalRequest(e.target.value);
-    onChange(e.target.value, item.cart_item_id);
+    additionalRequest = e.target.value;
+    onChange(e.target.value, item.cart_item_id, true);
   };
+  const handleChangeCustomer = (data: any) => {
+    onChange(data, item.cart_item_id, false);
+  };
+
   const additionalRequestsPlaceholder = t(
     'additionalRequestsPlaceholder',
     'Add A Special Request.',
@@ -55,7 +60,11 @@ const ClientCartItem = ({
         {!usePrimaryContact && (
           <section className="mt-1.5">
             {formSchema && formUiSchema && (
-              <FormSchema schema={formSchema} uiSchema={formUiSchema}>
+              <FormSchema
+                schema={formSchema}
+                uiSchema={formUiSchema}
+                onChange={handleChangeCustomer}
+              >
                 {<></>}
               </FormSchema>
             )}
