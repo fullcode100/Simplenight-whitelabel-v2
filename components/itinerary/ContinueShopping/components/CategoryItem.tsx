@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 interface CategoryItemProps {
   text: string;
@@ -8,6 +9,9 @@ interface CategoryItemProps {
 }
 
 const CategoryItem = ({ text, icon, url }: CategoryItemProps) => {
+  const [t] = useTranslation('global');
+  const categoryLabel = t(url, '');
+
   return (
     <section className="h-[120px] w-[120px] lg:h-40 lg:w-40 bg-white rounded-4 flex items-center justify-center shadow-container">
       <Link href={'/'}>
@@ -16,7 +20,7 @@ const CategoryItem = ({ text, icon, url }: CategoryItemProps) => {
             {icon}
           </section>
           <p className="text-sm font-semibold text-center w-full text-dark-1000">
-            {text}
+            {categoryLabel}
           </p>
         </a>
       </Link>

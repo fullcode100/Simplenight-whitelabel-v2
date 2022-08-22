@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import { formatAsDisplayDate, formatAsDisplayHour } from 'helpers/dajjsUtils';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
+import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 
 interface CheckinCheckoutInfoProps {
   checkinDate?: string;
@@ -28,7 +29,7 @@ const CheckinCheckoutInfo = ({
           <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
             <p className="text-dark-700">{checkinLabel}</p>
             <p className="text-dark-1000">
-              {formatAsDisplayDate(checkinDate)}{' '}
+              {fromLowerCaseToCapitilize(formatAsDisplayDate(checkinDate))}{' '}
               {formatAsDisplayHour(checkinTime)}
             </p>
           </section>
@@ -40,7 +41,7 @@ const CheckinCheckoutInfo = ({
           <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
             <p className="text-dark-700">{checkoutLabel}</p>
             <p className="text-dark-1000">
-              {formatAsDisplayDate(checkoutDate)}{' '}
+              {fromLowerCaseToCapitilize(formatAsDisplayDate(checkoutDate))}{' '}
               {formatAsDisplayHour(checkoutTime)}
             </p>
           </section>
