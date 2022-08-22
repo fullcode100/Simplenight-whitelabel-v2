@@ -116,5 +116,8 @@
   "readyForCheckout": "Listo Para Pagar",
   "checkoutNow": "Finalizar Pedido Ahora",
   "checkoutTagText": "Las tarifas de las habitaciones aumentarán pronto.",
-  "hotels": "Hoteles"
+  "hotels": "Hoteles",
+  "simplenightOrderNumberPlaceholder": "Ej. ABCD1234",
+  "lastNamePlaceholder": "Apellido de la Orden",
+  "findOrder": "Buscar Pedido"
 }

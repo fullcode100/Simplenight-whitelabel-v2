@@ -15,7 +15,7 @@ const Lookup: NextPageWithLayout = () => {
           layout={'fill'}
           className="object-cover"
         />
-        <section className="relative grid gap-6 px-5 lg:p-6 lg:w-[45%] lg:mx-auto">
+        <section className="relative grid gap-6 px-5 py-6 lg:w-[45%] lg:mx-auto">
           <LookupTitle />
 
           <LookupForm />

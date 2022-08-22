@@ -103,5 +103,8 @@
   "readyForCheckout": "Ready For Checkout",
   "checkoutNow": "Check Out Now",
   "checkoutTagText": "Room rates are increasing soon.",
-  "hotels": "Hotels"
+  "hotels": "Hotels",
+  "simplenightOrderNumberPlaceholder": "E.g. ABCD1234",
+  "lastNamePlaceholder": "Order Last Name",
+  "findOrder": "Find Order"
 }
