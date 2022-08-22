@@ -7,7 +7,7 @@ interface CancelledItemProps {
 }
 
 const CancelledItem = ({ item }: CancelledItemProps) => {
-  const category = useCategory(item.category?.toLowerCase() || '');
+  const category = useCategory('hotels');
 
   return (
     injectProps(category?.cancelledDisplay, {
