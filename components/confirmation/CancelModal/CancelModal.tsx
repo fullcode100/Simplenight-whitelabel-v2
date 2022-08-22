@@ -92,7 +92,7 @@ const CancelModal = ({
           {questionCancel}
         </p>
 
-        <section className="px-6 border bg-dark-100 border-dark-300">
+        <section className="px-4 border rounded lg:px-0 bg-dark-100 border-dark-300">
           <ConfirmationItemList
             bookingItemsList={bookingItemsList}
             payment={payment}

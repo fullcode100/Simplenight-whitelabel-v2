@@ -17,11 +17,7 @@ const ConfirmationItem = ({
   loading,
   setLoading,
 }: ConfirmationItemProps) => {
-  const categoryName =
-    item.supplier === 'HOTELBEDS' || item.supplier === 'PRICELINE'
-      ? 'hotels'
-      : '';
-  const category = useCategory(categoryName);
+  const category = useCategory(item.category?.toLowerCase() || '');
 
   return (
     injectProps(category?.confirmationDisplay, {

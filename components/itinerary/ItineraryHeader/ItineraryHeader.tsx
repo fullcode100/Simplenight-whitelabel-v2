@@ -12,7 +12,7 @@ const ItineraryHeader = ({ productsAmount }: ItineraryHeaderProps) => {
   const myItinerary = t('myItinerary', 'My Itinerary');
 
   return (
-    <section className="flex flex-col gap-4 p-5 bg-dark-100 border-b-[1px] border-dark-300">
+    <section className="flex flex-col gap-4 p-5 lg:py-6 lg:px-20 bg-dark-100 border-b-[1px] border-dark-300">
       <PageTitle
         title={myItinerary}
         icon={<ShoppingCart />}

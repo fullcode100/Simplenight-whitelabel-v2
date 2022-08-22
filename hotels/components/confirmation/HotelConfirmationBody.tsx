@@ -19,7 +19,7 @@ const HotelConfirmationBody = ({
   setLoading,
 }: HotelConfirmationBodyProps) => {
   return (
-    <section className="ml-[52px] border-t lg:border-0 border-dark-300">
+    <section className="ml-[52px] lg:pb-6 border-t lg:border-0 border-dark-300">
       <HotelCustomerInfo item={item} />
       <HotelGeneralInfo item={item} />
       <HotelRoomsInfo

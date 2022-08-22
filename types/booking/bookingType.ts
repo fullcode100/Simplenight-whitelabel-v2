@@ -39,6 +39,7 @@ export interface Item {
   booking_id: string;
   booking_item_id: string;
   cancellation_policy: CancellationPolicy;
+  category: string;
   children: number;
   customer: PrimaryContact;
   extra_data: ItemExtraData;

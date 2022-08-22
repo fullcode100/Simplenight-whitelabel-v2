@@ -67,10 +67,10 @@ const LocationInput = ({
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <section className="relative lg:w-full">
             <IconInput
-              icon={<LocationPin className="h-5 w-5 text-dark-700" />}
+              icon={<LocationPin className="w-5 h-5 text-dark-700" />}
               {...getInputProps({
                 placeholder: locationPlaceholder,
-                className: 'location-search-input overflow-y-scroll',
+                className: 'location-search-input',
               })}
               {...others}
             />
