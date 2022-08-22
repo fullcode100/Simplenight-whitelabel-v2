@@ -16,6 +16,10 @@ const LookupForm = () => {
     'simplenightOrderNumber',
     'Simplenight Order Number',
   );
+  const simplenightOrderNumberPlaceholder = t(
+    'simplenightOrderNumberPlaceholder',
+    'E.g. ABCD1234',
+  );
   const lastNameLabel = t('lastName', 'Last Name');
   const lastNamePlaceholder = t('lastNamePlaceholder', 'Order Last Name');
   const findOrder = t('findOrder', 'Find Order');
@@ -38,7 +42,7 @@ const LookupForm = () => {
         <BaseInput
           label={simplenightOrderNumber}
           value={orderNumber}
-          placeholder={'E.g. ABCD1234'}
+          placeholder={simplenightOrderNumberPlaceholder}
           inputClassName={'placeholder:text-dark-600'}
           onChange={(e) => setOrderNumber(e.target.value)}
         />

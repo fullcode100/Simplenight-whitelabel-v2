@@ -99,5 +99,8 @@
   "fullAmount": "Full Amount",
   "ofTheSimplenight": " of Simplenight and the ",
   "ofSimplenight": " of Simplenight. I understand and accept that Simplenight is the merchant of record for this transaction, and is the name that will appear on my bank statement.",
-  "back": "Back"
+  "back": "Back",
+  "simplenightOrderNumberPlaceholder": "E.g. ABCD1234",
+  "lastNamePlaceholder": "Order Last Name",
+  "findOrder": "Find Order"
 }
