@@ -75,8 +75,8 @@ const Itinerary: NextPage = () => {
           <ItineraryEmpty continueHeight={continueHeight} />
         )}
         {hasItems && (
-          <section className="items-start justify-center gap-8 mx-auto max-w-7xl lg:flex">
-            <section className="overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container lg:w-[840px]">
+          <>
+            <section className="lg:w-[843px] overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
               <ListHeader />
               <ItineraryItemList
                 cart={cart}
