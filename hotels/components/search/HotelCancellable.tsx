@@ -11,12 +11,12 @@ const HotelCancellable = ({ minRate }: HotelCancellableProps) => {
   const cancellableType = 'FREE_CANCELLATION';
   const cancellationPolicy = minRate?.cancellation_policy;
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
-  const notCancellableLabel = t('ourDealForYou', 'Our Deal for You');
+  const notCancellableLabel = t('ourDealForYou', 'Our Deal For You');
   return (
     <section className="flex justify-end">
       {cancellable && <FreeCancellation cancellable={cancellable} />}
       {!cancellable && (
-        <span className="text-dark-800 text-sm">{notCancellableLabel}</span>
+        <span className="text-sm text-dark-800">{notCancellableLabel}</span>
       )}
     </section>
   );

@@ -16,7 +16,7 @@ const CheckoutItemList = ({
   className,
 }: CheckoutItemListProps) => {
   return (
-    <section className={`grid gap-3 p-5 ${className}`}>
+    <section className={`grid divide-y divide-dark-300 px-5 ${className}`}>
       {cart?.items.map((item, index) => (
         <section key={index}>
           <BreakdownItem item={item} reload={reload} setReload={setReload} />

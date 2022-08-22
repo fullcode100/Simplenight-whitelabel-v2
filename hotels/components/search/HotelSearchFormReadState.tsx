@@ -6,6 +6,7 @@ import Button from 'components/global/Button/Button';
 import { formatAsDisplayDate, SEARCH_DATE_FORMAT } from 'helpers/dajjsUtils';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import useQuery from 'hooks/pageInteraction/useQuery';
+import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
@@ -89,28 +90,28 @@ const HotelSearchFormReadState = ({
 
   const DatesSection = () => (
     <section>
-      <span>{formattedStartDate}</span>
+      <span>{fromLowerCaseToCapitilize(formattedStartDate)}</span>
       <span> {toLabel} </span>
-      <span>{formattedEndDate}</span>
+      <span>{fromLowerCaseToCapitilize(formattedEndDate)}</span>
     </section>
   );
 
   const OccupancyAndDatesSection = () => (
     <section className="grid gap-2 font-normal text-dark-1000">
       <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
+        <section className="grid w-6 place-items-center">
           <LocationPin className="text-primary-1000" />
         </section>
         <LocationSection />
       </section>
       <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
+        <section className="grid w-6 place-items-center">
           <CalendarIcon className="text-primary-1000" />
         </section>
         <DatesSection />
       </section>
       <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
+        <section className="grid w-6 place-items-center">
           <MultiplePersonsIcon className="text-primary-1000" />
         </section>
         <OccupancySection />
@@ -122,7 +123,7 @@ const HotelSearchFormReadState = ({
     setIsSearching(true);
   };
   return (
-    <section className="flex font-lato items-center justify-between text-sm px-4 z-0">
+    <section className="z-0 flex items-center justify-between px-4 text-sm font-lato">
       <section className="flex flex-col w-[90%]">
         <OccupancyAndDatesSection />
       </section>

@@ -15,7 +15,7 @@ const CollapseHeader = ({ title, show, setShow }: CollapseBorderedProps) => {
   };
 
   return (
-    <section className="flex justify-between py-4 lg:py-0">
+    <section className="flex justify-between py-6">
       {title}
       <section
         className={classnames('flex items-center', {

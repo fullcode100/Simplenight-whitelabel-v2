@@ -17,7 +17,7 @@ const ConfirmationItemList = ({
   setLoading,
 }: ConfirmationItemListProps) => {
   return (
-    <section className="grid lg:gap-6 lg:p-6">
+    <section className="grid divide-y lg:px-6 divide-dark-300">
       {bookingItemsList.map((item, index) => {
         const isBooked = item.status == 'booked';
         if (!isBooked) return null;
