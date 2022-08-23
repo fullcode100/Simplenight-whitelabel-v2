@@ -49,6 +49,7 @@ const ChildrenAges = ({
                 )
               }
               max={17}
+              autoFocus={true}
             />
           </section>
         ))}
