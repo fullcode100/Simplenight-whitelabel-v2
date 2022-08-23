@@ -50,7 +50,7 @@ const DatePicker = ({
   onEndDateChange,
   openOnStart,
 }: DatePickerProps) => {
-  const [t, i18n] = useTranslation('globals');
+  const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
   const datesText = t('dates', 'Dates');
   const applyText = t('apply', 'Apply');
