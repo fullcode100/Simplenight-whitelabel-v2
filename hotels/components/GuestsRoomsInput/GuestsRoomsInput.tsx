@@ -4,6 +4,7 @@ import Bed from 'public/icons/assets/bed.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import { Room } from 'hotels/helpers/room';
 import { useTranslation } from 'react-i18next';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 type setRoomDataType = Dispatch<SetStateAction<Room[]>>;
 interface GuestsRoomsInputProps {
@@ -23,7 +24,9 @@ const GuestsRoomsInput = ({
 }: GuestsRoomsInputProps) => {
   const [t] = useTranslation('hotels');
   const [showTravelersInput, setShowTravelersInout] = useState(false);
+  const guestLabel = t('guest', 'Guest');
   const guestsLabel = t('guests', 'Guests');
+  const roomLabel = t('room', 'Room');
   const roomsLabel = t('rooms', 'Rooms');
   const guestAndRoomsText = t('guestsAndRooms', 'Guests & Rooms');
   return (
@@ -41,11 +44,16 @@ const GuestsRoomsInput = ({
       >
         <section className="flex items-center gap-2">
           <MultiplePersons className="text-dark-700" />
-          {parseInt(adults) + parseInt(childrens) || '0'} {guestsLabel}
+          {parseInt(adults) + parseInt(childrens) || '0'}{' '}
+          {usePlural(
+            parseInt(adults) + parseInt(childrens) || 0,
+            guestLabel,
+            guestsLabel,
+          )}
         </section>
         <section className="flex items-center gap-2">
           <Bed className="text-dark-700" />
-          {rooms} {roomsLabel}
+          {rooms} {usePlural(rooms, roomLabel, roomsLabel)}
         </section>
       </button>
     </>

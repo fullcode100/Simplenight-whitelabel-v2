@@ -77,6 +77,7 @@ const HotelRoomAvailabilityForm = ({
   const [showTravelersInput, setShowTravelersInput] = useState(false);
 
   const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
+  const roomsText = usePlural(parseInt(rooms), roomLabel, roomsLabel);
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -128,7 +129,7 @@ const HotelRoomAvailabilityForm = ({
     setTravelersPlaceholder(
       `${
         parseInt(adults) + parseInt(children)
-      } ${guestsLabel}, ${rooms} ${roomsLabel}`,
+      } ${guestsLabel}, ${rooms} ${roomsText}`,
     );
   }, [adults, children, children]);
 
@@ -162,7 +163,8 @@ const HotelRoomAvailabilityForm = ({
             </section>
             <section className="flex items-center gap-2">
               <Bed className="text-dark-700" />
-              {rooms} {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
+              {roomsData.length}{' '}
+              {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
             </section>
           </button>
         </section>
