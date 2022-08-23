@@ -44,6 +44,7 @@ import EmptyState from 'components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -242,7 +243,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       </span>
       <span className="text-dark-200 mx-4">|</span>
       <span>
-        {rooms ?? '-'} {ROOMS_TEXT}
+        {rooms ?? '-'} {ROOM_TEXT}
       </span>
     </>
   );
@@ -252,7 +253,14 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const guests = adultsNumber + childrenNumber;
   const tGuest = tg('guest', 'Guest');
   const tGuests = tg('guests', 'Guests');
-  const GUEST_TEXT = guests === 1 ? tGuest : tGuests;
+  const GUEST_TEXT = usePlural(guests, tGuest, tGuests);
+  const tRoom = tg('room', 'Room');
+  const tRooms = tg('rooms', 'Rooms');
+  const ROOM_TEXT = usePlural(
+    parseInt((rooms && rooms[0]) || '0'),
+    tRoom,
+    tRooms,
+  );
 
   const DatesSection = () => (
     <section>
@@ -274,7 +282,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       <span>{GUEST_TEXT} </span>
       <VerticalDivider />
       <span>{rooms ?? ' - '}</span>
-      <span>{ROOMS_TEXT}</span>
+      <span>{ROOM_TEXT}</span>
     </section>
   );
 
