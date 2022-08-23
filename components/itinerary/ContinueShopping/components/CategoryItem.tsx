@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 interface CategoryItemProps {
   text: string;
@@ -19,7 +20,7 @@ const CategoryItem = ({ text, icon, url }: CategoryItemProps) => {
             {icon}
           </section>
           <p className="text-sm font-semibold text-center w-full text-dark-1000">
-            {text}
+            {categoryLabel}
           </p>
         </a>
       </Link>

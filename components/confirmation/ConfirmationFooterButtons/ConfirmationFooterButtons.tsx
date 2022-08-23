@@ -29,6 +29,10 @@ const ConfirmationFooterButtons = ({
   const continueShopping = t('continueShopping', 'Continue Shopping');
   const cancelOrder = t('cancelOrder', 'Cancel Order');
 
+  const bookingId = booking.booking_id;
+  const payment = booking.payments[0];
+  const bookingItemsList = booking.items;
+
   const handleContinueShopping = () => {
     router.push('/');
   };
@@ -45,7 +49,7 @@ const ConfirmationFooterButtons = ({
     <section className="flex flex-col">
       <button
         onClick={handleContinueShopping}
-        className="h-11 bg-primary-1000 rounded mb-3"
+        className="mb-3 rounded h-11 bg-primary-1000"
       >
         <h4 className="font-semibold text-white  text-[18px]">
           {continueShopping}
