@@ -23,7 +23,6 @@ module.exports = withReactSvg({
       'dummyimage.com',
       'q-xx.bstatic.com',
       'property-gallery.rakutentravelxchange.com',
-      'i.travelapi.com',
     ],
   },
   webpackDevMiddleware: (config) => {
