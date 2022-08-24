@@ -132,23 +132,28 @@
   input[type='checkbox'] {
     @apply relative h-6 w-6 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
   }
-
-  input[type='date']::-webkit-inner-spin-button,
-  input[type='date']::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-  }
-
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus {
-    transition: background-color 600000s 0s, color 600000s 0s;
-  }
-  input[data-autocompleted] {
-    background-color: transparent !important;
+  input[type='checkbox'] {
+    @apply relative h-6 w-6 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
   }
   p {
     margin: 0 !important;
   }
+}
+
+.plg {
+  @apply font-lato text-lg leading-[28px];
+}
+
+.pmd {
+  @apply font-lato text-base leading-6;
+}
+
+.psm {
+  @apply font-lato text-sm leading-[22px];
+}
+
+.pxs {
+  @apply font-lato text-[14px] leading-4;
 }
 
 .plg {

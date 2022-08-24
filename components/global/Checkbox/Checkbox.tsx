@@ -36,7 +36,10 @@ const Checkbox = ({
         />
       </div>
       <div className="ml-3 text-sm">
-        <label htmlFor={value} className="font-semibold text-sm text-dark-1000">
+        <label
+          htmlFor={value}
+          className="text-sm font-normal leading-[22px] text-dark-1000"
+        >
           {children}
         </label>
       </div>

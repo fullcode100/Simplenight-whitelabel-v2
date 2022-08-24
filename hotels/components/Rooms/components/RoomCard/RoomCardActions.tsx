@@ -39,7 +39,7 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
             addToCart(itemToBook, i18next, store);
             router.replace('/itinerary');
           }}
-          className="font-semibold text-base leading-base"
+          className="text-base font-semibold leading-base"
         />
         <Button
           value={bookNowText}
@@ -48,7 +48,7 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
             addToCart(itemToBook, i18next, store);
             router.replace('/checkout/client');
           }}
-          className="font-semibold text-base leading-base"
+          className="text-base font-semibold leading-base"
         />
       </section>
     </footer>
