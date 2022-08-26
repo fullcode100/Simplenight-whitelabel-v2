@@ -41,7 +41,6 @@ const ImageCarouselLargeScreen = ({
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 1,
-      paritialVisibilityGutter: 130,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -54,7 +53,7 @@ const ImageCarouselLargeScreen = ({
   };
 
   return (
-    <>
+    <section className="max-w-7xl mx-auto">
       <ImageZoomModal
         images={images}
         open={showImageZoomModal}
@@ -65,14 +64,14 @@ const ImageCarouselLargeScreen = ({
         partialVisible={true}
         itemClass="px-4"
         responsive={responsive}
-        additionalTransfrom={65}
+        // additionalTransfrom={65}
         infinite={infinite}
         draggable
         showDots={showDots}
         beforeChange={handleBeforeCarouselChange}
         customDot={
           <CustomDot
-            className="absolute flex items-center gap-2 bottom-5 right-28 bg-white/80 rounded-lg py-1 px-2 text-sm text-dark-1000"
+            className="absolute flex items-center gap-2 bottom-5 right-10 bg-white/80 rounded-lg py-1 px-2 text-sm text-dark-1000"
             icon={true}
             length={images.length}
             showIndex={showIndexDot}
@@ -82,13 +81,13 @@ const ImageCarouselLargeScreen = ({
         shouldResetAutoplay={shouldResetAutoPlay}
         customLeftArrow={
           <CustomArrow
-            className="z-[5] absolute left-20 -translate-y-7 w-24 h-24"
+            className="z-[5] absolute left-5 -translate-y-7 w-24 h-24"
             position="left"
           />
         }
         customRightArrow={
           <CustomArrow
-            className="z-[5] absolute right-20 -translate-y-7 w-24 h-24"
+            className="z-[5] absolute right-5 -translate-y-7 w-24 h-24"
             position="right"
           />
         }
@@ -111,7 +110,7 @@ const ImageCarouselLargeScreen = ({
           );
         })}
       </Carousel>
-    </>
+    </section>
   );
 };
 

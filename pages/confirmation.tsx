@@ -126,33 +126,35 @@ const Confirmation: NextPage = () => {
             />
           </header>
           {booking && (
-            <section className="lg:flex lg:flex-row lg:justify-center lg:gap-8 lg:px-20 lg:py-12">
-              <section className="lg:flex lg:flex-col lg:gap-8">
-                {bookedItemsAmount > 0 && (
-                  <ConfirmationBooked
+            <section className="lg:px-20 lg:py-12">
+              <section className="lg:flex lg:flex-row lg:justify-center lg:gap-8 max-w-7xl mx-auto w-full">
+                <section className="lg:flex lg:flex-col lg:gap-8">
+                  {bookedItemsAmount > 0 && (
+                    <ConfirmationBooked
+                      booking={booking}
+                      loading={loading}
+                      setLoading={setLoading}
+                      bookedAmount={bookedItemsAmount}
+                    />
+                  )}
+
+                  {cancelledItemsAmount > 0 && (
+                    <ConfirmationCancelled
+                      booking={booking}
+                      cancelledAmount={cancelledItemsAmount}
+                    />
+                  )}
+                </section>
+                <section className="lg:flex lg:flex-col lg:gap-8 lg:w-[405px]">
+                  <ConfirmationPayment booking={booking} />
+                  <ConfirmationFooter
                     booking={booking}
                     loading={loading}
                     setLoading={setLoading}
                     bookedAmount={bookedItemsAmount}
                   />
-                )}
-
-                {cancelledItemsAmount > 0 && (
-                  <ConfirmationCancelled
-                    booking={booking}
-                    cancelledAmount={cancelledItemsAmount}
-                  />
-                )}
-              </section>
-              <section className="lg:flex lg:flex-col lg:gap-8 lg:w-[405px]">
-                <ConfirmationPayment booking={booking} />
-                <ConfirmationFooter
-                  booking={booking}
-                  loading={loading}
-                  setLoading={setLoading}
-                  bookedAmount={bookedItemsAmount}
-                />
-                <HelpSection />
+                  <HelpSection />
+                </section>
               </section>
             </section>
           )}

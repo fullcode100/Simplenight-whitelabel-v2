@@ -79,14 +79,16 @@ const ConfirmationHeader = ({
     <section className="bg-dark-100 lg:flex lg:flex-col-reverse lg:mt-[125px]">
       {fromLookup && <LookupHeader />}
 
-      <section className="flex flex-col lg:flex-row justify-between gap-3 p-5 lg:py-6 lg:px-20 border-b-[1px] border-dark-300">
-        <PageTitle />
-        <section className="grid gap-3">
-          <section className="flex flex-col lg:flex-row gap-3 lg:gap-[100px]">
-            <ConfirmationBuyerInfo booking={booking} />
-            <ConfirmationOrderInfo booking={booking} />
+      <section className="p-5 lg:py-6 lg:px-20 border-b-[1px] border-dark-300">
+        <section className="flex flex-col lg:flex-row justify-between gap-3 max-w-7xl mx-auto">
+          <PageTitle />
+          <section className="grid gap-3">
+            <section className="flex flex-col lg:flex-row gap-3 lg:gap-[100px]">
+              <ConfirmationBuyerInfo booking={booking} />
+              <ConfirmationOrderInfo booking={booking} />
+            </section>
+            <Disclaimer message={confirmationDisclaimer} />
           </section>
-          <Disclaimer message={confirmationDisclaimer} />
         </section>
       </section>
     </section>

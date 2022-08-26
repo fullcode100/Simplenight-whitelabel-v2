@@ -131,7 +131,7 @@ const Payment = () => {
     <>
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
-        <section className="px-0 py-0 lg:px-20 lg:py-12 flex gap-8 items-start">
+        <section className="px-0 py-0 lg:px-20 lg:py-12 flex gap-8 items-start justify-center">
           <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
             <CheckoutMain>
               <CheckoutForm title={'Payment Information'}>
