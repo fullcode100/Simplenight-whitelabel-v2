@@ -105,7 +105,7 @@ const Home: NextPageWithLayout = () => {
           className="object-cover"
         />
         <UpperSectionBackground>
-          <section className="relative">
+          <section className="relative max-w-7xl mx-auto w-full">
             <p className="font-lato leading-[38px] text-[32px] font-semibold text-white text-center mb-9 lg:text-6xl lg:pb-5 lg:mt-5">
               {homePageText}{' '}
               <span className="font-normal ml-[-6px] align-super text-sm ">
@@ -125,9 +125,11 @@ const Home: NextPageWithLayout = () => {
           </section>
         </UpperSectionBackground>
       </section>
-      <section className="flex flex-col gap-4 px-5 py-6 lg:flex-row lg:gap-8 lg:px-20 lg:py-12">
-        <OrderLookupCard />
-        <HelpSection />
+      <section className="px-5 py-6 lg:px-20 lg:py-12">
+        <section className="max-w-7xl mx-auto flex flex-col gap-4 lg:gap-8 lg:flex-row">
+          <OrderLookupCard />
+          <HelpSection />
+        </section>
       </section>
     </main>
   );

@@ -35,10 +35,14 @@ const Search: NextPage = () => {
         <SecondaryCategorySearchOptions searchType={internalSearchType} />
       </header>
       <section className="hidden lg:block w-full px-20 py-10 bg-dark-100 border-b border-dark-300">
-        <SearchCategoryForm searchType={searchType} />
+        <section className="max-w-7xl mx-auto">
+          <SearchCategoryForm searchType={searchType} />
+        </section>
       </section>
       <section className="pt-[153px] lg:pt-0 lg:w-full lg:px-20">
-        <SearchResultDisplay searchType={internalSearchType} />
+        <section className="max-w-7xl mx-auto">
+          <SearchResultDisplay searchType={internalSearchType} />
+        </section>
       </section>
     </main>
   );

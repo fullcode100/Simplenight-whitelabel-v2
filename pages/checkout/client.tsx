@@ -191,60 +191,62 @@ const Client = () => {
     <>
       <CheckoutHeader step="client" itemsNumber={itemsNumber} />
       {loaded ? (
-        <section className="lg:flex lg:px-20 lg:py-12 lg:gap-8 lg:justify-start">
-          <section className="lg:w-[68%]">
-            <Card>
-              <Title>{primaryContactText}</Title>
-              <section>
-                <ClientForm
-                  schema={travelersFormSchema}
-                  uiSchema={travelersUiSchema}
-                  onChange={handlePrimaryContactFormChange}
-                  onSubmit={continueToPayment}
-                >
-                  <ClientCart
-                    items={cart?.items}
+        <section className="lg:px-20 lg:py-12">
+          <section className="lg:flex lg:gap-8 lg:justify-start max-w-7xl mx-auto">
+            <section className="lg:w-[68%]">
+              <Card>
+                <Title>{primaryContactText}</Title>
+                <section>
+                  <ClientForm
                     schema={travelersFormSchema}
                     uiSchema={travelersUiSchema}
-                    onChange={handleAdditionalRequestChange}
+                    onChange={handlePrimaryContactFormChange}
+                    onSubmit={continueToPayment}
+                  >
+                    <ClientCart
+                      items={cart?.items}
+                      schema={travelersFormSchema}
+                      uiSchema={travelersUiSchema}
+                      onChange={handleAdditionalRequestChange}
+                    />
+                    <Divider />
+                    <CheckoutFooter type="client">
+                      <CheckoutSummary
+                        cart={cart}
+                        reload={reload}
+                        setReload={setReload}
+                      />
+                      <Button
+                        value={cancelButton}
+                        size={'full'}
+                        onClick={redirectToItinerary}
+                        color="outlined"
+                        className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+                      />
+                      <Button
+                        value={continueButton}
+                        size={'full'}
+                        disabled={isDisabled}
+                        className="lg:w-[35%] text-[18px] font-normal"
+                      />
+                    </CheckoutFooter>
+                  </ClientForm>
+                </section>
+              </Card>
+            </section>
+            <section className="hidden lg:block lg:w-[32%]">
+              <Card>
+                <Title> {priceBreakdownText}</Title>
+                <section>
+                  <BreakdownItemList
+                    cart={cart}
+                    reload={reload}
+                    setReload={setReload}
+                    className="px-4 py-1"
                   />
-                  <Divider />
-                  <CheckoutFooter type="client">
-                    <CheckoutSummary
-                      cart={cart}
-                      reload={reload}
-                      setReload={setReload}
-                    />
-                    <Button
-                      value={cancelButton}
-                      size={'full'}
-                      onClick={redirectToItinerary}
-                      color="outlined"
-                      className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                    />
-                    <Button
-                      value={continueButton}
-                      size={'full'}
-                      disabled={isDisabled}
-                      className="lg:w-[35%] text-[18px] font-normal"
-                    />
-                  </CheckoutFooter>
-                </ClientForm>
-              </section>
-            </Card>
-          </section>
-          <section className="hidden lg:block lg:w-[32%]">
-            <Card>
-              <Title> {priceBreakdownText}</Title>
-              <section>
-                <BreakdownItemList
-                  cart={cart}
-                  reload={reload}
-                  setReload={setReload}
-                  className="px-4 py-1"
-                />
-              </section>
-            </Card>
+                </section>
+              </Card>
+            </section>
           </section>
         </section>
       ) : (

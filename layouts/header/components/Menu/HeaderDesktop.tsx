@@ -53,50 +53,52 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   );
   return (
     <header
-      className={`hidden items-center justify-between px-4 py-5 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
+      className={`hidden px-4 py-5 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
     >
-      <section className="flex gap-5 items-center">
-        <Link href={'/'}>
-          <a>
-            <SimplenightLogo className="w-40 h-16" />
-            <span className="text-[0.8rem]">{poweredByText} SIMPLENIGHT</span>
-          </a>
-        </Link>
-      </section>
-      <section className="flex gap-5">
-        <CustomLink href={'/lookup'}>{orderLookupText}</CustomLink>
-        {displayCategoryOption && (
-          <button>
+      <section className="max-w-7xl lg:flex items-center justify-between w-full mx-auto">
+        <section className="flex gap-5 items-center">
+          <Link href={'/'}>
             <a>
-              <span className="text-base text-dark-1000 flex items-center gap-2">
-                {categoriesText} <ChevronDown />
-              </span>
+              <SimplenightLogo className="w-40 h-16" />
+              <span className="text-[0.8rem]">{poweredByText} SIMPLENIGHT</span>
             </a>
+          </Link>
+        </section>
+        <section className="flex gap-5">
+          <CustomLink href={'/lookup'}>{orderLookupText}</CustomLink>
+          {displayCategoryOption && (
+            <button>
+              <a>
+                <span className="text-base text-dark-1000 flex items-center gap-2">
+                  {categoriesText} <ChevronDown />
+                </span>
+              </a>
+            </button>
+          )}
+          <ButtonDropdown
+            icon={<LanguageIcon />}
+            value={currentLanguage}
+            titleDropdown={languageText}
+          >
+            <LanguageSelect horizontal={true} />
+          </ButtonDropdown>
+          <ButtonDropdown
+            icon={<CashIcon />}
+            value={currentCurrency}
+            titleDropdown={currencyText}
+          >
+            <CurrencySelect />
+          </ButtonDropdown>
+          <button
+            onClick={onOpen}
+            className="flex justify-between items-center gap-2 w-14 h-8 border border-dark-300 bg-white px-2 py-1 rounded"
+          >
+            <span className="text-dark-1000 font-bold text-sm font-lato">
+              {cartQty ?? 0}
+            </span>
+            <ShoppingCart className="text-primary-1000" />
           </button>
-        )}
-        <ButtonDropdown
-          icon={<LanguageIcon />}
-          value={currentLanguage}
-          titleDropdown={languageText}
-        >
-          <LanguageSelect horizontal={true} />
-        </ButtonDropdown>
-        <ButtonDropdown
-          icon={<CashIcon />}
-          value={currentCurrency}
-          titleDropdown={currencyText}
-        >
-          <CurrencySelect />
-        </ButtonDropdown>
-        <button
-          onClick={onOpen}
-          className="flex justify-between items-center gap-2 w-14 h-8 border border-dark-300 bg-white px-2 py-1 rounded"
-        >
-          <span className="text-dark-1000 font-bold text-sm font-lato">
-            {cartQty ?? 0}
-          </span>
-          <ShoppingCart className="text-primary-1000" />
-        </button>
+        </section>
       </section>
     </header>
   );

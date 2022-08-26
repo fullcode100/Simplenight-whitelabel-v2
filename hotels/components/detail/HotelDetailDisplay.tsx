@@ -348,8 +348,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             <GeneralInformationSection />
           </section>
           <section className="hidden lg:block px-20 text-left bg-dark-100 py-6">
-            <p className="text-[2rem]">{name}</p>
-            <RatingSection />
+            <section className="max-w-7xl mx-auto">
+              <p className="text-[2rem]">{name}</p>
+              <RatingSection />
+            </section>
           </section>
           <section ref={roomRef} className="lg:hidden">
             <SeeMore
@@ -370,24 +372,28 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             </SeeMore>
           </section>
           <section className="hidden lg:block px-20">
-            <RoomsSection
-              rooms={hotelRooms}
-              hotelId={hotel.id}
-              hotelName={name}
-              nights={nights}
-              guests={guests}
-            />
+            <section className="max-w-7xl mx-auto">
+              <RoomsSection
+                rooms={hotelRooms}
+                hotelId={hotel.id}
+                hotelName={name}
+                nights={nights}
+                guests={guests}
+              />
+            </section>
           </section>
           <Divider />
-          <section className="divide-dark-300 divide-y lg:divide-y-0 lg:divide-x lg:flex lg:px-20 lg:py-12">
-            <section className="lg:w-[50%] lg:pr-12">
-              <DetailsSection />
-            </section>
-            <section
-              ref={locationRef}
-              className="lg:w-[50%] lg:flex-1 lg:pl-12"
-            >
-              <LocationSection address={address} />
+          <section className="lg:px-20 lg:py-12">
+            <section className="divide-dark-300 divide-y lg:divide-y-0 lg:divide-x lg:flex max-w-7xl mx-auto">
+              <section className="lg:w-[50%] lg:pr-12">
+                <DetailsSection />
+              </section>
+              <section
+                ref={locationRef}
+                className="lg:w-[50%] lg:flex-1 lg:pl-12"
+              >
+                <LocationSection address={address} />
+              </section>
             </section>
           </section>
           <Divider />

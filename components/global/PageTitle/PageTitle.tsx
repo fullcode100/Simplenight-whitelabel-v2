@@ -20,7 +20,7 @@ const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
 
   return (
     <>
-      <section className="flex items-center justify-between">
+      <section className="flex items-center justify-between max-w-7xl mx-auto w-full">
         <section
           className={classnames('flex items-center', {
             ['gap-3']: icon,
