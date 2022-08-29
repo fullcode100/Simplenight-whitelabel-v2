@@ -105,7 +105,7 @@ const Itinerary: NextPage = () => {
                 </>
               )}
             </aside>
-          </section>
+          </>
         )}
       </section>
       <ContinueShopping setContinueHeight={setContinueHeight} />
