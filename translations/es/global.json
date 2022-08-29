@@ -120,5 +120,6 @@
   "ourDealForYou": "Nuestro Trato Para Usted",
   "simplenightOrderNumberPlaceholder": "Ej. ABCD1234",
   "lastNamePlaceholder": "Apellido de la Orden",
-  "findOrder": "Buscar Pedido"
+  "findOrder": "Buscar Pedido",
+  "vendorConfirmation": "Número de confirmación del proveedor"
 }

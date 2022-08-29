@@ -66,13 +66,13 @@ const Itinerary: NextPage = () => {
       <section
         className={classnames(
           { hidden: loading },
-          'px-0 py-0 lg:px-20 lg:py-12 lg:flex gap-8 items-start justify-center',
+          'px-0 py-0 lg:px-20 lg:py-12',
         )}
       >
         {!hasItems && !loading && <ItineraryEmpty />}
         {hasItems && (
-          <>
-            <section className="overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
+          <section className="max-w-7xl lg:flex gap-8 items-start justify-center mx-auto">
+            <section className="overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container lg:w-[840px]">
               <ListHeader />
               <ItineraryItemList
                 cart={cart}
@@ -101,7 +101,7 @@ const Itinerary: NextPage = () => {
                 </>
               )}
             </aside>
-          </>
+          </section>
         )}
       </section>
       <ContinueShopping />

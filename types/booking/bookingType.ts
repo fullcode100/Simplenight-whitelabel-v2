@@ -57,6 +57,7 @@ export interface Item {
   total_supplier: Amount;
   total_tax: Amount;
   total_tax_postpaid: Amount;
+  vendor_confirmation_code: string;
 }
 
 export interface ItemExtraData {
