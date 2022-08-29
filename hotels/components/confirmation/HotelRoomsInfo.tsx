@@ -34,6 +34,14 @@ const HotelRoomsInfo = ({
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
 
   const supplierReferenceID = item?.supplier_order_number;
+  const vendorConfirmationNumber =
+    item?.vendor_confirmation_code && item?.vendor_confirmation_code.length > 0
+      ? item?.vendor_confirmation_code
+      : '-';
+  const vendorConfirmationLabel = t(
+    'vendorConfirmation',
+    'Vendor Confirmation Number',
+  );
   const customer = item?.customer;
   const roomDetail = item?.extra_data?.rooms?.[0];
   const roomName = roomDetail?.name;
@@ -70,9 +78,21 @@ const HotelRoomsInfo = ({
     <section className="flex flex-col gap-2 py-6 border-t lg:gap-3 border-dark-300 lg:pt-6 lg:pb-0">
       <RoomTitle roomName={roomName} roomQty={item?.room_qty} nights={nights} />
 
-      {supplierReferenceID && (
-        <SupplierReference supplierReferenceID={supplierReferenceID} />
-      )}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {supplierReferenceID && (
+          <SupplierReference supplierReferenceID={supplierReferenceID} />
+        )}
+        {vendorConfirmationNumber && (
+          <section className="grid gap-0 ">
+            <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-700">
+              {vendorConfirmationLabel}
+            </p>
+            <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-primary-1000">
+              {vendorConfirmationNumber}
+            </p>
+          </section>
+        )}
+      </section>
 
       <RoomPriceBreakdown
         total={total}

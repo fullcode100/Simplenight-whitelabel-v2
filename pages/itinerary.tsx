@@ -66,7 +66,7 @@ const Itinerary: NextPage = () => {
       <section
         className={classnames(
           { hidden: loading },
-          'px-0 py-0 lg:px-20 lg:py-12 lg:flex gap-8 items-start justify-center',
+          'px-0 py-0 lg:px-20 lg:py-12',
         )}
       >
         {!hasItems && !loading && <ItineraryEmpty />}
@@ -101,7 +101,7 @@ const Itinerary: NextPage = () => {
                 </>
               )}
             </aside>
-          </>
+          </section>
         )}
       </section>
       <ContinueShopping />
