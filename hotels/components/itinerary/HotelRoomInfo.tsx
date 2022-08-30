@@ -34,6 +34,7 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
     (tax) => tax.description === RESORT_FEES,
   );
   const resortFeesFormatted = resortFees?.tax_amount.formatted ?? '$0.00';
+  const termsOfService = room.extended_data?.terms_and_conditions;
 
   return (
     <section className="flex flex-col gap-2 border-t border-dark-300 py-4 px-4">
@@ -50,6 +51,7 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
         amenities={amenities}
         adultsCount={room.adults}
         childrenCount={room.children}
+        termsOfService={termsOfService}
       />
     </section>
   );

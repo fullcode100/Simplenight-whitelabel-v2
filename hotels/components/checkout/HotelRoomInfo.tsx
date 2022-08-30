@@ -46,6 +46,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
     (tax) => tax.description === RESORT_FEES,
   );
   const resortFeesFormatted = resortFees?.tax_amount.formatted;
+  const termsOfService = room.extended_data?.terms_and_conditions;
 
   const handleRemoveRoom = () => {
     const roomToRemove = {
@@ -72,6 +73,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
         amenities={amenities}
         adultsCount={room.adults}
         childrenCount={room.children}
+        termsOfService={termsOfService}
       />
       <Button
         value={removeLabel}
