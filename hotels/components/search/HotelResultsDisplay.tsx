@@ -16,11 +16,12 @@ import HotelMapView from './HotelResultsMapView';
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
-import { parseQueryNumber } from 'helpers/stringUtils';
+import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
+import { Room, createRoom } from 'hotels/helpers/room';
 import HotelItemRateInfo from './HotelItemRateInfo';
 import { sortByAdapter } from 'hotels/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'hotels/adapters/cancellation-type.adapter';
@@ -97,6 +98,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     ]);
     if (hasEmptyValues) return;
 
+    const paramRoomsData = roomsData
+      ? JSON.parse(roomsData as string)
+      : [createRoom()];
+
     const geolocation = `${latitude},${longitude}`;
 
     const params: HotelSearchRequest = {
@@ -116,6 +121,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       max_price: maxPrice as string,
       amenities: amenities as string,
     };
+
+    if (parseQueryNumber(children as string)) {
+      params.children_ages = getChildrenAges(paramRoomsData);
+    }
 
     Searcher?.request(params, i18next)
       .then(({ hotels: searchedHotels }: HotelSearchResponse) => {

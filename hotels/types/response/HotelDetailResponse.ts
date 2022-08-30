@@ -65,7 +65,7 @@ export interface Occupancy {
   adults: string;
   children: string;
   rooms?: string;
-  children_ages?: number[] | null;
+  children_ages?: string | null;
 }
 
 export interface RoomType {
