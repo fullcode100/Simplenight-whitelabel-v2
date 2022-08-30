@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AmountDetailItem from './components/AmountDetailItem';
 import ExtraDetailItem from './components/ExtraDataItem';
 import AdultChildrenAmount from '../AdultChildrenAmount/AdultChildrenAmount';
+import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 
 interface RoomPriceBreakdownProps {
   total?: string;
@@ -12,6 +13,7 @@ interface RoomPriceBreakdownProps {
   amenities?: string;
   adultsCount?: number;
   childrenCount?: number;
+  termsOfService?: string | null;
 }
 
 const RoomPriceBreakdown = ({
@@ -22,6 +24,7 @@ const RoomPriceBreakdown = ({
   amenities,
   adultsCount = 2,
   childrenCount = 0,
+  termsOfService,
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
   const resortFeeLabel = t('resortFee', 'Resort Fee');
@@ -56,6 +59,14 @@ const RoomPriceBreakdown = ({
         detail={cancellationPolicy}
         label={cancellationPolicyLabel}
       />
+      {termsOfService && (
+        <ExternalLink
+          className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight"
+          href={termsOfService}
+        >
+          [EXPEDIA] Terms Of Service
+        </ExternalLink>
+      )}
     </>
   );
 };

@@ -77,6 +77,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const [loaded, setLoaded] = useState(false);
   const [hotel, setHotel] = useState<Hotel>(initialState[0]);
   const [emptyState, setEmptyState] = useState<boolean>(false);
+
   const {
     details: { name, address, description, star_rating: starRating },
     rooms: hotelRooms,

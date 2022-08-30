@@ -115,4 +115,5 @@ export interface HotelCart {
   relevance?: number;
   start_date?: string;
   thumbnail?: string;
+  terms_and_conditions?: string;
 }
