@@ -3,6 +3,7 @@ import Rating from 'components/global/Rating/Rating';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import {
   fromLowerCaseToCapitilize,
+  getChildrenAges,
   parseQueryNumber,
 } from 'helpers/stringUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -45,13 +46,14 @@ import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { createRoom } from 'hotels/helpers/room';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
 declare let window: CustomWindow;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
-  const { id } = useQuery();
+  const { id, roomsData } = useQuery();
 
   const {
     adults,
@@ -104,11 +106,19 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   useEffect(() => {}, [detailsLabel]);
 
   useEffect(() => {
+    const paramRoomsData = roomsData
+      ? JSON.parse(roomsData as string)
+      : [createRoom()];
+
     const occupancy: Occupancy = {
       adults: parseQueryNumber(adults ?? '1') + '',
       children: parseQueryNumber(children ?? '0') + '',
       rooms: parseQueryNumber(rooms ?? '1') + '',
     };
+
+    if (occupancy.children) {
+      occupancy.children_ages = getChildrenAges(paramRoomsData);
+    }
 
     const params: HotelDetailPreRequest = {
       hotel_id: (id as unknown as string) ?? '', // id as string,
