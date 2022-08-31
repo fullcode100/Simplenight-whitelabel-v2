@@ -17,6 +17,19 @@ export interface Hotel {
   thumbnail: string;
   nights?: number;
   guests?: number;
+  check_in_instructions?: CheckInInstructions;
+}
+
+export interface CheckInInstructions {
+  fees?: FeesInstructions;
+  instructions?: string;
+  policies?: string;
+  special_instructions?: string;
+}
+
+export interface FeesInstructions {
+  optional?: string;
+  mandatory?: string;
 }
 
 export interface Photo {
