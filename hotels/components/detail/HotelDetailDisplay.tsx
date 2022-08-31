@@ -83,6 +83,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     rooms: hotelRooms,
     photos,
     nights,
+    check_in_instructions: checkInInstructions,
   } = hotel;
 
   const hotelImages = photos.map((photo) => photo.url);
@@ -117,7 +118,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       rooms: parseQueryNumber(rooms ?? '1') + '',
     };
 
-    if (occupancy.children) {
+    if (parseQueryNumber(occupancy.children) > 0) {
       occupancy.children_ages = getChildrenAges(paramRoomsData);
     }
 
@@ -203,6 +204,42 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     );
   };
 
+  const SimpleText = (text: string) => {
+    if (!text || text === '') return null;
+    return (
+      <>
+        <br />
+        {text}
+      </>
+    );
+  };
+
+  // TODO: Refactor
+  const Instructions = () => {
+    const instructions = `${checkInInstructions?.instructions}
+    ${checkInInstructions?.special_instructions}
+    ${checkInInstructions?.fees?.mandatory}
+    ${checkInInstructions?.fees?.optional}
+    `;
+    const policies = checkInInstructions?.policies;
+    return (
+      <>
+        {instructions && instructions !== '' && (
+          <>
+            <br />
+            {instructions}
+          </>
+        )}
+        {policies && policies !== '' && (
+          <>
+            <br />
+            {policies}
+          </>
+        )}
+      </>
+    );
+  };
+
   const DetailsSection = () => (
     <section className="pt-6 pb-3 px-5 lg:pt-0 lg:pb-0 lg:px-0">
       <section className="mb-5 lg:mb-8">
@@ -232,11 +269,15 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             className="text-base text-dark-1000 mt-3"
           >
             {description}
+            <Instructions />
           </p>
         </SeeMore>
       </section>
       <section className="hidden lg:block">
-        <p className="text-base text-dark-1000 mt-3">{description}</p>
+        <p className="text-base text-dark-1000 mt-3">
+          {description}
+          <Instructions />
+        </p>
       </section>
     </section>
   );
