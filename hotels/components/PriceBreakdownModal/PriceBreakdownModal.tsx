@@ -10,6 +10,7 @@ import BreakdownRow from './components/BreakdownRow';
 import { Rate, CancellationPolicy } from '../../types/response/SearchResponse';
 import BreakdownSummary from './components/BreakdownSummary';
 import FreeCancellationExtended from '../../../components/global/FreeCancellation/FreeCancellationExtended';
+import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import AmenitiesSection from '../Amenities/AmenitiesSection';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,6 +75,13 @@ const PriceBreakdownModal = ({
   );
   const resortFeesFormatted = resortFees?.tax_amount.formatted ?? '$0.00';
 
+  const cancellableType = 'FREE_CANCELLATION';
+  const nonRefundableType = 'NON_REFUNDABLE';
+
+  const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
+  const nonRefundable =
+    cancellationPolicy?.cancellation_type === nonRefundableType;
+
   return (
     <FullScreenModal
       open={showPriceBreakdown}
@@ -135,7 +143,12 @@ const PriceBreakdownModal = ({
         <Divider className="mt-2" />
         <BreakdownRow label={payAtPropertyLabel} price={resortFeesFormatted} />
         <section className="py-6">
-          <FreeCancellationExtended policy={cancellationPolicy?.description} />
+          {cancellable && (
+            <FreeCancellationExtended
+              policy={cancellationPolicy?.description}
+            />
+          )}
+          <NonRefundable nonCancellable={nonRefundable} />
         </section>
       </section>
     </FullScreenModal>

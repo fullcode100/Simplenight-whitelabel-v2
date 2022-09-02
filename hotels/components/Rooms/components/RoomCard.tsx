@@ -8,6 +8,7 @@ import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
+import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import { useState } from 'react';
 import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +22,7 @@ interface RoomsProps {
 }
 
 const cancellableType = 'FREE_CANCELLATION';
+const nonRefundableType = 'NON_REFUNDABLE';
 
 const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
   const [t] = useTranslation('hotels');
@@ -33,16 +35,18 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
   };
   const viewAllAmenitiesText = t('viewAllAmenities', 'View all amenities');
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
+  const nonRefundable =
+    cancellationPolicy?.cancellation_type === nonRefundableType;
   const images = room?.photos?.map((photo) => photo.url) ?? [];
 
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const PriceBreakDown = () => (
-    <button className="text-primary-1000 underline text-sm">
+    <button className="text-sm underline text-primary-1000">
       {priceBreakdownText}
     </button>
   );
   return (
-    <section className="shadow-container my-3 lg:my-0 border border-dark-200 rounded">
+    <section className="my-3 border rounded shadow-container lg:my-0 border-dark-200">
       {images.length > 0 ? (
         <ImageCarousel
           images={images}
@@ -65,7 +69,7 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
       <Divider />
       {amenities.length > 0 && (
         <>
-          <section className="p-4 flex flex-col gap-2">
+          <section className="flex flex-col gap-2 p-4">
             {amenities.map((amenity, index) => {
               const amenityIcon = amenitiesIcons.find((amenityOption) => {
                 amenityOption.options.includes(amenity);
@@ -91,7 +95,7 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
               <button
                 type="button"
                 onClick={() => setShowAmenitiesModal(true)}
-                className="text-sm leading-5 text-left font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
+                className="text-sm font-medium leading-5 text-left underline transition duration-150 ease-in-out text-primary-1000 hover:text-primary-500 focus:outline-none"
               >
                 {viewAllAmenitiesText}
               </button>
@@ -100,16 +104,13 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
           <Divider />
         </>
       )}
-      {cancellable && (
-        <section className="px-4 py-4">
-          {cancellable && (
-            <FreeCancellationExtended
-              policy={cancellationPolicy?.description}
-            />
-          )}
-        </section>
-      )}
-      {cancellable && <Divider />}
+      <section className="px-4 py-4">
+        {cancellable && (
+          <FreeCancellationExtended policy={cancellationPolicy?.description} />
+        )}
+        <NonRefundable nonCancellable={nonRefundable} />
+      </section>
+      {(cancellable || nonRefundable) && <Divider />}
       <section className="px-4 py-3">
         <BreakdownSummary
           rate={rate}
