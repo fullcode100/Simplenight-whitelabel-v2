@@ -24,25 +24,25 @@ const Search: NextPage = () => {
 
   return (
     <main>
-      <header className="flex flex-col bg-dark-100 border-y border-dark-300 pt-2 fixed z-20 w-full lg:hidden">
+      <header className="fixed z-20 flex flex-col w-full pt-2 bg-dark-100 border-y border-dark-300 lg:hidden">
         <HorizontalTabs
           tabs={tabsMock}
           activeTab={activeTab}
           onClick={handleTabClick}
           primary
-          className="mt-1 px-4"
+          className="px-4 mt-1"
         />
 
         <ExtendedSearchCategoryForm searchType={internalSearchType} />
         <SecondaryCategorySearchOptions searchType={internalSearchType} />
       </header>
-      <section className="hidden lg:block w-full px-20 py-10 bg-dark-100 border-b border-dark-300">
-        <section className="max-w-7xl mx-auto">
+      <section className="hidden w-full px-20 py-10 border-b lg:block bg-dark-100 border-dark-300">
+        <section className="mx-auto max-w-7xl">
           <SearchCategoryForm searchType={searchType} />
         </section>
       </section>
       <section className="pt-[153px] lg:pt-0 lg:w-full lg:px-20">
-        <section className="max-w-7xl mx-auto">
+        <section className="mx-auto max-w-7xl">
           <SearchResultDisplay searchType={internalSearchType} />
         </section>
       </section>

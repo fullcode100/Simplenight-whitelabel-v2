@@ -1,8 +1,13 @@
+import { createRef, Dispatch, SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBrandConfig } from '../../../hooks/branding/useBrandConfig';
 import CategoryList from './components/CategoryList';
 
-const ContinueShopping = () => {
+const ContinueShopping = ({
+  setContinueHeight,
+}: {
+  setContinueHeight: Dispatch<SetStateAction<number>>;
+}) => {
   const [t, i18next] = useTranslation('global');
   const continueShoppingTitle = t('continueShopping', 'Continue Shopping');
   const { features } = useBrandConfig();
@@ -12,10 +17,15 @@ const ContinueShopping = () => {
     ([key, value]) => value == true,
   );
 
+  const continueRef = createRef<HTMLElement>();
+  useEffect(() => {
+    setContinueHeight(continueRef.current?.offsetHeight ?? 0);
+  }, [continueRef, setContinueHeight]);
+
   return (
-    <section className="py-6 bg-dark-100 space-y-6">
-      <section className="max-w-7xl mx-auto w-full">
-        <h4 className="px-5 font-semibold text-dark-800 text-lg">
+    <section className="py-6 space-y-6 bg-dark-100" ref={continueRef}>
+      <section className="w-full mx-auto max-w-7xl">
+        <h4 className="px-5 text-lg font-semibold text-dark-800">
           {continueShoppingTitle}
         </h4>
         <CategoryList categoryList={filterCategories} />

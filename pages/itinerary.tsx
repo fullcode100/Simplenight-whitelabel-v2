@@ -55,6 +55,8 @@ const Itinerary: NextPage = () => {
     }
   }, []);
 
+  const [continueHeight, setContinueHeight] = useState(0);
+
   const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
   return (
@@ -69,10 +71,12 @@ const Itinerary: NextPage = () => {
           'px-0 py-0 lg:px-20 lg:py-12',
         )}
       >
-        {!hasItems && !loading && <ItineraryEmpty />}
+        {!hasItems && !loading && (
+          <ItineraryEmpty continueHeight={continueHeight} />
+        )}
         {hasItems && (
-          <>
-            <section className="lg:w-[843px] overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
+          <section className="items-start justify-center gap-8 mx-auto max-w-7xl lg:flex">
+            <section className="overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container lg:w-[840px]">
               <ListHeader />
               <ItineraryItemList
                 cart={cart}
@@ -101,10 +105,10 @@ const Itinerary: NextPage = () => {
                 </>
               )}
             </aside>
-          </>
+          </section>
         )}
       </section>
-      <ContinueShopping />
+      <ContinueShopping setContinueHeight={setContinueHeight} />
     </main>
   );
 };
