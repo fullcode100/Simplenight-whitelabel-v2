@@ -121,5 +121,6 @@
   "simplenightOrderNumberPlaceholder": "Ej. ABCD1234",
   "lastNamePlaceholder": "Apellido de la Orden",
   "findOrder": "Buscar Pedido",
-  "vendorConfirmation": "Número de confirmación del proveedor"
+  "vendorConfirmation": "Número de confirmación del proveedor",
+  "thePaymentWill": "El pago será procesado en los EE.UU."
 }
