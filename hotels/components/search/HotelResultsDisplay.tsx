@@ -126,6 +126,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       params.children_ages = getChildrenAges(paramRoomsData);
     }
 
+    setLoaded(false);
     Searcher?.request(params, i18next)
       .then(({ hotels: searchedHotels }: HotelSearchResponse) => {
         setHotels(searchedHotels);
