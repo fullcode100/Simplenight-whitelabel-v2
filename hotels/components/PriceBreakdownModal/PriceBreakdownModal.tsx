@@ -82,21 +82,20 @@ const PriceBreakdownModal = ({
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
 
+  const handleAction = async (url: string) => {
+    await addToCart(itemToBook, i18next, store);
+    router.replace(url);
+  };
+
   return (
     <FullScreenModal
       open={showPriceBreakdown}
       closeModal={onClose}
       title={roomDetailsText}
       primaryButtonText={bookNowText}
-      primaryButtonAction={() => {
-        addToCart(itemToBook, i18next, store);
-        router.replace('/checkout/client');
-      }}
+      primaryButtonAction={() => handleAction('/checkout/client')}
       secondaryButtonText={addToItineraryText}
-      secondaryButtonAction={() => {
-        addToCart(itemToBook, i18next, store);
-        router.replace('/itinerary');
-      }}
+      secondaryButtonAction={() => handleAction('/itinerary')}
       footerSummary={
         <BreakdownSummary rate={rates} nights={nights} guests={guests} />
       }
