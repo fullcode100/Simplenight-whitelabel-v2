@@ -7,7 +7,7 @@ import {
   MinRate,
   Rate,
 } from 'hotels/types/response/SearchResponse';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { createRef, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
@@ -233,6 +233,21 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     );
   };
 
+  const LoaderAndEmpty = () => (
+    <>
+      {!loaded ? (
+        <Loader />
+      ) : (
+        <EmptyState
+          text={noResultsLabel}
+          image={<EmptyStateIcon className="mx-auto" />}
+        />
+      )}
+    </>
+  );
+
+  const hasNoHotels = hotels.length === 0;
+
   return (
     <>
       <section className="lg:flex lg:w-full">
@@ -240,9 +255,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
           <HotelFilterFormDesktop />
         </section>
         <section className="lg:flex-1 lg:w-[75%] h-full">
-          {!loaded ? (
-            <Loader />
-          ) : hotels.length > 0 ? (
+          {!loaded || hasNoHotels ? (
+            <LoaderAndEmpty />
+          ) : (
             <>
               {isListView && (
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
@@ -275,11 +290,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 </section>
               )}
             </>
-          ) : (
-            <EmptyState
-              text={noResultsLabel}
-              image={<EmptyStateIcon className="mx-auto" />}
-            />
           )}
         </section>
       </section>
