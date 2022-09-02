@@ -15,8 +15,9 @@ const Search: NextPage = () => {
     (type as unknown as string) ?? '',
   );
   const [searchType, setSearchType] = useState('hotels');
+  const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
 
-  const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
+  const handleTabClick = (tab: Tab) => {
     setInternalSearchType(tab.value.toLowerCase());
     setActiveTab(tab);
   };
@@ -26,6 +27,7 @@ const Search: NextPage = () => {
       <header className="flex flex-col bg-dark-100 border-y border-dark-300 pt-2 fixed z-20 w-full lg:hidden">
         <HorizontalTabs
           tabs={tabsMock}
+          activeTab={activeTab}
           onClick={handleTabClick}
           primary
           className="mt-1 px-4"

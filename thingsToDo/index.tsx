@@ -5,6 +5,7 @@ import { ThingsClientSearcher } from './core/search/ThingsClientSearcher';
 import { ThingsServerSearcher } from './core/search/ThingsServerSearcher';
 import { ThingsClientDetailer } from './core/detail/ThingsClientDetailer';
 import { ThingsServerDetailer } from './core/detail/ThingsServerDetailer';
+import ThingsSearchForm from './components/search/ThingsSearchForm';
 
 export const THINGS_CATEGORY = 'things-to-do';
 
@@ -14,7 +15,7 @@ const Category: CategoryOption = {
   value: THINGS_CATEGORY,
   icon: <ThingsIcon />,
   selectedIcon: <></>,
-  searchForm: <></>,
+  searchForm: <ThingsSearchForm />,
   secondarySearchOptions: <></>,
   readStateSearchForm: <></>,
   resultsDisplay: <></>,

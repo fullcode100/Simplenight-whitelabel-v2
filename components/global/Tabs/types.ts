@@ -9,5 +9,6 @@ export interface TabsProps {
   tabs: Tab[];
   className?: string;
   primary?: boolean;
-  onClick: (tab: Tab, setActiveTab: (tab: Tab) => void) => void;
+  activeTab: Tab;
+  onClick: (tab: Tab) => void;
 }
