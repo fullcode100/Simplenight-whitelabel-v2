@@ -41,9 +41,36 @@ const ClientCartItem = ({
     });
   };
 
+  const { check_in_instructions: checkInInstructions } = item.extended_data;
+
+  const Instructions = () => {
+    const instructions = `${checkInInstructions?.instructions ?? ''}
+    ${checkInInstructions?.special_instructions ?? ''}
+    ${checkInInstructions?.fees?.mandatory ?? ''}
+    ${checkInInstructions?.fees?.optional ?? ''}
+    `;
+    const policies = checkInInstructions?.policies ?? '';
+
+    const hasInstructions = instructions && instructions !== '';
+    const hasPolicies = policies && policies !== '';
+
+    return (
+      <section className="mb-6 text-base leading-[24px] font-normal text-dark-1000">
+        {hasInstructions && <>{instructions}</>}
+        {hasPolicies && (
+          <>
+            <br />
+            {policies}
+          </>
+        )}
+      </section>
+    );
+  };
+
   const CartItemBody = () => {
     return (
-      <section className="grid mb-6">
+      <section className="mb-6">
+        {checkInInstructions && <Instructions />}
         <section className="flex items-center">
           <ToggleSwitch
             onChange={() => setUsePrimaryContact(!usePrimaryContact)}
