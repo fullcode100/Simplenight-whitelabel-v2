@@ -27,6 +27,11 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookNowText = t('bookNow', 'Book Now');
 
+  const handleAction = async (url: string) => {
+    await addToCart(itemToBook, i18next, store);
+    router.replace(url);
+  };
+
   return (
     <footer className="px-4 py-4">
       <section className="grid grid-cols-2 gap-3">
@@ -35,19 +40,13 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
           size="full"
           type="outlined"
           textColor="primary"
-          onClick={() => {
-            addToCart(itemToBook, i18next, store);
-            router.replace('/itinerary');
-          }}
+          onClick={() => handleAction('/itinerary')}
           className="text-base font-semibold leading-base"
         />
         <Button
           value={bookNowText}
           size="full"
-          onClick={() => {
-            addToCart(itemToBook, i18next, store);
-            router.replace('/checkout/client');
-          }}
+          onClick={() => handleAction('/checkout/client')}
           className="text-base font-semibold leading-base"
         />
       </section>
