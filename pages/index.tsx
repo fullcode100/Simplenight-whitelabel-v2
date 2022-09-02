@@ -39,10 +39,11 @@ const Home: NextPageWithLayout = () => {
   const homepageScrollHandler = getHomepageScrollHandler();
 
   const [searchType, setSearchType] = useState('hotels');
+  const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
 
-  const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
+  const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
-    setSearchType(tab.value.toLowerCase());
+    setSearchType(tab.value.replace(/\s+/g, '-').toLowerCase());
   };
 
   const Panel = ({
@@ -115,6 +116,7 @@ const Home: NextPageWithLayout = () => {
             <Panel className="z-50 grid-flow-col mt-6">
               <HorizontalTabs
                 tabs={tabsMock}
+                activeTab={activeTab}
                 onClick={handleTabClick}
                 className="mb-2"
                 primary

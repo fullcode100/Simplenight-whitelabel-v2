@@ -185,7 +185,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       if (scrollFunction) scrollFunction();
     };
 
-    const handleTabClick = (tab: Tab, setActiveTab: (tab: Tab) => void) => {
+    const [activeTab, setActiveTab] = useState<Tab>(tabs[0]);
+
+    const handleTabClick = (tab: Tab) => {
       setActiveTab(tab);
       scrollTo(tab.value);
     };
@@ -198,7 +200,11 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         </section>
         <BlockDivider className="mt-5" />
         <section className="px-4">
-          <HorizontalTabs tabs={tabs} onClick={handleTabClick} />
+          <HorizontalTabs
+            tabs={tabs}
+            activeTab={activeTab}
+            onClick={handleTabClick}
+          />
         </section>
       </section>
     );

@@ -17,7 +17,7 @@ const ConfirmationItem = ({
   loading,
   setLoading,
 }: ConfirmationItemProps) => {
-  const category = useCategory(item.category?.toLowerCase() || '');
+  const category = useCategory('hotels');
 
   return (
     injectProps(category?.confirmationDisplay, {
