@@ -27,11 +27,16 @@ const Terms = ({
     'ofSimplenight',
     ' of Simplenight. I understand and accept that Simplenight is the merchant of record for this transaction, and is the name that will appear on my bank statement.',
   );
+  const thePaymentWill = t(
+    'thePaymentWill',
+    'The payment will be processed in the US.',
+  );
+
   const handleCheckbox = (e: BaseSyntheticEvent) => {
     checkboxMethod(e.target.checked);
   };
   return (
-    <section className="w-full flex gap-3">
+    <section className="flex w-full gap-3">
       <input
         className={`cursor-pointer focus:ring-primary-500 text-primary-600 border-gray-300 h-6 w-6 rounded-4 ${
           disabled && 'bg-dark-300'
@@ -49,19 +54,20 @@ const Terms = ({
       >
         {iHaveReviewedLabel}&nbsp;
         <a
-          className="text-primary-1000 underline hover:underline"
+          className="underline text-primary-1000 hover:underline"
           href="/terms"
         >
           {termsLabel}
         </a>
         {ofTheSimplenightLabel}
         <a
-          className="text-primary-1000 underline hover:underline"
+          className="underline text-primary-1000 hover:underline"
           href="/privacy"
         >
           {privacyLabel}
         </a>
-        {ofSimplenightLabel}
+        {ofSimplenightLabel}&nbsp;
+        {thePaymentWill}
       </label>
     </section>
   );

@@ -108,5 +108,6 @@
   "simplenightOrderNumberPlaceholder": "E.g. ABCD1234",
   "lastNamePlaceholder": "Order Last Name",
   "findOrder": "Find Order",
-  "vendorConfirmation": "Vendor Confirmation Number"
+  "vendorConfirmation": "Vendor Confirmation Number",
+  "thePaymentWill": "The payment will be processed in the US."
 }
