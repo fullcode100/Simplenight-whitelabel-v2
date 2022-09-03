@@ -1,6 +1,7 @@
 import {
   Rate,
   CancellationPolicy,
+  Services,
 } from '../../../../types/response/SearchResponse';
 import DetailItemCard from './DetailItemCard/DetailItemCard';
 import { Item } from '../../../../../types/cart/CartType';
@@ -14,6 +15,7 @@ interface RoomHeaderProps {
   itemToBook: Item;
   nights: number;
   guests: number;
+  services: Services;
 }
 
 const RoomCardHeader = ({
@@ -24,12 +26,13 @@ const RoomCardHeader = ({
   itemToBook,
   nights,
   guests,
+  services,
 }: RoomHeaderProps) => {
   const [t] = useTranslation('hotels');
   const roomDetailsText = t('roomDetails', 'Room Details');
   return (
     <header className="p-4">
-      <p className="text-lg font-semibold text-dark-1000 mb-2">
+      <p className="mb-2 text-lg font-semibold text-dark-1000">
         {roomDescription}
       </p>
       <DetailItemCard
@@ -41,6 +44,7 @@ const RoomCardHeader = ({
         itemToBook={itemToBook}
         nights={nights}
         guests={guests}
+        services={services}
       />
     </header>
   );
