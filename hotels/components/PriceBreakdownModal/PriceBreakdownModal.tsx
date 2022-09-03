@@ -7,7 +7,11 @@ import Divider from '../../../components/global/Divider/Divider';
 import BreakdownRoomDescription from './components/BreakdownRoomDescription';
 import BreakdownSubtitle from './components/BreakdownSubtitle';
 import BreakdownRow from './components/BreakdownRow';
-import { Rate, CancellationPolicy } from '../../types/response/SearchResponse';
+import {
+  Rate,
+  CancellationPolicy,
+  Services,
+} from '../../types/response/SearchResponse';
 import BreakdownSummary from './components/BreakdownSummary';
 import FreeCancellationExtended from '../../../components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
@@ -16,6 +20,7 @@ import { addToCart } from 'core/client/services/CartClientService';
 import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../../../types/cart/CartType';
 import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
+import BedsAmount from '../BedsAmount/BedsAmount';
 
 const RESORT_FEES = 'RESORT_FEES';
 
@@ -29,6 +34,7 @@ interface DatePickerProps {
   itemToBook: Item;
   nights: number;
   guests: number;
+  services: Services;
 }
 
 const PriceBreakdownModal = ({
@@ -41,6 +47,7 @@ const PriceBreakdownModal = ({
   itemToBook,
   nights,
   guests,
+  services,
 }: DatePickerProps) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -86,6 +93,12 @@ const PriceBreakdownModal = ({
     await addToCart(itemToBook, i18next, store);
     router.replace(url);
   };
+  const {
+    double_beds: doubleBeds,
+    queen_beds: queenBeds,
+    king_beds: kingBeds,
+    other_beds: otherBeds,
+  } = services;
 
   return (
     <FullScreenModal
@@ -117,6 +130,13 @@ const PriceBreakdownModal = ({
           value={roomAmenitiesText}
         />
         <AmenitiesSection amenities={features} />
+        <Divider className="my-2" />
+        <BedsAmount
+          doubleBeds={doubleBeds}
+          queenBeds={queenBeds}
+          kingBeds={kingBeds}
+          otherBeds={otherBeds}
+        />
         <Divider className="mt-2" />
         <BreakdownSubtitle
           className="mt-6 text-base font-semibold text-dark-800"

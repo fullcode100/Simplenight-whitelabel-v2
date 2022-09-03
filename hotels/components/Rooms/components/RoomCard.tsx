@@ -9,6 +9,7 @@ import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
+import BedsAmount from 'hotels/components/BedsAmount/BedsAmount';
 import { useState } from 'react';
 import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
 import { useTranslation } from 'react-i18next';
@@ -45,6 +46,14 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
       {priceBreakdownText}
     </button>
   );
+
+  const {
+    double_beds: doubleBeds,
+    queen_beds: queenBeds,
+    king_beds: kingBeds,
+    other_beds: otherBeds,
+  } = room.services;
+
   return (
     <section className="my-3 border rounded shadow-container lg:my-0 border-dark-200">
       {images.length > 0 ? (
@@ -65,6 +74,7 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
         itemToBook={itemToBook}
         nights={nights}
         guests={guests}
+        services={room.services}
       />
       <Divider />
       {amenities.length > 0 && (
@@ -104,6 +114,16 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
           <Divider />
         </>
       )}
+      <section className="p-4">
+        <BedsAmount
+          doubleBeds={doubleBeds}
+          queenBeds={queenBeds}
+          kingBeds={kingBeds}
+          otherBeds={otherBeds}
+        />
+      </section>
+
+      <Divider />
       <section className="px-4 py-4">
         {cancellable && (
           <FreeCancellationExtended policy={cancellationPolicy?.description} />
