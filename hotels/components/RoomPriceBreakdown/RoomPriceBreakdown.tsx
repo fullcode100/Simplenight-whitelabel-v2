@@ -64,7 +64,7 @@ const RoomPriceBreakdown = ({
           className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight"
           href={termsOfService}
         >
-          [EXPEDIA] Terms Of Service
+          Supplier Terms and Conditions
         </ExternalLink>
       )}
     </>
