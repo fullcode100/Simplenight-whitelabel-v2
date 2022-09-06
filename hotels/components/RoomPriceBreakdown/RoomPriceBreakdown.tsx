@@ -13,6 +13,7 @@ interface RoomPriceBreakdownProps {
   amenities?: string;
   adultsCount?: number;
   childrenCount?: number;
+  instructions?: React.ReactNode;
   termsOfService?: string | null;
 }
 
@@ -24,6 +25,7 @@ const RoomPriceBreakdown = ({
   amenities,
   adultsCount = 2,
   childrenCount = 0,
+  instructions,
   termsOfService,
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
@@ -55,6 +57,7 @@ const RoomPriceBreakdown = ({
       </section>
 
       <ExtraDetailItem detail={amenities} label={priceIncludesLabel} />
+      {instructions && instructions}
       <ExtraDetailItem
         detail={cancellationPolicy}
         label={cancellationPolicyLabel}
