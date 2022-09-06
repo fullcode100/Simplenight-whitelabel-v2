@@ -44,19 +44,27 @@ const ClientCartItem = ({
   const { check_in_instructions: checkInInstructions } = item.extended_data;
 
   const Instructions = () => {
-    const instructions = `${checkInInstructions?.instructions ?? ''}
-    ${checkInInstructions?.special_instructions ?? ''}
-    ${checkInInstructions?.fees?.mandatory ?? ''}
-    ${checkInInstructions?.fees?.optional ?? ''}
+    const {
+      instructions,
+      special_instructions: specialInstructions,
+      fees,
+    } = checkInInstructions;
+    const { mandatory, optional } = fees;
+
+    const instructionsText = `${instructions}
+    ${specialInstructions}
+    ${mandatory}
+    ${optional}
     `;
+
     const policies = checkInInstructions?.policies ?? '';
 
-    const hasInstructions = instructions && instructions !== '';
+    const hasInstructions = instructionsText && instructionsText !== '';
     const hasPolicies = policies && policies !== '';
 
     return (
       <section className="mb-6 text-base leading-[24px] font-normal text-dark-1000">
-        {hasInstructions && <>{instructions}</>}
+        {hasInstructions && <>{instructionsText}</>}
         {hasPolicies && (
           <>
             <br />

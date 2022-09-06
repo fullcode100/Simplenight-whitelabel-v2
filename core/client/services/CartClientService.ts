@@ -121,8 +121,11 @@ export const removeFromCart = async (
   }
 };
 
-export const updateCart = async (data: UpdateCartRequest, i18next: i18n) => {
-  const cartId = getStoreCartId() ?? null;
+export const updateCart = async (
+  data: UpdateCartRequest,
+  cartId: string,
+  i18next: i18n,
+) => {
   const cartUpdate = new ClientCartUpdate(cartOption);
 
   try {

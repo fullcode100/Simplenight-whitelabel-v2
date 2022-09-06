@@ -76,5 +76,10 @@
   "petFriendly": "Apto para mascotas",
   "spa": "Spa",
   "casino": "Casino",
-  "checkAvailability": "Ver Disponibilidad"
+  "checkAvailability": "Ver Disponibilidad",
+  "bedsAmount": "Cantidad de Camas",
+  "doubleBeds": "Camas Dobles",
+  "queenBeds": "Camas Queen",
+  "kingBeds": "Camas King",
+  "otherBeds": "Otras Camas"
 }
