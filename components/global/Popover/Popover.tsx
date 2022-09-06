@@ -22,6 +22,7 @@ const Popover = ({
       content={content}
       title={title}
       trigger={trigger}
+      overlayStyle={{ maxWidth: '300px' }}
     >
       {children}
     </AntPopover>

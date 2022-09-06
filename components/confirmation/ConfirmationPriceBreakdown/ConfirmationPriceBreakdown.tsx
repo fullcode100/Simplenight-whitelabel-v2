@@ -1,3 +1,4 @@
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { useTranslation } from 'react-i18next';
 import { Booking } from 'types/booking/bookingType';
 
@@ -28,7 +29,10 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
         </h4>
       </section>
       <section className="flex justify-between mb-3">
-        <h4 className="font-semibold text-dark-600 text-[18px]">{taxes}</h4>
+        <section className="flex flex-row gap-1">
+          <h4 className="font-semibold text-dark-600 text-[18px]">{taxes}</h4>
+          <TaxesAndFeesPopover />
+        </section>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
           {taxTotal?.formatted}
         </h4>
