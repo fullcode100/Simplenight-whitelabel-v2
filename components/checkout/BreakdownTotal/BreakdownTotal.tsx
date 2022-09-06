@@ -1,3 +1,4 @@
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { useTranslation } from 'react-i18next';
 
 interface BreakdownTotalProps {
@@ -21,7 +22,12 @@ const BreakdownTotal = ({ total }: BreakdownTotalProps) => {
         <p className="font-semibold text-lg leading-[25px] text-dark-1000">
           {total}
         </p>
-        <p className="text-xs leading-lg text-dark-800">{taxesAndFeesLabel}</p>
+        <section className="flex flex-row gap-1">
+          <p className="text-xs leading-lg text-dark-800">
+            {taxesAndFeesLabel}
+          </p>
+          <TaxesAndFeesPopover />
+        </section>
       </section>
     </section>
   );

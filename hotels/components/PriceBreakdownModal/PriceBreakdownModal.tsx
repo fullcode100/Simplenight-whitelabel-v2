@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../../../types/cart/CartType';
 import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
 import BedsAmount from '../BedsAmount/BedsAmount';
+import TaxesAndFeesPopover from '../TaxesAndFeesPopover/TaxesAndFeesPopover';
 
 const RESORT_FEES = 'RESORT_FEES';
 
@@ -147,7 +148,15 @@ const PriceBreakdownModal = ({
           value="Base Price"
         />
         <BreakdownRow label={roomLabel} price={totalBaseAmount.formatted} />
-        <BreakdownRow label={taxesLabel} price={totalTaxes.formatted} />
+
+        <section className="flex items-start justify-between w-full mt-1 text-base">
+          <section className="flex flex-row gap-1">
+            <span>{taxesLabel}</span>
+            <TaxesAndFeesPopover />
+          </section>
+          {totalTaxes.formatted}
+        </section>
+
         <Divider className="mt-2" />
         <BreakdownRow
           label={payNowLabel}
@@ -158,7 +167,15 @@ const PriceBreakdownModal = ({
           className="mt-6 text-base font-semibold text-primary-1000"
           value={additionalFeesLabel}
         />
-        <BreakdownRow label={resortFeeLabel} price={resortFeesFormatted} />
+
+        <section className="flex items-start justify-between w-full mt-1 text-base">
+          <section className="flex flex-row gap-1">
+            <span>{resortFeeLabel}</span>
+            <TaxesAndFeesPopover />
+          </section>
+          {resortFeesFormatted}
+        </section>
+
         <Divider className="mt-2" />
         <BreakdownRow label={payAtPropertyLabel} price={resortFeesFormatted} />
         <section className="py-6">

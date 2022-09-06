@@ -3,6 +3,7 @@ import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import { Rate } from '../../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
 import Paragraph from '../../../../components/global/Typography/Paragraph';
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 
 interface BreakdownSummaryProps {
   rate: Rate;
@@ -23,13 +24,17 @@ const BreakdownSummary = ({
   );
   const totalLabel = tg('total', 'Total');
   return (
-    <section className="flex justify-between items-center">
+    <section className="flex items-center justify-between">
       <Paragraph size="small" fontWeight="normal">
         {totalLabel}
       </Paragraph>
       <section className="text-right">
         <PriceDisplay rate={rate} />
-        <p className="text-dark-800 text-xs">{includesTaxesAndFeesText}</p>
+        <section className="flex flex-row gap-1">
+          <p className="text-xs text-dark-800">{includesTaxesAndFeesText}</p>
+          <TaxesAndFeesPopover />
+        </section>
+
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>
     </section>
