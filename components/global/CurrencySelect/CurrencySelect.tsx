@@ -4,25 +4,28 @@ import { updateCart } from 'core/client/services/CartClientService';
 import { getCurrency } from 'store/selectors/core';
 import { setCurrency } from 'store/actions/core';
 import classnames from 'classnames';
+import { getStoreCartId } from 'store/selectors/cart';
 
 const CurrencySelect = () => {
   const [t, i18n] = useTranslation();
   const currentCurrency = getCurrency();
   const dispatch = useDispatch();
   const currencies = ['USD', 'EUR'];
+  const cartId = getStoreCartId() ?? null;
+
   const handleChangeCurrency = async (currency: string) => {
-    dispatch(setCurrency(currency));
     try {
       const data = { currency };
-      await updateCart(data, i18n);
+      await updateCart(data, cartId, i18n);
+      dispatch(setCurrency(currency));
     } catch (error) {
       return error;
     }
   };
   return (
-    <div className="w-ful mt-3">
+    <div className="mt-3">
       <div className="relative">
-        <section className="p-2 bg-dark-100 flex rounded-md gap-1">
+        <section className="flex gap-1 p-2 rounded-md bg-dark-100">
           {currencies.map((currency) => {
             const isActive = currency === currentCurrency;
             const className = classnames(

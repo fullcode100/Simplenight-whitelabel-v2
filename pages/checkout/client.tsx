@@ -24,6 +24,7 @@ import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater
 import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
 import BreakdownItemList from 'components/checkout/BreakdownItemList/BreakdownItemList';
+import { getCurrency } from 'store/selectors/core';
 
 const empty: Amount = {
   formatted: '$0.00',
@@ -43,6 +44,9 @@ const Client = () => {
 
   const [travelersFormSchema, setTravelersFormSchema] = useState();
   const [travelersUiSchema, setTravelersUiSchema] = useState();
+
+  const currency = getCurrency();
+
   let primaryContactData: FormData | undefined;
   let itemsForm: Item[] | undefined = [];
   let hasAdditionalRequests = false;
@@ -171,10 +175,10 @@ const Client = () => {
     handleGetCart()
       .then(() => handleGetSchema())
       .catch((error) => console.error(error));
-  }, [reload]);
+  }, [reload, currency]);
 
   const Title = ({ children }: LayoutProps) => (
-    <p className="px-5 mt-3 lg:mt-0 mb-2 text-lg lg:text-2xl text-dark-800 lg:bg-dark-100 lg:py-6 lg:border-b lg:font-semibold">
+    <p className="px-5 mt-3 mb-2 text-lg lg:mt-0 lg:text-2xl text-dark-800 lg:bg-dark-100 lg:py-6 lg:border-b lg:font-semibold">
       {children}
     </p>
   );
@@ -192,7 +196,7 @@ const Client = () => {
       <CheckoutHeader step="client" itemsNumber={itemsNumber} />
       {loaded ? (
         <section className="lg:px-20 lg:py-12">
-          <section className="lg:flex lg:gap-8 lg:justify-start max-w-7xl mx-auto">
+          <section className="mx-auto lg:flex lg:gap-8 lg:justify-start max-w-7xl">
             <section className="lg:w-[68%]">
               <Card>
                 <Title>{primaryContactText}</Title>

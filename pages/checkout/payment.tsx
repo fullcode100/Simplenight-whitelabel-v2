@@ -34,6 +34,7 @@ import Loader from '../../components/global/Loader/Loader';
 import { clearCart } from 'store/actions/cartActions';
 import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
+import { getCurrency } from 'store/selectors/core';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -71,6 +72,8 @@ const Payment = () => {
   const [loaded, setLoaded] = useState(false);
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
+
+  const currency = getCurrency();
 
   const storeState = useSelector((state) => state);
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
@@ -134,7 +137,7 @@ const Payment = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [reload]);
+  }, [reload, currency]);
 
   const itemsNumber = cart?.items?.length;
   const expediaTerms = cart?.items.find(
@@ -147,7 +150,7 @@ const Payment = () => {
     <>
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
-        <section className="px-0 py-0 lg:px-20 lg:py-12 flex gap-8 items-start justify-center">
+        <section className="flex items-start justify-center gap-8 px-0 py-0 lg:px-20 lg:py-12">
           <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
             <CheckoutMain>
               <CheckoutForm title={'Payment Information'}>
@@ -180,7 +183,7 @@ const Payment = () => {
                 <Terms checkValue={terms} checkboxMethod={setTerms} />
                 {expediaTerms && (
                   <>
-                    <section className="flex w-full gap-3 items-center mt-2">
+                    <section className="flex items-center w-full gap-3 mt-2">
                       <input
                         type="checkbox"
                         name="expedia"
@@ -236,7 +239,7 @@ const Payment = () => {
           </section>
           {cart && (
             <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
-              <h2 className="text-lg leading-6 text-dark-800 font-semibold lg:bg-dark-100 bg-white px-5 py-6">
+              <h2 className="px-5 py-6 text-lg font-semibold leading-6 bg-white text-dark-800 lg:bg-dark-100">
                 {priceBreakdownLabel}
               </h2>
               <BreakdownItemList
