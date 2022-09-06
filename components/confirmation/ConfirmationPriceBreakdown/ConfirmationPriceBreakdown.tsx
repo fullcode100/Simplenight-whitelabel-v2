@@ -34,7 +34,9 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
         </h4>
       </section>
       <section className="flex justify-between mb-3">
-        <h4 className="font-semibold text-dark-600 text-[18px]">{otherFees}</h4>
+        <h4 className="font-semibold text-dark-600 text-[18px]">
+          Pay at property
+        </h4>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
           {taxTotalPostpaid?.formatted}
         </h4>
