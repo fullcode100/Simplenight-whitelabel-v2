@@ -13,7 +13,7 @@ const BedsAmount = ({
   kingBeds,
   otherBeds,
 }: BedAmountProps) => {
-  const [t] = useTranslation('global');
+  const [t] = useTranslation('hotels');
   const bedsAmountLabel = t('bedsAmount', 'Beds Amount');
   const doubleBedsLabel = t('doubleBeds', 'Double Beds');
   const queenBedsLabel = t('queenBeds', 'Queen Beds');

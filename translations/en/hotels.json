@@ -76,5 +76,10 @@
   "petFriendly": "Pet friendly",
   "spa": "Spa",
   "casino": "Casino",
-  "checkAvailability": "Check Availability"
+  "checkAvailability": "Check Availability",
+  "bedsAmount": "Beds Amount",
+  "doubleBeds": "Double Beds",
+  "queenBeds": "Queen Beds",
+  "kingBeds": "King Beds",
+  "otherBeds": "Other Beds"
 }
