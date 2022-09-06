@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 // Libraries
 import React, { useEffect, useRef, useState } from 'react';
 // Credentials
@@ -31,6 +33,7 @@ import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { clearCart } from 'store/actions/cartActions';
 import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
+import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -46,7 +49,10 @@ const Payment = () => {
   const dispatch = useDispatch();
 
   const [t, i18next] = useTranslation('global');
-
+  const iHaveReviewedLabel = t(
+    'iHaveReviewed',
+    'I have reviewed and agree to the ',
+  );
   const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
   const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
   const fullAmountLabel = t('fullAmount', 'Full Amount');
@@ -63,6 +69,8 @@ const Payment = () => {
   const [terms, setTerms] = useState(false);
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
+  const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
 
   const storeState = useSelector((state) => state);
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
@@ -78,6 +86,9 @@ const Payment = () => {
   };
 
   const handlePaymentToken = (newToken: string) => {
+    if (expediaTerms && !acceptExpediaTerms) {
+      return setErrorExpediaTerms(true);
+    }
     setToken(newToken);
     handleBooking();
   };
@@ -126,6 +137,11 @@ const Payment = () => {
   }, [reload]);
 
   const itemsNumber = cart?.items?.length;
+  const expediaTerms = cart?.items.find(
+    (item) =>
+      item.extended_data?.terms_and_conditions &&
+      item.extended_data?.terms_and_conditions?.length > 0,
+  );
 
   return (
     <>
@@ -162,6 +178,37 @@ const Payment = () => {
               </CheckoutForm>
               <section className="px-5 pb-6">
                 <Terms checkValue={terms} checkboxMethod={setTerms} />
+                {expediaTerms && (
+                  <>
+                    <section className="flex w-full gap-3 items-center mt-2">
+                      <input
+                        type="checkbox"
+                        name="expedia"
+                        id="expedia"
+                        checked={acceptExpediaTerms}
+                        onChange={() =>
+                          setAcceptExpediaTerms(!acceptExpediaTerms)
+                        }
+                      />
+                      <label htmlFor="expedia">
+                        <span>{iHaveReviewedLabel}</span>
+                        <ExternalLink
+                          className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight"
+                          href={
+                            expediaTerms.extended_data?.terms_and_conditions!
+                          }
+                        >
+                          Supplier Terms and Conditions
+                        </ExternalLink>
+                      </label>
+                    </section>
+                    {errorExpediaTerms && (
+                      <p className="text-red-500">
+                        Please accept the supplier terms and conditions
+                      </p>
+                    )}
+                  </>
+                )}
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
