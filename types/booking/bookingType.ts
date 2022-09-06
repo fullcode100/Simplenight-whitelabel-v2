@@ -41,6 +41,7 @@ export interface Item {
   cancellation_policy: CancellationPolicy;
   category: string;
   children: number;
+  children_ages: string[];
   customer: PrimaryContact;
   extra_data: ItemExtraData;
   inventory_id: string;

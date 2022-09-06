@@ -122,5 +122,6 @@
   "lastNamePlaceholder": "Apellido de la Orden",
   "findOrder": "Buscar Pedido",
   "vendorConfirmation": "Número de confirmación del proveedor",
+  "yearsOld": "años",
   "thePaymentWill": "El pago será procesado en los EE.UU."
 }

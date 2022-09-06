@@ -102,6 +102,7 @@ const HotelRoomsInfo = ({
         amenities={amenities}
         adultsCount={item?.adults}
         childrenCount={item?.children}
+        childrenAges={item?.children_ages}
       />
       <section className="lg:flex lg:justify-end">
         <section className="lg:w-1/4">
