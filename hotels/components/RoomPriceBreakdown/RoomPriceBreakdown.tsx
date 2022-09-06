@@ -13,6 +13,7 @@ interface RoomPriceBreakdownProps {
   amenities?: string;
   adultsCount?: number;
   childrenCount?: number;
+  childrenAges?: string[];
   instructions?: React.ReactNode;
   termsOfService?: string | null;
 }
@@ -25,6 +26,7 @@ const RoomPriceBreakdown = ({
   amenities,
   adultsCount = 2,
   childrenCount = 0,
+  childrenAges = [],
   instructions,
   termsOfService,
 }: RoomPriceBreakdownProps) => {
@@ -40,7 +42,11 @@ const RoomPriceBreakdown = ({
 
   return (
     <>
-      <AdultChildrenAmount adults={adultsCount} child={childrenCount} />
+      <AdultChildrenAmount
+        adults={adultsCount}
+        child={childrenCount}
+        childrenAges={childrenAges}
+      />
 
       <AmountDetailItem amount={resortFees} label={resortFeeLabel} />
       <AmountDetailItem amount={taxesAndFees} label={taxesAndFeesLabel} />
