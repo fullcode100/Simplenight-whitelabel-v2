@@ -50,7 +50,7 @@ const HotelRoomsInfo = ({
   const cancellationPolicy = item?.cancellation_policy?.description;
   const total = item?.total.formatted;
   const taxesAndFees = item?.total_tax.formatted;
-  const resortFees = item?.total_postpaid.formatted;
+  const resortFees = item?.total_tax_postpaid.formatted;
 
   const startDate = item?.extra_data?.start_date;
   const endDate = item?.extra_data?.end_date;
