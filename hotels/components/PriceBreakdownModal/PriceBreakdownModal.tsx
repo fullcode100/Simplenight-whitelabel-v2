@@ -82,6 +82,8 @@ const PriceBreakdownModal = ({
     (tax) => tax.description === RESORT_FEES,
   );
   const resortFeesFormatted = resortFees?.tax_amount.formatted ?? '$0.00';
+  const payAtPropertyFormatted =
+    postPaidRate?.total_amount.formatted ?? '$0.00';
 
   const cancellableType = 'FREE_CANCELLATION';
   const nonRefundableType = 'NON_REFUNDABLE';
@@ -173,11 +175,14 @@ const PriceBreakdownModal = ({
             <span>{resortFeeLabel}</span>
             <TaxesAndFeesPopover />
           </section>
-          {resortFeesFormatted}
+          {payAtPropertyFormatted}
         </section>
 
         <Divider className="mt-2" />
-        <BreakdownRow label={payAtPropertyLabel} price={resortFeesFormatted} />
+        <BreakdownRow
+          label={payAtPropertyLabel}
+          price={payAtPropertyFormatted}
+        />
         <section className="py-6">
           {cancellable && (
             <FreeCancellationExtended

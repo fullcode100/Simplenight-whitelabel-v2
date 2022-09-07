@@ -83,6 +83,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     rooms: hotelRooms,
     photos,
     nights,
+    check_in_instructions: checkInInstructions,
   } = hotel;
 
   const hotelImages = photos.map((photo) => photo.url);
@@ -159,6 +160,32 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     }
   };
 
+  // TODO: Refactor
+  const Instructions = () => {
+    const instructions = `${checkInInstructions?.instructions}
+    ${checkInInstructions?.special_instructions}
+    ${checkInInstructions?.fees?.mandatory}
+    ${checkInInstructions?.fees?.optional}
+    `;
+    const policies = checkInInstructions?.policies;
+    return (
+      <>
+        {instructions && instructions !== '' && (
+          <>
+            <br />
+            {instructions}
+          </>
+        )}
+        {policies && policies !== '' && (
+          <>
+            <br />
+            {policies}
+          </>
+        )}
+      </>
+    );
+  };
+
   const RatingSection = () => (
     <section className="flex items-center justify-between w-full mt-4 lg:justify-start lg:gap-2 lg:mt-0">
       <span className="text-sm font-semibold lg:text-base text-primary-1000">
@@ -209,16 +236,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     );
   };
 
-  const SimpleText = (text: string) => {
-    if (!text || text === '') return null;
-    return (
-      <>
-        <br />
-        {text}
-      </>
-    );
-  };
-
   const DetailsSection = () => (
     <section className="px-5 pt-6 pb-3 lg:pt-0 lg:pb-0 lg:px-0">
       <section className="mb-5 lg:mb-8">
@@ -248,11 +265,15 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             className="mt-3 text-base text-dark-1000"
           >
             {description}
+            <Instructions />
           </p>
         </SeeMore>
       </section>
       <section className="hidden lg:block">
-        <p className="mt-3 text-base text-dark-1000">{description}</p>
+        <p className="mt-3 text-base text-dark-1000">
+          {description}
+          <Instructions />
+        </p>
       </section>
     </section>
   );
