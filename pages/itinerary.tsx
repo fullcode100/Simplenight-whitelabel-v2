@@ -70,7 +70,7 @@ const Itinerary: NextPage = () => {
       <section
         className={classnames(
           { hidden: loading },
-          'px-0 py-0 lg:px-20 lg:py-12',
+          'px-0 py-0 lg:px-20 lg:py-12 lg:flex lg:gap-8',
         )}
       >
         {!hasItems && !loading && (
