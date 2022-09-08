@@ -32,6 +32,10 @@ const Header = ({ color }: HeaderProps) => {
   const [isOpen, onOpen, onClose] = useModal();
   const state = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
+  const store = {
+    state,
+    dispatch,
+  };
 
   const [cartQty, setCartQty] = useState(0);
   const [cart, setCart] = useState<CartObjectResponse>();
@@ -44,7 +48,7 @@ const Header = ({ color }: HeaderProps) => {
     if (!state.cartStore) {
       return;
     }
-    getCart(i18next, state)
+    getCart(i18next, store)
       .then((cart) => {
         if (cart?.status === 'BOOKED') {
           localStorage.removeItem('cart');
@@ -55,24 +59,6 @@ const Header = ({ color }: HeaderProps) => {
         }
       })
       .catch((error) => console.error(error));
-  }, [state.cartStore]);
-
-  useEffect(() => {
-    if (state.cartStore) {
-      getCart(i18next, state).then((cart) => {
-        if (cart) {
-          setCartQty(cart.total_item_qty);
-        }
-      });
-    }
-    getCart(i18next, state).then((cart) => {
-      if (cart?.status === 'BOOKED') {
-        localStorage.removeItem('cart');
-        dispatch(clearCart());
-      } else if (cart) {
-        setCartQty(cart.total_item_qty);
-      }
-    });
   }, [state.cartStore]);
 
   return (

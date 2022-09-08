@@ -36,7 +36,7 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
   }
 
   protected getCurrency(): string {
-    const currency = window.currency;
+    const currency = window.currency ?? 'USD';
     if (!currency) throw new Error('currency is required');
     return currency;
   }
