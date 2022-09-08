@@ -75,7 +75,11 @@ const Payment = () => {
 
   const currency = getCurrency();
 
-  const storeState = useSelector((state) => state);
+  const state = useSelector((state) => state);
+  const storeState = {
+    state,
+    dispatch,
+  };
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
 
   const triggerPaymentFormTokenGeneration = () => payClickRef.current?.click();
