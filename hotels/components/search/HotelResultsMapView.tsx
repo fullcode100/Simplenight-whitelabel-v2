@@ -5,19 +5,19 @@ import { Hotel } from 'hotels/types/response/SearchResponse';
 interface HotelMapViewProps {
   HotelCategory: CategoryOption;
   items: Hotel[];
-  onViewDetailClick: (item: Hotel) => void;
+  createUrl: (item: Hotel) => string;
 }
 
 const HotelMapView = ({
   HotelCategory,
   items,
-  onViewDetailClick,
+  createUrl,
 }: HotelMapViewProps) => {
   return (
     <MapView
       HotelCategory={HotelCategory}
       items={items}
-      onViewDetailClick={onViewDetailClick}
+      createUrl={createUrl}
     />
   );
 };

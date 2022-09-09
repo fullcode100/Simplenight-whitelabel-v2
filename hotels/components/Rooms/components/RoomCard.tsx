@@ -55,7 +55,7 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
   } = room.services;
 
   return (
-    <section className="my-3 border rounded shadow-container lg:my-0 border-dark-200">
+    <section className="my-3 border rounded overflow-hidden shadow-container lg:my-0 border-dark-200">
       {images.length > 0 ? (
         <ImageCarousel
           images={images}

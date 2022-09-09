@@ -150,11 +150,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     amenities,
   ]);
 
-  const handleOnViewDetailClick = (hotel: Hotel) => {
+  const urlDetail = (hotel: Hotel) => {
     const { id } = hotel;
-    router.push(
-      `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`,
-    );
+    return `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
 
   const HotelList = () => (
@@ -166,6 +164,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
           thumbnail,
         } = hotel;
 
+        const url = urlDetail(hotel);
         const itemKey = hotel.id + index;
         const minRate = minRateRoom.rates.min_rate;
         const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
@@ -175,7 +174,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             key={itemKey}
             icon={HotelCategory.icon}
             categoryName={hotelLabel}
-            handleOnViewDetailClick={() => handleOnViewDetailClick(hotel)}
             item={hotel}
             title={name}
             image={thumbnail}
@@ -183,6 +181,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             address={formattedLocation}
             className=" flex-0-0-auto"
             rating={parseInt(starRating)}
+            url={url}
             priceDisplay={
               <PriceDisplay
                 rate={minRate?.rate as Rate}
@@ -286,7 +285,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                   <HotelMapView
                     HotelCategory={HotelCategory}
                     items={hotels}
-                    onViewDetailClick={handleOnViewDetailClick}
+                    createUrl={urlDetail}
                   />
                 </section>
               )}
