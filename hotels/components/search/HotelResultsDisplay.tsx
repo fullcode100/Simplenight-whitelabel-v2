@@ -32,6 +32,8 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import HotelFilterFormDesktop from './HotelFilterFormDesktop';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import HotelCancellable from './HotelCancellable';
+import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/HorizontalSkeletonCard';
+import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 
 declare let window: CustomWindow;
 
@@ -233,19 +235,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     );
   };
 
-  const LoaderAndEmpty = () => (
-    <>
-      {!loaded ? (
-        <Loader />
-      ) : (
-        <EmptyState
-          text={noResultsLabel}
-          image={<EmptyStateIcon className="mx-auto" />}
-        />
-      )}
-    </>
-  );
-
   const hasNoHotels = hotels.length === 0;
 
   return (
@@ -254,39 +243,53 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <HotelFilterFormDesktop />
         </section>
-        <section className="lg:flex-1 lg:w-[75%] h-full">
-          {!loaded || hasNoHotels ? (
-            <LoaderAndEmpty />
+        <section className="relative lg:flex-1 lg:w-[75%] h-full mt-20 lg:mt-0">
+          {loaded && hasNoHotels ? (
+            <EmptyState
+              text={noResultsLabel}
+              image={<EmptyStateIcon className="mx-auto" />}
+            />
           ) : (
             <>
+              <section
+                className={`hidden lg:block absolute z-[1] ${
+                  isListView ? 'right-0 top-4' : 'right-6 top-6'
+                }`}
+              >
+                <ViewActions />
+              </section>
               {isListView && (
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
                   <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                    <span>
-                      {hotels.length}
-                      <span className="lg:hidden"> {hotelsFoundLabel}</span>
-                      <span className="hidden lg:inline">
-                        {' '}
-                        {hotelsFoundLabelDesktop}
+                    {loaded ? (
+                      <span>
+                        {hotels.length}
+                        <span className="lg:hidden"> {hotelsFoundLabel}</span>
+                        <span className="hidden lg:inline">
+                          {' '}
+                          {hotelsFoundLabelDesktop}
+                        </span>
                       </span>
-                    </span>
-                    <section className="hidden lg:block">
-                      <ViewActions />
-                    </section>
+                    ) : (
+                      <div className="h-8 rounded bg-dark-200 w-40 animate-pulse"></div>
+                    )}
                   </section>
-                  <HotelList />
+                  {loaded ? <HotelList /> : <HorizontalSkeletonList />}
                 </section>
               )}
               {!isListView && (
-                <section className="relative">
-                  <section className="hidden lg:block absolute z-[1] right-6 top-6">
-                    <ViewActions />
-                  </section>
-                  <HotelMapView
-                    HotelCategory={HotelCategory}
-                    items={hotels}
-                    createUrl={urlDetail}
-                  />
+                <section className="relative h-full w-full">
+                  {loaded ? (
+                    <HotelMapView
+                      HotelCategory={HotelCategory}
+                      items={hotels}
+                      createUrl={urlDetail}
+                    />
+                  ) : (
+                    <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
+                      <HorizontalSkeletonCard />
+                    </div>
+                  )}
                 </section>
               )}
             </>
