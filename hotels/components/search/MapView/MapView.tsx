@@ -91,7 +91,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
               } = item;
 
               const url = createUrl(item);
-              const itemKey = item.id + index;
+              const itemKey = id + index;
               const isNext = index === nextItem;
               const minRate = minRateRoom.rates.min_rate;
               const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
