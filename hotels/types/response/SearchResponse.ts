@@ -207,6 +207,7 @@ export interface MealPlan {
 }
 
 export interface Rate {
+  diff_min_rate: Amount;
   rate_breakdown: RateBreakdown;
   total_amount: Amount;
 }
