@@ -36,15 +36,18 @@ const SEOHoc = ({ children }: SEOHocProps) => {
         <Script
           onLoad={handleMapsLoaded}
           src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
+          strategy="lazyOnload"
         />
       )}
       <Script
         onLoad={handlePaymentLibraryLoad}
         src="https://sandbox.web.squarecdn.com/v1/square.js"
+        strategy="lazyOnload"
       />
       <Head>
         <title>{partnerName}</title>
         <meta name="description" content="NextJs whitelabel proof of concept" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href={favicon} />
       </Head>
       {children}
