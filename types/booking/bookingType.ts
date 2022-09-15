@@ -131,7 +131,7 @@ export interface MinRate {
 export interface Rate {
   diff_min_rate: Amount;
   rate_breakdown: RateBreakdown;
-  suggested_retail_total_amount: null;
+  suggested_retail_total_amount?: null;
   total_amount: Amount;
 }
 
