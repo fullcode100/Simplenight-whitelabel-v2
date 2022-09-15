@@ -47,13 +47,18 @@ import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { createRoom } from 'hotels/helpers/room';
+import { getReferral } from '../../helpers/getReferral';
+import useCookies from 'hooks/localStorage/useCookies';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
 declare let window: CustomWindow;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
-  const { id, roomsData } = useQuery();
+  const params = useQuery();
+  const { id, roomsData } = params;
+  const referralParam = params.referral as string;
+  const { setCookie } = useCookies();
 
   const {
     adults,
@@ -67,6 +72,18 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     CHILDREN_TEXT,
     ROOMS_TEXT,
   } = useSearchQueries();
+
+  useEffect(() => {
+    const referral = getReferral(referralParam);
+
+    if (referral) {
+      localStorage.setItem('referral', referral);
+      setCookie('referral', referral, {
+        path: '/',
+        expires: dayjs().add(30, 'day').toDate(),
+      });
+    }
+  }, [referralParam]);
 
   const roomRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);

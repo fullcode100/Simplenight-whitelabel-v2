@@ -59,6 +59,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "sass": "^1.45.2",
+    "universal-cookie": "^4.0.4",
     "xstate": "^4.32.1"
   },
   "devDependencies": {
