@@ -82,5 +82,9 @@
   "queenBeds": "Queen Beds",
   "kingBeds": "King Beds",
   "otherBeds": "Other Beds",
-  "taxesAndFeesDisclaimer": "This charge includes estimated amounts the travel service provider (i.e. hotel, car rental company) pays for their taxes, and/or taxes that we pay, to taxing authorities on your booking (including but not limited to sales, occupancy, and value added tax). This amount may also include any amounts charged to us for resort fees, cleaning fees, and other fees and/or a fee we, the hotel supplier and/or the website you booked on, retain as part of the compensation for our and/or their services, which varies based on factors such as location, the amount, and how you booked. For more details, please see the Terms and Conditions."
+  "taxesAndFeesDisclaimer": "This charge includes estimated amounts the travel service provider (i.e. hotel, car rental company) pays for their taxes, and/or taxes that we pay, to taxing authorities on your booking (including but not limited to sales, occupancy, and value added tax). This amount may also include any amounts charged to us for resort fees, cleaning fees, and other fees and/or a fee we, the hotel supplier and/or the website you booked on, retain as part of the compensation for our and/or their services, which varies based on factors such as location, the amount, and how you booked. For more details, please see the Terms and Conditions.",
+  "policies": "Policies",
+  "checkInTime": "Check-In Time",
+  "checkOutTime": "Check-Out Time",
+  "before": "Before"
 }

@@ -1,6 +1,6 @@
 import Button from 'components/global/Button/Button';
 import Rating from 'components/global/Rating/Rating';
-import { formatAsSearchDate } from 'helpers/dajjsUtils';
+import { formatAsDisplayHour, formatAsSearchDate } from 'helpers/dajjsUtils';
 import {
   fromLowerCaseToCapitilize,
   getChildrenAges,
@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 
 import CalendarIcon from 'public/icons/assets/calendar.svg';
+import ClockIcon from 'public/icons/assets/clock.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import { Tab } from 'components/global/Tabs/types';
@@ -36,6 +37,7 @@ import {
 import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import InformationIcon from 'public/icons/assets/information.svg';
+import PoliciesIcon from 'public/icons/assets/policies.svg';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
@@ -111,8 +113,15 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const roomsLabel = t('rooms', 'Rooms');
   const locationLabel = t('location', 'Location');
   const detailsLabel = t('details', 'Details');
+  const policiesLabel = t('policies', 'Policies');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
+  const checkinLabel = t('checkIn', 'Check-In');
+  const checkinTimeLabel = t('checkInTime', 'Check-In Time');
+  const checkoutLabel = t('checkOut', 'Check-Out');
+  const checkoutTimeLabel = t('checkOutTime', 'Check-Out Time');
+  const checkinFromLabel = t('from', 'From');
+  const checkoutBeforeLabel = t('before', 'Before');
 
   const storeCurrency = useSelector((state: any) => state.core.currency);
   const [currency, setCurrency] = useState<string>(storeCurrency);
@@ -252,6 +261,52 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       </section>
     );
   };
+
+  const PoliciesSection = () => (
+    <section className="px-5 pb-3 lg:pb-0 lg:px-0 space-y-5">
+      <section className="mb-5 lg:mb-8">
+        <p className="flex items-center gap-3 mb-6">
+          <IconRoundedContainer isLarge className="bg-primary-1000">
+            <PoliciesIcon className="h-5 w-5 lg:h-[30px] lg:w-[30px]" />
+          </IconRoundedContainer>
+          <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+            {policiesLabel}
+          </span>
+        </p>
+      </section>
+      <section className="space-y-3">
+        <h5 className="text-dark-800 font-semibold">{checkinLabel}</h5>
+        <section className="flex flex-row gap-2">
+          <ClockIcon className="w-5 mt-1 lg:mt-0 text-primary-1000" />
+          <section className="font-semibold text-sm leading-lg lg:leading-[22px] space-y-1">
+            <p className="text-dark-800">{checkinTimeLabel}</p>
+            <p className="text-dark-1000">
+              {`${checkinFromLabel} ${formatAsDisplayHour(
+                hotel.details.checkin_time,
+              )}`}
+            </p>
+          </section>
+        </section>
+      </section>
+      <div>
+        <div className="w-full h-px bg-dark-300" />
+      </div>
+      <section className="space-y-3">
+        <h5 className="text-dark-800 font-semibold">{checkoutLabel}</h5>
+        <section className="flex flex-row gap-2">
+          <ClockIcon className="w-5 mt-1 lg:mt-0 text-primary-1000" />
+          <section className="font-semibold text-sm leading-lg lg:leading-[22px] space-y-1">
+            <p className="text-dark-800">{checkoutTimeLabel}</p>
+            <p className="text-dark-1000">
+              {`${checkoutBeforeLabel} ${formatAsDisplayHour(
+                hotel.details.checkout_time,
+              )}`}
+            </p>
+          </section>
+        </section>
+      </section>
+    </section>
+  );
 
   const DetailsSection = () => (
     <section className="px-5 pt-6 pb-3 lg:pt-0 lg:pb-0 lg:px-0">
@@ -452,6 +507,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             <section className="mx-auto divide-y divide-dark-300 lg:divide-y-0 lg:divide-x lg:flex max-w-7xl">
               <section className="lg:w-[50%] lg:pr-12">
                 <DetailsSection />
+                <div className="my-6">
+                  <div className="w-full h-px bg-dark-300" />
+                </div>
+                <PoliciesSection />
               </section>
               <section
                 ref={locationRef}
