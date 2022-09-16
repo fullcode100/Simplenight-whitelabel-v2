@@ -118,4 +118,5 @@ export interface HotelCart {
   thumbnail?: string;
   terms_and_conditions?: string;
   check_in_instructions?: CheckInInstructions;
+  selected_room_code?: string;
 }
