@@ -64,14 +64,15 @@ const Payment = () => {
   const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
   const payClickRef = useRef<HTMLButtonElement>(null);
 
-  const [token, setToken] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
-  const [nameOnCard, setNameOnCard] = useState('');
   const [terms, setTerms] = useState(false);
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
+
+  let paymentToken: string;
+  let verificationToken: string;
 
   const currency = getCurrency();
 
@@ -82,34 +83,28 @@ const Payment = () => {
   };
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
 
-  const triggerPaymentFormTokenGeneration = () => payClickRef.current?.click();
+  const triggerFormTokenGeneration = () => payClickRef.current?.click();
 
-  const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
-    const { paymentMethodData } = paymentRequest;
-    const { tokenizationData } = paymentMethodData;
-    const { token: newToken } = tokenizationData;
-
-    setToken(newToken);
-  };
-
-  const handlePaymentToken = (newToken: string) => {
+  const handleTokens = (
+    newPaymentToken: string,
+    newVerificationToken: string,
+  ) => {
     if (expediaTerms && !acceptExpediaTerms) {
       return setErrorExpediaTerms(true);
     }
-    setToken(newToken);
+    paymentToken = newPaymentToken;
+    verificationToken = newVerificationToken;
     handleBooking();
   };
 
   const handleBooking = () => {
-    if (!token) {
-      triggerPaymentFormTokenGeneration();
+    if (!paymentToken || !verificationToken || !country || !terms || !cart)
       return;
-    }
-    if (!token || !country || !terms || !cart) return;
 
     const paymentParameters = {
       cartId: cart.cart_id,
-      paymentToken: token,
+      paymentToken,
+      verificationToken,
       countryCode: country,
     };
 
@@ -166,7 +161,8 @@ const Payment = () => {
                     <SquarePaymentForm
                       applicationId={appId}
                       locationId={locationId}
-                      onPaymentToken={handlePaymentToken}
+                      onTokens={handleTokens}
+                      customer={cart.customer}
                       amount={cart.total_amount.amount}
                       currencyCode={cart.total_amount.currency}
                       ref={payClickRef}
@@ -236,7 +232,7 @@ const Payment = () => {
                   value={checkoutLabel}
                   size={'full'}
                   className="text-[18px]"
-                  onClick={handleBooking}
+                  onClick={triggerFormTokenGeneration}
                 />
               </section>
             </CheckoutFooter>
