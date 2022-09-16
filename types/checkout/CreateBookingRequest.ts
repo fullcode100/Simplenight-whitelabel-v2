@@ -1,6 +1,7 @@
 export interface PaymentInformation {
   payment_method: string;
   payment_token: string;
+  verification_token: string;
   billing_address: {
     country: string;
     address2?: string;

@@ -13,17 +13,14 @@ const tryCreateBooking = async (
   bookingRequest: CreateBookingRequest,
   i18next: i18n,
 ) => {
-  try {
-    const clientBookingCreator = new ClientBookingCreator();
-    return await clientBookingCreator.request(bookingRequest, i18next);
-  } catch (error) {
-    console.error(error);
-  }
+  const clientBookingCreator = new ClientBookingCreator();
+  return await clientBookingCreator.request(bookingRequest, i18next);
 };
 
 export interface PaymentParameters {
   cartId: string;
   paymentToken: string;
+  verificationToken: string;
   countryCode: string;
 }
 
@@ -31,7 +28,8 @@ export const createBooking = (
   paymentParameters: PaymentParameters,
   i18next: i18n,
 ) => {
-  const { cartId, paymentToken, countryCode } = paymentParameters;
+  const { cartId, paymentToken, verificationToken, countryCode } =
+    paymentParameters;
   const customerTimeCreatedAt = dayjs().format();
   const bookingRequest: CreateBookingRequest = {
     cart_id: cartId,
@@ -39,6 +37,7 @@ export const createBooking = (
     payment_request: {
       payment_method: PAYMENT_METHOD,
       payment_token: paymentToken,
+      verification_token: verificationToken,
       billing_address: {
         country: countryCode,
       },
