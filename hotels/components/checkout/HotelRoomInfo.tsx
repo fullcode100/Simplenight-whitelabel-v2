@@ -28,25 +28,23 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
 
-  const roomDetail = room.extended_data?.rooms?.[0];
-  const roomName = roomDetail?.description;
-  const amenities = roomDetail?.amenities.join(', ');
+  const selectedRoom = room.extended_data?.rooms?.find(
+    (roomA) => roomA.code == room.extended_data?.selected_room_code,
+  );
+  const roomName = selectedRoom?.name;
+  const amenities = selectedRoom?.amenities.join(', ');
 
-  const roomMinRate = roomDetail?.rates.min_rate;
+  const roomMinRate = selectedRoom?.rates.min_rate;
   const roomRate = roomMinRate?.rate;
   const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
   const total = roomRate?.total_amount.formatted;
   const roomRateDetail = roomRate?.rate_breakdown;
 
-  const taxesAndFees = roomRateDetail?.taxes.find(
-    (tax) => tax.description === TAXES_AND_FEES,
-  );
-  const taxesAndFeesFormatted = taxesAndFees?.tax_amount.formatted;
+  const taxesAndFees = roomRateDetail?.total_taxes;
+  const taxesAndFeesFormatted = taxesAndFees?.formatted;
 
-  const resortFees = roomRateDetail?.post_paid_rate?.taxes.find(
-    (tax) => tax.description === RESORT_FEES,
-  );
-  const resortFeesFormatted = resortFees?.tax_amount.formatted;
+  const resortFees = roomRateDetail?.post_paid_rate?.total_taxes;
+  const resortFeesFormatted = resortFees?.formatted;
   const termsOfService = room.extended_data?.terms_and_conditions;
 
   const checkInInstructions = room.extended_data?.check_in_instructions;

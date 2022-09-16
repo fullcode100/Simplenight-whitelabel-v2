@@ -77,6 +77,7 @@ export interface ItemExtraData {
   min_rate_room: Room;
   supplier_prefix: string;
   relative_position: RelativePosition;
+  selected_room_code?: string;
 }
 
 export interface AmountMin {

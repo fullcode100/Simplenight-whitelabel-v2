@@ -43,14 +43,19 @@ const HotelRoomsInfo = ({
     'Vendor Confirmation Number',
   );
   const customer = item?.customer;
-  const roomDetail = item?.extra_data?.rooms?.[0];
-  const roomName = roomDetail?.name;
-  const amenities = roomDetail?.amenities.join(', ');
+  const selectedRoom = item?.extra_data?.rooms?.find(
+    (roomA) => roomA.code == item?.extra_data?.selected_room_code,
+  );
+  const roomName = selectedRoom?.name;
+  const amenities = selectedRoom?.amenities.join(', ');
 
-  const cancellationPolicy = item?.cancellation_policy?.description;
-  const total = item?.total.formatted;
-  const taxesAndFees = item?.total_tax.formatted;
-  const resortFees = item?.total_tax_postpaid.formatted;
+  const roomMinRate = selectedRoom?.rates.min_rate;
+  const roomRate = roomMinRate?.rate;
+  const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
+  const total = roomRate?.total_amount.formatted;
+  const roomRateDetail = roomRate?.rate_breakdown;
+  const taxesAndFees = roomRateDetail?.total_taxes.formatted;
+  const resortFees = roomRateDetail?.post_paid_rate?.total_taxes.formatted;
 
   const startDate = item?.extra_data?.start_date;
   const endDate = item?.extra_data?.end_date;
@@ -103,6 +108,7 @@ const HotelRoomsInfo = ({
         adultsCount={item?.adults}
         childrenCount={item?.children}
         childrenAges={item?.children_ages}
+        rate={roomRate}
       />
       <section className="lg:flex lg:justify-end">
         <section className="lg:w-1/4">
