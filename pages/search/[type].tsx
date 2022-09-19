@@ -14,7 +14,7 @@ const Search: NextPage = () => {
   const [internalSearchType, setInternalSearchType] = useState(
     (type as unknown as string) ?? '',
   );
-  const [searchType, setSearchType] = useState('hotels');
+  const [searchType, setSearchType] = useState('flights');
   const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
 
   const handleTabClick = (tab: Tab) => {

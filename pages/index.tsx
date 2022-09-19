@@ -38,7 +38,7 @@ const Home: NextPageWithLayout = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const homepageScrollHandler = getHomepageScrollHandler();
 
-  const [searchType, setSearchType] = useState('hotels');
+  const [searchType, setSearchType] = useState('flights');
   const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
 
   const handleTabClick = (tab: Tab) => {

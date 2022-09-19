@@ -21,6 +21,7 @@ interface LanguageSelectProps {
 const LanguageSelect = ({ horizontal = false }: LanguageSelectProps) => {
   const [t, i18n] = useTranslation('global');
   const [tHotels, i18nHotels] = useTranslation('hotels');
+  const [tFlights, i18nFlights] = useTranslation('flights');
   const { language } = i18n;
   const languages = ['en', 'es'];
   const enText = t('en', 'English');
@@ -28,7 +29,7 @@ const LanguageSelect = ({ horizontal = false }: LanguageSelectProps) => {
   const cartId = getStoreCartId() ?? null;
 
   const handleChangeLanguage = async (lang: string) => {
-    changeAllLanguages(lang, [i18n, i18nHotels]);
+    changeAllLanguages(lang, [i18n, i18nHotels, i18nFlights]);
     try {
       const data = { lang };
       await updateCart(data, cartId, i18n);

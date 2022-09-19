@@ -7,7 +7,7 @@ import SingleBed from 'public/icons/assets/single-bed.svg';
 const CategorySelect = () => {
   const features = useSelector(getFeatures);
   const featureNames = Object.keys(features);
-  const [currentCategory, setCurrentCategory] = useState('hotels');
+  const [currentCategory, setCurrentCategory] = useState('flights');
 
   const handleSelectCategory = (category: string) => {
     setCurrentCategory(category);

@@ -8,7 +8,7 @@ import useDisplayCategory from 'hooks/category/useDisplayCategory';
 const CategorySelectDesktop = () => {
   const features = useSelector(getFeatures);
   const featureNames = Object.keys(features);
-  const [currentCategory, setCurrentCategory] = useState('hotels');
+  const [currentCategory, setCurrentCategory] = useState('flights');
   const displayCategories = useDisplayCategory();
 
   const handleSelectCategory = (category: string) => {

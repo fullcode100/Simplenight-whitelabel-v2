@@ -4,6 +4,7 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
     './layouts/**/*.{js,ts,jsx,tsx}',
     './hotels/**/*.{js,ts,jsx,tsx}',
+    './flights/**/*.{js,ts,jsx,tsx}',
   ],
 
   purge: {
@@ -98,9 +99,6 @@ module.exports = {
       boxShadow: {
         container: '0 0px 12px rgba(0, 0, 0, 0.08)',
       },
-    },
-    fontFamily: {
-      sans: ['Lato', 'sans-serif'],
     },
     fontFamily: {
       sans: ['Lato', 'sans-serif'],
