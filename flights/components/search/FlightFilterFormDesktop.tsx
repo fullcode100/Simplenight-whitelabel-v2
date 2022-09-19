@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Checkbox from 'components/global/CheckboxGroup/Checkbox';
+import Checkbox from '../CheckboxGroup/Checkbox';
 
 import IconInput from 'components/global/Input/IconInput';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
@@ -75,9 +75,20 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
 
-  const [stops, setStops] = useState<string[]>([directText]);
+  const [departureTimes, setDepartureTimes] = useState<string[]>(
+    queryFilter?.departureTimes ? queryFilter.departureTimes.split(',') : ['0', '23']
+  );
+  const [arrivalTimes, setArrivalTimes] = useState<string[]>(
+    queryFilter?.arrivalTimes ? queryFilter.arrivalTimes.split(',') : ['0', '23']
+  );
+
+  const [stops, setStops] = useState<string[]>([]);
   const [airlines, setAirlines] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
+
+  const [stopsOptions, setStopsOptions] = useState<string[]>([]);
+  const [airlinesOptions, setAirlinesOptions] = useState<string[]>([]);
+  const [citiesOptions, setCitiesOptions] = useState<string[]>([]);
 
   const FilterTitle = ({
     label,
@@ -92,6 +103,30 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
     setMinPrice(initialPriceRange.min);
     setMaxPrice(initialPriceRange.max);
     setSortBy('sortByPriceAsc');
+    setDepartureTimes(['0', '23']);
+    setArrivalTimes(['0', '23']);
+    setStops([]);
+    setAirlines([]);
+    setCities([]);
+    setQueryParams({
+      ...queryFilter,
+      // keywordSearch,
+      sortBy: 'sortByPriceAsc',
+      minPrice: `${initialPriceRange.min}`,
+      maxPrice: `${initialPriceRange.max}`,
+      departureTimes: '0,23',
+      arrivalTimes: '0,23',
+      stops: '',
+      airlines: '',
+      cities: '',
+    });
+  };
+
+  const onChangeSortBy = (value: string) => {
+    setSortBy(value);
+    setQueryParams({
+      sortBy: value,
+    });
   };
 
   const onChangeMinPrice = (value: string) => {
@@ -108,15 +143,62 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
     });
   };
 
-  const onChangeSortBy = (value: string) => {
-    setSortBy(value);
+  const onChangeMinDepartureTimes = (value: string) => {
+    setDepartureTimes([value, departureTimes[1]]);
     setQueryParams({
-      sortBy: value,
+      departureTimes: `${value},${departureTimes[1]}`,
     });
   };
 
-  const onChangeFilter = (value: string, isChecked: boolean) => {
-    console.log(value, isChecked);
+  const onChangeMaxDepartureTimes = (value: string) => {
+    setDepartureTimes([departureTimes[0], value]);
+    setQueryParams({
+      departureTimes: `${departureTimes[0]},${value}`,
+    });
+  };
+
+  const onChangeMinArrivalTimes = (value: string) => {
+    setArrivalTimes([value, arrivalTimes[1]]);
+    setQueryParams({
+      arrivalTimes: `${value},${arrivalTimes[1]}`,
+    });
+  };
+
+  const onChangeMaxArrivalTimes = (value: string) => {
+    setArrivalTimes([arrivalTimes[0], value]);
+    setQueryParams({
+      arrivalTimes: `${arrivalTimes[0]},${value}`,
+    });
+  };
+
+  const onChangeStops = (value: string, isChecked: boolean) => {
+    let arr = Object.assign([], stops);
+    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
+    if (!isChecked && arr.indexOf(value) > -1) arr.splice(arr.indexOf(value), 1);
+    setStops(arr);
+    setQueryParams({
+      stops: `${arr.join(',')}`,
+    });
+  };
+
+  const onChangeAirlines = (value: string, isChecked: boolean) => {
+    let arr = Object.assign([], airlines);
+    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
+    if (!isChecked && arr.indexOf(value) > -1) arr.splice(arr.indexOf(value), 1);
+    setAirlines(arr);
+    setQueryParams({
+      airlines: `${arr.join(',')}`,
+    });
+  };
+
+  const onChangeCities = (value: string, isChecked: boolean) => {
+    let arr = Object.assign([], cities);
+    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
+    if (!isChecked && arr.indexOf(value) > -1) arr.splice(arr.indexOf(value), 1);
+    setCities(arr);
+    setQueryParams({
+      cities: `${arr.join(',')}`,
+    });
   };
 
   const KeywordSearchFilter = () => (
@@ -179,15 +261,15 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
     <FilterContainer>
       <FilterTitle label={departureTimesLabel} />
       <TimeRangeSlider
-        initialMin={0}
-        initialMax={23}
+        initialMin={parseInt(departureTimes[0])}
+        initialMax={parseInt(departureTimes[1])}
         min={0}
         max={23}
         step={1}
         minDifference={1}
         type="hour"
-        setMinState={onChangeMinPrice}
-        setMaxState={onChangeMaxPrice}
+        setMinState={onChangeMinDepartureTimes}
+        setMaxState={onChangeMaxDepartureTimes}
       />
     </FilterContainer>
   );
@@ -196,15 +278,15 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
     <FilterContainer>
       <FilterTitle label={arrivalTimesLabel} />
       <TimeRangeSlider
-        initialMin={0}
-        initialMax={23}
+        initialMin={parseInt(arrivalTimes[0])}
+        initialMax={parseInt(arrivalTimes[1])}
         min={0}
         max={23}
         step={1}
         minDifference={1}
         type="hour"
-        setMinState={onChangeMinPrice}
-        setMaxState={onChangeMaxPrice}
+        setMinState={onChangeMinArrivalTimes}
+        setMaxState={onChangeMaxArrivalTimes}
       />
     </FilterContainer>
   );
@@ -251,16 +333,19 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
       });
       */
       //stops
+      setStops(queryFilter?.stops ? queryFilter.stops.split(',') : []);
       let flightsStops = [directText];
       for (let i = 1; i <= flightsMaxStops; i += 1) {
         if (i < 2) flightsStops.push(`${i} ${stopText}`);
         else flightsStops.push(`${i} ${stopsText}`);
       }
-      setStops(flightsStops);
+      setStopsOptions(flightsStops);
       //airlines
-      setAirlines(flightsAirlines.sort(Intl.Collator().compare));
+      setAirlines(queryFilter?.airlines ? queryFilter.airlines.split(',') : []);
+      setAirlinesOptions(flightsAirlines.sort(Intl.Collator().compare));
       //cities
-      setCities(flightsCities.sort(Intl.Collator().compare));
+      setCities(queryFilter?.cities ? queryFilter.cities.split(',') : []);
+      setCitiesOptions(flightsCities.sort(Intl.Collator().compare));
     }
   }, [flights, itemIndex]);
 
@@ -275,7 +360,11 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={stopsLabel} />
-        <Checkbox items={stops} />
+        <Checkbox
+          items={stopsOptions}
+          itemsChecked={stops}
+          onChange={onChangeStops}
+        />
       </FilterContainer>
 
       <Divider className="my-6" />
@@ -287,13 +376,21 @@ const FlightFilterFormDesktop = ({ flights, itemIndex }: FlightFilterFormDesktop
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={airlinesLabel} />
-        <Checkbox items={airlines} />
+        <Checkbox
+          items={airlinesOptions}
+          itemsChecked={airlines}
+          onChange={onChangeAirlines}
+        />
       </FilterContainer>
 
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={connectingCitiesLabel} />
-        <Checkbox items={cities} />
+        <Checkbox
+          items={citiesOptions}
+          itemsChecked={cities}
+          onChange={onChangeCities}
+        />
       </FilterContainer>
     </section>
   );

@@ -44,9 +44,20 @@ const FlightSearchFormReadState = ({
     rooms,
     address,
     address2,
+    startDates,
+    addresses,
+    addresses2,
   } = useQuery();
 
   const location = `${address ? address?.toString().split(',')[0] : ''} - ${address2 ? address2?.toString().split(',')[0] : ''}`;
+  const locations: string[] = [];
+  if (direction === 'multi_city' && addresses && addresses2) {
+    const _addresses = addresses.toString().split('|');
+    const _addresses2 = addresses2.toString().split('|');
+    _addresses.forEach((addr: string, index: number) => {
+      locations.push(`${_addresses[index] ? _addresses[index]?.toString().split(',')[0] : ''} - ${_addresses2[index] ? _addresses2[index]?.toString().split(',')[0] : ''}`);
+    });
+  }
   const adults = parseInt((adultsQuery && adultsQuery[0]) || '1');
   const children = parseInt((childrenQuery && childrenQuery[0]) || '0');
   const infants = parseInt((infantsQuery && infantsQuery[0]) || '0');
@@ -97,18 +108,43 @@ const FlightSearchFormReadState = ({
 
   const OccupancyAndDatesSection = () => (
     <section className="grid gap-2 font-normal text-dark-1000">
-      <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
-          <LocationPin className="text-primary-1000" />
-        </section>
-        <LocationSection />
-      </section>
-      <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
-          <CalendarIcon className="text-primary-1000" />
-        </section>
-        <DatesSection />
-      </section>
+      {direction === 'multi_city' ? (
+        <>
+          {locations.map((_location: string, index: number) => (
+            <section key={`location_label_${index}`}>
+              <section className="flex gap-2">
+                <section className="w-6 grid place-items-center">
+                  <LocationPin className="text-primary-1000" />
+                </section>
+                <span>{_location}</span>
+              </section>
+              <section className="flex gap-2">
+                <section className="w-6 grid place-items-center">
+                  <CalendarIcon className="text-primary-1000" />
+                </section>
+                <section>
+                  <span>{startDates && startDates.toString().split('|')[index] ? formatAsDisplayDate(startDates.toString().split('|')[index]) : ''}</span>
+                </section>
+              </section>
+            </section>
+          ))}
+        </>
+      ) : (
+        <>
+          <section className="flex gap-2">
+            <section className="w-6 grid place-items-center">
+              <LocationPin className="text-primary-1000" />
+            </section>
+            <LocationSection />
+          </section>
+          <section className="flex gap-2">
+            <section className="w-6 grid place-items-center">
+              <CalendarIcon className="text-primary-1000" />
+            </section>
+            <DatesSection />
+          </section>
+        </>
+      )}
       <section className="flex gap-2">
         <section className="w-6 grid place-items-center">
           <MultiplePersonsIcon className="text-primary-1000" />

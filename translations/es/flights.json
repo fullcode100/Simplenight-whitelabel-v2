@@ -86,5 +86,6 @@
   "airlines": "Aerolíneas",
   "connectingCities": "Conectando Ciudades",
   "departingFlights": "Vuelos de salida",
-  "returningFlights": "Vuelos de regreso"
+  "returningFlights": "Vuelos de regreso",
+  "loadMore": "Carga más"
 }

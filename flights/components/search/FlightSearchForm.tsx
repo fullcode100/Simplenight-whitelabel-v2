@@ -48,11 +48,10 @@ const FlightSearchForm = ({
   const roomsLabel = t('rooms', 'Rooms');
   const roomLabel = t('room', 'Room');
   const addFlightLabel = t('addFlight', 'Add Flight');
+  const flightLabel = t('flight', 'Flight');
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
-
-  const [flights, setFlights] = useState(['one_way']);
   const [direction, setDirection] = useState(params?.direction?.toString() || 'round_trip');
   const [cabin, setCabin] = useState('economy');
 
@@ -98,6 +97,28 @@ const FlightSearchForm = ({
       ? params.endDate.toString()
       : formatAsSearchDate(dayjs().add(7, 'day')),
   );
+
+  // multi city
+  const [startDates, setStartDates] = useState<string[]>(
+    params.startDates ? params.startDates.split('|') : [startDate]
+  );
+  const [addresses, setAddresses] = useState<string[]>(
+    params.addresses ? params.addresses.split('|') : [address]
+  );
+  const [addresses2, setAddresses2] = useState<string[]>(
+    params.addresses2 ? params.addresses2.split('|') : [address2]
+  );
+
+  let _flights: string[] = [];
+  if (direction === 'multi_city') {
+    if (params.startDates) {
+      for (let i = 0; i < params.startDates.split('|').length; i += 1) {
+        _flights.push('one_way');
+      }
+    } else _flights = ['one_way'];
+  } else _flights = [direction];
+  const [flights, setFlights] = useState<string[]>( _flights);
+
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
   const [showTravelersInput, setShowTravelersInput] = useState(false);
@@ -107,24 +128,84 @@ const FlightSearchForm = ({
 
   const handleDirectionChange = (value: string) => {
     setDirection(value);
-    if (value === 'multi_city') setFlights(['one_way', 'one_way']);
-    else setFlights([value]);
+    if (value === 'multi_city') {
+      setFlights(['one_way']);
+      setStartDates([startDate]);
+      setAddresses([address]);
+      setAddresses2([address2]);
+    }else setFlights([value]);
   };
 
   const handleFlightsAdd = () => {
     let _flights = Object.assign([], flights);
     _flights.push('one_way');
     setFlights(_flights);
+
+    let dates: string[] = Object.assign([], startDates);
+    dates.push(startDates[startDates.length - 1] ? startDates[startDates.length - 1] : formatAsSearchDate(dayjs()));
+    setStartDates(dates);
+
+    let addrs: string[] = Object.assign([], addresses);
+    addrs.push(addresses2[addresses2.length - 1] ? addresses2[addresses2.length - 1] : '');
+    setAddresses(addrs);
+
+    let addrs2: string[] = Object.assign([], addresses2);
+    addrs2.push('');
+    setAddresses2(addrs2);
   };
 
   const handleFlightsDelete = (index: number) => {
+    if (flights.length < 2) return;
+
     let _flights = Object.assign([], flights);
     _flights.splice(index, 1);
     setFlights(_flights);
+
+    let dates: string[] = Object.assign([], startDates);
+    dates.splice(index, 1);
+    setStartDates(dates);
+
+    let addrs: string[] = Object.assign([], addresses);
+    addrs.splice(index, 1);
+    setAddresses(addrs);
+
+    let addrs2: string[] = Object.assign([], addresses2);
+    addrs2.splice(index, 1);
+    setAddresses2(addrs2);
   };
 
-  const handleStartDateChange = (value: string) => {
-    setStartDate(value);
+  const handleSelectLocation = (latLng: latLngProp, addr: string, index: number) => {
+    const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
+    if (index < 1) {
+      setGeolocation(newGeolocation);
+      setAddress(addr);
+    }
+    let addrs: string[] = Object.assign([], addresses);
+    addrs[index] = addr;
+    setAddresses(addrs);
+    console.log(addrs);
+  };
+
+  const handleSelectLocation2 = (latLng: latLngProp, addr: string, index: number) => {
+    const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
+    if (index < 1) {
+      setGeolocation2(newGeolocation);
+      setAddress2(addr);
+    }
+    let addrs: string[] = Object.assign([], addresses2);
+    addrs[index] = addr;
+    setAddresses2(addrs);
+    console.log(addrs);
+  };
+
+  const handleStartDateChange = (value: string, index: number) => {
+    if (index < 1) {
+      setStartDate(value);
+    }
+    let dates: string[] = Object.assign([], startDates);
+    dates[index] = value;
+    setStartDates(dates);
+    console.log(value, index, dates);
   };
 
   const handleEndDateChange = (value: string) => {
@@ -137,10 +218,27 @@ const FlightSearchForm = ({
 
   const rerouteToSearchPage = () => {
     const startAirport = address ? address.split('(').pop().split(')')[0] : '';
-    if (!startAirport || startAirport.length !== 3) return alert('Invalid leaving from airport code');
+    if (!startAirport || startAirport.length !== 3) return alert('Can not find leaving from Airport Code');
     const endAirport = address2 ? address2.split('(').pop().split(')')[0] : '';
-    if (!endAirport || endAirport.length !== 3) return alert('Invalid going to airport code');
-    const route = `/search/flights?direction=${direction}&startAirport=${startAirport}&endAirport=${endAirport}&startDate=${startDate}&endDate=${endDate}&adults=${adults}&children=${children}&infants=${infants}&childrenAges=${childrenAges}&infantsAges=${infantsAges}&latitude=${
+    if (!endAirport || endAirport.length !== 3) return alert('Can not find going to Airport Code');
+
+    // multi city
+    let startAirports: string[] = [];
+    let endAirports: string[] = [];
+    if (direction === 'multi_city') {
+      addresses.forEach((addr: string, index: number) => {
+        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        startAirports.push(airportCode);
+      });
+      addresses2.forEach((addr: string, index: number) => {
+        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        endAirports.push(airportCode);
+      });
+    }
+
+    let route = `/search/flights?direction=${direction}&startAirport=${startAirport}&endAirport=${endAirport}&startDate=${startDate}&endDate=${endDate}&adults=${adults}&children=${children}&infants=${infants}&childrenAges=${childrenAges}&infantsAges=${infantsAges}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${
       geolocation?.split(',')[LONGITUDE_INDEX]
@@ -149,16 +247,20 @@ const FlightSearchForm = ({
     }&longitude2=${
       geolocation2?.split(',')[LONGITUDE_INDEX]
     }&address2=${address2}&travelersData=${JSON.stringify(travelersData)}`;
+    if (direction === 'multi_city') 
+      route = `${route}&startAirports=${
+        startAirports.join('|')
+      }&endAirports=${
+        endAirports.join('|')
+      }&startDates=${
+        startDates.join('|')
+      }&addresses=${
+        addresses.join('|')
+      }&addresses2=${
+        addresses2.join('|')
+      }`;
     handleSaveLastSearch(route);
     router.push(route);
-  };
-
-  const handleChangeLocation = () => {
-    setShowLocationError(false);
-  };
-
-  const handleChangeLocation2 = () => {
-    setShowLocationError(false);
   };
 
   const geolocationIsNull = geolocation === `${NaN},${NaN}`;
@@ -179,17 +281,35 @@ const FlightSearchForm = ({
     }
 
     const startAirport = address ? address.split('(').pop().split(')')[0] : '';
-    if (!startAirport || startAirport.length !== 3) return alert('Invalid leaving from airport code');
+    if (!startAirport || startAirport.length !== 3) return alert('Can not find leaving from Airport Code');
     const endAirport = address2 ? address2.split('(').pop().split(')')[0] : '';
-    if (!endAirport || endAirport.length !== 3) return alert('Invalid going to airport code');
+    if (!endAirport || endAirport.length !== 3) return alert('Can not find going to Airport Code');
+
+    // multi city
+    let startAirports: string[] = [];
+    let endAirports: string[] = [];
+    if (direction === 'multi_city') {
+      addresses.forEach((addr: string, index: number) => {
+        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        startAirports.push(airportCode);
+      });
+      addresses2.forEach((addr: string, index: number) => {
+        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        endAirports.push(airportCode);
+      });
+    }
 
     const travelersDataFormatted = JSON.stringify(travelersData);
-    const _queryParam = {
+    let _queryParam = {
       direction,
+
       startAirport,
       endAirport,
       startDate,
       endDate,
+
       adults,
       children,
       infants,
@@ -208,21 +328,46 @@ const FlightSearchForm = ({
 
       travelersData: travelersDataFormatted,
     };
+
+    if (direction === 'multi_city') {
+      _queryParam = {
+        direction,
+
+        startAirport,
+        endAirport,
+        startDate,
+        endDate,
+
+        adults,
+        children,
+        infants,
+        childrenAges,
+        infantsAges,
+
+        address: address as string,
+        geolocation: geolocation ?? '',
+        latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
+        longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
+
+        address2: address2 as string,
+        geolocation2: geolocation2 ?? '',
+        latitude2: geolocation2?.split(',')[LATITUDE_INDEX] ?? '',
+        longitude2: geolocation2?.split(',')[LONGITUDE_INDEX] ?? '',
+
+        travelersData: travelersDataFormatted,
+
+        // multi city
+        startAirports: startAirports.join('|'),
+        endAirports: endAirports.join('|'),
+        startDates: startDates.join('|'),
+        addresses: addresses.join('|'),
+        addresses2: addresses2.join('|'),
+      };
+    }
+
     // console.log(_queryParam);
     setQueryParam(_queryParam);
     if (setIsSearching) setIsSearching(false);
-  };
-
-  const handleSelectLocation = (latLng: latLngProp, address: string) => {
-    const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
-    setGeolocation(newGeolocation);
-    setAddress(address);
-  };
-
-  const handleSelectLocation2 = (latLng2: latLngProp, address2: string) => {
-    const newGeolocation2: StringGeolocation = `${latLng2.lat},${latLng2.lng}`;
-    setGeolocation2(newGeolocation2);
-    setAddress2(address2);
   };
 
   const locationPlaceholder = t('locationInputPlaceholder', 'Leaving From');
@@ -243,12 +388,12 @@ const FlightSearchForm = ({
 
   return (
     <section
-      className={`flex flex-col justify-between px-4 lg:px-0`}
+      className={`flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible`}
     >
       <section
         className={`flex flex-col justify-between  lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
       >
-        <section className="flex flex-col gap-4 lg:flex-row lg:w-[300px] lg:justify-between lg:items-center">
+        <section className="flex flex-col gap-4 lg:flex-row lg:w-[300px] lg:justify-between lg:items-center mt-4 lg:mt-0">
           <FlightSelect value={direction} onChange={handleDirectionChange} />
         </section>
 
@@ -282,103 +427,110 @@ const FlightSearchForm = ({
           </button>
         </section>
       </section>
-      {flights.map((item: string, index) => (
-        <section
-          key={index}
-          className={`flex flex-col justify-between lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0 mt-4 lg:mt-4`}
-        >
-          <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-            <LocationInput
-              icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
-              label={locationInputLabel}
-              name="location"
-              placeholder={locationPlaceholder}
-              routeParams={['address']}
-              defaultAddress={address}
-              onSelect={handleSelectLocation}
-              error={showLocationError}
-              onChange={handleChangeLocation}
-            />
-            <LocationInput
-              icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
-              label={location2InputLabel}
-              name="location2"
-              placeholder={location2Placeholder}
-              routeParams={['address2']}
-              defaultAddress={address2}
-              onSelect={handleSelectLocation2}
-              error={showLocationError}
-              onChange={handleChangeLocation2}
-            />
-
-            <DatePicker
-              showDatePicker={showDatePicker}
-              onClose={() => setShowDatePicker(false)}
-              startDateLabel={checkInText}
-              endDateLabel={checkOutText}
-              initialStartDate={startDate}
-              initialEndDate={endDate}
-              onStartDateChange={handleStartDateChange}
-              onEndDateChange={handleEndDateChange}
-              openOnStart={clickOnStart ? true : false}
-            />
-            <section className="flex gap-4 lg:mt-0 lg:w-full">
-              <IconInput
-                label={checkInText}
-                name="Check-in"
-                placeholder={checkInText}
-                className="lg:mt-0"
-                orientation="left"
-                icon={<Calendar className="h-5 w-5 text-dark-700" />}
-                value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
-                onChange={(event) => handleStartDateChange(event.target.value)}
-                onClick={() => {
-                  setClickOnStart(true);
-                  setShowDatePicker(true);
-                }}
-                disabled
+      {flights.map((item: string, flightIndex: number) => (
+        <section key={flightIndex} className="flex flex-col">
+          {direction === 'multi_city' && (
+            <section className="mt-5 w-full">
+              <Label value={`${flightLabel} #${flightIndex + 1}`} className="block font-normal text-sm text-dark-500" />
+            </section>
+          )}
+          <section
+            className={`flex flex-col justify-between lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0 mt-4 lg:mt-4`}
+          >
+            <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
+              <LocationInput
+                icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+                label={locationInputLabel}
+                name="location"
+                placeholder={locationPlaceholder}
+                routeParams={['address']}
+                defaultAddress={direction === 'multi_city' ? addresses[flightIndex] : address}
+                onSelect={(latLng: latLngProp, address: string) => handleSelectLocation(latLng, address, flightIndex)}
+                error={showLocationError}
+                onChange={() => setShowLocationError(false)}
               />
-              {direction === 'round_trip' && (
+              <LocationInput
+                icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+                label={location2InputLabel}
+                name="location2"
+                placeholder={location2Placeholder}
+                routeParams={['address2']}
+                defaultAddress={direction === 'multi_city' ? addresses2[flightIndex] : address2}
+                onSelect={(latLng: latLngProp, address: string) => handleSelectLocation2(latLng, address, flightIndex)}
+                error={showLocationError}
+                onChange={() => setShowLocationError(false)}
+              />
+
+              <DatePicker
+                showDatePicker={showDatePicker}
+                onClose={() => setShowDatePicker(false)}
+                startDateLabel={checkInText}
+                endDateLabel={checkOutText}
+                initialStartDate={direction === 'multi_city' ? startDates[flightIndex] : startDate}
+                initialEndDate={endDate}
+                onStartDateChange={(value) => handleStartDateChange(value, flightIndex)}
+                onEndDateChange={handleEndDateChange}
+                openOnStart={clickOnStart ? true : false}
+                equal={direction !== 'round_trip'}
+              />
+              <section className="flex gap-4 lg:mt-0 lg:w-full">
                 <IconInput
-                  label={checkOutText}
-                  name="Check-out"
-                  placeholder={checkOutText}
-                  orientation="left"
+                  label={checkInText}
+                  name="Check-in"
+                  placeholder={checkInText}
                   className="lg:mt-0"
+                  orientation="left"
                   icon={<Calendar className="h-5 w-5 text-dark-700" />}
-                  value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
-                  onChange={(event) => handleEndDateChange(event.target.value)}
+                  value={fromLowerCaseToCapitilize(formatAsDisplayDate(direction === 'multi_city' ? startDates[flightIndex] : startDate))}
+                  onChange={(event) => handleStartDateChange(event.target.value, flightIndex)}
                   onClick={() => {
-                    setClickOnStart(false);
+                    setClickOnStart(true);
                     setShowDatePicker(true);
                   }}
                   disabled
                 />
-              )}
+                {direction === 'round_trip' && (
+                  <IconInput
+                    label={checkOutText}
+                    name="Check-out"
+                    placeholder={checkOutText}
+                    orientation="left"
+                    className="lg:mt-0"
+                    icon={<Calendar className="h-5 w-5 text-dark-700" />}
+                    value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
+                    onChange={(event) => handleEndDateChange(event.target.value)}
+                    onClick={() => {
+                      setClickOnStart(false);
+                      setShowDatePicker(true);
+                    }}
+                    disabled
+                  />
+                )}
+              </section>
             </section>
-          </section>
 
-          {index < flights.length - 1 ? (
-            <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
-              <Button
-                key="flights.removeBtn"
-                size="full"
-                className="min-w-full bg-dark-200 text-dark-1000"
-                value="X"
-                onClick={() => handleFlightsDelete(index)}
-              />
-            </section>
-          ) : (
-            <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
-              <Button
-                key="flights.searchBtn"
-                size="full"
-                className="min-w-full text-base"
-                value={textSearch}
-                onClick={handleSearchClick}
-              />
-            </section>
-          )}
+            {flightIndex < flights.length - 1 ? (
+              <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+                <Button
+                  key="flights.removeBtn"
+                  size="full"
+                  className="min-w-full bg-dark-200 text-dark-1000"
+                  value="X"
+                  onClick={() => handleFlightsDelete(flightIndex)}
+                />
+              </section>
+            ) : (
+              <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+                <Button
+                  key="flights.searchBtn"
+                  size="full"
+                  className="min-w-full text-base"
+                  value={textSearch}
+                  onClick={handleSearchClick}
+                />
+              </section>
+            )}
+          </section>
         </section>
       ))}
 
@@ -386,8 +538,8 @@ const FlightSearchForm = ({
         <section
           className={`flex justify-between items-end`}
         >
-          <section className="w-full lg:w-[10%]" />
-          <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+          <section className="w-full lg:w-[10%] hidden lg:inline" />
+          <section className="w-full flex items-center justify-center mt-6 lg:w-[10%] mb-[100px] lg:mb-0">
             <Button
               key="flights.addBtn"
               size="full"

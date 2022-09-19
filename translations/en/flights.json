@@ -86,5 +86,6 @@
   "airlines": "Airlines",
   "connectingCities": "Connecting Cities",
   "departingFlights": "Departing Flights",
-  "returningFlights": "Returning Flights"
+  "returningFlights": "Returning Flights",
+  "loadMore": "Load More"
 }

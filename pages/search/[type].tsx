@@ -41,7 +41,13 @@ const Search: NextPage = () => {
           <SearchCategoryForm searchType={searchType} />
         </section>
       </section>
-      <section className="pt-[153px] lg:pt-0 lg:w-full lg:px-20">
+      <section
+        className={
+          searchType === 'flights'
+            ? 'pt-[210px] lg:pt-0 lg:w-full lg:px-20'
+            : 'pt-[153px] lg:pt-0 lg:w-full lg:px-20'
+        }
+      >
         <section className="mx-auto max-w-7xl">
           <SearchResultDisplay searchType={internalSearchType} />
         </section>

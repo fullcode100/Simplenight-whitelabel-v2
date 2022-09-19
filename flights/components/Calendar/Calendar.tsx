@@ -37,6 +37,7 @@ interface DatePickerProps {
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
   openOnStart: boolean;
+  equal: boolean;
 }
 
 const DatePicker = ({
@@ -49,6 +50,7 @@ const DatePicker = ({
   onStartDateChange,
   onEndDateChange,
   openOnStart,
+  equal,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('globals');
   dayjs.locale(i18n.resolvedLanguage);
@@ -59,7 +61,7 @@ const DatePicker = ({
     dayjs().format('YYYY-MM-DD'),
   );
   const [endDate, setEndDate] = useState<string>(
-    dayjs().add(7, 'day').format('YYYY-MM-DD'),
+    dayjs().add(equal ? 0 :  7, 'day').format('YYYY-MM-DD'),
   );
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
 
@@ -80,7 +82,7 @@ const DatePicker = ({
         dayjs(date).isBefore(dayjs(endDate).subtract(2, 'week'))
       ) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(7, 'day').format('YYYY-MM-DD'));
+        setEndDate(dayjs(date).add(equal ? 0 :  7, 'day').format('YYYY-MM-DD'));
         setIsStartDateTurn(!isStartDateTurn);
         return;
       }
@@ -91,7 +93,7 @@ const DatePicker = ({
     if (!isStartDateTurn) {
       if (dayjs(date).isSameOrBefore(dayjs(startDate))) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(7, 'day').format('YYYY-MM-DD'));
+        setEndDate(dayjs(date).add(equal ? 0 :  7, 'day').format('YYYY-MM-DD'));
         return;
       }
       setEndDate(date);
@@ -115,14 +117,23 @@ const DatePicker = ({
       primaryButtonAction={setFullDate}
       hasMultipleActions={false}
     >
-      <RangeDate
-        isStartDateTurn={isStartDateTurn}
-        onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
-        startDateLabel={startDateLabel}
-        endDateLabel={endDateLabel}
-        startDate={formatAsRangeDate(startDate)}
-        endDate={formatAsRangeDate(endDate)}
-      />
+      {equal ? (
+        <RangeDate
+          isStartDateTurn={isStartDateTurn}
+          onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
+          startDateLabel={startDateLabel}
+          startDate={formatAsRangeDate(startDate)}
+        />
+      ) : (
+        <RangeDate
+          isStartDateTurn={isStartDateTurn}
+          onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
+          startDateLabel={startDateLabel}
+          endDateLabel={endDateLabel}
+          startDate={formatAsRangeDate(startDate)}
+          endDate={formatAsRangeDate(endDate)}
+        />
+      )}
       <section className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5">
         {calendar?.map((month: MonthObject, index) => {
           return (
@@ -131,7 +142,23 @@ const DatePicker = ({
                 month.monthName,
               )} ${month.yearNumber}`}</p>
               <WeekDays />
-              {month.days.map((day: DayObject, index) => (
+              {equal && month.days.map((day: DayObject, index) => (
+                <Day
+                  day={day}
+                  key={index + day.dayOfWeek}
+                  setDate={setDate}
+                  isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
+                  isDisabled={
+                    dayjs(day.date).isSameOrBefore(
+                      dayjs().subtract(1, 'day'),
+                    ) ||
+                    dayjs(day.date).isAfter(dayjs().add(12, 'month')) ||
+                    (!isStartDateTurn &&
+                      dayjs(day.date).isAfter(dayjs(startDate).add(12, 'month')))
+                  }
+                />
+              ))}
+              {!equal && month.days.map((day: DayObject, index) => (
                 <Day
                   day={day}
                   key={index + day.dayOfWeek}
