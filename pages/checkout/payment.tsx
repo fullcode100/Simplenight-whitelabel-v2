@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 // Libraries
 import React, { useEffect, useRef, useState } from 'react';
+import Script from 'next/script';
+
 // Credentials
 import {
   SQUARE_SANDBOX_APP_ID,
@@ -35,6 +37,7 @@ import { clearCart } from 'store/actions/cartActions';
 import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getCurrency } from 'store/selectors/core';
+import useCookies from 'hooks/localStorage/useCookies';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -44,6 +47,8 @@ const test: Amount = {
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
+
+const GOOGLE = 'google';
 
 const Payment = () => {
   const router = useRouter();
@@ -83,6 +88,53 @@ const Payment = () => {
   };
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
 
+  const { getCookie } = useCookies();
+
+  const triggerGTagEvent = (bookingId: string, referralItemId: string) => {
+    const referralItem = cart?.items.find(
+      (item) => item.inventory_id === referralItemId,
+    );
+
+    const totalAmount = referralItem?.last_validated_rate.total_amount;
+    const value = totalAmount?.amount;
+    const currency = totalAmount?.currency;
+
+    const startDate = referralItem?.extended_data?.start_date;
+    const endDate = referralItem?.extended_data?.end_date;
+
+    return (
+      <Script id="GTM-2938402">
+        {`
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-711765415/leb4CJfbwvwBEKfbstMC',
+          ${value},
+          ${currency},
+          transaction_id: ${bookingId},
+          items: [
+            {
+              id: ${referralItemId},
+              start_date: ${startDate},
+              end_date: ${endDate},
+            },
+          ],
+        });    
+      `}
+      </Script>
+    );
+  };
+
+  const triggerEventConversion = (bookingId?: string) => {
+    const referral = getCookie('referral').split('=');
+
+    if (!referral || !bookingId) return;
+
+    const referralCompany = referral[0];
+    if (referralCompany === GOOGLE) {
+      const referralItemId = referral[1];
+      triggerGTagEvent(bookingId, referralItemId);
+    }
+  };
+
   const triggerFormTokenGeneration = () => payClickRef.current?.click();
 
   const handleTokens = (
@@ -111,6 +163,7 @@ const Payment = () => {
     createBooking(paymentParameters, i18next)
       .then((response) => {
         const bookingId = response?.booking.booking_id;
+        triggerEventConversion(bookingId);
         dispatch(clearCart());
         localStorage.removeItem('cart');
         router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
