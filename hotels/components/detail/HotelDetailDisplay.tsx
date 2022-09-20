@@ -79,8 +79,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     const referral = getReferral(referralParam);
 
     if (referral) {
-      localStorage.setItem('referral', referral);
-      setCookie('referral', referral, {
+      const referralData = `${referral}=${id}`;
+      setCookie('referral', referralData, {
         path: '/',
         expires: dayjs().add(30, 'day').toDate(),
       });
@@ -263,7 +263,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   };
 
   const PoliciesSection = () => (
-    <section className="px-5 pb-3 lg:pb-0 lg:px-0 space-y-5">
+    <section className="px-5 pb-3 space-y-5 lg:pb-0 lg:px-0">
       <section className="mb-5 lg:mb-8">
         <p className="flex items-center gap-3 mb-6">
           <IconRoundedContainer isLarge className="bg-primary-1000">
@@ -275,7 +275,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         </p>
       </section>
       <section className="space-y-3">
-        <h5 className="text-dark-800 font-semibold">{checkinLabel}</h5>
+        <h5 className="font-semibold text-dark-800">{checkinLabel}</h5>
         <section className="flex flex-row gap-2">
           <ClockIcon className="w-5 mt-1 lg:mt-0 text-primary-1000" />
           <section className="font-semibold text-sm leading-lg lg:leading-[22px] space-y-1">
@@ -292,7 +292,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
         <div className="w-full h-px bg-dark-300" />
       </div>
       <section className="space-y-3">
-        <h5 className="text-dark-800 font-semibold">{checkoutLabel}</h5>
+        <h5 className="font-semibold text-dark-800">{checkoutLabel}</h5>
         <section className="flex flex-row gap-2">
           <ClockIcon className="w-5 mt-1 lg:mt-0 text-primary-1000" />
           <section className="font-semibold text-sm leading-lg lg:leading-[22px] space-y-1">
