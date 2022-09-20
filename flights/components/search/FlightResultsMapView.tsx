@@ -1,11 +1,11 @@
 import MapView from 'flights/components/search/MapView/MapView';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight2 } from 'flights/types/response/SearchResponse';
 
 interface FlightMapViewProps {
   FlightCategory: CategoryOption;
-  items: Flight[];
-  onViewDetailClick: (item: Flight) => void;
+  items: Flight2[];
+  onViewDetailClick: (item: Flight2) => void;
 }
 
 const FlightMapView = ({

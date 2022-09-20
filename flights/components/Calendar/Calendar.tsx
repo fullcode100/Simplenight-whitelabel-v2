@@ -61,7 +61,9 @@ const DatePicker = ({
     dayjs().format('YYYY-MM-DD'),
   );
   const [endDate, setEndDate] = useState<string>(
-    dayjs().add(equal ? 0 :  7, 'day').format('YYYY-MM-DD'),
+    dayjs()
+      .add(equal ? 0 : 7, 'day')
+      .format('YYYY-MM-DD'),
   );
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
 
@@ -82,7 +84,11 @@ const DatePicker = ({
         dayjs(date).isBefore(dayjs(endDate).subtract(2, 'week'))
       ) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(equal ? 0 :  7, 'day').format('YYYY-MM-DD'));
+        setEndDate(
+          dayjs(date)
+            .add(equal ? 0 : 7, 'day')
+            .format('YYYY-MM-DD'),
+        );
         setIsStartDateTurn(!isStartDateTurn);
         return;
       }
@@ -93,7 +99,11 @@ const DatePicker = ({
     if (!isStartDateTurn) {
       if (dayjs(date).isSameOrBefore(dayjs(startDate))) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(equal ? 0 :  7, 'day').format('YYYY-MM-DD'));
+        setEndDate(
+          dayjs(date)
+            .add(equal ? 0 : 7, 'day')
+            .format('YYYY-MM-DD'),
+        );
         return;
       }
       setEndDate(date);
@@ -122,7 +132,9 @@ const DatePicker = ({
           isStartDateTurn={isStartDateTurn}
           onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
           startDateLabel={startDateLabel}
+          endDateLabel=""
           startDate={formatAsRangeDate(startDate)}
+          endDate={formatAsRangeDate(startDate)}
         />
       ) : (
         <RangeDate
@@ -142,43 +154,54 @@ const DatePicker = ({
                 month.monthName,
               )} ${month.yearNumber}`}</p>
               <WeekDays />
-              {equal && month.days.map((day: DayObject, index) => (
-                <Day
-                  day={day}
-                  key={index + day.dayOfWeek}
-                  setDate={setDate}
-                  isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
-                  isDisabled={
-                    dayjs(day.date).isSameOrBefore(
-                      dayjs().subtract(1, 'day'),
-                    ) ||
-                    dayjs(day.date).isAfter(dayjs().add(12, 'month')) ||
-                    (!isStartDateTurn &&
-                      dayjs(day.date).isAfter(dayjs(startDate).add(12, 'month')))
-                  }
-                />
-              ))}
-              {!equal && month.days.map((day: DayObject, index) => (
-                <Day
-                  day={day}
-                  key={index + day.dayOfWeek}
-                  setDate={setDate}
-                  isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
-                  isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
-                  isRangeDate={dayjs(day.date).isBetween(
-                    dayjs(startDate),
-                    dayjs(endDate),
-                  )}
-                  isDisabled={
-                    dayjs(day.date).isSameOrBefore(
-                      dayjs().subtract(1, 'day'),
-                    ) ||
-                    dayjs(day.date).isAfter(dayjs().add(12, 'month')) ||
-                    (!isStartDateTurn &&
-                      dayjs(day.date).isAfter(dayjs(startDate).add(12, 'month')))
-                  }
-                />
-              ))}
+              {equal &&
+                month.days.map((day: DayObject, index) => (
+                  <Day
+                    day={day}
+                    key={index + day.dayOfWeek}
+                    setDate={setDate}
+                    isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
+                    isEndDate={dayjs(day.date).isSame(dayjs(startDate))}
+                    isRangeDate={dayjs(day.date).isBetween(
+                      dayjs(startDate),
+                      dayjs(startDate),
+                    )}
+                    isDisabled={
+                      dayjs(day.date).isSameOrBefore(
+                        dayjs().subtract(1, 'day'),
+                      ) ||
+                      dayjs(day.date).isAfter(dayjs().add(12, 'month')) ||
+                      (!isStartDateTurn &&
+                        dayjs(day.date).isAfter(
+                          dayjs(startDate).add(12, 'month'),
+                        ))
+                    }
+                  />
+                ))}
+              {!equal &&
+                month.days.map((day: DayObject, index) => (
+                  <Day
+                    day={day}
+                    key={index + day.dayOfWeek}
+                    setDate={setDate}
+                    isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
+                    isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
+                    isRangeDate={dayjs(day.date).isBetween(
+                      dayjs(startDate),
+                      dayjs(endDate),
+                    )}
+                    isDisabled={
+                      dayjs(day.date).isSameOrBefore(
+                        dayjs().subtract(1, 'day'),
+                      ) ||
+                      dayjs(day.date).isAfter(dayjs().add(12, 'month')) ||
+                      (!isStartDateTurn &&
+                        dayjs(day.date).isAfter(
+                          dayjs(startDate).add(12, 'month'),
+                        ))
+                    }
+                  />
+                ))}
             </Fragment>
           );
         })}

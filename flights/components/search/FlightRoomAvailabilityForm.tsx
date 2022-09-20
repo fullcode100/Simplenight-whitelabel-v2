@@ -49,9 +49,13 @@ const FlightRoomAvailabilityForm = ({
   );
   const [adults, setAdults] = useState(roomsData[0].adults.toString());
   const [children, setChildren] = useState(roomsData[0].children.toString());
+  const [infants, setInfants] = useState(roomsData[0].infants.toString());
   const [rooms, setRooms] = useState(roomsData.length.toString());
   const [childrenAges, setChildrenAges] = useState(
     roomsData[0].childrenAges.toString(),
+  );
+  const [infantsAges, setInfantsAges] = useState(
+    roomsData[0].infantsAges.toString(),
   );
   const [address, setAddress] = useState<string | undefined>(
     params.address ? (params.address as string) : '',
@@ -92,9 +96,9 @@ const FlightRoomAvailabilityForm = ({
 
   const rerouteToSearchPage = () => {
     const route = `/search/flights?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${
-      geolocation?.split(',')[LATITUDE_INDEX]
+      geolocation?.toString().split(',')[LATITUDE_INDEX]
     }&longitude=${
-      geolocation?.split(',')[LONGITUDE_INDEX]
+      geolocation?.toString().split(',')[LONGITUDE_INDEX]
     }&address=${address}&rooms=${rooms}&roomsData=${JSON.stringify(roomsData)}`;
     handleSaveLastSearch(route);
     router.push(route);
@@ -113,6 +117,8 @@ const FlightRoomAvailabilityForm = ({
       adults,
       children,
       childrenAges,
+      infants,
+      infantsAges,
       address: address as string,
       roomsData: roomsDataFormatted,
     });
@@ -120,17 +126,24 @@ const FlightRoomAvailabilityForm = ({
   };
 
   useEffect(() => {
-    setTravelersTotals(roomsData, setAdults, setChildren, setChildrenAges);
+    setTravelersTotals(
+      roomsData,
+      setAdults,
+      setChildren,
+      setChildrenAges,
+      setInfants,
+      setInfantsAges,
+    );
     setRooms(roomsData.length.toString());
   }, [roomsData]);
 
   useEffect(() => {
     setTravelersPlaceholder(
       `${
-        parseInt(adults) + parseInt(children)
+        parseInt(adults) + parseInt(children) + parseInt(infants)
       } ${guestsLabel}, ${rooms} ${roomsLabel}`,
     );
-  }, [adults, children, children]);
+  }, [adults, children, children, infants]);
 
   return (
     <section
@@ -144,9 +157,7 @@ const FlightRoomAvailabilityForm = ({
           setRooms={setRoomsData}
         />
         <section className="mt-4 lg:mt-0 lg:w-full">
-          <p className="text-sm font-medium text-dark-800">
-            {travelersLabel}
-          </p>
+          <p className="text-sm font-medium text-dark-800">{travelersLabel}</p>
           <button
             onClick={() => setShowTravelersInput(true)}
             className="bg-white mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"

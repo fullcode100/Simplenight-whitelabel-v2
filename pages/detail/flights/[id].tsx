@@ -1,9 +1,9 @@
 import { useCategory } from 'hooks/categoryInjection/useCategory';
-import { HOTEL_CATEGORY } from 'flights';
+import { FLIGHT_CATEGORY } from 'flights';
 import { NextPage } from 'next';
 
 const FlightDetailPage: NextPage = () => {
-  const category = useCategory(HOTEL_CATEGORY);
+  const category = useCategory(FLIGHT_CATEGORY);
 
   return category?.detailDisplay ?? null;
 };

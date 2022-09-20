@@ -28,7 +28,7 @@ export default async function handler(
   }
 
   const direction = req.query?.direction ? req.query?.direction : 'round_trip';
-  let itenDetails = [];
+  let itenDetails;
   if (direction === 'one_way') {
     itenDetails = [
       {
@@ -55,13 +55,13 @@ export default async function handler(
     ];
   } else if (direction === 'multi_city') {
     const startAirports = req.query?.start_airports
-      ? req.query?.start_airports.split('|')
+      ? req.query?.start_airports.toString().split('|')
       : [];
     const endAirports = req.query?.end_airports
-      ? req.query?.end_airports.split('|')
+      ? req.query?.end_airports.toString().split('|')
       : [];
     const startDates = req.query?.start_dates
-      ? req.query?.start_dates.split('|')
+      ? req.query?.start_dates.toString().split('|')
       : [];
     itenDetails = [];
     startAirports.forEach((item: string, index: number) => {

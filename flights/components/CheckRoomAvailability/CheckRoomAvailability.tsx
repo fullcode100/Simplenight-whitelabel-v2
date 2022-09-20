@@ -34,9 +34,13 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
   const [childrens, setChildrens] = useState(
     params?.children?.toString() ?? '0',
   );
+  const [infants, setInfants] = useState(params?.infants?.toString() ?? '0');
   const [rooms, setRooms] = useState(roomsData.length.toString());
   const [childrenAges, setChildrenAges] = useState(
     roomsData[0].childrenAges.toString(),
+  );
+  const [infantsAges, setInfantsAges] = useState(
+    roomsData[0].infantsAges.toString(),
   );
   const geolocation = params?.geolocation?.toString() ?? '';
   const onApply = () => {
@@ -49,9 +53,11 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
       adults,
       children: childrens,
       childrenAges,
+      infants: infants,
+      infantsAges,
       geolocation: geolocation,
-      latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
-      longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
+      latitude: geolocation?.toString().split(',')[LATITUDE_INDEX] ?? '',
+      longitude: geolocation?.toString().split(',')[LONGITUDE_INDEX] ?? '',
       roomsData: roomsDataFormatted,
     });
     onClose();
@@ -71,20 +77,25 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
     setAdults(guests.adults.toString());
     setChildrens(guests.childrens.toString());
     setChildrenAges(guests.ages.toString());
+    setInfants(guests.infants.toString());
+    setInfantsAges(guests.ages.toString());
     setRooms(roomsData.length.toString());
   };
 
   const getGuestData = (rooms: Room[]) => {
     let adults = 0;
     let childrens = 0;
+    let infants = 0;
     let ages: number[] = [];
     rooms.forEach((room: Room) => {
       adults += room.adults;
       childrens += room.children;
+      infants += room.infants;
       ages = ages.concat(room.childrenAges);
+      ages = ages.concat(room.infantsAges);
     });
 
-    return { adults, childrens, ages };
+    return { adults, childrens, infants, ages };
   };
 
   return (
@@ -101,6 +112,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
           setRoomsData={onChangeRoomData}
           adults={adults.toString()}
           childrens={childrens.toString()}
+          infants={infants.toString()}
           rooms={roomsData.length}
         />
         <CheckInOutInput

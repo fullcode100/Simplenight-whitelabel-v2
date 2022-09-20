@@ -1,4 +1,4 @@
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight2 } from 'flights/types/response/SearchResponse';
 import { Amount } from 'types/global/Amount';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
@@ -27,6 +27,6 @@ export interface itemsProps {
 
 export interface MapViewProps {
   FlightCategory: CategoryOption;
-  items: Flight[];
-  onViewDetailClick: (item: Flight) => void;
+  items: Flight2[];
+  onViewDetailClick: (item: Flight2) => void;
 }

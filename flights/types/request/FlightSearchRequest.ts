@@ -1,13 +1,14 @@
 import { SearchRequest } from 'types/search/SearchRequest';
 import { DateString } from 'types/global/DateString';
 
-export interface FlightSearchRequest { //  extends SearchRequest
+export interface FlightSearchRequest extends SearchRequest {
+  //  extends SearchRequest
   direction: string; // one_way, round_trip, multi_city
 
   start_airport: string;
   end_airport: string;
-  start_date: DateString;
-  end_date?: DateString; // for round_trip only
+  start_date: string;
+  end_date: string;
 
   adults: number;
   children: number;

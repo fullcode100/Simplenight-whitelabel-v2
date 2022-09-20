@@ -12,9 +12,9 @@
 //   error: null;
 // }
 
-import { FlightSearchResponse } from './SearchResponse';
+import { FlightSearchResponse2 } from './SearchResponse';
 
-export type FlightDetailResponse = FlightSearchResponse;
+export type FlightDetailResponse = FlightSearchResponse2;
 
 export interface FlightDetails {
   name: string;

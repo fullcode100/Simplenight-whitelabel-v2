@@ -27,7 +27,8 @@ const useFilter = (hotels: Hotel[], flights: Flight[], keywordSearch = '') => {
   }, [keywordSearch, hotels]);
 
   const filterFlights = (array: Flight[]): Flight[] => {
-    let filteredFlights = array;
+    const filteredFlights = array;
+    /*
     if (keywordSearch !== '') {
       filteredFlights = filteredFlights.filter(
         (flight: Flight) =>
@@ -42,6 +43,7 @@ const useFilter = (hotels: Hotel[], flights: Flight[], keywordSearch = '') => {
             .includes((keywordSearch as string).toLowerCase()),
       );
     }
+    */
     return filteredFlights;
   };
 

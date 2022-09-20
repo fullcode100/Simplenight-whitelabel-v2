@@ -26,8 +26,8 @@ import RoomsSection from 'flights/components/Rooms/RoomsSection';
 import Divider from '../../../components/global/Divider/Divider';
 import CustomerReviewsSection from 'components/global/CustomerReviews/CustomerReviewsSection';
 import {
-  Flight,
-  FlightSearchResponse,
+  Flight2,
+  FlightSearchResponse2,
 } from 'flights/types/response/SearchResponse';
 import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
@@ -69,7 +69,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
   const [displaySeeMore, setDisplaySeeMore] = useState(true);
   const [descriptionHeight, setDescriptionHeight] = useState(232);
   const [loaded, setLoaded] = useState(false);
-  const [flight, setFlight] = useState<Flight>(initialState[0]);
+  const [flight, setFlight] = useState<Flight2>(initialState[0]);
   const [emptyState, setEmptyState] = useState<boolean>(false);
   const {
     details: { name, address, description, star_rating: starRating },
@@ -115,7 +115,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
     };
 
     Category.core.ClientDetailer?.request(params, i18next, params.flight_id)
-      .then(({ flights }: FlightSearchResponse) => {
+      .then(({ flights }: FlightSearchResponse2) => {
         setFlight(flights[0]);
         setLoaded(true);
         setEmptyState(false);
@@ -183,7 +183,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
         </section>
         <BlockDivider className="mt-5" />
         <section className="px-4">
-          <HorizontalTabs tabs={tabs} onClick={handleTabClick} />
+          {/* <HorizontalTabs tabs={tabs} onClick={handleTabClick} /> */}
         </section>
       </section>
     );

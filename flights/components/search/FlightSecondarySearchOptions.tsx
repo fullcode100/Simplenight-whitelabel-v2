@@ -39,8 +39,8 @@ const FlightSecondarySearchOptions = () => {
   );
 
   const [initialPriceRange, setInitialPriceRange] = useState({
-    min: `0`,
-    max: `10000`,
+    min: '0',
+    max: '10000',
   });
   const [minPrice, setMinPrice] = useState<string>(
     (queryFilter?.minPrice as string) || initialPriceRange.min,
@@ -78,10 +78,14 @@ const FlightSecondarySearchOptions = () => {
   const filtersText = t('filters', 'Filters');
 
   const [departureTimes, setDepartureTimes] = useState<string[]>(
-    queryFilter?.departureTimes ? queryFilter.departureTimes.split(',') : ['0', '23']
+    queryFilter?.departureTimes
+      ? queryFilter.departureTimes.toString().split(',')
+      : ['0', '23'],
   );
   const [arrivalTimes, setArrivalTimes] = useState<string[]>(
-    queryFilter?.arrivalTimes ? queryFilter.arrivalTimes.split(',') : ['0', '23']
+    queryFilter?.arrivalTimes
+      ? queryFilter.arrivalTimes.toString().split(',')
+      : ['0', '23'],
   );
 
   const [stops, setStops] = useState<string[]>([]);
@@ -94,43 +98,77 @@ const FlightSecondarySearchOptions = () => {
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
-    let flights = JSON.parse(localStorage.getItem('lastSearchResponse') as string);
+    let flights = JSON.parse(
+      localStorage.getItem('lastSearchResponse') as string,
+    );
     if (!flights) flights = [];
     let itemIndex = parseInt(localStorage.getItem('flightIndex') as string);
     if (!itemIndex) itemIndex = 0;
 
     // analyze flights response
-    let flightsMinPrice: number = flights && flights[0] ? flights[0]?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount : 100;
-    let flightsMaxPrice: number = flights && flights[0] ? flights[0]?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount : 5000;
-    let flightsMaxStops: number = 0;
-    let flightsAirlines: string[] = [];
-    let flightsCities: string[] = [];
+    let flightsMinPrice: number =
+      flights && flights[0]
+        ? flights[0]?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare
+          ?.amount
+        : 100;
+    let flightsMaxPrice: number =
+      flights && flights[0]
+        ? flights[0]?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare
+          ?.amount
+        : 5000;
+    let flightsMaxStops = 0;
+    const flightsAirlines: string[] = [];
+    const flightsCities: string[] = [];
 
     if (flights && flights.length) {
-      flights.forEach((item) => {
-        const itemFlight = item?.airItinerary?.originDestinationOptions?.originDestinationOption[itemIndex];
-        //price
-        if (item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount < flightsMinPrice)
-          flightsMinPrice = item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
-        if (item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount > flightsMaxPrice)
-          flightsMaxPrice = item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
-        //stops
-        if (itemFlight?.flightSegment.length - 1 > flightsMaxStops) flightsMaxStops = itemFlight?.flightSegment.length - 1;
-        //airlines
+      flights.forEach((item: Flight) => {
+        const itemFlight =
+          item?.airItinerary?.originDestinationOptions?.originDestinationOption[
+            itemIndex
+          ];
+        // price
+        if (
+          item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount <
+          flightsMinPrice
+        )
+          flightsMinPrice =
+            item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
+        if (
+          item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount >
+          flightsMaxPrice
+        )
+          flightsMaxPrice =
+            item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
+        // stops
+        if (itemFlight?.flightSegment.length - 1 > flightsMaxStops)
+          flightsMaxStops = itemFlight?.flightSegment.length - 1;
+        // airlines
         itemFlight?.flightSegment.forEach((segment) => {
           if (flightsAirlines.indexOf(segment?.operatingAirline?.code) < 0)
             flightsAirlines.push(segment?.operatingAirline?.code);
         });
-        //cities
+        // cities
         itemFlight?.flightSegment.forEach((segment) => {
-          if (flightsCities.indexOf(itemFlight?.flightSegment[0]?.departureAirport?.locationCode) < 0)
-            flightsCities.push(itemFlight?.flightSegment[0]?.departureAirport?.locationCode);
-          if (flightsCities.indexOf(itemFlight?.flightSegment[0]?.arrivalAirport?.locationCode) < 0)
-            flightsCities.push(itemFlight?.flightSegment[0]?.arrivalAirport?.locationCode);
+          if (
+            flightsCities.indexOf(
+              itemFlight?.flightSegment[0]?.departureAirport?.locationCode,
+            ) < 0
+          )
+            flightsCities.push(
+              itemFlight?.flightSegment[0]?.departureAirport?.locationCode,
+            );
+          if (
+            flightsCities.indexOf(
+              itemFlight?.flightSegment[0]?.arrivalAirport?.locationCode,
+            ) < 0
+          )
+            flightsCities.push(
+              itemFlight?.flightSegment[0]?.arrivalAirport?.locationCode,
+            );
         });
       });
 
-      //price
+      // price
       if (!queryFilter?.minPrice) setMinPrice(`${flightsMinPrice}`);
       if (!queryFilter?.maxPrice) setMaxPrice(`${flightsMaxPrice}`);
       /*
@@ -139,19 +177,25 @@ const FlightSecondarySearchOptions = () => {
         max: `${flightsMaxPrice}`,
       });
       */
-      //stops
-      setStops(queryFilter?.stops ? queryFilter.stops.split(',') : []);
-      let flightsStops = [directText];
+      // stops
+      setStops(
+        queryFilter?.stops ? queryFilter.stops.toString().split(',') : [],
+      );
+      const flightsStops = [directText];
       for (let i = 1; i <= flightsMaxStops; i += 1) {
         if (i < 2) flightsStops.push(`${i} ${stopText}`);
         else flightsStops.push(`${i} ${stopsText}`);
       }
       setStopsOptions(flightsStops);
-      //airlines
-      setAirlines(queryFilter?.airlines ? queryFilter.airlines.split(',') : []);
+      // airlines
+      setAirlines(
+        queryFilter?.airlines ? queryFilter.airlines.toString().split(',') : [],
+      );
       setAirlinesOptions(flightsAirlines.sort(Intl.Collator().compare));
-      //cities
-      setCities(queryFilter?.cities ? queryFilter.cities.split(',') : []);
+      // cities
+      setCities(
+        queryFilter?.cities ? queryFilter.cities.toString().split(',') : [],
+      );
       setCitiesOptions(flightsCities.sort(Intl.Collator().compare));
     }
   };
@@ -247,9 +291,10 @@ const FlightSecondarySearchOptions = () => {
   };
 
   const onChangeStops = (value: string, isChecked: boolean) => {
-    let arr = Object.assign([], stops);
+    const arr = Object.assign([], stops);
     if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1) arr.splice(arr.indexOf(value), 1);
+    if (!isChecked && arr.indexOf(value) > -1)
+      arr.splice(arr.indexOf(value), 1);
     setStops(arr);
     /*
     setQueryParams({
@@ -259,9 +304,10 @@ const FlightSecondarySearchOptions = () => {
   };
 
   const onChangeAirlines = (value: string, isChecked: boolean) => {
-    let arr = Object.assign([], airlines);
+    const arr = Object.assign([], airlines);
     if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1) arr.splice(arr.indexOf(value), 1);
+    if (!isChecked && arr.indexOf(value) > -1)
+      arr.splice(arr.indexOf(value), 1);
     setAirlines(arr);
     /*
     setQueryParams({
@@ -271,9 +317,10 @@ const FlightSecondarySearchOptions = () => {
   };
 
   const onChangeCities = (value: string, isChecked: boolean) => {
-    let arr = Object.assign([], cities);
+    const arr = Object.assign([], cities);
     if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1) arr.splice(arr.indexOf(value), 1);
+    if (!isChecked && arr.indexOf(value) > -1)
+      arr.splice(arr.indexOf(value), 1);
     setCities(arr);
     /*
     setQueryParams({

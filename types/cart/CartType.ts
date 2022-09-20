@@ -80,6 +80,7 @@ export interface Item {
   guests?: number;
   adults?: number;
   children?: number;
+  infants?: number;
   room_qty?: number;
 }
 
@@ -103,6 +104,24 @@ export interface UpdateCartRequest {
 }
 
 export interface HotelCart {
+  amount_min?: Amount;
+  details?: Details;
+  end_date?: string;
+  giata_code?: string;
+  id?: string;
+  min_rate_room?: Room;
+  photos?: Photo[];
+  relative_position?: RelativePosition;
+  items?: Item[];
+  rooms?: Room[];
+  relevance?: number;
+  start_date?: string;
+  thumbnail?: string;
+  terms_and_conditions?: string;
+  check_in_instructions?: CheckInInstructions;
+}
+
+export interface FlightCart {
   amount_min?: Amount;
   details?: Details;
   end_date?: string;

@@ -52,14 +52,20 @@ const FlightSearchForm = ({
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
-  const [direction, setDirection] = useState(params?.direction?.toString() || 'round_trip');
+  const [direction, setDirection] = useState(
+    params?.direction?.toString() || 'round_trip',
+  );
   const [cabin, setCabin] = useState('economy');
 
   const [travelersData, setTravelersData] = useState<Room[]>(
-    params.travelersData ? JSON.parse(params.travelersData as string) : [createRoom()],
+    params.travelersData
+      ? JSON.parse(params.travelersData as string)
+      : [createRoom()],
   );
   const [adults, setAdults] = useState(travelersData[0].adults.toString());
-  const [children, setChildren] = useState(travelersData[0].children.toString());
+  const [children, setChildren] = useState(
+    travelersData[0].children.toString(),
+  );
   const [infants, setInfants] = useState(travelersData[0].infants.toString());
   const [rooms, setRooms] = useState(travelersData.length.toString());
   const [childrenAges, setChildrenAges] = useState(
@@ -100,24 +106,28 @@ const FlightSearchForm = ({
 
   // multi city
   const [startDates, setStartDates] = useState<string[]>(
-    params.startDates ? params.startDates.split('|') : [startDate]
+    params.startDates ? params.startDates.toString().split('|') : [startDate],
   );
   const [addresses, setAddresses] = useState<string[]>(
-    params.addresses ? params.addresses.split('|') : [address]
+    params.addresses ? params.addresses.toString().split('|') : [address],
   );
   const [addresses2, setAddresses2] = useState<string[]>(
-    params.addresses2 ? params.addresses2.split('|') : [address2]
+    params.addresses2 ? params.addresses2.toString().split('|') : [address2],
   );
 
   let _flights: string[] = [];
   if (direction === 'multi_city') {
     if (params.startDates) {
-      for (let i = 0; i < params.startDates.split('|').length; i += 1) {
+      for (
+        let i = 0;
+        i < params.startDates.toString().split('|').length;
+        i += 1
+      ) {
         _flights.push('one_way');
       }
     } else _flights = ['one_way'];
   } else _flights = [direction];
-  const [flights, setFlights] = useState<string[]>( _flights);
+  const [flights, setFlights] = useState<string[]>(_flights);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
@@ -133,23 +143,31 @@ const FlightSearchForm = ({
       setStartDates([startDate]);
       setAddresses([address]);
       setAddresses2([address2]);
-    }else setFlights([value]);
+    } else setFlights([value]);
   };
 
   const handleFlightsAdd = () => {
-    let _flights = Object.assign([], flights);
+    const _flights = Object.assign([], flights);
     _flights.push('one_way');
     setFlights(_flights);
 
-    let dates: string[] = Object.assign([], startDates);
-    dates.push(startDates[startDates.length - 1] ? startDates[startDates.length - 1] : formatAsSearchDate(dayjs()));
+    const dates: string[] = Object.assign([], startDates);
+    dates.push(
+      startDates[startDates.length - 1]
+        ? startDates[startDates.length - 1]
+        : formatAsSearchDate(dayjs()),
+    );
     setStartDates(dates);
 
-    let addrs: string[] = Object.assign([], addresses);
-    addrs.push(addresses2[addresses2.length - 1] ? addresses2[addresses2.length - 1] : '');
+    const addrs: string[] = Object.assign([], addresses);
+    addrs.push(
+      addresses2[addresses2.length - 1]
+        ? addresses2[addresses2.length - 1]
+        : '',
+    );
     setAddresses(addrs);
 
-    let addrs2: string[] = Object.assign([], addresses2);
+    const addrs2: string[] = Object.assign([], addresses2);
     addrs2.push('');
     setAddresses2(addrs2);
   };
@@ -157,42 +175,50 @@ const FlightSearchForm = ({
   const handleFlightsDelete = (index: number) => {
     if (flights.length < 2) return;
 
-    let _flights = Object.assign([], flights);
+    const _flights = Object.assign([], flights);
     _flights.splice(index, 1);
     setFlights(_flights);
 
-    let dates: string[] = Object.assign([], startDates);
+    const dates: string[] = Object.assign([], startDates);
     dates.splice(index, 1);
     setStartDates(dates);
 
-    let addrs: string[] = Object.assign([], addresses);
+    const addrs: string[] = Object.assign([], addresses);
     addrs.splice(index, 1);
     setAddresses(addrs);
 
-    let addrs2: string[] = Object.assign([], addresses2);
+    const addrs2: string[] = Object.assign([], addresses2);
     addrs2.splice(index, 1);
     setAddresses2(addrs2);
   };
 
-  const handleSelectLocation = (latLng: latLngProp, addr: string, index: number) => {
+  const handleSelectLocation = (
+    latLng: latLngProp,
+    addr: string,
+    index: number,
+  ) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     if (index < 1) {
       setGeolocation(newGeolocation);
       setAddress(addr);
     }
-    let addrs: string[] = Object.assign([], addresses);
+    const addrs: string[] = Object.assign([], addresses);
     addrs[index] = addr;
     setAddresses(addrs);
     console.log(addrs);
   };
 
-  const handleSelectLocation2 = (latLng: latLngProp, addr: string, index: number) => {
+  const handleSelectLocation2 = (
+    latLng: latLngProp,
+    addr: string,
+    index: number,
+  ) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     if (index < 1) {
       setGeolocation2(newGeolocation);
       setAddress2(addr);
     }
-    let addrs: string[] = Object.assign([], addresses2);
+    const addrs: string[] = Object.assign([], addresses2);
     addrs[index] = addr;
     setAddresses2(addrs);
     console.log(addrs);
@@ -202,7 +228,7 @@ const FlightSearchForm = ({
     if (index < 1) {
       setStartDate(value);
     }
-    let dates: string[] = Object.assign([], startDates);
+    const dates: string[] = Object.assign([], startDates);
     dates[index] = value;
     setStartDates(dates);
     console.log(value, index, dates);
@@ -217,48 +243,54 @@ const FlightSearchForm = ({
   };
 
   const rerouteToSearchPage = () => {
-    const startAirport = address ? address.split('(').pop().split(')')[0] : '';
-    if (!startAirport || startAirport.length !== 3) return alert('Can not find leaving from Airport Code');
-    const endAirport = address2 ? address2.split('(').pop().split(')')[0] : '';
-    if (!endAirport || endAirport.length !== 3) return alert('Can not find going to Airport Code');
+    const _address = address.toString().split('(').pop();
+    const startAirport = _address ? _address.toString().split(')')[0] : '';
+    if (!startAirport || startAirport.length !== 3)
+      return alert('Can not find leaving from Airport Code');
+    const _address2 = address2.toString().split('(').pop();
+    const endAirport = _address2 ? _address2.toString().split(')')[0] : '';
+    if (!endAirport || endAirport.length !== 3)
+      return alert('Can not find going to Airport Code');
 
     // multi city
-    let startAirports: string[] = [];
-    let endAirports: string[] = [];
+    const startAirports: string[] = [];
+    const endAirports: string[] = [];
     if (direction === 'multi_city') {
       addresses.forEach((addr: string, index: number) => {
-        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
-        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        const _addr = addr.toString().split('(').pop();
+        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3)
+          return alert(
+            `Can not find leaving from Airport Code for flight #${index + 1}`,
+          );
         startAirports.push(airportCode);
       });
       addresses2.forEach((addr: string, index: number) => {
-        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
-        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        const _addr = addr.toString().split('(').pop();
+        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3)
+          return alert(
+            `Can not find leaving from Airport Code for flight #${index + 1}`,
+          );
         endAirports.push(airportCode);
       });
     }
 
     let route = `/search/flights?direction=${direction}&startAirport=${startAirport}&endAirport=${endAirport}&startDate=${startDate}&endDate=${endDate}&adults=${adults}&children=${children}&infants=${infants}&childrenAges=${childrenAges}&infantsAges=${infantsAges}&latitude=${
-      geolocation?.split(',')[LATITUDE_INDEX]
+      geolocation?.toString().split(',')[LATITUDE_INDEX]
     }&longitude=${
-      geolocation?.split(',')[LONGITUDE_INDEX]
+      geolocation?.toString().split(',')[LONGITUDE_INDEX]
     }&address=${address}&latitude2=${
-      geolocation2?.split(',')[LATITUDE_INDEX]
+      geolocation2?.toString().split(',')[LATITUDE_INDEX]
     }&longitude2=${
-      geolocation2?.split(',')[LONGITUDE_INDEX]
+      geolocation2?.toString().split(',')[LONGITUDE_INDEX]
     }&address2=${address2}&travelersData=${JSON.stringify(travelersData)}`;
-    if (direction === 'multi_city') 
-      route = `${route}&startAirports=${
-        startAirports.join('|')
-      }&endAirports=${
-        endAirports.join('|')
-      }&startDates=${
-        startDates.join('|')
-      }&addresses=${
-        addresses.join('|')
-      }&addresses2=${
-        addresses2.join('|')
-      }`;
+    if (direction === 'multi_city')
+      route = `${route}&startAirports=${startAirports.join(
+        '|',
+      )}&endAirports=${endAirports.join('|')}&startDates=${startDates.join(
+        '|',
+      )}&addresses=${addresses.join('|')}&addresses2=${addresses2.join('|')}`;
     handleSaveLastSearch(route);
     router.push(route);
   };
@@ -280,57 +312,43 @@ const FlightSearchForm = ({
       return;
     }
 
-    const startAirport = address ? address.split('(').pop().split(')')[0] : '';
-    if (!startAirport || startAirport.length !== 3) return alert('Can not find leaving from Airport Code');
-    const endAirport = address2 ? address2.split('(').pop().split(')')[0] : '';
-    if (!endAirport || endAirport.length !== 3) return alert('Can not find going to Airport Code');
+    const _address = address.toString().split('(').pop();
+    const startAirport = _address ? _address.toString().split(')')[0] : '';
+    if (!startAirport || startAirport.length !== 3)
+      return alert('Can not find leaving from Airport Code');
+    const _address2 = address2.toString().split('(').pop();
+    const endAirport = _address2 ? _address2.toString().split(')')[0] : '';
+    if (!endAirport || endAirport.length !== 3)
+      return alert('Can not find going to Airport Code');
 
     // multi city
-    let startAirports: string[] = [];
-    let endAirports: string[] = [];
+    const startAirports: string[] = [];
+    const endAirports: string[] = [];
     if (direction === 'multi_city') {
       addresses.forEach((addr: string, index: number) => {
-        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
-        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        const _addr = addr.toString().split('(').pop();
+        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3)
+          return alert(
+            `Can not find leaving from Airport Code for flight #${index + 1}`,
+          );
         startAirports.push(airportCode);
       });
       addresses2.forEach((addr: string, index: number) => {
-        const airportCode = addr ? addr.split('(').pop().split(')')[0] : '';
-        if (!airportCode || airportCode.length !== 3) return alert(`Can not find leaving from Airport Code for flight #${index + 1}`);
+        const _addr = addr.toString().split('(').pop();
+        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
+        if (!airportCode || airportCode.length !== 3)
+          return alert(
+            `Can not find leaving from Airport Code for flight #${index + 1}`,
+          );
         endAirports.push(airportCode);
       });
     }
 
     const travelersDataFormatted = JSON.stringify(travelersData);
-    let _queryParam = {
-      direction,
-
-      startAirport,
-      endAirport,
-      startDate,
-      endDate,
-
-      adults,
-      children,
-      infants,
-      childrenAges,
-      infantsAges,
-
-      address: address as string,
-      geolocation: geolocation ?? '',
-      latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
-      longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
-
-      address2: address2 as string,
-      geolocation2: geolocation2 ?? '',
-      latitude2: geolocation2?.split(',')[LATITUDE_INDEX] ?? '',
-      longitude2: geolocation2?.split(',')[LONGITUDE_INDEX] ?? '',
-
-      travelersData: travelersDataFormatted,
-    };
 
     if (direction === 'multi_city') {
-      _queryParam = {
+      setQueryParam({
         direction,
 
         startAirport,
@@ -346,13 +364,13 @@ const FlightSearchForm = ({
 
         address: address as string,
         geolocation: geolocation ?? '',
-        latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
-        longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
+        latitude: geolocation?.toString().split(',')[LATITUDE_INDEX] ?? '',
+        longitude: geolocation?.toString().split(',')[LONGITUDE_INDEX] ?? '',
 
         address2: address2 as string,
         geolocation2: geolocation2 ?? '',
-        latitude2: geolocation2?.split(',')[LATITUDE_INDEX] ?? '',
-        longitude2: geolocation2?.split(',')[LONGITUDE_INDEX] ?? '',
+        latitude2: geolocation2?.toString().split(',')[LATITUDE_INDEX] ?? '',
+        longitude2: geolocation2?.toString().split(',')[LONGITUDE_INDEX] ?? '',
 
         travelersData: travelersDataFormatted,
 
@@ -362,11 +380,35 @@ const FlightSearchForm = ({
         startDates: startDates.join('|'),
         addresses: addresses.join('|'),
         addresses2: addresses2.join('|'),
-      };
-    }
+      });
+    } else {
+      setQueryParam({
+        direction,
 
-    // console.log(_queryParam);
-    setQueryParam(_queryParam);
+        startAirport,
+        endAirport,
+        startDate,
+        endDate,
+
+        adults,
+        children,
+        infants,
+        childrenAges,
+        infantsAges,
+
+        address: address as string,
+        geolocation: geolocation ?? '',
+        latitude: geolocation?.toString().split(',')[LATITUDE_INDEX] ?? '',
+        longitude: geolocation?.toString().split(',')[LONGITUDE_INDEX] ?? '',
+
+        address2: address2 as string,
+        geolocation2: geolocation2 ?? '',
+        latitude2: geolocation2?.toString().split(',')[LATITUDE_INDEX] ?? '',
+        longitude2: geolocation2?.toString().split(',')[LONGITUDE_INDEX] ?? '',
+
+        travelersData: travelersDataFormatted,
+      });
+    }
     if (setIsSearching) setIsSearching(false);
   };
 
@@ -374,7 +416,14 @@ const FlightSearchForm = ({
   const location2Placeholder = t('location2InputPlaceholder', 'Going To');
 
   useEffect(() => {
-    setTravelersTotals(travelersData, setAdults, setChildren, setInfants, setChildrenAges, setInfantsAges);
+    setTravelersTotals(
+      travelersData,
+      setAdults,
+      setChildren,
+      setInfants,
+      setChildrenAges,
+      setInfantsAges,
+    );
     setRooms(travelersData.length.toString());
   }, [travelersData]);
 
@@ -388,10 +437,14 @@ const FlightSearchForm = ({
 
   return (
     <section
-      className={`flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible`}
+      className={
+        'flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible'
+      }
     >
       <section
-        className={`flex flex-col justify-between  lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
+        className={
+          'flex flex-col justify-between  lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0'
+        }
       >
         <section className="flex flex-col gap-4 lg:flex-row lg:w-[300px] lg:justify-between lg:items-center mt-4 lg:mt-0">
           <FlightSelect value={direction} onChange={handleDirectionChange} />
@@ -431,32 +484,51 @@ const FlightSearchForm = ({
         <section key={flightIndex} className="flex flex-col">
           {direction === 'multi_city' && (
             <section className="mt-5 w-full">
-              <Label value={`${flightLabel} #${flightIndex + 1}`} className="block font-normal text-sm text-dark-500" />
+              <Label
+                value={`${flightLabel} #${flightIndex + 1}`}
+                className="block font-normal text-sm text-dark-500"
+              />
             </section>
           )}
           <section
-            className={`flex flex-col justify-between lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0 mt-4 lg:mt-4`}
+            className={
+              'flex flex-col justify-between lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0 mt-4 lg:mt-4'
+            }
           >
             <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
               <LocationInput
-                icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+                icon={
+                  <LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />
+                }
                 label={locationInputLabel}
                 name="location"
                 placeholder={locationPlaceholder}
                 routeParams={['address']}
-                defaultAddress={direction === 'multi_city' ? addresses[flightIndex] : address}
-                onSelect={(latLng: latLngProp, address: string) => handleSelectLocation(latLng, address, flightIndex)}
+                defaultAddress={
+                  direction === 'multi_city' ? addresses[flightIndex] : address
+                }
+                onSelect={(latLng: latLngProp, address: string) =>
+                  handleSelectLocation(latLng, address, flightIndex)
+                }
                 error={showLocationError}
                 onChange={() => setShowLocationError(false)}
               />
               <LocationInput
-                icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+                icon={
+                  <LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />
+                }
                 label={location2InputLabel}
                 name="location2"
                 placeholder={location2Placeholder}
                 routeParams={['address2']}
-                defaultAddress={direction === 'multi_city' ? addresses2[flightIndex] : address2}
-                onSelect={(latLng: latLngProp, address: string) => handleSelectLocation2(latLng, address, flightIndex)}
+                defaultAddress={
+                  direction === 'multi_city'
+                    ? addresses2[flightIndex]
+                    : address2
+                }
+                onSelect={(latLng: latLngProp, address: string) =>
+                  handleSelectLocation2(latLng, address, flightIndex)
+                }
                 error={showLocationError}
                 onChange={() => setShowLocationError(false)}
               />
@@ -466,9 +538,15 @@ const FlightSearchForm = ({
                 onClose={() => setShowDatePicker(false)}
                 startDateLabel={checkInText}
                 endDateLabel={checkOutText}
-                initialStartDate={direction === 'multi_city' ? startDates[flightIndex] : startDate}
+                initialStartDate={
+                  direction === 'multi_city'
+                    ? startDates[flightIndex]
+                    : startDate
+                }
                 initialEndDate={endDate}
-                onStartDateChange={(value) => handleStartDateChange(value, flightIndex)}
+                onStartDateChange={(value) =>
+                  handleStartDateChange(value, flightIndex)
+                }
                 onEndDateChange={handleEndDateChange}
                 openOnStart={clickOnStart ? true : false}
                 equal={direction !== 'round_trip'}
@@ -481,8 +559,16 @@ const FlightSearchForm = ({
                   className="lg:mt-0"
                   orientation="left"
                   icon={<Calendar className="h-5 w-5 text-dark-700" />}
-                  value={fromLowerCaseToCapitilize(formatAsDisplayDate(direction === 'multi_city' ? startDates[flightIndex] : startDate))}
-                  onChange={(event) => handleStartDateChange(event.target.value, flightIndex)}
+                  value={fromLowerCaseToCapitilize(
+                    formatAsDisplayDate(
+                      direction === 'multi_city'
+                        ? startDates[flightIndex]
+                        : startDate,
+                    ),
+                  )}
+                  onChange={(event) =>
+                    handleStartDateChange(event.target.value, flightIndex)
+                  }
                   onClick={() => {
                     setClickOnStart(true);
                     setShowDatePicker(true);
@@ -497,8 +583,12 @@ const FlightSearchForm = ({
                     orientation="left"
                     className="lg:mt-0"
                     icon={<Calendar className="h-5 w-5 text-dark-700" />}
-                    value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
-                    onChange={(event) => handleEndDateChange(event.target.value)}
+                    value={fromLowerCaseToCapitilize(
+                      formatAsDisplayDate(endDate),
+                    )}
+                    onChange={(event) =>
+                      handleEndDateChange(event.target.value)
+                    }
                     onClick={() => {
                       setClickOnStart(false);
                       setShowDatePicker(true);
@@ -535,9 +625,7 @@ const FlightSearchForm = ({
       ))}
 
       {direction === 'multi_city' && flights.length < 5 && (
-        <section
-          className={`flex justify-between items-end`}
-        >
+        <section className={'flex justify-between items-end'}>
           <section className="w-full lg:w-[10%] hidden lg:inline" />
           <section className="w-full flex items-center justify-center mt-6 lg:w-[10%] mb-[100px] lg:mb-0">
             <Button

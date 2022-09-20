@@ -1,4 +1,4 @@
-import { Flight } from './types/response/SearchResponse';
+import { Flight2 } from './types/response/SearchResponse';
 
 export default [
   {
@@ -4832,4 +4832,4 @@ export default [
     thumbnail:
       'https://photos.flightbeds.com/giata/41/412035/412035a_hb_ro_001.jpg',
   },
-] as Flight[];
+] as Flight2[];

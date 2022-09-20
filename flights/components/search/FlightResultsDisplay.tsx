@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
-import FlightMapView from './FlightResultsMapView';
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
@@ -45,7 +44,9 @@ interface ViewButtonProps {
   viewParam: 'list' | 'map';
 }
 
-const FlightResultsDisplay = ({ FlightCategory }: FlightResultsDisplayProps) => {
+const FlightResultsDisplay = ({
+  FlightCategory,
+}: FlightResultsDisplayProps) => {
   const [loaded, setLoaded] = useState(false);
   const { ClientSearcher: Searcher } = FlightCategory.core;
   const [t, i18next] = useTranslation('flights');
@@ -168,7 +169,10 @@ const FlightResultsDisplay = ({ FlightCategory }: FlightResultsDisplayProps) => 
         console.log('searchedFlights', searchedFlights);
         setFlights(searchedFlights);
         filterFlights(searchedFlights);
-        localStorage.setItem('lastSearchResponse', JSON.stringify(searchedFlights));
+        localStorage.setItem(
+          'lastSearchResponse',
+          JSON.stringify(searchedFlights),
+        );
       })
       .catch((error) => console.error(error))
       .then(() => setLoaded(true));
@@ -206,81 +210,120 @@ const FlightResultsDisplay = ({ FlightCategory }: FlightResultsDisplayProps) => 
   ]);
 
   const handleOnViewDetailClick = (flight: Flight) => {
-    const { id } = flight;
+    const { sequenceNumber } = flight;
     router.push(
-      `/detail/flights/${id}?direction=${direction}&startAirport=${startAirport}&endAirport=${endAirport}&startDate=${startDate}&endDate=${endDate}&adults=${adults}&children=${children}&infants=${infants}&childrenAges=${childrenAges}&infantsAges=${infantsAges}&geolocation=${latitude},${longitude}&startAirports=${startAirports}&endAirports=${endAirports}&startDates=${startDates}`,
+      `/detail/flights/${sequenceNumber}?direction=${direction}&startAirport=${startAirport}&endAirport=${endAirport}&startDate=${startDate}&endDate=${endDate}&adults=${adults}&children=${children}&infants=${infants}&childrenAges=${childrenAges}&infantsAges=${infantsAges}&geolocation=${latitude},${longitude}&startAirports=${startAirports}&endAirports=${endAirports}&startDates=${startDates}`,
     );
   };
 
   const filterFlights = (_flights: Flight[]) => {
-    let _flightsFiltered: Flight[] = [];
+    const _flightsFiltered: Flight[] = [];
 
     _flights.forEach((item: Flight, index: number) => {
-      const amount = item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
-      const itemFlight = item?.airItinerary?.originDestinationOptions?.originDestinationOption[flightIndex];
+      const amount =
+        item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
+      const itemFlight =
+        item?.airItinerary?.originDestinationOptions?.originDestinationOption[
+          flightIndex
+        ];
       const _stops = itemFlight?.flightSegment.length - 1;
       let stopsLabel = `${stops} ${stopsText}`;
       if (_stops < 1) stopsLabel = directText;
       else if (_stops < 2) stopsLabel = `1 ${stopText}`;
-      const _departureTime = moment(itemFlight?.flightSegment[0]?.departureDateTime).format('H');
-      const _arrivalTime = moment(itemFlight?.flightSegment[itemFlight?.flightSegment.length - 1]?.arrivalDateTime).format('H');
-      const _airlines = [];
-      const _cities = [];
+      const _departureTime = moment(
+        itemFlight?.flightSegment[0]?.departureDateTime,
+      ).format('H');
+      const _arrivalTime = moment(
+        itemFlight?.flightSegment[itemFlight?.flightSegment.length - 1]
+          ?.arrivalDateTime,
+      ).format('H');
+      const _airlines: string[] = [];
+      const _cities: string[] = [];
       itemFlight?.flightSegment.forEach((segment, index) => {
-        if (_airlines.indexOf(segment?.operatingAirline?.code) < 0) _airlines.push(segment?.operatingAirline?.code);
-        if (_cities.indexOf(segment?.departureAirport?.locationCode) < 0) _cities.push(segment?.departureAirport?.locationCode);
-        if (_cities.indexOf(segment?.arrivalAirport?.locationCode) < 0) _cities.push(segment?.arrivalAirport?.locationCode);
+        if (_airlines.indexOf(segment?.operatingAirline?.code) < 0)
+          _airlines.push(segment?.operatingAirline?.code);
+        if (_cities.indexOf(segment?.departureAirport?.locationCode) < 0)
+          _cities.push(segment?.departureAirport?.locationCode);
+        if (_cities.indexOf(segment?.arrivalAirport?.locationCode) < 0)
+          _cities.push(segment?.arrivalAirport?.locationCode);
       });
 
       let valid = true;
       if (minPrice && parseInt(minPrice as string) > amount) valid = false;
       if (maxPrice && parseInt(maxPrice as string) < amount) valid = false;
       if (stops && stops.indexOf(stopsLabel) < 0) valid = false;
-      if (departureTimes && departureTimes.split(',').length === 2) {
-        const _departureTimes = departureTimes.split(',');
-        if (parseInt(_departureTimes[0]) > parseInt(_departureTime)) valid = false;
-        if (parseInt(_departureTimes[1]) < parseInt(_departureTime)) valid = false;
+      if (departureTimes && departureTimes.toString().split(',').length === 2) {
+        const _departureTimes = departureTimes.toString().split(',');
+        if (parseInt(_departureTimes[0]) > parseInt(_departureTime))
+          valid = false;
+        if (parseInt(_departureTimes[1]) < parseInt(_departureTime))
+          valid = false;
       }
-      if (arrivalTimes && arrivalTimes.split(',').length === 2) {
-        const _arrivalTimes = arrivalTimes.split(',');
+      if (arrivalTimes && arrivalTimes.toString().split(',').length === 2) {
+        const _arrivalTimes = arrivalTimes.toString().split(',');
         if (parseInt(_arrivalTimes[0]) > parseInt(_arrivalTime)) valid = false;
         if (parseInt(_arrivalTimes[1]) < parseInt(_arrivalTime)) valid = false;
       }
       if (airlines) {
-        airlines.split(',').forEach((airline, index) => {
-          if (_airlines.indexOf(airline) < 0) valid = false;
-        });
+        airlines
+          .toString()
+          .split(',')
+          .forEach((airline, index) => {
+            if (_airlines.indexOf(airline) < 0) valid = false;
+          });
       }
       if (cities) {
-        cities.split(',').forEach((city, index) => {
-          if (_cities.indexOf(city) < 0) valid = false;
-        });
+        cities
+          .toString()
+          .split(',')
+          .forEach((city, index) => {
+            if (_cities.indexOf(city) < 0) valid = false;
+          });
       }
 
       if (valid) _flightsFiltered.push(item);
     });
 
     // sort by price
-    if (sortBy && sortBy === 'sortByPriceDesc') _flightsFiltered.sort((a, b) => (a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount > b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount ? -1 : Number(a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount < b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount)));
-    else _flightsFiltered.sort((a, b) => (a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount < b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount ? -1 : Number(a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount > b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount)));
+    if (sortBy && sortBy === 'sortByPriceDesc')
+      _flightsFiltered.sort((a, b) =>
+        a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount >
+        b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount
+          ? -1
+          : Number(
+            a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount <
+                b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount,
+          ),
+      );
+    else
+      _flightsFiltered.sort((a, b) =>
+        a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount <
+        b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount
+          ? -1
+          : Number(
+            a?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount >
+                b?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount,
+          ),
+      );
 
     setFlightsFiltered(_flightsFiltered);
   };
 
   const FlightList = () => (
     <ul role="list" className="space-y-4">
-      {flightsFiltered.map((flight, index) => {
-        if (index < page * pageItems) return (
-          <HorizontalItemCard
-            key={`flight_${index}`}
-            icon={FlightCategory.icon}
-            categoryName={flightLabel}
-            handleOnViewDetailClick={() => handleOnViewDetailClick(flight)}
-            className=" flex-0-0-auto"
-            item={flight}
-            itemIndex={flightIndex}
-          />
-        );
+      {flightsFiltered.map((flight: Flight, index: number) => {
+        if (index < page * pageItems)
+          return (
+            <HorizontalItemCard
+              key={`flight_${index}`}
+              icon={FlightCategory.icon}
+              categoryName={flightLabel}
+              handleOnViewDetailClick={() => handleOnViewDetailClick(flight)}
+              className=" flex-0-0-auto"
+              item={flight}
+              itemIndex={flightIndex}
+            />
+          );
       })}
       {flightsFiltered.length > page * pageItems && (
         <section className="flex w-full justify-center">
@@ -335,10 +378,7 @@ const FlightResultsDisplay = ({ FlightCategory }: FlightResultsDisplayProps) => 
     <>
       <section className="lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
-          <FlightFilterFormDesktop
-            flights={flights}
-            itemIndex={flightIndex}
-          />
+          <FlightFilterFormDesktop flights={flights} itemIndex={flightIndex} />
         </section>
         <section className="lg:flex-1 lg:w-[75%] h-full">
           {!loaded ? (
@@ -377,20 +417,27 @@ const FlightResultsDisplay = ({ FlightCategory }: FlightResultsDisplayProps) => 
                       )}
                       {direction === 'multi_city' && (
                         <>
-                          {startAirports?.split('|').map((item, index) => (
-                            <Button
-                              key={`tab_flight_${index}`}
-                              value={`${startAirports?.split('|')[index]} - ${endAirports?.split('|')[index]}`}
-                              color="outlined"
-                              className={
-                                flightIndex === index
-                                  ? 'p-3 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white'
-                                  : 'p-3 mr-3 text-[15px] font-normal bg-white border border-primary-300 text-primary-1000 whitespace-nowrap hover:text-white'
-                              }
-                              size="full"
-                              onClick={() => onChangeFlightIndex(index)}
-                            />
-                          ))}
+                          {startAirports
+                            ?.toString()
+                            .split('|')
+                            .map((item, index) => (
+                              <Button
+                                key={`tab_flight_${index}`}
+                                value={`${
+                                  startAirports?.toString().split('|')[index]
+                                } - ${
+                                  endAirports?.toString().split('|')[index]
+                                }`}
+                                color="outlined"
+                                className={
+                                  flightIndex === index
+                                    ? 'p-3 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white'
+                                    : 'p-3 mr-3 text-[15px] font-normal bg-white border border-primary-300 text-primary-1000 whitespace-nowrap hover:text-white'
+                                }
+                                size="full"
+                                onClick={() => onChangeFlightIndex(index)}
+                              />
+                            ))}
                         </>
                       )}
                     </section>
