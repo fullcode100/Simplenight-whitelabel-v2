@@ -77,6 +77,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     maxPrice,
     roomsData,
     amenities,
+    supplierIds,
   } = useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -127,6 +128,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       min_price: minPrice as string,
       max_price: maxPrice as string,
       amenities: amenities as string,
+      supplier_ids: supplierIds as string,
     };
 
     if (parseQueryNumber(children as string)) {
