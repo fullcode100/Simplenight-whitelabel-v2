@@ -21,6 +21,8 @@
   "sortByRatingAsc": "Rating (Lowest First)",
   "sortByRatingDesc": "Rating (Highest First)",
   "paymentTypes": "Payment Types",
+  "propertyType": "Property Type",
+  "vacationRental": "Vacation Rental",
   "freeCancellation": "Free Cancellation",
   "nonRefundable": "Non-Refundable",
   "adults": "Adults",
