@@ -34,6 +34,7 @@ import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import HotelCancellable from './HotelCancellable';
 import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/HorizontalSkeletonCard';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
+import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
 
 declare let window: CustomWindow;
 
@@ -70,6 +71,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     keywordSearch,
     sortBy,
     paymentTypes,
+    propertyTypes,
     starRating,
     minPrice,
     maxPrice,
@@ -117,6 +119,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       sort: sortByAdapter(sortBy as unknown as string),
       cancellation_type: cancellationTypeAdapter(
         paymentTypes as unknown as string,
+      ),
+      accommodation_type: propertyTypesAdapter(
+        propertyTypes as unknown as string,
       ),
       star_rating: starRating as string,
       min_price: minPrice as string,
@@ -271,14 +276,14 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                         </span>
                       </span>
                     ) : (
-                      <div className="h-8 rounded bg-dark-200 w-40 animate-pulse"></div>
+                      <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
                     )}
                   </section>
                   {loaded ? <HotelList /> : <HorizontalSkeletonList />}
                 </section>
               )}
               {!isListView && (
-                <section className="relative h-full w-full">
+                <section className="relative w-full h-full">
                   {loaded ? (
                     <HotelMapView
                       HotelCategory={HotelCategory}

@@ -10,6 +10,7 @@ import PaymentFilter from './Filters/PaymentFilter';
 import StarRatingFilter from './Filters/StarRatingFilter';
 import SortByFilter from './Filters/SortByFilter';
 import PriceRangeFilter from './Filters/PriceRangeFilter';
+import PropertyFilter from './Filters/PropertyFilter';
 
 import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -41,11 +42,22 @@ const HotelSecondarySearchOptions = () => {
   const [freeCancellation, setFreeCancellation] = useState<boolean>(
     queryFilter?.paymentTypes?.includes('freeCancellation') || false,
   );
+
+  const [hotels, setHotels] = useState<boolean>(
+    queryFilter?.propertyTypes?.includes('hotels') || false,
+  );
+
+  const [vacationRentals, setVacationRentals] = useState<boolean>(
+    queryFilter?.propertyTypes?.includes('vacationRentals') || false,
+  );
+
   const [payAtProperty, setPayAtProperty] = useState<boolean>(
     queryFilter?.paymentTypes?.includes('payAtProperty') || false,
   );
 
   const [paymentTypes, setPaymentTypes] = useState<string>('');
+
+  const [propertyTypes, setPropertyTypes] = useState<string>('');
 
   const initialPriceRange = {
     min: '100',
@@ -102,6 +114,8 @@ const HotelSecondarySearchOptions = () => {
     setMinStarRating('1');
     setMaxStarRating('5');
     setFreeCancellation(false);
+    setHotels(false);
+    setVacationRentals(false);
     setPayAtProperty(false);
     setSortBy('sortByPriceAsc');
     setSelectedAmenities([]);
@@ -123,6 +137,7 @@ const HotelSecondarySearchOptions = () => {
       keywordSearch,
       sortBy,
       paymentTypes,
+      propertyTypes,
       ...(starRating && { starRating }),
       ...(minPrice && { minPrice }),
       ...(maxPrice && { maxPrice }),
@@ -137,6 +152,17 @@ const HotelSecondarySearchOptions = () => {
     }
     setPaymentTypes(paymentTypes.join('-'));
   }, [freeCancellation, payAtProperty]);
+
+  useEffect(() => {
+    const propertyTypes = [];
+    if (hotels) {
+      propertyTypes.push('hotels');
+    }
+    if (vacationRentals) {
+      propertyTypes.push('vacationRentals');
+    }
+    setPropertyTypes(propertyTypes.join(','));
+  }, [hotels, vacationRentals]);
 
   // Filters to add in the future
 
@@ -168,6 +194,13 @@ const HotelSecondarySearchOptions = () => {
   const FilterForm = (
     <section className="h-full px-5 py-4 overflow-y-scroll">
       {/* <KeywordSearchFilter /> */}
+      <PropertyFilter
+        hotels={hotels}
+        vacationRentals={vacationRentals}
+        onChangeHotels={setHotels}
+        onChangeVacationRentals={setVacationRentals}
+      />
+      <Divider className="my-6" />
       <PriceRangeFilter
         minPrice={minPrice}
         maxPrice={maxPrice}

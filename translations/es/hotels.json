@@ -19,6 +19,8 @@
   "sortByRatingAsc": "Ordenar por puntuación (menor a mayor)",
   "sortByRatingDesc": "Ordenar por puntuación (mayor a menor)",
   "paymentTypes": "Tipos de pago",
+  "propertyType": "Tipo de Propiedad",
+  "vacationRental": "Alquiler Vacacional",
   "freeCancellation": "Cancelación gratuita",
   "nonRefundable": "No Reembolsable",
   "adults": "Adultos",
