@@ -25,7 +25,7 @@ const AmenitiesSection = ({ amenities }: AmenitiesProps) => {
         <button
           type="button"
           onClick={() => setShowAmenitiesModal(true)}
-          className="mb-4 text-sm text-right leading-5 font-medium text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
+          className="mb-4 text-sm text-right leading-5 font-semibold text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
         >
           {viewAllAmenitiesText}
         </button>

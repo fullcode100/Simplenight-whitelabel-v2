@@ -22,7 +22,7 @@ const ListFooter = ({ totalAmount, className }: ListFooterProps) => {
       <section className="flex items-center justify-between">
         <p className="text-sm text-dark-1000">{totalLabel}</p>
         <section className="text-right">
-          <p className="text-base font-bold text-dark-1000">
+          <p className="text-base font-semibold text-dark-1000">
             {totalAmount.formatted}
           </p>
           <section className="flex flex-row gap-1">

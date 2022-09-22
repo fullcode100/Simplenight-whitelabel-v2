@@ -26,7 +26,7 @@ const Summary = ({ cart, reload, setReload, href = '#' }: SummaryProps) => {
     <section className="flex w-full lg:max-w-[470px] items-center justify-between">
       <h4 className="text-base leading-[22px] text-dark-1000">Total</h4>
       <section className="flex flex-col justify-end text-right font-lato">
-        <p className="text-[18px] leading-6 font-bold text-dark-1000">
+        <p className="text-[18px] leading-6 font-semibold text-dark-1000">
           {cart?.total_amount.formatted}
         </p>
         <section className="flex flex-row gap-1">

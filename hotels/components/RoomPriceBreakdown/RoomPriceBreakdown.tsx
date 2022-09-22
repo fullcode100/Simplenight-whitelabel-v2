@@ -88,7 +88,7 @@ const RoomPriceBreakdown = ({
         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
           {totalLabel}
         </p>
-        <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
+        <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
           {total}
         </p>
       </section>
@@ -99,7 +99,7 @@ const RoomPriceBreakdown = ({
         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
           {payAtPropertyLabel}
         </p>
-        <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
+        <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
           {resortFees}
         </p>
       </section>

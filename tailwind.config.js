@@ -6,17 +6,6 @@ module.exports = {
     './layouts/**/*.tsx',
     './hotels/**/*.tsx',
   ],
-  purge: {
-    options: {
-      safelist: [
-        { pattern: /primary/, variants: ['hover', 'focus', 'active'] },
-        { pattern: /dark/, variants: ['hover', 'focus', 'active'] },
-        { pattern: /error/, variants: ['hover', 'focus', 'active'] },
-        { pattern: /border/, variants: ['hover', 'focus', 'active'] },
-        'bg-transparent',
-      ],
-    },
-  },
   theme: {
     extend: {
       borderRadius: {
@@ -89,7 +78,6 @@ module.exports = {
         '4.5xl': '2.5rem',
       },
       fontFamily: {
-        manrope: ['Manrope', 'sans-serif'],
         lato: ['Lato', 'sans-serif'],
       },
       flex: {

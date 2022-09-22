@@ -32,13 +32,13 @@ export default function Checkbox({
             aria-describedby={`${item}-description`}
             name="comments"
             type="checkbox"
-            className="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300 rounded"
+            className="focus:ring-primary-500 h-4 w-4 text-primary-600 border-dark-300 rounded"
             onChange={handleChange}
             checked={isChecked}
           />
         </section>
         <section className="ml-3 text-sm">
-          <label htmlFor="comments" className="font-medium text-gray-700">
+          <label htmlFor="comments" className="font-semibold text-dark-700">
             {item}
           </label>
         </section>
