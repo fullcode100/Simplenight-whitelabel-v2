@@ -30,30 +30,12 @@ export const setBrandColor =
     });
   };
 
-export const setIsMapsLoaded =
-  (isMapsLoaded: boolean): AppThunk =>
-  async (dispatch) => {
-    dispatch({
-      type: types.SET_IS_MAPS_LOADED,
-      payload: isMapsLoaded,
-    });
-  };
-
 export const setHomepageScrollHandler =
   (handler: Function): AppThunk =>
   async (dispatch) => {
     dispatch({
       type: types.SET_HOME_PAGE_SCROLL_HANDLER,
       payload: handler,
-    });
-  };
-
-export const setIsPaymentLoaded =
-  (isPaymentLoaded: boolean): AppThunk =>
-  async (dispatch) => {
-    dispatch({
-      type: types.SET_IS_PAYMENT_LOADED,
-      payload: isPaymentLoaded,
     });
   };
 

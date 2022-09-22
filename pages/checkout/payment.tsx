@@ -76,6 +76,8 @@ const Payment = () => {
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
 
+  const [isPaymentLoaded, setIsPaymentLoaded] = useState(false);
+
   let paymentToken: string;
   let verificationToken: string;
 
@@ -171,6 +173,10 @@ const Payment = () => {
       .catch((error) => console.error(error));
   };
 
+  const handlePaymentLibraryLoad = () => {
+    setIsPaymentLoaded(true);
+  };
+
   const redirectToItinerary = () => {
     router.push(ITINERARY_URI);
   };
@@ -200,6 +206,10 @@ const Payment = () => {
 
   return (
     <>
+      <Script
+        onLoad={handlePaymentLibraryLoad}
+        src="https://sandbox.web.squarecdn.com/v1/square.js"
+      />
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
         <section className="flex items-start justify-center gap-8 px-0 py-0 lg:px-20 lg:py-12">
@@ -211,16 +221,17 @@ const Payment = () => {
                 </InputWrapper>
                 {cart && (
                   <>
-                    <SquarePaymentForm
-                      applicationId={appId}
-                      locationId={locationId}
-                      onTokens={handleTokens}
-                      customer={cart.customer}
-                      amount={cart.total_amount.amount}
-                      currencyCode={cart.total_amount.currency}
-                      ref={payClickRef}
-                    />
-
+                    {isPaymentLoaded && (
+                      <SquarePaymentForm
+                        applicationId={appId}
+                        locationId={locationId}
+                        onTokens={handleTokens}
+                        customer={cart.customer}
+                        amount={cart.total_amount.amount}
+                        currencyCode={cart.total_amount.currency}
+                        ref={payClickRef}
+                      />
+                    )}
                     <InputWrapper
                       label={amountForThisCardLabel}
                       labelKey={'amountForThisCard'}

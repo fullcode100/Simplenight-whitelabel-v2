@@ -6,7 +6,6 @@ import PlacesAutocomplete, {
 import { useTranslation } from 'react-i18next';
 import IconInput from './IconInput';
 import LocationPin from 'public/icons/assets/location-pin.svg';
-import { getIsMapLoaded } from 'store/selectors/core';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -29,7 +28,6 @@ const LocationInput = ({
   const params = useQuery();
   const defaultAddress = params?.address?.toString() || '';
   const [address, setAddress] = useState(defaultAddress);
-  const isMapLoaded = getIsMapLoaded();
 
   const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
@@ -58,63 +56,61 @@ const LocationInput = ({
   );
 
   return (
-    isMapLoaded && (
-      <PlacesAutocomplete
-        value={address}
-        onChange={handleChange}
-        onSelect={handleSelect}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <section className="relative lg:w-full">
-            <IconInput
-              icon={<LocationPin className="w-5 h-5 text-dark-700" />}
-              {...getInputProps({
-                placeholder: locationPlaceholder,
-                className: 'location-search-input',
-              })}
-              {...others}
-            />
-            <section
-              className={classnames(
-                'autocomplete-dropdown-container rounded absolute z-10 w-full block',
+    <PlacesAutocomplete
+      value={address}
+      onChange={handleChange}
+      onSelect={handleSelect}
+    >
+      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        <section className="relative lg:w-full">
+          <IconInput
+            icon={<LocationPin className="w-5 h-5 text-dark-700" />}
+            {...getInputProps({
+              placeholder: locationPlaceholder,
+              className: 'location-search-input',
+            })}
+            {...others}
+          />
+          <section
+            className={classnames(
+              'autocomplete-dropdown-container rounded absolute z-10 w-full block',
+              {
+                'shadow-md': suggestions[0],
+              },
+            )}
+          >
+            {loading && <section>{loadingMessage}...</section>}
+            {suggestions.map((suggestion, index) => {
+              const { active, description } = suggestion;
+              const className = classnames(
+                'py-2 px-4 flex justify-between suggestion-item',
                 {
-                  'shadow-md': suggestions[0],
+                  'suggestion-item--active': active,
                 },
-              )}
-            >
-              {loading && <section>{loadingMessage}...</section>}
-              {suggestions.map((suggestion, index) => {
-                const { active, description } = suggestion;
-                const className = classnames(
-                  'py-2 px-4 flex justify-between suggestion-item',
-                  {
-                    'suggestion-item--active': active,
-                  },
-                );
-                // inline style for demonstration purpose
-                const style = active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+              );
+              // inline style for demonstration purpose
+              const style = active
+                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                : { backgroundColor: '#ffffff', cursor: 'pointer' };
 
-                const suggestionKey = index + suggestion.placeId;
+              const suggestionKey = index + suggestion.placeId;
 
-                return (
-                  <section
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
-                    key={suggestionKey}
-                  >
-                    <span>{description}</span>
-                  </section>
-                );
-              })}
-            </section>
+              return (
+                <section
+                  {...getSuggestionItemProps(suggestion, {
+                    className,
+                    style,
+                  })}
+                  key={suggestionKey}
+                >
+                  <span>{description}</span>
+                </section>
+              );
+            })}
           </section>
-        )}
-      </PlacesAutocomplete>
-    )
+        </section>
+      )}
+    </PlacesAutocomplete>
   );
 };
 

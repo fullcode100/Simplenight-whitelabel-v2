@@ -23,12 +23,6 @@ export const getBrandConfig = (state: any) => state.core.brandConfig;
 
 export const getBrandTheme = (state: any) => state.core.brandConfig.theme;
 
-export const getIsMapLoaded = () =>
-  useSelector((state: any) => state.core.isMapsLoaded);
-
-export const getIsPaymentLibraryLoaded = () =>
-  useSelector((state: any) => state.core.isPaymentLoaded);
-
 export const getHomepageScrollHandler = () =>
   useSelector((state: any) => state.core.homepageScrollHandler);
 

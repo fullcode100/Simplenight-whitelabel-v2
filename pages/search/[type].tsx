@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Script from 'next/script';
 import type { NextPage } from 'next';
 import SearchResultDisplay from 'components/global/SearchResultDisplay/SearchResultDisplay';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -16,37 +17,48 @@ const Search: NextPage = () => {
   );
   const [searchType, setSearchType] = useState('hotels');
   const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
+  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
 
   const handleTabClick = (tab: Tab) => {
     setInternalSearchType(tab.value.toLowerCase());
     setActiveTab(tab);
   };
 
-  return (
-    <main>
-      <header className="fixed z-20 flex flex-col w-full pt-2 bg-dark-100 border-y border-dark-300 lg:hidden">
-        <HorizontalTabs
-          tabs={tabsMock}
-          activeTab={activeTab}
-          onClick={handleTabClick}
-          primary
-          className="px-4 mt-1"
-        />
+  const handleMapsLoaded = () => {
+    setIsMapsLoaded(true);
+  };
 
-        <ExtendedSearchCategoryForm searchType={internalSearchType} />
-        <SecondaryCategorySearchOptions searchType={internalSearchType} />
-      </header>
-      <section className="hidden w-full px-20 py-10 border-b lg:block bg-dark-100 border-dark-300">
-        <section className="mx-auto max-w-7xl">
-          <SearchCategoryForm searchType={searchType} />
+  return (
+    <>
+      <Script
+        onLoad={handleMapsLoaded}
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`}
+      />
+      <main>
+        <header className="fixed z-20 flex flex-col w-full pt-2 bg-dark-100 border-y border-dark-300 lg:hidden">
+          <HorizontalTabs
+            tabs={tabsMock}
+            activeTab={activeTab}
+            onClick={handleTabClick}
+            primary
+            className="px-4 mt-1"
+          />
+
+          <ExtendedSearchCategoryForm searchType={internalSearchType} />
+          <SecondaryCategorySearchOptions searchType={internalSearchType} />
+        </header>
+        <section className="hidden w-full px-20 py-10 border-b lg:block bg-dark-100 border-dark-300">
+          <section className="mx-auto max-w-7xl">
+            {isMapsLoaded && <SearchCategoryForm searchType={searchType} />}
+          </section>
         </section>
-      </section>
-      <section className="pt-[153px] lg:pt-0 lg:w-full lg:px-20">
-        <section className="mx-auto max-w-7xl">
-          <SearchResultDisplay searchType={internalSearchType} />
+        <section className="pt-[153px] lg:pt-0 lg:w-full lg:px-20">
+          <section className="mx-auto max-w-7xl">
+            <SearchResultDisplay searchType={internalSearchType} />
+          </section>
         </section>
-      </section>
-    </main>
+      </main>
+    </>
   );
 };
 
