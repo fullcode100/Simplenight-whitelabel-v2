@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Script from 'next/script';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
@@ -40,6 +41,7 @@ const Home: NextPageWithLayout = () => {
 
   const [searchType, setSearchType] = useState('hotels');
   const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
+  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
 
   const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
@@ -57,6 +59,7 @@ const Home: NextPageWithLayout = () => {
       <section className="p-4 lg:p-6">{children}</section>
     </section>
   );
+
   useEffect(() => {
     const mainTag = mainRef.current;
     if (homepageScrollHandler) {
@@ -96,44 +99,54 @@ const Home: NextPageWithLayout = () => {
     </section>
   );
 
+  const handleMapsLoaded = () => {
+    setIsMapsLoaded(true);
+  };
+
   return (
-    <main ref={mainRef} className="min-h-[100vh] w-full">
-      <section className="relative">
-        <Image
-          src={'/images/bg-image.jpg'}
-          alt={''}
-          layout={'fill'}
-          className="object-cover"
-        />
-        <UpperSectionBackground>
-          <section className="relative max-w-7xl mx-auto w-full">
-            <p className="font-lato leading-[38px] text-[32px] font-semibold text-white text-center mb-9 lg:text-6xl lg:pb-5 lg:mt-5">
-              {homePageText}{' '}
-              <span className="font-normal ml-[-6px] align-super text-sm ">
-                ®
-              </span>
-            </p>
-            <Panel className="z-50 grid-flow-col mt-6">
-              <HorizontalTabs
-                tabs={tabsMock}
-                activeTab={activeTab}
-                onClick={handleTabClick}
-                className="mb-2"
-                primary
-              />
-              <CategorySelectDesktop />
-              <SearchCategoryForm searchType={searchType} />
-            </Panel>
-          </section>
-        </UpperSectionBackground>
-      </section>
-      <section className="px-5 py-6 lg:px-20 lg:py-12">
-        <section className="max-w-7xl mx-auto flex flex-col gap-4 lg:gap-8 lg:flex-row">
-          <OrderLookupCard />
-          <HelpSection />
+    <>
+      <Script
+        onLoad={handleMapsLoaded}
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`}
+      />
+      <main ref={mainRef} className="min-h-[100vh] w-full">
+        <section className="relative">
+          <Image
+            src={'/images/bg-image.jpg'}
+            alt={''}
+            layout={'fill'}
+            className="object-cover"
+          />
+          <UpperSectionBackground>
+            <section className="relative w-full mx-auto max-w-7xl">
+              <p className="font-lato leading-[38px] text-[32px] font-semibold text-white text-center mb-9 lg:text-6xl lg:pb-5 lg:mt-5">
+                {homePageText}{' '}
+                <span className="font-normal ml-[-6px] align-super text-sm ">
+                  ®
+                </span>
+              </p>
+              <Panel className="z-50 grid-flow-col mt-6">
+                <HorizontalTabs
+                  tabs={tabsMock}
+                  activeTab={activeTab}
+                  onClick={handleTabClick}
+                  className="mb-2"
+                  primary
+                />
+                <CategorySelectDesktop />
+                {isMapsLoaded && <SearchCategoryForm searchType={searchType} />}
+              </Panel>
+            </section>
+          </UpperSectionBackground>
         </section>
-      </section>
-    </main>
+        <section className="px-5 py-6 lg:px-20 lg:py-12">
+          <section className="flex flex-col gap-4 mx-auto max-w-7xl lg:gap-8 lg:flex-row">
+            <OrderLookupCard />
+            <HelpSection />
+          </section>
+        </section>
+      </main>
+    </>
   );
 };
 

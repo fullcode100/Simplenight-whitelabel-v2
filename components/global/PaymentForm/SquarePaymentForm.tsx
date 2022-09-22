@@ -1,7 +1,5 @@
 import React, { useEffect, useState, MouseEvent, forwardRef } from 'react';
-import { getIsPaymentLibraryLoaded } from 'store/selectors/core';
 import { CustomWindow } from 'types/global/CustomWindow';
-import Button from '../Button/Button';
 import {
   SQUARE_SANDBOX_APP_ID,
   SQUARE_SANDBOX_LOCATION_ID,
@@ -51,7 +49,6 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
     }: PaymentFormProps,
     ref,
   ) => {
-    const isPaymentLibraryLoaded = getIsPaymentLibraryLoaded();
     const [cardLoaded, setCardLoaded] = useState(false);
     const [card, setCard] = useState<any>(null);
     const [payments, setPayments] = useState<any>(null);
@@ -104,14 +101,12 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
     };
 
     useEffect(() => {
-      if (!isPaymentLibraryLoaded) return;
       reloadGooglePay();
     }, [amount, currencyCode, countryCode]);
 
     useEffect(() => {
-      if (!isPaymentLibraryLoaded) return;
       initializePaymentForm();
-    }, [isPaymentLibraryLoaded]);
+    }, []);
 
     const getVerificationToken = async (paymentToken: any) => {
       const {
