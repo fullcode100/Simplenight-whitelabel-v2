@@ -88,7 +88,7 @@ const PaymentTest: NextPage = () => {
   );
 
   const Title = ({ label }: { label: string }) => (
-    <h2 className="mb-2 text-xl font-bold">{label}</h2>
+    <h2 className="mb-2 text-xl font-semibold">{label}</h2>
   );
 
   return (

@@ -21,9 +21,6 @@ const Paragraph = ({
           'font-semibold': fontWeight == 'semibold',
         },
         {
-          'font-medium': fontWeight == 'medium',
-        },
-        {
           'font-normal': fontWeight == 'normal',
         },
         'font-lato m-0',

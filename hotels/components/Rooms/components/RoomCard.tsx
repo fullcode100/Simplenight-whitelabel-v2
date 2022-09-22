@@ -105,7 +105,7 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
               <button
                 type="button"
                 onClick={() => setShowAmenitiesModal(true)}
-                className="text-sm font-medium leading-5 text-left underline transition duration-150 ease-in-out text-primary-1000 hover:text-primary-500 focus:outline-none"
+                className="text-sm font-semibold leading-5 text-left underline transition duration-150 ease-in-out text-primary-1000 hover:text-primary-500 focus:outline-none"
               >
                 {viewAllAmenitiesText}
               </button>

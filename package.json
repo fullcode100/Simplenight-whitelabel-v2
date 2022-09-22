@@ -77,7 +77,7 @@
     "@types/react-places-autocomplete": "^7.2.9",
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.8.1",
-    "autoprefixer": "^10.4.2",
+    "autoprefixer": "^10.4.5",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.6.0",
     "cssnano": "^5.1.13",
@@ -106,7 +106,8 @@
   "resolutions": {
     "@types/node": "17.0.5",
     "@types/react": "17.0.38",
-    "@types/react-dom": "^17.0.11"
+    "@types/react-dom": "^17.0.11",
+    "autoprefixer": "10.4.5"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",

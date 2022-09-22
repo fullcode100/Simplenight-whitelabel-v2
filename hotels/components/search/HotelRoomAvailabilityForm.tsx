@@ -145,7 +145,7 @@ const HotelRoomAvailabilityForm = ({
           setRooms={setRoomsData}
         />
         <section className="mt-4 lg:mt-0 lg:w-full">
-          <p className="text-sm font-medium text-dark-800">
+          <p className="text-sm font-semibold text-dark-800">
             {guestsAndRoomsLabel}
           </p>
           <button

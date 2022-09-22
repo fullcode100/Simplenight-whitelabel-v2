@@ -37,7 +37,7 @@ const GuestsRoomsInput = ({
         rooms={roomsData}
         setRooms={setRoomsData as setRoomDataType}
       />
-      <p className="text-sm font-medium text-dark-800">{guestAndRoomsText}</p>
+      <p className="text-sm font-semibold text-dark-800">{guestAndRoomsText}</p>
       <button
         onClick={() => setShowTravelersInout(true)}
         className="mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"

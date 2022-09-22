@@ -92,7 +92,7 @@ const Header = ({ color }: HeaderProps) => {
         </section>
         <button onClick={onOpen}>
           <section className="flex justify-between items-center gap-2 w-14 border border-dark-300 bg-white px-2 py-1 rounded">
-            <span className="text-dark-1000 font-bold text-sm font-lato">
+            <span className="text-dark-1000 font-semibold text-sm font-lato">
               {cartQty ?? 0}
             </span>
             <ShoppingCart className="text-primary-1000" />
