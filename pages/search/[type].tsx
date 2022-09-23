@@ -28,11 +28,13 @@ const Search: NextPage = () => {
     setIsMapsLoaded(true);
   };
 
+  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
+
   return (
     <>
       <Script
         onLoad={handleMapsLoaded}
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`}
+        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
       />
       <main>
         <header className="fixed z-20 flex flex-col w-full pt-2 bg-dark-100 border-y border-dark-300 lg:hidden">
