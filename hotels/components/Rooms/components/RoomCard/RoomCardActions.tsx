@@ -4,14 +4,18 @@ import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface RoomProps {
   room: Room;
   hotelId: string;
+  rooms?: number;
 }
 
-const RoomCardActions = ({ room, hotelId }: RoomProps) => {
+const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   const router = useRouter();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -25,9 +29,13 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
   };
   const [t, i18next] = useTranslation('hotels');
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
-  const bookNowText = t('bookNow', 'Book Now');
+  const bookText = t('book', 'Book');
+  const tRoom = t('room', 'Room');
+  const tRooms = t('rooms', 'Rooms');
+  const ROOM_TEXT = usePlural(rooms, tRoom, tRooms);
 
   const handleAction = async (url: string) => {
+    setIsDisabled(true);
     await addToCart(itemToBook, i18next, store);
     router.replace(url);
   };
@@ -42,12 +50,14 @@ const RoomCardActions = ({ room, hotelId }: RoomProps) => {
           textColor="primary"
           onClick={() => handleAction('/itinerary')}
           className="text-base font-semibold leading-base"
+          disabled={isDisabled}
         />
         <Button
-          value={bookNowText}
+          value={`${bookText} ${rooms} ${ROOM_TEXT}`}
           size="full"
           onClick={() => handleAction('/checkout/client')}
           className="text-base font-semibold leading-base"
+          disabled={isDisabled}
         />
       </section>
     </footer>

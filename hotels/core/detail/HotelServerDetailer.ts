@@ -44,5 +44,6 @@ export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
   ): void {
     result.data.data.hotels[0].nights = result.data.echo_request.nights;
     result.data.data.hotels[0].guests = result.data.echo_request.guests;
+    result.data.data.hotels[0].roomsQty = result.data.echo_request.rooms;
   }
 }

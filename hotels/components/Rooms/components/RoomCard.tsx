@@ -13,6 +13,8 @@ import BedsAmount from 'hotels/components/BedsAmount/BedsAmount';
 import { useState } from 'react';
 import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
 import { useTranslation } from 'react-i18next';
+import RoomPriceBreakdownModal from 'hotels/components/PriceBreakdownModal/RoomPriceBreakdownModal';
+import useModal from 'hooks/layoutAndUITooling/useModal';
 
 interface RoomsProps {
   room: Room;
@@ -20,12 +22,20 @@ interface RoomsProps {
   hotelName: string;
   nights: number;
   guests: number;
+  roomsQty: number;
 }
 
 const cancellableType = 'FREE_CANCELLATION';
 const nonRefundableType = 'NON_REFUNDABLE';
 
-const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
+const RoomCard = ({
+  room,
+  hotelId,
+  hotelName,
+  nights,
+  guests,
+  roomsQty,
+}: RoomsProps) => {
   const [t] = useTranslation('hotels');
   const [showAmenitiesModal, setShowAmenitiesModal] = useState(false);
   const { name: roomName, rates, amenities } = room;
@@ -39,12 +49,16 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
   const images = room?.photos?.map((photo) => photo.url) ?? [];
+  const [isOpen, onOpen, onClose] = useModal();
 
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const PriceBreakDown = () => (
-    <button className="text-sm underline text-primary-1000">
-      {priceBreakdownText}
-    </button>
+    <>
+      <RoomPriceBreakdownModal isOpen={isOpen} onClose={onClose} rate={rates} />
+      <button onClick={onOpen} className="text-sm underline text-primary-1000">
+        {priceBreakdownText}
+      </button>
+    </>
   );
 
   const {
@@ -137,10 +151,11 @@ const RoomCard = ({ room, hotelId, hotelName, nights, guests }: RoomsProps) => {
           CustomPriceBreakdown={<PriceBreakDown />}
           nights={nights}
           guests={guests}
+          roomsQty={roomsQty}
         />
       </section>
       <Divider />
-      <RoomCardActions room={room} hotelId={hotelId} />
+      <RoomCardActions room={room} hotelId={hotelId} rooms={roomsQty} />
     </section>
   );
 };
