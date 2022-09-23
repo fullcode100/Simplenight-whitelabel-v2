@@ -1,17 +1,31 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import { Rate } from '../../types/response/SearchResponse';
+import { Rates } from '../../types/response/SearchResponse';
+import { useTranslation } from 'react-i18next';
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 
 interface PriceDisplayProps {
-  rate: Rate;
+  rate: Rates;
   totalLabel?: string;
+  isSearch?: boolean;
 }
 
-const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
-  const totalAmount = rate?.total_amount;
-  const rateBreakdown = rate?.rate_breakdown;
-  const discounts = rateBreakdown?.discounts;
+const PriceDisplay = ({
+  rate,
+  totalLabel,
+  isSearch = false,
+}: PriceDisplayProps) => {
+  const avgAmount = rate?.avg_amount?.avg_amount?.formatted;
+  const startingRoomTotal = rate?.min_rate?.rate.starting_room_total;
+  const discounts = rate?.avg_amount?.discounts;
+  const [t] = useTranslation('global');
+  const startingRoomTotalLabel = t('total', 'Total');
+  const taxesAndFeesLabel = t(
+    'includesTaxesAndFees',
+    'Includes Taxes and Fees',
+  );
+
   let totalBeforeDiscount;
   let percentageToApply;
   if (discounts) {
@@ -22,10 +36,10 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
   }
 
   return (
-    <section>
+    <section className="text-right">
       {totalBeforeDiscount && (
-        <p className="text-sm">
-          <span className="text-dark-800 line-through font-normal">
+        <p className="text-xs">
+          <span className="text-dark-700 line-through font-normal">
             {totalBeforeDiscount.formatted}
           </span>{' '}
           <span className="text-green-1000 font-semibold">
@@ -34,15 +48,25 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
         </p>
       )}
       <p
-        className={classnames('text-[18px] leading-6 ', {
+        className={classnames('leading-[22px] text-dark-1000', {
           ['flex flex-row gap-1 justify-end']: totalLabel,
         })}
       >
-        <span className="text-dark-800 font-normal">{totalLabel}</span>
-        <span className="text-base text-dark-1000 font-semibold">
-          {totalAmount?.formatted}
-        </span>
+        <span className="text-xs">{totalLabel}</span>
+        <span className="text-sm font-semibold">{avgAmount}</span>
       </p>
+      {isSearch && startingRoomTotal && (
+        <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
+          <span>{startingRoomTotal.formatted}</span>{' '}
+          <span>{startingRoomTotalLabel}</span>
+        </p>
+      )}
+      <section className="flex flex-row gap-1 justify-end">
+        <p className="text-[12px] leading-[15px] text-dark-800">
+          {taxesAndFeesLabel}
+        </p>
+        <TaxesAndFeesPopover />
+      </section>
     </section>
   );
 };

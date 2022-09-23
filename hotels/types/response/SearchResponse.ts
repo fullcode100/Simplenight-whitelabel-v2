@@ -19,6 +19,7 @@ export interface Hotel {
   guests?: number;
   roomsQty?: number;
   check_in_instructions?: CheckInInstructions;
+  accommodation_type: string;
 }
 
 export interface CheckInInstructions {
@@ -122,14 +123,14 @@ export interface Services {
   total_rooms: number;
 }
 
-export interface Rates {
+export interface AvgAmount {
   avg_amount: Amount;
-  min_rate: MinRate;
-  upgrades: MinRate[];
+  discounts: Discounts;
+  markups: Discounts;
 }
 
 export interface Rates {
-  avg_amount: Amount;
+  avg_amount: AvgAmount;
   min_rate: MinRate;
   upgrades: MinRate[];
 }
@@ -155,6 +156,7 @@ export interface RateBreakdown {
   total_base_amount: Amount;
   total_taxes: Amount;
   post_paid_rate?: PostPaidRate;
+  markups?: Discounts;
 }
 
 export interface PostPaidRate {
@@ -211,6 +213,7 @@ export interface Rate {
   diff_min_rate: Amount;
   rate_breakdown: RateBreakdown;
   total_amount: Amount;
+  starting_room_total?: Amount;
 }
 
 export interface Capacity {

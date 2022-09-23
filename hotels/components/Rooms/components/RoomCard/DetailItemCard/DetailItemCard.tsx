@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Rate,
+  Rates,
   CancellationPolicy,
   Services,
 } from '../../../../../types/response/SearchResponse';
@@ -9,7 +9,7 @@ import { Item } from '../../../../../../types/cart/CartType';
 interface DetailItemCardProps {
   label: string;
   description: string;
-  rates: Rate;
+  rates: Rates;
   cancellationPolicy?: CancellationPolicy;
   features: string[];
   itemToBook: Item;

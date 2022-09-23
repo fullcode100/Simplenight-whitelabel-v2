@@ -8,7 +8,7 @@ import BreakdownRoomDescription from './components/BreakdownRoomDescription';
 import BreakdownSubtitle from './components/BreakdownSubtitle';
 import BreakdownRow from './components/BreakdownRow';
 import {
-  Rate,
+  Rates,
   CancellationPolicy,
   Services,
 } from '../../types/response/SearchResponse';
@@ -29,7 +29,7 @@ interface DatePickerProps {
   showPriceBreakdown: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
   description: string;
-  rates: Rate;
+  rates: Rates;
   cancellationPolicy?: CancellationPolicy;
   features: string[];
   itemToBook: Item;
@@ -71,7 +71,8 @@ const PriceBreakdownModal = ({
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookNowText = t('bookNow', 'Book Now');
 
-  const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rates;
+  const { total_amount: totalAmount, rate_breakdown: rateBreakdown } =
+    rates.min_rate.rate;
   const {
     total_base_amount: totalBaseAmount,
     total_taxes: totalTaxes,

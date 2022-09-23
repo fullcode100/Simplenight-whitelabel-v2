@@ -78,7 +78,7 @@ const HotelItineraryFooter = ({
     <section className="flex flex-col gap-3">
       {totalRate && (
         <BreakdownSummary
-          rate={totalRate}
+          rate={selectedRoom.rates}
           nights={item.nights}
           guests={item.guests}
           showTotal={true}
