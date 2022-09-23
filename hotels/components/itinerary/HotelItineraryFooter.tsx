@@ -81,6 +81,7 @@ const HotelItineraryFooter = ({
           rate={totalRate}
           nights={item.nights}
           guests={item.guests}
+          showTotal={true}
         />
       )}
       <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">

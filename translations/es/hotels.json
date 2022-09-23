@@ -90,5 +90,6 @@
   "policies": "Políticas",
   "checkInTime": "Hora de Entrada",
   "checkOutTime": "Hora de Salida",
-  "before": "Antes de"
+  "before": "Antes de",
+  "book": "Reservar"
 }

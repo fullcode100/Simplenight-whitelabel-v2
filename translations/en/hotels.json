@@ -90,5 +90,6 @@
   "policies": "Policies",
   "checkInTime": "Check-In Time",
   "checkOutTime": "Check-Out Time",
-  "before": "Before"
+  "before": "Before",
+  "book": "Book"
 }

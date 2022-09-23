@@ -28,7 +28,7 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
           <span className="text-dark-800 line-through font-normal">
             {totalBeforeDiscount.formatted}
           </span>{' '}
-          <span className="text-primary-1000 font-semibold">
+          <span className="text-green-1000 font-semibold">
             {percentageToApply} Off
           </span>
         </p>

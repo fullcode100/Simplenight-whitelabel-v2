@@ -17,6 +17,7 @@ export interface Hotel {
   thumbnail: string;
   nights?: number;
   guests?: number;
+  roomsQty?: number;
   check_in_instructions?: CheckInInstructions;
 }
 

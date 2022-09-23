@@ -103,6 +103,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     photos,
     nights,
     check_in_instructions: checkInInstructions,
+    roomsQty,
   } = hotel;
 
   const hotelImages = photos.map((photo) => photo.url);
@@ -487,6 +488,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                   hotelName={name}
                   nights={nights}
                   guests={guests}
+                  roomsQty={roomsQty}
                 />
               }
             </SeeMore>
@@ -499,6 +501,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                 hotelName={name}
                 nights={nights}
                 guests={guests}
+                roomsQty={roomsQty}
               />
             </section>
           </section>

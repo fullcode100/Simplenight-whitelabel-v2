@@ -10,6 +10,7 @@ interface RoomsProps {
   hotelName: string;
   nights?: number;
   guests?: number;
+  roomsQty?: number;
 }
 
 const RoomsSection = ({
@@ -19,6 +20,7 @@ const RoomsSection = ({
   hotelName,
   nights = 0,
   guests = 0,
+  roomsQty = 0,
 }: RoomsProps) => {
   return (
     <section className="mt-6 px-4 lg:mt-12 lg:px-0" ref={ref}>
@@ -32,6 +34,7 @@ const RoomsSection = ({
         hotelName={hotelName}
         nights={nights}
         guests={guests}
+        roomsQty={roomsQty}
       />
     </section>
   );
