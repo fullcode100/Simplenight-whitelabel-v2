@@ -82,7 +82,7 @@ const RoomCard = ({
       )}
       <RoomCardHeader
         roomDescription={roomName}
-        rates={rate}
+        rates={rates}
         cancellationPolicy={cancellationPolicy}
         amenities={amenities}
         itemToBook={itemToBook}
@@ -147,7 +147,7 @@ const RoomCard = ({
       {(cancellable || nonRefundable) && <Divider />}
       <section className="px-4 py-3">
         <BreakdownSummary
-          rate={rate}
+          rate={rates}
           CustomPriceBreakdown={<PriceBreakDown />}
           nights={nights}
           guests={guests}

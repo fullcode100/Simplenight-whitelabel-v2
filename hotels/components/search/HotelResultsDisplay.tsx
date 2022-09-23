@@ -5,7 +5,7 @@ import {
   Hotel,
   HotelSearchResponse,
   MinRate,
-  Rate,
+  Rates,
 } from 'hotels/types/response/SearchResponse';
 import React, { createRef, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -175,7 +175,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
         const url = urlDetail(hotel);
         const itemKey = hotel.id + index;
-        const minRate = minRateRoom.rates.min_rate;
+        const minRate = minRateRoom.rates;
         const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
         return (
@@ -193,11 +193,14 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             url={url}
             priceDisplay={
               <PriceDisplay
-                rate={minRate?.rate as Rate}
+                rate={minRate}
                 totalLabel={fromLabel}
+                isSearch={true}
               />
             }
-            cancellable={<HotelCancellable minRate={minRate as MinRate} />}
+            cancellable={
+              <HotelCancellable minRate={minRate?.min_rate as MinRate} />
+            }
           />
         );
       })}

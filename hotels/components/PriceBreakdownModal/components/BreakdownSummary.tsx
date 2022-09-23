@@ -1,13 +1,13 @@
 import React from 'react';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
-import { Rate } from '../../../types/response/SearchResponse';
+import { Rates } from '../../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
 import Paragraph from '../../../../components/global/Typography/Paragraph';
 import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface BreakdownSummaryProps {
-  rate: Rate;
+  rate: Rates;
   nights?: number;
   guests?: number;
   CustomPriceBreakdown?: React.ReactElement;

@@ -93,7 +93,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
               const url = createUrl(item);
               const itemKey = id + index;
               const isNext = index === nextItem;
-              const minRate = minRateRoom.rates.min_rate;
+              const minRate = minRateRoom.rates;
               const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
               const cardClassName = classnames(
@@ -119,12 +119,13 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
                     url={url}
                     priceDisplay={
                       <PriceDisplay
-                        rate={minRate?.rate as Rate}
+                        rate={minRate}
                         totalLabel={fromLabel}
+                        isSearch={true}
                       />
                     }
                     cancellable={
-                      <HotelCancellable minRate={minRate as MinRate} />
+                      <HotelCancellable minRate={minRate.min_rate} />
                     }
                   />
                 </section>

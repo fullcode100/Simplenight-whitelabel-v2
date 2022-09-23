@@ -1,5 +1,5 @@
 import {
-  Rate,
+  Rates,
   CancellationPolicy,
   Services,
 } from '../../../../types/response/SearchResponse';
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 interface RoomHeaderProps {
   roomDescription: string;
-  rates: Rate;
+  rates: Rates;
   cancellationPolicy?: CancellationPolicy;
   amenities: string[];
   itemToBook: Item;
