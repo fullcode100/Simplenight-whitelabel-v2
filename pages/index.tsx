@@ -103,11 +103,13 @@ const Home: NextPageWithLayout = () => {
     setIsMapsLoaded(true);
   };
 
+  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
+
   return (
     <>
       <Script
         onLoad={handleMapsLoaded}
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`}
+        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
       />
       <main ref={mainRef} className="min-h-[100vh] w-full">
         <section className="relative">
