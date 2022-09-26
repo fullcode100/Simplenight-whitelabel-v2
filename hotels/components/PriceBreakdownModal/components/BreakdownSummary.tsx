@@ -23,11 +23,6 @@ const BreakdownSummary = ({
   roomsQty = 0,
 }: BreakdownSummaryProps) => {
   const [tg] = useTranslation('global');
-  const [t] = useTranslation('hotels');
-  const includesTaxesAndFeesText = t(
-    'includesTaxesAndFees',
-    'Includes Taxes And Fees',
-  );
   const totalLabel = tg('total', 'Total');
   const tRoom = tg('room', 'Room');
   const tRooms = tg('rooms', 'Rooms');
@@ -45,10 +40,6 @@ const BreakdownSummary = ({
       </Paragraph>
       <section className="text-right">
         <PriceDisplay rate={rate} />
-        <section className="flex flex-row gap-1">
-          <p className="text-xs text-dark-800">{includesTaxesAndFeesText}</p>
-          <TaxesAndFeesPopover />
-        </section>
 
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>
