@@ -31,6 +31,7 @@ export interface FlightSegment {
   departureDateTime: string;
   arrivalDateTime: string;
   elapsedTime: number;
+  flightNumber: string;
 }
 
 export interface FlightPrice {

@@ -10,10 +10,10 @@ import {
   DayObject,
   MonthObject,
 } from '../../../helpers/calendar/calendar';
-import WeekDays from '../../../components/global/Calendar/components/Weekdays';
+import WeekDays from './components/Weekdays';
 import FullScreenModal from '../../../components/global/NewModal/FullScreenModal';
-import Day from '../../../components/global/Calendar/components/Day';
-import RangeDate from '../../../components/global/Calendar/components/RangeDate';
+import Day from './components/Day';
+import RangeDate from './components/RangeDate';
 import {
   formatAsRangeDate,
   initialMonth,
@@ -52,7 +52,9 @@ const DatePicker = ({
   openOnStart,
   equal,
 }: DatePickerProps) => {
-  const [t, i18n] = useTranslation('globals');
+  const defaultIntervalDays = 7;
+  const maxIntervalMonths = 12;
+  const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
   const datesText = t('dates', 'Dates');
   const applyText = t('apply', 'Apply');
@@ -62,7 +64,7 @@ const DatePicker = ({
   );
   const [endDate, setEndDate] = useState<string>(
     dayjs()
-      .add(equal ? 0 : 7, 'day')
+      .add(equal ? 0 : defaultIntervalDays, 'day')
       .format('YYYY-MM-DD'),
   );
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
@@ -78,15 +80,16 @@ const DatePicker = ({
   }, [openOnStart]);
 
   const setDate = (date: string) => {
+    const isAfterEndDate = dayjs(date).isSameOrAfter(dayjs(endDate));
+    const isBeforeEndDate = dayjs(date).isBefore(
+      dayjs(endDate).subtract(2, 'week'),
+    );
     if (isStartDateTurn) {
-      if (
-        (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
-        dayjs(date).isBefore(dayjs(endDate).subtract(2, 'week'))
-      ) {
+      if ((isAfterEndDate && startDate) || isBeforeEndDate) {
         setStartDate(date);
         setEndDate(
           dayjs(date)
-            .add(equal ? 0 : 7, 'day')
+            .add(equal ? 0 : defaultIntervalDays, 'day')
             .format('YYYY-MM-DD'),
         );
         setIsStartDateTurn(!isStartDateTurn);
@@ -96,12 +99,13 @@ const DatePicker = ({
       setIsStartDateTurn(!isStartDateTurn);
       return;
     }
+    const isBeforeStartDate = dayjs(date).isSameOrBefore(dayjs(startDate));
     if (!isStartDateTurn) {
-      if (dayjs(date).isSameOrBefore(dayjs(startDate))) {
+      if (isBeforeStartDate) {
         setStartDate(date);
         setEndDate(
           dayjs(date)
-            .add(equal ? 0 : 7, 'day')
+            .add(equal ? 0 : defaultIntervalDays, 'day')
             .format('YYYY-MM-DD'),
         );
         return;
@@ -135,6 +139,7 @@ const DatePicker = ({
           endDateLabel=""
           startDate={formatAsRangeDate(startDate)}
           endDate={formatAsRangeDate(startDate)}
+          equal={equal}
         />
       ) : (
         <RangeDate
@@ -144,6 +149,7 @@ const DatePicker = ({
           endDateLabel={endDateLabel}
           startDate={formatAsRangeDate(startDate)}
           endDate={formatAsRangeDate(endDate)}
+          equal={equal}
         />
       )}
       <section className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5">
@@ -170,10 +176,12 @@ const DatePicker = ({
                       dayjs(day.date).isSameOrBefore(
                         dayjs().subtract(1, 'day'),
                       ) ||
-                      dayjs(day.date).isAfter(dayjs().add(12, 'month')) ||
+                      dayjs(day.date).isAfter(
+                        dayjs().add(maxIntervalMonths, 'month'),
+                      ) ||
                       (!isStartDateTurn &&
                         dayjs(day.date).isAfter(
-                          dayjs(startDate).add(12, 'month'),
+                          dayjs(startDate).add(maxIntervalMonths, 'month'),
                         ))
                     }
                   />
@@ -194,10 +202,12 @@ const DatePicker = ({
                       dayjs(day.date).isSameOrBefore(
                         dayjs().subtract(1, 'day'),
                       ) ||
-                      dayjs(day.date).isAfter(dayjs().add(12, 'month')) ||
+                      dayjs(day.date).isAfter(
+                        dayjs().add(maxIntervalMonths, 'month'),
+                      ) ||
                       (!isStartDateTurn &&
                         dayjs(day.date).isAfter(
-                          dayjs(startDate).add(12, 'month'),
+                          dayjs(startDate).add(maxIntervalMonths, 'month'),
                         ))
                     }
                   />

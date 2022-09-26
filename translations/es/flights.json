@@ -87,5 +87,13 @@
   "connectingCities": "Conectando Ciudades",
   "departingFlights": "Vuelos de salida",
   "returningFlights": "Vuelos de regreso",
-  "loadMore": "Carga más"
+  "loadMore": "Carga más",
+  "includes": "Incluye",
+  "carryOnBag": "Maleta de mano",
+  "standardSeatSelection": "Selección de asiento estándar",
+  "checkedBaggageIncluded": "Equipaje Facturado Incluido",
+  "fareRestrictions": "Restricciones de tarifas",
+  "noRefunds": "Sin reembolsos",
+  "noReschedulingMissedFlights": "Sin reprogramación de vuelos perdidos",
+  "classic": "Clásica"
 }

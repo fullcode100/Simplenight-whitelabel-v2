@@ -14,8 +14,14 @@ const Search: NextPage = () => {
   const [internalSearchType, setInternalSearchType] = useState(
     (type as unknown as string) ?? '',
   );
-  const [searchType, setSearchType] = useState('flights');
-  const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
+  const [searchType, setSearchType] = useState<string>(
+    type ? type.toString() : 'hotels',
+  );
+  let tabsMockActive = 0;
+  tabsMock.forEach((item, index) => {
+    if (type && type.toString() === item.url) tabsMockActive = index;
+  });
+  const [activeTab, setActiveTab] = useState<Tab>(tabsMock[tabsMockActive]);
 
   const handleTabClick = (tab: Tab) => {
     setInternalSearchType(tab.value.toLowerCase());
