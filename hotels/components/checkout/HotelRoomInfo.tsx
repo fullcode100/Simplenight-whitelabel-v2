@@ -101,6 +101,10 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
         instructions={<Instructions />}
         termsOfService={termsOfService}
         rate={roomRate}
+        startingRoomTotal={
+          roomRate?.starting_room_total &&
+          roomRate?.starting_room_total.formatted
+        }
       />
       <Button
         value={removeLabel}

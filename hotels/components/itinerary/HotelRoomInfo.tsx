@@ -50,6 +50,11 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
         adultsCount={room.adults}
         childrenCount={room.children}
         termsOfService={termsOfService}
+        rate={roomRate}
+        startingRoomTotal={
+          roomRate?.starting_room_total &&
+          roomRate?.starting_room_total.formatted
+        }
       />
     </section>
   );

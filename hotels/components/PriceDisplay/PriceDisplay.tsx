@@ -16,6 +16,7 @@ const PriceDisplay = ({
   totalLabel,
   isSearch = false,
 }: PriceDisplayProps) => {
+  const totalAmount = rate?.min_rate.rate.total_amount.formatted;
   const avgAmount = rate?.avg_amount?.avg_amount?.formatted;
   const startingRoomTotal = rate?.min_rate?.rate.starting_room_total;
   const discounts = rate?.avg_amount?.discounts;
@@ -53,7 +54,9 @@ const PriceDisplay = ({
         })}
       >
         <span className="text-xs">{totalLabel}</span>
-        <span className="text-sm font-semibold">{avgAmount}</span>
+        <span className="text-sm font-semibold">
+          {isSearch ? avgAmount : totalAmount}
+        </span>
       </p>
       {isSearch && startingRoomTotal && (
         <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
