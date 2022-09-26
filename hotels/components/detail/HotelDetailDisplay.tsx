@@ -51,6 +51,7 @@ import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { createRoom } from 'hotels/helpers/room';
 import { getReferral } from '../../helpers/getReferral';
 import useCookies from 'hooks/localStorage/useCookies';
+import Script from 'next/script';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -90,7 +91,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const roomRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
   const amenitiesRef = useRef<HTMLDivElement>(null);
-
   const [displaySeeMore, setDisplaySeeMore] = useState(true);
   const [descriptionHeight, setDescriptionHeight] = useState(232);
   const [loaded, setLoaded] = useState(false);
@@ -186,6 +186,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       amenitiesRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
 
   // TODO: Refactor
   const Instructions = () => {
@@ -426,6 +428,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   return (
     <>
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
+      />
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
       <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
         <section className="flex items-center justify-between h-12">

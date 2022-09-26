@@ -17,15 +17,10 @@ const Search: NextPage = () => {
   );
   const [searchType, setSearchType] = useState('hotels');
   const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
-  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
 
   const handleTabClick = (tab: Tab) => {
     setInternalSearchType(tab.value.toLowerCase());
     setActiveTab(tab);
-  };
-
-  const handleMapsLoaded = () => {
-    setIsMapsLoaded(true);
   };
 
   const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
@@ -33,7 +28,6 @@ const Search: NextPage = () => {
   return (
     <>
       <Script
-        onLoad={handleMapsLoaded}
         src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
       />
       <main>
@@ -51,7 +45,7 @@ const Search: NextPage = () => {
         </header>
         <section className="hidden w-full px-20 py-10 border-b lg:block bg-dark-100 border-dark-300">
           <section className="mx-auto max-w-7xl">
-            {isMapsLoaded && <SearchCategoryForm searchType={searchType} />}
+            <SearchCategoryForm searchType={searchType} />
           </section>
         </section>
         <section className="pt-[153px] lg:pt-0 lg:w-full lg:px-20">
