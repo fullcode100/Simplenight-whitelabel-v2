@@ -19,12 +19,14 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
     'FREE_CANCELLATION';
   const nonRefundable =
     rate?.min_rate.cancellation_policy?.cancellation_type === 'NON_REFUNDABLE';
+  const totalPrice = rate?.min_rate?.rate.starting_room_total;
   const [t] = useTranslation('hotels');
+  const totalLabel = t('total', 'Total');
   const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
   const roomLabel = t('room', 'Room');
   const resortFeeLabel = t('resortFee', 'Resort Fee');
   const taxesLabel = t('taxes', 'Taxes');
-  const totalLabel = t('payNow', 'Pay now');
+  const payNowLabel = t('payNow', 'Pay now');
   const additionalFeesLabel = t('additionalFees', 'Additional Fees');
   const payAtPropertyLabel = t('payAtProperty', 'Pay at property');
   const basePriceLabel = t('basePrice', 'Base Price');
@@ -87,7 +89,7 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
             <div className="h-px bg-dark-300 w-full"></div>
             <section className="flex justify-between">
               <p className="font-semibold text-sm leading-[22px] text-dark-1000">
-                {totalLabel}
+                {payNowLabel}
               </p>
               <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
                 {rate?.min_rate.rate?.total_amount.formatted}
@@ -122,6 +124,22 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
                   rate?.min_rate.rate?.rate_breakdown.post_paid_rate
                     ?.total_taxes.formatted
                 }
+              </p>
+            </section>
+          </section>
+        </section>
+        <section className="space-y-4">
+          <BreakdownSubtitle
+            className="text-base font-semibold text-dark-800"
+            value={totalLabel}
+          />
+          <section className="space-y-2">
+            <section className="flex justify-between">
+              <p className="font-semibold text-sm leading-[22px] text-dark-1000">
+                {totalLabel}
+              </p>
+              <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
+                {totalPrice?.formatted}
               </p>
             </section>
           </section>
