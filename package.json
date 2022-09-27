@@ -10,7 +10,7 @@
     "drun": "docker run --name simplenight-whitelabel-v2 -d -p 3000:3000 simplenight-whitelabel-v2",
     "dstop": "docker stop simplenight-whitelabel-v2",
     "build": "export NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && export NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next build",
-    "start": "export NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && export NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next start",
+    "start": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && export NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "styleguide": "TAILWIND_MODE=watch styleguidist server",
