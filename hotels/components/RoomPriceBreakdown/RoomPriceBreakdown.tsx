@@ -19,7 +19,6 @@ interface RoomPriceBreakdownProps {
   instructions?: React.ReactNode;
   termsOfService?: string | null;
   rate?: Rate;
-  startingRoomTotal?: string;
 }
 
 const RoomPriceBreakdown = ({
@@ -34,7 +33,6 @@ const RoomPriceBreakdown = ({
   instructions,
   termsOfService,
   rate,
-  startingRoomTotal,
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
   const resortFeeLabel = t('resortFee', 'Resort Fee');
@@ -48,7 +46,6 @@ const RoomPriceBreakdown = ({
     'cancellationPolicy',
     'Cancellation Policy',
   );
-  const totalLabel = t('total', 'Total');
 
   const BasePrice = () => (
     <section className="flex justify-between">
@@ -106,17 +103,6 @@ const RoomPriceBreakdown = ({
           {resortFees}
         </p>
       </section>
-
-      {startingRoomTotal && (
-        <section className="flex justify-between mb-2">
-          <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-            {totalLabel}
-          </p>
-          <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
-            {startingRoomTotal}
-          </p>
-        </section>
-      )}
 
       <ExtraDetailItem detail={amenities} label={priceIncludesLabel} />
       {instructions && instructions}

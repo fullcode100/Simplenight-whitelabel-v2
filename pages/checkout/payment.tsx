@@ -38,6 +38,8 @@ import BreakdownItemList from '../../components/checkout/BreakdownItemList/Break
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
+import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
+import HelpSection from 'components/global/HelpSection/HelpSection';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -119,7 +121,7 @@ const Payment = () => {
               end_date: ${endDate},
             },
           ],
-        });    
+        });
       `}
       </Script>
     );
@@ -277,6 +279,9 @@ const Payment = () => {
                   </>
                 )}
               </section>
+              <section className="px-5">
+                <PaymentCart items={cart?.items} />
+              </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
               {cart && (
@@ -301,18 +306,9 @@ const Payment = () => {
               </section>
             </CheckoutFooter>
           </section>
-          {cart && (
-            <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
-              <h2 className="px-5 py-6 text-lg font-semibold leading-6 bg-white text-dark-800 lg:bg-dark-100">
-                {priceBreakdownLabel}
-              </h2>
-              <BreakdownItemList
-                cart={cart}
-                reload={reload}
-                setReload={setReload}
-              />
-            </section>
-          )}
+          <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
+            <HelpSection inItinerary={true} />
+          </section>
         </section>
       ) : (
         <Loader />
