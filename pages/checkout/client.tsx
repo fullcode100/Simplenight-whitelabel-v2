@@ -25,6 +25,7 @@ import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
 import BreakdownItemList from 'components/checkout/BreakdownItemList/BreakdownItemList';
 import { getCurrency } from 'store/selectors/core';
+import HelpSection from 'components/global/HelpSection/HelpSection';
 
 const empty: Amount = {
   formatted: '$0.00',
@@ -213,7 +214,6 @@ const Client = () => {
                       uiSchema={travelersUiSchema}
                       onChange={handleAdditionalRequestChange}
                     />
-                    <Divider />
                     <CheckoutFooter type="client">
                       <CheckoutSummary
                         cart={cart}
@@ -239,17 +239,7 @@ const Client = () => {
               </Card>
             </section>
             <section className="hidden lg:block lg:w-[32%]">
-              <Card>
-                <Title> {priceBreakdownText}</Title>
-                <section>
-                  <BreakdownItemList
-                    cart={cart}
-                    reload={reload}
-                    setReload={setReload}
-                    className="px-4 py-1"
-                  />
-                </section>
-              </Card>
+              <HelpSection inItinerary={true} />
             </section>
           </section>
         </section>
