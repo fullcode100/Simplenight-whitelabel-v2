@@ -142,7 +142,10 @@ const RoomCard = ({
         {cancellable && (
           <FreeCancellationExtended policy={cancellationPolicy?.description} />
         )}
-        <NonRefundable nonCancellable={nonRefundable} />
+        <NonRefundable
+          nonCancellable={nonRefundable}
+          description={cancellationPolicy?.description}
+        />
       </section>
       {(cancellable || nonRefundable) && <Divider />}
       <section className="px-4 py-3">

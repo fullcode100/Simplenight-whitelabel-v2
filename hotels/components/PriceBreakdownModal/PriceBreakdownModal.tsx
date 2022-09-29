@@ -190,7 +190,10 @@ const PriceBreakdownModal = ({
               policy={cancellationPolicy?.description}
             />
           )}
-          <NonRefundable nonCancellable={nonRefundable} />
+          <NonRefundable
+            nonCancellable={nonRefundable}
+            description={cancellationPolicy?.description}
+          />
         </section>
       </section>
     </FullScreenModal>

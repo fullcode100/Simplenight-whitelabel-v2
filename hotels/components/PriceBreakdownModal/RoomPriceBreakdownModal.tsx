@@ -150,7 +150,10 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
               policy={rate?.min_rate.cancellation_policy?.description}
             />
           )}
-          <NonRefundable nonCancellable={nonRefundable} />
+          <NonRefundable
+            nonCancellable={nonRefundable}
+            description={rate?.min_rate.cancellation_policy?.description}
+          />
         </section>
       </section>
     </FullScreenModal>
