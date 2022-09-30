@@ -7,6 +7,7 @@ export interface CoreState {
   theme: CoreTheme[];
   homepageScrollHandler?: Function;
   currency: string;
+  isMapsLoaded: boolean;
 }
 
 export interface CoreTheme {

@@ -47,6 +47,11 @@ const coreReducer = (
           }),
         },
       };
+    case types.SET_IS_MAPS_LOADED:
+      return {
+        ...state,
+        isMapsLoaded: payload,
+      };
     case types.SET_HOME_PAGE_SCROLL_HANDLER:
       return {
         ...state,

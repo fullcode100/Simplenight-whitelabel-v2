@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Script from 'next/script';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
@@ -41,7 +40,6 @@ const Home: NextPageWithLayout = () => {
 
   const [searchType, setSearchType] = useState('hotels');
   const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
-  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
 
   const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
@@ -99,18 +97,8 @@ const Home: NextPageWithLayout = () => {
     </section>
   );
 
-  const handleMapsLoaded = () => {
-    setIsMapsLoaded(true);
-  };
-
-  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
-
   return (
     <>
-      <Script
-        onLoad={handleMapsLoaded}
-        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
-      />
       <main ref={mainRef} className="min-h-[100vh] w-full">
         <section className="relative">
           <Image
@@ -136,7 +124,7 @@ const Home: NextPageWithLayout = () => {
                   primary
                 />
                 <CategorySelectDesktop />
-                {isMapsLoaded && <SearchCategoryForm searchType={searchType} />}
+                <SearchCategoryForm searchType={searchType} />
               </Panel>
             </section>
           </UpperSectionBackground>
