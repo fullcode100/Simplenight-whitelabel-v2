@@ -21,6 +21,9 @@ export const getLanguageSettings = (state: any): CoreLanguages =>
 
 export const getBrandConfig = (state: any) => state.core.brandConfig;
 
+export const getIsMapLoaded = () =>
+  useSelector((state: any) => state.core.isMapsLoaded);
+
 export const getBrandTheme = (state: any) => state.core.brandConfig.theme;
 
 export const getHomepageScrollHandler = () =>

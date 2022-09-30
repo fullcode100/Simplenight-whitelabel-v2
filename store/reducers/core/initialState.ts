@@ -52,5 +52,6 @@ export const initialState: CoreState = {
     locale: 'en',
   },
   theme: [],
+  isMapsLoaded: false,
   currency: 'USD',
 };
