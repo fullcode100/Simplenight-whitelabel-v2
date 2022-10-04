@@ -56,6 +56,7 @@ const HotelRoomsInfo = ({
   const roomRateDetail = roomRate?.rate_breakdown;
   const taxesAndFees = roomRateDetail?.total_taxes.formatted;
   const resortFees = roomRateDetail?.post_paid_rate?.total_taxes.formatted;
+  const termsOfService = item?.extra_data?.terms_and_conditions;
 
   const startDate = item?.extra_data?.start_date;
   const endDate = item?.extra_data?.end_date;
@@ -109,6 +110,7 @@ const HotelRoomsInfo = ({
         childrenCount={item?.children}
         childrenAges={item?.children_ages}
         rate={roomRate}
+        termsOfService={termsOfService}
       />
       <section className="lg:flex lg:justify-end">
         <section className="lg:w-1/4">
