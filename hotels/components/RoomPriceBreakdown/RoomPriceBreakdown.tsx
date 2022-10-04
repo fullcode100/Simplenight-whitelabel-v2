@@ -36,10 +36,9 @@ const RoomPriceBreakdown = ({
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
   const resortFeeLabel = t('resortFee', 'Resort Fee');
-  const taxesLabel = t('taxes', 'Taxes');
+  const taxesLabel = t('taxesAndFees', 'Taxes And Fees');
   const payNowLabel = t('payNow', 'Pay now');
   const priceIncludesLabel = t('priceIncludes', 'Price Includes');
-  const otherFeesLabel = t('otherFees', 'Other Fees');
   const payAtPropertyLabel = t('payAtProperty', 'Pay at property');
   const basePriceLabel = t('basePrice', 'Base Price');
   const cancellationPolicyLabel = t(
@@ -82,7 +81,6 @@ const RoomPriceBreakdown = ({
 
       <BasePrice />
       <AmountDetailItem amount={taxesAndFees} label={taxesLabel} />
-      <AmountDetailItem amount={taxesAndFees} label={otherFeesLabel} />
       <div className="border-t border-dark-200"></div>
       <section className="flex justify-between mb-5">
         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">

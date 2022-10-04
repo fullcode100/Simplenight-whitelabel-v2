@@ -9,8 +9,7 @@ interface ConfirmationFooterProps {
 const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
   const [t, i18next] = useTranslation('global');
   const itemsSubtotal = t('itemsSubtotal', 'Items Subtotal');
-  const taxes = t('taxes', 'Taxes');
-  const otherFees = t('otherFees', 'Other Fees');
+  const taxes = t('taxesAndFees', 'Taxes And Fees');
 
   const {
     sub_total: orderSubTotal,
