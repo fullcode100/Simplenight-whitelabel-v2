@@ -9,6 +9,7 @@ import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
 import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
 import BreakdownSummary from 'hotels/components/PriceBreakdownModal/components/BreakdownSummary';
+import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 
 let additionalRequest: string;
 
@@ -35,6 +36,11 @@ const ClientCartItem = ({
     'Add A Special Request.',
   );
   const toggleText = t('useOrderName', 'Use Order Name');
+  const iAgreeLabel = t('iAgreeToThe', 'I agree to the');
+  const supplierTermsLabel = t(
+    'supplierTermsOfService',
+    'Supplier Terms Of Service',
+  );
 
   const CartItemHeader = () => {
     const category = useCategory(item.category.toLowerCase());
@@ -51,7 +57,10 @@ const ClientCartItem = ({
     });
   };
 
-  const { check_in_instructions: checkInInstructions } = item.extended_data;
+  const {
+    check_in_instructions: checkInInstructions,
+    terms_and_conditions: termsAndConditions,
+  } = item.extended_data;
 
   const Instructions = () => {
     const {
@@ -142,6 +151,29 @@ const ClientCartItem = ({
           }}
         />
       </section>
+      {termsAndConditions && (
+        <>
+          <section className="flex items-center w-full gap-3 mt-2">
+            <input
+              type="checkbox"
+              name="expedia"
+              id="expedia"
+              required={true}
+            />
+            <label htmlFor="expedia">
+              <span className="text-base leading-[22px] text-dark-1000 font-normal">
+                {iAgreeLabel}
+              </span>{' '}
+              <ExternalLink
+                className="text-primary-1000 hover:text-primary-1000 font-normal text-base leading-[22px]"
+                href={termsAndConditions}
+              >
+                {supplierTermsLabel}
+              </ExternalLink>
+            </label>
+          </section>
+        </>
+      )}
     </section>
   );
 };

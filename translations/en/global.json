@@ -110,5 +110,7 @@
   "findOrder": "Find Order",
   "vendorConfirmation": "Vendor Confirmation Number",
   "yearsOld": "years old",
-  "thePaymentWill": "The payment will be processed in the US."
+  "thePaymentWill": "The payment will be processed in the US.",
+  "iAgreeToThe": "I agree to the",
+  "supplierTermsOfService": "Supplier Terms Of Service"
 }

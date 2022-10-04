@@ -260,9 +260,11 @@ const Payment = () => {
                         }
                       />
                       <label htmlFor="expedia">
-                        <span>{iHaveReviewedLabel}</span>
+                        <span className="text-base leading-[22px] text-dark-1000 font-normal">
+                          {iHaveReviewedLabel}
+                        </span>
                         <ExternalLink
-                          className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight"
+                          className="text-primary-1000 hover:text-primary-1000 font-normal text-base leading-[22px]"
                           href={
                             expediaTerms.extended_data?.terms_and_conditions!
                           }

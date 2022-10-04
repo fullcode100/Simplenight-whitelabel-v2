@@ -123,5 +123,7 @@
   "findOrder": "Buscar Pedido",
   "vendorConfirmation": "Número de confirmación del proveedor",
   "yearsOld": "años",
-  "thePaymentWill": "El pago será procesado en los EE.UU."
+  "thePaymentWill": "El pago será procesado en los EE.UU.",
+  "iAgreeToThe": "Acepto los",
+  "supplierTermsOfService": "Términos de servicio del proveedor"
 }
