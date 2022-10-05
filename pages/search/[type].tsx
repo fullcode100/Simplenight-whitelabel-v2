@@ -14,8 +14,15 @@ const Search: NextPage = () => {
   const [internalSearchType, setInternalSearchType] = useState(
     (type as unknown as string) ?? '',
   );
-  const [searchType, setSearchType] = useState('hotels');
-  const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
+  const [searchType, setSearchType] = useState(
+    (type as unknown as string) ?? 'hotels',
+  );
+
+  const activeTabIndex = tabsMock.findIndex(
+    (tab) => tab.value.toLowerCase() === searchType.replace(/-/g, ' '),
+  );
+
+  const [activeTab, setActiveTab] = useState<Tab>(tabsMock[activeTabIndex]);
 
   const handleTabClick = (tab: Tab) => {
     setInternalSearchType(tab.value.toLowerCase());
