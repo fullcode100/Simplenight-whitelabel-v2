@@ -6,6 +6,7 @@ import { Rates } from '../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
+import PartialRefund from 'components/global/PartialRefund/PartialRefund';
 
 interface Props {
   onClose: () => void;
@@ -19,6 +20,8 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
     'FREE_CANCELLATION';
   const nonRefundable =
     rate?.min_rate.cancellation_policy?.cancellation_type === 'NON_REFUNDABLE';
+  const partialRefundable =
+    rate?.min_rate.cancellation_policy?.cancellation_type === 'PARTIAL_REFUND';
   const totalPrice = rate?.min_rate?.rate.starting_room_total;
   const [t] = useTranslation('hotels');
   const totalLabel = t('total', 'Total');
@@ -152,6 +155,10 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
           )}
           <NonRefundable
             nonCancellable={nonRefundable}
+            description={rate?.min_rate.cancellation_policy?.description}
+          />
+          <PartialRefund
+            nonCancellable={partialRefundable}
             description={rate?.min_rate.cancellation_policy?.description}
           />
         </section>

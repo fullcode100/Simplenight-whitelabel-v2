@@ -2,19 +2,19 @@ import { useTranslation } from 'react-i18next';
 
 import classnames from 'classnames';
 
-interface NonRefundableProps {
+interface PartialRefundProps {
   nonCancellable?: boolean;
   description?: string;
   wfull?: boolean;
 }
 
-const NonRefundable = ({
+const PartialRefund = ({
   nonCancellable,
   description,
   wfull = false,
-}: NonRefundableProps) => {
-  const [t, i18next] = useTranslation('global');
-  const nonRefundableLabel = t('nonRefundable', 'Non-Refundable');
+}: PartialRefundProps) => {
+  const [t] = useTranslation('global');
+  const partialRefundLabel = t('partialRefund', 'Partial Refund');
 
   if (!nonCancellable) return null;
   return (
@@ -26,7 +26,7 @@ const NonRefundable = ({
     >
       <section className="flex gap-1.5 px-2 py-1.5">
         <label className="text-dark-1000 text-[14px] leading-[20px] font-semibold">
-          {nonRefundableLabel}
+          {partialRefundLabel}
           {description && <p className="font-normal">{description}</p>}
         </label>
       </section>
@@ -34,4 +34,4 @@ const NonRefundable = ({
   );
 };
 
-export default NonRefundable;
+export default PartialRefund;

@@ -22,8 +22,13 @@ import { Item } from '../../../types/cart/CartType';
 import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
 import BedsAmount from '../BedsAmount/BedsAmount';
 import TaxesAndFeesPopover from '../TaxesAndFeesPopover/TaxesAndFeesPopover';
+import PartialRefund from 'components/global/PartialRefund/PartialRefund';
 
 const RESORT_FEES = 'RESORT_FEES';
+
+const cancellableType = 'FREE_CANCELLATION';
+const nonRefundableType = 'NON_REFUNDABLE';
+const partialRefund = 'PARTIAL_REFUND';
 
 interface DatePickerProps {
   showPriceBreakdown: boolean;
@@ -86,12 +91,11 @@ const PriceBreakdownModal = ({
   const payAtPropertyFormatted =
     postPaidRate?.total_amount.formatted ?? '$0.00';
 
-  const cancellableType = 'FREE_CANCELLATION';
-  const nonRefundableType = 'NON_REFUNDABLE';
-
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
+  const partialRefundable =
+    cancellationPolicy?.cancellation_type === partialRefund;
 
   const handleAction = async (url: string) => {
     await addToCart(itemToBook, i18next, store);
@@ -192,6 +196,10 @@ const PriceBreakdownModal = ({
           )}
           <NonRefundable
             nonCancellable={nonRefundable}
+            description={cancellationPolicy?.description}
+          />
+          <PartialRefund
+            nonCancellable={partialRefundable}
             description={cancellationPolicy?.description}
           />
         </section>
