@@ -14,6 +14,7 @@ const ImageModalComponent = ({ image }: ImageModalProps) => {
         layout="responsive"
         src={image}
         alt=""
+        objectFit="cover"
       />
     </section>
   );
