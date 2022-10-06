@@ -15,6 +15,7 @@ import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
 import { useTranslation } from 'react-i18next';
 import RoomPriceBreakdownModal from 'hotels/components/PriceBreakdownModal/RoomPriceBreakdownModal';
 import useModal from 'hooks/layoutAndUITooling/useModal';
+import PartialRefund from 'components/global/PartialRefund/PartialRefund';
 
 interface RoomsProps {
   room: Room;
@@ -27,6 +28,7 @@ interface RoomsProps {
 
 const cancellableType = 'FREE_CANCELLATION';
 const nonRefundableType = 'NON_REFUNDABLE';
+const partialRefund = 'PARTIAL_REFUND';
 
 const RoomCard = ({
   room,
@@ -48,6 +50,9 @@ const RoomCard = ({
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
+  const partialRefundable =
+    cancellationPolicy?.cancellation_type === partialRefund;
+
   const images = room?.photos?.map((photo) => photo.url) ?? [];
   const [isOpen, onOpen, onClose] = useModal();
 
@@ -128,15 +133,6 @@ const RoomCard = ({
           <Divider />
         </>
       )}
-      <section className="p-4">
-        <BedsAmount
-          doubleBeds={doubleBeds}
-          queenBeds={queenBeds}
-          kingBeds={kingBeds}
-          otherBeds={otherBeds}
-        />
-      </section>
-
       <Divider />
       <section className="px-4 py-4">
         {cancellable && (
@@ -146,8 +142,12 @@ const RoomCard = ({
           nonCancellable={nonRefundable}
           description={cancellationPolicy?.description}
         />
+        <PartialRefund
+          nonCancellable={partialRefundable}
+          description={cancellationPolicy?.description}
+        />
       </section>
-      {(cancellable || nonRefundable) && <Divider />}
+      {(cancellable || nonRefundable || partialRefundable) && <Divider />}
       <section className="px-4 py-3">
         <BreakdownSummary
           rate={rates}
