@@ -79,7 +79,9 @@ function HorizontalItemCard<T extends WithId>({
               className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] "
               style={{
                 backgroundImage: `url(${image})`,
-                backgroundRepeat: 'round',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundRepeat: 'no-repeat',
               }}
             >
               <CategoryTag />
