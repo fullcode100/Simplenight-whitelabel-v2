@@ -84,7 +84,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   // It could be useful
   // const { memoizedFilterHotels } = useFilter(hotels, keywordSearch as string);
 
-  const [currency, setCurrency] = useState<string>(window.currency);
+  const [currency, setCurrency] = useState<string>('');
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
   useEffect(() => {
