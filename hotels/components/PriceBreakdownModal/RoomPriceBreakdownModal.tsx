@@ -81,14 +81,23 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
                 </p>
               </section>
             </section>
-            <section className="flex justify-between items-center">
-              <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                {taxesLabel}
-              </p>
-              <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                {rate?.min_rate.rate?.rate_breakdown.total_taxes.formatted}
-              </p>
-            </section>
+            {rate?.min_rate.rate.rate_breakdown.taxes.map((tax, index) => {
+              const taxLabel = t(tax.type, tax.description);
+
+              return (
+                <section
+                  className="flex justify-between items-center"
+                  key={tax.type + index}
+                >
+                  <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                    {taxLabel}
+                  </p>
+                  <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                    {tax.tax_amount.formatted}
+                  </p>
+                </section>
+              );
+            })}
             <div className="h-px bg-dark-300 w-full"></div>
             <section className="flex justify-between">
               <p className="font-semibold text-sm leading-[22px] text-dark-1000">
@@ -106,17 +115,25 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
             value={additionalFeesLabel}
           />
           <section className="space-y-2">
-            <section className="flex justify-between items-center">
-              <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                {resortFeeLabel}
-              </p>
-              <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                {
-                  rate?.min_rate.rate?.rate_breakdown.post_paid_rate
-                    ?.total_taxes.formatted
-                }
-              </p>
-            </section>
+            {rate?.min_rate.rate.rate_breakdown.post_paid_rate?.taxes.map(
+              (tax, index) => {
+                const taxLabel = t(tax.type, tax.description);
+
+                return (
+                  <section
+                    className="flex justify-between items-center"
+                    key={tax.type + index}
+                  >
+                    <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                      {taxLabel}
+                    </p>
+                    <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                      {tax.tax_amount.formatted}
+                    </p>
+                  </section>
+                );
+              },
+            )}
             <div className="h-px bg-dark-300 w-full"></div>
             <section className="flex justify-between">
               <p className="font-semibold text-sm leading-[22px] text-dark-1000">
@@ -132,10 +149,6 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
           </section>
         </section>
         <section className="space-y-4">
-          <BreakdownSubtitle
-            className="text-base font-semibold text-dark-800"
-            value={totalLabel}
-          />
           <section className="space-y-2">
             <section className="flex justify-between">
               <p className="font-semibold text-sm leading-[22px] text-dark-1000">

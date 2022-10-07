@@ -92,5 +92,14 @@
   "checkInTime": "Check-In Time",
   "checkOutTime": "Check-Out Time",
   "before": "Before",
-  "book": "Book"
+  "book": "Book",
+  "resortFees": "Resort Fees",
+  "fee": "Fee",
+  "mandatoryTax": "Mandatory Tax",
+  "mandatoryFee": "Mandatory Fee",
+  "salesTax": "Sales Tax",
+  "cityTax": "City Tax",
+  "nightlyTaxesAndFees": "Nightly Taxes And Fees",
+  "stayTaxesAndFees": "Stay Taxes and Fees",
+  "otherTaxes": "Other Taxes"
 }

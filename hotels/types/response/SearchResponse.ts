@@ -169,6 +169,7 @@ export interface Tax {
   description: string;
   included_in_total: boolean;
   tax_amount: Amount;
+  type: string;
 }
 
 export interface Tax {
