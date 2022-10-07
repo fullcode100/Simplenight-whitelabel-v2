@@ -5,7 +5,7 @@
   "taxes": "Impuestos",
   "payNow": "Pagar ahora",
   "additionalFees": "Cargos adicionales",
-  "resortFee": "Impuesto local",
+  "resortFee": "Cargos del Resort",
   "payAtProperty": "Pagar en la propiedad",
   "userRating": "Puntuación de los clientes",
   "filters": "Filtrar por",
@@ -55,7 +55,7 @@
   "checkRoomAvailability": "Comprobar disponibilidad de habitaciones",
   "nights": "Noches",
   "night": "Noche",
-  "taxesAndFees": "Impuestos y Honorarios",
+  "taxesAndFees": "Impuestos y Cargos",
   "cancellationPolicy": "Política de Cancelación",
   "priceIncludes": "Precio Incluye",
   "guestsAndRooms": "Huéspedes y habitaciones",
@@ -92,5 +92,14 @@
   "checkInTime": "Hora de Entrada",
   "checkOutTime": "Hora de Salida",
   "before": "Antes de",
-  "book": "Reservar"
+  "book": "Reservar",
+  "resortFees": "Cargos del Resort",
+  "fee": "Cargo",
+  "mandatoryTax": "Impuesto obligatorio",
+  "mandatoryFee": "Cargo obligatorio",
+  "salesTax": "Impuesto de venta",
+  "cityTax": "Impuesto municipal",
+  "nightlyTaxesAndFees": "Impuestos y cargos nocturnos",
+  "stayTaxesAndFees": "Impuestos y cargos de estadía",
+  "otherTaxes": "Otros impuestos"
 }

@@ -36,7 +36,6 @@ const RoomPriceBreakdown = ({
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
   const resortFeeLabel = t('resortFee', 'Resort Fee');
-  const taxesLabel = t('taxesAndFees', 'Taxes And Fees');
   const payNowLabel = t('payNow', 'Pay now');
   const priceIncludesLabel = t('priceIncludes', 'Price Includes');
   const payAtPropertyLabel = t('payAtProperty', 'Pay at property');
@@ -80,7 +79,17 @@ const RoomPriceBreakdown = ({
       />
 
       <BasePrice />
-      <AmountDetailItem amount={taxesAndFees} label={taxesLabel} />
+      {rate?.rate_breakdown.taxes.map((tax) => {
+        const taxLabel = t(tax.type, tax.description);
+
+        return (
+          <AmountDetailItem
+            key={tax.type}
+            amount={tax.tax_amount.formatted}
+            label={taxLabel}
+          />
+        );
+      })}
       <div className="border-t border-dark-200"></div>
       <section className="flex justify-between mb-5">
         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
@@ -91,7 +100,17 @@ const RoomPriceBreakdown = ({
         </p>
       </section>
 
-      <AmountDetailItem amount={resortFees} label={resortFeeLabel} />
+      {rate?.rate_breakdown.post_paid_rate?.taxes.map((tax) => {
+        const taxLabel = t(tax.type, tax.description);
+
+        return (
+          <AmountDetailItem
+            key={tax.type}
+            amount={tax.tax_amount.formatted}
+            label={taxLabel}
+          />
+        );
+      })}
       <div className="border-t border-dark-200"></div>
       <section className="flex justify-between mb-5">
         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
