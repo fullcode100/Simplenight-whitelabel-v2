@@ -1,25 +1,20 @@
 /* eslint indent: off */
 /* eslint @typescript-eslint/ban-types: off */
-import { flattenObjectOfObjects } from 'helpers/stringUtils';
+import { getSettings } from 'apiCalls/settings';
 import { CustomWindow } from 'types/global/CustomWindow';
+import { BrandConfig } from 'types/settings/BrandConfig';
 import { AppThunk } from '..';
-import { getBrandConfig } from '../../config/configJson';
 import * as types from '../reducers/core/types';
 
 declare let window: CustomWindow;
 
-export const setBrandConfig =
-  (brandCode: string): AppThunk =>
-  async (dispatch) => {
-    const brandConfig = await getBrandConfig(brandCode);
-
-    brandConfig.theme = flattenObjectOfObjects(brandConfig.theme);
-
-    dispatch({
-      type: types.SET_BRAND_CONFIG,
-      payload: brandConfig,
-    });
-  };
+export const setBrandConfig = (): AppThunk => async (dispatch) => {
+  const settings: BrandConfig = await getSettings();
+  dispatch({
+    type: types.SET_BRAND_CONFIG,
+    payload: settings,
+  });
+};
 
 export const setBrandColor =
   (key: string, brandColor: string): AppThunk =>

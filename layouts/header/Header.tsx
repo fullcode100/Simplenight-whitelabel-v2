@@ -1,10 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
 
-import ImagePlaceHolder from 'public/icons/assets/image-placeholder.svg';
 import HamburgerMenuButton from 'public/icons/assets/hamburger-menu-button.svg';
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
-import SimplenightLogo from 'public/icons/assets/simplenight-logo.svg';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -36,6 +35,9 @@ const Header = ({ color }: HeaderProps) => {
     state,
     dispatch,
   };
+
+  const { images } = useBrandConfig() || {};
+  const { logo } = images || {};
 
   const [cartQty, setCartQty] = useState(0);
   const [cart, setCart] = useState<CartObjectResponse>();
@@ -73,7 +75,7 @@ const Header = ({ color }: HeaderProps) => {
         noHeader={true}
         className="max-w-[90%] lg:hidden"
       >
-        <div className="w-full h-full fixed inset-0 bg-black/25 z-10"></div>
+        <div className="fixed inset-0 z-10 w-full h-full bg-black/25"></div>
         <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
       <header
@@ -83,16 +85,22 @@ const Header = ({ color }: HeaderProps) => {
           className="mr-2 cursor-pointer"
           onClick={handleOpenMenu}
         />
-        <section className="flex gap-5 items-center">
+        <section className="flex items-center gap-5">
           <Link href={'/'}>
             <a>
-              <SimplenightLogo />
+              <img
+                src={logo}
+                alt="Branch Logo"
+                width="94px"
+                height="36px"
+                className="object-fit"
+              />
             </a>
           </Link>
         </section>
         <button onClick={onOpen}>
-          <section className="flex justify-between items-center gap-2 w-14 border border-dark-300 bg-white px-2 py-1 rounded">
-            <span className="text-dark-1000 font-semibold text-sm font-lato">
+          <section className="flex items-center justify-between gap-2 px-2 py-1 bg-white border rounded w-14 border-dark-300">
+            <span className="text-sm font-semibold text-dark-1000 font-lato">
               {cartQty ?? 0}
             </span>
             <ShoppingCart className="text-primary-1000" />
@@ -105,10 +113,8 @@ const Header = ({ color }: HeaderProps) => {
 };
 
 const HeaderBrandingHoc = ({ color }: HeaderProps) => {
-  const { brandCode } = useBrandConfig();
-
   return (
-    <BrandingHOC brand={brandCode} path={'layout/Header'}>
+    <BrandingHOC brand="" path={'layout/Header'}>
       <Header color={color} />
     </BrandingHOC>
   );

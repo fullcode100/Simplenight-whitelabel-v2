@@ -28,10 +28,7 @@ module.exports = {
           300: 'var(--primary-color-300)',
           200: 'var(--primary-color-200)',
           100: 'var(--primary-color-100)',
-          50: 'var(--primary-color-50)',
-          25: 'var(--primary-color-25)',
         },
-        'primary-dark': 'var(--primary-color-dark)',
         dark: {
           1000: '#454545',
           900: '#595959',

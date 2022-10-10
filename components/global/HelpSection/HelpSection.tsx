@@ -21,8 +21,10 @@ const HelpSection = ({
   const helpTitle = t('needHelpTitle', 'Need Some Help?');
   const helpDescription = t('needHelpDescription', 'Contact Us For Support.');
 
-  const { partnerInformation } = useBrandConfig();
-  const { customerSupportEmail, customerSupportPhone } = partnerInformation;
+  const { information } = useBrandConfig();
+  const { customerSupportEmail, customerSupportPhone } = information || {};
+  const { prefix, number } = customerSupportPhone || {};
+  const customerSupportPhoneNumber = `${prefix} ${number}`;
 
   const handleLinkOpen = (url: string) => {
     window.open(url, '_blank');
@@ -40,7 +42,7 @@ const HelpSection = ({
         { 'justify-center': !inItinerary },
       )}
     >
-      <section className="text-white bg-primary-1000 h-8 w-8 rounded-full flex justify-center items-center">
+      <section className="flex items-center justify-center w-8 h-8 text-white rounded-full bg-primary-1000">
         {icon}
       </section>
       <button onClick={() => handleLinkOpen(link)}>{text}</button>
@@ -79,8 +81,8 @@ const HelpSection = ({
           />
           <HelpLink
             icon={<PhoneCall />}
-            link={`tel:${customerSupportPhone}`}
-            text={customerSupportPhone}
+            link={`tel:${customerSupportPhoneNumber}`}
+            text={customerSupportPhoneNumber}
           />
         </section>
       </section>
