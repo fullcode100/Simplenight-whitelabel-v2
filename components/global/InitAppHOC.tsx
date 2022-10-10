@@ -19,7 +19,6 @@ const InitAppHOC = ({
 }) => {
   useBrandConfigSetup();
   useThemeUpdater();
-
   useInitialCurrency();
 
   return (

@@ -7,10 +7,10 @@ interface SEOHocProps {
 }
 
 const SEOHoc = ({ children }: SEOHocProps) => {
-  const { images, partnerInformation } = useBrandConfig();
-  const { partnerName } = partnerInformation;
+  const { information } = useBrandConfig() || {};
+  const { partnerName } = information || {};
 
-  const favicon = images.favicon ?? '/favicon.ico';
+  const favicon = '/favicon.ico';
 
   return (
     <>

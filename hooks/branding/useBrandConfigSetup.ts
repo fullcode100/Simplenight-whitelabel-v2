@@ -6,6 +6,6 @@ export const useBrandConfigSetup = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setBrandConfig('GENTEX'));
+    dispatch(setBrandConfig());
   }, []);
 };

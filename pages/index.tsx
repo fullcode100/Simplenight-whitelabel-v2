@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
@@ -14,12 +14,23 @@ import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
 import CategorySelectDesktop from 'layouts/header/components/Menu/CategorySelectDestkop';
+import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
+import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 
-const UpperSectionBackground = ({ children }: { children?: any }) => (
-  <div className="min-h-[50vh] w-[100vw] px-4 pt-[96px] pb-[26px] grid grid-cols-1 place-content-center lg:min-h-[90vh] lg:px-20">
-    {children}
-  </div>
-);
+const UpperSectionBackground = ({ children }: { children?: any }) => {
+  const { homepage } = useBrandConfig();
+  const { whiteLabelBackground } = homepage;
+  return (
+    <div
+      className="bg-no-repeat bg-cover bg-center min-h-[50vh] w-[100vw] px-4 pt-[96px] pb-[26px] grid grid-cols-1 place-content-center lg:min-h-[90vh] lg:px-20"
+      style={{
+        backgroundImage: `url(${whiteLabelBackground})`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 const LOOKUP_URI = '/lookup';
 
@@ -27,7 +38,6 @@ const Home: NextPageWithLayout = () => {
   const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
-  const homePageText = t('homePageText');
   const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
   const reviewAndManageYourOrder = t(
     'reviewAndManageYourOrder',
@@ -40,6 +50,8 @@ const Home: NextPageWithLayout = () => {
 
   const [searchType, setSearchType] = useState('hotels');
   const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
+
+  const homePageText = useBrandHeroTitle();
 
   const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
@@ -101,12 +113,6 @@ const Home: NextPageWithLayout = () => {
     <>
       <main ref={mainRef} className="min-h-[100vh] w-full">
         <section className="relative">
-          <Image
-            src={'/images/bg-image.jpg'}
-            alt={''}
-            layout={'fill'}
-            className="object-cover"
-          />
           <UpperSectionBackground>
             <section className="relative w-full mx-auto max-w-7xl">
               <p className="font-lato leading-[38px] text-[32px] font-semibold text-white text-center mb-9 lg:text-6xl lg:pb-5 lg:mt-5">
