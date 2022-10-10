@@ -1,12 +1,14 @@
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
-import ThingsIcon from 'public/icons/categories/Category-Things.svg';
 import { ThingsClientSearcher } from './core/search/ThingsClientSearcher';
 import { ThingsServerSearcher } from './core/search/ThingsServerSearcher';
 import { ThingsClientDetailer } from './core/detail/ThingsClientDetailer';
 import { ThingsServerDetailer } from './core/detail/ThingsServerDetailer';
+import ThingsIcon from 'public/icons/categories/Category-Things.svg';
+
 import ThingsSearchForm from './components/search/ThingsSearchForm';
 import ThingsSearchFormReadState from './components/search/ThingsSearchFormReadState';
+import ThingsResultsDisplay from './components/search/ThingsResultsDisplay';
 
 export const THINGS_CATEGORY = 'things-to-do';
 
@@ -43,6 +45,7 @@ const Category: CategoryOption = {
     ServerDetailer: null,
   },
 };
+Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
 
 // Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 // Category.core.ServerSearcher = new ThingsServerSearcher(Category);
