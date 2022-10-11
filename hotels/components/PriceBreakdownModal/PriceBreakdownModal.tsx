@@ -101,12 +101,11 @@ const PriceBreakdownModal = ({
     await addToCart(itemToBook, i18next, store);
     router.replace(url);
   };
-  const {
-    double_beds: doubleBeds,
-    queen_beds: queenBeds,
-    king_beds: kingBeds,
-    other_beds: otherBeds,
-  } = services;
+
+  const doubleBeds = services?.double_beds ?? 0;
+  const queenBeds = services?.queen_beds ?? 0;
+  const kingBeds = services?.king_beds ?? 0;
+  const otherBeds = services?.other_beds ?? 0;
 
   return (
     <FullScreenModal
