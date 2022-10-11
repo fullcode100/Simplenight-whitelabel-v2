@@ -101,5 +101,7 @@
   "cityTax": "Impuesto municipal",
   "nightlyTaxesAndFees": "Impuestos y cargos nocturnos",
   "stayTaxesAndFees": "Impuestos y cargos de estadía",
-  "otherTaxes": "Otros impuestos"
+  "otherTaxes": "Otros impuestos",
+  "estimationTax": "Estimación basada en el tipo de cambio actual, puede cambiar antes de su estadía.",
+  "approx": "Aprox"
 }

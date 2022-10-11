@@ -101,5 +101,7 @@
   "cityTax": "City Tax",
   "nightlyTaxesAndFees": "Nightly Taxes And Fees",
   "stayTaxesAndFees": "Stay Taxes and Fees",
-  "otherTaxes": "Other Taxes"
+  "otherTaxes": "Other Taxes",
+  "estimationTax": "Estimation based on the current exchange rate, may change before your stay.",
+  "approx": "Approx"
 }
