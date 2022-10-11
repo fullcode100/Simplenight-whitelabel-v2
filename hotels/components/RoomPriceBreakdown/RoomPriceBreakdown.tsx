@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AmountDetailItem from './components/AmountDetailItem';
@@ -44,6 +45,20 @@ const RoomPriceBreakdown = ({
     'cancellationPolicy',
     'Cancellation Policy',
   );
+  const estimationLabel = t(
+    'estimationTax',
+    'Estimation based on the current exchange rate, may change before your stay',
+  );
+  const approxLabel = t('approx', 'Approx');
+
+  const [showLocalCurrency, setShowLocalCurrency] = useState(false);
+  useEffect(() => {
+    setShowLocalCurrency(
+      rate?.rate_breakdown.post_paid_rate?.taxes[0]?.tax_amount.currency !=
+        rate?.rate_breakdown.post_paid_rate?.taxes[0]?.tax_original_amount
+          .currency,
+    );
+  }, [rate]);
 
   const BasePrice = () => (
     <section className="flex justify-between">
@@ -100,17 +115,45 @@ const RoomPriceBreakdown = ({
         </p>
       </section>
 
-      {rate?.rate_breakdown.post_paid_rate?.taxes.map((tax) => {
+      {rate?.rate_breakdown.post_paid_rate?.taxes.map((tax, index) => {
         const taxLabel = t(tax.type, tax.description);
 
         return (
-          <AmountDetailItem
-            key={tax.type}
-            amount={tax.tax_amount.formatted}
-            label={taxLabel}
-          />
+          <section className="flex justify-between" key={tax.type + index}>
+            <section className="flex flex-row gap-1">
+              <section className="flex flex-row gap-1 lg:gap-3">
+                <PlusIcon className="h-3.5 lg:h-4 lg:w-4 ml-0.5 mr-1 mt-1 text-primary-1000" />
+                <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+                  {taxLabel}
+                </p>
+              </section>
+            </section>
+
+            <section className="text-right">
+              <section className="flex items-center text-dark-1000">
+                {showLocalCurrency && (
+                  <p className="text-[12px] leading-[15px] pr-1">
+                    {approxLabel}
+                  </p>
+                )}
+                <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
+                  {`${tax.tax_amount.formatted}${showLocalCurrency ? '*' : ''}`}
+                </p>
+              </section>
+              {showLocalCurrency && (
+                <p className="text-[12px] leading-[15px]">
+                  {tax.tax_original_amount.formatted}
+                </p>
+              )}
+            </section>
+          </section>
         );
       })}
+      {showLocalCurrency && (
+        <p className="text-[12px] leading-[15px] font-semibold text-dark-700">
+          {`* ${estimationLabel}`}
+        </p>
+      )}
       <div className="border-t border-dark-200"></div>
       <section className="flex justify-between mb-5">
         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import ModalHeader from 'components/global/NewModal/components/ModalHeader';
 import BreakdownSubtitle from './components/BreakdownSubtitle';
@@ -33,6 +33,21 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
   const additionalFeesLabel = t('additionalFees', 'Additional Fees');
   const payAtPropertyLabel = t('payAtProperty', 'Pay at property');
   const basePriceLabel = t('basePrice', 'Base Price');
+  const estimationLabel = t(
+    'estimationTax',
+    'Estimation based on the current exchange rate, may change before your stay',
+  );
+  const approxLabel = t('approx', 'Approx');
+
+  const [showLocalCurrency, setShowLocalCurrency] = useState(false);
+  useEffect(() => {
+    setShowLocalCurrency(
+      rate?.min_rate.rate.rate_breakdown.post_paid_rate?.taxes[0]?.tax_amount
+        .currency !=
+        rate?.min_rate.rate.rate_breakdown.post_paid_rate?.taxes[0]
+          ?.tax_original_amount.currency,
+    );
+  }, [rate?.min_rate.rate]);
 
   return (
     <FullScreenModal
@@ -121,18 +136,44 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
 
                 return (
                   <section
-                    className="flex justify-between items-center"
+                    className="flex justify-between"
                     key={tax.type + index}
                   >
-                    <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                      {taxLabel}
-                    </p>
-                    <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                      {tax.tax_amount.formatted}
-                    </p>
+                    <section className="flex flex-row gap-1">
+                      <section className="flex flex-row gap-1 lg:gap-3">
+                        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+                          {taxLabel}
+                        </p>
+                      </section>
+                    </section>
+
+                    <section className="text-right">
+                      <section className="flex items-center text-dark-1000">
+                        {showLocalCurrency && (
+                          <p className="text-[12px] leading-[15px] pr-1">
+                            {approxLabel}
+                          </p>
+                        )}
+                        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
+                          {`${tax.tax_amount.formatted}${
+                            showLocalCurrency ? '*' : ''
+                          }`}
+                        </p>
+                      </section>
+                      {showLocalCurrency && (
+                        <p className="text-[12px] leading-[15px]">
+                          {tax.tax_original_amount.formatted}
+                        </p>
+                      )}
+                    </section>
                   </section>
                 );
               },
+            )}
+            {showLocalCurrency && (
+              <p className="text-[12px] leading-[15px] font-semibold text-dark-700">
+                {`* ${estimationLabel}`}
+              </p>
             )}
             <div className="h-px bg-dark-300 w-full"></div>
             <section className="flex justify-between">

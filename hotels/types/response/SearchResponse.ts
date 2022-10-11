@@ -170,12 +170,7 @@ export interface Tax {
   included_in_total: boolean;
   tax_amount: Amount;
   type: string;
-}
-
-export interface Tax {
-  description: string;
-  included_in_total: boolean;
-  tax_amount: Amount;
+  tax_original_amount: Amount;
 }
 
 export interface Discounts {
