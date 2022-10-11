@@ -30,8 +30,27 @@ const getDangerColors = (): ColorStates => ({
   disabled: 'bg-dark-300 border-transparent text-dark-700',
 });
 
+const getActiveStateColors = (): ColorStates => ({
+  default: 'bg-primary-100 border-primary-1000 text-primary-1000',
+  hover: 'hover:bg-primary-800 hover:text-white',
+  focused: 'focus:bg-primary-1000 focus:border-primary-700 focus:text-white',
+  pressed: 'active:bg-primary-800 active:border-primary-700 active:text-white',
+  disabled: 'bg-dark-300 border-transparent text-dark-700',
+});
+
+const getInactiveStateColors = (): ColorStates => ({
+  default: 'bg-white border-transparent text-dark-1000',
+  hover: 'hover:bg-primary-800 hover:text-white',
+  focused: 'focus:bg-primary-1000 focus:border-primary-700 focus:text-white',
+  pressed: 'active:bg-primary-800 active:border-primary-700 active:text-white',
+  disabled: 'bg-dark-300 border-transparent text-dark-700',
+});
+
 export const useColor = (type: string): ColorStates => {
   if (type === 'outlined') return getOutlinedColors();
   if (type === 'danger') return getDangerColors();
+  if (type === 'active') return getActiveStateColors();
+  if (type === 'inactive') return getInactiveStateColors();
+
   return getPrimaryColors();
 };

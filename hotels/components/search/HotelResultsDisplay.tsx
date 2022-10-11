@@ -35,6 +35,7 @@ import HotelCancellable from './HotelCancellable';
 import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/HorizontalSkeletonCard';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
+import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 
 declare let window: CustomWindow;
 
@@ -306,6 +307,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
           )}
         </section>
       </section>
+      <SearchViewSelectorFixed />
     </>
   );
 };

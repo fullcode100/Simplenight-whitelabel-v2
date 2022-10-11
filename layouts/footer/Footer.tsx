@@ -3,9 +3,14 @@ import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useGetTranslation from 'hooks/i18n/useGetTranslation';
 import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
+import { useRouter } from 'next/router';
+import classNames from 'classnames';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const router = useRouter();
+  const pathname = router.pathname;
+  const isSearchPage = pathname.includes('search');
   const t = useGetTranslation();
   const { legalInformation, information, images } = useBrandConfig() || {};
   const { partnerName } = information || {};
@@ -24,7 +29,14 @@ const Footer = () => {
   const poweredByText = t({ translationKey: 'poweredBy', value: 'Powered by' });
 
   return (
-    <footer className="w-full p-4 text-sm font-light text-center bg-dark-200 text-dark-1000 lg:px-24 lg:py-9">
+    <footer
+      className={classNames(
+        'bg-dark-200 text-dark-1000 p-4 w-full text-center text-sm lg:px-24 lg:py-9',
+        {
+          'hidden lg:block': isSearchPage,
+        },
+      )}
+    >
       <section className="mx-auto max-w-7xl lg:flex lg:justify-between">
         <section className="font-normal lg:text-left">
           <img
