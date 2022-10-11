@@ -66,13 +66,6 @@ const RoomCard = ({
     </>
   );
 
-  const {
-    double_beds: doubleBeds,
-    queen_beds: queenBeds,
-    king_beds: kingBeds,
-    other_beds: otherBeds,
-  } = room.services;
-
   return (
     <section className="my-3 border rounded overflow-hidden shadow-container lg:my-0 border-dark-200">
       {images.length > 0 ? (
