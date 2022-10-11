@@ -7,6 +7,7 @@ import { ThingsServerDetailer } from './core/detail/ThingsServerDetailer';
 import ThingsIcon from 'public/icons/categories/Category-Things.svg';
 
 import ThingsSearchForm from './components/search/ThingsSearchForm';
+import ThingsSearchResultsDisplay from './components/search/ThingsSearchReultDisplay';
 import ThingsSearchFormReadState from './components/search/ThingsSearchFormReadState';
 import ThingsResultsDisplay from './components/search/ThingsResultsDisplay';
 
@@ -46,6 +47,8 @@ const Category: CategoryOption = {
   },
 };
 Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
+
+Category.resultsDisplay = <ThingsSearchResultsDisplay />;
 
 // Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 // Category.core.ServerSearcher = new ThingsServerSearcher(Category);
