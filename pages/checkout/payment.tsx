@@ -128,7 +128,7 @@ const Payment = () => {
   };
 
   const triggerEventConversion = (bookingId?: string) => {
-    const referral = getCookie('referral').split('=');
+    const referral = getCookie('referral')?.split('=');
 
     if (!referral || !bookingId) return;
 
@@ -153,7 +153,7 @@ const Payment = () => {
     handleBooking();
   };
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!paymentToken || !verificationToken || !country || !terms || !cart)
       return;
 
@@ -164,15 +164,16 @@ const Payment = () => {
       countryCode: country,
     };
 
-    createBooking(paymentParameters, i18next)
-      .then((response) => {
-        const bookingId = response?.booking.booking_id;
-        triggerEventConversion(bookingId);
-        dispatch(clearCart());
-        localStorage.removeItem('cart');
-        router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
-      })
-      .catch((error) => console.error(error));
+    try {
+      const data = await createBooking(paymentParameters, i18next);
+      const bookingId = data?.booking.booking_id;
+      triggerEventConversion(bookingId);
+      dispatch(clearCart());
+      localStorage.removeItem('cart');
+      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handlePaymentLibraryLoad = () => {

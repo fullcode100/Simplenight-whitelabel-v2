@@ -94,6 +94,9 @@
   p {
     margin: 0 !important;
   }
+  a:visited {
+    color: currentColor;
+  }
 }
 
 .plg {

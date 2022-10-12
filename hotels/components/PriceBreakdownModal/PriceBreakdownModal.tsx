@@ -158,7 +158,6 @@ const PriceBreakdownModal = ({
         <section className="flex items-start justify-between w-full mt-1 text-base">
           <section className="flex flex-row gap-1">
             <span>{taxesLabel}</span>
-            <TaxesAndFeesPopover />
           </section>
           {totalTaxes.formatted}
         </section>
@@ -177,7 +176,6 @@ const PriceBreakdownModal = ({
         <section className="flex items-start justify-between w-full mt-1 text-base">
           <section className="flex flex-row gap-1">
             <span>{resortFeeLabel}</span>
-            <TaxesAndFeesPopover />
           </section>
           {payAtPropertyFormatted}
         </section>

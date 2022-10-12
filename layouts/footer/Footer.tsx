@@ -51,7 +51,7 @@ const Footer = () => {
             {poweredByText}{' '}
             <ExternalLink
               href={simplenightCorporateLink}
-              className="font-semibold underline uppercase focus:text-white focus:underline hover:text-white hover:underline"
+              className="font-semibold underline uppercase hover:text-white"
             >
               Simplenight
             </ExternalLink>
@@ -83,13 +83,13 @@ const Footer = () => {
           <section className="flex flex-col gap-3 lg:gap-2">
             <ExternalLink
               href={simplenightTermsOfService}
-              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underlin"
+              className="font-semibold underline hover:text-white"
             >
               Simplenight {termsOfServiceText}
             </ExternalLink>
             <ExternalLink
               href={simplenightPrivacyPolicy}
-              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underline"
+              className="font-semibold underline hover:text-white"
             >
               Simplenight {privacyPolicyText}
             </ExternalLink>

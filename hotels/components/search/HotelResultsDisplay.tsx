@@ -50,6 +50,7 @@ interface ViewButtonProps {
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [loaded, setLoaded] = useState(false);
+  const [counter, setCounter] = useState(0);
   const { ClientSearcher: Searcher } = HotelCategory.core;
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
@@ -93,56 +94,59 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   }, [storeCurrency]);
 
   useEffect(() => {
-    const hasEmptyValues = checkIfAnyNull([
-      rooms,
-      adults,
-      children,
-      startDate,
-      endDate,
-      latitude,
-      longitude,
-    ]);
-    if (hasEmptyValues) return;
+    if (counter === 0) {
+      setCounter((pre) => pre + 1);
+      const hasEmptyValues = checkIfAnyNull([
+        rooms,
+        adults,
+        children,
+        startDate,
+        endDate,
+        latitude,
+        longitude,
+      ]);
+      if (hasEmptyValues) return;
 
-    const paramRoomsData = roomsData
-      ? JSON.parse(roomsData as string)
-      : [createRoom()];
+      const paramRoomsData = roomsData
+        ? JSON.parse(roomsData as string)
+        : [createRoom()];
 
-    const geolocation = `${latitude},${longitude}`;
+      const geolocation = `${latitude},${longitude}`;
 
-    const params: HotelSearchRequest = {
-      rooms: parseQueryNumber(rooms ?? ''),
-      adults: parseQueryNumber(adults ?? ''),
-      children: parseQueryNumber(children ?? ''),
-      start_date: formatAsSearchDate(startDate as unknown as string),
-      end_date: formatAsSearchDate(endDate as unknown as string),
-      dst_geolocation: geolocation as unknown as StringGeolocation,
-      rsp_fields_set: 'basic',
-      sort: sortByAdapter(sortBy as unknown as string),
-      cancellation_type: cancellationTypeAdapter(
-        paymentTypes as unknown as string,
-      ),
-      accommodation_type: propertyTypesAdapter(
-        propertyTypes as unknown as string,
-      ),
-      star_rating: starRating as string,
-      min_price: minPrice as string,
-      max_price: maxPrice as string,
-      amenities: amenities as string,
-      supplier_ids: supplierIds as string,
-    };
+      const params: HotelSearchRequest = {
+        rooms: parseQueryNumber(rooms ?? ''),
+        adults: parseQueryNumber(adults ?? ''),
+        children: parseQueryNumber(children ?? ''),
+        start_date: formatAsSearchDate(startDate as unknown as string),
+        end_date: formatAsSearchDate(endDate as unknown as string),
+        dst_geolocation: geolocation as unknown as StringGeolocation,
+        rsp_fields_set: 'basic',
+        sort: sortByAdapter(sortBy as unknown as string),
+        cancellation_type: cancellationTypeAdapter(
+          paymentTypes as unknown as string,
+        ),
+        accommodation_type: propertyTypesAdapter(
+          propertyTypes as unknown as string,
+        ),
+        star_rating: starRating as string,
+        min_price: minPrice as string,
+        max_price: maxPrice as string,
+        amenities: amenities as string,
+        supplier_ids: supplierIds as string,
+      };
 
-    if (parseQueryNumber(children as string)) {
-      params.children_ages = getChildrenAges(paramRoomsData);
+      if (parseQueryNumber(children as string)) {
+        params.children_ages = getChildrenAges(paramRoomsData);
+      }
+
+      setLoaded(false);
+      Searcher?.request(params, i18next)
+        .then(({ hotels: searchedHotels }: HotelSearchResponse) => {
+          setHotels(searchedHotels);
+        })
+        .catch((error) => console.error(error))
+        .then(() => setLoaded(true));
     }
-
-    setLoaded(false);
-    Searcher?.request(params, i18next)
-      .then(({ hotels: searchedHotels }: HotelSearchResponse) => {
-        setHotels(searchedHotels);
-      })
-      .catch((error) => console.error(error))
-      .then(() => setLoaded(true));
   }, [
     adults,
     children,

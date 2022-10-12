@@ -56,7 +56,7 @@ const RoomPriceBreakdown = ({
     setShowLocalCurrency(
       rate?.rate_breakdown.post_paid_rate?.taxes[0]?.tax_amount.currency !=
         rate?.rate_breakdown.post_paid_rate?.taxes[0]?.tax_original_amount
-          .currency,
+          ?.currency,
     );
   }, [rate]);
 
@@ -100,7 +100,7 @@ const RoomPriceBreakdown = ({
         return (
           <AmountDetailItem
             key={tax.type}
-            amount={tax.tax_amount.formatted}
+            amount={tax.tax_amount?.formatted}
             label={taxLabel}
           />
         );
@@ -142,7 +142,7 @@ const RoomPriceBreakdown = ({
               </section>
               {showLocalCurrency && (
                 <p className="text-[12px] leading-[15px]">
-                  {tax.tax_original_amount.formatted}
+                  {tax.tax_original_amount?.formatted}
                 </p>
               )}
             </section>
