@@ -39,7 +39,7 @@ const InstructionsSection = ({
   const hasSpecialInstructions =
     specialInstructions && specialInstructions?.length > 0;
   return (
-    <section className="px-5 pb-3 space-y-5 lg:pb-0 lg:px-0">
+    <section className="px-5 pb-3 space-y-5">
       <CheckInTime time={checkInTime} />
       {hasCheckInInstructions && (
         <InstructionList instructions={checkInInstructions} />
