@@ -91,8 +91,11 @@ export const fromLowerCaseToCapitilize = (text = '') => {
 };
 
 export const getChildrenAges = (rooms: Room[]): string => {
-  const childrenAges = rooms.map((room) => {
-    return room.childrenAges;
-  });
+  const childrenAges = rooms
+    .map((room) => {
+      return room.childrenAges;
+    })
+    .filter((arr) => arr.length > 0);
+
   return childrenAges.join(',');
 };
