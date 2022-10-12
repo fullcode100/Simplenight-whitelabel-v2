@@ -45,7 +45,7 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
       rate?.min_rate.rate.rate_breakdown.post_paid_rate?.taxes[0]?.tax_amount
         .currency !=
         rate?.min_rate.rate.rate_breakdown.post_paid_rate?.taxes[0]
-          ?.tax_original_amount.currency,
+          ?.tax_original_amount?.currency,
     );
   }, [rate?.min_rate.rate]);
 
@@ -80,11 +80,11 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
                   <span className="line-through text-dark-800 mr-1">
                     {
                       rate?.min_rate.rate?.rate_breakdown.discounts
-                        .total_amount_before_apply.formatted
+                        .total_amount_before_apply?.formatted
                     }
                   </span>
                   {
-                    rate?.min_rate.rate?.rate_breakdown.discounts
+                    rate?.min_rate.rate?.rate_breakdown?.discounts
                       .percentage_to_apply
                   }
                 </p>
@@ -155,14 +155,14 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
                           </p>
                         )}
                         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
-                          {`${tax.tax_amount.formatted}${
+                          {`${tax.tax_amount?.formatted}${
                             showLocalCurrency ? '*' : ''
                           }`}
                         </p>
                       </section>
                       {showLocalCurrency && (
                         <p className="text-[12px] leading-[15px]">
-                          {tax.tax_original_amount.formatted}
+                          {tax.tax_original_amount?.formatted}
                         </p>
                       )}
                     </section>
