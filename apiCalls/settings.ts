@@ -83,7 +83,7 @@ const mockCategoriesSettings = [
     priority: 1,
     name: 'Things To Do',
     alias: 'Things To Do',
-    whitelabelId: 'things-to-do',
+    whitelabelId: 'entertainment',
   },
 ];
 
