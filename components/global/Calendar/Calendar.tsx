@@ -123,11 +123,11 @@ const DatePicker = ({
         startDate={formatAsRangeDate(startDate)}
         endDate={formatAsRangeDate(endDate)}
       />
-      <section className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5">
+      <section className="grid items-center grid-cols-7 px-5 overflow-y-scroll text-base text-center">
         {calendar?.map((month: MonthObject, index) => {
           return (
             <Fragment key={index}>
-              <p className="col-span-7 font-semibold text-dark-1000 text-base leading-base mt-3">{`${fromLowerCaseToCapitilize(
+              <p className="col-span-7 mt-3 text-base font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
                 month.monthName,
               )} ${month.yearNumber}`}</p>
               <WeekDays />

@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable indent */
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
-import SimplenightLogo from 'public/icons/assets/simplenight-logo.svg';
 import Link from 'next/link';
 import LanguageIcon from 'public/icons/assets/language.svg';
 import CashIcon from 'public/icons/assets/cash.svg';
@@ -57,7 +56,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   );
   return (
     <header
-      className={`hidden px-4 py-5 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
+      className={`hidden px-4 py-6 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
     >
       <section className="items-center justify-between w-full mx-auto max-w-7xl lg:flex">
         <section className="flex items-center gap-5">

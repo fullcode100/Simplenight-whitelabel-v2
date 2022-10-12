@@ -7,10 +7,10 @@ export const initialState: CoreState = {
       primaryColor: {},
     },
     analytics: {},
-    features: {},
     images: {},
     homepage: {},
     legalInformation: {},
+    categories: [],
   },
   languages: {
     intlMessages: {},

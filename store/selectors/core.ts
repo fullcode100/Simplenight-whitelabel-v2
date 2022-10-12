@@ -1,14 +1,11 @@
 /* eslint react-hooks/rules-of-hooks: off */
 import { useSelector } from 'react-redux';
-import {
-  ClientConfigImages,
-  CoreLanguages,
-  SimplenightFeatures,
-} from '../../types/redux/CoreState';
+import { Category } from 'types/settings/BrandConfig';
+import { ClientConfigImages, CoreLanguages } from '../../types/redux/CoreState';
 import { IntlMessages } from '../../types/redux/IntlMessages';
 
-export const getFeatures = (state: any): SimplenightFeatures =>
-  state.core.brandConfig?.features;
+export const getCategories = (state: any): Category[] =>
+  state.core.brandConfig?.categories;
 
 export const getImages = (state: any): ClientConfigImages =>
   state.core.brandConfig.images;
