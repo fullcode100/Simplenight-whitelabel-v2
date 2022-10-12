@@ -52,6 +52,7 @@ import { createRoom } from 'hotels/helpers/room';
 import { getReferral } from '../../helpers/getReferral';
 import useCookies from 'hooks/localStorage/useCookies';
 import Script from 'next/script';
+import InstructionsSection from '../Instructions/InstructionsSection';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
@@ -155,7 +156,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       end_date: searchEndDate, // (endDate),
       occupancy: occupancy,
     };
-
     Category.core.ClientDetailer?.request(params, i18next, params.hotel_id)
       .then(({ hotels }: HotelSearchResponse) => {
         setHotel(hotels[0]);
@@ -188,32 +188,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   };
 
   const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
-
-  // TODO: Refactor
-  const Instructions = () => {
-    const instructions = `${checkInInstructions?.instructions}
-    ${checkInInstructions?.special_instructions}
-    ${checkInInstructions?.fees?.mandatory}
-    ${checkInInstructions?.fees?.optional}
-    `;
-    const policies = checkInInstructions?.policies;
-    return (
-      <>
-        {instructions && instructions !== '' && (
-          <>
-            <br />
-            {instructions}
-          </>
-        )}
-        {policies && policies !== '' && (
-          <>
-            <br />
-            {policies}
-          </>
-        )}
-      </>
-    );
-  };
 
   const RatingSection = () => (
     <section className="flex items-center justify-between w-full mt-4 lg:justify-start lg:gap-2 lg:mt-0">
@@ -265,52 +239,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     );
   };
 
-  const PoliciesSection = () => (
-    <section className="px-5 pb-3 space-y-5 lg:pb-0 lg:px-0">
-      <section className="mb-5 lg:mb-8">
-        <p className="flex items-center gap-3 mb-6">
-          <IconRoundedContainer isLarge className="bg-primary-1000">
-            <PoliciesIcon className="h-5 w-5 lg:h-[30px] lg:w-[30px]" />
-          </IconRoundedContainer>
-          <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
-            {policiesLabel}
-          </span>
-        </p>
-      </section>
-      <section className="space-y-3">
-        <h5 className="font-semibold text-dark-800">{checkinLabel}</h5>
-        <section className="flex flex-row gap-2">
-          <ClockIcon className="w-5 mt-1 lg:mt-0 text-primary-1000" />
-          <section className="font-semibold text-sm leading-lg lg:leading-[22px] space-y-1">
-            <p className="text-dark-800">{checkinTimeLabel}</p>
-            <p className="text-dark-1000">
-              {`${checkinFromLabel} ${formatAsDisplayHour(
-                hotel.details.checkin_time,
-              )}`}
-            </p>
-          </section>
-        </section>
-      </section>
-      <div>
-        <div className="w-full h-px bg-dark-300" />
-      </div>
-      <section className="space-y-3">
-        <h5 className="font-semibold text-dark-800">{checkoutLabel}</h5>
-        <section className="flex flex-row gap-2">
-          <ClockIcon className="w-5 mt-1 lg:mt-0 text-primary-1000" />
-          <section className="font-semibold text-sm leading-lg lg:leading-[22px] space-y-1">
-            <p className="text-dark-800">{checkoutTimeLabel}</p>
-            <p className="text-dark-1000">
-              {`${checkoutBeforeLabel} ${formatAsDisplayHour(
-                hotel.details.checkout_time,
-              )}`}
-            </p>
-          </section>
-        </section>
-      </section>
-    </section>
-  );
-
   const DetailsSection = () => (
     <section className="px-5 pt-6 pb-3 lg:pt-0 lg:pb-0 lg:px-0">
       <section className="mb-5 lg:mb-8">
@@ -340,15 +268,11 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             className="mt-3 text-base text-dark-1000"
           >
             {description}
-            <Instructions />
           </p>
         </SeeMore>
       </section>
       <section className="hidden lg:block">
-        <p className="mt-3 text-base text-dark-1000">
-          {description}
-          <Instructions />
-        </p>
+        <p className="mt-3 text-base text-dark-1000">{description}</p>
       </section>
     </section>
   );
@@ -518,7 +442,14 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                 <div className="my-6">
                   <div className="w-full h-px bg-dark-300" />
                 </div>
-                <PoliciesSection />
+                <InstructionsSection
+                  checkInTime={hotel.details.checkin_time}
+                  checkOutTime={hotel.details.checkout_time}
+                  checkInInstructions={hotel.details.check_in_instructions}
+                  specialInstructions={hotel.details.special_instructions}
+                  fees={hotel.details.fees}
+                  policies={hotel.details.policies}
+                />
               </section>
               <section
                 ref={locationRef}

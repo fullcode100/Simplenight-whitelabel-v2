@@ -22,6 +22,16 @@ export interface Hotel {
   accommodation_type: string;
 }
 
+export interface InstructionItem {
+  check_in_instructions?: Instruction[];
+  special_instructions?: Instruction[];
+  policies?: Instruction[];
+  fees?: FeesInstructions;
+}
+export interface InstructionModalItem extends InstructionItem {
+  checkin_time: string;
+  checkout_time: string;
+}
 export interface CheckInInstructions {
   fees?: FeesInstructions;
   instructions?: string;
@@ -30,8 +40,8 @@ export interface CheckInInstructions {
 }
 
 export interface FeesInstructions {
-  optional?: string;
-  mandatory?: string;
+  optional?: Instruction[];
+  mandatory?: Instruction[];
 }
 
 export interface Photo {
@@ -53,6 +63,15 @@ export interface Details {
   star_rating: string;
   type: string;
   web: string;
+  check_in_instructions?: Instruction[];
+  special_instructions?: Instruction[];
+  policies?: Instruction[];
+  fees?: FeesInstructions;
+}
+
+export interface Instruction {
+  paragraph: string;
+  list: string[];
 }
 
 export interface Address {
