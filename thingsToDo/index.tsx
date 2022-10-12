@@ -11,7 +11,7 @@ import ThingsSearchResultsDisplay from './components/search/ThingsSearchReultDis
 import ThingsSearchFormReadState from './components/search/ThingsSearchFormReadState';
 import ThingsResultsDisplay from './components/search/ThingsResultsDisplay';
 
-export const THINGS_CATEGORY = 'things-to-do';
+export const THINGS_CATEGORY = 'entertainment';
 
 const Category: CategoryOption = {
   id: 3,
@@ -32,12 +32,12 @@ const Category: CategoryOption = {
   core: {
     urls: {
       search: {
-        client: '/things-to-do',
-        server: '/things-to-do/',
+        client: '/entertainment',
+        server: '/entertainment/',
       },
       detail: {
-        client: '/things-to-do',
-        server: '/things-to-do',
+        client: '/entertainment',
+        server: '/entertainment',
       },
     },
     ClientSearcher: null,
