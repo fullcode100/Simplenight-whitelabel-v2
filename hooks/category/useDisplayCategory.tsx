@@ -1,12 +1,9 @@
 import { useSelector } from 'react-redux';
-import { getFeatures } from 'store/selectors/core';
+import { getCategories } from 'store/selectors/core';
 
 const useDisplayCategory = () => {
-  const features = useSelector(getFeatures);
-  const activeFeatures = features
-    ? Object.keys(features).filter((feature) => features[feature])
-    : [];
-  const displayCategories = activeFeatures.length > 1;
+  const categories = useSelector(getCategories);
+  const displayCategories = categories.length > 1;
 
   return displayCategories;
 };

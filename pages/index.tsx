@@ -9,13 +9,12 @@ import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import { getHomepageScrollHandler } from '../store/selectors/core';
 import { Tab } from 'components/global/Tabs/types';
-import { tabsMock } from 'mocks/tabsMock';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
-import CategorySelectDesktop from 'layouts/header/components/Menu/CategorySelectDestkop';
 import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import useCategories from 'hooks/category/useCategories';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => {
   const { homepage } = useBrandConfig();
@@ -49,13 +48,15 @@ const Home: NextPageWithLayout = () => {
   const homepageScrollHandler = getHomepageScrollHandler();
 
   const [searchType, setSearchType] = useState('hotels');
-  const [activeTab, setActiveTab] = useState<Tab>(tabsMock[0]);
+
+  const categoriesTabs = useCategories();
+  const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs[0]);
 
   const homePageText = useBrandHeroTitle();
 
   const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
-    setSearchType(tab.value.replace(/\s+/g, '-').toLowerCase());
+    setSearchType(tab.type);
   };
 
   const Panel = ({
@@ -82,6 +83,10 @@ const Home: NextPageWithLayout = () => {
       }
     };
   }, [homepageScrollHandler]);
+
+  useEffect(() => {
+    setActiveTab(categoriesTabs[0]);
+  }, [categoriesTabs.length > 0]);
 
   const redirectToLookup = () => {
     router.push(LOOKUP_URI);
@@ -123,14 +128,15 @@ const Home: NextPageWithLayout = () => {
               </p>
               <Panel className="z-50 grid-flow-col mt-6">
                 <HorizontalTabs
-                  tabs={tabsMock}
+                  tabs={categoriesTabs}
                   activeTab={activeTab}
                   onClick={handleTabClick}
                   className="mb-2"
                   primary
                 />
-                <CategorySelectDesktop />
-                <SearchCategoryForm searchType={searchType} />
+                <section className="pt-3 lg:pt-6">
+                  <SearchCategoryForm searchType={searchType} />
+                </section>
               </Panel>
             </section>
           </UpperSectionBackground>

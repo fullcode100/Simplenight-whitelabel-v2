@@ -3,14 +3,45 @@ export interface BrandConfig {
   theme: Theme;
   images: Images;
   analytics: Analytics;
-  features: Features;
   homepage: Homepage;
   legalInformation: LegalInformation;
   email: Email;
+  categories: Category[];
 }
 
-export interface Features {
-  hotels: boolean;
+export interface Category {
+  icon: string;
+  searchFields: SearchField[];
+  filteringAndSorting: FilteringAndSorting[];
+  priority: number;
+  name: string;
+  alias: string;
+  whitelabelId: string;
+}
+
+export interface FilteringAndSorting {
+  key: string;
+  options: FilteringAndSortingOptions;
+}
+
+export interface FilteringAndSortingOptions {
+  filters: Filter[];
+}
+
+export interface Filter {
+  label: string;
+  value: string;
+}
+
+export interface SearchField {
+  label: string;
+  value: string;
+  options: SearchFieldOptions;
+}
+
+export interface SearchFieldOptions {
+  placeholder: string;
+  fields?: any;
 }
 
 export interface Analytics {

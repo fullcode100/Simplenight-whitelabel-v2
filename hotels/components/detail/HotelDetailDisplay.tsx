@@ -200,7 +200,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   );
 
   const GeneralInformationSection = () => {
-    const tabs: Tab[] = [{ value: roomsLabel }, { value: locationLabel }];
+    const tabs: Tab[] = [
+      { value: roomsLabel, type: roomsLabel },
+      { value: locationLabel, type: locationLabel },
+    ];
 
     const scrollFunctions: { [key: string]: () => void } = {
       [roomsLabel]: scrollToRoom,

@@ -1,5 +1,6 @@
 export interface Tab {
   value: string;
+  type: string;
   href?: string;
   current?: boolean;
   icon?: any;
