@@ -62,38 +62,6 @@ const ClientCartItem = ({
     terms_and_conditions: termsAndConditions,
   } = item.extended_data;
 
-  const Instructions = () => {
-    const {
-      instructions,
-      special_instructions: specialInstructions,
-      fees,
-    } = checkInInstructions;
-    const { mandatory, optional } = fees;
-
-    const instructionsText = `${instructions}
-    ${specialInstructions}
-    ${mandatory}
-    ${optional}
-    `;
-
-    const policies = checkInInstructions?.policies ?? '';
-
-    const hasInstructions = instructionsText && instructionsText !== '';
-    const hasPolicies = policies && policies !== '';
-
-    return (
-      <section className="mb-6 text-base leading-[24px] font-normal text-dark-1000">
-        {hasInstructions && <>{instructionsText}</>}
-        {hasPolicies && (
-          <>
-            <br />
-            {policies}
-          </>
-        )}
-      </section>
-    );
-  };
-
   const CartItemBody = () => {
     return (
       <section className="mb-6 px-4">
@@ -109,7 +77,6 @@ const ClientCartItem = ({
         body={<CartItemBody />}
         footer={<BreakdownSummary rate={item.rate} showTotal={true} />}
       />
-      {checkInInstructions && <Instructions />}
       <section className="flex items-center">
         <ToggleSwitch
           onChange={() => setUsePrimaryContact(!usePrimaryContact)}
