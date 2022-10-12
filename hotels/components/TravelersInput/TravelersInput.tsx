@@ -53,7 +53,8 @@ const TravelersInput = ({
         updatedRoom['children'] = value;
         break;
     }
-
+    const isLastChildrenRemoved = type === 'children' && value === 0;
+    if (isLastChildrenRemoved) updatedRoom['childrenAges'] = [];
     const updatedRooms = [...newRooms];
     updatedRooms[index] = updatedRoom;
     setNewRooms(updatedRooms);
