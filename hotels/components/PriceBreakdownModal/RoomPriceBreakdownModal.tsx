@@ -27,8 +27,6 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
   const totalLabel = t('total', 'Total');
   const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
   const roomLabel = t('room', 'Room');
-  const resortFeeLabel = t('resortFee', 'Resort Fee');
-  const taxesLabel = t('taxes', 'Taxes');
   const payNowLabel = t('payNow', 'Pay now');
   const additionalFeesLabel = t('additionalFees', 'Additional Fees');
   const payAtPropertyLabel = t('payAtProperty', 'Pay at property');

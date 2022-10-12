@@ -22,10 +22,10 @@ const Day = ({
     <button
       onClick={() => setDate(day.date)}
       style={day.isFirstDayOfMonth ? { gridColumnStart: day.dayOfWeek } : {}}
-      className={`p-2 col-span-1 text-dark-1000 disabled:text-dark-700 mt-3 focus:bg-primary-1000 focus:text-white focus:rounded ${
-        isStartDate || isEndDate
-          ? 'bg-primary-1000 text-white rounded'
-          : rangeDate
+      className={`p-2 col-span-1 ${
+        isStartDate || isEndDate ? 'text-white' : 'text-dark-1000'
+      } disabled:text-dark-700 mt-3 hover:bg-primary-1000 hover:text-white hover:rounded ${
+        isStartDate || isEndDate ? 'bg-primary-1000 rounded' : rangeDate
       }`}
       key={day.date}
       disabled={isDisabled}
