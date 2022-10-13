@@ -193,6 +193,7 @@ export interface Tax {
 }
 
 export interface Discounts {
+  base_amount_before_apply: Amount;
   total_amount_before_apply: Amount;
   amount_to_apply: Amount;
   percentage_to_apply: string;

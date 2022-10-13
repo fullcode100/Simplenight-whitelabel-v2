@@ -20,6 +20,7 @@ interface RoomPriceBreakdownProps {
   instructions?: React.ReactNode;
   termsOfService?: string | null;
   rate?: Rate;
+  isPriceBase?: boolean;
 }
 
 const RoomPriceBreakdown = ({
@@ -34,6 +35,7 @@ const RoomPriceBreakdown = ({
   instructions,
   termsOfService,
   rate,
+  isPriceBase,
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
   const resortFeeLabel = t('resortFee', 'Resort Fee');
@@ -60,6 +62,11 @@ const RoomPriceBreakdown = ({
     );
   }, [rate]);
 
+  const baseBeforeApply =
+    rate?.rate_breakdown?.discounts?.base_amount_before_apply;
+  const totalBeforeApply =
+    rate?.rate_breakdown.discounts.total_amount_before_apply;
+
   const BasePrice = () => (
     <section className="flex justify-between">
       <section className="flex flex-row gap-1">
@@ -75,10 +82,9 @@ const RoomPriceBreakdown = ({
         {rate?.rate_breakdown.discounts && (
           <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-green-1000">
             <span className="line-through text-dark-800 mr-1">
-              {
-                rate?.rate_breakdown.discounts.total_amount_before_apply
-                  .formatted
-              }
+              {isPriceBase && baseBeforeApply
+                ? baseBeforeApply.formatted
+                : totalBeforeApply?.formatted}
             </span>
             {rate?.rate_breakdown.discounts.percentage_to_apply}
           </p>

@@ -13,6 +13,7 @@ interface BreakdownSummaryProps {
   CustomPriceBreakdown?: React.ReactElement;
   roomsQty?: number;
   showTotal?: boolean;
+  isPriceBase?: boolean;
 }
 
 const BreakdownSummary = ({
@@ -21,6 +22,7 @@ const BreakdownSummary = ({
   showTotal = false,
   nights = 0,
   roomsQty = 0,
+  isPriceBase,
 }: BreakdownSummaryProps) => {
   const [tg] = useTranslation('global');
   const totalLabel = tg('total', 'Total');
@@ -39,7 +41,7 @@ const BreakdownSummary = ({
           : `${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}
       </Paragraph>
       <section className="text-right">
-        <PriceDisplay rate={rate} />
+        <PriceDisplay rate={rate} isPriceBase={isPriceBase} />
 
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>

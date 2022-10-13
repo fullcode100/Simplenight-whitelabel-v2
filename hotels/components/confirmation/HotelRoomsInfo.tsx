@@ -111,6 +111,7 @@ const HotelRoomsInfo = ({
         childrenAges={item?.children_ages}
         rate={roomRate}
         termsOfService={termsOfService}
+        isPriceBase
       />
       <section className="lg:flex lg:justify-end">
         <section className="lg:w-1/4">

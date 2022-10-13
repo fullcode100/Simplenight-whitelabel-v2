@@ -51,6 +51,7 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
         childrenCount={room.children}
         termsOfService={termsOfService}
         rate={roomRate}
+        isPriceBase
       />
     </section>
   );
