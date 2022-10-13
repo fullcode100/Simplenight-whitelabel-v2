@@ -72,12 +72,17 @@ const RoomPriceBreakdown = ({
       </section>
 
       <section className="text-right">
-        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-green-1000">
-          <span className="line-through text-dark-800 mr-1">
-            {rate?.rate_breakdown.discounts.total_amount_before_apply.formatted}
-          </span>
-          {rate?.rate_breakdown.discounts.percentage_to_apply}
-        </p>
+        {rate?.rate_breakdown.discounts && (
+          <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-green-1000">
+            <span className="line-through text-dark-800 mr-1">
+              {
+                rate?.rate_breakdown.discounts.total_amount_before_apply
+                  .formatted
+              }
+            </span>
+            {rate?.rate_breakdown.discounts.percentage_to_apply}
+          </p>
+        )}
         <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
           {rate?.rate_breakdown.total_base_amount.formatted}
         </p>

@@ -16,6 +16,7 @@ interface DetailItemCardProps {
   nights: number;
   guests: number;
   services: Services;
+  rooms?: number;
 }
 
 const DetailItemCard = ({
@@ -28,6 +29,7 @@ const DetailItemCard = ({
   nights,
   guests,
   services,
+  rooms,
 }: DetailItemCardProps) => {
   const [showPriceBreakdown, setShowPriceBreakdown] = useState(false);
 
@@ -44,6 +46,7 @@ const DetailItemCard = ({
         nights={nights}
         guests={guests}
         services={services}
+        rooms={rooms}
       />
       <section>
         <button

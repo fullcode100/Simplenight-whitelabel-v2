@@ -87,6 +87,7 @@ const RoomCard = ({
         nights={nights}
         guests={guests}
         services={room.services}
+        rooms={roomsQty}
       />
       <Divider />
       {amenities.length > 0 && (
