@@ -48,7 +48,7 @@ const Home: NextPageWithLayout = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const homepageScrollHandler = getHomepageScrollHandler();
 
-  const [searchType, setSearchType] = useState('hotels');
+  const [searchType, setSearchType] = useState('');
 
   const categoriesTabs = useCategories();
   const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs[0]);
@@ -87,6 +87,7 @@ const Home: NextPageWithLayout = () => {
 
   useEffect(() => {
     setActiveTab(categoriesTabs[0]);
+    setSearchType(categoriesTabs[0]?.type);
   }, [categoriesTabs.length > 0]);
 
   const redirectToLookup = () => {
