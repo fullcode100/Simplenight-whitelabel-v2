@@ -9,6 +9,7 @@ import ResultCard from './ResultCard/ResultCard';
 import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
+import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -71,6 +72,7 @@ const ThingsResultsDisplay = ({
   return (
     <div className="pt-6 px-4">
       <ThingsToDoList />
+      <SearchViewSelectorFixed />
     </div>
   );
 };
