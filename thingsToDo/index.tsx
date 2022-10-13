@@ -4,11 +4,12 @@ import { ThingsClientSearcher } from './core/search/ThingsClientSearcher';
 import { ThingsServerSearcher } from './core/search/ThingsServerSearcher';
 import { ThingsClientDetailer } from './core/detail/ThingsClientDetailer';
 import { ThingsServerDetailer } from './core/detail/ThingsServerDetailer';
-import ThingsIcon from 'public/icons/categories/Category-Things.svg';
 
 import ThingsSearchForm from './components/search/ThingsSearchForm';
 import ThingsSearchFormReadState from './components/search/ThingsSearchFormReadState';
 import ThingsResultsDisplay from './components/search/ThingsResultsDisplay';
+
+import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
 
 export const THINGS_CATEGORY = 'entertainment';
 
@@ -16,7 +17,7 @@ const Category: CategoryOption = {
   id: 3,
   name: THINGS_CATEGORY,
   value: THINGS_CATEGORY,
-  icon: <ThingsIcon />,
+  icon: <CategoryIcon categoryName={THINGS_CATEGORY} className={'h-5 w-5'} />,
   selectedIcon: <></>,
   searchForm: <ThingsSearchForm />,
   secondarySearchOptions: <></>,

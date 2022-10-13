@@ -13,7 +13,8 @@ const Footer = () => {
   const isSearchPage = pathname.includes('search');
   const t = useGetTranslation();
   const { legalInformation, information, images } = useBrandConfig() || {};
-  const { partnerName } = information || {};
+  const { partnerName, corporateLink } = information || {};
+
   const {
     simplenightTermsOfService,
     simplenightPrivacyPolicy,
@@ -51,7 +52,7 @@ const Footer = () => {
             {poweredByText}{' '}
             <ExternalLink
               href={simplenightCorporateLink}
-              className="font-semibold underline uppercase hover:text-white"
+              className="font-semibold underline uppercase focus:text-white focus:underline hover:text-white hover:underline"
             >
               Simplenight
             </ExternalLink>
@@ -83,13 +84,13 @@ const Footer = () => {
           <section className="flex flex-col gap-3 lg:gap-2">
             <ExternalLink
               href={simplenightTermsOfService}
-              className="font-semibold underline hover:text-white"
+              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underlin"
             >
               Simplenight {termsOfServiceText}
             </ExternalLink>
             <ExternalLink
               href={simplenightPrivacyPolicy}
-              className="font-semibold underline hover:text-white"
+              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underline"
             >
               Simplenight {privacyPolicyText}
             </ExternalLink>

@@ -11,6 +11,7 @@ export const initialState: CoreState = {
     homepage: {},
     legalInformation: {},
     categories: [],
+    features: {},
   },
   languages: {
     intlMessages: {},

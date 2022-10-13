@@ -21,6 +21,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
+import { THINGS_CATEGORY } from 'thingsToDo';
 
 const ThingsSearchForm = ({
   setIsSearching,
@@ -73,7 +74,7 @@ const ThingsSearchForm = ({
   };
 
   const rerouteToSearchPage = () => {
-    const route = `/search/things-to-do?startDate=${startDate}&endDate=${endDate}&latitude=${
+    const route = `/search/${THINGS_CATEGORY}?startDate=${startDate}&endDate=${endDate}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${geolocation?.split(',')[LONGITUDE_INDEX]}&address=${address}`;
     handleSaveLastSearch(route);

@@ -15,6 +15,7 @@ import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
 import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useCategories from 'hooks/category/useCategories';
+import CategorySelectDesktop from 'layouts/header/components/Menu/CategorySelectDestkop';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => {
   const { homepage } = useBrandConfig();
