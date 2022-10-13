@@ -2,7 +2,7 @@ import axios from 'apiCalls/config/axiosHelperSettings';
 
 const mockCategoriesSettings = [
   {
-    icon: 'bed',
+    icon: 'parking-square',
     searchFields: [
       {
         label: 'Location',
@@ -40,11 +40,53 @@ const mockCategoriesSettings = [
     ],
     priority: 1,
     name: 'Hotels',
-    alias: 'Hotels',
+    alias: 'B&B',
     whitelabelId: 'hotels',
   },
   {
-    icon: 'backpack',
+    icon: 'car-sideview',
+    searchFields: [
+      {
+        label: 'Location',
+        value: 'location',
+        options: {
+          placeholder: 'xxxxxx',
+        },
+      },
+      {
+        label: 'Ocuppancy',
+        value: 'ocuppancy',
+        options: {
+          placeholder: 'xxxxxxxx',
+          fields: {
+            children: true,
+            adults: true,
+            infants: false,
+            childrenAges: true,
+          },
+        },
+      },
+    ],
+    filteringAndSorting: [
+      {
+        key: 'paymentType',
+        options: {
+          filters: [
+            {
+              label: 'Free Cancelation',
+              value: 'freeCancelation',
+            },
+          ],
+        },
+      },
+    ],
+    priority: 1,
+    name: 'Hotels',
+    alias: 'fdasfa',
+    whitelabelId: 'hotelsa',
+  },
+  {
+    icon: 'plane-fly',
     searchFields: [
       {
         label: 'Location',
@@ -92,7 +134,6 @@ export const getSettings = () =>
     .get('/settings')
     .then((response) => {
       const settings = response.data.data;
-      settings.categories = mockCategoriesSettings;
       return settings;
     })
     .catch((e) => console.error(e));
