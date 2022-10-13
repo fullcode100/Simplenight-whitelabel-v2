@@ -37,6 +37,7 @@ interface DatePickerProps {
   nights: number;
   guests: number;
   services: Services;
+  rooms?: number;
 }
 
 const PriceBreakdownModal = ({
@@ -50,6 +51,7 @@ const PriceBreakdownModal = ({
   nights,
   guests,
   services,
+  rooms,
 }: DatePickerProps) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -116,7 +118,12 @@ const PriceBreakdownModal = ({
       secondaryButtonText={addToItineraryText}
       secondaryButtonAction={() => handleAction('/itinerary')}
       footerSummary={
-        <BreakdownSummary rate={rates} nights={nights} guests={guests} />
+        <BreakdownSummary
+          rate={rates}
+          nights={nights}
+          guests={guests}
+          roomsQty={rooms}
+        />
       }
       hasMultipleActions={true}
       noHeader={true}
@@ -161,15 +168,17 @@ const PriceBreakdownModal = ({
                 </p>
 
                 <section className="text-right">
-                  <p className="font-semibold text-xs leading-5 text-green-1000">
-                    <span className="line-through text-dark-800 mr-1">
-                      {
-                        rateBreakdown.discounts.total_amount_before_apply
-                          ?.formatted
-                      }
-                    </span>
-                    {rateBreakdown?.discounts.percentage_to_apply}
-                  </p>
+                  {rateBreakdown.discounts && (
+                    <p className="font-semibold text-xs leading-5 text-green-1000">
+                      <span className="line-through text-dark-800 mr-1">
+                        {
+                          rateBreakdown.discounts.total_amount_before_apply
+                            ?.formatted
+                        }
+                      </span>
+                      {rateBreakdown?.discounts.percentage_to_apply}
+                    </p>
+                  )}
                   <p className="font-semibold text-sm leading-[22px] text-dark-800">
                     {totalBaseAmount.formatted}
                   </p>

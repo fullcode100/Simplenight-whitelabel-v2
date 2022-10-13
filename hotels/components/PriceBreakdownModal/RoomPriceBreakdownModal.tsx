@@ -74,18 +74,20 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
               </p>
 
               <section className="text-right">
-                <p className="font-semibold text-xs leading-5 text-green-1000">
-                  <span className="line-through text-dark-800 mr-1">
+                {rate?.min_rate.rate?.rate_breakdown.discounts && (
+                  <p className="font-semibold text-xs leading-5 text-green-1000">
+                    <span className="line-through text-dark-800 mr-1">
+                      {
+                        rate?.min_rate.rate?.rate_breakdown.discounts
+                          .total_amount_before_apply?.formatted
+                      }
+                    </span>
                     {
-                      rate?.min_rate.rate?.rate_breakdown.discounts
-                        .total_amount_before_apply?.formatted
+                      rate?.min_rate.rate?.rate_breakdown?.discounts
+                        .percentage_to_apply
                     }
-                  </span>
-                  {
-                    rate?.min_rate.rate?.rate_breakdown?.discounts
-                      .percentage_to_apply
-                  }
-                </p>
+                  </p>
+                )}
                 <p className="font-semibold text-sm leading-[22px] text-dark-800">
                   {
                     rate?.min_rate.rate?.rate_breakdown.total_base_amount
