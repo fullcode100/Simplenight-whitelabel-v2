@@ -18,9 +18,7 @@ const Search: NextPage = () => {
   const setQueryParams = useQuerySetter();
   const multipleCategories = useDisplayCategory();
 
-  const [searchType, setSearchType] = useState(
-    (type as unknown as string) ?? 'hotels',
-  );
+  const [searchType, setSearchType] = useState(type as unknown as string);
 
   const categoriesTabs = useCategories();
   const activeTabIndex = categoriesTabs.findIndex(
