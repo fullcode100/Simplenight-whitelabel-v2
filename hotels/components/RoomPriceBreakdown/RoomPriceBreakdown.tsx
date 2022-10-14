@@ -65,7 +65,7 @@ const RoomPriceBreakdown = ({
   const baseBeforeApply =
     rate?.rate_breakdown?.discounts?.base_amount_before_apply;
   const totalBeforeApply =
-    rate?.rate_breakdown.discounts.total_amount_before_apply;
+    rate?.rate_breakdown.discounts?.total_amount_before_apply;
 
   const BasePrice = () => (
     <section className="flex justify-between">
