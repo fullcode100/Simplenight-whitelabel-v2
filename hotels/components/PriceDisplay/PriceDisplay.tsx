@@ -41,7 +41,7 @@ const PriceDisplay = ({
   // const baseBeforeApply = rate?.avg_amount?.discounts?.base_amount_before_apply;
   isPriceBase &&
     (totalBeforeDiscount =
-      rate?.min_rate.rate?.rate_breakdown.discounts.total_amount_before_apply);
+      rate?.min_rate.rate?.rate_breakdown.discounts?.total_amount_before_apply);
   return (
     <section className="text-right">
       {totalBeforeDiscount && (
