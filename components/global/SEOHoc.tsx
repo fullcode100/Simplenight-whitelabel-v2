@@ -7,10 +7,14 @@ interface SEOHocProps {
 }
 
 const SEOHoc = ({ children }: SEOHocProps) => {
-  const { information } = useBrandConfig() || {};
+  const {
+    information,
+    images: { favicon },
+  } = useBrandConfig() || {};
   const { partnerName } = information || {};
 
-  const favicon = '/favicon.ico';
+  const defaultFavicon =
+    'https://storage.googleapis.com/simplenight-customers-images/production/images/files/phpq0lQBJ.png';
 
   return (
     <>
@@ -18,7 +22,7 @@ const SEOHoc = ({ children }: SEOHocProps) => {
         <title>{partnerName}</title>
         <meta name="description" content="NextJs whitelabel proof of concept" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href={favicon} />
+        <link rel="icon" href={favicon || defaultFavicon} />
       </Head>
       {children}
     </>
