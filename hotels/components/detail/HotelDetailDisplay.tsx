@@ -107,7 +107,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     roomsQty,
   } = hotel;
 
-  const hotelImages = photos.map((photo) => photo.url);
+  const hotelImages = photos?.map((photo) => photo.url);
   const [tg] = useTranslation('global');
   const [t, i18next] = useTranslation('hotels');
   const { language } = i18next;
@@ -391,12 +391,16 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       {loaded && !emptyState && (
         <main className="relative">
           {/* <ImagesSection /> */}
-          <section className="lg:hidden">
-            <ImageCarousel images={hotelImages} title={name} />
-          </section>
-          <section className="hidden w-full pt-8 lg:block bg-dark-100">
-            <ImageCarouselLargeScreen images={hotelImages} title={name} />
-          </section>
+          {hotelImages && (
+            <section className="lg:hidden">
+              <ImageCarousel images={hotelImages} title={name} />
+            </section>
+          )}
+          {hotelImages && (
+            <section className="hidden w-full pt-8 lg:block bg-dark-100">
+              <ImageCarouselLargeScreen images={hotelImages} title={name} />
+            </section>
+          )}
           <section className="lg:hidden">
             <GeneralInformationSection />
           </section>
