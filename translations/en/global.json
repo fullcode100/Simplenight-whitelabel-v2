@@ -112,5 +112,10 @@
   "yearsOld": "years old",
   "thePaymentWill": "The payment will be processed in the US.",
   "iAgreeToThe": "I agree to the",
-  "supplierTermsOfService": "Supplier Terms Of Service"
+  "supplierTermsOfService": "Supplier Terms Of Service",
+  "accept": "Accept",
+  "discardItinerary": "Discard Itinerary",
+  "unselectedItems": "Unselected items will be discarded.",
+  "itemDiscarded": "This item will be discarded.",
+  "pricesChanged": "Prices Have Changed"
 }

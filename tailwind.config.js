@@ -62,6 +62,7 @@ module.exports = {
         warning: {
           600: '#DE9812',
           300: '#FFC85C',
+          200: '#FFE5B2',
           100: '#FFF4DE',
         },
         'primary-light': 'var(--primary-light-color)',

@@ -125,5 +125,10 @@
   "yearsOld": "años",
   "thePaymentWill": "El pago será procesado en los EE.UU.",
   "iAgreeToThe": "Acepto los",
-  "supplierTermsOfService": "Términos de servicio del proveedor"
+  "supplierTermsOfService": "Términos de servicio del proveedor",
+  "accept": "Aceptar",
+  "discardItinerary": "Descartar itinerario",
+  "unselectedItems": "Los ítems deseleccionados serán descartados.",
+  "itemDiscarded": "Este ítem será descartado.",
+  "pricesChanged": "Los precios han cambiado"
 }
