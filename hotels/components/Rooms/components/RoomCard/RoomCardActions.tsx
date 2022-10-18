@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useTranslation } from 'react-i18next';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Button from 'components/global/Button/Button';
@@ -16,6 +17,10 @@ interface RoomProps {
 const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(false);
+  const totalRate =
+    room?.rates?.avg_amount?.discounts?.total_amount_before_apply;
+  const currency = totalRate?.currency;
+  const total_amount_before_apply = totalRate?.amount;
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -26,6 +31,8 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   const bookingCode = room.rates.min_rate.sn_booking_code;
   const itemToBook = {
     sn_booking_code: bookingCode,
+    currency,
+    total_amount_before_apply,
   };
   const [t, i18next] = useTranslation('hotels');
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');

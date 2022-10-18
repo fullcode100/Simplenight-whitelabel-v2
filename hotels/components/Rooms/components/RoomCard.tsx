@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Room } from 'hotels/types/response/SearchResponse';
 import RoomCardHeader from './RoomCard/RoomCardHeader';
 import Divider from 'components/global/Divider/Divider';
@@ -43,8 +44,14 @@ const RoomCard = ({
   const { name: roomName, rates, amenities } = room;
   const { min_rate: minRate } = rates;
   const { rate, cancellation_policy: cancellationPolicy } = minRate;
+  const totalRate =
+    room?.rates?.avg_amount?.discounts?.total_amount_before_apply;
+  const currency = totalRate?.currency;
+  const total_amount_before_apply = totalRate?.amount;
   const itemToBook = {
     sn_booking_code: minRate.sn_booking_code,
+    currency,
+    total_amount_before_apply,
   };
   const viewAllAmenitiesText = t('viewAllAmenities', 'View all amenities');
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
