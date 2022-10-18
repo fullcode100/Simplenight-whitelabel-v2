@@ -6,6 +6,7 @@ import HotelItineraryHeader from './HotelItineraryHeader';
 import HotelItineraryBody from './HotelItineraryBody';
 import HotelItineraryFooter from './HotelItineraryFooter';
 import { Item } from 'types/cart/CartType';
+import HotelItineraryDisclaimer from './HotelItineraryDisclaimer';
 
 interface HotelItineraryDisplayProps {
   item?: Item;
@@ -22,6 +23,7 @@ const HotelItineraryDisplay = ({
 }: HotelItineraryDisplayProps) => {
   return (
     <CollapseBordered
+      disclaimer={<HotelItineraryDisclaimer item={item} />}
       title={<HotelItineraryHeader item={item} icon={Category.icon} />}
       body={<HotelItineraryBody item={item} />}
       footer={
