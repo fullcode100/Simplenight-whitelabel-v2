@@ -7,14 +7,24 @@ import { useTranslation } from 'react-i18next';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import PartialRefund from 'components/global/PartialRefund/PartialRefund';
+import Paragraph from 'components/global/Typography/Paragraph';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface Props {
   onClose: () => void;
   isOpen: boolean;
   rate?: Rates;
+  nights?: number;
+  roomsQty?: number;
 }
 
-const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
+const RoomPriceBreakdownModal = ({
+  isOpen,
+  onClose,
+  rate,
+  nights = 0,
+  roomsQty = 0,
+}: Props) => {
   const cancellable =
     rate?.min_rate.cancellation_policy?.cancellation_type ===
     'FREE_CANCELLATION';
@@ -24,6 +34,7 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
     rate?.min_rate.cancellation_policy?.cancellation_type === 'PARTIAL_REFUND';
   const totalPrice = rate?.min_rate?.rate.starting_room_total;
   const [t] = useTranslation('hotels');
+  const [tg] = useTranslation('global');
   const totalLabel = t('total', 'Total');
   const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
   const roomLabel = t('room', 'Room');
@@ -31,6 +42,12 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
   const additionalFeesLabel = t('additionalFees', 'Additional Fees');
   const payAtPropertyLabel = t('payAtProperty', 'Pay at property');
   const basePriceLabel = t('basePrice', 'Base Price');
+  const tRoom = tg('room', 'Room');
+  const tRooms = tg('rooms', 'Rooms');
+  const ROOM_TEXT = usePlural(roomsQty, tRoom, tRooms);
+  const tNight = tg('night', 'Night');
+  const tNights = tg('nights', 'Nights');
+  const NIGHT_TEXT = usePlural(nights, tNight, tNights);
   const estimationLabel = t(
     'estimationTax',
     'Estimation based on the current exchange rate, may change before your stay',
@@ -70,7 +87,9 @@ const RoomPriceBreakdownModal = ({ isOpen, onClose, rate }: Props) => {
           <section className="space-y-2">
             <section className="flex justify-between items-center">
               <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                {basePriceLabel}
+                <Paragraph size="small" fontWeight="normal">
+                  {`${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}
+                </Paragraph>
               </p>
 
               <section className="text-right">

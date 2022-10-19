@@ -59,7 +59,13 @@ const RoomCard = ({
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const PriceBreakDown = () => (
     <>
-      <RoomPriceBreakdownModal isOpen={isOpen} onClose={onClose} rate={rates} />
+      <RoomPriceBreakdownModal
+        isOpen={isOpen}
+        onClose={onClose}
+        rate={rates}
+        nights={nights}
+        roomsQty={roomsQty}
+      />
       <button onClick={onOpen} className="text-sm underline text-primary-1000">
         {priceBreakdownText}
       </button>
