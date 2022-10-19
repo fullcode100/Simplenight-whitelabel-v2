@@ -60,9 +60,7 @@ const PriceDisplay = ({
         })}
       >
         <span className="text-xs">{totalLabel}</span>
-        <span className="text-sm font-semibold">
-          {isSearch ? avgAmount : totalAmount}
-        </span>
+        <span className="text-sm font-semibold">{avgAmount}</span>
       </p>
       {isSearch && startingRoomTotal && (
         <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
