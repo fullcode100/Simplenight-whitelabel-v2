@@ -1,4 +1,3 @@
-import { formatAsDisplayHour } from 'helpers/dajjsUtils';
 import ClockIcon from 'public/icons/assets/clock.svg';
 import { useTranslation } from 'react-i18next';
 
@@ -19,9 +18,7 @@ const CheckOutTime = ({ time }: CheckOutTimeProps) => {
         <ClockIcon className="w-5 mt-1 lg:mt-0 text-primary-1000" />
         <section className="font-semibold text-sm leading-lg lg:leading-[22px] space-y-1">
           <p className="text-dark-800">{checkoutTimeLabel}</p>
-          <p className="text-dark-1000">
-            {`${checkoutBeforeLabel} ${formatAsDisplayHour(time)}`}
-          </p>
+          <p className="text-dark-1000">{`${checkoutBeforeLabel} ${time}`}</p>
         </section>
       </section>
     </section>
