@@ -63,7 +63,7 @@ const HotelFilterFormDesktop = () => {
   );
 
   const initialPriceRange = {
-    min: '100',
+    min: '0',
     max: '5000',
   };
   const [minPrice, setMinPrice] = useState<string>(
@@ -111,6 +111,7 @@ const HotelFilterFormDesktop = () => {
     setMinPrice(value);
     setQueryParams({
       minPrice: value,
+      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
     });
   };
 
@@ -118,6 +119,7 @@ const HotelFilterFormDesktop = () => {
     setMaxPrice(value);
     setQueryParams({
       maxPrice: value,
+      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
     });
   };
 
