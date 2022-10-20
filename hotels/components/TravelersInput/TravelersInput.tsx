@@ -87,6 +87,9 @@ const TravelersInput = ({
       title={roomsLabel}
       primaryButtonText={applyLabel}
       primaryButtonAction={setTravelers}
+      className={
+        'lg:max-w-[842px] lg:max-h-[660px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-4 overflow-hidden shadow-full'
+      }
     >
       <section className="h-full px-5 py-[22px] overflow-y-scroll">
         {newRooms.map((room: Room, index) => {
