@@ -60,7 +60,7 @@ const HotelSecondarySearchOptions = () => {
   const [propertyTypes, setPropertyTypes] = useState<string>('');
 
   const initialPriceRange = {
-    min: '100',
+    min: '0',
     max: '5000',
   };
   const [minPrice, setMinPrice] = useState<string>(
@@ -141,6 +141,7 @@ const HotelSecondarySearchOptions = () => {
       ...(starRating && { starRating }),
       ...(minPrice && { minPrice }),
       ...(maxPrice && { maxPrice }),
+      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
       amenities,
     });
   };

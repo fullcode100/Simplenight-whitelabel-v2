@@ -29,9 +29,9 @@ const PriceRangeFilter = ({
     <FilterContainer>
       <FilterTitle label={priceRangeLabel} />
       <RangeSlider
-        initialMin={minPrice ? parseInt(minPrice) : 100}
+        initialMin={minPrice ? parseInt(minPrice) : 0}
         initialMax={maxPrice ? parseInt(maxPrice) : 5000}
-        min={100}
+        min={0}
         max={5000}
         step={100}
         minDifference={100}

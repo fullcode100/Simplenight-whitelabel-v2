@@ -77,6 +77,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     starRating,
     minPrice,
     maxPrice,
+    isTotalPrice,
     roomsData,
     amenities,
     supplierIds,
@@ -131,6 +132,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         star_rating: starRating as string,
         min_price: minPrice as string,
         max_price: maxPrice as string,
+        is_total_price: isTotalPrice as string,
         amenities: amenities as string,
         supplier_ids: supplierIds as string,
       };
