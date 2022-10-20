@@ -46,18 +46,18 @@ const PriceDisplay = ({
 
   return (
     <section className="text-right">
-      {showDiscount &&
-        totalBeforeDiscount.amount >
-          rate?.min_rate.rate.total_amount.amount && (
-          <p className="text-xs">
-            <span className="text-dark-700 line-through font-normal">
-              {totalBeforeDiscount.formatted}
-            </span>{' '}
-            <span className="text-green-1000 font-semibold">
-              {percentageToApply} Off
-            </span>
-          </p>
-        )}
+      {showDiscount && discounts && (
+        <p className="text-xs">
+          <span className="text-dark-700 line-through font-normal">
+            {isSearch
+              ? rate?.min_rate.rate.starting_room_total?.formatted
+              : totalBeforeDiscount.formatted}
+          </span>{' '}
+          <span className="text-green-1000 font-semibold">
+            {percentageToApply} Off
+          </span>
+        </p>
+      )}
       <p
         className={classnames('leading-[22px] text-dark-1000', {
           ['flex flex-row gap-1 justify-end']: totalLabel,
