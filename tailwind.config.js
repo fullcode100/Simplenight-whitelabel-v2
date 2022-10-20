@@ -83,6 +83,7 @@ module.exports = {
       },
       boxShadow: {
         container: '0 0px 12px rgba(0, 0, 0, 0.08)',
+        full: '0 0 0 10000px rgba(0, 0, 0, 0.85)',
       },
     },
     fontFamily: {

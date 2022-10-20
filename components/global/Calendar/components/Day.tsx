@@ -7,6 +7,7 @@ interface DayProps {
   isEndDate: boolean;
   isRangeDate: boolean;
   isDisabled: boolean;
+  className?: string;
 }
 
 const Day = ({
@@ -16,6 +17,7 @@ const Day = ({
   isEndDate,
   isRangeDate,
   isDisabled,
+  className = '',
 }: DayProps) => {
   const rangeDate = isRangeDate ? 'bg-primary-100' : '';
   return (
@@ -26,7 +28,7 @@ const Day = ({
         isStartDate || isEndDate ? 'text-white' : 'text-dark-1000'
       } disabled:text-dark-700 mt-3 hover:bg-primary-1000 hover:text-white hover:rounded ${
         isStartDate || isEndDate ? 'bg-primary-1000 rounded' : rangeDate
-      }`}
+      } ${className}`}
       key={day.date}
       disabled={isDisabled}
     >

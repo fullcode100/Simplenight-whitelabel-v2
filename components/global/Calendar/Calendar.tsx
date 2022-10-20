@@ -21,6 +21,7 @@ import {
 } from 'helpers/dajjsUtils';
 import { useTranslation } from 'react-i18next';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
+import DesktopDatepickerDropdown from './components/DesktopDatepickerDropdown';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -100,63 +101,115 @@ const DatePicker = ({
     }
   };
 
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsDesktop(window.innerWidth >= 1024);
+    }
+  }, []);
+
   const setFullDate = () => {
     onStartDateChange(startDate);
     onEndDateChange(endDate);
     onClose();
   };
 
-  return (
-    <FullScreenModal
-      open={showDatePicker}
-      closeModal={onClose}
-      title={datesText}
-      primaryButtonText={applyText}
-      primaryButtonAction={setFullDate}
-      hasMultipleActions={false}
-    >
-      <RangeDate
+  const [calendarFirstMonth, setCalendarFirstMonth] = useState(0);
+  const [calendarSecondMonth, setCalendarSecondMonth] = useState(1);
+
+  const DesktopDatePicker = () => {
+    return (
+      <DesktopDatepickerDropdown
+        open={showDatePicker}
+        closeModal={onClose}
+        rangeDate={
+          <RangeDate
+            isStartDateTurn={isStartDateTurn}
+            onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
+            startDateLabel={startDateLabel}
+            endDateLabel={endDateLabel}
+            startDate={formatAsRangeDate(startDate)}
+            endDate={formatAsRangeDate(endDate)}
+          />
+        }
+        calendar={calendar}
+        setDate={setDate}
+        startDate={startDate}
+        endDate={endDate}
         isStartDateTurn={isStartDateTurn}
-        onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
-        startDateLabel={startDateLabel}
-        endDateLabel={endDateLabel}
-        startDate={formatAsRangeDate(startDate)}
-        endDate={formatAsRangeDate(endDate)}
+        onStartDateChange={onStartDateChange}
+        onEndDateChange={onEndDateChange}
+        calendarFirstMonth={calendarFirstMonth}
+        setCalendarFirstMonth={setCalendarFirstMonth}
+        calendarSecondMonth={calendarSecondMonth}
+        setCalendarSecondMonth={setCalendarSecondMonth}
       />
-      <section className="grid items-center grid-cols-7 px-5 overflow-y-scroll text-base text-center">
-        {calendar?.map((month: MonthObject, index) => {
-          return (
-            <Fragment key={index}>
-              <p className="col-span-7 mt-3 text-base font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
-                month.monthName,
-              )} ${month.yearNumber}`}</p>
-              <WeekDays />
-              {month.days.map((day: DayObject, index) => (
-                <Day
-                  day={day}
-                  key={index + day.dayOfWeek}
-                  setDate={setDate}
-                  isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
-                  isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
-                  isRangeDate={dayjs(day.date).isBetween(
-                    dayjs(startDate),
-                    dayjs(endDate),
-                  )}
-                  isDisabled={
-                    dayjs(day.date).isSameOrBefore(
-                      dayjs().subtract(1, 'day'),
-                    ) ||
-                    dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
-                    (!isStartDateTurn &&
-                      dayjs(day.date).isAfter(dayjs(startDate).add(2, 'week')))
-                  }
-                />
-              ))}
-            </Fragment>
-          );
-        })}
-      </section>
-    </FullScreenModal>
+    );
+  };
+
+  return (
+    <>
+      {isDesktop ? (
+        <DesktopDatePicker />
+      ) : (
+        <FullScreenModal
+          open={showDatePicker}
+          closeModal={onClose}
+          title={datesText}
+          primaryButtonText={applyText}
+          primaryButtonAction={setFullDate}
+          hasMultipleActions={false}
+          className={`lg:rounded-4 lg:overflow-hidden
+      lg:w-[842px] lg:h-[660px]  lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2
+      lg:shadow-full`}
+        >
+          <RangeDate
+            isStartDateTurn={isStartDateTurn}
+            onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
+            startDateLabel={startDateLabel}
+            endDateLabel={endDateLabel}
+            startDate={formatAsRangeDate(startDate)}
+            endDate={formatAsRangeDate(endDate)}
+          />
+          <section className="grid items-center grid-cols-7 px-5 overflow-y-scroll text-base text-center">
+            {calendar?.map((month: MonthObject, index) => {
+              return (
+                <Fragment key={index}>
+                  <p className="col-span-7 mt-3 text-base font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
+                    month.monthName,
+                  )} ${month.yearNumber}`}</p>
+                  <WeekDays />
+                  {month.days.map((day: DayObject, index: number) => (
+                    <Day
+                      day={day}
+                      key={index + day.dayOfWeek}
+                      setDate={setDate}
+                      isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
+                      isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
+                      isRangeDate={dayjs(day.date).isBetween(
+                        dayjs(startDate),
+                        dayjs(endDate),
+                      )}
+                      isDisabled={
+                        dayjs(day.date).isSameOrBefore(
+                          dayjs().subtract(1, 'day'),
+                        ) ||
+                        dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
+                        (!isStartDateTurn &&
+                          dayjs(day.date).isAfter(
+                            dayjs(startDate).add(2, 'week'),
+                          ))
+                      }
+                    />
+                  ))}
+                </Fragment>
+              );
+            })}
+          </section>
+        </FullScreenModal>
+      )}
+    </>
   );
 };
 
