@@ -10,6 +10,7 @@ import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
+import { THINGS_CATEGORY } from 'thingsToDo';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -22,6 +23,11 @@ const ThingsResultsDisplay = ({
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
 
   const resultsMock = [thingToDo];
+
+  const urlDetail = () => {
+    return `/detail/${THINGS_CATEGORY}/1`;
+  };
+
   const ThingsToDoList = () => {
     return (
       <ul>
@@ -39,9 +45,11 @@ const ThingsResultsDisplay = ({
           } = thingToDo;
           const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
+          const url = urlDetail();
           return (
             <div key={id}>
               <ResultCard
+                url={url}
                 icon={ThingsCategory.icon}
                 categoryName={thingsToDoLabel}
                 item={thingToDo}

@@ -9,6 +9,7 @@ interface RatingProps {
   size?: number;
   editable?: boolean;
   count?: number;
+  sizeClass?: string;
   color?: string;
   onChange?: (newRating: number) => void;
 }
@@ -18,16 +19,19 @@ const Rating = ({
   size = 30,
   editable = false,
   count = value,
+  sizeClass = 'w-5 h-5',
   onChange,
-}: RatingProps) => (
-  <ReactStars
-    value={value}
-    size={size}
-    edit={editable}
-    count={count}
-    onChange={onChange}
-    emptyIcon={<EmptyStar className="text-primary-1000 w-5 h-5" />}
-    filledIcon={<FilledStar className="text-primary-1000 w-5 h-5" />}
-  />
-);
+}: RatingProps) => {
+  return (
+    <ReactStars
+      value={value}
+      size={size}
+      edit={editable}
+      count={count}
+      onChange={onChange}
+      emptyIcon={<EmptyStar className={`text-primary-1000 ${sizeClass} `} />}
+      filledIcon={<FilledStar className={`text-primary-1000 ${sizeClass} `} />}
+    />
+  );
+};
 export default Rating;
