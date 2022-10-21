@@ -170,7 +170,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     const { id } = hotel;
     return `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
-
   const HotelList = () => (
     <ul role="list" className="space-y-4">
       {hotels.map((hotel, index) => {
@@ -202,7 +201,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
               <PriceDisplay
                 rate={minRate}
                 totalLabel={fromLabel}
-                isSearch={true}
+                isStartingTotal={true}
+                isPriceBase
+                isAvgAmount
               />
             }
             cancellable={

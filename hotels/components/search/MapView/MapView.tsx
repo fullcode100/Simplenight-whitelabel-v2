@@ -121,7 +121,9 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
                       <PriceDisplay
                         rate={minRate}
                         totalLabel={fromLabel}
-                        isSearch={true}
+                        isStartingTotal={true}
+                        isPriceBase
+                        isAvgAmount
                       />
                     }
                     cancellable={

@@ -14,7 +14,13 @@ const HotelItemRateInfo = ({ minRate }: HotelItemRateInfoProps) => {
   return (
     <section className="flex justify-between items-center border-t border-dark-300 py-2 px-4">
       <HotelCancellable minRate={minRate.min_rate} />
-      <PriceDisplay rate={minRate} totalLabel={fromLabel} isSearch={true} />
+      <PriceDisplay
+        rate={minRate}
+        totalLabel={fromLabel}
+        isStartingTotal={true}
+        isPriceBase
+        isAvgAmount
+      />
     </section>
   );
 };

@@ -122,8 +122,9 @@ const PriceBreakdownModal = ({
           rate={rates}
           nights={nights}
           guests={guests}
-          isPriceBase
           roomsQty={rooms}
+          isPriceBase
+          isAvgAmount
         />
       }
       hasMultipleActions={true}
