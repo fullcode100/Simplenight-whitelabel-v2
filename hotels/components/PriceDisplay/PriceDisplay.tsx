@@ -10,15 +10,17 @@ import { useRouter } from 'next/router';
 interface PriceDisplayProps {
   rate: Rates;
   totalLabel?: string;
-  isSearch?: boolean;
+  isStartingTotal?: boolean;
   isPriceBase?: boolean;
+  isAvgAmount?: boolean;
 }
 
 const PriceDisplay = ({
   rate,
   totalLabel,
-  isSearch = false,
-  isPriceBase,
+  isStartingTotal = false,
+  isPriceBase = false,
+  isAvgAmount = false,
 }: PriceDisplayProps) => {
   const router = useRouter();
   const pathName = router.pathname;
@@ -32,7 +34,7 @@ const PriceDisplay = ({
     'includesTaxesAndFees',
     'Includes Taxes and Fees',
   );
-
+  const baseAmountBeforeApply = discounts?.base_amount_before_apply?.formatted;
   const totalBeforeDiscount =
     rate?.min_rate.rate?.rate_breakdown.discounts?.total_amount_before_apply;
   let percentageToApply;
@@ -49,9 +51,8 @@ const PriceDisplay = ({
       {showDiscount && discounts && (
         <p className="text-xs">
           <span className="text-dark-700 line-through font-normal">
-            {isSearch
-              ? rate?.min_rate.rate.starting_room_total?.formatted
-              : totalBeforeDiscount.formatted}
+            {(isPriceBase && baseAmountBeforeApply) ||
+              totalBeforeDiscount?.formatted}
           </span>{' '}
           <span className="text-green-1000 font-semibold">
             {percentageToApply} Off
@@ -64,9 +65,11 @@ const PriceDisplay = ({
         })}
       >
         <span className="text-xs">{totalLabel}</span>
-        <span className="text-sm font-semibold">{totalAmount}</span>
+        <span className="text-sm font-semibold">
+          {isAvgAmount ? avgAmount : totalAmount}
+        </span>
       </p>
-      {isSearch && startingRoomTotal && (
+      {isStartingTotal && startingRoomTotal && (
         <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
           <span>{startingRoomTotal.formatted}</span>{' '}
           <span>{startingRoomTotalLabel}</span>

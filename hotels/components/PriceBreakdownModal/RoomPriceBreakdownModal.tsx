@@ -64,6 +64,9 @@ const RoomPriceBreakdownModal = ({
     );
   }, [rate?.min_rate.rate]);
 
+  const rateBreakdownDiscounts = rate?.min_rate.rate.rate_breakdown.discounts;
+  const baseAmountBeforeApply =
+    rateBreakdownDiscounts?.base_amount_before_apply;
   return (
     <FullScreenModal
       open={isOpen}
@@ -96,15 +99,9 @@ const RoomPriceBreakdownModal = ({
                 {rate?.min_rate.rate?.rate_breakdown.discounts && (
                   <p className="font-semibold text-xs leading-5 text-green-1000">
                     <span className="line-through text-dark-800 mr-1">
-                      {
-                        rate?.min_rate.rate?.rate_breakdown.discounts
-                          .total_amount_before_apply?.formatted
-                      }
+                      {baseAmountBeforeApply?.formatted}
                     </span>
-                    {
-                      rate?.min_rate.rate?.rate_breakdown?.discounts
-                        .percentage_to_apply
-                    }
+                    {rateBreakdownDiscounts?.percentage_to_apply}
                   </p>
                 )}
                 <p className="font-semibold text-sm leading-[22px] text-dark-800">

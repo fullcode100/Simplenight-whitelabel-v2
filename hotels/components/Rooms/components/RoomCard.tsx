@@ -156,6 +156,7 @@ const RoomCard = ({
           guests={guests}
           roomsQty={roomsQty}
           isPriceBase
+          isAvgAmount
         />
       </section>
       <Divider />
