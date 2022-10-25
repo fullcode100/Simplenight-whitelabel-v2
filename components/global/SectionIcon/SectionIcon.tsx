@@ -6,7 +6,7 @@ import { injectProps } from 'helpers/reactUtils';
 interface SectionIconProps {
   sizeRem?: number;
   colorClass?: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactElement;
 }
 
 const SectionIcon = ({
@@ -15,8 +15,8 @@ const SectionIcon = ({
   icon = <InfoCircle />,
 }: SectionIconProps) => {
   const sizeIcon = sizeRem / 2;
-  const iconComponent = injectProps(icon as any, {
-    className: 'w-full h-full',
+  const iconComponent = injectProps(icon, {
+    className: `${icon?.props?.className} w-full h-full`,
   });
   return (
     <section

@@ -3,7 +3,7 @@ import React from 'react';
 import SectionIcon from '../SectionIcon/SectionIcon';
 
 interface SectionTitleProps {
-  icon?: React.ReactNode;
+  icon?: React.ReactElement;
   title?: string;
   subTitle?: string;
   displayIcon?: boolean;
