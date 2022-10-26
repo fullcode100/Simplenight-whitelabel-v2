@@ -120,7 +120,7 @@ const RoomCard = ({
               onClose={() => setShowAmenitiesModal(false)}
               amenities={amenities}
             />
-            {amenities.length > 3 && (
+            {/* {amenities.length > 3 && (
               <button
                 type="button"
                 onClick={() => setShowAmenitiesModal(true)}
@@ -128,7 +128,7 @@ const RoomCard = ({
               >
                 {viewAllAmenitiesText}
               </button>
-            )}
+            )} */}
           </section>
           <Divider />
         </>
