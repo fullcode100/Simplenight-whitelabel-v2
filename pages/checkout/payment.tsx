@@ -66,6 +66,7 @@ const Payment = () => {
   const fullAmountLabel = t('fullAmount', 'Full Amount');
   const checkoutLabel = t('checkoutTitle', 'Check Out');
   const backLabel = t('back', 'Back');
+  const loadingLabel = t('loading', 'Loading');
 
   const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
   const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
@@ -73,6 +74,7 @@ const Payment = () => {
 
   const [country, setCountry] = useState<string | null>(null);
   const [terms, setTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
@@ -148,6 +150,8 @@ const Payment = () => {
     if (expediaTerms && !acceptExpediaTerms) {
       return setErrorExpediaTerms(true);
     }
+    if (loading) return;
+    setLoading(true);
     paymentToken = newPaymentToken;
     verificationToken = newVerificationToken;
     handleBooking();
@@ -170,6 +174,7 @@ const Payment = () => {
       triggerEventConversion(bookingId);
       dispatch(clearCart());
       localStorage.removeItem('cart');
+      setLoading(false);
       router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
     } catch (error) {
       console.error(error);
@@ -301,7 +306,8 @@ const Payment = () => {
               </section>
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value={checkoutLabel}
+                  value={loading ? loadingLabel : checkoutLabel}
+                  disabled={loading}
                   size={'full'}
                   className="text-[18px]"
                   onClick={triggerFormTokenGeneration}
