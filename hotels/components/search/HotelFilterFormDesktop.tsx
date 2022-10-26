@@ -90,20 +90,16 @@ const HotelFilterFormDesktop = () => {
   const filtersText = t('filters', 'Filters');
 
   const handleClearFilters = () => {
-    setKeywordSearch('');
-    setMinPrice(initialPriceRange.min);
-    setMaxPrice(initialPriceRange.max);
-    setMinStarRating('1');
-    setMaxStarRating('5');
-    setFreeCancellation(false);
-    setHotels(false);
-    setVacationRentals(false);
-    setPayAtProperty(false);
-    setSortBy('sortByPriceAsc');
-    setSelectedAmenities([]);
     setQueryParams({
       propertyTypes: '',
       paymentTypes: '',
+      amenities: '',
+      starRating: '',
+      priceRange: '',
+      sortBy: '',
+      isTotalPrice: '',
+      minPrice: '',
+      maxPrice: '',
     });
   };
 
