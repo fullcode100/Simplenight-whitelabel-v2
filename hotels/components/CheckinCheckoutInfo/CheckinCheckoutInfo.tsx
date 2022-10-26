@@ -21,6 +21,9 @@ const CheckinCheckoutInfo = ({
   const checkinLabel = t('checkIn', 'Check-In');
   const checkoutLabel = t('checkOut', 'Check-Out');
 
+  const formattedCheckinDate = formatAsDisplayDate(checkoutDate ?? new Date());
+  // const formatedCheckinHour = formatAsDisplayHour(checkoutTime ?? new Date());
+  const formatedCheckinHour = checkoutTime;
   return (
     <section className="grid gap-2 lg:gap-8 lg:grid-cols-2 lg:w-full">
       <section className="flex flex-row gap-1 lg:gap-2.5">
@@ -30,7 +33,7 @@ const CheckinCheckoutInfo = ({
             <p className="text-dark-700">{checkinLabel}</p>
             <p className="text-dark-1000">
               {fromLowerCaseToCapitilize(formatAsDisplayDate(checkinDate))}{' '}
-              {formatAsDisplayHour(checkinTime)}
+              {checkinTime}
             </p>
           </section>
         )}
@@ -41,8 +44,8 @@ const CheckinCheckoutInfo = ({
           <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
             <p className="text-dark-700">{checkoutLabel}</p>
             <p className="text-dark-1000">
-              {fromLowerCaseToCapitilize(formatAsDisplayDate(checkoutDate))}{' '}
-              {formatAsDisplayHour(checkoutTime)}
+              {fromLowerCaseToCapitilize(formattedCheckinDate)}{' '}
+              {formatedCheckinHour}
             </p>
           </section>
         )}

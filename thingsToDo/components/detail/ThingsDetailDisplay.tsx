@@ -1,8 +1,11 @@
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import Rating from 'components/global/Rating/Rating';
+import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
 import React from 'react';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 import { thingToDoDetail } from '../../mocks/thingToDoDetailMock';
+import DetailsSection from './DetailsSection';
+import TabsSection from './TabSection';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -41,9 +44,15 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
       </section>
     );
   };
+
   return (
     <section>
       <HeaderSection />
+      <TabsSection />
+      <section className="px-5 mt-5">
+        <SectionTitle title="Tickets" />
+      </section>
+      <DetailsSection />
     </section>
   );
 };
