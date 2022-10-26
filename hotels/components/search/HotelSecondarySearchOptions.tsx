@@ -223,11 +223,11 @@ const HotelSecondarySearchOptions = () => {
         onChangeFreeCancellation={setFreeCancellation}
       />
       <Divider className="my-6" />
-      <AmenitiesFilter
+      {/* <AmenitiesFilter
         selectedAmenities={selectedAmenities}
         onChangeAmenities={onChangeAmenities}
         handleDeleteAmenity={handleDeleteAmenity}
-      />
+      /> */}
     </section>
   );
 
