@@ -114,7 +114,7 @@ const RoomPriceBreakdownModal = ({
             </section>
             {rate?.min_rate.rate.rate_breakdown.taxes.map((tax, index) => {
               const taxLabel = t(tax.type, tax.description);
-
+              if (tax.tax_amount.amount === 0) return;
               return (
                 <section
                   className="flex justify-between items-center"
@@ -149,7 +149,7 @@ const RoomPriceBreakdownModal = ({
             {rate?.min_rate.rate.rate_breakdown.post_paid_rate?.taxes.map(
               (tax, index) => {
                 const taxLabel = t(tax.type, tax.description);
-
+                if (tax.tax_amount.amount === 0) return;
                 return (
                   <section
                     className="flex justify-between"

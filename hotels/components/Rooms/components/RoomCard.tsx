@@ -74,7 +74,7 @@ const RoomCard = ({
 
   return (
     <section className="my-3 border rounded overflow-hidden shadow-container lg:my-0 border-dark-200">
-      {images.length > 0 ? (
+      {images?.length > 0 ? (
         <ImageCarousel
           images={images}
           title={roomName}
@@ -96,7 +96,7 @@ const RoomCard = ({
         rooms={roomsQty}
       />
       <Divider />
-      {amenities.length > 0 && (
+      {amenities?.length > 0 && (
         <>
           <section className="flex flex-col gap-2 p-4">
             {amenities.map((amenity, index) => {
@@ -120,7 +120,7 @@ const RoomCard = ({
               onClose={() => setShowAmenitiesModal(false)}
               amenities={amenities}
             />
-            {amenities.length > 3 && (
+            {amenities?.length > 3 && (
               <button
                 type="button"
                 onClick={() => setShowAmenitiesModal(true)}

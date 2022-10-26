@@ -107,7 +107,7 @@ const RoomPriceBreakdown = ({
       <BasePrice />
       {rate?.rate_breakdown.taxes.map((tax) => {
         const taxLabel = t(tax.type, tax.description);
-
+        if (tax.tax_amount.amount === 0) return;
         return (
           <AmountDetailItem
             key={tax.type}
@@ -128,7 +128,7 @@ const RoomPriceBreakdown = ({
 
       {rate?.rate_breakdown.post_paid_rate?.taxes.map((tax, index) => {
         const taxLabel = t(tax.type, tax.description);
-
+        if (tax.tax_amount.amount === 0) return;
         return (
           <section className="flex justify-between" key={tax.type + index}>
             <section className="flex flex-row gap-1">
