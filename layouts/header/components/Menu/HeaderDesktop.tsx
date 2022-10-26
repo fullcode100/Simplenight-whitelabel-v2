@@ -77,7 +77,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
         </section>
         <section className="flex gap-5">
           <CustomLink href={'/lookup'}>{orderLookupText}</CustomLink>
-          {displayCategoryOption && (
+          {/* {displayCategoryOption && (
             <button>
               <a>
                 <span className="flex items-center gap-2 text-base text-dark-1000">
@@ -85,7 +85,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
                 </span>
               </a>
             </button>
-          )}
+          )} */}
           <ButtonDropdown
             icon={<LanguageIcon />}
             value={currentLanguage}
