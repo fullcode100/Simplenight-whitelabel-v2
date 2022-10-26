@@ -3,5 +3,8 @@
   "locationInputPlaceholder": "¿A dónde quieres ir?",
   "search": "Buscar",
   "startDate": "Fecha de inicio",
-  "endDate": "Fecha de fin"
+  "endDate": "Fecha de fin",
+  "reviews":"Reseñas",
+  "cancellation":" Cancelación",
+  "additionalInformation":"Información Adicional"
 }

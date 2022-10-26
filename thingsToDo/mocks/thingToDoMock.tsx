@@ -55,4 +55,14 @@ export const thingToDo = {
     ],
     cancellation_type: 'NON_REFUNDABLE',
   },
+  flags: [
+    {
+      flag_id: 'CANCEL_IF_BAD_WEATHER',
+      value: false,
+    },
+    {
+      flag_id: 'CANCEL_IF_INSUFFICIENT_TRAVELERS',
+      value: false,
+    },
+  ],
 };
