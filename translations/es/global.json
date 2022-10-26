@@ -133,5 +133,9 @@
     "pricesChanged": "Los precios han cambiado",
     "description": "Descripción",
     "included": "Incluido",
-    "notIncluded": "No Incluido"
+    "notIncluded": "No Incluido",
+    "policies":"Políticas"
 }
+  
+
+
