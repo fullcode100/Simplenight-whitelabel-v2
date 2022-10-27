@@ -1,5 +1,5 @@
 // Libraries
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // models
 import { CategoryOption } from 'types/search/SearchTypeOptions';
@@ -11,6 +11,11 @@ import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import { THINGS_CATEGORY } from 'thingsToDo';
+import useQuery from 'hooks/pageInteraction/useQuery';
+import { formatAsSearchDate } from 'helpers/dajjsUtils';
+import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
+import { StringGeolocation } from 'types/search/Geolocation';
+import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -20,9 +25,36 @@ const ThingsResultsDisplay = ({
   ThingsCategory,
 }: ThingsResultsDisplayProps) => {
   const [t, i18next] = useTranslation('things');
+  const [loaded, setLoaded] = useState(false);
+  const [entertaimentItems, setEntertaimentItems] = useState([]);
+  const { ClientSearcher: Searcher } = ThingsCategory.core;
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
 
   const resultsMock = [thingToDo];
+  const { startDate, endDate, latitude, longitude } = useQuery();
+  const dstGeolocation = `${latitude},${longitude}`;
+
+  useEffect(() => {
+    const params: ThingsSearchRequest = {
+      start_date: formatAsSearchDate(startDate as string),
+      end_date: formatAsSearchDate(endDate as string),
+      dst_geolocation: dstGeolocation as StringGeolocation,
+      rsp_fields_set: 'extended',
+      sort: '',
+      cancellation_type: '',
+      min_price: '',
+      max_price: '',
+      is_total_price: '',
+      supplier_ids: '',
+    };
+    setLoaded(false);
+    Searcher?.request?.(params, i18next)
+      .then(({ items: entertaimentResults }) => {
+        setEntertaimentItems(entertaimentResults);
+      })
+      .catch((error) => console.error(error))
+      .then(() => setLoaded(true));
+  }, [startDate, endDate, dstGeolocation]);
 
   const urlDetail = () => {
     return `/detail/${THINGS_CATEGORY}/1`;
@@ -30,20 +62,16 @@ const ThingsResultsDisplay = ({
 
   const ThingsToDoList = () => {
     return (
-      <ul>
-        {resultsMock.map((thingToDo) => {
+      <ul className="flex flex-col gap-3">
+        {entertaimentItems?.map((thingToDo: any) => {
           const {
             id,
             name,
             address,
-            reviews: { rating, amount: reviewsAmount },
-            phone_number: phoneNumber,
-            tags,
-            images,
             cancellation_policy: cancellationPolicy,
             rates,
+            thumbnail,
           } = thingToDo;
-          const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
           const url = urlDetail();
           return (
@@ -54,21 +82,10 @@ const ThingsResultsDisplay = ({
                 categoryName={thingsToDoLabel}
                 item={thingToDo}
                 title={name}
-                images={images}
-                address={formattedLocation}
+                images={[thumbnail]}
                 className=" flex-0-0-auto"
-                rating={rating}
-                reviewsAmount={reviewsAmount}
-                phoneNumber={phoneNumber}
-                tags={tags}
                 cancellable={
                   <ThingsCancellable cancellationPolicy={cancellationPolicy} />
-                }
-                priceDisplay={
-                  <PriceDisplay
-                    rate={rates}
-                    totalLabel={`USD ${rates.total.formatted}`}
-                  />
                 }
               />
             </div>
@@ -79,7 +96,7 @@ const ThingsResultsDisplay = ({
   };
   return (
     <div className="pt-6 px-4">
-      <ThingsToDoList />
+      {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
       <SearchViewSelectorFixed />
     </div>
   );

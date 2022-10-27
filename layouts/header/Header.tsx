@@ -79,7 +79,7 @@ const Header = ({ color }: HeaderProps) => {
         <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
       <header
-        className={`flex items-center justify-between p-3 z-10 ${color} fixed w-full lg:hidden`}
+        className={`flex items-center justify-between p-3 z-20 ${color} fixed w-full lg:hidden`}
       >
         <HamburgerMenuButton
           className="mr-2 cursor-pointer"
