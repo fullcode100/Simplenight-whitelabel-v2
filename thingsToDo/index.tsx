@@ -14,6 +14,7 @@ import ThingsDetailDisplay from './components/detail/ThingsDetailDisplay';
 
 export const THINGS_CATEGORY = 'entertainment';
 
+const categorySectorUUID = '97807fd1-6561-4f3b-a798-42233d9e2b09';
 const Category: CategoryOption = {
   id: 3,
   name: THINGS_CATEGORY,
@@ -34,7 +35,7 @@ const Category: CategoryOption = {
     urls: {
       search: {
         client: '/entertainment',
-        server: '/entertainment/',
+        server: `/sectors/${categorySectorUUID}`,
       },
       detail: {
         client: '/entertainment',
@@ -50,8 +51,8 @@ const Category: CategoryOption = {
 Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
 Category.detailDisplay = <ThingsDetailDisplay Category={Category} />;
 
-// Category.core.ClientSearcher = new ThingsClientSearcher(Category);
-// Category.core.ServerSearcher = new ThingsServerSearcher(Category);
+Category.core.ClientSearcher = new ThingsClientSearcher(Category);
+Category.core.ServerSearcher = new ThingsServerSearcher(Category);
 
 // Category.core.ClientDetailer = new ThingsClientDetailer(Category);
 // Category.core.ServerDetailer = new ThingsServerDetailer(Category);

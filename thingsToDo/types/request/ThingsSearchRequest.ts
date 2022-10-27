@@ -1,7 +1,4 @@
-export interface ThingsSearchPreRequest {
-  example: string;
-}
+/* eslint-disable @typescript-eslint/no-empty-interface */
+import { SearchRequest } from 'types/search/SearchRequest';
 
-export interface ThingsSearchRequest {
-  example: string;
-}
+export interface ThingsSearchRequest extends SearchRequest {}
