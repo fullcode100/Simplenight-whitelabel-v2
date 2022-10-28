@@ -201,8 +201,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   const GeneralInformationSection = () => {
     const tabs: Tab[] = [
-      { value: roomsLabel, type: roomsLabel },
-      { value: locationLabel, type: locationLabel },
+      { name: roomsLabel, type: roomsLabel },
+      { name: locationLabel, type: locationLabel },
     ];
 
     const scrollFunctions: { [key: string]: () => void } = {
@@ -221,7 +221,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
     const handleTabClick = (tab: Tab) => {
       setActiveTab(tab);
-      scrollTo(tab.value);
+      scrollTo(tab.name);
     };
 
     return (

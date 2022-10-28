@@ -57,10 +57,10 @@ const CategoryList = ({ categoryList }: CategoryListProps) => {
       {categoryList.map((category) => {
         return (
           <CategoryItem
-            key={category.value}
-            text={category.value}
+            key={category.name}
+            text={category.name}
             type={category.type}
-            url={category.value}
+            url={category.slug}
           />
         );
       })}

@@ -81,6 +81,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     roomsData,
     amenities,
     supplierIds,
+    slug,
   } = useQuery();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -168,7 +169,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const urlDetail = (hotel: Hotel) => {
     const { id } = hotel;
-    return `/detail/hotels/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
+    return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
   const HotelList = () => (
     <ul role="list" className="space-y-4">

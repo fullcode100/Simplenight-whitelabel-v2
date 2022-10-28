@@ -53,12 +53,45 @@ export const getCategoryIcon = (key: string) => {
   return iconsMapping[key];
 };
 
+const getSectorWhitelabelId = (key: string) => {
+  if (['hotels', 'accommodations', 'vacation-rentals'].includes(key))
+    return 'hotels';
+  if (
+    [
+      'entertainment',
+      'air-tours',
+      'attractions',
+      'classes-workshops',
+      'culinary-experiences',
+      'golf',
+      'history-culture',
+      'nightlife',
+      'outdoor-activities',
+      'private-custom-tours',
+      'shopping-fashion',
+      'spa-wellness',
+      'theme-park',
+      'tours-sightseeing',
+      'wedding-honeymoons',
+      'other-activities',
+      'shows-events',
+    ].includes(key)
+  )
+    return 'entertainment';
+  if (['transportation', 'flights', 'car-rental'].includes(key))
+    return 'transportation';
+  if (['food-beverage', 'dining'].includes(key)) return 'food-beverage';
+  if (['other', 'parking', 'vacation-rentals'].includes(key)) return 'other';
+  return '';
+};
+
 const useCategories = () => {
   const categories = useSelector(getCategories);
   const categoriesTabs = categories.map((category) => {
     return {
-      value: category.alias,
-      type: category.whitelabelId,
+      name: category.alias,
+      type: getSectorWhitelabelId(category.whitelabelId),
+      slug: category.slug,
       icon: getCategoryIcon(category.icon),
     };
   });

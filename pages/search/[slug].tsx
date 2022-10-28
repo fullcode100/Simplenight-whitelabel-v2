@@ -14,30 +14,30 @@ import useCategories from 'hooks/category/useCategories';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
 
 const Search: NextPage = () => {
-  const { type } = useQuery();
+  const { slug } = useQuery();
   const setQueryParams = useQuerySetter();
+
   const multipleCategories = useDisplayCategory();
-
-  const [searchType, setSearchType] = useState(type as unknown as string);
-
   const categoriesTabs = useCategories();
-  const activeTabIndex = categoriesTabs.findIndex(
-    (tab) => tab.type === searchType,
-  );
+
+  const activeTabIndex = categoriesTabs.findIndex((tab) => tab.slug === slug);
   const [activeTab, setActiveTab] = useState<Tab>(
     categoriesTabs[activeTabIndex],
   );
+
+  const [searchType, setSearchType] = useState('');
 
   const handleTabClick = (tab: Tab) => {
     setSearchType(tab.type);
     setActiveTab(tab);
     setQueryParams({
-      type: tab.type,
+      slug: tab.slug ?? '',
     });
   };
 
   useEffect(() => {
     setActiveTab(categoriesTabs[activeTabIndex]);
+    setSearchType(categoriesTabs[activeTabIndex]?.type);
   }, [categoriesTabs.length > 0]);
 
   return (
@@ -57,7 +57,7 @@ const Search: NextPage = () => {
         </section>
         <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
           <section className="mx-auto max-w-7xl">
-            <SearchCategoryForm searchType={searchType} />
+            <SearchCategoryForm activeTab={activeTab} />
           </section>
         </section>
       </header>

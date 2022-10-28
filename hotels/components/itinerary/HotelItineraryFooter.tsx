@@ -11,6 +11,7 @@ import TrashIcon from 'public/icons/assets/small-trash.svg';
 import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { useCategoryType } from 'hooks/category/useCategory';
 
 interface HotelItineraryFooterProps {
   item: Item;
@@ -45,6 +46,8 @@ const HotelItineraryFooter = ({
   );
   const totalRate = selectedRoom?.rates.min_rate.rate;
 
+  const slug = useCategoryType('hotels')?.slug;
+
   const removeAllRooms = () => {
     const roomToRemove = {
       cartId: item.cart_id,
@@ -70,7 +73,7 @@ const HotelItineraryFooter = ({
 
     removeAllRooms();
     router.push(
-      `/detail/hotels/${item.extended_data?.id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}&rooms=${rooms}`,
+      `/detail/${slug}/${item.extended_data?.id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}&rooms=${rooms}`,
     );
   };
 

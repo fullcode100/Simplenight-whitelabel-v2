@@ -19,9 +19,9 @@ export default function HorizontalTabs({
         <nav className="flex justify-center -mb-px" aria-label="Tabs">
           {tabs.map((tab) => (
             <button
-              key={tab.value}
+              key={tab.name}
               className={classNames(
-                tab.value === activeTab?.value
+                tab.name === activeTab?.name
                   ? `border-primary-500 ${hoverCss}`
                   : 'border-transparent text-dark-700 hover:text-dark-1000 hover:border-gray-300',
                 'whitespace-nowrap pb-2 px-3 flex flex-col items-center justify-center border-b-2 text-sm font-semibold',
@@ -32,7 +32,7 @@ export default function HorizontalTabs({
               <div className="flex items-center justify-center w-6 h-6">
                 {tab.icon}
               </div>
-              {tab.value}
+              {tab.name}
             </button>
           ))}
         </nav>
