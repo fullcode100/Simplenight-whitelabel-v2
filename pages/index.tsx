@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
@@ -15,9 +15,8 @@ import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
 import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useCategories from 'hooks/category/useCategories';
-import CategorySelectDesktop from 'layouts/header/components/Menu/CategorySelectDestkop';
 
-const UpperSectionBackground = ({ children }: { children?: any }) => {
+const UpperSectionBackground = ({ children }: { children?: ReactNode }) => {
   const { homepage } = useBrandConfig();
   const { whiteLabelBackground } = homepage;
   return (
@@ -48,8 +47,6 @@ const Home: NextPageWithLayout = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const homepageScrollHandler = getHomepageScrollHandler();
 
-  const [searchType, setSearchType] = useState('');
-
   const categoriesTabs = useCategories();
   const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs[0]);
 
@@ -57,7 +54,6 @@ const Home: NextPageWithLayout = () => {
 
   const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
-    setSearchType(tab.type);
   };
 
   const Panel = ({
@@ -87,7 +83,6 @@ const Home: NextPageWithLayout = () => {
 
   useEffect(() => {
     setActiveTab(categoriesTabs[0]);
-    setSearchType(categoriesTabs[0]?.type);
   }, [categoriesTabs.length > 0]);
 
   const redirectToLookup = () => {
@@ -137,7 +132,7 @@ const Home: NextPageWithLayout = () => {
                   primary
                 />
                 <section className="pt-3 lg:pt-6">
-                  <SearchCategoryForm searchType={searchType} />
+                  <SearchCategoryForm activeTab={activeTab} />
                 </section>
               </Panel>
             </section>

@@ -3,6 +3,7 @@ import { Item } from 'types/booking/bookingType';
 import { useTranslation } from 'react-i18next';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
+import { useCategoryType } from 'hooks/category/useCategory';
 
 interface HotelConfirmationHeaderProps {
   item?: Item;
@@ -24,7 +25,9 @@ const HotelConfirmationHeader = ({
   const hotelId = item?.extra_data?.id;
   const startDate = item?.extra_data?.start_date;
   const endDate = item?.extra_data?.end_date;
-  const detailHref = `/detail/hotels/${hotelId}?startDate=${startDate}&endDate=${endDate}&rooms=${roomsAmount}`;
+  const slug = useCategoryType('hotels')?.slug;
+
+  const detailHref = `/detail/${slug}/${hotelId}?startDate=${startDate}&endDate=${endDate}&rooms=${roomsAmount}`;
 
   return (
     <section className="flex flex-row gap-3">

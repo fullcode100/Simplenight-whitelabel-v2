@@ -10,7 +10,6 @@ import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
-import { THINGS_CATEGORY } from 'thingsToDo';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
@@ -29,6 +28,7 @@ const ThingsResultsDisplay = ({
   const [loaded, setLoaded] = useState(false);
   const [entertaimentItems, setEntertaimentItems] = useState([]);
   const { ClientSearcher: Searcher } = ThingsCategory.core;
+  const { slug } = useQuery();
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
 
   const categoryId = '97807fd1-6561-4f3b-a798-42233d9e2b09';
@@ -60,7 +60,7 @@ const ThingsResultsDisplay = ({
 
   const urlDetail = (thingsItem: ThingsSearchItem) => {
     const { id } = thingsItem;
-    return `/detail/${THINGS_CATEGORY}/${categoryId}?startDate=${startDate}&endDate=${endDate}&inventoryId=${id}`;
+    return `/detail/${slug}/${categoryId}?startDate=${startDate}&endDate=${endDate}&inventoryId=${id}`;
   };
 
   const ThingsToDoList = () => {
@@ -100,7 +100,7 @@ const ThingsResultsDisplay = ({
     );
   };
   return (
-    <div className="pt-6 px-4">
+    <div className="px-4 pt-6">
       {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
       <SearchViewSelectorFixed />
     </div>

@@ -16,6 +16,7 @@ export interface Category {
   priority: number;
   name: string;
   alias: string;
+  slug: string;
   whitelabelId: string;
 }
 
