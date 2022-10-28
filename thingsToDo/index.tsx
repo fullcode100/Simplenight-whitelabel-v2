@@ -39,7 +39,7 @@ const Category: CategoryOption = {
       },
       detail: {
         client: '/entertainment',
-        server: '/entertainment',
+        server: '/sectors',
       },
     },
     ClientSearcher: null,
@@ -54,7 +54,7 @@ Category.detailDisplay = <ThingsDetailDisplay Category={Category} />;
 Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 Category.core.ServerSearcher = new ThingsServerSearcher(Category);
 
-// Category.core.ClientDetailer = new ThingsClientDetailer(Category);
-// Category.core.ServerDetailer = new ThingsServerDetailer(Category);
+Category.core.ClientDetailer = new ThingsClientDetailer(Category);
+Category.core.ServerDetailer = new ThingsServerDetailer(Category);
 
 export const ThingsCategory = Category;

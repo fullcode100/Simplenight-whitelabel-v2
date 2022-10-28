@@ -11,8 +11,13 @@ import DeviceMobileIcon from 'public/icons/assets/device-mobile.svg';
 import TransportIcon from 'public/icons/assets/transport.svg';
 import SectionSubtitle from 'components/global/SectionSubtitle/SectionSubtitle';
 import { useTranslation } from 'react-i18next';
+import { ThingsDetailItem } from 'thingsToDo/types/response/ThingsDetailResponse';
 
-const DetailsSection = () => {
+interface DetailsSectionProps {
+  thingsItem: ThingsDetailItem;
+}
+
+const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const [t] = useTranslation('global');
   const descriptionText = t('description', 'Description');
   const includedText = t('included', 'Included');
@@ -34,14 +39,7 @@ const DetailsSection = () => {
     <>
       <SectionSubtitle>{descriptionText}</SectionSubtitle>
       <p className="text-base text-dark-1000 mt-3">
-        The prestigious AAA Five Diamond award-winning Waldorf Astoria Chicago
-        offers Parisian-inspired elegance in downtown's Gold Coast neighborhood.
-        An urban sanctuary, the hotel offers easy access to all the city has to
-        offer. Lorem ipsum sit dolor amet quiscam hic nihil mori dator. Et neque
-        nibh malesuada sit. Urna, hac nunc, penatibus tellus dignissim cras
-        libero integer nam. Hendrerit ullamcorper sed blandit scelerisque.
-        Pharetra mauris, mollis dolor sagittis, aliquam sit magnis ac. Posuere
-        amet, pellentesque eu velit.
+        {thingsItem?.extra_data?.description}
       </p>
     </>
   );
