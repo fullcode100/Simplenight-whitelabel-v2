@@ -1,5 +1,10 @@
-import React, { Fragment } from 'react';
+import Loader from 'components/global/Loader/Loader';
+import { formatAsSearchDate } from 'helpers/dajjsUtils';
+import useQuery from 'hooks/pageInteraction/useQuery';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
+import { ThingsDetailItem } from 'thingsToDo/types/response/ThingsDetailResponse';
 // components
 import Rating from 'components/global/Rating/Rating';
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
@@ -26,12 +31,40 @@ import { injectProps } from '../../../helpers/reactUtils';
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
 const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
-  const { images } = thingToDoDetail;
-
-  const [tg] = useTranslation('global');
   const [t, i18next] = useTranslation('things');
+  const [tg] = useTranslation('global');
+  const [thingsItem, setThingsItem] = useState<ThingsDetailItem>();
+  const [loaded, setLoaded] = useState(false);
+  const [emptyState, setEmptyState] = useState<boolean>(false);
+  const { ClientDetailer: Searcher } = Category.core;
+  const { id, startDate, endDate, inventoryId } = useQuery();
+  const reviewsLabel = tg('reviews', 'Reviews');
+
+  const images = thingsItem?.extra_data?.images;
+
+  useEffect(() => {
+    const params: ThingsDetailRequest = {
+      start_date: formatAsSearchDate(startDate as string),
+      end_date: formatAsSearchDate(endDate as string),
+      rsp_fields_set: 'extended',
+      inventory_ids: inventoryId as string,
+    };
+    if (id) {
+      Searcher?.request?.(params, i18next, id)
+        .then(({ items }) => {
+          console.log('things item', items[0]);
+          setThingsItem(items[0]);
+          setLoaded(true);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoaded(true);
+          setEmptyState(true);
+        });
+    }
+  }, [startDate, endDate, id]);
+
   const { language } = i18next;
-  const reviewsLabel = t('reviews', 'Reviews');
   const cancellationLabel = t('cancellation', 'Cancellation');
   const additionalInformationLabel = t(
     'additionalInformation',
@@ -195,17 +228,13 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const HeaderSection = () => {
-    const {
-      name,
-      reviews: {
-        reviews_amount: reviewsAmount,
-        activity_score: activityScore,
-        total_score: totalScore,
-      },
-    } = thingToDoDetail;
+    const name = thingsItem?.name;
+    const reviewsAmount = thingsItem?.extra_data?.review_amount;
+    const activityScore = thingsItem?.extra_data?.avg_rating;
+    const totalScore = '5';
     return (
       <section className="border border-dark-300 ">
-        {images && (
+        {images && name && (
           <ImageCarousel images={images} title={name} showDots={false} />
         )}
         <div className="bg-dark-100 px-5 py-4 flex flex-col gap-2">
@@ -219,7 +248,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
               />
             )}
             <span className="text-dark-700 text-xs">
-              {activityScore}/{totalScore} ({reviewsAmount} {reviewsLabel})
+              {activityScore?.toFixed(1)}/{totalScore} ({reviewsAmount}{' '}
+              {reviewsLabel})
             </span>
           </div>
         </div>
@@ -227,19 +257,30 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
-  return (
-    <section>
-      <HeaderSection />
-      {/* {<TabsSection />} */}
-      <section className="px-5 mt-5">
-        <SectionTitle title="Tickets" />
-      </section>
-      <DetailsSection />
-      <Divider />
-      <PoliciesSection />
-      <Divider />
-    </section>
+  const DetailDisplay = () => (
+    <>
+      {emptyState ? (
+        <section className="h-screen flex justify-center items-center text-primary-1000 font-bold text-xl">
+          (!) empty state
+        </section>
+      ) : (
+        thingsItem && (
+          <>
+            <HeaderSection />
+            {/* <TabsSection /> */}
+            <section className="px-5 mt-5">
+              <SectionTitle title="Tickets" />
+            </section>
+            <DetailsSection thingsItem={thingsItem} /> <Divider />
+            <PoliciesSection />
+            <Divider />
+          </>
+        )
+      )}
+    </>
   );
+
+  return <section>{loaded ? <DetailDisplay /> : <Loader />}</section>;
 };
 
 export default ThingsDetailDisplay;

@@ -16,6 +16,7 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
+import { ThingsSearchItem } from 'thingsToDo/types/response/ThingsSearchResponse';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -30,6 +31,7 @@ const ThingsResultsDisplay = ({
   const { ClientSearcher: Searcher } = ThingsCategory.core;
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
 
+  const categoryId = '97807fd1-6561-4f3b-a798-42233d9e2b09';
   const resultsMock = [thingToDo];
   const { startDate, endDate, latitude, longitude } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
@@ -56,14 +58,15 @@ const ThingsResultsDisplay = ({
       .then(() => setLoaded(true));
   }, [startDate, endDate, dstGeolocation]);
 
-  const urlDetail = () => {
-    return `/detail/${THINGS_CATEGORY}/1`;
+  const urlDetail = (thingsItem: ThingsSearchItem) => {
+    const { id } = thingsItem;
+    return `/detail/${THINGS_CATEGORY}/${categoryId}?startDate=${startDate}&endDate=${endDate}&inventoryId=${id}`;
   };
 
   const ThingsToDoList = () => {
     return (
       <ul className="flex flex-col gap-3">
-        {entertaimentItems?.map((thingToDo: any) => {
+        {entertaimentItems?.map((thingToDo: ThingsSearchItem) => {
           const {
             id,
             name,
@@ -73,7 +76,7 @@ const ThingsResultsDisplay = ({
             thumbnail,
           } = thingToDo;
 
-          const url = urlDetail();
+          const url = urlDetail(thingToDo);
           return (
             <div key={id}>
               <ResultCard
@@ -85,7 +88,9 @@ const ThingsResultsDisplay = ({
                 images={[thumbnail]}
                 className=" flex-0-0-auto"
                 cancellable={
-                  <ThingsCancellable cancellationPolicy={cancellationPolicy} />
+                  <ThingsCancellable
+                    cancellationPolicy={cancellationPolicy as any}
+                  />
                 }
               />
             </div>
