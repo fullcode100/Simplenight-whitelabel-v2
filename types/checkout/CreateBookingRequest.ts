@@ -16,4 +16,5 @@ export interface CreateBookingRequest {
   cart_id: string;
   customer_time_created_at: string;
   payment_request: PaymentInformation;
+  expedia_prod?: boolean;
 }
