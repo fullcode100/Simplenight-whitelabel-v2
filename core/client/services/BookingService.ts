@@ -22,13 +22,14 @@ export interface PaymentParameters {
   paymentToken: string;
   verificationToken: string;
   countryCode: string;
+  expediaProd?: boolean;
 }
 
 export const createBooking = (
   paymentParameters: PaymentParameters,
   i18next: i18n,
 ) => {
-  const { cartId, paymentToken, verificationToken, countryCode } =
+  const { cartId, paymentToken, verificationToken, countryCode, expediaProd } =
     paymentParameters;
   const customerTimeCreatedAt = dayjs().format();
   const bookingRequest: CreateBookingRequest = {
@@ -42,6 +43,7 @@ export const createBooking = (
         country: countryCode,
       },
     },
+    expedia_prod: expediaProd,
   };
 
   return tryCreateBooking(bookingRequest, i18next);

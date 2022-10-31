@@ -79,6 +79,7 @@ const Payment = () => {
   const [loaded, setLoaded] = useState(false);
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
+  const [prodExpedia, setProdExpedia] = useState(false);
 
   const [isPaymentLoaded, setIsPaymentLoaded] = useState(false);
 
@@ -166,6 +167,7 @@ const Payment = () => {
       paymentToken,
       verificationToken,
       countryCode: country,
+      ...(prodExpedia && { expediaProd: true }),
     };
 
     try {
@@ -204,6 +206,12 @@ const Payment = () => {
         console.error(error);
       });
   }, [reload, currency]);
+
+  useEffect(() => {
+    if (localStorage.getItem('prod') == 'expedia') {
+      setProdExpedia(true);
+    }
+  }, []);
 
   const itemsNumber = cart?.items?.length;
   const expediaTerms = cart?.items.find(
