@@ -27,6 +27,7 @@ import { ReactElement } from 'react';
 import { thingToDoDetail } from '../../mocks/thingToDoDetailMock';
 // utilities
 import { injectProps } from '../../../helpers/reactUtils';
+import TicketCard from '../TicketCard/TicketCard';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -270,6 +271,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             {/* <TabsSection /> */}
             <section className="px-5 mt-5">
               <SectionTitle title="Tickets" />
+              <section className="mt-4">
+                <TicketCard />
+              </section>
             </section>
             <DetailsSection thingsItem={thingsItem} /> <Divider />
             <PoliciesSection />
