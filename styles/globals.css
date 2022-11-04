@@ -79,14 +79,14 @@
     @apply text-sm leading-5 lg:text-[18px] lg:leading-[22px];
   }
   input[type='radio'] {
-    @apply relative h-6 w-6 text-primary-600 border-dark-300 checked:bg-none checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
+    @apply relative w-6 h-6 text-primary-600 border-dark-300 checked:bg-none checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
   }
   input[type='radio']:checked::before {
     content: '';
     @apply bg-primary-1000 border-white border-4 rounded-full absolute inset-[2px];
   }
   input[type='checkbox'] {
-    @apply relative h-5 w-5 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
+    @apply relative w-5 h-5 text-primary-600 border-dark-300 rounded-4 checked:bg-primary-1000 checked:border-primary-1000 checked:focus:bg-primary-1000 checked:hover:bg-primary-1000 focus:ring-0 focus:ring-offset-0;
   }
   p {
     margin: 0 !important;
@@ -101,7 +101,7 @@
 }
 
 .pmd {
-  @apply font-lato text-base leading-6;
+  @apply text-base leading-6 font-lato;
 }
 
 .psm {
@@ -117,7 +117,7 @@
 }
 
 .pmd {
-  @apply font-lato text-base leading-6;
+  @apply text-base leading-6 font-lato;
 }
 
 .psm {
@@ -134,7 +134,7 @@ a {
 }
 
 label {
-  @apply font-lato font-semibold text-sm leading-4 text-dark-800;
+  @apply text-sm font-semibold leading-4 font-lato text-dark-800;
 }
 
 * {
@@ -191,4 +191,13 @@ input[type='range']::-webkit-slider-thumb {
   border: 1px solid;
   -webkit-appearance: none;
   @apply bg-primary-200 border-primary-600;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

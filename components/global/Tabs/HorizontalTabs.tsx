@@ -16,7 +16,10 @@ export default function HorizontalTabs({
   return (
     <div className={`block ${className}`}>
       <div className="border-b border-gray-200">
-        <nav className="flex justify-center -mb-px" aria-label="Tabs">
+        <nav
+          className="flex justify-start -mb-px overflow-x-scroll lg:justify-center scrollbar-hide"
+          aria-label="Tabs"
+        >
           {tabs.map((tab) => (
             <button
               key={tab.name}

@@ -40,7 +40,7 @@ function ResultCard<T extends WithId>({
   const target = window.innerWidth < 640 ? '_self' : '_blank';
 
   const CategoryTag = () => (
-    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br z-10">
+    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br z-[1]">
       {icon}
       <span className="font-semibold text-[14px]">{categoryName}</span>
     </section>
@@ -71,7 +71,7 @@ function ResultCard<T extends WithId>({
 
   const TagsSection = () => {
     return (
-      <section className="gap-2 flex">
+      <section className="flex gap-2">
         {tags?.map((tag, idx) => (
           <span
             className="py-0.5 px-2 bg-dark-100 capitalize inline-block rounded-4"
@@ -87,11 +87,11 @@ function ResultCard<T extends WithId>({
   const CancelationAndPricingSection = () => <section></section>;
   const reviewsLabel = 'reviews';
   return (
-    <li className="w-full rounded-4 border border-dark-300 overflow-hidden">
+    <li className="w-full overflow-hidden border rounded-4 border-dark-300">
       <CarouselAndTagSection />
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
-          <section className="flex flex-col justify-between  gap-2 p-4 lg:justify-start lg:w-full">
+          <section className="flex flex-col justify-between gap-2 p-4 lg:justify-start lg:w-full">
             <TitleSection />
             <RatingSection />
             {address}
@@ -99,7 +99,7 @@ function ResultCard<T extends WithId>({
             {tags && <TagsSection />}
           </section>
           <Divider />
-          <section className="flex justify-between items-center py-2 px-4">
+          <section className="flex items-center justify-between px-4 py-2">
             {cancellable}
             {priceDisplay}
           </section>
