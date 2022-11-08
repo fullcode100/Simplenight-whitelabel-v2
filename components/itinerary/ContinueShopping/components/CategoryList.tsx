@@ -12,22 +12,22 @@ const CategoryList = ({ categoryList }: CategoryListProps) => {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
       items: 7,
-      paritialVisibilityGutter: 5,
+      partialVisibilityGutter: 5,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 7,
-      paritialVisibilityGutter: 5,
+      partialVisibilityGutter: 5,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 2,
-      paritialVisibilityGutter: 20,
+      partialVisibilityGutter: 20,
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
       items: 2,
-      paritialVisibilityGutter: 20,
+      partialVisibilityGutter: 20,
     },
   };
 
@@ -39,7 +39,8 @@ const CategoryList = ({ categoryList }: CategoryListProps) => {
       draggable
       autoPlay={false}
       shouldResetAutoplay={false}
-      itemClass={'px-5'}
+      sliderClass="px-5 mt-6 flex gap-3"
+      itemClass="!w-[120px] lg:!w-40"
       customLeftArrow={
         <CustomArrow
           className="z-[5] absolute left-2 -translate-y-7"
@@ -53,7 +54,18 @@ const CategoryList = ({ categoryList }: CategoryListProps) => {
         />
       }
     >
-      {categoryList.map((singleCategory, index) => {
+      {categoryList.map((category) => {
+        return (
+          <CategoryItem
+            key={category.name}
+            text={category.name}
+            type={category.type}
+            url={category.slug}
+          />
+        );
+      })}
+
+      {/*  {categoryList.map((singleCategory, index) => {
         const categoryItem = CategoriesIcons.find((categories) => {
           if (categories.category.includes(singleCategory[0])) {
             return true;
@@ -71,7 +83,7 @@ const CategoryList = ({ categoryList }: CategoryListProps) => {
             />
           );
         }
-      })}
+      })} */}
     </Carousel>
   );
 };

@@ -34,15 +34,29 @@ const HotelRoomsInfo = ({
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
 
   const supplierReferenceID = item?.supplier_order_number;
+  const vendorConfirmationNumber =
+    item?.vendor_confirmation_code && item?.vendor_confirmation_code.length > 0
+      ? item?.vendor_confirmation_code
+      : '-';
+  const vendorConfirmationLabel = t(
+    'vendorConfirmation',
+    'Vendor Confirmation Number',
+  );
   const customer = item?.customer;
-  const roomDetail = item?.extra_data?.rooms?.[0];
-  const roomName = roomDetail?.name;
-  const amenities = roomDetail?.amenities.join(', ');
+  const selectedRoom = item?.extra_data?.rooms?.find(
+    (roomA) => roomA.code == item?.extra_data?.selected_room_code,
+  );
+  const roomName = selectedRoom?.name;
+  const amenities = selectedRoom?.amenities.join(', ');
 
-  const cancellationPolicy = item?.cancellation_policy?.description;
-  const total = item?.total.formatted;
-  const taxesAndFees = item?.total_tax.formatted;
-  const resortFees = item?.total_postpaid.formatted;
+  const roomMinRate = selectedRoom?.rates.min_rate;
+  const roomRate = roomMinRate?.rate;
+  const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
+  const total = roomRate?.total_amount.formatted;
+  const roomRateDetail = roomRate?.rate_breakdown;
+  const taxesAndFees = roomRateDetail?.total_taxes.formatted;
+  const resortFees = roomRateDetail?.post_paid_rate?.total_taxes.formatted;
+  const termsOfService = item?.extra_data?.terms_and_conditions;
 
   const startDate = item?.extra_data?.start_date;
   const endDate = item?.extra_data?.end_date;
@@ -70,9 +84,21 @@ const HotelRoomsInfo = ({
     <section className="flex flex-col gap-2 py-6 border-t lg:gap-3 border-dark-300 lg:pt-6 lg:pb-0">
       <RoomTitle roomName={roomName} roomQty={item?.room_qty} nights={nights} />
 
-      {supplierReferenceID && (
-        <SupplierReference supplierReferenceID={supplierReferenceID} />
-      )}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {supplierReferenceID && (
+          <SupplierReference supplierReferenceID={supplierReferenceID} />
+        )}
+        {vendorConfirmationNumber && (
+          <section className="grid gap-0 ">
+            <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-700">
+              {vendorConfirmationLabel}
+            </p>
+            <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-primary-1000">
+              {vendorConfirmationNumber}
+            </p>
+          </section>
+        )}
+      </section>
 
       <RoomPriceBreakdown
         total={total}
@@ -82,6 +108,10 @@ const HotelRoomsInfo = ({
         amenities={amenities}
         adultsCount={item?.adults}
         childrenCount={item?.children}
+        childrenAges={item?.children_ages}
+        rate={roomRate}
+        termsOfService={termsOfService}
+        isPriceBase
       />
       <section className="lg:flex lg:justify-end">
         <section className="lg:w-1/4">

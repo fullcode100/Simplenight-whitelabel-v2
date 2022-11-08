@@ -1,4 +1,5 @@
 // Libraries
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import React, { useState, Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CartObjectResponse } from 'types/cart/CartType';
@@ -24,13 +25,17 @@ const Summary = ({ cart, reload, setReload, href = '#' }: SummaryProps) => {
   return (
     <section className="flex w-full lg:max-w-[470px] items-center justify-between">
       <h4 className="text-base leading-[22px] text-dark-1000">Total</h4>
-      <section className="flex flex-col justify-end font-lato text-right">
-        <p className="text-[18px] leading-6 font-bold text-dark-1000">
+      <section className="flex flex-col justify-end text-right font-lato">
+        <p className="text-[18px] leading-6 font-semibold text-dark-1000">
           {cart?.total_amount.formatted}
         </p>
-        <p className="text-[14px] leading-5 text-dark-800">
-          {taxesAndFeesLabel}
-        </p>
+        <section className="flex flex-row gap-1">
+          <p className="text-[14px] leading-5 text-dark-800">
+            {taxesAndFeesLabel}
+          </p>
+          <TaxesAndFeesPopover />
+        </section>
+
         <a
           className="block lg:hidden text-base leading-[22px] font-semibold underline text-primary-1000 hover:text-primary-1000 hover:underline"
           href={href}

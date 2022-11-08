@@ -12,7 +12,7 @@ import { MinRate, Rate } from 'hotels/types/response/SearchResponse';
 import PriceDisplay from '../../PriceDisplay/PriceDisplay';
 import HotelCancellable from 'hotels/components/search/HotelCancellable';
 
-const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
+const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
   const [t, i18next] = useTranslation('hotels');
   const hotelLabel = t('hotel', 'Hotel');
   const fromLabel = t('from', 'From');
@@ -90,9 +90,10 @@ const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
                 thumbnail,
               } = item;
 
-              const itemKey = item.id + index;
+              const url = createUrl(item);
+              const itemKey = id + index;
               const isNext = index === nextItem;
-              const minRate = minRateRoom.rates.min_rate;
+              const minRate = minRateRoom.rates;
               const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
               const cardClassName = classnames(
@@ -108,7 +109,6 @@ const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
                     key={itemKey}
                     icon={HotelCategory.icon}
                     categoryName={hotelLabel}
-                    handleOnViewDetailClick={() => onViewDetailClick(item)}
                     item={item}
                     title={name}
                     image={thumbnail}
@@ -116,14 +116,18 @@ const MapView = ({ HotelCategory, items, onViewDetailClick }: MapViewProps) => {
                     address={formattedLocation}
                     className={cardClassName}
                     rating={parseInt(starRating)}
+                    url={url}
                     priceDisplay={
                       <PriceDisplay
-                        rate={minRate?.rate as Rate}
+                        rate={minRate}
                         totalLabel={fromLabel}
+                        isStartingTotal={true}
+                        isPriceBase
+                        isAvgAmount
                       />
                     }
                     cancellable={
-                      <HotelCancellable minRate={minRate as MinRate} />
+                      <HotelCancellable minRate={minRate.min_rate} />
                     }
                   />
                 </section>

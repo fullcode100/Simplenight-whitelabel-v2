@@ -34,8 +34,8 @@ const HotelSearchFormReadState = ({
   const toLabel = tg('to', 'to');
   const guestLabel = tg('guest', 'Guest');
   const guestsLabel = tg('guests', 'Guests');
-  const roomLabel = th('room', 'Room');
-  const roomsLabel = th('rooms', 'Rooms');
+  const roomLabel = tg('room', 'Room');
+  const roomsLabel = tg('rooms', 'Rooms');
 
   const {
     startDate: startDateQuery,
@@ -66,7 +66,7 @@ const HotelSearchFormReadState = ({
   );
 
   const ROOM_TEXT = usePlural(
-    (adults as unknown as number) ?? 0,
+    parseInt((rooms && rooms[0]) || '0'),
     roomLabel,
     roomsLabel,
   );

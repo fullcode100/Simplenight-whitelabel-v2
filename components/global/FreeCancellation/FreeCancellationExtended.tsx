@@ -15,8 +15,8 @@ const FreeCancellationExtended = ({
 
   if (!policy) return null;
   return (
-    <section className="bg-green-100 h-13 border border-green-300 rounded">
-      <section className="flex gap-1 py-1 pl-1.5 pr-1">
+    <section className="bg-green-100 h-13  rounded">
+      <section className="flex gap-1 py-1 pl-1.5 pr-1 items-center">
         <section className="py-1">
           <Check className="text-green-1000" />
         </section>

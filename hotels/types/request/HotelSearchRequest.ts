@@ -6,4 +6,6 @@ export interface HotelSearchRequest extends SearchRequest {
   children: number;
   star_rating: string;
   amenities: string;
+  children_ages?: string | string[];
+  accommodation_type: string;
 }

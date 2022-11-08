@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { flatten } from 'flat';
+import { Room } from 'hotels/helpers/room';
 
 export const replaceStringWithChar = (string: string, char: string) => {
   const stringChars = string.split('');
@@ -87,4 +88,14 @@ export const fromLowerCaseToCapitilize = (text = '') => {
   }
 
   return textArr?.join(' ');
+};
+
+export const getChildrenAges = (rooms: Room[]): string => {
+  const childrenAges = rooms
+    .map((room) => {
+      return room.childrenAges;
+    })
+    .filter((arr) => arr.length > 0);
+
+  return childrenAges.join(',');
 };

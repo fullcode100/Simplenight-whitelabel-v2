@@ -15,6 +15,7 @@ import ContinueShopping from '../components/itinerary/ContinueShopping/ContinueS
 import classnames from 'classnames';
 import Loader from 'components/global/Loader/Loader';
 import HelpSection from '../components/global/HelpSection/HelpSection';
+import { getCurrency } from 'store/selectors/core';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
@@ -26,6 +27,7 @@ const Itinerary: NextPage = () => {
   const [staticFooter, setStaticFooter] = useState(false);
   const cartIdParams = useQuery().cartId;
   const cartIdStore = getStoreCartId();
+  const currency = getCurrency();
 
   useEffect(() => {
     setCartId(cartIdParams || cartIdStore);
@@ -41,7 +43,7 @@ const Itinerary: NextPage = () => {
         })
         .catch((error) => console.error(error));
     }
-  }, [cartId, i18next, reload]);
+  }, [cartId, i18next, reload, currency]);
 
   useEffect(() => {
     if (footerContainerRef.current) {
@@ -55,6 +57,8 @@ const Itinerary: NextPage = () => {
     }
   }, []);
 
+  const [continueHeight, setContinueHeight] = useState(0);
+
   const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
   return (
@@ -66,10 +70,12 @@ const Itinerary: NextPage = () => {
       <section
         className={classnames(
           { hidden: loading },
-          'px-0 py-0 lg:px-20 lg:py-12 lg:flex gap-8 items-start justify-center',
+          'px-0 py-0 lg:px-20 lg:py-12 lg:flex lg:gap-8 justify-center',
         )}
       >
-        {!hasItems && !loading && <ItineraryEmpty />}
+        {!hasItems && !loading && (
+          <ItineraryEmpty continueHeight={continueHeight} />
+        )}
         {hasItems && (
           <>
             <section className="lg:w-[843px] overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
@@ -104,7 +110,7 @@ const Itinerary: NextPage = () => {
           </>
         )}
       </section>
-      <ContinueShopping />
+      <ContinueShopping setContinueHeight={setContinueHeight} />
     </main>
   );
 };

@@ -12,7 +12,7 @@ import queryString from 'query-string';
 import {
   getBrandCodeFromHost,
   getFormattedLevels,
-} from '../../config/configJson';
+} from '../../helpers/hostUtils';
 import { getSimplenightApiKey } from './middlewares/authHeaderMiddleware';
 import { i18n } from 'i18next';
 import { handleError } from 'helpers/errorUtils';

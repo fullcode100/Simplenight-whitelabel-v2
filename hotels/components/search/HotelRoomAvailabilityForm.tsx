@@ -77,6 +77,7 @@ const HotelRoomAvailabilityForm = ({
   const [showTravelersInput, setShowTravelersInput] = useState(false);
 
   const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
+  const roomsText = usePlural(parseInt(rooms), roomLabel, roomsLabel);
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -128,7 +129,7 @@ const HotelRoomAvailabilityForm = ({
     setTravelersPlaceholder(
       `${
         parseInt(adults) + parseInt(children)
-      } ${guestsLabel}, ${rooms} ${roomsLabel}`,
+      } ${guestsLabel}, ${rooms} ${roomsText}`,
     );
   }, [adults, children, children]);
 
@@ -144,7 +145,7 @@ const HotelRoomAvailabilityForm = ({
           setRooms={setRoomsData}
         />
         <section className="mt-4 lg:mt-0 lg:w-full">
-          <p className="text-sm font-medium text-dark-800">
+          <p className="text-sm font-semibold text-dark-800">
             {guestsAndRoomsLabel}
           </p>
           <button
@@ -162,23 +163,13 @@ const HotelRoomAvailabilityForm = ({
             </section>
             <section className="flex items-center gap-2">
               <Bed className="text-dark-700" />
-              {rooms} {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
+              {roomsData.length}{' '}
+              {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
             </section>
           </button>
         </section>
 
-        <DatePicker
-          showDatePicker={showDatePicker}
-          onClose={() => setShowDatePicker(false)}
-          startDateLabel={checkInText}
-          endDateLabel={checkOutText}
-          initialStartDate={startDate}
-          initialEndDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-          openOnStart={clickOnStart ? true : false}
-        />
-        <section className="flex gap-4 mt-2 lg:mt-0 lg:w-full">
+        <section className="flex gap-4 mt-2 lg:mt-0 lg:w-full relative">
           <IconInput
             label={checkInText}
             name="Check-in"
@@ -192,10 +183,7 @@ const HotelRoomAvailabilityForm = ({
               setClickOnStart(true);
               setShowDatePicker(true);
             }}
-            disabled
           />
-        </section>
-        <section className="flex gap-4 mt-2 lg:mt-0 lg:w-full">
           <IconInput
             label={checkOutText}
             name="Check-out"
@@ -209,7 +197,17 @@ const HotelRoomAvailabilityForm = ({
               setClickOnStart(false);
               setShowDatePicker(true);
             }}
-            disabled
+          />
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={checkInText}
+            endDateLabel={checkOutText}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
           />
         </section>
       </section>

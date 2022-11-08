@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import {
-  Rate,
+  Rates,
   CancellationPolicy,
+  Services,
 } from '../../../../../types/response/SearchResponse';
 import PriceBreakdownModal from 'hotels/components/PriceBreakdownModal/PriceBreakdownModal';
 import { Item } from '../../../../../../types/cart/CartType';
 interface DetailItemCardProps {
   label: string;
   description: string;
-  rates: Rate;
+  rates: Rates;
   cancellationPolicy?: CancellationPolicy;
   features: string[];
   itemToBook: Item;
   nights: number;
   guests: number;
+  services: Services;
+  rooms?: number;
 }
 
 const DetailItemCard = ({
@@ -25,6 +28,8 @@ const DetailItemCard = ({
   itemToBook,
   nights,
   guests,
+  services,
+  rooms,
 }: DetailItemCardProps) => {
   const [showPriceBreakdown, setShowPriceBreakdown] = useState(false);
 
@@ -40,11 +45,13 @@ const DetailItemCard = ({
         itemToBook={itemToBook}
         nights={nights}
         guests={guests}
+        services={services}
+        rooms={rooms}
       />
       <section>
         <button
           onClick={() => setShowPriceBreakdown(true)}
-          className="text-base text-primary-1000 font-semibold underline"
+          className="text-base font-semibold underline text-primary-1000"
         >
           {label}
         </button>

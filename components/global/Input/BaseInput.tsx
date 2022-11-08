@@ -93,6 +93,7 @@ const BaseInput = ({
       onChange={onChange}
       autoFocus={autoFocus}
       max={type == 'number' ? max : ''}
+      onClick={onClick}
       {...others}
     />
   );

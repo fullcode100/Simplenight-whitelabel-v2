@@ -1,0 +1,10 @@
+{
+  "locationInputLabel": "Destination",
+  "locationInputPlaceholder": "Where do you like to go?",
+  "search": "Search",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "reviews":"Reviews",
+  "cancellation":"Cancellation",
+  "additionalInformation":"Additional Information"
+}

@@ -1,4 +1,5 @@
 import {
+  CheckInInstructions,
   Details,
   Hotel,
   Photo,
@@ -115,4 +116,7 @@ export interface HotelCart {
   relevance?: number;
   start_date?: string;
   thumbnail?: string;
+  terms_and_conditions?: string;
+  check_in_instructions?: CheckInInstructions;
+  selected_room_code?: string;
 }

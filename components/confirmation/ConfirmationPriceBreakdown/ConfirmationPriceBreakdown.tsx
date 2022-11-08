@@ -1,3 +1,4 @@
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { useTranslation } from 'react-i18next';
 import { Booking } from 'types/booking/bookingType';
 
@@ -8,8 +9,7 @@ interface ConfirmationFooterProps {
 const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
   const [t, i18next] = useTranslation('global');
   const itemsSubtotal = t('itemsSubtotal', 'Items Subtotal');
-  const taxes = t('taxes', 'Taxes');
-  const otherFees = t('otherFees', 'Other Fees');
+  const taxes = t('taxesAndFees', 'Taxes And Fees');
 
   const {
     sub_total: orderSubTotal,
@@ -28,13 +28,18 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
         </h4>
       </section>
       <section className="flex justify-between mb-3">
-        <h4 className="font-semibold text-dark-600 text-[18px]">{taxes}</h4>
+        <section className="flex flex-row gap-1">
+          <h4 className="font-semibold text-dark-600 text-[18px]">{taxes}</h4>
+          <TaxesAndFeesPopover />
+        </section>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
           {taxTotal?.formatted}
         </h4>
       </section>
       <section className="flex justify-between mb-3">
-        <h4 className="font-semibold text-dark-600 text-[18px]">{otherFees}</h4>
+        <h4 className="font-semibold text-dark-600 text-[18px]">
+          Pay at property
+        </h4>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
           {taxTotalPostpaid?.formatted}
         </h4>

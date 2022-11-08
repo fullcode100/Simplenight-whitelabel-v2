@@ -5,6 +5,7 @@ import { ClientCartItemAdder } from '../ClientCartItemAdder';
 import {
   createCart,
   updateCart as updateCartAction,
+  clearCart,
 } from '../../../store/actions/cartActions';
 import { ClientCartGetter } from '../ClientCartGetter';
 import { ClientCartRemover } from '../ClientCartItemRemover';
@@ -59,7 +60,8 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
   }
 };
 
-export const getCart = async (i18next: i18n, state: any) => {
+export const getCart = async (i18next: i18n, store: any) => {
+  const { state, dispatch } = store;
   const cartId = state.cartStore.cart ?? null;
 
   const cartGetter = new ClientCartGetter(cartOption);
@@ -74,7 +76,8 @@ export const getCart = async (i18next: i18n, state: any) => {
       return cart && cart;
     }
   } catch (error) {
-    console.error(error);
+    dispatch(clearCart());
+    localStorage.removeItem('cart');
   }
 };
 
@@ -121,8 +124,11 @@ export const removeFromCart = async (
   }
 };
 
-export const updateCart = async (data: UpdateCartRequest, i18next: i18n) => {
-  const cartId = getStoreCartId() ?? null;
+export const updateCart = async (
+  data: UpdateCartRequest,
+  cartId: string,
+  i18next: i18n,
+) => {
   const cartUpdate = new ClientCartUpdate(cartOption);
 
   try {

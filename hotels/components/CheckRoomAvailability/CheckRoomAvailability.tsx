@@ -35,7 +35,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
   const [childrens, setChildrens] = useState(
     params?.children?.toString() ?? '0',
   );
-  const [rooms, setRooms] = useState(roomsData.length.toString());
+  const [rooms, setRooms] = useState(params?.rooms?.toString() ?? '0');
   const [childrenAges, setChildrenAges] = useState(
     roomsData[0].childrenAges.toString(),
   );
@@ -72,7 +72,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
     setAdults(guests.adults.toString());
     setChildrens(guests.childrens.toString());
     setChildrenAges(guests.ages.toString());
-    setRooms(roomsData.length.toString());
+    setRooms(data.length.toString());
   };
 
   const getGuestData = (rooms: Room[]) => {

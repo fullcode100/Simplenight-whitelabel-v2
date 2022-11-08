@@ -1,82 +1,113 @@
+/* eslint-disable @next/next/no-img-element */
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useGetTranslation from 'hooks/i18n/useGetTranslation';
 import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
-import SimplenightLogo from 'public/icons/assets/simplenight-white-logo.svg';
+import { useRouter } from 'next/router';
+import classNames from 'classnames';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const router = useRouter();
+  const pathname = router.pathname;
+  const isSearchPage = pathname.includes('search');
   const t = useGetTranslation();
-  const { legalInformation, partnerInformation, simplenightInformation } =
-    useBrandConfig();
-  const { partnerName } = partnerInformation;
-  const { corporateLink } = simplenightInformation;
+  const { legalInformation, information, images } = useBrandConfig() || {};
+  const { partnerName, corporateLink } = information || {};
+
   const {
     simplenightTermsOfService,
     simplenightPrivacyPolicy,
     partnerTermsOfService,
     partnerPrivacyPolicy,
-  } = legalInformation;
+  } = legalInformation || {};
+  const { logo } = images || {};
   const showPartnerLinks = partnerName?.toLowerCase() !== 'simplenight';
+  const simplenightCorporateLink = 'https://simplenight.com';
+
   const termsOfServiceText = t({ translationKey: 'termsOfService' });
   const privacyPolicyText = t({ translationKey: 'privacyPolicy' });
   const poweredByText = t({ translationKey: 'poweredBy', value: 'Powered by' });
 
   return (
-    <footer className="bg-dark-200 text-dark-1000 p-4 w-full text-center font-light text-sm lg:flex lg:justify-between lg:px-24 lg:py-9">
-      <section className="lg:text-left font-normal">
-        <SimplenightLogo className="mx-auto lg:mx-0 lg:w-[11rem] lg:h-[4.5rem]" />
-        <p className="mt-3 lg:text-[0.75rem] lg:mt-1">
-          {' '}
-          {poweredByText}{' '}
-          <ExternalLink
-            href={corporateLink}
-            className="font-medium underline uppercase focus:text-white focus:underline hover:text-white hover:underline"
-          >
-            Simplenight
-          </ExternalLink>
-        </p>
-        <p className="hidden mt-6 mb-2 lg:block lg:text-xs">
-          {' '}
-          © {currentYear} Simplenight{' '}
-        </p>
-      </section>
-      <div className="h-[1px] bg-dark-300 my-6 lg:hidden" />
-      <section className="flex flex-col gap-3 underline capitalize lg:grid lg:grid-cols-2 lg:font-normal lg:text-xs lg:place-content-start lg:text-right">
-        <ExternalLink
-          href={simplenightTermsOfService}
-          className="underline focus:text-white focus:underline hover:text-white hover:underlin"
-        >
-          Simplenight {termsOfServiceText}
-        </ExternalLink>
-        <ExternalLink
-          href={simplenightPrivacyPolicy}
-          className="underline focus:text-white focus:underline hover:text-white hover:underline"
-        >
-          Simplenight {privacyPolicyText}
-        </ExternalLink>
+    <footer
+      className={classNames(
+        'bg-dark-200 text-dark-1000 p-4 w-full text-center text-sm lg:px-24 lg:py-9',
+        {
+          'hidden lg:block': isSearchPage,
+        },
+      )}
+    >
+      <section className="mx-auto max-w-7xl lg:flex lg:justify-between">
+        <section className="font-normal lg:text-left">
+          <img
+            src={logo}
+            alt="Branch Logo"
+            width="156px"
+            height="60px"
+            className="mx-auto lg:mx-0 object-fit"
+          />
+          <p className="font-semibold pt-3 text-[12px] lg:mt-2">
+            {' '}
+            {poweredByText}{' '}
+            <ExternalLink
+              href={simplenightCorporateLink}
+              className="font-semibold underline uppercase focus:text-white focus:underline hover:text-white hover:underline"
+            >
+              Simplenight
+            </ExternalLink>
+          </p>
+          <p className="hidden pt-[30px] font-normal capitalize lg:mt-8 lg:block lg:text-xs">
+            {' '}
+            © {currentYear} {partnerName}{' '}
+          </p>
+        </section>
+        <div className="h-[1px] bg-dark-300 my-6 lg:hidden" />
+        <section className="flex flex-col gap-3 text-xs underline capitalize lg:flex-row lg:gap-8 lg:text-right">
+          {showPartnerLinks && (
+            <section className="flex flex-col gap-3 lg:gap-2">
+              <ExternalLink
+                className="font-semibold"
+                href={partnerTermsOfService}
+              >
+                {partnerName} {termsOfServiceText}
+              </ExternalLink>
+              <ExternalLink
+                className="font-semibold"
+                href={partnerPrivacyPolicy}
+              >
+                {partnerName} {privacyPolicyText}
+              </ExternalLink>
+            </section>
+          )}
 
-        {showPartnerLinks && (
-          <>
-            <ExternalLink href={partnerTermsOfService}>
-              {partnerName} {termsOfServiceText}
+          <section className="flex flex-col gap-3 lg:gap-2">
+            <ExternalLink
+              href={simplenightTermsOfService}
+              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underlin"
+            >
+              Simplenight {termsOfServiceText}
             </ExternalLink>
-            <ExternalLink href={partnerPrivacyPolicy}>
-              {partnerName} {privacyPolicyText}
+            <ExternalLink
+              href={simplenightPrivacyPolicy}
+              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underline"
+            >
+              Simplenight {privacyPolicyText}
             </ExternalLink>
-          </>
-        )}
+          </section>
+        </section>
+        <p className="pt-6 pb-2 lg:hidden">
+          {' '}
+          © {currentYear} {partnerName}{' '}
+        </p>
       </section>
-      <p className="mt-6 mb-2 lg:hidden"> © {currentYear} Simplenight </p>
     </footer>
   );
 };
 
 const FooterBrandingHoc = () => {
-  const { brandCode } = useBrandConfig();
-
   return (
-    <BrandingHOC brand={brandCode} path={'layout/Footer'}>
+    <BrandingHOC brand="" path={'layout/Footer'}>
       <Footer />
     </BrandingHOC>
   );

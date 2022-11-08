@@ -1,6 +1,7 @@
 import {
-  Rate,
+  Rates,
   CancellationPolicy,
+  Services,
 } from '../../../../types/response/SearchResponse';
 import DetailItemCard from './DetailItemCard/DetailItemCard';
 import { Item } from '../../../../../types/cart/CartType';
@@ -8,12 +9,14 @@ import { useTranslation } from 'react-i18next';
 
 interface RoomHeaderProps {
   roomDescription: string;
-  rates: Rate;
+  rates: Rates;
   cancellationPolicy?: CancellationPolicy;
   amenities: string[];
   itemToBook: Item;
   nights: number;
   guests: number;
+  services: Services;
+  rooms?: number;
 }
 
 const RoomCardHeader = ({
@@ -24,12 +27,14 @@ const RoomCardHeader = ({
   itemToBook,
   nights,
   guests,
+  services,
+  rooms,
 }: RoomHeaderProps) => {
   const [t] = useTranslation('hotels');
   const roomDetailsText = t('roomDetails', 'Room Details');
   return (
     <header className="p-4">
-      <p className="text-lg font-semibold text-dark-1000 mb-2">
+      <p className="mb-2 text-lg font-semibold text-dark-1000">
         {roomDescription}
       </p>
       <DetailItemCard
@@ -41,6 +46,8 @@ const RoomCardHeader = ({
         itemToBook={itemToBook}
         nights={nights}
         guests={guests}
+        services={services}
+        rooms={rooms}
       />
     </header>
   );

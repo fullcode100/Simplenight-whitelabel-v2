@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 // Libraries
 import React, { useEffect, useRef, useState } from 'react';
+import Script from 'next/script';
+
 // Credentials
 import {
   SQUARE_SANDBOX_APP_ID,
@@ -31,6 +35,11 @@ import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { clearCart } from 'store/actions/cartActions';
 import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
+import ExternalLink from 'components/global/ExternalLink/ExternalLink';
+import { getCurrency } from 'store/selectors/core';
+import useCookies from 'hooks/localStorage/useCookies';
+import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
+import HelpSection from 'components/global/HelpSection/HelpSection';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -41,68 +50,141 @@ const test: Amount = {
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
 
+const GOOGLE = 'google';
+
 const Payment = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const [t, i18next] = useTranslation('global');
-
+  const iHaveReviewedLabel = t(
+    'iHaveReviewed',
+    'I have reviewed and agree to the ',
+  );
   const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
   const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
   const fullAmountLabel = t('fullAmount', 'Full Amount');
   const checkoutLabel = t('checkoutTitle', 'Check Out');
   const backLabel = t('back', 'Back');
+  const loadingLabel = t('loading', 'Loading');
 
   const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
   const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
   const payClickRef = useRef<HTMLButtonElement>(null);
 
-  const [token, setToken] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
-  const [nameOnCard, setNameOnCard] = useState('');
   const [terms, setTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
+  const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
+  const [prodExpedia, setProdExpedia] = useState(false);
 
-  const storeState = useSelector((state) => state);
+  const [isPaymentLoaded, setIsPaymentLoaded] = useState(false);
+
+  let paymentToken: string;
+  let verificationToken: string;
+
+  const currency = getCurrency();
+
+  const state = useSelector((state) => state);
+  const storeState = {
+    state,
+    dispatch,
+  };
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
 
-  const triggerPaymentFormTokenGeneration = () => payClickRef.current?.click();
+  const { getCookie } = useCookies();
 
-  const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
-    const { paymentMethodData } = paymentRequest;
-    const { tokenizationData } = paymentMethodData;
-    const { token: newToken } = tokenizationData;
+  const triggerGTagEvent = (bookingId: string, referralItemId: string) => {
+    const referralItem = cart?.items.find(
+      (item) => item.inventory_id === referralItemId,
+    );
 
-    setToken(newToken);
+    const totalAmount = referralItem?.last_validated_rate.total_amount;
+    const value = totalAmount?.amount;
+    const currency = totalAmount?.currency;
+
+    const startDate = referralItem?.extended_data?.start_date;
+    const endDate = referralItem?.extended_data?.end_date;
+
+    return (
+      <Script id="GTM-2938402">
+        {`
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-711765415/leb4CJfbwvwBEKfbstMC',
+          ${value},
+          ${currency},
+          transaction_id: ${bookingId},
+          items: [
+            {
+              id: ${referralItemId},
+              start_date: ${startDate},
+              end_date: ${endDate},
+            },
+          ],
+        });
+      `}
+      </Script>
+    );
   };
 
-  const handlePaymentToken = (newToken: string) => {
-    setToken(newToken);
+  const triggerEventConversion = (bookingId?: string) => {
+    const referral = getCookie('referral')?.split('=');
+
+    if (!referral || !bookingId) return;
+
+    const referralCompany = referral[0];
+    if (referralCompany === GOOGLE) {
+      const referralItemId = referral[1];
+      triggerGTagEvent(bookingId, referralItemId);
+    }
+  };
+
+  const triggerFormTokenGeneration = () => payClickRef.current?.click();
+
+  const handleTokens = (
+    newPaymentToken: string,
+    newVerificationToken: string,
+  ) => {
+    if (expediaTerms && !acceptExpediaTerms) {
+      return setErrorExpediaTerms(true);
+    }
+    if (loading) return;
+    setLoading(true);
+    paymentToken = newPaymentToken;
+    verificationToken = newVerificationToken;
     handleBooking();
   };
 
-  const handleBooking = () => {
-    if (!token) {
-      triggerPaymentFormTokenGeneration();
+  const handleBooking = async () => {
+    if (!paymentToken || !verificationToken || !country || !terms || !cart)
       return;
-    }
-    if (!token || !country || !terms || !cart) return;
 
     const paymentParameters = {
       cartId: cart.cart_id,
-      paymentToken: token,
+      paymentToken,
+      verificationToken,
       countryCode: country,
+      ...(prodExpedia && { expediaProd: true }),
     };
 
-    createBooking(paymentParameters, i18next)
-      .then((response) => {
-        const bookingId = response?.booking.booking_id;
-        dispatch(clearCart());
-        localStorage.removeItem('cart');
-        router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
-      })
-      .catch((error) => console.error(error));
+    try {
+      const data = await createBooking(paymentParameters, i18next);
+      const bookingId = data?.booking.booking_id;
+      triggerEventConversion(bookingId);
+      dispatch(clearCart());
+      localStorage.removeItem('cart');
+      setLoading(false);
+      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePaymentLibraryLoad = () => {
+    setIsPaymentLoaded(true);
   };
 
   const redirectToItinerary = () => {
@@ -123,15 +205,30 @@ const Payment = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [reload]);
+  }, [reload, currency]);
+
+  useEffect(() => {
+    if (localStorage.getItem('prod') == 'expedia') {
+      setProdExpedia(true);
+    }
+  }, []);
 
   const itemsNumber = cart?.items?.length;
+  const expediaTerms = cart?.items.find(
+    (item) =>
+      item.extended_data?.terms_and_conditions &&
+      item.extended_data?.terms_and_conditions?.length > 0,
+  );
 
   return (
     <>
+      <Script
+        onLoad={handlePaymentLibraryLoad}
+        src="https://sandbox.web.squarecdn.com/v1/square.js"
+      />
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
-        <section className="px-0 py-0 lg:px-20 lg:py-12 flex gap-8 items-start">
+        <section className="flex items-start justify-center gap-8 px-0 py-0 lg:px-20 lg:py-12">
           <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
             <CheckoutMain>
               <CheckoutForm title={'Payment Information'}>
@@ -140,15 +237,17 @@ const Payment = () => {
                 </InputWrapper>
                 {cart && (
                   <>
-                    <SquarePaymentForm
-                      applicationId={appId}
-                      locationId={locationId}
-                      onPaymentToken={handlePaymentToken}
-                      amount={cart.total_amount.amount}
-                      currencyCode={cart.total_amount.currency}
-                      ref={payClickRef}
-                    />
-
+                    {isPaymentLoaded && (
+                      <SquarePaymentForm
+                        applicationId={appId}
+                        locationId={locationId}
+                        onTokens={handleTokens}
+                        customer={cart.customer}
+                        amount={cart.total_amount.amount}
+                        currencyCode={cart.total_amount.currency}
+                        ref={payClickRef}
+                      />
+                    )}
                     <InputWrapper
                       label={amountForThisCardLabel}
                       labelKey={'amountForThisCard'}
@@ -162,6 +261,42 @@ const Payment = () => {
               </CheckoutForm>
               <section className="px-5 pb-6">
                 <Terms checkValue={terms} checkboxMethod={setTerms} />
+                {expediaTerms && (
+                  <>
+                    <section className="flex items-center w-full gap-3 mt-2">
+                      <input
+                        type="checkbox"
+                        name="expedia"
+                        id="expedia"
+                        checked={acceptExpediaTerms}
+                        onChange={() =>
+                          setAcceptExpediaTerms(!acceptExpediaTerms)
+                        }
+                      />
+                      <label htmlFor="expedia">
+                        <span className="text-base leading-[22px] text-dark-1000 font-normal">
+                          {iHaveReviewedLabel}
+                        </span>
+                        <ExternalLink
+                          className="text-primary-1000 hover:text-primary-1000 font-normal text-base leading-[22px]"
+                          href={
+                            expediaTerms.extended_data?.terms_and_conditions!
+                          }
+                        >
+                          Supplier Terms and Conditions
+                        </ExternalLink>
+                      </label>
+                    </section>
+                    {errorExpediaTerms && (
+                      <p className="text-red-500">
+                        Please accept the supplier terms and conditions
+                      </p>
+                    )}
+                  </>
+                )}
+              </section>
+              <section className="px-5">
+                <PaymentCart items={cart?.items} />
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
@@ -179,26 +314,18 @@ const Payment = () => {
               </section>
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value={checkoutLabel}
+                  value={loading ? loadingLabel : checkoutLabel}
+                  disabled={loading}
                   size={'full'}
                   className="text-[18px]"
-                  onClick={handleBooking}
+                  onClick={triggerFormTokenGeneration}
                 />
               </section>
             </CheckoutFooter>
           </section>
-          {cart && (
-            <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
-              <h2 className="text-lg leading-6 text-dark-800 font-semibold lg:bg-dark-100 bg-white px-5 py-6">
-                {priceBreakdownLabel}
-              </h2>
-              <BreakdownItemList
-                cart={cart}
-                reload={reload}
-                setReload={setReload}
-              />
-            </section>
-          )}
+          <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
+            <HelpSection inItinerary={true} />
+          </section>
         </section>
       ) : (
         <Loader />

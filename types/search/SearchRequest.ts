@@ -9,4 +9,6 @@ export interface SearchRequest {
   cancellation_type: string;
   min_price: string;
   max_price: string;
+  is_total_price: string;
+  supplier_ids: string;
 }

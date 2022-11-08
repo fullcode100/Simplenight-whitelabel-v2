@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import ModalFooter from '../../global/NewModal/components/ModalFooter';
 import { TotalAmount } from '../../../types/cart/CartType';
 import { useTranslation } from 'react-i18next';
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 
 interface ListFooterProps {
   totalAmount: TotalAmount;
@@ -21,10 +22,13 @@ const ListFooter = ({ totalAmount, className }: ListFooterProps) => {
       <section className="flex items-center justify-between">
         <p className="text-sm text-dark-1000">{totalLabel}</p>
         <section className="text-right">
-          <p className="text-base text-dark-1000 font-bold">
+          <p className="text-base font-semibold text-dark-1000">
             {totalAmount.formatted}
           </p>
-          <p className="text-xs text-dark-800">{taxLabel}</p>
+          <section className="flex flex-row gap-1">
+            <p className="text-xs text-dark-800">{taxLabel}</p>
+            <TaxesAndFeesPopover />
+          </section>
         </section>
       </section>
     );

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import classnames from 'classnames';
 import LabelSlider from './components/LabelSlider';
 
 interface RangeSliderProps {
@@ -37,8 +38,8 @@ const RangeSlider = ({
   };
 
   const handleMin = (e: ChangeEvent<any>) => {
-    if (maxValue - minValue >= minDifference && maxValue <= max) {
-      if (parseInt(e.target.value) < maxValue) {
+    if (maxValue - minValue >= minDifference && minValue >= min) {
+      if (parseInt(e.target.value) <= maxValue) {
         setMin(parseInt(e.target.value));
       }
     } else {
@@ -50,7 +51,7 @@ const RangeSlider = ({
 
   const handleMax = (e: ChangeEvent<any>) => {
     if (maxValue - minValue >= minDifference && maxValue <= max) {
-      if (parseInt(e.target.value) > minValue) {
+      if (parseInt(e.target.value) >= minValue) {
         setMax(parseInt(e.target.value));
       }
     } else {
@@ -66,7 +67,7 @@ const RangeSlider = ({
         <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px]"></div>
         <div
           className={`h-2 w-2 rounded-full absolute -top-[3px] left-1/4 ${
-            minValue > 2 ? 'bg-dark-200' : 'bg-primary-600'
+            minValue > 2 || maxValue < 2 ? 'bg-dark-200' : 'bg-primary-600'
           }`}
         ></div>
         <div
@@ -76,7 +77,7 @@ const RangeSlider = ({
         ></div>
         <div
           className={`h-2 w-2 rounded-full absolute -top-[3px] left-3/4 ${
-            maxValue < 4 ? 'bg-dark-200' : 'bg-primary-600'
+            minValue > 4 || maxValue < 4 ? 'bg-dark-200' : 'bg-primary-600'
           }`}
         ></div>
         <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px] right-0"></div>
@@ -114,7 +115,10 @@ const RangeSlider = ({
             value={minValue}
             id="minValue"
             name="minValue"
-            className="absolute w-full -top-1 h-1 bg-transparent appearance-none pointer-events-none"
+            className={classnames(
+              'absolute w-full h-1 bg-transparent appearance-none pointer-events-none -top-1',
+              { ['z-10']: minValue === max },
+            )}
           />
           <label htmlFor="minValue" className="absolute top-6">
             <LabelSlider value={minValue} type={type} />
@@ -131,9 +135,9 @@ const RangeSlider = ({
             value={maxValue}
             id="maxValue"
             name="maxValue"
-            className="absolute w-full -top-1 h-1 bg-transparent appearance-none pointer-events-none"
+            className="absolute w-full h-1 bg-transparent appearance-none pointer-events-none -top-1"
           />
-          <label htmlFor="maxValue" className="absolute top-6 right-0">
+          <label htmlFor="maxValue" className="absolute right-0 top-6">
             <LabelSlider
               value={maxValue}
               type={type}

@@ -6,6 +6,8 @@ import globalEn from 'translations/en/global.json';
 import globalEs from 'translations/es/global.json';
 import hotelsEn from 'translations/en/hotels.json';
 import hotelsEs from 'translations/es/hotels.json';
+import thingsEn from 'translations/en/things.json';
+import thingsEs from 'translations/es/things.json';
 
 const locizeOptions = {
   projectId: process.env.NEXT_PUBLIC_LOCIZE_PROJECT_ID as unknown as string,
@@ -58,10 +60,12 @@ export const initializeI18Next = () => {
       en: {
         global: globalEn,
         hotels: hotelsEn,
+        things: thingsEn,
       },
       es: {
         global: globalEs,
         hotels: hotelsEs,
+        things: thingsEs,
       },
     },
   });

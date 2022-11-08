@@ -1,22 +1,29 @@
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
-import ThingsIcon from 'public/icons/categories/Category-Things.svg';
 import { ThingsClientSearcher } from './core/search/ThingsClientSearcher';
 import { ThingsServerSearcher } from './core/search/ThingsServerSearcher';
 import { ThingsClientDetailer } from './core/detail/ThingsClientDetailer';
 import { ThingsServerDetailer } from './core/detail/ThingsServerDetailer';
 
-export const THINGS_CATEGORY = 'things-to-do';
+import ThingsSearchForm from './components/search/ThingsSearchForm';
+import ThingsSearchFormReadState from './components/search/ThingsSearchFormReadState';
+import ThingsResultsDisplay from './components/search/ThingsResultsDisplay';
 
+import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
+import ThingsDetailDisplay from './components/detail/ThingsDetailDisplay';
+
+export const THINGS_CATEGORY = 'entertainment';
+
+const categorySectorUUID = '97807fd1-6561-4f3b-a798-42233d9e2b09';
 const Category: CategoryOption = {
   id: 3,
   name: THINGS_CATEGORY,
   value: THINGS_CATEGORY,
-  icon: <ThingsIcon />,
+  icon: <CategoryIcon categoryName={THINGS_CATEGORY} className={'h-5 w-5'} />,
   selectedIcon: <></>,
-  searchForm: <></>,
+  searchForm: <ThingsSearchForm />,
   secondarySearchOptions: <></>,
-  readStateSearchForm: <></>,
+  readStateSearchForm: <ThingsSearchFormReadState />,
   resultsDisplay: <></>,
   detailDisplay: <></>,
   itineraryDisplay: <></>,
@@ -27,12 +34,12 @@ const Category: CategoryOption = {
   core: {
     urls: {
       search: {
-        client: '/things-to-do',
-        server: '/things-to-do/',
+        client: '/entertainment',
+        server: `/sectors/${categorySectorUUID}`,
       },
       detail: {
-        client: '/things-to-do',
-        server: '/things-to-do',
+        client: '/entertainment',
+        server: '/sectors',
       },
     },
     ClientSearcher: null,
@@ -41,11 +48,13 @@ const Category: CategoryOption = {
     ServerDetailer: null,
   },
 };
+Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
+Category.detailDisplay = <ThingsDetailDisplay Category={Category} />;
 
-// Category.core.ClientSearcher = new ThingsClientSearcher(Category);
-// Category.core.ServerSearcher = new ThingsServerSearcher(Category);
+Category.core.ClientSearcher = new ThingsClientSearcher(Category);
+Category.core.ServerSearcher = new ThingsServerSearcher(Category);
 
-// Category.core.ClientDetailer = new ThingsClientDetailer(Category);
-// Category.core.ServerDetailer = new ThingsServerDetailer(Category);
+Category.core.ClientDetailer = new ThingsClientDetailer(Category);
+Category.core.ServerDetailer = new ThingsServerDetailer(Category);
 
 export const ThingsCategory = Category;

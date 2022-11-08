@@ -63,8 +63,10 @@ const Confirmation: NextPage = () => {
       'Email or call us to get support from our team.',
     );
 
-    const { partnerInformation } = useBrandConfig();
-    const { customerSupportEmail, customerSupportPhone } = partnerInformation;
+    const { information } = useBrandConfig();
+    const { customerSupportEmail, customerSupportPhone } = information || {};
+    const { prefix, number } = customerSupportPhone || {};
+    const customerSupportPhoneNumber = `${prefix} ${number}`;
 
     const handleLinkOpen = (url: string) => {
       window.open(url, '_blank');
@@ -76,8 +78,8 @@ const Confirmation: NextPage = () => {
       text?: string;
     }
     const HelpLink = ({ icon, link = '', text }: HelpLinkProps) => (
-      <section className="flex gap-3 justify-center lg:justify-start items-center text-base text-primary-1000 underline font-semibold">
-        <section className="text-white bg-primary-1000 h-8 w-8 rounded-full flex justify-center items-center">
+      <section className="flex items-center justify-center gap-3 text-base font-semibold underline lg:justify-start text-primary-1000">
+        <section className="flex items-center justify-center w-8 h-8 text-white rounded-full bg-primary-1000">
           {icon}
         </section>
         <button onClick={() => handleLinkOpen(link)}>{text}</button>
@@ -86,7 +88,7 @@ const Confirmation: NextPage = () => {
 
     return (
       <section className="px-5 py-6 lg:p-0 bg-dark-100">
-        <section className="flex flex-col font-lato p-6 lg:p-8 gap-3 lg:gap-4 shadow-container rounded-4 text-center lg:text-left border border-dark-300 text-dark-1000 bg-white">
+        <section className="flex flex-col gap-3 p-6 text-center bg-white border font-lato lg:p-8 lg:gap-4 shadow-container rounded-4 lg:text-left border-dark-300 text-dark-1000">
           <h3 className="text-2xl leading-xl font-semibold lg:text-[32px] lg:leading-[38px]">
             {helpTitle}
           </h3>
@@ -101,8 +103,8 @@ const Confirmation: NextPage = () => {
             />
             <HelpLink
               icon={<PhoneCall />}
-              link={`tel:${customerSupportPhone}`}
-              text={customerSupportPhone}
+              link={`tel:${customerSupportPhoneNumber}`}
+              text={customerSupportPhoneNumber}
             />
           </section>
         </section>
@@ -126,33 +128,35 @@ const Confirmation: NextPage = () => {
             />
           </header>
           {booking && (
-            <section className="lg:flex lg:flex-row lg:justify-center lg:gap-8 lg:px-20 lg:py-12">
-              <section className="lg:flex lg:flex-col lg:gap-8">
-                {bookedItemsAmount > 0 && (
-                  <ConfirmationBooked
+            <section className="lg:px-20 lg:py-12">
+              <section className="w-full mx-auto lg:flex lg:flex-row lg:justify-center lg:gap-8 max-w-7xl">
+                <section className="lg:flex lg:flex-col lg:gap-8">
+                  {bookedItemsAmount > 0 && (
+                    <ConfirmationBooked
+                      booking={booking}
+                      loading={loading}
+                      setLoading={setLoading}
+                      bookedAmount={bookedItemsAmount}
+                    />
+                  )}
+
+                  {cancelledItemsAmount > 0 && (
+                    <ConfirmationCancelled
+                      booking={booking}
+                      cancelledAmount={cancelledItemsAmount}
+                    />
+                  )}
+                </section>
+                <section className="lg:flex lg:flex-col lg:gap-8 lg:w-[405px]">
+                  <ConfirmationPayment booking={booking} />
+                  <ConfirmationFooter
                     booking={booking}
                     loading={loading}
                     setLoading={setLoading}
                     bookedAmount={bookedItemsAmount}
                   />
-                )}
-
-                {cancelledItemsAmount > 0 && (
-                  <ConfirmationCancelled
-                    booking={booking}
-                    cancelledAmount={cancelledItemsAmount}
-                  />
-                )}
-              </section>
-              <section className="lg:flex lg:flex-col lg:gap-8 lg:w-[405px]">
-                <ConfirmationPayment booking={booking} />
-                <ConfirmationFooter
-                  booking={booking}
-                  loading={loading}
-                  setLoading={setLoading}
-                  bookedAmount={bookedItemsAmount}
-                />
-                <HelpSection />
+                  <HelpSection />
+                </section>
               </section>
             </section>
           )}

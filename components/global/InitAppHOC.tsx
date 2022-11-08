@@ -6,6 +6,7 @@ import { I18nextProvider } from 'react-i18next';
 import { i18n } from 'i18next';
 import { CustomWindow } from 'types/global/CustomWindow';
 import { useInitialCurrency } from 'hooks/windowInteraction/useInitialCurrency';
+import GoogleTagManager from './GoogleTagManager';
 
 declare let window: CustomWindow;
 
@@ -18,12 +19,12 @@ const InitAppHOC = ({
 }) => {
   useBrandConfigSetup();
   useThemeUpdater();
-
   useInitialCurrency();
 
   return (
     <I18nextProvider i18n={i18next}>
       <ErrorBoundary>
+        <GoogleTagManager />
         <SEOHoc>{children}</SEOHoc>
       </ErrorBoundary>
     </I18nextProvider>

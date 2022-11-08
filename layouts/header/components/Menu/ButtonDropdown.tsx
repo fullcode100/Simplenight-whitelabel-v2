@@ -1,4 +1,3 @@
-import Button from 'components/global/Button/Button';
 import { useState } from 'react';
 import classnames from 'classnames';
 import BlockDivider from 'components/global/Divider/BlockDivider';
@@ -22,6 +21,7 @@ const ButtonDropdown = ({
       <button
         className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 h-8 rounded"
         onClick={() => setOpen(!open)}
+        onBlur={() => setOpen(false)}
       >
         {icon} {value}
       </button>
@@ -33,7 +33,7 @@ const ButtonDropdown = ({
           },
         )}
       >
-        <p className="text-sm px-4">{titleDropdown}</p>
+        <p className="text-sm font-semibold px-4 pb-4">{titleDropdown}</p>
         <BlockDivider />
         <section className="px-4">{children}</section>
       </section>

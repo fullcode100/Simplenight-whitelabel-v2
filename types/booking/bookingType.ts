@@ -41,6 +41,7 @@ export interface Item {
   cancellation_policy: CancellationPolicy;
   category: string;
   children: number;
+  children_ages: string[];
   customer: PrimaryContact;
   extra_data: ItemExtraData;
   inventory_id: string;
@@ -57,6 +58,7 @@ export interface Item {
   total_supplier: Amount;
   total_tax: Amount;
   total_tax_postpaid: Amount;
+  vendor_confirmation_code: string;
 }
 
 export interface ItemExtraData {
@@ -75,6 +77,8 @@ export interface ItemExtraData {
   min_rate_room: Room;
   supplier_prefix: string;
   relative_position: RelativePosition;
+  selected_room_code?: string;
+  terms_and_conditions?: string;
 }
 
 export interface AmountMin {
@@ -129,7 +133,7 @@ export interface MinRate {
 export interface Rate {
   diff_min_rate: Amount;
   rate_breakdown: RateBreakdown;
-  suggested_retail_total_amount: null;
+  suggested_retail_total_amount?: null;
   total_amount: Amount;
 }
 

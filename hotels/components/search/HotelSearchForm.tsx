@@ -33,6 +33,7 @@ const HotelSearchForm = ({
   setIsSearching,
   className = '',
   hasReRoute = false,
+  slug = '',
 }: SearchFormProps) => {
   const router = useRouter();
 
@@ -97,7 +98,7 @@ const HotelSearchForm = ({
   };
 
   const rerouteToSearchPage = () => {
-    const route = `/search/hotels?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${
+    const route = `/search/${slug}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${
       geolocation?.split(',')[LONGITUDE_INDEX]
@@ -167,7 +168,7 @@ const HotelSearchForm = ({
     >
       <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
         <LocationInput
-          icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+          icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
           label={locationInputLabel}
           name="location"
           placeholder={locationPlaceholder}
@@ -204,32 +205,20 @@ const HotelSearchForm = ({
           </button>
         </section>
 
-        <DatePicker
-          showDatePicker={showDatePicker}
-          onClose={() => setShowDatePicker(false)}
-          startDateLabel={checkInText}
-          endDateLabel={checkOutText}
-          initialStartDate={startDate}
-          initialEndDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-          openOnStart={clickOnStart ? true : false}
-        />
-        <section className="flex gap-4 lg:mt-0 lg:w-full">
+        <section className="relative flex gap-4 lg:mt-0 lg:w-full">
           <IconInput
             label={checkInText}
             name="Check-in"
             placeholder={checkInText}
             className="lg:mt-0"
             orientation="left"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
             onChange={(event) => handleStartDateChange(event.target.value)}
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
             }}
-            disabled
           />
           <IconInput
             label={checkOutText}
@@ -237,14 +226,24 @@ const HotelSearchForm = ({
             placeholder={checkOutText}
             orientation="left"
             className="lg:mt-0"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
             onChange={(event) => handleEndDateChange(event.target.value)}
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
             }}
-            disabled
+          />
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={checkInText}
+            endDateLabel={checkOutText}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
           />
         </section>
       </section>

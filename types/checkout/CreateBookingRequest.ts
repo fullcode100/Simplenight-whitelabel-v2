@@ -1,6 +1,7 @@
 export interface PaymentInformation {
   payment_method: string;
   payment_token: string;
+  verification_token: string;
   billing_address: {
     country: string;
     address2?: string;
@@ -15,4 +16,5 @@ export interface CreateBookingRequest {
   cart_id: string;
   customer_time_created_at: string;
   payment_request: PaymentInformation;
+  expedia_prod?: boolean;
 }

@@ -24,7 +24,7 @@ const SeeMoreButton = ({
       <button
         type="button"
         onClick={onClick}
-        className="mb-[-12px] text-sm underline z-[5] text-center leading-5 font-medium text-primary-1000 hover:text-primary-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+        className="mb-[-12px] text-sm underline z-[5] text-center leading-5 font-semibold text-primary-1000 hover:text-primary-500 focus:outline-none focus:underline transition ease-in-out duration-150"
       >
         {isOpen ? textOpened : textClosed}
       </button>

@@ -1,48 +1,86 @@
+/* eslint-disable indent */
 import React from 'react';
 import classnames from 'classnames';
 
-import { Rate } from '../../types/response/SearchResponse';
+import { Rates } from '../../types/response/SearchResponse';
+import { useTranslation } from 'react-i18next';
+import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
+import { useRouter } from 'next/router';
 
 interface PriceDisplayProps {
-  rate: Rate;
+  rate: Rates;
   totalLabel?: string;
+  isStartingTotal?: boolean;
+  isPriceBase?: boolean;
+  isAvgAmount?: boolean;
 }
 
-const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
-  const totalAmount = rate?.total_amount;
-  const rateBreakdown = rate?.rate_breakdown;
-  const discounts = rateBreakdown?.discounts;
-  let totalBeforeDiscount;
+const PriceDisplay = ({
+  rate,
+  totalLabel,
+  isStartingTotal = false,
+  isPriceBase = false,
+  isAvgAmount = false,
+}: PriceDisplayProps) => {
+  const router = useRouter();
+  const pathName = router.pathname;
+  const totalAmount = rate?.min_rate.rate.total_amount.formatted;
+  const avgAmount = rate?.avg_amount?.avg_amount?.formatted;
+  const startingRoomTotal = rate?.min_rate?.rate.starting_room_total;
+  const discounts = rate?.avg_amount?.discounts;
+  const [t] = useTranslation('global');
+  const startingRoomTotalLabel = t('total', 'Total');
+  const taxesAndFeesLabel = t(
+    'includesTaxesAndFees',
+    'Includes Taxes and Fees',
+  );
+  const baseAmountBeforeApply = discounts?.base_amount_before_apply?.formatted;
+  const totalBeforeDiscount =
+    rate?.min_rate.rate?.rate_breakdown.discounts?.total_amount_before_apply;
   let percentageToApply;
   if (discounts) {
-    ({
-      total_amount_before_apply: totalBeforeDiscount,
-      percentage_to_apply: percentageToApply,
-    } = discounts);
+    ({ percentage_to_apply: percentageToApply } = discounts);
   }
+  const showDiscount =
+    pathName.startsWith('/checkout') || pathName.startsWith('/confirmation')
+      ? false
+      : true;
 
   return (
-    <section>
-      {totalBeforeDiscount && (
-        <p className="text-sm">
-          <span className="text-dark-800 line-through font-normal">
-            {totalBeforeDiscount.formatted}
+    <section className="text-right">
+      {showDiscount && discounts && (
+        <p className="text-xs">
+          <span className="text-dark-700 line-through font-normal">
+            {(isPriceBase && baseAmountBeforeApply) ||
+              totalBeforeDiscount?.formatted}
           </span>{' '}
-          <span className="text-primary-1000 font-semibold">
+          <span className="text-green-1000 font-semibold">
             {percentageToApply} Off
           </span>
         </p>
       )}
       <p
-        className={classnames('text-[18px] leading-6 ', {
+        className={classnames('leading-[22px] text-dark-1000', {
           ['flex flex-row gap-1 justify-end']: totalLabel,
         })}
       >
-        <span className="text-dark-800 font-normal">{totalLabel}</span>
-        <span className="text-base text-dark-1000 font-bold">
-          {totalAmount?.formatted}
+        <span className="text-xs">{totalLabel}</span>
+        <span className="text-sm font-semibold">
+          {isAvgAmount ? avgAmount : totalAmount}
         </span>
       </p>
+      {isStartingTotal && startingRoomTotal && (
+        <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
+          <span>{startingRoomTotal.formatted}</span>{' '}
+          <span>{startingRoomTotalLabel}</span>
+        </p>
+      )}
+      <section className="flex flex-row gap-1 justify-end">
+        <p className="text-[12px] leading-[15px] text-dark-800">
+          {taxesAndFeesLabel}
+        </p>
+        <TaxesAndFeesPopover />
+      </section>
     </section>
   );
 };

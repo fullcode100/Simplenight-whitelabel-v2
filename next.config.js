@@ -22,6 +22,9 @@ module.exports = withReactSvg({
       'cataas.com',
       'dummyimage.com',
       'q-xx.bstatic.com',
+      'property-gallery.rakutentravelxchange.com',
+      'i.travelapi.com',
+      'hare-media-cdn.tripadvisor.com',
     ],
   },
   webpackDevMiddleware: (config) => {

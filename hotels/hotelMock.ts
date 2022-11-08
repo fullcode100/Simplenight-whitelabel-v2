@@ -4832,4 +4832,4 @@ export default [
     thumbnail:
       'https://photos.hotelbeds.com/giata/41/412035/412035a_hb_ro_001.jpg',
   },
-] as Hotel[];
+] as unknown as Hotel[];

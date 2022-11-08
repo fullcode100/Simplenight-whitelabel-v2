@@ -9,6 +9,7 @@ import StarRatingFilter from './Filters/StarRatingFilter';
 import SortByFilter from './Filters/SortByFilter';
 import PriceRangeFilter from './Filters/PriceRangeFilter';
 import FilterContainer from './Filters/FilterContainer';
+import PropertyFilter from './Filters/PropertyFilter';
 
 import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
@@ -35,6 +36,15 @@ const HotelFilterFormDesktop = () => {
   const [freeCancellation, setFreeCancellation] = useState<boolean>(
     queryFilter?.paymentTypes?.includes('freeCancellation') || false,
   );
+
+  const [hotels, setHotels] = useState<boolean>(
+    queryFilter?.propertyTypes?.includes('hotels') || false,
+  );
+
+  const [vacationRentals, setVacationRentals] = useState<boolean>(
+    queryFilter?.propertyTypes?.includes('vacationRentals') || false,
+  );
+
   const [payAtProperty, setPayAtProperty] = useState<boolean>(
     queryFilter?.paymentTypes?.includes('payAtProperty') || false,
   );
@@ -53,7 +63,7 @@ const HotelFilterFormDesktop = () => {
   );
 
   const initialPriceRange = {
-    min: '100',
+    min: '0',
     max: '5000',
   };
   const [minPrice, setMinPrice] = useState<string>(
@@ -80,21 +90,24 @@ const HotelFilterFormDesktop = () => {
   const filtersText = t('filters', 'Filters');
 
   const handleClearFilters = () => {
-    setKeywordSearch('');
-    setMinPrice(initialPriceRange.min);
-    setMaxPrice(initialPriceRange.max);
-    setMinStarRating('1');
-    setMaxStarRating('5');
-    setFreeCancellation(false);
-    setPayAtProperty(false);
-    setSortBy('sortByPriceAsc');
-    setSelectedAmenities([]);
+    setQueryParams({
+      propertyTypes: '',
+      paymentTypes: '',
+      amenities: '',
+      starRating: '',
+      priceRange: '',
+      sortBy: '',
+      isTotalPrice: '',
+      minPrice: '',
+      maxPrice: '',
+    });
   };
 
   const onChangeMinPrice = (value: string) => {
     setMinPrice(value);
     setQueryParams({
       minPrice: value,
+      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
     });
   };
 
@@ -102,6 +115,7 @@ const HotelFilterFormDesktop = () => {
     setMaxPrice(value);
     setQueryParams({
       maxPrice: value,
+      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
     });
   };
 
@@ -135,6 +149,26 @@ const HotelFilterFormDesktop = () => {
     setFreeCancellation(value);
     setQueryParams({
       paymentTypes: paymentTypes.join('-'),
+    });
+  };
+
+  const onChangeHotels = (value: boolean) => {
+    const propertyTypes = [];
+    if (value) propertyTypes.push('hotels');
+    if (vacationRentals) propertyTypes.push('vacationRentals');
+    setHotels(value);
+    setQueryParams({
+      propertyTypes: propertyTypes.join(','),
+    });
+  };
+
+  const onChangeVacationRentals = (value: boolean) => {
+    const propertyTypes = [];
+    if (value) propertyTypes.push('vacationRentals');
+    if (hotels) propertyTypes.push('hotels');
+    setVacationRentals(value);
+    setQueryParams({
+      propertyTypes: propertyTypes.join(','),
     });
   };
 
@@ -203,6 +237,13 @@ const HotelFilterFormDesktop = () => {
     <section className="h-full py-4 overflow-y-scroll">
       <FilterHeader />
       {/* <KeywordSearchFilter /> */}
+      <PropertyFilter
+        hotels={hotels}
+        vacationRentals={vacationRentals}
+        onChangeHotels={onChangeHotels}
+        onChangeVacationRentals={onChangeVacationRentals}
+      />
+      <Divider className="my-6" />
       <PriceRangeFilter
         minPrice={minPrice}
         maxPrice={maxPrice}
