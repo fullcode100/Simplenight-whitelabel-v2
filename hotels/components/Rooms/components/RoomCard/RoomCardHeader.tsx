@@ -37,7 +37,7 @@ const RoomCardHeader = ({
       <p className="mb-2 text-lg font-semibold text-dark-1000">
         {roomDescription}
       </p>
-      {/* <DetailItemCard
+      <DetailItemCard
         label={roomDetailsText}
         description={roomDescription}
         rates={rates}
