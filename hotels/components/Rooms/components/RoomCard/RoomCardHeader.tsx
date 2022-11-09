@@ -48,7 +48,7 @@ const RoomCardHeader = ({
         guests={guests}
         services={services}
         rooms={rooms}
-      /> */}
+      />
     </header>
   );
 };

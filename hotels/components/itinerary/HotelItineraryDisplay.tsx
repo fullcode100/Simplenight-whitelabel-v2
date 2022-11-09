@@ -23,6 +23,7 @@ const HotelItineraryDisplay = ({
 }: HotelItineraryDisplayProps) => {
   return (
     <CollapseBordered
+      disclaimer={<HotelItineraryDisclaimer item={item} />}
       title={<HotelItineraryHeader item={item} icon={Category.icon} />}
       body={<HotelItineraryBody item={item} />}
       footer={

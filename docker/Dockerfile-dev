@@ -23,6 +23,7 @@ RUN apk add git
 # Pass env vars before build
 ARG NEXT_PUBLIC_ADMIN_ENDPOINT_URL
 ARG NEXT_PUBLIC_ADMIN_TOKEN
+ARG NEXT_ENCRYPT_KEY
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

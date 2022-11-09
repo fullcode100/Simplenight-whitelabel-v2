@@ -23,7 +23,7 @@ export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
     }
     const endpoint = categoryUrls?.detail.server;
 
-    const endpointWithId = `${endpoint}/${params.id}/items_details`;
+    const endpointWithId = `${endpoint}/${params.id}/items/details`;
     const url = applyApiBaseUrlV2(endpointWithId, request);
 
     delete params.id;
