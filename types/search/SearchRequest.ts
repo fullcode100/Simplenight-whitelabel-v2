@@ -5,7 +5,7 @@ export interface SearchRequest {
   end_date: string;
   dst_geolocation: StringGeolocation;
   rsp_fields_set: string;
-  sort: string;
+  sort?: string;
   cancellation_type: string;
   min_price: string;
   max_price: string;

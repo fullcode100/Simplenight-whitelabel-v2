@@ -51,7 +51,7 @@ const ThingsResultsDisplay = ({
       end_date: formatAsSearchDate(endDate as string),
       dst_geolocation: dstGeolocation as StringGeolocation,
       rsp_fields_set: 'extended',
-      sort: '',
+      ...(sortBy != 'recommended' && { sort: sortBy }),
       cancellation_type: '',
       min_price: '',
       max_price: '',
@@ -65,7 +65,7 @@ const ThingsResultsDisplay = ({
       })
       .catch((error) => console.error(error))
       .then(() => setLoaded(true));
-  }, [startDate, endDate, dstGeolocation]);
+  }, [startDate, endDate, dstGeolocation, sortBy]);
 
   const urlDetail = (thingsItem: ThingsSearchItem) => {
     const { id } = thingsItem;
@@ -81,8 +81,9 @@ const ThingsResultsDisplay = ({
             name,
             address,
             cancellation_policy: cancellationPolicy,
-            rates,
+            rate,
             thumbnail,
+            extra_data: extraData,
           } = thingToDo;
 
           const url = urlDetail(thingToDo);
@@ -93,13 +94,24 @@ const ThingsResultsDisplay = ({
                 icon={ThingsCategory.icon}
                 categoryName={thingsToDoLabel}
                 item={thingToDo}
+                rating={extraData.avg_rating}
+                description={extraData.description}
+                reviewsAmount={extraData.review_amount}
                 title={name}
-                images={[thumbnail]}
+                image={thumbnail}
+                priceDisplay={
+                  <p className="text-base font-semibold text-dark-1000">
+                    {rate.total.full.formatted}
+                  </p>
+                }
                 className=" flex-0-0-auto"
                 cancellable={
-                  <ThingsCancellable
-                    cancellationPolicy={cancellationPolicy as any}
-                  />
+                  cancellationPolicy.cancellation_type ==
+                    'FREE_CANCELLATION' && (
+                    <ThingsCancellable
+                      cancellationPolicy={cancellationPolicy as any}
+                    />
+                  )
                 }
               />
             </div>

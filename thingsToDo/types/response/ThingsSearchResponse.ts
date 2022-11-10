@@ -7,8 +7,15 @@ export interface ThingsSearchItem {
   name: string;
   address: Address;
   thumbnail: string;
-  rates: Rates;
+  rate: Rates;
   cancellation_policy: CancellationPolicy;
+  extra_data: ExtraData;
+}
+
+export interface ExtraData {
+  avg_rating: number;
+  description: string;
+  review_amount: number;
 }
 export interface Address {
   country: string;
@@ -17,9 +24,10 @@ export interface Address {
 }
 
 export interface Total {
-  amount: number;
-  formatted: string;
-  currency: string;
+  full: Amount;
+  net: Amount;
+  postpaid: Amount;
+  prepaid: Amount;
 }
 
 export interface Rates {
@@ -28,4 +36,10 @@ export interface Rates {
 
 export interface CancellationPolicy {
   cancellation_type: string;
+}
+
+export interface Amount {
+  amount: number;
+  formatted: string;
+  currency: string;
 }
