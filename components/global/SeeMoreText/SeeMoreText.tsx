@@ -7,11 +7,13 @@ interface SeeMoreTextProps {
 }
 
 const SeeMoreText = ({ text, length = 100 }: SeeMoreTextProps) => {
-  const [t] = useTranslation('glonbal');
+  const [t] = useTranslation('global');
   const [isExpanded, setIsExpanded] = useState(false);
   const shortText =
-    text.length > length ? `${text.substring(0, length)}...` : text;
-  const displayText = isExpanded ? text : shortText;
+    text?.length > length ? `${text.substring(0, length)}...` : text;
+  const displayText = (
+    <div dangerouslySetInnerHTML={{ __html: isExpanded ? text : shortText }} />
+  );
   const seeMoreText = t('seeMore', 'See more');
   return (
     <>

@@ -69,7 +69,7 @@ const ThingsResultsDisplay = ({
 
   const urlDetail = (thingsItem: ThingsSearchItem) => {
     const { id } = thingsItem;
-    return `/detail/${slug}/${categoryId}?startDate=${startDate}&endDate=${endDate}&inventoryId=${id}`;
+    return `/detail/${slug}/${categoryId}?startDate=${startDate}&endDate=${endDate}&inventoryId=${id}&adults=2&children=0&infants=0`;
   };
 
   const ThingsToDoList = () => {

@@ -12,6 +12,7 @@ export const useSearchQueries = () => {
     adults: adultsQuery,
     children: childrenQuery,
     rooms,
+    infants,
   } = useQuery();
 
   const [t, i18n] = useTranslation('hotels');
@@ -37,6 +38,11 @@ export const useSearchQueries = () => {
     t('room', 'Room'),
     t('rooms', 'Rooms'),
   );
+  const INFANTS_TEXT = usePlural(
+    (infants as unknown as number) ?? 0,
+    t('infant', 'Infant'),
+    t('infants', 'Infants'),
+  );
 
   const formattedStartDate = startDateQuery
     ? formatAsDisplayDate(startDate)
@@ -51,8 +57,10 @@ export const useSearchQueries = () => {
     searchStartDate: startDate as unknown as DateString,
     searchEndDate: endDate as unknown as DateString,
     rooms,
+    infants,
     ADULT_TEXT,
     CHILDREN_TEXT,
     ROOMS_TEXT,
+    INFANTS_TEXT,
   };
 };

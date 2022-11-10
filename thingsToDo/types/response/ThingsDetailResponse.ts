@@ -189,3 +189,13 @@ export interface ExtraData {
   start_date: string;
   start_time: string;
 }
+
+export interface TimeItem {
+  starting: string;
+  available: boolean;
+}
+export interface GuestsData {
+  adults: number;
+  children: number;
+  infants: number;
+}

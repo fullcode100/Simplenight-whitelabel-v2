@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import Loader from 'components/global/Loader/Loader';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
@@ -28,20 +29,31 @@ import { thingToDoDetail } from '../../mocks/thingToDoDetailMock';
 // utilities
 import { injectProps } from '../../../helpers/reactUtils';
 import TicketCard from '../TicketCard/TicketCard';
+import useMediaViewport from 'hooks/media/useMediaViewport';
+import Button from 'components/global/ButtonNew/Button';
+import ThingsOccupancy from '../CheckAvailability/ThingsOccupancy';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
 const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
+  const { isDesktop } = useMediaViewport();
   const [thingsItem, setThingsItem] = useState<ThingsDetailItem>();
+  const [isLoadMoreTickets, setIsLoadMoreTickets] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [emptyState, setEmptyState] = useState<boolean>(false);
+  const [selectedTicket, setSelectedTicket] = useState<number>();
   const { ClientDetailer: Searcher } = Category.core;
   const { id, startDate, endDate, inventoryId } = useQuery();
   const reviewsLabel = tg('reviews', 'Reviews');
+  const loadMoreText = tg('loadMore', 'Load More');
 
   const images = thingsItem?.extra_data?.images;
+  const tickets = thingsItem?.extra_data?.tickets;
+  const loadMoreTickets = () => {
+    setIsLoadMoreTickets(true);
+  };
 
   useEffect(() => {
     const params: ThingsDetailRequest = {
@@ -53,8 +65,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     if (id) {
       Searcher?.request?.(params, i18next, id)
         .then(({ items }) => {
-          console.log('things item', items[0]);
-          setThingsItem(items[0]);
+          const item: ThingsDetailItem = items[0];
+          setThingsItem(item);
           setLoaded(true);
         })
         .catch((e) => {
@@ -258,11 +270,15 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
+  const startTicketsNumber = isDesktop ? 3 : 2;
+  const displayTickets = isLoadMoreTickets
+    ? tickets
+    : tickets?.slice(0, startTicketsNumber);
   const DetailDisplay = () => (
     <>
       {emptyState ? (
         <section className="h-screen flex justify-center items-center text-primary-1000 font-bold text-xl">
-          (!) empty state
+          (!)
         </section>
       ) : (
         thingsItem && (
@@ -272,8 +288,29 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             <section className="px-5 mt-5">
               <SectionTitle title="Tickets" />
               <section className="mt-4">
-                <TicketCard />
+                <ThingsOccupancy />
               </section>
+              <section className="mt-4 grid gap-4 lg:grid-cols-3 items-start">
+                {displayTickets?.map((ticket, index) => (
+                  <button
+                    key={`ticket${index}`}
+                    onClick={() => setSelectedTicket(index)}
+                    className="text-left"
+                  >
+                    <TicketCard
+                      ticket={ticket}
+                      selected={selectedTicket === index}
+                    />
+                  </button>
+                ))}
+              </section>
+              {!isLoadMoreTickets && (
+                <section className="mt-4 flex justify-center">
+                  <Button width="w-full lg:w-auto" onClick={loadMoreTickets}>
+                    <section className="px-4">{loadMoreText}</section>
+                  </Button>
+                </section>
+              )}
             </section>
             <DetailsSection thingsItem={thingsItem} /> <Divider />
             <PoliciesSection />
