@@ -131,5 +131,12 @@
   "sortByRatingDesc": "Rating (Highest First)",
   "recommended": "Recommended",
   "sort": "Sort",
-  "results": "Results"
+  "results": "Results",
+  "applyFilters": "Apply Filters",
+  "customerRating": "Customer Rating",
+  "keywordSearch": "Keyword search",
+  "searchKeywordPlaceholder": "Venue Name",
+  "price": "Price",
+  "paymentType": "Payment Type",
+  "rating": "Rating"
 }

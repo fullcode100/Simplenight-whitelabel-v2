@@ -20,6 +20,9 @@ import Sort from 'public/icons/assets/sort.svg';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import { SORT_BY_OPTIONS } from 'thingsToDo/constants/sortByOptions';
+import FilterModal from '../filter/FilterModal';
+import useModal from 'hooks/layoutAndUITooling/useModal';
+import FilterSidebar from '../filter/FilterSidebar';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -28,6 +31,7 @@ interface ThingsResultsDisplayProps {
 const ThingsResultsDisplay = ({
   ThingsCategory,
 }: ThingsResultsDisplayProps) => {
+  const [isOpen, onOpen, onClose] = useModal();
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
   const [loaded, setLoaded] = useState(false);
@@ -42,7 +46,19 @@ const ThingsResultsDisplay = ({
 
   const categoryId = '97807fd1-6561-4f3b-a798-42233d9e2b09';
   const resultsMock = [thingToDo];
-  const { startDate, endDate, latitude, longitude } = useQuery();
+  const {
+    startDate,
+    endDate,
+    latitude,
+    longitude,
+    keywordSearch,
+    paymentTypes,
+    minPrice,
+    maxPrice,
+    isTotalPrice,
+    minRating,
+    maxRating,
+  } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
 
   useEffect(() => {
@@ -52,10 +68,12 @@ const ThingsResultsDisplay = ({
       dst_geolocation: dstGeolocation as StringGeolocation,
       rsp_fields_set: 'extended',
       ...(sortBy != 'recommended' && { sort: sortBy }),
+      ...(minPrice && { min_price: minPrice as string }),
+      ...(maxPrice && { max_price: maxPrice as string }),
+      ...(minRating && { min_rating: minRating as string }),
+      ...(maxRating && { max_rating: maxRating as string }),
+      ...(isTotalPrice && { is_total_price: maxRating as string }),
       cancellation_type: '',
-      min_price: '',
-      max_price: '',
-      is_total_price: '',
       supplier_ids: '',
     };
     setLoaded(false);
@@ -120,60 +138,69 @@ const ThingsResultsDisplay = ({
       </ul>
     );
   };
+
   return (
-    <div className="relative">
-      <section
-        className={`absolute z-10 border border-dark-300 rounded shadow-container top-12 bg-white w-[335px] right-5 lg:right-20 transition-all duration-500 text-dark-1000 ${
-          !showSortModal && 'opacity-0 invisible'
-        }`}
-      >
-        <RadioGroup onChange={setSortBy} value={sortBy} gap="gap-0">
-          {SORT_BY_OPTIONS.map((option, i) => (
-            <Radio
-              key={i}
-              value={option?.value}
-              containerClass={`px-3 py-2 ${
-                i < SORT_BY_OPTIONS.length - 1 && 'border-b border-dark-200'
-              }`}
-            >
-              {tg(option.label)}
-            </Radio>
-          ))}
-        </RadioGroup>
+    <div className="relative lg:flex lg:w-full">
+      <FilterModal isOpen={isOpen} onClose={onClose} />
+      <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12">
+        <FilterSidebar />
       </section>
-      <section className="flex items-center justify-between px-5 pt-3 pb-3 lg:mt-12 lg:pb-0">
-        <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
-          {entertaimentItems.length} {resultsLabel}
-        </p>
-        <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
-          <button
-            className="flex items-center gap-1"
-            onClick={() => setShowSortModal(!showSortModal)}
-            onBlur={() => setShowSortModal(false)}
-          >
-            <span className="text-primary-1000">
-              <Sort />
-            </span>
-            <span className="text-xs font-semibold text-dark-1000 lg:hidden">
-              {sortLabel}
-            </span>
-            <span className="hidden text-xs font-semibold text-dark-1000 lg:flex">
-              {tg(
-                SORT_BY_OPTIONS.find((option) => option.value == sortBy)
-                  ?.label ?? '',
-              )}
-            </span>
-            <span className="text-dark-800">
-              <Chevron />
-            </span>
-          </button>
-          <p className="lg:hidden">Filter</p>
+      <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
+        <section
+          className={`absolute z-10 border border-dark-300 rounded shadow-container top-12 bg-white w-[335px] right-5 lg:right-20 transition-all duration-500 text-dark-1000 ${
+            !showSortModal && 'opacity-0 invisible'
+          }`}
+        >
+          <RadioGroup onChange={setSortBy} value={sortBy} gap="gap-0">
+            {SORT_BY_OPTIONS.map((option, i) => (
+              <Radio
+                key={i}
+                value={option?.value}
+                containerClass={`px-3 py-2 ${
+                  i < SORT_BY_OPTIONS.length - 1 && 'border-b border-dark-200'
+                }`}
+              >
+                {tg(option.label)}
+              </Radio>
+            ))}
+          </RadioGroup>
         </section>
-      </section>
-      <div className="block w-full h-px lg:hidden bg-dark-300" />
-      <section className="px-5 pt-6">
-        {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
-        <SearchViewSelectorFixed />
+        <section className="flex items-center justify-between px-5 pt-3 pb-3 lg:mt-12 lg:pb-0">
+          <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
+            {entertaimentItems.length} {resultsLabel}
+          </p>
+          <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
+            <button
+              className="flex items-center gap-1"
+              onClick={() => setShowSortModal(!showSortModal)}
+              onBlur={() => setShowSortModal(false)}
+            >
+              <span className="text-primary-1000">
+                <Sort />
+              </span>
+              <span className="text-xs font-semibold text-dark-1000 lg:hidden">
+                {sortLabel}
+              </span>
+              <span className="hidden text-xs font-semibold text-dark-1000 lg:flex">
+                {tg(
+                  SORT_BY_OPTIONS.find((option) => option.value == sortBy)
+                    ?.label ?? '',
+                )}
+              </span>
+              <span className="text-dark-800">
+                <Chevron />
+              </span>
+            </button>
+            <button onClick={onOpen} className="lg:hidden">
+              Filter
+            </button>
+          </section>
+        </section>
+        <div className="block w-full h-px lg:hidden bg-dark-300" />
+        <section className="px-5 py-6">
+          {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
+          <SearchViewSelectorFixed />
+        </section>
       </section>
     </div>
   );

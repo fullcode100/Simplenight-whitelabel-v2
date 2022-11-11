@@ -17,7 +17,7 @@ const LabelSlider = ({ type, value, isMaxLabel = false }: LabelProps) => {
       ) : (
         <span className="flex items-center gap-1">
           {value}
-          {isMaxLabel && '+'} <Star />
+          <Star />
         </span>
       )}
     </>

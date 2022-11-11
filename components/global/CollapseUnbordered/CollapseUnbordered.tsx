@@ -7,10 +7,11 @@ import CollapseHeader from '../CollapseUnbordered/components/CollapseHeader';
 interface CollapseProps {
   title: ReactNode;
   body: ReactNode;
+  initialState?: boolean;
 }
 
-const CollapseUnbordered = ({ title, body }: CollapseProps) => {
-  const [show, setShow] = useState(false);
+const CollapseUnbordered = ({ title, body, initialState }: CollapseProps) => {
+  const [show, setShow] = useState(initialState ?? false);
 
   return (
     <>
