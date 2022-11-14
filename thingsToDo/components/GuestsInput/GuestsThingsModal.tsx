@@ -4,13 +4,17 @@ import { useTranslation } from 'react-i18next';
 
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import NumberInput from 'components/global/Input/NumberInput';
-import { GuestsData } from 'thingsToDo/types/response/ThingsDetailResponse';
+import {
+  GuestsData,
+  PricingTicketType,
+} from 'thingsToDo/types/response/ThingsDetailResponse';
 
 interface GuestsThingsModalProps {
   showGuestsThingsModal: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
-  guestsData: GuestsData;
+  guestsData: any;
   setGuestsData: (data: GuestsData) => void;
+  inputs: PricingTicketType[];
 }
 
 const GuestsThingsModal = ({
@@ -18,13 +22,15 @@ const GuestsThingsModal = ({
   onClose,
   guestsData,
   setGuestsData,
+  inputs,
 }: GuestsThingsModalProps) => {
   const [t, i18next] = useTranslation('global');
   const applyLabel = t('apply', 'Apply');
   const guestsLabel = t('guests', 'Guests');
-  const adultsLabel = t('adults', 'Adults');
-  const childrenLabel = t('children', 'Children');
-  const infantsLabel = t('infants', 'Infants');
+  const agesLabel = t('ages', 'Ages');
+  const toLabel = t('to', 'to');
+  const minLabel = t('min', 'Min');
+  const maxLabel = t('max', 'Max');
   const [guests, setGuests] = useState(guestsData);
 
   const onApply = () => {
@@ -49,28 +55,31 @@ const GuestsThingsModal = ({
     >
       <section className="h-full px-5 py-[22px] overflow-y-scroll">
         <section className="flex flex-col gap-y-6 mb-6">
-          <NumberInput
-            label={adultsLabel}
-            value={guests['adults']}
-            onChange={(value) => handleCountChange(value, 'adults')}
-            min={1}
-            max={10}
-            disabled
-          />
-          <NumberInput
-            label={childrenLabel}
-            value={guests['children']}
-            onChange={(value) => handleCountChange(value, 'children')}
-            max={10}
-            disabled
-          />
-          <NumberInput
-            label={infantsLabel}
-            value={guests['infants']}
-            onChange={(value) => handleCountChange(value, 'infants')}
-            max={10}
-            disabled
-          />
+          {inputs?.map((input) => {
+            const {
+              label,
+              ticket_type_id: id,
+              min_travelers: min,
+              max_travelers: max,
+              start_age: startAge,
+              end_age: endAge,
+            } = input;
+            const subLabel = `${agesLabel} ${startAge} ${toLabel} ${endAge}`;
+            const minMaxText = `${minLabel}. ${min}, ${maxLabel}. ${max}`;
+            return (
+              <NumberInput
+                key={id}
+                label={label}
+                sublabel={subLabel}
+                buttonsLabel={minMaxText}
+                value={guests[id]}
+                onChange={(value) => handleCountChange(value, id)}
+                min={min}
+                max={max}
+                disabled
+              />
+            );
+          })}
         </section>
       </section>
     </FullScreenModal>

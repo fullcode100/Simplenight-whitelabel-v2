@@ -4,20 +4,25 @@ import { useState } from 'react';
 import TimeSelectorPill from '../TimeSelector/TimeSelectorPill';
 import TicketHeader from './TicketHeader';
 import TimeSelectorDrop from '../TimeSelector/TimeSelectorDrop';
-import { Ticket } from 'thingsToDo/types/response/ThingsDetailResponse';
+import {
+  Pricing,
+  Ticket,
+} from 'thingsToDo/types/response/ThingsDetailResponse';
 import ClockIcon from 'public/icons/assets/clock.svg';
 import { useTranslation } from 'react-i18next';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import classnames from 'classnames';
 import PriceBreakdown from '../PriceBreakdown/PriceBreakdown';
 import TicketActions from './TicketActions';
+import { getDefaultGuests } from 'thingsToDo/helpers/helper';
 
 interface TicketCardProps {
   ticket: Ticket;
   selected?: boolean;
+  pricing: Pricing;
 }
 
-const TicketCard = ({ ticket, selected }: TicketCardProps) => {
+const TicketCard = ({ ticket, selected, pricing }: TicketCardProps) => {
   const [t] = useTranslation('things');
   const [selectedTime, setSelectedTime] = useState('');
   const params = useQuery();
@@ -32,6 +37,16 @@ const TicketCard = ({ ticket, selected }: TicketCardProps) => {
   const duration = false;
   const fulldayText = t('fullDay', 'Full Day');
   const fullDayOrDuration = isFullDay ? fulldayText : duration;
+  const guestsData = getDefaultGuests(pricing?.ticket_types, params);
+  const getTotalGuests = () => {
+    let totalGuests = 0;
+    Object.values(guestsData).forEach((value) => {
+      totalGuests += value as number;
+    });
+    return totalGuests;
+  };
+  const totalGuests = getTotalGuests();
+
   const TimeSelector = () => (
     <>
       <section className="hidden lg:block">
@@ -60,7 +75,6 @@ const TicketCard = ({ ticket, selected }: TicketCardProps) => {
       )}
     >
       <TicketHeader title={title} description={description} />
-
       <section
         className={classnames('lg:block', {
           hidden: !selected,
@@ -77,11 +91,10 @@ const TicketCard = ({ ticket, selected }: TicketCardProps) => {
           )}
         </section>
       </section>
-
       <Divider />
       <section className="p-4">
         <PriceBreakdown
-          numberTickets={totalTickets}
+          numberTickets={totalGuests}
           totalBeforeDiscount="  US$250.00"
           percentageToApply="25%"
           totalAmount="US$199.00"
@@ -89,7 +102,7 @@ const TicketCard = ({ ticket, selected }: TicketCardProps) => {
       </section>
       <Divider />
       <section className="p-4">
-        <TicketActions numberTickets={totalTickets} />
+        <TicketActions numberTickets={totalGuests} />
       </section>
     </section>
   );

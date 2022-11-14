@@ -5,7 +5,10 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
-import { ThingsDetailItem } from 'thingsToDo/types/response/ThingsDetailResponse';
+import {
+  ThingsDetailItem,
+  ExtraData,
+} from 'thingsToDo/types/response/ThingsDetailResponse';
 // components
 import Rating from 'components/global/Rating/Rating';
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
@@ -49,8 +52,10 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const reviewsLabel = tg('reviews', 'Reviews');
   const loadMoreText = tg('loadMore', 'Load More');
 
-  const images = thingsItem?.extra_data?.images;
-  const tickets = thingsItem?.extra_data?.tickets;
+  const extraData: ExtraData = thingsItem?.extra_data as ExtraData;
+  const images = extraData?.images;
+  const tickets = extraData?.tickets;
+  const pricing = extraData?.pricing;
   const loadMoreTickets = () => {
     setIsLoadMoreTickets(true);
   };
@@ -288,7 +293,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             <section className="px-5 mt-5">
               <SectionTitle title="Tickets" />
               <section className="mt-4">
-                <ThingsOccupancy />
+                <ThingsOccupancy pricing={pricing} />
               </section>
               <section className="mt-4 grid gap-4 lg:grid-cols-3 items-start">
                 {displayTickets?.map((ticket, index) => (
@@ -300,6 +305,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                     <TicketCard
                       ticket={ticket}
                       selected={selectedTicket === index}
+                      pricing={pricing}
                     />
                   </button>
                 ))}

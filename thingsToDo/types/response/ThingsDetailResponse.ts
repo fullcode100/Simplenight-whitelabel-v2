@@ -187,7 +187,23 @@ export interface ExtraData {
   duration: number;
   full_day: boolean;
   start_date: string;
-  start_time: string;
+  pricing: Pricing;
+}
+
+export interface Pricing {
+  type: string;
+  ticket_types: PricingTicketType[];
+  unit_type: string;
+}
+
+export interface PricingTicketType {
+  id: any;
+  ticket_type_id: string;
+  start_age: number;
+  end_age: number;
+  min_travelers: number;
+  max_travelers: number;
+  label: string;
 }
 
 export interface TimeItem {

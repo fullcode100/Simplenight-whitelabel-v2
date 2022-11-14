@@ -9,26 +9,32 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import DateThingsInput from './DateThingsInput';
 import Button from 'components/global/ButtonNew/Button';
 import GuestsThingsInput from '../GuestsInput/GuestsThingsInput';
+import { Pricing } from 'thingsToDo/types/response/ThingsDetailResponse';
+import { getDefaultGuests } from 'thingsToDo/helpers/helper';
 
-const CheckThingsAvailability = () => {
+interface CheckAvailabilityProps {
+  pricing: Pricing;
+}
+
+const CheckThingsAvailability = ({ pricing }: CheckAvailabilityProps) => {
   const [t] = useTranslation('global');
   const setQueryParam = useQuerySetter();
   const textCheckAvailability = t('checkAvailability', 'Check Availability');
-  const params = useQuery();
   const [checkInOutProps, startDate, endDate] = useCheckInOutInput();
-  const [guestsData, setGuestsData] = useState({
-    adults: parseInt(params?.adults as string) || 2,
-    children: parseInt(params?.children as string) || 0,
-    infants: parseInt(params?.infants as string) || 0,
-  });
+  const params = useQuery();
+  const defaultGuestData: any = getDefaultGuests(pricing?.ticket_types, params);
+  const [guestsData, setGuestsData] = useState(defaultGuestData);
+  console.log('pricing', pricing);
 
   const onApply = () => {
+    const guestsParams: any = {};
+    Object.keys(guestsData).forEach((key) => {
+      guestsParams[key] = guestsData[key].toString();
+    });
     setQueryParam({
       startDate: startDate.toString(),
       endDate: endDate.toString(),
-      adults: guestsData?.adults.toString(),
-      children: guestsData?.children?.toString(),
-      infants: guestsData?.infants?.toString(),
+      ...guestsParams,
     });
   };
 
@@ -45,6 +51,7 @@ const CheckThingsAvailability = () => {
       <GuestsThingsInput
         guestsData={guestsData}
         setGuestsData={setGuestsData}
+        inputs={pricing?.ticket_types}
       />
       <DateThingsInput
         showDatePicker={showDatePicker}

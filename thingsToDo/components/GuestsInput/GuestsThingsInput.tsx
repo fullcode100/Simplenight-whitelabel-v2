@@ -1,28 +1,27 @@
 import { useState } from 'react';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import GuestsThingsModal from './GuestsThingsModal';
-import useGetGuestsTexts from 'hotels/hooks/useGetGuestTexs';
-import { GuestsData } from 'thingsToDo/types/response/ThingsDetailResponse';
+import { PricingTicketType } from 'thingsToDo/types/response/ThingsDetailResponse';
 
 interface GuestsThingsInputProps {
-  guestsData: GuestsData;
-  setGuestsData: (data: GuestsData) => void;
+  guestsData: any;
+  setGuestsData: (data: any) => void;
+  inputs: PricingTicketType[];
 }
 
 const GuestsThingsInput = ({
   guestsData,
   setGuestsData,
+  inputs,
 }: GuestsThingsInputProps) => {
   const [showGuestsModal, setShowGuestsModal] = useState(false);
-  const { adults, children, infants } = guestsData;
-  const { ADULT_TEXT, CHILDREN_TEXT, INFANTS_TEXT } =
-    useGetGuestsTexts(guestsData);
-  const OccupancySection = () => (
-    <section className="flex flex-row gap-1">
-      {adults} {ADULT_TEXT}, {children} {CHILDREN_TEXT}, {infants}{' '}
-      {INFANTS_TEXT}
-    </section>
-  );
+  const getResumeGuestsText = () => {
+    const guestsResume = inputs?.map(
+      (input) => `${guestsData[input.ticket_type_id]} ${input.label}`,
+    );
+    return guestsResume.join(', ');
+  };
+  const guestsInputLabel = getResumeGuestsText();
 
   return (
     <>
@@ -31,6 +30,7 @@ const GuestsThingsInput = ({
         onClose={() => setShowGuestsModal(false)}
         guestsData={guestsData}
         setGuestsData={setGuestsData}
+        inputs={inputs}
       />
       <p className="text-sm font-semibold text-dark-800">Guests</p>
       <button
@@ -39,7 +39,7 @@ const GuestsThingsInput = ({
       >
         <section className="flex items-center gap-2">
           <MultiplePersons className="text-dark-700" />
-          <OccupancySection />
+          <section className="flex flex-row gap-1">{guestsInputLabel}</section>
         </section>
       </button>
     </>

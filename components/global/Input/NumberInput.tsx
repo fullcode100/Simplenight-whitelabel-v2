@@ -9,6 +9,7 @@ type NumberInputProps = Omit<BaseInputProps, 'onChange'> & {
   onChange?: (e: number) => void;
   min?: number;
   max?: number;
+  buttonsLabel?: string;
 };
 
 const NumberInput = ({
@@ -16,6 +17,7 @@ const NumberInput = ({
   onChange,
   min = 0,
   max,
+  buttonsLabel = '',
   ...others
 }: NumberInputProps) => {
   const handlePlusClick = () => {
@@ -39,25 +41,30 @@ const NumberInput = ({
   };
 
   return (
-    <section className="h-[44px] flex items-center gap-3 justify-center">
-      <BaseInput
-        type="number"
-        value={value}
-        onChange={handleChange}
-        {...others}
-      />
-      <Button
-        value=""
-        leftValue={<MinusIcon />}
-        rightValue={<PlusIcon />}
-        onLeftClick={handleMinusClick}
-        onRightClick={handlePlusClick}
-        type="dual"
-        size="w-11 h-11"
-        containerClassName="h-full"
-        disabledLeft={value === min ? true : false}
-        disabledRight={value === max ? true : false}
-      />
+    <section>
+      <section className="h-[44px] flex items-center gap-3 justify-center">
+        <BaseInput
+          type="number"
+          value={value}
+          onChange={handleChange}
+          {...others}
+        />
+        <Button
+          value=""
+          leftValue={<MinusIcon />}
+          rightValue={<PlusIcon />}
+          onLeftClick={handleMinusClick}
+          onRightClick={handlePlusClick}
+          type="dual"
+          size="w-11 h-11"
+          containerClassName="h-full"
+          disabledLeft={value === min ? true : false}
+          disabledRight={value === max ? true : false}
+        />
+      </section>
+      <section className="text-right text-dark-700 text-xs">
+        {buttonsLabel}
+      </section>
     </section>
   );
 };

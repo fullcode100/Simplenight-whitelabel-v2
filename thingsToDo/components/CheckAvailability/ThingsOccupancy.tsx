@@ -5,9 +5,14 @@ import CalendarIcon from 'public/icons/assets/calendar.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Pricing } from 'thingsToDo/types/response/ThingsDetailResponse';
 import CheckThingsAvailability from './CheckAvailability';
 
-const ThingsOccupancy = () => {
+interface ThingsOccupancyProps {
+  pricing: Pricing;
+}
+
+const ThingsOccupancy = ({ pricing }: ThingsOccupancyProps) => {
   const [tg] = useTranslation('global');
   const toLabel = tg('to', 'to');
   const editText = tg('edit', 'Edit');
@@ -58,7 +63,11 @@ const ThingsOccupancy = () => {
 
   return (
     <section className="bg-dark-100 p-4 rounded">
-      {isEdit ? <CheckThingsAvailability /> : <OccupancyAndDate />}
+      {isEdit ? (
+        <CheckThingsAvailability pricing={pricing} />
+      ) : (
+        <OccupancyAndDate />
+      )}
     </section>
   );
 };
