@@ -7,5 +7,7 @@
     "reviews": "Reviews",
     "cancellation": "Cancellation",
     "additionalInformation": "Additional Information",
-    "fullday": "Full Day"
+    "fullday": "Full Day",
+  "showAll":"Show all",
+  "activities":"Activities"
 }

@@ -1,11 +1,9 @@
-// Libraries
 import React, { useEffect, useState } from 'react';
+
+import PillContainer from './SubCategoryFilter/PillContainer/PillContainer';
 import { useTranslation } from 'react-i18next';
-// models
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-// components
 import ResultCard from './ResultCard/ResultCard';
-// mocks
 import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
@@ -15,7 +13,10 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
-import { ThingsSearchItem } from 'thingsToDo/types/response/ThingsSearchResponse';
+import {
+  ThingsSearchItem,
+  Category,
+} from 'thingsToDo/types/response/ThingsSearchResponse';
 import Sort from 'public/icons/assets/sort.svg';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
@@ -35,14 +36,25 @@ const ThingsResultsDisplay = ({
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
   const [loaded, setLoaded] = useState(false);
-  const [entertaimentItems, setEntertaimentItems] = useState([]);
+  const [entertaimentItems, setEntertaimentItems] = useState<
+    ThingsSearchItem[]
+  >([]);
+  const [unfilteredEntertaimentItems, setUnfilteredEntertaimentItems] =
+    useState<ThingsSearchItem[]>([]);
+
   const [showSortModal, setShowSortModal] = useState(false);
   const [sortBy, setSortBy] = useState<string>('recommended');
   const { ClientSearcher: Searcher } = ThingsCategory.core;
   const { slug } = useQuery();
+
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
   const sortLabel = tg('sort', 'Sort');
   const resultsLabel = tg('results', 'Results');
+
+  const [categoryFilters, setCategoryFilters] = useState<Category[]>([]);
+  const [appliedCategoryFilters, setAppliedCategoryFilters] = useState<
+    string[]
+  >([]);
 
   const categoryId = '97807fd1-6561-4f3b-a798-42233d9e2b09';
   const resultsMock = [thingToDo];
@@ -60,6 +72,58 @@ const ThingsResultsDisplay = ({
     maxRating,
   } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
+
+  const getAllCategories = (
+    items: ThingsSearchItem[],
+    mappedCategories: Category[],
+  ) => {
+    items.forEach((item) =>
+      item.categories.forEach((category) => {
+        if (
+          !mappedCategories.some(
+            (mappedCategory) => mappedCategory.id === category.id,
+          )
+        ) {
+          mappedCategories.push(category);
+        }
+      }),
+    );
+  };
+  const orderFiltersAlphabetically = (categories: Category[]) => {
+    categories.sort((a: Category, b: Category) => {
+      return a.label.localeCompare(b.label);
+    });
+  };
+  const mapCategoryFilters = (items: ThingsSearchItem[]) => {
+    const mappedCategories: Category[] = [];
+    getAllCategories(items, mappedCategories);
+    orderFiltersAlphabetically(mappedCategories);
+    setCategoryFilters(mappedCategories);
+  };
+
+  const filterResultsByCategory = () => {
+    const items: ThingsSearchItem[] = [];
+    unfilteredEntertaimentItems.forEach((item: ThingsSearchItem) => {
+      if (
+        item.categories.some((category) =>
+          appliedCategoryFilters.some(
+            (appliedCategoryFilter) => category.id === appliedCategoryFilter,
+          ),
+        )
+      ) {
+        items.push(item);
+      }
+    });
+
+    setEntertaimentItems(items);
+  };
+  useEffect(() => {
+    if (appliedCategoryFilters.length > 0) {
+      filterResultsByCategory();
+    } else {
+      setEntertaimentItems(unfilteredEntertaimentItems);
+    }
+  }, [appliedCategoryFilters]);
 
   useEffect(() => {
     const params: ThingsSearchRequest = {
@@ -80,6 +144,8 @@ const ThingsResultsDisplay = ({
     Searcher?.request?.(params, i18next)
       .then(({ items: entertaimentResults }) => {
         setEntertaimentItems(entertaimentResults);
+        setUnfilteredEntertaimentItems(entertaimentResults);
+        mapCategoryFilters(entertaimentResults);
       })
       .catch((error) => console.error(error))
       .then(() => setLoaded(true));
@@ -201,6 +267,19 @@ const ThingsResultsDisplay = ({
           {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
           <SearchViewSelectorFixed />
         </section>
+      </section>
+      <div className="block w-full h-px lg:hidden bg-dark-300" />
+      {loaded && (
+        <PillContainer
+          options={categoryFilters}
+          appliedFilters={appliedCategoryFilters}
+          setAppliedFilters={setAppliedCategoryFilters}
+          limit={5}
+        />
+      )}
+      <section className="px-5 pt-6">
+        {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
+        <SearchViewSelectorFixed />
       </section>
     </div>
   );

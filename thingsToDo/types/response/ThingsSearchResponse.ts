@@ -10,8 +10,13 @@ export interface ThingsSearchItem {
   rate: Rates;
   cancellation_policy: CancellationPolicy;
   extra_data: ExtraData;
+  categories: Category[];
 }
 
+export interface Category {
+  id: string;
+  label: string;
+}
 export interface ExtraData {
   avg_rating: number;
   description: string;
