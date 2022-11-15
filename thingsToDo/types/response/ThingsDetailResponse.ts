@@ -117,7 +117,7 @@ export interface LangGuide {
   lang: string;
 }
 
-export interface Address2 {
+export interface AddressExtended {
   address1: string;
   address2: string;
   city: string;
@@ -127,29 +127,26 @@ export interface Address2 {
   postal_code: string;
 }
 
-export interface Coordinates2 {
-  latitude: number;
-  longitude: number;
-}
-
-export interface Location2 {
+export interface Location {
   ref: string;
   provider: string;
-  name: string;
-  address: Address2;
-  coordinates: Coordinates2;
+  name?: string;
+  description?: string;
+  address?: AddressExtended;
+  coordinates?: Coordinates;
 }
 
-export interface Location {
-  location: Location2;
+export interface LocationDetail {
+  location: Location;
   pickup_type: string;
 }
 
-export interface Pickup {
+export interface LocationPoints {
   allow_custom_location: boolean;
   options: string[];
   description: string;
-  locations: Location[];
+  locations: LocationDetail[];
+  minutes_before_departure: number;
 }
 
 export interface BookingConfirmationSettings {
@@ -170,7 +167,7 @@ export interface Ticket {
   presentation: Presentation;
   booking_code_supplier: string;
   lang_guides: LangGuide[];
-  pickup: Pickup;
+  pickup: LocationPoints;
   safety_measures: string[];
   min_travellers: number;
   max_travellers: number;
@@ -187,6 +184,9 @@ export interface ExtraData {
   duration: number;
   full_day: boolean;
   start_date: string;
+  start_time: string;
+  pickup: LocationPoints;
+  start_locations: Location[];
   pricing: Pricing;
 }
 

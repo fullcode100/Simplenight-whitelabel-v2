@@ -4,29 +4,22 @@ import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { injectProps } from 'helpers/reactUtils';
 
 interface SectionIconProps {
-  sizeRem?: number;
   colorClass?: string;
   icon?: React.ReactElement;
 }
 
 const SectionIcon = ({
-  sizeRem = 2.5,
   colorClass = 'bg-primary-1000',
   icon = <InfoCircle />,
 }: SectionIconProps) => {
-  const sizeIcon = sizeRem / 2;
   const iconComponent = injectProps(icon, {
     className: `${icon?.props?.className} w-full h-full`,
   });
   return (
     <section
-      className={`${colorClass} rounded-full grid place-content-center`}
-      style={{ width: `${sizeRem}rem`, height: `${sizeRem}rem` }}
+      className={`${colorClass} rounded-full grid place-content-center h-10 w-10 lg:h-[60px] lg:w-[60px]`}
     >
-      <section
-        className="text-white"
-        style={{ width: `${sizeIcon}rem`, height: `${sizeIcon}rem` }}
-      >
+      <section className="w-5 h-5 text-white lg:h-[30px] lg:w-[30px]">
         {iconComponent}
       </section>
     </section>

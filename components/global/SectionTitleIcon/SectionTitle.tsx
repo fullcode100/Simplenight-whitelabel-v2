@@ -7,7 +7,6 @@ interface SectionTitleProps {
   title?: string;
   subTitle?: string;
   displayIcon?: boolean;
-  iconSizeRem?: number;
 }
 
 const SectionTitle = ({
@@ -15,14 +14,15 @@ const SectionTitle = ({
   title,
   subTitle,
   displayIcon = true,
-  iconSizeRem = 2.5,
 }: SectionTitleProps) => (
-  <section className="flex items-center gap-4">
-    {displayIcon && <SectionIcon icon={icon} sizeRem={iconSizeRem} />}
+  <section className="flex items-center gap-3 lg:gap-5">
+    {displayIcon && <SectionIcon icon={icon} />}
     <section>
-      <h2 className="text-lg font-bold text-dark-800 leading-8">{title}</h2>
+      <h2 className="text-lg font-bold leading-6 text-dark-800 lg:text-[32px] lg:leading-[38px]">
+        {title}
+      </h2>
       {subTitle && (
-        <p className="text-dark-800 text-lg leading-6">{subTitle}</p>
+        <p className="text-lg leading-6 text-dark-800">{subTitle}</p>
       )}
     </section>
   </section>
