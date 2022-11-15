@@ -263,24 +263,20 @@ const ThingsResultsDisplay = ({
           </section>
         </section>
         <div className="block w-full h-px lg:hidden bg-dark-300" />
+        {loaded && (
+          <PillContainer
+            options={categoryFilters}
+            appliedFilters={appliedCategoryFilters}
+            setAppliedFilters={setAppliedCategoryFilters}
+            limit={5}
+          />
+        )}
         <section className="px-5 py-6">
           {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
           <SearchViewSelectorFixed />
         </section>
       </section>
       <div className="block w-full h-px lg:hidden bg-dark-300" />
-      {loaded && (
-        <PillContainer
-          options={categoryFilters}
-          appliedFilters={appliedCategoryFilters}
-          setAppliedFilters={setAppliedCategoryFilters}
-          limit={5}
-        />
-      )}
-      <section className="px-5 pt-6">
-        {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
-        <SearchViewSelectorFixed />
-      </section>
     </div>
   );
 };
