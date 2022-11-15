@@ -130,7 +130,7 @@ const ThingsResultsDisplay = ({
       start_date: formatAsSearchDate(startDate as string),
       end_date: formatAsSearchDate(endDate as string),
       dst_geolocation: dstGeolocation as StringGeolocation,
-      rsp_fields_set: 'extended',
+      rsp_fields_set: 'basic',
       ...(sortBy != 'recommended' && { sort: sortBy }),
       ...(minPrice && { min_price: minPrice as string }),
       ...(maxPrice && { max_price: maxPrice as string }),
