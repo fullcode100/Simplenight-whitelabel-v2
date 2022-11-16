@@ -152,5 +152,6 @@
   "searchKeywordPlaceholder": "Nombre del lugar",
   "price": "Precio",
   "paymentType": "Tipos de Pago",
-  "rating": "Valoraciones"
+  "rating": "Valoraciones",
+  "filter": "Filtrar"
 }

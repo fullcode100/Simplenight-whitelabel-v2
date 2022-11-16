@@ -28,7 +28,7 @@ const DateThingsInput = ({
   const checkInText = tg('checkIn', 'Check In');
   const checkOutText = tg('checkOut', 'Check Out');
   return (
-    <section>
+    <>
       <DatePicker
         showDatePicker={showDatePicker}
         onClose={handleCloseDatePicker}
@@ -40,12 +40,12 @@ const DateThingsInput = ({
         onEndDateChange={handleEndDateChange}
         openOnStart={false}
       />
-      <section className="flex gap-4">
+      <section className="flex w-full gap-4 lg:w-1/2">
         <IconInput
           label={dateText}
           name="Check-in"
           placeholder={dateText}
-          className="mt-4"
+          className="mt-4 lg:mt-0"
           orientation="left"
           icon={<Calendar className="w-5 h-5 text-dark-700" />}
           value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
@@ -53,7 +53,7 @@ const DateThingsInput = ({
           onClick={handleOpenDatePicker}
         />
       </section>
-    </section>
+    </>
   );
 };
 

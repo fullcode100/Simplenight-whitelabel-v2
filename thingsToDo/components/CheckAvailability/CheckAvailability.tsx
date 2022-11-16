@@ -3,7 +3,7 @@ import {
   UseCheckInOutInputPropsComponentReturn,
 } from 'hotels/components/CheckInOutInput/CheckInOutInput';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import DateThingsInput from './DateThingsInput';
@@ -24,18 +24,21 @@ const CheckThingsAvailability = ({ pricing }: CheckAvailabilityProps) => {
   const params = useQuery();
   const defaultGuestData: any = getDefaultGuests(pricing?.ticket_types, params);
   const [guestsData, setGuestsData] = useState(defaultGuestData);
-  console.log('pricing', pricing);
+  const [isEditing, setIsEditing] = useState(false);
 
   const onApply = () => {
-    const guestsParams: any = {};
-    Object.keys(guestsData).forEach((key) => {
-      guestsParams[key] = guestsData[key].toString();
-    });
-    setQueryParam({
-      startDate: startDate.toString(),
-      endDate: endDate.toString(),
-      ...guestsParams,
-    });
+    if (isEditing) {
+      const guestsParams: any = {};
+      Object.keys(guestsData).forEach((key) => {
+        guestsParams[key] = guestsData[key].toString();
+      });
+      setQueryParam({
+        startDate: startDate.toString(),
+        endDate: endDate.toString(),
+        ...guestsParams,
+      });
+      setIsEditing(false);
+    }
   };
 
   const {
@@ -46,23 +49,39 @@ const CheckThingsAvailability = ({ pricing }: CheckAvailabilityProps) => {
     handleCloseDatePicker,
   } = checkInOutProps as UseCheckInOutInputPropsComponentReturn;
 
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      setIsEditing(true);
+    }
+  }, [startDate, endDate, guestsData]);
+
   return (
-    <section className="h-full">
-      <GuestsThingsInput
-        guestsData={guestsData}
-        setGuestsData={setGuestsData}
-        inputs={pricing?.ticket_types}
-      />
-      <DateThingsInput
-        showDatePicker={showDatePicker}
-        handleStartDateChange={handleStartDateChange}
-        handleEndDateChange={handleEndDateChange}
-        handleOpenDatePicker={handleOpenDatePicker}
-        handleCloseDatePicker={handleCloseDatePicker}
-        startDate={startDate as string}
-        endDate={endDate as string}
-      />
-      <Button width="w-full mt-4" onClick={onApply}>
+    <section className="h-full lg:gap-4 lg:flex lg:items-end">
+      <section className="flex flex-col lg:gap-4 lg:flex-row lg:w-[85%] items-end">
+        <GuestsThingsInput
+          guestsData={guestsData}
+          setGuestsData={setGuestsData}
+          inputs={pricing?.ticket_types}
+        />
+        <DateThingsInput
+          showDatePicker={showDatePicker}
+          handleStartDateChange={handleStartDateChange}
+          handleEndDateChange={handleEndDateChange}
+          handleOpenDatePicker={handleOpenDatePicker}
+          handleCloseDatePicker={handleCloseDatePicker}
+          startDate={startDate as string}
+          endDate={endDate as string}
+        />
+      </section>
+      <Button
+        disabled={isEditing ? false : true}
+        width="mt-4 w-full lg:w-[15%]"
+        onClick={onApply}
+      >
         {textCheckAvailability}
       </Button>
     </section>

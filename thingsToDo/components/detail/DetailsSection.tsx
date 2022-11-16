@@ -23,7 +23,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const includedText = t('included', 'Included');
   const notIncludedText = t('notIncluded', 'Not Included');
   const Features = () => (
-    <section className="mt-4 flex flex-wrap justify-between w-full">
+    <section className="flex flex-wrap justify-between w-full mt-4 lg:justify-start">
       <InlineFeature icon={<ClockIcon />} text="12hs Duration" />
       <InlineFeature icon={<DeviceMobileIcon />} text="Mobile Ticket" />
       <InlineFeature icon={<TransportIcon />} text="Hotel Pickup" />
@@ -38,7 +38,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const DescriptionSection = () => (
     <>
       <SectionSubtitle>{descriptionText}</SectionSubtitle>
-      <p className="text-base text-dark-1000 mt-3">
+      <p className="pt-3 text-base text-dark-1000">
         {thingsItem?.extra_data?.description}
       </p>
     </>
@@ -47,7 +47,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const IncludedSection = () => (
     <>
       <SectionSubtitle>{includedText}</SectionSubtitle>
-      <section className="flex flex-wrap mt-2 mb-3">
+      <section className="flex flex-col flex-wrap mt-2 mb-3 lg:flex-row">
         <InlineFeature
           icon={<CheckIcon className="text-green-1000" />}
           text="{included feature}"
@@ -75,7 +75,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const NotIncludedSection = () => (
     <>
       <SectionSubtitle>{notIncludedText}</SectionSubtitle>
-      <section className="flex flex-wrap mt-2">
+      <section className="flex flex-col flex-wrap mt-2 lg:flex-row">
         <InlineFeature
           icon={<CloseIcon className="text-dark-600" />}
           text="{included feature}"
@@ -101,7 +101,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   );
 
   return (
-    <section className="px-5 py-3">
+    <section className="px-5 py-6 lg:px-0 lg:pr-12">
       <SectionTitle title="Details" />
       <Features />
       <Divider className="py-4" />

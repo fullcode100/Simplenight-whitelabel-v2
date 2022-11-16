@@ -7,7 +7,6 @@ import ResultCard from './ResultCard/ResultCard';
 import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
-import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
@@ -19,6 +18,7 @@ import {
 } from 'thingsToDo/types/response/ThingsSearchResponse';
 import Sort from 'public/icons/assets/sort.svg';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
+import Filter from 'public/icons/assets/filter.svg';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import { SORT_BY_OPTIONS } from 'thingsToDo/constants/sortByOptions';
 import FilterModal from '../filter/FilterModal';
@@ -49,6 +49,7 @@ const ThingsResultsDisplay = ({
 
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
   const sortLabel = tg('sort', 'Sort');
+  const filterLabel = tg('filter', 'Filter');
   const resultsLabel = tg('results', 'Results');
 
   const [categoryFilters, setCategoryFilters] = useState<Category[]>([]);
@@ -257,8 +258,16 @@ const ThingsResultsDisplay = ({
                 <Chevron />
               </span>
             </button>
-            <button onClick={onOpen} className="lg:hidden">
-              Filter
+            <button
+              onClick={onOpen}
+              className="flex items-center gap-1 lg:hidden"
+            >
+              <span className="text-primary-1000">
+                <Filter />
+              </span>
+              <span className="text-xs font-semibold text-dark-1000 lg:hidden">
+                {filterLabel}
+              </span>
             </button>
           </section>
         </section>
@@ -273,7 +282,6 @@ const ThingsResultsDisplay = ({
         )}
         <section className="px-5 py-6">
           {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
-          <SearchViewSelectorFixed />
         </section>
       </section>
       <div className="block w-full h-px lg:hidden bg-dark-300" />

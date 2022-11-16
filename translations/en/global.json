@@ -139,5 +139,6 @@
   "searchKeywordPlaceholder": "Venue Name",
   "price": "Price",
   "paymentType": "Payment Type",
-  "rating": "Rating"
+  "rating": "Rating",
+  "filter": "Filter"
 }

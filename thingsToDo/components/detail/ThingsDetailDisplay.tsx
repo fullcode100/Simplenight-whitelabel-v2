@@ -211,9 +211,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     };
 
     return (
-      <div className="flex flex-col gap-3 px-5 py-6">
+      <div className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12">
         <SectionTitle title={policiesLabel} icon={<PoliciesIcon />} />
-        <h5 className="h5">{cancellationLabel}</h5>
+        <h5 className="mt-6 h5 lg:mt-8">{cancellationLabel}</h5>
         <IconAndText
           icon={cancellable || partialRefund ? <Check /> : <Close />}
           text={cancelationDescription}
@@ -259,24 +259,26 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     const activityScore = thingsItem?.extra_data?.avg_rating;
     const totalScore = '5';
     return (
-      <section className="border border-dark-300 ">
-        {images && name && (
-          <ImageCarousel images={images} title={name} showDots={false} />
-        )}
-        <div className="flex flex-col gap-2 px-5 py-4 bg-dark-100">
-          <h1 className="h3">{name}</h1>
-          <div className="flex items-center gap-2">
-            {activityScore && (
-              <Rating
-                value={activityScore}
-                count={Math.floor(activityScore)}
-                sizeClass={'h-4 w-4'}
-              />
-            )}
-            <span className="text-xs text-dark-700">
-              {activityScore?.toFixed(1)}/{totalScore} ({reviewsAmount}{' '}
-              {reviewsLabel})
-            </span>
+      <section className="border border-dark-300 bg-dark-100">
+        <div className="mx-auto max-w-7xl">
+          {images && name && (
+            <ImageCarousel images={images} title={name} showDots={false} />
+          )}
+          <div className="flex flex-col gap-2 px-5 py-4 lg:px-0">
+            <h1 className="h3">{name}</h1>
+            <div className="flex items-center gap-2">
+              {activityScore && (
+                <Rating
+                  value={activityScore}
+                  count={Math.floor(activityScore)}
+                  sizeClass={'h-4 w-4'}
+                />
+              )}
+              <span className="text-xs text-dark-700">
+                {activityScore?.toFixed(1)}/{totalScore} ({reviewsAmount}{' '}
+                {reviewsLabel})
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -303,7 +305,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             <>
               <HeaderSection />
               {/* <TabsSection /> */}
-              <section className="px-5 mt-5">
+              <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0">
                 <SectionTitle title="Tickets" />
                 <section className="mt-4">
                   <ThingsOccupancy pricing={pricing} />
@@ -331,9 +333,12 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                   </section>
                 )}
               </section>
-              <DetailsSection thingsItem={thingsItem} />
-              <Divider />
-              <PoliciesSection />
+              <Divider className="mt-6" />
+              <section className="mx-auto lg:gap-12 lg:grid lg:grid-cols-2 max-w-7xl">
+                <DetailsSection thingsItem={thingsItem} />
+                <Divider className="lg:hidden" />
+                <PoliciesSection />
+              </section>
               <Divider />
               <LocationSection
                 meetingPoints={meetingPoints}

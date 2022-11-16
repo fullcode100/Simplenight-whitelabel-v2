@@ -11,7 +11,7 @@ const InlineFeature = ({
   textClassName = '',
 }: InlineFeatureProps) => {
   return (
-    <section className="flex gap-3 items-center min-w-[50%]">
+    <section className="flex items-center gap-3 min-w-[153px]">
       <section className="text-primary-1000 w-[0.89rem] h-[0.89rem]">
         {injectProps(icon, {
           className: `${icon?.props?.className} w-full h-full`,

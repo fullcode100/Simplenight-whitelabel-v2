@@ -94,14 +94,22 @@ function ResultCard<T extends WithId>({
               )}
             </section>
             <Divider />
-            <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
+            <section
+              className={`hidden lg:flex flex-col py-4 ${
+                cancellable ? 'justify-between' : 'justify-end'
+              } pr-4 w-[24rem] text-right`}
+            >
               {cancellable}
               {priceDisplay}
             </section>
 
             <CancelationAndPricingSection />
           </section>
-          <section className="flex justify-between px-4 py-3 lg:hidden">
+          <section
+            className={`flex ${
+              cancellable ? 'justify-between' : 'justify-end'
+            } px-4 py-3 lg:hidden`}
+          >
             {cancellable}
             {priceDisplay}
           </section>
