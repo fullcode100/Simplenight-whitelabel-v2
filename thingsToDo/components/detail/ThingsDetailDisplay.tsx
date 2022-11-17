@@ -42,7 +42,7 @@ import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailReques
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
 const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
-  const { ClientDetailer: Searcher } = Category.core;
+  const { ClientDetailer: Detailer } = Category.core;
 
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
@@ -71,17 +71,16 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const loadMoreTickets = () => {
     setIsLoadMoreTickets(true);
   };
-  const { id, startDate, endDate, inventoryId } = useQuery();
+  const { id, startDate, endDate } = useQuery();
 
   useEffect(() => {
     const params: ThingsDetailRequest = {
       start_date: formatAsSearchDate(startDate as string),
       end_date: formatAsSearchDate(endDate as string),
       rsp_fields_set: 'extended',
-      inventory_ids: inventoryId as string,
     };
     if (id) {
-      Searcher?.request?.(params, i18next, id)
+      Detailer?.request?.(params, i18next, id)
         .then(({ items }) => {
           const item: ThingsDetailItem = items[0];
           setThingsItem(item);

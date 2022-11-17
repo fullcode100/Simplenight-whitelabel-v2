@@ -16,6 +16,10 @@ export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
     axios: AxiosInstance,
   ) {
     const { query: params } = request;
+    const { id } = params;
+
+    params['inventory_ids'] = id;
+    delete params.id;
 
     let categoryUrls;
     if (this.category.core) {
@@ -23,10 +27,8 @@ export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
     }
     const endpoint = categoryUrls?.detail.server;
 
-    const endpointWithId = `${endpoint}/${params.id}/items/details`;
-    const url = applyApiBaseUrlV2(endpointWithId, request);
-
-    delete params.id;
+    const endpointFormatted = `${endpoint}/items/details`;
+    const url = applyApiBaseUrlV2(endpointFormatted, request);
 
     return axios.get<ApiResponse<any, ThingsDetailResponse>>(url, {
       params,

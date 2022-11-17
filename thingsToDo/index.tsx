@@ -39,7 +39,7 @@ const Category: CategoryOption = {
       },
       detail: {
         client: '/entertainment',
-        server: '/sectors',
+        server: `/sectors/${categorySectorUUID}`,
       },
     },
     ClientSearcher: null,
