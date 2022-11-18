@@ -1,5 +1,5 @@
 {
-  "flightsFound": "Flights Found",
+  "flightsFound": "Flight(s) Found",
   "flight": "Flight",
   "rooms": "Rooms",
   "total": "Total",
@@ -84,7 +84,7 @@
   "departureTimes": "Departure Times",
   "arrivalTimes": "Arrival Times",
   "airlines": "Airlines",
-  "connectingCities": "Connecting Cities",
+  "connectingAirports": "Connecting Airports",
   "departingFlights": "Departing Flights",
   "returningFlights": "Returning Flights",
   "loadMore": "Load More",
@@ -95,5 +95,7 @@
   "fareRestrictions": "Fare Restrictions",
   "noRefunds": "No Refunds",
   "noReschedulingMissedFlights": "No Rescheduling Missed Flights",
-  "classic": "Classic"
+  "classic": "Classic",
+  "terminal": "Terminal",
+  "upgrade": "Upgrade"
 }

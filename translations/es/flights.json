@@ -29,7 +29,7 @@
   "mapView": "Vista de mapa",
   "listView": "Vista de lista",
   "edit": "Editar",
-  "flightsFound": "Flightes Encontrados",
+  "flightsFound": "Vuelo(s) Encontrados",
   "flight": "Flight",
   "locationInputLabel": "Yéndose de",
   "locationInputPlaceholder": "Yéndose de",
@@ -84,7 +84,7 @@
   "departureTimes": "Horarios de salida",
   "arrivalTimes": "Horarios de llegada",
   "airlines": "Aerolíneas",
-  "connectingCities": "Conectando Ciudades",
+  "connectingAirports": "Aeropuertos de conexión",
   "departingFlights": "Vuelos de salida",
   "returningFlights": "Vuelos de regreso",
   "loadMore": "Carga más",
@@ -95,5 +95,7 @@
   "fareRestrictions": "Restricciones de tarifas",
   "noRefunds": "Sin reembolsos",
   "noReschedulingMissedFlights": "Sin reprogramación de vuelos perdidos",
-  "classic": "Clásica"
+  "classic": "Clásica",
+  "terminal": "Terminal",
+  "upgrade": "Mejora"
 }

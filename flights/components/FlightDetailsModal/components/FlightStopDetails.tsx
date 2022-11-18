@@ -20,6 +20,7 @@ const FlightStopDetails = ({
   const arrivalDate = moment(segment1?.arrivalDateTime);
   const departureDate = moment(segment2?.departureDateTime);
   const layoverTime = departureDate.diff(arrivalDate, 'minutes');
+  const terminalLabel = t('terminal', 'Terminal');
 
   return (
     <>
@@ -42,7 +43,10 @@ const FlightStopDetails = ({
             {layoverTime - Math.floor(layoverTime / 60) * 60}m {layoverLabel}
           </p>
           <p className="text-dark-700">
-            {segment1?.arrivalAirport?.locationCode}
+            {segment1?.arrivalAirportName}{' '}
+            {segment1?.arrivalTerminal
+              ? `${terminalLabel} ${segment1?.arrivalTerminal}`
+              : ''}
           </p>
         </section>
       </li>

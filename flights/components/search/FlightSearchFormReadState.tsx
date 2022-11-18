@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +24,6 @@ const Divider = () => (
 );
 
 const FlightSearchFormReadState = ({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setIsSearching = (value: boolean) => {},
 }: FlightSearchFormReadStateProps) => {
   const [tg, i18g] = useTranslation('global');
@@ -55,7 +55,11 @@ const FlightSearchFormReadState = ({
     const _addresses = addresses.toString().split('|');
     const _addresses2 = addresses2.toString().split('|');
     _addresses.forEach((addr: string, index: number) => {
-      locations.push(`${_addresses[index] ? _addresses[index]?.toString().split(',')[0] : ''} - ${_addresses2[index] ? _addresses2[index]?.toString().split(',')[0] : ''}`);
+      const _addr1 = _addresses[index].toString().split('(').pop();
+      const airportCode1 = _addr1 ? _addr1.toString().split(')')[0] : '';
+      const _addr2 = _addresses2[index].toString().split('(').pop();
+      const airportCode2 = _addr2 ? _addr2.toString().split(')')[0] : '';
+      locations.push(`${airportCode1} - ${airportCode2}`);
     });
   }
   const adults = parseInt((adultsQuery && adultsQuery[0]) || '1');

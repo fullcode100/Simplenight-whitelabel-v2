@@ -73,7 +73,10 @@ const FlightSecondarySearchOptions = () => {
   const departureTimesLabel = t('departureTimes', 'Departure Times');
   const arrivalTimesLabel = t('arrivalTimes', 'Arrival Times');
   const airlinesLabel = t('airlines', 'Airlines');
-  const connectingCitiesLabel = t('connectingCities', 'Connecting Cities');
+  const connectingAirportsLabel = t(
+    'connectingAirports',
+    'Connecting Airports',
+  );
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
 
@@ -98,23 +101,17 @@ const FlightSecondarySearchOptions = () => {
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
-    let flights = JSON.parse(
-      localStorage.getItem('lastSearchResponse') as string,
-    );
+    let flights = JSON.parse(localStorage.getItem('flightsSearched') as string);
     if (!flights) flights = [];
-    let itemIndex = parseInt(localStorage.getItem('flightIndex') as string);
-    if (!itemIndex) itemIndex = 0;
 
     // analyze flights response
     let flightsMinPrice: number =
       flights && flights[0]
-        ? flights[0]?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare
-          ?.amount
+        ? parseFloat(flights[0]?.offers[0]?.totalAmound)
         : 100;
     let flightsMaxPrice: number =
       flights && flights[0]
-        ? flights[0]?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare
-          ?.amount
+        ? parseFloat(flights[0]?.offers[0]?.totalAmound)
         : 5000;
     let flightsMaxStops = 0;
     const flightsAirlines: string[] = [];
@@ -122,48 +119,41 @@ const FlightSecondarySearchOptions = () => {
 
     if (flights && flights.length) {
       flights.forEach((item: Flight) => {
-        const itemFlight =
-          item?.airItinerary?.originDestinationOptions?.originDestinationOption[
-            itemIndex
-          ];
+        const itemFlight = item;
+        const amountMin = item?.offers[0]?.totalAmound
+          ? parseFloat(item?.offers[0]?.totalAmound)
+          : 0;
+        const amountMax = item?.offers[item?.offers.length - 1]?.totalAmound
+          ? parseFloat(item?.offers[item?.offers.length - 1]?.totalAmound)
+          : 0;
         // price
-        if (
-          item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount <
-          flightsMinPrice
-        )
-          flightsMinPrice =
-            item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
-        if (
-          item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount >
-          flightsMaxPrice
-        )
-          flightsMaxPrice =
-            item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
+        if (amountMin < flightsMinPrice) flightsMinPrice = amountMin;
+        if (amountMax > flightsMaxPrice) flightsMaxPrice = amountMax;
         // stops
-        if (itemFlight?.flightSegment.length - 1 > flightsMaxStops)
-          flightsMaxStops = itemFlight?.flightSegment.length - 1;
+        if (itemFlight?.segments?.collection.length - 1 > flightsMaxStops)
+          flightsMaxStops = itemFlight?.segments?.collection.length - 1;
         // airlines
-        itemFlight?.flightSegment.forEach((segment) => {
-          if (flightsAirlines.indexOf(segment?.operatingAirline?.code) < 0)
-            flightsAirlines.push(segment?.operatingAirline?.code);
+        itemFlight?.segments?.collection.forEach((segment) => {
+          if (flightsAirlines.indexOf(segment?.marketingCarrierName) < 0)
+            flightsAirlines.push(segment?.marketingCarrierName);
         });
         // cities
-        itemFlight?.flightSegment.forEach((segment) => {
+        itemFlight?.segments?.collection.forEach((segment) => {
           if (
             flightsCities.indexOf(
-              itemFlight?.flightSegment[0]?.departureAirport?.locationCode,
+              itemFlight?.segments?.collection[0]?.departureAirportName,
             ) < 0
           )
             flightsCities.push(
-              itemFlight?.flightSegment[0]?.departureAirport?.locationCode,
+              itemFlight?.segments?.collection[0]?.departureAirportName,
             );
           if (
             flightsCities.indexOf(
-              itemFlight?.flightSegment[0]?.arrivalAirport?.locationCode,
+              itemFlight?.segments?.collection[0]?.arrivalAirportName,
             ) < 0
           )
             flightsCities.push(
-              itemFlight?.flightSegment[0]?.arrivalAirport?.locationCode,
+              itemFlight?.segments?.collection[0]?.arrivalAirportName,
             );
         });
       });
@@ -466,7 +456,7 @@ const FlightSecondarySearchOptions = () => {
 
       <Divider className="my-6" />
       <FilterContainer>
-        <FilterTitle label={connectingCitiesLabel} />
+        <FilterTitle label={connectingAirportsLabel} />
         <Checkbox
           items={citiesOptions}
           itemsChecked={cities}

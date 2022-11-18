@@ -28,4 +28,6 @@ export interface FlightSearchRequest extends SearchRequest {
   start_airports?: string;
   end_airports?: string;
   start_dates?: string;
+
+  currency?: string;
 }

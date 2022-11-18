@@ -2,7 +2,59 @@ import { Amount } from 'types/global/Amount';
 
 export interface FlightSearchResponse {
   flights: Flight[];
+  offers: FlightOffer[];
 }
+
+export interface Flight {
+  legId: string;
+  segments: {
+    collection: FlightSegment[];
+    legType?: string;
+    totalFlightTimeInMinutes?: string | null;
+    fareAndCabinName?: string | null;
+    fareType?: string | null;
+  };
+  offers: FlightOffer[];
+}
+
+export interface FlightSegment {
+  segmentCode: string;
+
+  departureAirportName: string;
+  departureAirport: string;
+  departureDateTime: string;
+  departureTerminal?: string | null;
+
+  arrivalAirportName: string;
+  arrivalAirport: string;
+  arrivalDateTime: string;
+  arrivalTerminal?: string | null;
+
+  flightDuration: string;
+  layoverToNextSegmentsInMinutes: string | null;
+
+  aircraftType: string | null;
+
+  operatingCarrier: string | null;
+  operatingCarrierName: string | null;
+  operatingFlightNumber: string | null;
+
+  marketingCarrier: string;
+  marketingCarrierName: string;
+  marketingFlightNumber: string;
+
+  bookingClass: string | null;
+}
+
+export interface FlightOffer {
+  id: number;
+  totalAmound: string;
+  baseFare: string;
+  legRef: string[];
+  // fareDetails?: string[];
+}
+
+/*
 export interface Flight {
   airItinerary: {
     originDestinationOptions: {
@@ -42,6 +94,7 @@ export interface FlightPrice {
     };
   };
 }
+*/
 
 // will be changed...
 export interface FlightSearchResponse2 extends FlightSearchResponse {

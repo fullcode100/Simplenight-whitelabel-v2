@@ -1,14 +1,14 @@
 import { MouseEvent } from 'react';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import { useTranslation } from 'react-i18next';
-import { FlightOption } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/SearchResponse';
 import FlightSegmentDetails from './components/FlightSegmentDetails';
 import FlightStopDetails from './components/FlightStopDetails';
 
 interface FlightDetailsModalProps {
   showFlightDetailsModal: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
-  itemFlight: FlightOption;
+  itemFlight: Flight;
 }
 
 const FlightDetailsModal = ({
@@ -29,17 +29,17 @@ const FlightDetailsModal = ({
     >
       <section className="p-5 overflow-y-scroll flex flex-col items-center justify-between">
         <ul role="list" className="space-y-4 w-full text-left">
-          {itemFlight?.flightSegment.map((segment, index) => (
+          {itemFlight?.segments?.collection.map((segment, index) => (
             <>
               <FlightSegmentDetails
                 key={'flight_segment_${index}'}
                 segment={segment}
               />
-              {index < itemFlight.flightSegment.length - 1 && (
+              {index < itemFlight.segments.collection.length - 1 && (
                 <FlightStopDetails
                   key={'flight_stop_${index}'}
-                  segment1={itemFlight.flightSegment[index]}
-                  segment2={itemFlight.flightSegment[index + 1]}
+                  segment1={itemFlight.segments.collection[index]}
+                  segment2={itemFlight.segments.collection[index + 1]}
                 />
               )}
             </>

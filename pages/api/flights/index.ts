@@ -1,16 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 // import { FlightCategory } from 'flights';
-import { Flight } from 'flights/types/response/SearchResponse';
+import {
+  Flight,
+  FlightSearchResponse,
+} from 'flights/types/response/SearchResponse';
 import axios from 'axios';
-
-type Data = {
-  flights: Flight[];
-};
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<FlightSearchResponse>,
 ) {
   // Temporary, until SN api/v2/flights is implemented
   const passenger = [];
@@ -26,6 +25,7 @@ export default async function handler(
   for (let i = 0; i < infants; i += 1) {
     passenger.push({ id: `1.${i + 1}`, code: 'INF' });
   }
+  const currency = req.query?.currency ? req.query?.currency : 'USD';
 
   const direction = req.query?.direction ? req.query?.direction : 'round_trip';
   let itenDetails;
@@ -88,10 +88,12 @@ export default async function handler(
         },
         itenDetails: itenDetails,
       },
+      currency: currency,
     };
     console.log('postData', JSON.stringify(postData));
     const { data } = await axios.post(
-      'https://dev.jarnetsolutions.com/sn-booking-service/findbargain',
+      'https://dev.jarnetsolutions.com/sn-booking-service/airsearch', // Amadeus
+      // 'https://dev.jarnetsolutions.com/sn-booking-service/findbargain', // SABRE
       postData,
       {
         headers: {
@@ -100,18 +102,29 @@ export default async function handler(
       },
     );
 
-    if (data?.pricedItineraries?.pricedItinerary)
-      res
-        .status(200)
-        .json({ flights: data?.pricedItineraries?.pricedItinerary });
-    else res.status(400).json({ flights: [] });
+    // if (data?.pricedItineraries?.pricedItinerary) // SABRE
+    if (
+      data?._legCollection?._collection &&
+      data?._offersCollection?.offerLegRefs
+    ) {
+      // Amadeus
+      const flights = data?._legCollection?._collection;
+      flights.forEach((item: Flight, index: number) => {
+        flights[index].offers = [];
+      });
+      res.status(200).json({
+        flights: flights,
+        offers: data?._offersCollection?.offerLegRefs,
+      }); // Amadeus
+      // .json({ flights: data?.pricedItineraries?.pricedItinerary }); // SABRE
+    } else res.status(400).json({ flights: [], offers: [] });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       // console.log('error message: ', error.message);
-      res.status(400).json({ flights: [] });
+      res.status(400).json({ flights: [], offers: [] });
     } else {
       // console.log('unexpected error: ', error);
-      res.status(400).json({ flights: [] });
+      res.status(400).json({ flights: [], offers: [] });
     }
   }
 }

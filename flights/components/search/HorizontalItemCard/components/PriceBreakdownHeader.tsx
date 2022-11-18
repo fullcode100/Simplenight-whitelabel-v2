@@ -1,18 +1,19 @@
 import { useTranslation } from 'react-i18next';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { FlightOffer } from 'flights/types/response/SearchResponse';
 
 interface PriceBreakdownHeaderProps {
-  item: Flight;
+  offer: FlightOffer;
+  currency: string;
 }
 
-const PriceBreakdownHeader = ({ item }: PriceBreakdownHeaderProps) => {
+const PriceBreakdownHeader = ({
+  offer,
+  currency,
+}: PriceBreakdownHeaderProps) => {
   const [t, i18next] = useTranslation('flights');
   const fromLabel = t('from', 'From');
 
-  const amount =
-    item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.amount;
-  const currency =
-    item?.airItineraryPricingInfo[0]?.itinTotalFare?.totalFare?.currencyCode;
+  const amount = parseFloat(offer?.totalAmound);
 
   return (
     <section className="flex justify-between items-center">
