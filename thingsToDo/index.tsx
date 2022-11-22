@@ -13,6 +13,7 @@ import ThingsResultsDisplay from './components/search/ThingsResultsDisplay';
 
 import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
 import ThingsDetailDisplay from './components/detail/ThingsDetailDisplay';
+import ThingItineraryDisplay from './components/itinerary/ThingItineraryDisplay';
 
 export const THINGS_CATEGORY = 'entertainment';
 
@@ -58,6 +59,7 @@ const Category: CategoryOption = {
 };
 Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
 Category.detailDisplay = <ThingsDetailDisplay Category={Category} />;
+Category.itineraryDisplay = <ThingItineraryDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 Category.core.ServerSearcher = new ThingsServerSearcher(Category);

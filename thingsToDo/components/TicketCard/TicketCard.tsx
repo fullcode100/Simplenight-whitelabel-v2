@@ -15,14 +15,26 @@ import classnames from 'classnames';
 import PriceBreakdown from '../PriceBreakdown/PriceBreakdown';
 import TicketActions from './TicketActions';
 import { getDefaultGuests } from 'thingsToDo/helpers/helper';
+import { formatAsExactHour } from 'helpers/dajjsUtils';
+import { getCurrency } from 'store/selectors/core';
+
+const MOCK_PRODUCT_CODE = 'TG3';
 
 interface TicketCardProps {
+  id: string;
+  category: string;
   ticket: Ticket;
   selected?: boolean;
   pricing: Pricing;
 }
 
-const TicketCard = ({ ticket, selected, pricing }: TicketCardProps) => {
+const TicketCard = ({
+  id,
+  category,
+  ticket,
+  selected,
+  pricing,
+}: TicketCardProps) => {
   const [t] = useTranslation('things');
   const [selectedTime, setSelectedTime] = useState('');
   const params = useQuery();
@@ -47,6 +59,35 @@ const TicketCard = ({ ticket, selected, pricing }: TicketCardProps) => {
   };
   const totalGuests = getTotalGuests();
 
+  const timeNotSelected = selectedTime == '' ? true : false;
+
+  const addToCartRequest = () => {
+    const ticketTypes = Object.keys(guestsData).map((guest) => {
+      return {
+        ticket_type_id: guest,
+        quantity: guestsData[guest],
+      };
+    });
+
+    const time = formatAsExactHour(selectedTime);
+    const currency = getCurrency();
+
+    const bookinData = {
+      inventory_id: id,
+      booking_code_supplier: ticket.booking_code_supplier,
+      start_date: ticket.start_date,
+      time,
+      currency,
+      product_code: null,
+      ticket_types: ticketTypes,
+    };
+
+    return {
+      booking_data: bookinData,
+      category: 'attractions',
+    };
+  };
+
   const TimeSelector = () => (
     <>
       <section className="hidden lg:block">
@@ -65,6 +106,7 @@ const TicketCard = ({ ticket, selected, pricing }: TicketCardProps) => {
       </section>
     </>
   );
+
   return (
     <section
       className={classnames(
@@ -102,7 +144,11 @@ const TicketCard = ({ ticket, selected, pricing }: TicketCardProps) => {
       </section>
       <Divider />
       <section className="p-4">
-        <TicketActions numberTickets={totalGuests} />
+        <TicketActions
+          itemToBook={addToCartRequest()}
+          timeNotSelected={timeNotSelected}
+          numberTickets={totalGuests}
+        />
       </section>
     </section>
   );

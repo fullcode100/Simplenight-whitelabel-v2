@@ -12,6 +12,7 @@ import TransportIcon from 'public/icons/assets/transport.svg';
 import SectionSubtitle from 'components/global/SectionSubtitle/SectionSubtitle';
 import { useTranslation } from 'react-i18next';
 import { ThingsDetailItem } from 'thingsToDo/types/response/ThingsDetailResponse';
+import DurationLabel from '../DurationLabel/DurationLabel';
 
 interface DetailsSectionProps {
   thingsItem: ThingsDetailItem;
@@ -22,9 +23,28 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const descriptionText = t('description', 'Description');
   const includedText = t('included', 'Included');
   const notIncludedText = t('notIncluded', 'Not Included');
+  const {
+    extra_data: {
+      duration,
+      min_duration: minDuration,
+      max_duration: maxDuration,
+    },
+  } = thingsItem;
+
+  const rangeDuration = minDuration &&
+    maxDuration && { minDuration, maxDuration };
+  const fixedDuration = duration ? duration : 0;
+
   const Features = () => (
     <section className="flex flex-wrap justify-between w-full mt-4 lg:justify-start">
-      <InlineFeature icon={<ClockIcon />} text="12hs Duration" />
+      <InlineFeature
+        icon={<ClockIcon />}
+        text={
+          <DurationLabel
+            duration={rangeDuration ? rangeDuration : fixedDuration}
+          />
+        }
+      />
       <InlineFeature icon={<DeviceMobileIcon />} text="Mobile Ticket" />
       <InlineFeature icon={<TransportIcon />} text="Hotel Pickup" />
       <InlineFeature icon={<FeatureIcon />} text="{feature}" />

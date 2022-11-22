@@ -154,6 +154,9 @@
   "paymentType": "Tipos de Pago",
   "rating": "Valoraciones",
   "filter": "Filtrar",
+  "payNow": "Pagar ahora",
+  "adult": "Adulto",
+  "child": "Niño",
   "errorTermsLabel": "Por favor acepte términos y condiciones",
   "checkAvailabilityForYourSearch": "Verifique la disponibilidad para sus invitados y fechas seleccionados."
 }

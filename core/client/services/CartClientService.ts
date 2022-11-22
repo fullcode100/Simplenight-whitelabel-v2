@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { i18n } from 'i18next';
-import { Item, UpdateCartRequest } from 'types/cart/CartType';
+import { CartItemRequest, Item, UpdateCartRequest } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
 import {
   createCart,
@@ -19,7 +19,11 @@ const cartOption = {
   value: 'cart',
 };
 
-export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
+export const addToCart = async (
+  itemToAdd: CartItemRequest,
+  i18next: i18n,
+  store: any,
+) => {
   const { state, dispatch } = store;
   const cartId = state.cartStore.cart ?? null;
   const cartItemAdder = new ClientCartItemAdder(cartOption);

@@ -7,6 +7,8 @@ import {
   RelativePosition,
   Room,
 } from 'hotels/types/response/SearchResponse';
+import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
+import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData';
 import { Amount } from 'types/global/Amount';
 
 export interface CartResponse {
@@ -35,10 +37,12 @@ export interface CartObjectResponse {
   items: Item[];
   lang: string;
   last_update_at: string;
-  organization_id: number;
   sandbox_mode: boolean;
   status: string;
   total_amount: TotalAmount;
+  total_amount_post_paid: TotalAmount;
+  total_amount_taxes: TotalAmount;
+  total_amount_taxes_postpaid: TotalAmount;
   total_item_qty: number;
 }
 
@@ -48,20 +52,26 @@ export interface TotalAmount {
   currency: string;
 }
 
+export interface CartItemRequest {
+  booking_data?: ThingsCartRequestDetail;
+  category?: string;
+  sn_booking_code?: string;
+}
+
 export interface NewCartRequest {
   url: string;
   cart: {
-    currency?: string;
-    items: Item[];
+    items: CartItemRequest[];
   };
 }
 
 export interface UpdateCartItemRequest {
   url: string;
-  cart: Item;
+  cart: CartItemRequest;
 }
 
 export interface Item {
+  booking_data?: ThingsCartRequestDetail;
   cart_id?: string;
   cart_item_id?: string;
   category?: string;
@@ -71,9 +81,11 @@ export interface Item {
   inventory_id?: string;
   inventory_name?: string;
   last_validated_rate?: any;
+  item_data?: ThingsCartItemData;
   quantity?: number;
   rate?: Rates;
   sn_booking_code?: string;
+  status?: string;
   supplier?: string;
   thumbnail_url?: string;
   nights?: number;
@@ -84,17 +96,22 @@ export interface Item {
 }
 
 export interface Customer {
+  id?: number;
   country: string;
   email: string;
   first_name: string;
   last_name: string;
   phone_number: string;
   phone_prefix: string;
+  extra_fields?: ExtraFields;
 }
 
 export interface ExtraFields {
-  extra1: string;
-  extra2: string;
+  extra1?: string;
+  extra2?: string;
+  lang: string;
+  extra_1: number;
+  extra_2: number;
 }
 
 export interface UpdateCartRequest {

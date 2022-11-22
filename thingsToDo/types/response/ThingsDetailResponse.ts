@@ -8,9 +8,15 @@ export interface ThingsDetailItem {
   supplier: string;
   address: Address;
   thumbnail: string;
-  rates: Rates;
+  rate: RateDetail;
   cancellation_policy: CancellationPolicy;
+  categories: Category[];
   extra_data: ExtraData;
+}
+
+export interface Category {
+  id: string;
+  label: string;
 }
 export interface Coordinates {
   latitude: number;
@@ -20,7 +26,8 @@ export interface Coordinates {
 export interface Address {
   coordinates: Coordinates;
   country: string;
-  state: string;
+  state?: string;
+  area?: string;
   city: string;
 }
 
@@ -30,15 +37,46 @@ export interface Total {
   currency: string;
 }
 
-export interface Rates {
-  total: Total;
+export interface RateDetail {
+  discounts: Discounts;
+  fees: AmountDetail;
+  taxes: AmountDetail;
+  total: AmountDetail;
+}
+
+export interface Discounts {
+  amount_to_apply: Amount;
+  breakdown: Breakdown;
+  net_amount_before_apply: Amount;
+  percentage_to_apply: string;
+  total_amount_before_apply: Amount;
+}
+
+export interface Breakdown {
+  amount: Amount;
+  description: string;
+  percentage: number;
+  source: string;
+}
+
+export interface AmountDetail {
+  full: Amount;
+  net: Amount;
+  postpaid: Amount;
+  prepaid: Amount;
+}
+
+export interface Amount {
+  amount: number;
+  formatted: string;
+  currency: string;
 }
 
 export interface CancellationPolicy {
   cancellation_type: string;
 }
 
-export interface PenaltyAmount {
+export interface Amount {
   amount: number;
   currency: string;
   formatted: string;
@@ -46,14 +84,15 @@ export interface PenaltyAmount {
 
 export interface Detail {
   cancellation_type: string;
-  from_date: Date;
-  to_date: Date;
-  penalty_amount: PenaltyAmount;
+  from_date: string;
+  to_date: string;
+  penalty_amount: Amount;
   penalty_percentage: number;
 }
 
 export interface Flag {
   flag_id: string;
+  description: string;
   value: boolean;
 }
 
@@ -84,22 +123,19 @@ export interface TotalAmount {
 
 export interface Rate {
   rate_type: string;
-  avg_amount: AvgAmount;
+  avg_amount: Amount;
   taxes: any[];
-  total_taxes: TotalTaxes;
-  total_amount: TotalAmount;
+  total_taxes: Amount;
+  total_amount: Amount;
+  recommended_amount: Amount;
 }
 
 export interface TicketType {
   id: string;
   label: string;
-  start_age: number;
-  end_age: number;
   available_qty: number;
   cancellation_policy: CancellationPolicy2;
   rate: Rate;
-  min_travelers: number;
-  max_travelers: number;
 }
 
 export interface Grouping {
@@ -108,13 +144,8 @@ export interface Grouping {
 }
 
 export interface Presentation {
-  methods: string[];
-  description: string;
-}
-
-export interface LangGuide {
-  type: string;
-  lang: string;
+  label: string;
+  id: string;
 }
 
 export interface AddressExtended {
@@ -146,7 +177,7 @@ export interface LocationPoints {
   options: string[];
   description: string;
   locations: LocationDetail[];
-  minutes_before_departure: number;
+  minutes_before_departure?: number;
 }
 
 export interface BookingConfirmationSettings {
@@ -154,18 +185,16 @@ export interface BookingConfirmationSettings {
 }
 
 export interface Ticket {
-  name: string;
+  booking_code_supplier: string;
   description: string;
   duration: number;
-  start_date: string;
-  start_time: string;
-  includes: string[];
-  excludes: string[];
   full_day: boolean;
+  name: string;
+  start_date: string;
+  start_time?: string;
   ticket_types: TicketType[];
   grouping: Grouping;
   presentation: Presentation;
-  booking_code_supplier: string;
   lang_guides: LangGuide[];
   pickup: LocationPoints;
   safety_measures: string[];
@@ -177,28 +206,75 @@ export interface Ticket {
 }
 
 export interface ExtraData {
+  amenities: string[];
   avg_rating: number;
+  booking_confirmation_settings: BookingConfirmationSettings;
+  booking_questions: BookingQuestion[];
+  end_location?: Location[];
+  excludes: IncludeExclude[];
+  includes: IncludeExclude[];
+  grouping: Grouping;
+  is_adult_required: boolean;
+  lang_guides: LangGuide[];
+  max_travelers: number;
+  min_travelers: number;
+  presentation: Presentation[];
+  redemption: Redemption;
   review_amount: number;
+  safety_measures: string[];
   images: string[];
   tickets: Ticket[];
   description: string;
-  duration: number;
+  duration?: number;
+  min_duration?: number;
+  max_duration?: number;
   full_day: boolean;
   start_date: string;
-  start_time: string;
+  start_time?: string;
   pickup: LocationPoints;
-  start_locations: Location[];
+  start_locations?: Location[];
   pricing: Pricing;
+}
+
+export interface Redemption {
+  instructions: string;
+  locations: any[];
+  redemption_type: string;
+}
+
+export interface LangGuide {
+  lang_code: string;
+  language: string;
+}
+
+export interface IncludeExclude {
+  category: string;
+  category_description: string;
+  description: string;
+}
+
+export interface BookingQuestion {
+  answer_max_length: number;
+  answer_options?: AnswerOption[];
+  answer_type: string;
+  grouping: string;
+  hint: string;
+  id: string;
+  is_conditional: boolean;
+  is_required: boolean;
+  label: string;
+}
+
+export interface AnswerOption {
+  answer: string;
 }
 
 export interface Pricing {
   type: string;
   ticket_types: PricingTicketType[];
-  unit_type: string;
 }
 
 export interface PricingTicketType {
-  id: any;
   ticket_type_id: string;
   start_age: number;
   end_age: number;
@@ -212,9 +288,7 @@ export interface TimeItem {
   available: boolean;
 }
 export interface GuestsData {
-  adults: number;
-  children: number;
-  infants: number;
+  [key: string]: number;
 }
 
 export interface TimeObject {

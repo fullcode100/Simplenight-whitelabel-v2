@@ -141,6 +141,9 @@
   "paymentType": "Payment Type",
   "rating": "Rating",
   "filter": "Filter",
+  "payNow": "Pay now",
+  "adult": "Adult",
+  "child": "Child",
   "errorTermsLabel": "Please accept terms and conditions",
   "checkAvailabilityForYourSearch": "Check Availability For Your Selected Guests And Dates."
 }

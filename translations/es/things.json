@@ -16,5 +16,13 @@
   "time": "Hora",
   "minutesBeforeDeparture": "minutos antes de la salida",
   "showAll": "Ver todos",
-  "activities": "Actividades"
+  "activities": "Actividades",
+  "minute": "Minuto",
+  "minutes": "Minutos",
+  "hour": "Hora",
+  "hours": "Horas",
+  "day": "Día",
+  "days": "Días",
+  "cancellationPolicy": "Política de Cancelación",
+  "at":"a las"
 }

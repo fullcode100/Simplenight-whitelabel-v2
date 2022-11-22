@@ -347,6 +347,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     const meetingPoints = thingsItem?.extra_data.start_locations;
     const pickupPoints = thingsItem?.extra_data.pickup;
 
+    const firstCategoryId = thingsItem?.categories[0].id ?? '';
+
     return (
       <>
         {emptyState ? (
@@ -381,6 +383,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                         className="text-left"
                       >
                         <TicketCard
+                          id={thingsItem.id}
+                          category={firstCategoryId}
                           ticket={ticket}
                           selected={selectedTicket === index}
                           pricing={pricing}

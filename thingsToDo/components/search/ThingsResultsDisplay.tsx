@@ -7,6 +7,7 @@ import ResultCard from './ResultCard/ResultCard';
 import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
+import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
@@ -24,6 +25,13 @@ import { SORT_BY_OPTIONS } from 'thingsToDo/constants/sortByOptions';
 import FilterModal from '../filter/FilterModal';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import FilterSidebar from '../filter/FilterSidebar';
+import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
+import ThingItineraryHeader from '../itinerary/ThingItineraryHeader';
+
+import ThingItineraryFooter from '../itinerary/ThingItineraryFooter';
+
+import ThingItineraryBody from '../itinerary/ThingItineraryBody';
+import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -280,6 +288,7 @@ const ThingsResultsDisplay = ({
             limit={5}
           />
         )}
+
         <section className="px-5 py-6">
           {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
         </section>
