@@ -12,6 +12,7 @@ import { ClientCartRemover } from '../ClientCartItemRemover';
 import { ClientCartUpdate } from '../ClientCartUpdate';
 import { ClientCartSchema } from '../ClientCartSchema';
 import { getStoreCartId } from 'store/selectors/cart';
+import dayjs from 'dayjs';
 
 const cartOption = {
   name: 'cart',
@@ -73,12 +74,26 @@ export const getCart = async (i18next: i18n, store: any) => {
   try {
     if (cartId) {
       const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
-      return cart && cart;
+      const validCart = cart && cartIsValid(cart?.items);
+      if (validCart) {
+        return cart && cart;
+      }
+      dispatch(clearCart());
+      localStorage.removeItem('cart');
     }
   } catch (error) {
     dispatch(clearCart());
     localStorage.removeItem('cart');
   }
+};
+
+const cartIsValid = (items: Item[]) => {
+  const lastItemIndex = items.length - 1 ?? 0;
+  const lastAdded = items[lastItemIndex].created_at;
+  if (dayjs(lastAdded).isBefore(dayjs().subtract(15, 'minute'))) {
+    return false;
+  }
+  return true;
 };
 
 export const getCartId = async (i18next: i18n, cartId: string | string[]) => {

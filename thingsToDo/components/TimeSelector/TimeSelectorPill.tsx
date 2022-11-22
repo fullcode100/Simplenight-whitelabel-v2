@@ -1,13 +1,16 @@
 import classnames from 'classnames';
 import { useState } from 'react';
 import { formatTicketTime } from 'thingsToDo/helpers/helper';
-import { TimeItem } from 'thingsToDo/types/response/ThingsDetailResponse';
+import {
+  TimeItem,
+  TimeObject,
+} from 'thingsToDo/types/response/ThingsDetailResponse';
 import { Collapse } from 'react-collapse';
 import { useTranslation } from 'react-i18next';
 import styles from './selectorPill.module.scss';
 
 interface TimeSelectorProps {
-  data: TimeItem[];
+  data: TimeObject[];
   value?: string;
   onChange?: (value: string) => void;
 }
@@ -25,10 +28,10 @@ const TimeSelectorPill = ({
   const seeMoreText = t('seeMore', 'See more');
   const hideText = t('hide', 'Hide');
 
-  const renderTimeList = (times: TimeItem[]) => (
+  const renderTimeList = (times: TimeObject[]) => (
     <section className={`${styles.pillContainer} text-dark-700`}>
-      {times?.map((timeItem: TimeItem, index: number) => {
-        const time = formatTicketTime(timeItem.starting);
+      {times?.map((timeItem: TimeObject, index: number) => {
+        const time = formatTicketTime(timeItem.start_time);
         const isSelected = time === value;
         const isDisabled = !timeItem.available;
         const onChangeFunc = !isDisabled ? () => onChangeTime(time) : undefined;
@@ -65,7 +68,7 @@ const TimeSelectorPill = ({
       {isMoreTimes && (
         <button
           onClick={() => setIsOpened(!isOpened)}
-          className="font-semibold underline text-primary-1000 block mx-auto mt-4"
+          className="block mx-auto mt-4 font-semibold underline text-primary-1000"
         >
           {!isOpened ? seeMoreText : hideText}
         </button>

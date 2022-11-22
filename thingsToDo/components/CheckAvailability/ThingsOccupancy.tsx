@@ -68,7 +68,7 @@ const ThingsOccupancy = ({ pricing }: ThingsOccupancyProps) => {
 
   return (
     <section className="p-4 rounded bg-dark-100">
-      <section className="lg:hidden">
+      {/* <section className="lg:hidden">
         {isEdit ? (
           <CheckThingsAvailability pricing={pricing} />
         ) : (
@@ -77,7 +77,7 @@ const ThingsOccupancy = ({ pricing }: ThingsOccupancyProps) => {
       </section>
       <section className="hidden lg:block">
         <CheckThingsAvailability pricing={pricing} />
-      </section>
+      </section> */}
     </section>
   );
 };

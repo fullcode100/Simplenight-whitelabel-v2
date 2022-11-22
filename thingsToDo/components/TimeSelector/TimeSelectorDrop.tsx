@@ -1,9 +1,9 @@
-import { TimeItem } from 'thingsToDo/types/response/ThingsDetailResponse';
+import { TimeObject } from 'thingsToDo/types/response/ThingsDetailResponse';
 import classnames from 'classnames';
 import { formatTicketTime } from 'thingsToDo/helpers/helper';
 
 interface TimeSelectorProps {
-  data: TimeItem[];
+  data: TimeObject[];
   value?: string;
   onChange?: (time: string) => void;
 }
@@ -27,11 +27,11 @@ const TimeSelectorDrop = ({
     >
       <select
         value={value}
-        className="border-0 focus:ring-0 rounded-md w-full"
+        className="w-full border-0 rounded-md focus:ring-0"
         onChange={onChangeTime}
       >
-        {data?.map((timeItem: TimeItem, index: number) => {
-          const time = formatTicketTime(timeItem?.starting);
+        {data?.map((timeItem: TimeObject, index: number) => {
+          const time = formatTicketTime(timeItem?.start_time);
           const isSelected = time === value;
           const isDisabled = !timeItem.available;
           return (

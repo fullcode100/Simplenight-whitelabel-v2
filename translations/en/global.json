@@ -140,5 +140,7 @@
   "price": "Price",
   "paymentType": "Payment Type",
   "rating": "Rating",
-  "filter": "Filter"
+  "filter": "Filter",
+  "errorTermsLabel": "Please accept terms and conditions",
+  "checkAvailabilityForYourSearch": "Check Availability For Your Selected Guests And Dates."
 }

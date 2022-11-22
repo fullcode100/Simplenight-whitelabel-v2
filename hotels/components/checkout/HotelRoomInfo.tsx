@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 import RoomPriceBreakdown from '../RoomPriceBreakdown/RoomPriceBreakdown';
 import RoomTitle from '../RoomTitle/RoomTitle';
@@ -24,6 +25,7 @@ interface HotelRoomInfoProps {
 
 const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
@@ -81,10 +83,11 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
     removeFromCart(i18next, roomToRemove, dispatch)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
+    router.reload();
   };
 
   return (
-    <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
+    <section className="flex flex-col gap-2 py-6 border-t border-dark-300">
       <RoomTitle
         roomName={roomName}
         roomQty={room.room_qty}

@@ -53,14 +53,14 @@ const TicketCard = ({ ticket, selected, pricing }: TicketCardProps) => {
         <TimeSelectorPill
           onChange={setSelectedTime}
           value={selectedTime}
-          data={timesMock}
+          data={ticket.times}
         />
       </section>
       <section className="lg:hidden">
         <TimeSelectorDrop
           onChange={setSelectedTime}
           value={selectedTime}
-          data={timesMock}
+          data={ticket.times}
         />
       </section>
     </>
@@ -83,7 +83,7 @@ const TicketCard = ({ ticket, selected, pricing }: TicketCardProps) => {
         <Divider />
         <section className="p-4">
           {fullDayOrDuration ? (
-            <section className="text-dark-1000 text-xs flex items-center gap-3">
+            <section className="flex items-center gap-3 text-xs text-dark-1000">
               <ClockIcon className="text-primary-1000" /> {fullDayOrDuration}
             </section>
           ) : (

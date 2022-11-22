@@ -173,6 +173,7 @@ export interface Ticket {
   max_travellers: number;
   is_adult_required: boolean;
   booking_confirmation_settings: BookingConfirmationSettings;
+  times: TimeObject[];
 }
 
 export interface ExtraData {
@@ -214,4 +215,9 @@ export interface GuestsData {
   adults: number;
   children: number;
   infants: number;
+}
+
+export interface TimeObject {
+  start_time: string;
+  available: boolean;
 }

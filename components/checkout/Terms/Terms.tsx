@@ -5,12 +5,16 @@ type TermsProps = {
   checkValue: boolean;
   checkboxMethod: (check: boolean) => void;
   disabled?: boolean;
+  errorTerms: boolean;
+  setErrorTerms: (error: boolean) => void;
 };
 
 const Terms = ({
   checkValue = false,
   disabled = false,
   checkboxMethod,
+  errorTerms,
+  setErrorTerms,
 }: TermsProps) => {
   const [t, i18next] = useTranslation('global');
   const iHaveReviewedLabel = t(
@@ -32,43 +36,53 @@ const Terms = ({
     'The payment will be processed in the US.',
   );
 
+  const errorTermsLabel = t(
+    'errorTermsLabel',
+    'Please accept terms and conditions',
+  );
+
   const handleCheckbox = (e: BaseSyntheticEvent) => {
     checkboxMethod(e.target.checked);
+    setErrorTerms(false);
   };
+
   return (
-    <section className="flex w-full gap-3">
-      <input
-        className={`cursor-pointer focus:ring-primary-500 text-primary-600 border-gray-300 h-6 w-6 rounded-4 ${
-          disabled && 'bg-dark-300'
-        }`}
-        type="checkbox"
-        id="checkout-terms"
-        name="terms"
-        checked={checkValue}
-        disabled={disabled}
-        onChange={(e) => handleCheckbox(e)}
-      />
-      <label
-        htmlFor="checkout-terms"
-        className="text-base leading-[22px] text-dark-1000 font-normal"
-      >
-        {iHaveReviewedLabel}&nbsp;
-        <a
-          className="underline text-primary-1000 hover:underline"
-          href="/terms"
+    <section className="grid gap-2">
+      <section className="flex w-full gap-3">
+        <input
+          className={`cursor-pointer focus:ring-primary-500 text-primary-600 border-gray-300 h-6 w-6 rounded-4 ${
+            disabled && 'bg-dark-300'
+          }`}
+          type="checkbox"
+          id="checkout-terms"
+          name="terms"
+          checked={checkValue}
+          disabled={disabled}
+          onChange={(e) => handleCheckbox(e)}
+        />
+        <label
+          htmlFor="checkout-terms"
+          className="text-base leading-[22px] text-dark-1000 font-normal"
         >
-          {termsLabel}
-        </a>
-        {ofTheSimplenightLabel}
-        <a
-          className="underline text-primary-1000 hover:underline"
-          href="/privacy"
-        >
-          {privacyLabel}
-        </a>
-        {ofSimplenightLabel}&nbsp;
-        {thePaymentWill}
-      </label>
+          {iHaveReviewedLabel}&nbsp;
+          <a
+            className="underline text-primary-1000 hover:underline"
+            href="/terms"
+          >
+            {termsLabel}
+          </a>
+          {ofTheSimplenightLabel}
+          <a
+            className="underline text-primary-1000 hover:underline"
+            href="/privacy"
+          >
+            {privacyLabel}
+          </a>
+          {ofSimplenightLabel}&nbsp;
+          {thePaymentWill}
+        </label>
+      </section>
+      {errorTerms && <p className="pl-8 text-red-500">{errorTermsLabel}</p>}
     </section>
   );
 };

@@ -49,11 +49,14 @@ export interface CategoryCore<SearchResponse> {
   ServerSearcher: ServerSearcher<SearchResponse> | null;
   ClientDetailer: ClientDetailer<any, SearchResponse, any> | null;
   ServerDetailer: ServerDetailer<any> | null;
+  ClientAvailability?: any | null;
+  ServerAvailability?: any | null;
 }
 
 export interface CategoryUrls {
   search: CategoryUrl;
   detail: CategoryUrl;
+  availability?: CategoryUrl;
 }
 
 export interface CategoryUrl {

@@ -14,9 +14,13 @@ import { getDefaultGuests } from 'thingsToDo/helpers/helper';
 
 interface CheckAvailabilityProps {
   pricing: Pricing;
+  onApply: (date: string, ticketTypes: any[]) => any;
 }
 
-const CheckThingsAvailability = ({ pricing }: CheckAvailabilityProps) => {
+const CheckThingsAvailability = ({
+  pricing,
+  onApply,
+}: CheckAvailabilityProps) => {
   const [t] = useTranslation('global');
   const setQueryParam = useQuerySetter();
   const textCheckAvailability = t('checkAvailability', 'Check Availability');
@@ -24,22 +28,23 @@ const CheckThingsAvailability = ({ pricing }: CheckAvailabilityProps) => {
   const params = useQuery();
   const defaultGuestData: any = getDefaultGuests(pricing?.ticket_types, params);
   const [guestsData, setGuestsData] = useState(defaultGuestData);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
+  const ticketTypes: any[] = [];
 
-  const onApply = () => {
-    if (isEditing) {
-      const guestsParams: any = {};
-      Object.keys(guestsData).forEach((key) => {
-        guestsParams[key] = guestsData[key].toString();
-      });
-      setQueryParam({
-        startDate: startDate.toString(),
-        endDate: endDate.toString(),
-        ...guestsParams,
-      });
-      setIsEditing(false);
-    }
-  };
+  // const onApply = () => {
+  //   if (isEditing) {
+  //     const guestsParams: any = {};
+  //     Object.keys(guestsData).forEach((key) => {
+  //       guestsParams[key] = guestsData[key].toString();
+  //     });
+  //     setQueryParam({
+  //       startDate: startDate.toString(),
+  //       endDate: endDate.toString(),
+  //       ...guestsParams,
+  //     });
+  //     setIsEditing(false);
+  //   }
+  // };
 
   const {
     showDatePicker,
@@ -50,6 +55,16 @@ const CheckThingsAvailability = ({ pricing }: CheckAvailabilityProps) => {
   } = checkInOutProps as UseCheckInOutInputPropsComponentReturn;
 
   const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    const entries = Object.entries(guestsData);
+    entries.map(([prop, val]) =>
+      ticketTypes.push({
+        ticket_type_id: prop,
+        quantity: val,
+      }),
+    );
+  }, [guestsData]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -80,7 +95,10 @@ const CheckThingsAvailability = ({ pricing }: CheckAvailabilityProps) => {
       <Button
         disabled={isEditing ? false : true}
         width="mt-4 w-full lg:w-[15%]"
-        onClick={onApply}
+        onClick={() => {
+          onApply(startDate as string, ticketTypes);
+          setIsEditing(false);
+        }}
       >
         {textCheckAvailability}
       </Button>

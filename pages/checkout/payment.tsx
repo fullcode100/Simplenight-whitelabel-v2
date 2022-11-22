@@ -74,14 +74,13 @@ const Payment = () => {
 
   const [country, setCountry] = useState<string | null>(null);
   const [terms, setTerms] = useState(false);
+  const [errorTerms, setErrorTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
   const [prodExpedia, setProdExpedia] = useState(false);
-
-  const [isPaymentLoaded, setIsPaymentLoaded] = useState(false);
 
   let paymentToken: string;
   let verificationToken: string;
@@ -142,7 +141,9 @@ const Payment = () => {
     }
   };
 
-  const triggerFormTokenGeneration = () => payClickRef.current?.click();
+  const triggerFormTokenGeneration = () => {
+    return payClickRef.current?.click();
+  };
 
   const handleTokens = (
     newPaymentToken: string,
@@ -150,6 +151,9 @@ const Payment = () => {
   ) => {
     if (expediaTerms && !acceptExpediaTerms) {
       return setErrorExpediaTerms(true);
+    }
+    if (!terms) {
+      return setErrorTerms(true);
     }
     if (loading) return;
     setLoading(true);
@@ -179,12 +183,9 @@ const Payment = () => {
       setLoading(false);
       router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
-  };
-
-  const handlePaymentLibraryLoad = () => {
-    setIsPaymentLoaded(true);
   };
 
   const redirectToItinerary = () => {
@@ -222,10 +223,7 @@ const Payment = () => {
 
   return (
     <>
-      <Script
-        onLoad={handlePaymentLibraryLoad}
-        src="https://sandbox.web.squarecdn.com/v1/square.js"
-      />
+      <Script src="https://sandbox.web.squarecdn.com/v1/square.js" />
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
         <section className="flex items-start justify-center gap-8 px-0 py-0 lg:px-20 lg:py-12">
@@ -237,17 +235,15 @@ const Payment = () => {
                 </InputWrapper>
                 {cart && (
                   <>
-                    {isPaymentLoaded && (
-                      <SquarePaymentForm
-                        applicationId={appId}
-                        locationId={locationId}
-                        onTokens={handleTokens}
-                        customer={cart.customer}
-                        amount={cart.total_amount.amount}
-                        currencyCode={cart.total_amount.currency}
-                        ref={payClickRef}
-                      />
-                    )}
+                    <SquarePaymentForm
+                      applicationId={appId}
+                      locationId={locationId}
+                      onTokens={handleTokens}
+                      customer={cart.customer}
+                      amount={cart.total_amount.amount}
+                      currencyCode={cart.total_amount.currency}
+                      ref={payClickRef}
+                    />
                     <InputWrapper
                       label={amountForThisCardLabel}
                       labelKey={'amountForThisCard'}
@@ -260,7 +256,12 @@ const Payment = () => {
                 )}
               </CheckoutForm>
               <section className="px-5 pb-6">
-                <Terms checkValue={terms} checkboxMethod={setTerms} />
+                <Terms
+                  checkValue={terms}
+                  checkboxMethod={setTerms}
+                  errorTerms={errorTerms}
+                  setErrorTerms={setErrorTerms}
+                />
                 {expediaTerms && (
                   <>
                     <section className="flex items-center w-full gap-3 mt-2">

@@ -7,12 +7,10 @@ import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
 import DetailsSection from './DetailsSection';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import Divider from 'components/global/Divider/Divider';
-import TabsSection from './TabSection';
 import LocationSection from './LocationSection';
 import Loader from 'components/global/Loader/Loader';
 import TicketCard from '../TicketCard/TicketCard';
 import SeeMore from 'components/global/ReadMore/SeeMore';
-import ThingsOccupancy from '../CheckAvailability/ThingsOccupancy';
 import useMediaViewport from 'hooks/media/useMediaViewport';
 import Button from 'components/global/ButtonNew/Button';
 // icons
@@ -38,11 +36,19 @@ import {
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
+import { ThingsAvailabilityRequest } from 'thingsToDo/types/request/ThingsAvailabilityRequest';
+import { getCurrency } from 'store/selectors/core';
+import { Ticket } from '../../types/response/ThingsDetailResponse';
+import EmptyCheckAvailability from 'public/icons/assets/empty-check-availability.svg';
+import EmptyNoAvailability from 'public/icons/assets/empty-no-availability.svg';
+import CheckThingsAvailability from '../CheckAvailability/CheckAvailability';
+import { categorySectorUUID } from 'thingsToDo';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
 const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
-  const { ClientDetailer: Detailer } = Category.core;
+  const { ClientDetailer: Detailer, ClientAvailability: Availability } =
+    Category.core;
 
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
@@ -54,6 +60,11 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const policiesLabel = tg('policies', 'Policies');
   const reviewsLabel = tg('reviews', 'Reviews');
   const loadMoreText = tg('loadMore', 'Load More');
+  const noResultsLabel = tg('noResultsSearch', 'No Results Match Your Search.');
+  const checkAvailabilityForYourSearchLabel = tg(
+    'checkAvailabilityForYourSearch',
+    'Check Availability For Your Selected Guests And Dates.',
+  );
 
   const { isDesktop } = useMediaViewport();
   const [thingsItem, setThingsItem] = useState<ThingsDetailItem>();
@@ -63,10 +74,12 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const [selectedMeeting, setSelectedMeeting] = useState<Location | null>(null);
   const [selectedPickup, setSelectedPickup] = useState<Location | null>(null);
   const [selectedTicket, setSelectedTicket] = useState<number>();
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+  const currentCurrency = getCurrency();
 
   const extraData: ExtraData = thingsItem?.extra_data as ExtraData;
   const images = extraData?.images;
-  const tickets = extraData?.tickets;
   const pricing = extraData?.pricing;
   const loadMoreTickets = () => {
     setIsLoadMoreTickets(true);
@@ -92,7 +105,27 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           setEmptyState(true);
         });
     }
-  }, [startDate, endDate, id]);
+  }, [id]);
+
+  const handleAvailability = (date: string, ticketTypes: any[]) => {
+    setIsCheckingAvailability(true);
+    const params: ThingsAvailabilityRequest = {
+      start_date: formatAsSearchDate(date as string),
+      inventory_id: id as string,
+      lang: i18next.language,
+      currency: currentCurrency,
+      ticket_types: ticketTypes,
+    };
+    if (id) {
+      Availability?.request?.(params, i18next, categorySectorUUID)
+        .then(({ tickets }: any) => {
+          setTickets(tickets);
+        })
+        .catch((e: any) => {
+          console.error(e);
+        });
+    }
+  };
 
   interface ListProps {
     list: string[];
@@ -284,6 +317,27 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
+  const EmptyTickets = () => {
+    return (
+      <section className="w-full mx-auto">
+        <section className="flex justify-center w-[143px] h-[143px]">
+          {isCheckingAvailability ? (
+            <EmptyNoAvailability />
+          ) : (
+            <EmptyCheckAvailability />
+          )}
+        </section>
+        <section className="mt-10">
+          <p className="text-center text-dark-800 font-semibold text-[20px] leading-[24px]">
+            {isCheckingAvailability
+              ? noResultsLabel
+              : checkAvailabilityForYourSearchLabel}
+          </p>
+        </section>
+      </section>
+    );
+  };
+
   const DetailDisplay = () => {
     const startTicketsNumber = isDesktop ? 3 : 2;
     const displayTickets = isLoadMoreTickets
@@ -306,25 +360,38 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
               {/* <TabsSection /> */}
               <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0">
                 <SectionTitle title="Tickets" />
-                <section className="mt-4">
-                  <ThingsOccupancy pricing={pricing} />
+                <section className="p-4 mt-4 rounded bg-dark-100">
+                  <section>
+                    <CheckThingsAvailability
+                      pricing={pricing}
+                      onApply={handleAvailability}
+                    />
+                  </section>
                 </section>
-                <section className="grid items-start gap-4 mt-4 lg:grid-cols-3">
-                  {displayTickets?.map((ticket, index) => (
-                    <button
-                      key={`ticket${index}`}
-                      onClick={() => setSelectedTicket(index)}
-                      className="text-left"
-                    >
-                      <TicketCard
-                        ticket={ticket}
-                        selected={selectedTicket === index}
-                        pricing={pricing}
-                      />
-                    </button>
-                  ))}
+                <section
+                  className={`items-start ${
+                    tickets.length == 0 ? 'flex justify-center' : 'grid'
+                  } gap-4 mt-4 lg:grid-cols-3`}
+                >
+                  {tickets.length > 0 ? (
+                    displayTickets?.map((ticket, index) => (
+                      <button
+                        key={`ticket${index}`}
+                        onClick={() => setSelectedTicket(index)}
+                        className="text-left"
+                      >
+                        <TicketCard
+                          ticket={ticket}
+                          selected={selectedTicket === index}
+                          pricing={pricing}
+                        />
+                      </button>
+                    ))
+                  ) : (
+                    <EmptyTickets />
+                  )}
                 </section>
-                {!isLoadMoreTickets && (
+                {!isLoadMoreTickets && tickets.length > 0 && (
                   <section className="flex justify-center mt-4">
                     <Button width="w-full lg:w-auto" onClick={loadMoreTickets}>
                       <section className="px-4">{loadMoreText}</section>
