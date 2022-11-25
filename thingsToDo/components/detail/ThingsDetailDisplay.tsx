@@ -71,6 +71,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const [thingsItem, setThingsItem] = useState<ThingsDetailItem>();
   const [isLoadMoreTickets, setIsLoadMoreTickets] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [emptyState, setEmptyState] = useState<boolean>(false);
   const [selectedMeeting, setSelectedMeeting] = useState<Location | undefined>(
     undefined,
@@ -124,9 +125,11 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
       ticket_types: ticketTypes,
     };
     if (id) {
+      setLoading((prev) => !prev);
       Availability?.request?.(params, i18next, categorySectorUUID)
         .then(({ tickets }: any) => {
           setTickets(tickets);
+          setLoading((prev) => !prev);
         })
         .catch((e: any) => {
           console.error(e);
@@ -325,6 +328,10 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const EmptyTickets = () => {
+    if (loading) {
+      return <Loader />;
+    }
+
     return (
       <section className="w-full mx-auto">
         <section className="flex justify-center w-[143px] h-[143px]">
