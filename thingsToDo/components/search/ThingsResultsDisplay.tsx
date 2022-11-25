@@ -32,6 +32,8 @@ import ThingItineraryFooter from '../itinerary/ThingItineraryFooter';
 
 import ThingItineraryBody from '../itinerary/ThingItineraryBody';
 import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
+import { sortByAdapter } from 'thingsToDo/adapters/sort-by.adapter';
+import { cancellationTypeAdapter } from 'thingsToDo/adapters/cancellation-type.adapter';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -140,13 +142,13 @@ const ThingsResultsDisplay = ({
       end_date: formatAsSearchDate(endDate as string),
       dst_geolocation: dstGeolocation as StringGeolocation,
       rsp_fields_set: 'basic',
-      ...(sortBy != 'recommended' && { sort: sortBy }),
+      ...(sortBy != 'recommended' && { sort: sortByAdapter(sortBy) }),
       ...(minPrice && { min_price: minPrice as string }),
       ...(maxPrice && { max_price: maxPrice as string }),
       ...(minRating && { min_rating: minRating as string }),
       ...(maxRating && { max_rating: maxRating as string }),
       ...(isTotalPrice && { is_total_price: maxRating as string }),
-      cancellation_type: '',
+      cancellation_type: cancellationTypeAdapter(paymentTypes as string),
       supplier_ids: '',
     };
     setLoaded(false);

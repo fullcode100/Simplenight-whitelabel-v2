@@ -36,7 +36,7 @@ const FilterForm = ({
   const paymentTypeLabel = t('paymentType', 'Payment Type');
 
   return (
-    <div className={`h-full overflow-y-scroll ${className}`}>
+    <div className={`h-full overflow-y-hidden ${className}`}>
       <KeywordSearchFilter
         keywordSearch={keywordSearchFilter.keywordSearch}
         keywordSearchLabel={keywordSearchFilter.keywordSearchLabel}
