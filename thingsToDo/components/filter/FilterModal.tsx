@@ -87,6 +87,7 @@ const FilterModal = ({ isOpen, onClose }: Props) => {
       ...(minStarRating && { minRating: minStarRating }),
       ...(maxStarRating && { maxRating: maxStarRating }),
       ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
+      ...(keywordSearch !== '' && { keywordSearch: keywordSearch }),
     });
   };
 

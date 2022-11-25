@@ -34,6 +34,7 @@ import ThingItineraryBody from '../itinerary/ThingItineraryBody';
 import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
 import { sortByAdapter } from 'thingsToDo/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'thingsToDo/adapters/cancellation-type.adapter';
+import useKeywordFilter from 'thingsToDo/hooks/useKeywordFilter';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -46,10 +47,11 @@ const ThingsResultsDisplay = ({
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
   const [loaded, setLoaded] = useState(false);
-  const [entertaimentItems, setEntertaimentItems] = useState<
+
+  const [entertainmentItems, setEntertainmentItems] = useState<
     ThingsSearchItem[]
   >([]);
-  const [unfilteredEntertaimentItems, setUnfilteredEntertaimentItems] =
+  const [unfilteredEntertainmentItems, setUnfilteredEntertainmentItems] =
     useState<ThingsSearchItem[]>([]);
 
   const [showSortModal, setShowSortModal] = useState(false);
@@ -100,11 +102,13 @@ const ThingsResultsDisplay = ({
       }),
     );
   };
+
   const orderFiltersAlphabetically = (categories: Category[]) => {
     categories.sort((a: Category, b: Category) => {
       return a.label.localeCompare(b.label);
     });
   };
+
   const mapCategoryFilters = (items: ThingsSearchItem[]) => {
     const mappedCategories: Category[] = [];
     getAllCategories(items, mappedCategories);
@@ -114,7 +118,7 @@ const ThingsResultsDisplay = ({
 
   const filterResultsByCategory = () => {
     const items: ThingsSearchItem[] = [];
-    unfilteredEntertaimentItems.forEach((item: ThingsSearchItem) => {
+    unfilteredEntertainmentItems.forEach((item: ThingsSearchItem) => {
       if (
         item.categories.some((category) =>
           appliedCategoryFilters.some(
@@ -126,15 +130,20 @@ const ThingsResultsDisplay = ({
       }
     });
 
-    setEntertaimentItems(items);
+    setEntertainmentItems(items);
   };
   useEffect(() => {
     if (appliedCategoryFilters.length > 0) {
       filterResultsByCategory();
     } else {
-      setEntertaimentItems(unfilteredEntertaimentItems);
+      setEntertainmentItems(unfilteredEntertainmentItems);
     }
   }, [appliedCategoryFilters]);
+
+  const memoizedEntertainmentItems = useKeywordFilter(
+    entertainmentItems,
+    keywordSearch as string,
+  );
 
   useEffect(() => {
     const params: ThingsSearchRequest = {
@@ -154,8 +163,8 @@ const ThingsResultsDisplay = ({
     setLoaded(false);
     Searcher?.request?.(params, i18next)
       .then(({ items: entertaimentResults }) => {
-        setEntertaimentItems(entertaimentResults);
-        setUnfilteredEntertaimentItems(entertaimentResults);
+        setEntertainmentItems(entertaimentResults);
+        setUnfilteredEntertainmentItems(entertaimentResults);
         mapCategoryFilters(entertaimentResults);
       })
       .catch((error) => console.error(error))
@@ -170,7 +179,7 @@ const ThingsResultsDisplay = ({
   const ThingsToDoList = () => {
     return (
       <ul className="flex flex-col gap-3">
-        {entertaimentItems?.map((thingToDo: ThingsSearchItem) => {
+        {memoizedEntertainmentItems?.map((thingToDo: ThingsSearchItem) => {
           const {
             id,
             name,
@@ -244,7 +253,7 @@ const ThingsResultsDisplay = ({
         </section>
         <section className="flex items-center justify-between px-5 pt-3 pb-3 lg:mt-12 lg:pb-0">
           <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
-            {entertaimentItems.length} {resultsLabel}
+            {entertainmentItems.length} {resultsLabel}
           </p>
           <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
             <button
