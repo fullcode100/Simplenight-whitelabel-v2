@@ -98,6 +98,7 @@
   "saturdayText": "Sábado",
   "saturdayAbbr": "S",
   "dates": "Fechas",
+  "date": "Fecha",
   "total": "Total",
   "goToItinerary": "Ir Al Itinerario",
   "itinerary": "Itinerario",
@@ -158,5 +159,7 @@
   "adult": "Adulto",
   "child": "Niño",
   "errorTermsLabel": "Por favor acepte términos y condiciones",
-  "checkAvailabilityForYourSearch": "Verifique la disponibilidad para sus invitados y fechas seleccionados."
+  "checkAvailabilityForYourSearch": "Verifique la disponibilidad para sus invitados y fechas seleccionados.",
+  "checkAvailability": "Consultar Disponibilidad",
+  "ages": "Edades"
 }

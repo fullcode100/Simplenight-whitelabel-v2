@@ -19,6 +19,7 @@ import Sunset from 'public/icons/assets/sunset.svg';
 import Check from 'public/icons/assets/check-ok.svg';
 import Close from 'public/icons/assets/close.svg';
 import PoliciesIcon from '../../../public/icons/assets/policies.svg';
+import TicketIcon from 'public/icons/categories/ticket.svg';
 
 // types
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
@@ -361,7 +362,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
               <HeaderSection />
               {/* <TabsSection /> */}
               <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0">
-                <SectionTitle title="Tickets" />
+                <SectionTitle icon={<TicketIcon />} title="Tickets" />
                 <section className="p-4 mt-4 rounded bg-dark-100">
                   <section>
                     <CheckThingsAvailability

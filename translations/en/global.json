@@ -82,6 +82,7 @@
   "needHelpTitle": "Need Some Help?",
   "needHelpDescription": "Contact Us For Support.",
   "dates": "Dates",
+  "date": "Date",
   "apply": "Apply",
   "loading": "Loading",
   "total": "Total",
@@ -145,5 +146,7 @@
   "adult": "Adult",
   "child": "Child",
   "errorTermsLabel": "Please accept terms and conditions",
-  "checkAvailabilityForYourSearch": "Check Availability For Your Selected Guests And Dates."
+  "checkAvailabilityForYourSearch": "Check Availability For Your Selected Guests And Dates.",
+  "checkAvailability": "Check Availability",
+  "ages": "Ages"
 }
