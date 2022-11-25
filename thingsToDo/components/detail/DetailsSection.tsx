@@ -35,6 +35,9 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
     maxDuration && { minDuration, maxDuration };
   const fixedDuration = duration ? duration : 0;
 
+  const includedItems = thingsItem.extra_data.includes;
+  const excludedItems = thingsItem.extra_data.excludes;
+
   const Features = () => (
     <section className="flex flex-wrap justify-between w-full mt-4 lg:justify-start">
       <InlineFeature
@@ -67,27 +70,17 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const IncludedSection = () => (
     <>
       <SectionSubtitle>{includedText}</SectionSubtitle>
-      <section className="flex flex-col flex-wrap mt-2 mb-3 lg:flex-row">
-        <InlineFeature
-          icon={<CheckIcon className="text-green-1000" />}
-          text="{included feature}"
-          textClassName="text-green-1000"
-        />
-        <InlineFeature
-          icon={<CheckIcon className="text-green-1000" />}
-          text="{included feature}"
-          textClassName="text-green-1000"
-        />
-        <InlineFeature
-          icon={<CheckIcon className="text-green-1000" />}
-          text="{included feature}"
-          textClassName="text-green-1000"
-        />
-        <InlineFeature
-          icon={<CheckIcon className="text-green-1000" />}
-          text="{included feature}"
-          textClassName="text-green-1000"
-        />
+      <section className="flex flex-col flex-wrap mt-2 mb-3 lg:flex-row gap-3">
+        {includedItems?.map((item, idx) => {
+          return (
+            <InlineFeature
+              key={idx}
+              icon={<CheckIcon className="text-green-1000" />}
+              text={item.description}
+              textClassName="text-green-1000"
+            />
+          );
+        })}
       </section>
     </>
   );
@@ -95,27 +88,17 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const NotIncludedSection = () => (
     <>
       <SectionSubtitle>{notIncludedText}</SectionSubtitle>
-      <section className="flex flex-col flex-wrap mt-2 lg:flex-row">
-        <InlineFeature
-          icon={<CloseIcon className="text-dark-600" />}
-          text="{included feature}"
-          textClassName="text-dark-600"
-        />
-        <InlineFeature
-          icon={<CloseIcon className="text-dark-600" />}
-          text="{included feature}"
-          textClassName="text-dark-600"
-        />
-        <InlineFeature
-          icon={<CloseIcon className="text-dark-6000" />}
-          text="{included feature}"
-          textClassName="text-dark-600"
-        />
-        <InlineFeature
-          icon={<CloseIcon className="text-dark-600" />}
-          text="{included feature}"
-          textClassName="text-dark-600"
-        />
+      <section className="flex flex-col flex-wrap mt-2 lg:flex-row gap-3">
+        {excludedItems?.map((item, edx) => {
+          return (
+            <InlineFeature
+              key={edx}
+              icon={<CloseIcon className="text-dark-600" />}
+              text={item.description}
+              textClassName="text-dark-600"
+            />
+          );
+        })}
       </section>
     </>
   );
