@@ -6,8 +6,8 @@ import { Location } from 'thingsToDo/types/response/ThingsDetailResponse';
 interface LocationSelectorProps {
   placeholder: string;
   locations: Location[];
-  selectedPoint: Location | null;
-  setSelectedPoint: Dispatch<SetStateAction<Location | null>>;
+  selectedPoint?: Location;
+  setSelectedPoint: Dispatch<SetStateAction<Location | undefined>>;
 }
 
 const LocationSelector = ({

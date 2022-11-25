@@ -72,8 +72,12 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const [isLoadMoreTickets, setIsLoadMoreTickets] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [emptyState, setEmptyState] = useState<boolean>(false);
-  const [selectedMeeting, setSelectedMeeting] = useState<Location | null>(null);
-  const [selectedPickup, setSelectedPickup] = useState<Location | null>(null);
+  const [selectedMeeting, setSelectedMeeting] = useState<Location | undefined>(
+    undefined,
+  );
+  const [selectedPickup, setSelectedPickup] = useState<Location | undefined>(
+    undefined,
+  );
   const [selectedTicket, setSelectedTicket] = useState<number>();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
@@ -387,6 +391,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                           id={thingsItem.id}
                           category={firstCategoryId}
                           ticket={ticket}
+                          pickup={selectedPickup}
+                          meeting={selectedMeeting}
                           selected={selectedTicket === index}
                           pricing={pricing}
                         />

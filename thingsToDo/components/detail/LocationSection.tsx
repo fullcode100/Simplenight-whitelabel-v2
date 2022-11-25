@@ -11,11 +11,11 @@ import {
 
 interface LocationSectionProps {
   meetingPoints?: Location[];
-  selectedMeeting: Location | null;
-  setSelectedMeeting: Dispatch<SetStateAction<Location | null>>;
+  selectedMeeting?: Location;
+  setSelectedMeeting: Dispatch<SetStateAction<Location | undefined>>;
   pickupPoints?: LocationPoints;
-  selectedPickup: Location | null;
-  setSelectedPickup: Dispatch<SetStateAction<Location | null>>;
+  selectedPickup?: Location;
+  setSelectedPickup: Dispatch<SetStateAction<Location | undefined>>;
 }
 
 const LocationSection = ({
@@ -55,7 +55,7 @@ const LocationSection = ({
     );
   };
 
-  const PointDetail = ({ point }: { point: Location | null }) => {
+  const PointDetail = ({ point }: { point?: Location }) => {
     const { latitude, longitude } = point?.coordinates || {};
     const { address, name, description } = point || {};
     const formattedAddress = `${address?.address1}, ${address?.city} - ${address?.state} - ${address?.country}, ${address?.postal_code}`;

@@ -17,13 +17,19 @@ import TicketActions from './TicketActions';
 import { getDefaultGuests } from 'thingsToDo/helpers/helper';
 import { formatAsExactHour } from 'helpers/dajjsUtils';
 import { getCurrency } from 'store/selectors/core';
+import { Location } from 'thingsToDo/types/response/ThingsDetailResponse';
 
 const MOCK_PRODUCT_CODE = 'TG3';
+const PICKUP_QUESTION_ID = 'PICKUP_POINT';
+const MEETING_QUESTION_ID = 'MEETING_POINT';
+const LOCATION_UNIT = 'LOCATION_REFERENCE';
 
 interface TicketCardProps {
   id: string;
   category: string;
   ticket: Ticket;
+  pickup?: Location;
+  meeting?: Location;
   selected?: boolean;
   pricing: Pricing;
 }
@@ -32,6 +38,8 @@ const TicketCard = ({
   id,
   category,
   ticket,
+  pickup,
+  meeting,
   selected,
   pricing,
 }: TicketCardProps) => {
@@ -72,6 +80,24 @@ const TicketCard = ({
     const time = formatAsExactHour(selectedTime);
     const currency = getCurrency();
 
+    const bookingAnswers = [];
+    if (pickup) {
+      bookingAnswers.push({
+        question_id: PICKUP_QUESTION_ID,
+        value: pickup.ref,
+        unit: LOCATION_UNIT,
+      });
+    }
+    if (meeting) {
+      bookingAnswers.push({
+        question_id: MEETING_QUESTION_ID,
+        value: meeting.ref,
+        unit: LOCATION_UNIT,
+      });
+    }
+
+    const hasBookingAnswers = bookingAnswers.length > 0;
+
     const bookinData = {
       inventory_id: id,
       booking_code_supplier: ticket.booking_code_supplier,
@@ -80,6 +106,7 @@ const TicketCard = ({
       currency,
       product_code: ticket.code,
       ticket_types: ticketTypes,
+      ...(hasBookingAnswers && { booking_answers: bookingAnswers }),
     };
 
     return {

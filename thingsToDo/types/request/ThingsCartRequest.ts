@@ -11,4 +11,11 @@ export interface ThingsCartRequestDetail {
   time: string;
   product_code: string | null;
   ticket_types: TicketTypes[];
+  booking_answers?: BookingAnswer[];
+}
+
+export interface BookingAnswer {
+  question_id?: string;
+  value?: string;
+  unit?: string;
 }
