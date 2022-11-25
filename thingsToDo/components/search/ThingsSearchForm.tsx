@@ -133,18 +133,7 @@ const ThingsSearchForm = ({
           onChange={handleChangeLocation}
         />
 
-        <DatePicker
-          showDatePicker={showDatePicker}
-          onClose={() => setShowDatePicker(false)}
-          startDateLabel={startDateText}
-          endDateLabel={endDateText}
-          initialStartDate={startDate}
-          initialEndDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-          openOnStart={clickOnStart ? true : false}
-        />
-        <section className="flex gap-4 lg:mt-0 lg:w-full">
+        <section className=" relative flex gap-4 lg:mt-0 lg:w-full">
           <IconInput
             label={startDateText}
             name="Check-in"
@@ -174,6 +163,17 @@ const ThingsSearchForm = ({
               setShowDatePicker(true);
             }}
             disabled
+          />
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={startDateText}
+            endDateLabel={endDateText}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
           />
         </section>
       </section>

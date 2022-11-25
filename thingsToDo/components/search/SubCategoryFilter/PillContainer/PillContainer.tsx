@@ -182,7 +182,8 @@ const PillContainer = ({
           checked={appliedFilters.includes(option.id)}
         />
       ))}
-      <FilterModalButton />
+      {modalFilters.length > 0 && <FilterModalButton />}
+
       <FilterModal />
     </fieldset>
   );
