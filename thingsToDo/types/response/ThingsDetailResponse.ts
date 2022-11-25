@@ -190,6 +190,7 @@ export interface Ticket {
   duration: number;
   full_day: boolean;
   name: string;
+  code: string;
   start_date: string;
   start_time?: string;
   ticket_types: TicketType[];

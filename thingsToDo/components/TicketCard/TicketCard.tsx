@@ -78,13 +78,13 @@ const TicketCard = ({
       start_date: ticket.start_date,
       time,
       currency,
-      product_code: null,
+      product_code: ticket.code,
       ticket_types: ticketTypes,
     };
 
     return {
       booking_data: bookinData,
-      category: 'attractions',
+      category,
     };
   };
 

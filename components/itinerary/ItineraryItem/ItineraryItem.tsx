@@ -12,8 +12,7 @@ interface ItineraryItemProps {
 }
 
 const ItineraryItem = ({ item, reload, setReload }: ItineraryItemProps) => {
-  const itemCategory = useCategorySlug(item.category?.toLowerCase() || '');
-  const sector = useCategory(itemCategory?.type || '');
+  const sector = useCategory(item?.sector || '');
 
   return (
     injectProps(sector?.itineraryDisplay, {
