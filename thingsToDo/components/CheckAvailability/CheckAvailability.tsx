@@ -15,11 +15,15 @@ import { getDefaultGuests } from 'thingsToDo/helpers/helper';
 interface CheckAvailabilityProps {
   pricing: Pricing;
   onApply: (date: string, ticketTypes: any[]) => any;
+  isAdultRequired: boolean;
+  activityMaxTravelers: number;
 }
 
 const CheckThingsAvailability = ({
   pricing,
   onApply,
+  isAdultRequired,
+  activityMaxTravelers,
 }: CheckAvailabilityProps) => {
   const [t] = useTranslation('global');
   const setQueryParam = useQuerySetter();
@@ -81,6 +85,8 @@ const CheckThingsAvailability = ({
           guestsData={guestsData}
           setGuestsData={setGuestsData}
           inputs={pricing?.ticket_types}
+          isAdultRequired={isAdultRequired}
+          activityMaxTravelers={activityMaxTravelers}
         />
         <DateThingsInput
           showDatePicker={showDatePicker}

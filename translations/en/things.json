@@ -36,5 +36,8 @@
   "day": "Day",
   "days": "Days",
   "cancellationPolicy": "Cancellation Policy",
-  "at":"at"
+  "at":"at",
+  "guestsForThisActivity":"guests for this activity.",
+  "minimumOneAdultOrSeniorForThisActivity": "Minimum one adult or senior for this activity.",
+  "minOneAdultOrSenior":"Min. 1 Adult or Senior"
 }

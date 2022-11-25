@@ -86,6 +86,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const extraData: ExtraData = thingsItem?.extra_data as ExtraData;
   const images = extraData?.images;
   const pricing = extraData?.pricing;
+  const isAdultRequired = extraData?.is_adult_required;
+  const activityMaxTravelers = extraData?.max_travelers;
   const loadMoreTickets = () => {
     setIsLoadMoreTickets(true);
   };
@@ -370,8 +372,10 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                 <section className="p-4 mt-4 rounded bg-dark-100">
                   <section>
                     <CheckThingsAvailability
+                      isAdultRequired={isAdultRequired}
                       pricing={pricing}
                       onApply={handleAvailability}
+                      activityMaxTravelers={activityMaxTravelers}
                     />
                   </section>
                 </section>

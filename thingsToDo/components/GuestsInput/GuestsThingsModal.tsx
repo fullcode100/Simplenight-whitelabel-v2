@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
@@ -15,6 +15,8 @@ interface GuestsThingsModalProps {
   guestsData: any;
   setGuestsData: (data: GuestsData) => void;
   inputs: PricingTicketType[];
+  isAdultRequired: boolean;
+  activityMaxTravelers: number;
 }
 
 const GuestsThingsModal = ({
@@ -23,14 +25,30 @@ const GuestsThingsModal = ({
   guestsData,
   setGuestsData,
   inputs,
+  isAdultRequired,
+  activityMaxTravelers,
 }: GuestsThingsModalProps) => {
-  const [t, i18next] = useTranslation('global');
-  const applyLabel = t('apply', 'Apply');
-  const guestsLabel = t('guests', 'Guests');
-  const agesLabel = t('ages', 'Ages');
-  const toLabel = t('to', 'to');
-  const minLabel = t('min', 'Min');
-  const maxLabel = t('max', 'Max');
+  const [tg, i18next] = useTranslation('global');
+  const [t] = useTranslation('things');
+  const applyLabel = tg('apply', 'Apply');
+  const guestsLabel = tg('guests', 'Guests');
+  const agesLabel = tg('ages', 'Ages');
+  const toLabel = tg('to', 'to');
+  const minLabel = tg('min', 'Min');
+  const maxLabel = tg('max', 'Max');
+  const guestsForThisActivityLabel = t(
+    'guestsForThisActivity',
+    'guests for this activity.',
+  );
+  const oneAdultOrSeniorForThisActivityLabel = t(
+    'minimumOneAdultOrSeniorForThisActivity',
+    'Minimum one adult or senior for this activity.',
+  );
+  const minOneAdultOrSeniorLabel = t(
+    'minOneAdultOrSenior',
+    'Min. 1 Adult or Senior',
+  );
+
   const [guests, setGuests] = useState(guestsData);
 
   const onApply = () => {
@@ -38,10 +56,45 @@ const GuestsThingsModal = ({
     onClose();
   };
 
+  const SENIOR_LABEL = 'SENIOR';
+  const ADULT_LABEL = 'ADULT';
+  const isSeniorInput = (id: string) => id === SENIOR_LABEL;
+  const isAdultInput = (id: string) => id === ADULT_LABEL;
+
   const handleCountChange = (value: any, key: string) => {
     setGuests({ ...guests, [key]: value });
   };
 
+  const getMinRequiredTravelers = (min: number, id: string) => {
+    const hasNoAdultTraveler = guests[ADULT_LABEL] === 0;
+    const hasNoSeniorTraveler = guests[SENIOR_LABEL] === 0;
+
+    if (
+      (hasNoAdultTraveler && isSeniorInput(id)) ||
+      (hasNoSeniorTraveler && isAdultInput(id))
+    ) {
+      return 1;
+    }
+    return min;
+  };
+
+  const getMax = (max: number, id: string) => {
+    let availableTravelers = activityMaxTravelers;
+    Object.keys(guests).forEach((key) => {
+      if (key !== id) {
+        availableTravelers -= guests[key];
+      }
+    });
+    if (max < availableTravelers) return max;
+    return availableTravelers;
+  };
+
+  const getMinText = (id: string, min: number) => {
+    if (min === 0) return '';
+    if (isAdultRequired && (isAdultInput(id) || isSeniorInput(id)) && min <= 1)
+      return minOneAdultOrSeniorLabel;
+    return `${minLabel}. ${min}`;
+  };
   return (
     <FullScreenModal
       open={showGuestsThingsModal}
@@ -55,6 +108,13 @@ const GuestsThingsModal = ({
     >
       <section className="h-full px-5 py-[22px] overflow-y-scroll">
         <section className="flex flex-col gap-y-6 mb-6">
+          <p className="text-sm capitalize text-dark-800">
+            {maxLabel}. {activityMaxTravelers} {guestsForThisActivityLabel}
+            {isAdultRequired && oneAdultOrSeniorForThisActivityLabel}
+          </p>
+          {isAdultRequired && (
+            <p className="text-sm capitalize text-dark-800"></p>
+          )}
           {inputs?.map((input) => {
             const {
               label,
@@ -65,17 +125,24 @@ const GuestsThingsModal = ({
               end_age: endAge,
             } = input;
             const subLabel = `${agesLabel} ${startAge} ${toLabel} ${endAge}`;
-            const minMaxText = `${minLabel}. ${min}, ${maxLabel}. ${max}`;
+            const minText = getMinText(id, min);
+            const maxText = `${
+              max < activityMaxTravelers ? `${maxLabel}. ${max}` : ''
+            }`;
             return (
               <NumberInput
                 key={id}
                 label={label}
                 sublabel={subLabel}
-                buttonsLabel={minMaxText}
+                buttonsLabel={`${minText} ${maxText}`}
                 value={guests[id]}
                 onChange={(value) => handleCountChange(value, id)}
-                min={min}
-                max={max}
+                min={
+                  isAdultRequired && min <= 1
+                    ? getMinRequiredTravelers(min, id)
+                    : min
+                }
+                max={getMax(max, id)}
                 disabled
               />
             );
