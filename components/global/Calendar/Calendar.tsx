@@ -101,14 +101,6 @@ const DatePicker = ({
     }
   };
 
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsDesktop(window.innerWidth >= 1024);
-    }
-  }, []);
-
   const setFullDate = () => {
     onStartDateChange(startDate);
     onEndDateChange(endDate);
@@ -150,9 +142,10 @@ const DatePicker = ({
 
   return (
     <>
-      {isDesktop ? (
+      <section className="hidden lg:block">
         <DesktopDatePicker />
-      ) : (
+      </section>
+      <section className="lg:hidden">
         <FullScreenModal
           open={showDatePicker}
           closeModal={onClose}
@@ -208,7 +201,7 @@ const DatePicker = ({
             })}
           </section>
         </FullScreenModal>
-      )}
+      </section>
     </>
   );
 };

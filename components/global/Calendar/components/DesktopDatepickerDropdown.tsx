@@ -9,6 +9,7 @@ import WeekDays from './Weekdays';
 import { DayObject, MonthObject } from 'helpers/calendar/calendar';
 import Day from './Day';
 import dayjs from 'dayjs';
+import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
 
 interface Props {
   open: boolean;
@@ -43,23 +44,12 @@ const DesktopDatepickerDropdown = ({
   setCalendarSecondMonth,
 }: Props) => {
   const ref = useRef<HTMLElement>(null);
+  useOnOutsideClick(ref, () => closeModal());
 
   useEffect(() => {
     onStartDateChange(startDate);
     onEndDateChange(endDate);
   }, [startDate, endDate]);
-
-  useEffect(() => {
-    const checkIfClickedOutside = (e: any) => {
-      if (open && ref.current && !ref.current.contains(e.target)) {
-        closeModal();
-      }
-    };
-    document.addEventListener('mousedown', checkIfClickedOutside);
-    return () => {
-      document.removeEventListener('mousedown', checkIfClickedOutside);
-    };
-  }, [open]);
 
   interface ArrowButtonProps {
     icon: JSX.Element;
@@ -106,7 +96,7 @@ const DesktopDatepickerDropdown = ({
   }
   const MonthSection = ({ month }: MonthSectionProps) => (
     <section className="h-full text-xs">
-      <p className="mt-3 font-semibold  text-sm text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
+      <p className="mt-3 text-sm font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
         month.monthName,
       )} ${month.yearNumber}`}</p>
       <section className="grid grid-cols-7 ">
@@ -146,7 +136,7 @@ const DesktopDatepickerDropdown = ({
     >
       {rangeDate}
       <ArrowSection />
-      <section className="flex text-center items-start w-full p-5  gap-2 grid grid-cols-2 gap-2">
+      <section className="flex grid items-start w-full grid-cols-2 gap-2 p-5 text-center">
         {calendar && (
           <>
             <MonthSection month={calendar[calendarFirstMonth]} />
