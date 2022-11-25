@@ -15,13 +15,11 @@ const PriceBreakdown = ({
 }: PriceBreakdownProps) => {
   const [tg] = useTranslation('global');
   const ticketsLabel = tg('tickets', 'Tickets');
-  return (
-    <section className="flex justify-between items-center">
-      <section className="text-sm">
-        {numberTickets} {ticketsLabel}
-      </section>
-      <section className="text-right text-xs">
-        <p>
+
+  const discount = () => {
+    if (percentageToApply[0] !== '0') {
+      return (
+        <p className="flex gap-1">
           <span className="text-dark-700 line-through font-normal">
             {totalBeforeDiscount}
           </span>
@@ -29,6 +27,18 @@ const PriceBreakdown = ({
             {percentageToApply} Off
           </span>
         </p>
+      );
+    }
+    return;
+  };
+
+  return (
+    <section className="flex justify-between items-center">
+      <section className="text-sm">
+        {numberTickets} {ticketsLabel}
+      </section>
+      <section className="text-right text-xs">
+        {discount()}
         <p className="leading-[22px] text-dark-1000">
           <span className="text-base font-semibold">{totalAmount}</span>
         </p>

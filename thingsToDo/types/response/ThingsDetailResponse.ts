@@ -202,6 +202,7 @@ export interface Ticket {
   min_travellers: number;
   max_travellers: number;
   is_adult_required: boolean;
+  rate: RateDetail;
   booking_confirmation_settings: BookingConfirmationSettings;
   times: TimeObject[];
 }

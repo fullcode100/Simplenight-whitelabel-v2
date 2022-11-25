@@ -164,9 +164,11 @@ const TicketCard = ({
       <section className="p-4">
         <PriceBreakdown
           numberTickets={totalGuests}
-          totalBeforeDiscount="  US$250.00"
-          percentageToApply="25%"
-          totalAmount="US$199.00"
+          totalBeforeDiscount={
+            ticket.rate.discounts.total_amount_before_apply.formatted
+          }
+          percentageToApply={ticket.rate.discounts.percentage_to_apply}
+          totalAmount={ticket.rate.total.full.formatted}
         />
       </section>
       <Divider />

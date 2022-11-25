@@ -34,6 +34,12 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const rangeDuration = minDuration &&
     maxDuration && { minDuration, maxDuration };
   const fixedDuration = duration ? duration : 0;
+  const languages = thingsItem.extra_data.lang_guides
+    .map((lan) => lan.language)
+    .join(', ');
+  const presentations = thingsItem.extra_data.presentation
+    .map((p) => p.label)
+    .join(', ');
 
   const includedItems = thingsItem.extra_data.includes;
   const excludedItems = thingsItem.extra_data.excludes;
@@ -48,13 +54,9 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
           />
         }
       />
-      <InlineFeature icon={<DeviceMobileIcon />} text="Mobile Ticket" />
+      <InlineFeature icon={<DeviceMobileIcon />} text={presentations} />
       <InlineFeature icon={<TransportIcon />} text="Hotel Pickup" />
-      <InlineFeature icon={<FeatureIcon />} text="{feature}" />
-      <InlineFeature
-        icon={<LanguageIcon />}
-        text="Offered in English, Spanish, German"
-      />
+      <InlineFeature icon={<LanguageIcon />} text={`Offered in ${languages}`} />
     </section>
   );
 
