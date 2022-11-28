@@ -43,7 +43,7 @@ const Client = () => {
   const router = useRouter();
   const [t, i18n] = useTranslation('global');
 
-  const [travelersFormSchema, setTravelersFormSchema] = useState();
+  const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
   const [travelersUiSchema, setTravelersUiSchema] = useState();
 
   const currency = getCurrency();
@@ -191,6 +191,28 @@ const Client = () => {
   );
 
   const itemsNumber = cart?.items?.length;
+
+  useEffect(() => {
+    if (cart?.customer && travelersFormSchema) {
+      const newTravelersFormSchema = travelersFormSchema;
+      Object.entries(cart.customer)
+        .filter(
+          ([prop]) =>
+            prop != 'id' && prop != 'extra_fields' && prop != 'phone_prefix',
+        )
+        .map(([prop, value]) => {
+          newTravelersFormSchema.properties[
+            prop == 'phone_number' ? 'phone' : prop
+          ] = {
+            ...newTravelersFormSchema.properties[
+              prop == 'phone_number' ? 'phone' : prop
+            ],
+            default: value,
+          };
+        });
+      setTravelersFormSchema(newTravelersFormSchema);
+    }
+  }, [cart, travelersFormSchema]);
 
   return (
     <>

@@ -7,6 +7,7 @@ interface PhoneNumberInputProps {
   required?: boolean;
   placeholder?: string;
   defaultCode?: string;
+  defaultValue?: string;
 }
 
 const PhoneNumberInput = ({
@@ -14,6 +15,7 @@ const PhoneNumberInput = ({
   placeholder,
   required,
   defaultCode,
+  defaultValue,
 }: PhoneNumberInputProps) => {
   const [countryCode, setCountryCode] = useState(defaultCode ?? 'us');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -53,7 +55,7 @@ const PhoneNumberInput = ({
       <select
         value={countryCode}
         onChange={handleChangeCode}
-        className="border-0 focus:ring-0 rounded-md"
+        className="border-0 rounded-md focus:ring-0"
       >
         {allCountries.map((option: any, i: number) => (
           <option key={`${option.dialCode}${i}`} value={option.iso2}>
@@ -68,9 +70,10 @@ const PhoneNumberInput = ({
         onChange={(event) => handleChange(event.target.value)}
         placeholder={placeholder}
         required={required}
-        className="border-0 focus:ring-0 w-full rounded-md"
+        className="w-full border-0 rounded-md focus:ring-0"
         onFocus={onFocus}
         onBlur={onFocus}
+        defaultValue={defaultValue}
       />
     </section>
   );

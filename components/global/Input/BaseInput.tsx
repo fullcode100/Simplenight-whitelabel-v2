@@ -18,6 +18,7 @@ export interface BaseInputProps {
   onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   max?: number;
   error?: boolean;
+  defaultValue?: string;
 }
 
 type InputType = 'text' | 'number' | 'date' | 'select';
@@ -47,6 +48,7 @@ const BaseInput = ({
   autoFocus = false,
   max,
   error,
+  defaultValue,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,7 +57,7 @@ const BaseInput = ({
     'w-11 h-11 text-center': type === 'number',
   });
   const NumberInput = () => (
-    <section className="w-full h-full flex items-center justify-between">
+    <section className="flex items-center justify-between w-full h-full">
       <section className="flex flex-col gap-1">
         <div className="text-dark-850 text-[16px] leading-[16px]">{label}</div>
         <div className="text-dark-800 text-[16px] leading-[16px]">
@@ -94,6 +96,7 @@ const BaseInput = ({
       autoFocus={autoFocus}
       max={type == 'number' ? max : ''}
       onClick={onClick}
+      defaultValue={defaultValue}
       {...others}
     />
   );

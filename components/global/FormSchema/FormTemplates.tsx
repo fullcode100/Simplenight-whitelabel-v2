@@ -75,7 +75,7 @@ export const ObjectFieldTemplate = (props: any) => {
             <IconRoundedContainer className="bg-primary-1000">
               <SingleBed className="text-white" />
             </IconRoundedContainer>
-            <section className="flex flex-col text-dark-800 ml-2 w-full">
+            <section className="flex flex-col w-full ml-2 text-dark-800">
               <span className="text-base"> {title}</span>
               <span> {description}</span>
             </section>
@@ -87,7 +87,7 @@ export const ObjectFieldTemplate = (props: any) => {
       )}
       <section className={`${contentClass} lg:grid lg:grid-cols-2 lg:gap-x-4`}>
         {properties.map((element: any, i: number) => (
-          <section key={`s${i}`} className="property-wrapper mt-4">
+          <section key={`s${i}`} className="mt-4 property-wrapper">
             {element.content}
           </section>
         ))}
