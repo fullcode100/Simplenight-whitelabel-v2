@@ -73,7 +73,6 @@ const Combobox = ({
           placeholder={placeholder}
           value={search}
           onChange={handleSearch}
-          autoFocus={true}
         />
         <button className="w-5 h-10 px-5" onClick={() => setOpen(!open)}>
           <ChevronDownIcon className="text-dark-700" />
