@@ -1,8 +1,12 @@
 import { createServerAxiosInstance } from 'apiCalls/config/axiosHelper';
-import { applySimplenightApiKey } from 'apiCalls/config/middlewares/authHeaderMiddleware';
+import {
+  applySimplenightApiKey,
+  setSession,
+} from 'apiCalls/config/middlewares/authHeaderMiddleware';
 import { sendSuccess, forwardError } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { CoreOption } from '../../types/search/SearchTypeOptions';
@@ -13,10 +17,11 @@ export abstract class ServerRequester<Response> {
   ) {}
 
   public async handle(
-    req: NextApiRequest,
+    req: NextApiRequestWithSession,
     res: NextApiResponse<Response>,
   ): Promise<void> {
     try {
+      await setSession(req);
       applySimplenightApiKey(req, res);
       const axios = createServerAxiosInstance(req);
 

@@ -22,7 +22,7 @@ const Search: NextPage = () => {
 
   const activeTabIndex = categoriesTabs.findIndex((tab) => tab.slug === slug);
   const [activeTab, setActiveTab] = useState<Tab>(
-    categoriesTabs[activeTabIndex],
+    categoriesTabs?.[activeTabIndex],
   );
 
   const [searchType, setSearchType] = useState('');

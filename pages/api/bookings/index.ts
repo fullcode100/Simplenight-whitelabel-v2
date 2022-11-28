@@ -1,10 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ServerBookingCreator } from 'core/server/ServerBookingCreator';
 import { ServerBookingsGetter } from 'core/server/ServerBookingsGetter';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithSession,
   res: NextApiResponse<any>,
 ) {
   return new Promise((resolve) => {

@@ -1,8 +1,9 @@
 import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
 import { ServerDetailer } from 'core/server/ServerDetailer';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { ThingsDetailResponse } from 'thingsToDo/types/response/ThingsDetailResponse';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
@@ -11,7 +12,7 @@ export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
     super(category);
   }
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     response: NextApiResponse,
     axios: AxiosInstance,
   ) {
@@ -19,16 +20,12 @@ export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
     const { id } = params;
 
     params['inventory_ids'] = id;
-    delete params.id;
 
-    let categoryUrls;
-    if (this.category.core) {
-      categoryUrls = this.category.core.urls;
-    }
-    const endpoint = categoryUrls?.detail.server;
-
+    const endpoint = params.apiUrl as string;
     const endpointFormatted = `${endpoint}/items/details`;
     const url = applyApiBaseUrlV2(endpointFormatted, request);
+
+    delete params.id, params.apiUrl;
 
     return axios.get<ApiResponse<any, ThingsDetailResponse>>(url, {
       params,

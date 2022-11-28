@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import type { NextApiResponse } from 'next';
 import { applySimplenightApiKey } from 'apiCalls/config/middlewares/authHeaderMiddleware';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { applyApiBaseUrl } from 'apiCalls/config/responseHelpers';
 
 type Data = {
@@ -8,7 +9,7 @@ type Data = {
 };
 
 export default function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithSession,
   res: NextApiResponse<Data>,
 ) {
   applySimplenightApiKey(req, res);

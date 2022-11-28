@@ -22,6 +22,7 @@ import TicketIcon from 'public/icons/categories/ticket.svg';
 import BedDoubleIcon from 'public/icons/categories/bed-double.svg';
 import CoffeeIcon from 'public/icons/categories/coffee.svg';
 import ParkingIcon from 'public/icons/categories/parking-square.svg';
+import { Category } from 'types/settings/BrandConfig';
 
 interface IconsMap {
   [key: string]: ReactElement;
@@ -94,14 +95,34 @@ const getSectorWhitelabelId = (key: string) => {
   return '';
 };
 
+const getCategoryApiUrl = (category: Category) => {
+  const itemTypePattern = '/(.*?)/';
+  const apiTypeSettings = category.apiUrl?.match(itemTypePattern)?.[1];
+
+  let apiType;
+  if (apiTypeSettings === 'sector') {
+    apiType = 'sectors';
+  }
+
+  if (apiTypeSettings === 'category') {
+    apiType = 'categories';
+  }
+
+  const apiUrl = `/${apiType}/${category.slug}`;
+  return apiUrl;
+};
+
 const useCategories = () => {
   const categories = useSelector(getCategories);
+
   const categoriesTabs = categories.map((category) => {
+    const apiUrl = getCategoryApiUrl(category);
     return {
       name: category.alias,
       type: getSectorWhitelabelId(category.whitelabelId),
       slug: category.slug,
       icon: getCategoryIcon(category.icon),
+      apiUrl,
     };
   });
 

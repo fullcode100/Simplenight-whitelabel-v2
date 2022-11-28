@@ -1,13 +1,11 @@
-import {
-  applyApiBaseUrl,
-  applyApiBaseUrlV2,
-} from 'apiCalls/config/responseHelpers';
+import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import { HotelDetailResponse } from 'hotels/types/response/HotelDetailResponse';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { ApiResponse } from 'types/global/Request';
+import { NextApiRequestWithSession } from 'types/core/server';
 
 export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
   public constructor(category: CategoryOption) {
@@ -15,7 +13,7 @@ export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     response: NextApiResponse<HotelDetailResponse>,
     axios: AxiosInstance,
   ): Promise<AxiosResponse<ApiResponse<any, HotelDetailResponse>, any>> {

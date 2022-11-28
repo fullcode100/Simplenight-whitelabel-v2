@@ -1,7 +1,8 @@
 import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { GetBookingResponse } from 'types/confirmation/GetBookingResponse';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CoreOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
@@ -16,7 +17,7 @@ export class ServerBookingCancel extends ServerRequester<GetBookingResponse> {
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     _response: NextApiResponse<GetBookingResponse>,
     axios: AxiosInstance,
   ) {

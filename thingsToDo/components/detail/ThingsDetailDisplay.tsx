@@ -44,6 +44,7 @@ import EmptyCheckAvailability from 'public/icons/assets/empty-check-availability
 import EmptyNoAvailability from 'public/icons/assets/empty-no-availability.svg';
 import CheckThingsAvailability from '../CheckAvailability/CheckAvailability';
 import { categorySectorUUID } from 'thingsToDo';
+import { useCategorySlug } from 'hooks/category/useCategory';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -92,13 +93,15 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const loadMoreTickets = () => {
     setIsLoadMoreTickets(true);
   };
-  const { id, startDate, endDate } = useQuery();
+  const { id, startDate, endDate, slug } = useQuery();
+  const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   useEffect(() => {
     const params: ThingsDetailRequest = {
       start_date: formatAsSearchDate(startDate as string),
       end_date: formatAsSearchDate(endDate as string),
       rsp_fields_set: 'extended',
+      apiUrl,
     };
     if (id) {
       Detailer?.request?.(params, i18next, id)
@@ -123,10 +126,11 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
       lang: i18next.language,
       currency: currentCurrency,
       ticket_types: ticketTypes,
+      apiUrl,
     };
     if (id) {
       setLoading((prev) => !prev);
-      Availability?.request?.(params, i18next, categorySectorUUID)
+      Availability?.request?.(params, i18next, id)
         .then(({ tickets }: any) => {
           setTickets(tickets);
           setLoading((prev) => !prev);

@@ -18,6 +18,7 @@ export interface Category {
   alias: string;
   slug: string;
   whitelabelId: string;
+  apiUrl: string;
 }
 
 export interface FilteringAndSorting {

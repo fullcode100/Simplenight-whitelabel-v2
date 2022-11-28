@@ -24,7 +24,7 @@ export const getIsMapLoaded = () =>
 export const getBrandTheme = (state: any) => state.core.brandConfig?.theme;
 
 export const getBrandHeroTitle = (state: any) =>
-  state.core.brandConfig.homepage.heroSectionTitle;
+  state.core.brandConfig?.homepage.heroSectionTitle;
 
 export const getHomepageScrollHandler = () =>
   useSelector((state: any) => state.core.homepageScrollHandler);

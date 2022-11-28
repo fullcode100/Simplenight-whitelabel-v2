@@ -1,9 +1,10 @@
 import { ServerCartRemover } from 'core/server/ServerCartItemRemover';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { CartResponse } from '../../../../../types/cart/CartType';
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithSession,
   res: NextApiResponse<CartResponse>,
 ) {
   return new Promise((resolve) => {

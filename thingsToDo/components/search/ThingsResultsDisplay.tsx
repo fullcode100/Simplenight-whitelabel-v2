@@ -6,8 +6,6 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import ResultCard from './ResultCard/ResultCard';
 import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
-import PriceDisplay from '../PriceDisplay/PriceDisplay';
-import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
@@ -25,15 +23,9 @@ import { SORT_BY_OPTIONS } from 'thingsToDo/constants/sortByOptions';
 import FilterModal from '../filter/FilterModal';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import FilterSidebar from '../filter/FilterSidebar';
-import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
-import ThingItineraryHeader from '../itinerary/ThingItineraryHeader';
-
-import ThingItineraryFooter from '../itinerary/ThingItineraryFooter';
-
-import ThingItineraryBody from '../itinerary/ThingItineraryBody';
-import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
 import { sortByAdapter } from 'thingsToDo/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'thingsToDo/adapters/cancellation-type.adapter';
+import { useCategorySlug } from 'hooks/category/useCategory';
 import useKeywordFilter from 'thingsToDo/hooks/useKeywordFilter';
 
 interface ThingsResultsDisplayProps {
@@ -58,6 +50,7 @@ const ThingsResultsDisplay = ({
   const [sortBy, setSortBy] = useState<string>('recommended');
   const { ClientSearcher: Searcher } = ThingsCategory.core;
   const { slug } = useQuery();
+  const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
   const sortLabel = tg('sort', 'Sort');
@@ -69,7 +62,6 @@ const ThingsResultsDisplay = ({
     string[]
   >([]);
 
-  const categoryId = '97807fd1-6561-4f3b-a798-42233d9e2b09';
   const resultsMock = [thingToDo];
   const {
     startDate,
@@ -159,6 +151,7 @@ const ThingsResultsDisplay = ({
       ...(isTotalPrice && { is_total_price: maxRating as string }),
       cancellation_type: cancellationTypeAdapter(paymentTypes as string),
       supplier_ids: '',
+      apiUrl,
     };
     setLoaded(false);
     Searcher?.request?.(params, i18next)
@@ -253,7 +246,7 @@ const ThingsResultsDisplay = ({
         </section>
         <section className="flex items-center justify-between px-5 pt-3 pb-3 lg:mt-12 lg:pb-0">
           <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
-            {entertainmentItems.length} {resultsLabel}
+            {entertainmentItems?.length} {resultsLabel}
           </p>
           <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
             <button

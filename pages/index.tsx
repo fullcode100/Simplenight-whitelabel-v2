@@ -16,9 +16,9 @@ import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useCategories from 'hooks/category/useCategories';
 
-const UpperSectionBackground = ({ children }: { children?: ReactNode }) => {
-  const { homepage } = useBrandConfig();
-  const { whiteLabelBackground } = homepage;
+const UpperSectionBackground = ({ children }: { children?: any }) => {
+  const { homepage } = useBrandConfig() || {};
+  const { whiteLabelBackground } = homepage || {};
   return (
     <div
       className="bg-no-repeat bg-cover bg-center min-h-[50vh] px-4 pt-[96px] pb-[26px] grid grid-cols-1 place-content-center lg:min-h-[90vh] lg:px-20"
@@ -48,7 +48,7 @@ const Home: NextPageWithLayout = () => {
   const homepageScrollHandler = getHomepageScrollHandler();
 
   const categoriesTabs = useCategories();
-  const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs[0]);
+  const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);
 
   const homePageText = useBrandHeroTitle();
 

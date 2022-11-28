@@ -10,6 +10,7 @@ import { ServerRequester } from './ServerRequester';
 import { ApiResponse } from 'types/global/Request';
 import { GetBookingResponse } from 'types/confirmation/GetBookingResponse';
 import { CoreOption } from 'types/search/SearchTypeOptions';
+import { NextApiRequestWithSession } from 'types/core/server';
 
 export class ServerBookingsGetter extends ServerRequester<GetBookingResponse> {
   public constructor() {
@@ -21,7 +22,7 @@ export class ServerBookingsGetter extends ServerRequester<GetBookingResponse> {
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     _response: NextApiResponse<GetBookingResponse>,
     axios: AxiosInstance,
   ) {

@@ -21,7 +21,7 @@ const HelpSection = ({
   const helpTitle = t('needHelpTitle', 'Need Some Help?');
   const helpDescription = t('needHelpDescription', 'Contact Us For Support.');
 
-  const { information } = useBrandConfig();
+  const { information } = useBrandConfig() || {};
   const { customerSupportEmail, customerSupportPhone } = information || {};
   const { prefix, number } = customerSupportPhone || {};
   const customerSupportPhoneNumber = `${prefix} ${number}`;

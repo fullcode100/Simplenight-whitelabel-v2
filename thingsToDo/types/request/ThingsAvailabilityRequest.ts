@@ -6,4 +6,5 @@ export interface ThingsAvailabilityRequest {
   lang: string;
   currency: string;
   ticket_types: any;
+  apiUrl: string;
 }

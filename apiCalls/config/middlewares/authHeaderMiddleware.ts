@@ -1,17 +1,33 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getApiKey, API_KEY_HEADER_KEY } from '../axiosHelper';
-import { getRequestHost } from '../requestHelpers';
+import { getCredentials } from 'apiCalls/settings';
+import { NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
+import {
+  getRequestReferer,
+  encryptSession,
+  decryptSession,
+} from '../requestHelpers';
+
+export const X_SESSION = 'x-session';
 
 export const applySimplenightApiKey = (
-  req: NextApiRequest,
+  req: NextApiRequestWithSession,
   res: NextApiResponse,
 ) => {
-  const originUrl = getRequestHost(req);
-  const apiKey = getApiKey(originUrl);
-  res.setHeader(API_KEY_HEADER_KEY, apiKey);
+  const session = encryptSession(req.session);
+  res.setHeader(X_SESSION, session);
 };
 
-export const getSimplenightApiKey = (req: NextApiRequest) => {
-  const originUrl = getRequestHost(req);
-  return { header: API_KEY_HEADER_KEY, key: getApiKey(originUrl) };
+export const setSession = async (req: NextApiRequestWithSession) => {
+  if (req.headers[X_SESSION] == '') {
+    const originRefefer = getRequestReferer(req);
+    const data = await getCredentials(originRefefer);
+    req.session = data;
+    return;
+  }
+  req.session = decryptSession(req);
+};
+
+export const getSimplenightApiKey = (req: NextApiRequestWithSession) => {
+  const { token: apiKey, token_type: apiHeaderKey } = req.session;
+  return { header: apiHeaderKey, key: apiKey };
 };

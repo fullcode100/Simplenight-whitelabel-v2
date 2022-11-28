@@ -1,28 +1,18 @@
-import { AxiosError } from 'axios';
-import { NextApiRequest } from 'next';
-import { selectApiUrl } from './axiosHelper';
-import { getRequestHost } from './requestHelpers';
+import { NextApiRequestWithSession } from 'types/core/server';
 
-const API_V2_URL = 'https://dev-api.simplenight.com/v2';
-const API_QA_V2_URL = 'https://qa-api.simplenight.com/v2';
-const API_PROD_V2_URL = 'https://api.simplenight.com/v2';
-
-export const applyApiBaseUrl = (req: NextApiRequest, endpoint: string) => {
-  const originUrl = getRequestHost(req);
-  const apiUrl = selectApiUrl(originUrl);
+export const applyApiBaseUrl = (
+  req: NextApiRequestWithSession,
+  endpoint: string,
+) => {
+  const apiUrl = req.session.api_url;
   return `${apiUrl}${endpoint}`;
 };
 
 export const applyApiBaseUrlV2 = (
   endpoint: string,
-  request: NextApiRequest,
+  request: NextApiRequestWithSession,
 ) => {
-  const host = request.headers.host;
-  if (host && host.includes('qa')) return `${API_QA_V2_URL}${endpoint}`;
-  if (host && host.includes('dev')) return `${API_V2_URL}${endpoint}`;
-  if (host && host.includes('localhost:3000'))
-    return `${API_V2_URL}${endpoint}`;
-  return `${API_PROD_V2_URL}${endpoint}`;
+  return `${request.session.api_url}${endpoint}`;
 };
 
 export const forwardError = (err: any, res: any) => {

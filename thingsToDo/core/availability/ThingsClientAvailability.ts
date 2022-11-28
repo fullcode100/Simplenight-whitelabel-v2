@@ -27,7 +27,7 @@ export class ThingsClientAvailability extends ClientRequester<
     const clientAvailabilityUrl = `${categoryUrls?.availability?.client}/${id}/items/availability`;
 
     return axios.post<Ticket[]>(clientAvailabilityUrl, {
-      data: { request, id },
+      params: request,
     });
   }
 }

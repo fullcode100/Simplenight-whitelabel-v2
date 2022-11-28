@@ -3,9 +3,9 @@ import {
   sendSuccess,
 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
-import { formatCart } from 'helpers/cartUtils';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CartServerResponse } from 'types/cart/CartType';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CoreOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
@@ -16,7 +16,7 @@ export class ServerCartGetter extends ServerRequester<CartServerResponse> {
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     response: NextApiResponse,
     axios: AxiosInstance,
   ) {

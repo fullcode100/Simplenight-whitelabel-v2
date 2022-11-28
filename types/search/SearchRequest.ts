@@ -11,4 +11,5 @@ export interface SearchRequest {
   max_price?: string;
   is_total_price?: string;
   supplier_ids: string;
+  apiUrl?: string;
 }
