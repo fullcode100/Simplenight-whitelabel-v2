@@ -26,6 +26,7 @@ interface Props {
   setCalendarFirstMonth: (value: number) => void;
   calendarSecondMonth: number;
   setCalendarSecondMonth: (value: number) => void;
+  maxRange: number;
 }
 const DesktopDatepickerDropdown = ({
   open,
@@ -42,6 +43,7 @@ const DesktopDatepickerDropdown = ({
   setCalendarFirstMonth,
   calendarSecondMonth,
   setCalendarSecondMonth,
+  maxRange,
 }: Props) => {
   const ref = useRef<HTMLElement>(null);
   useOnOutsideClick(ref, () => closeModal());
@@ -114,10 +116,10 @@ const DesktopDatepickerDropdown = ({
               dayjs(endDate),
             )}
             isDisabled={
-              dayjs(day.date).isSameOrBefore(dayjs().subtract(1, 'day')) ||
+              dayjs(day.date).isBefore(dayjs().subtract(1, 'day')) ||
               dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
               (!isStartDateTurn &&
-                dayjs(day.date).isAfter(dayjs(startDate).add(2, 'week')))
+                dayjs(day.date).isAfter(dayjs(startDate).add(maxRange, 'day')))
             }
           />
         ))}

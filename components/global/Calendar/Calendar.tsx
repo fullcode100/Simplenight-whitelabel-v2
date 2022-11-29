@@ -38,6 +38,8 @@ interface DatePickerProps {
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
   openOnStart: boolean;
+  maxRange?: number;
+  minRange?: number;
 }
 
 const DatePicker = ({
@@ -50,6 +52,8 @@ const DatePicker = ({
   onStartDateChange,
   onEndDateChange,
   openOnStart,
+  maxRange = 14,
+  minRange = 1,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
@@ -78,10 +82,14 @@ const DatePicker = ({
     if (isStartDateTurn) {
       if (
         (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
-        dayjs(date).isBefore(dayjs(endDate).subtract(2, 'week'))
+        dayjs(date).isBefore(dayjs(endDate).subtract(maxRange, 'day')) ||
+        dayjs(date).isBetween(
+          dayjs(startDate),
+          dayjs(startDate).add(minRange, 'day'),
+        )
       ) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(1, 'day').format('YYYY-MM-DD'));
+        setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
         setIsStartDateTurn(!isStartDateTurn);
         return;
       }
@@ -90,9 +98,22 @@ const DatePicker = ({
       return;
     }
     if (!isStartDateTurn) {
-      if (dayjs(date).isSameOrBefore(dayjs(startDate))) {
+      if (dayjs(date).isBefore(dayjs(startDate))) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(1, 'day').format('YYYY-MM-DD'));
+        setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
+        return;
+      }
+      if (dayjs(date).isSame(dayjs(startDate))) {
+        setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
+        return;
+      }
+      if (
+        dayjs(date).isBetween(
+          dayjs(startDate),
+          dayjs(startDate).add(minRange, 'day'),
+        )
+      ) {
+        setEndDate(dayjs(startDate).add(minRange, 'day').format('YYYY-MM-DD'));
         return;
       }
       setEndDate(date);
@@ -136,6 +157,7 @@ const DatePicker = ({
         setCalendarFirstMonth={setCalendarFirstMonth}
         calendarSecondMonth={calendarSecondMonth}
         setCalendarSecondMonth={setCalendarSecondMonth}
+        maxRange={maxRange}
       />
     );
   };
@@ -191,7 +213,7 @@ const DatePicker = ({
                         dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
                         (!isStartDateTurn &&
                           dayjs(day.date).isAfter(
-                            dayjs(startDate).add(2, 'week'),
+                            dayjs(startDate).add(maxRange, 'day'),
                           ))
                       }
                     />
