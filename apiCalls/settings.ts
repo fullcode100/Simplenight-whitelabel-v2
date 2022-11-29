@@ -15,12 +15,7 @@ export const getCredentials = async (referer?: string) => {
   axios.defaults.headers.common.Referer = referer ?? '';
   try {
     const response = await axios.get('/credentials');
-
-    console.log('get credentials response', response);
-
-
     console.log(axios.defaults.headers);
-
     const credentials = response.data.data;
     return credentials;
   } catch (e) {
