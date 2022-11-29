@@ -155,6 +155,7 @@
   "paymentType": "Tipos de Pago",
   "rating": "Valoraciones",
   "filter": "Filtrar",
+  "errorTermsLabel": "Por favor acepte términos y condiciones",
   "payNow": "Pagar ahora",
   "adult": "Adulto",
   "child": "Niño",

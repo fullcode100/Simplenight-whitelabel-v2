@@ -142,6 +142,7 @@
   "paymentType": "Payment Type",
   "rating": "Rating",
   "filter": "Filter",
+  "errorTermsLabel": "Please accept terms and conditions",
   "payNow": "Pay now",
   "adult": "Adult",
   "child": "Child",
