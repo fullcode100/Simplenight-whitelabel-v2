@@ -19,9 +19,6 @@ export const decryptSession = (req: NextApiRequestWithSession): Session => {
     .createHash('sha256')
     .update(process.env.NEXT_ENCRYPT_KEY as string);
 
-  console.log('Key', key);
-  console.log('NEXT_ENCRYPT_KEY', process.env.NEXT_ENCRYPT_KEY);
-
   const decipher = crypto.createDecipheriv(
     'aes-256-cbc',
     key.digest(),
