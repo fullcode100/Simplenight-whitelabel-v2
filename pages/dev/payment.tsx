@@ -28,7 +28,6 @@ const PaymentTest: NextPage = () => {
 
   const handlePaymentToken = (token: string) => {
     setLastUsedToken(token);
-    console.log(`Payment token is ${token}`);
   };
 
   const handlePaymentRequest = (paymentRequest: PaymentRequest) => {

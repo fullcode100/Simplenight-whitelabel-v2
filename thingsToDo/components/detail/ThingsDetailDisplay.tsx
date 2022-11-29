@@ -120,13 +120,14 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
 
   const handleAvailability = (date: string, ticketTypes: any[]) => {
     setIsCheckingAvailability(true);
+    const url = '/categories/' + thingsItem?.categories[0].id ?? '';
     const params: ThingsAvailabilityRequest = {
       start_date: formatAsSearchDate(date as string),
       inventory_id: id as string,
       lang: i18next.language,
       currency: currentCurrency,
       ticket_types: ticketTypes,
-      apiUrl,
+      apiUrl: url,
     };
     if (id) {
       setLoading((prev) => !prev);
@@ -136,6 +137,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           setLoading((prev) => !prev);
         })
         .catch((e: any) => {
+          setLoading((prev) => !prev);
           console.error(e);
         });
     }
