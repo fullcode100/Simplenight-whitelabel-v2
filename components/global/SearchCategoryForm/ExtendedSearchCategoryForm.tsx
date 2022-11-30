@@ -39,7 +39,7 @@ const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
       primaryButtonAction={() => {}}
       noFooter
     >
-      <section className="h-full relative flex flex-col gap-4">
+      <section className="h-full overflow-y-auto px-2 py-2">
         {searchFormWithProps}
       </section>
     </FullScreenModal>

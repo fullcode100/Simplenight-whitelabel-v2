@@ -2,7 +2,7 @@ import { ClientDetailer } from 'core/client/ClientDetailer';
 import { ClientSearcher } from 'core/client/ClientSearcher';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import { ServerSearcher } from 'core/server/ServerSearcher';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { CategoryStoreActions } from 'types/redux/categories/CategoryStoreActions';
 import { SearchRequest } from './SearchRequest';
 

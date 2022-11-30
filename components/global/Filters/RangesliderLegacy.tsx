@@ -1,8 +1,10 @@
-import { useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import classnames from 'classnames';
-import LabelSlider from './components/LabelSlider';
+import LabelSlider from '../RangeSlider/components/LabelSlider';
 
 interface RangeSliderProps {
+  initialMin?: number;
+  initialMax: number;
   min: number;
   max: number;
   step: number;
@@ -11,36 +13,40 @@ interface RangeSliderProps {
   type: 'price' | 'star' | 'number' | 'distance';
   setMinState?: (value: string) => void;
   setMaxState: (value: string) => void;
-  minValue: number;
-  maxValue: number;
-  setMinValue: React.Dispatch<React.SetStateAction<number>>;
-  setMaxValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const RangeSlider = ({
+const RangesliderLegacy = ({
+  initialMin,
+  initialMax,
   min,
   max,
-  minValue,
-  maxValue,
   step,
   minDifference,
   marks = false,
   type,
   setMinState,
   setMaxState,
-  setMinValue,
-  setMaxValue,
 }: RangeSliderProps) => {
   const progressRef: any = useRef(null);
+  const [minValue, setMinValue] = useState(initialMin ?? min);
+  const [maxValue, setMaxValue] = useState(initialMax);
+
+  const setMin = (value: number) => {
+    setMinValue(value);
+  };
+
+  const setMax = (value: number) => {
+    setMaxValue(value);
+  };
 
   const handleMin = (e: ChangeEvent<any>) => {
     if (maxValue - minValue >= minDifference && minValue >= min) {
       if (parseInt(e.target.value) <= maxValue) {
-        setMinValue(parseInt(e.target.value));
+        setMin(parseInt(e.target.value));
       }
     } else {
       if (parseInt(e.target.value) < minValue) {
-        setMinValue(parseInt(e.target.value));
+        setMin(parseInt(e.target.value));
       }
     }
   };
@@ -48,11 +54,11 @@ const RangeSlider = ({
   const handleMax = (e: ChangeEvent<any>) => {
     if (maxValue - minValue >= minDifference && maxValue <= max) {
       if (parseInt(e.target.value) >= minValue) {
-        setMaxValue(parseInt(e.target.value));
+        setMax(parseInt(e.target.value));
       }
     } else {
       if (parseInt(e.target.value) > maxValue) {
-        setMaxValue(parseInt(e.target.value));
+        setMax(parseInt(e.target.value));
       }
     }
   };
@@ -159,4 +165,4 @@ const RangeSlider = ({
   );
 };
 
-export default RangeSlider;
+export default RangesliderLegacy;
