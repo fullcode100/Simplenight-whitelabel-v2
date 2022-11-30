@@ -162,5 +162,8 @@
   "errorTermsLabel": "Por favor acepte términos y condiciones",
   "checkAvailabilityForYourSearch": "Verifique la disponibilidad para sus invitados y fechas seleccionados.",
   "checkAvailability": "Consultar Disponibilidad",
-  "ages": "Edades"
+  "ages": "Edades",
+  "sortByLowestPrice": "Precio más bajo",
+  "sortByBestDeal": "Mejor trato",
+  "sortByBestSeats": "Mejores asientos"
 }

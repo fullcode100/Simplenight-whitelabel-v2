@@ -5,9 +5,13 @@ module.exports = {
     './components/**/*.tsx',
     './layouts/**/*.tsx',
     './hotels/**/*.tsx',
+    './showsAndEvents/**/*.tsx',
   ],
   theme: {
     extend: {
+      rotate: {
+        30: '30deg',
+      },
       borderRadius: {
         4: '4px',
         6: '6px',

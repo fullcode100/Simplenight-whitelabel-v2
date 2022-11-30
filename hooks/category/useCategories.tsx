@@ -57,6 +57,7 @@ export const getCategoryIcon = (key: string) => {
 const getSectorWhitelabelId = (key: string) => {
   if (['hotels', 'accommodations', 'vacation-rentals'].includes(key))
     return 'hotels';
+  if (['shows-events'].includes(key)) return 'shows-events';
   if (
     [
       'air-activities',

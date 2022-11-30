@@ -149,5 +149,8 @@
   "errorTermsLabel": "Please accept terms and conditions",
   "checkAvailabilityForYourSearch": "Check Availability For Your Selected Guests And Dates.",
   "checkAvailability": "Check Availability",
-  "ages": "Ages"
+  "ages": "Ages",
+  "sortByLowestPrice": "Lowest Price",
+  "sortByBestDeal": "Best Deal",
+  "sortByBestSeats": "Best Seats"
 }

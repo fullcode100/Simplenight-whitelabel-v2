@@ -44,6 +44,8 @@ export const RadioGroup = ({ children, onChange, value, gap }: IRadioGroup) => {
   };
 
   const newChildren = children?.map?.((element: any) => {
+    console.log(element?.props?.value);
+
     return {
       ...element,
       props: {

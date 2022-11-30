@@ -3,14 +3,15 @@ import classnames from 'classnames';
 import LabelSlider from './components/LabelSlider';
 
 interface RangeSliderProps {
-  initialMin: number;
+  initialMin?: number;
   initialMax: number;
   min: number;
   max: number;
   step: number;
   minDifference: number;
-  type: 'price' | 'star';
-  setMinState: (value: string) => void;
+  marks?: boolean;
+  type: 'price' | 'star' | 'number' | 'distance';
+  setMinState?: (value: string) => void;
   setMaxState: (value: string) => void;
 }
 
@@ -21,12 +22,13 @@ const RangeSlider = ({
   max,
   step,
   minDifference,
+  marks = false,
   type,
   setMinState,
   setMaxState,
 }: RangeSliderProps) => {
   const progressRef: any = useRef(null);
-  const [minValue, setMinValue] = useState(initialMin);
+  const [minValue, setMinValue] = useState(initialMin ?? min);
   const [maxValue, setMaxValue] = useState(initialMax);
 
   const setMin = (value: number) => {
@@ -61,25 +63,36 @@ const RangeSlider = ({
     }
   };
 
-  const StarNotches = () => {
+  const Marks = () => {
+    const isActive = (val: number) => {
+      if (!setMinState) return maxValue < val;
+
+      return minValue > val || maxValue < val;
+    };
     return (
       <>
-        <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px]"></div>
         <div
-          className={`h-2 w-2 rounded-full absolute -top-[3px] left-1/4 ${
-            minValue > 2 || maxValue < 2 ? 'bg-dark-200' : 'bg-primary-600'
+          className={`h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px] ${
+            setMinState !== undefined ? 'bg-dark-200' : 'bg-primary-600'
           }`}
         ></div>
-        <div
-          className={`h-2 w-2 rounded-full absolute -top-[3px] left-1/2 ${
-            minValue > 3 || maxValue < 3 ? 'bg-dark-200' : 'bg-primary-600'
-          }`}
-        ></div>
-        <div
-          className={`h-2 w-2 rounded-full absolute -top-[3px] left-3/4 ${
-            minValue > 4 || maxValue < 4 ? 'bg-dark-200' : 'bg-primary-600'
-          }`}
-        ></div>
+        {[...Array(max - 2)].map((e, i) => {
+          const marksCount = max - 1;
+          const itemNumber = i + 1;
+          const width = 100;
+          return (
+            <div
+              key={i}
+              style={{
+                left: `${(width / marksCount) * itemNumber}%`,
+                marginLeft: '-4px',
+              }}
+              className={`h-2 w-2 rounded-full absolute -top-[3px] ${
+                isActive(i + 2) ? 'bg-dark-200' : 'bg-primary-600'
+              }`}
+            ></div>
+          );
+        })}
         <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px] right-0"></div>
       </>
     );
@@ -100,26 +113,28 @@ const RangeSlider = ({
             className="absolute h-0.5 bg-primary-1000 rounded "
             ref={progressRef}
           ></div>
-          {type == 'star' && <StarNotches />}
+          {marks && <Marks />}
         </div>
 
         <div className="relative">
-          <input
-            onChange={handleMin}
-            onMouseUp={() => setMinState(minValue.toString())}
-            onTouchEnd={() => setMinState(minValue.toString())}
-            type="range"
-            min={min}
-            step={step}
-            max={max}
-            value={minValue}
-            id="minValue"
-            name="minValue"
-            className={classnames(
-              'absolute w-full h-1 bg-transparent appearance-none pointer-events-none -top-1',
-              { ['z-10']: minValue === max },
-            )}
-          />
+          {setMinState && (
+            <input
+              onChange={handleMin}
+              onMouseUp={() => setMinState(minValue.toString())}
+              onTouchEnd={() => setMinState(minValue.toString())}
+              type="range"
+              min={min}
+              step={step}
+              max={max}
+              value={minValue}
+              id="minValue"
+              name="minValue"
+              className={classnames(
+                'absolute w-full h-1 bg-transparent appearance-none pointer-events-none -top-1',
+                { ['z-10']: minValue === max },
+              )}
+            />
+          )}
           <label htmlFor="minValue" className="absolute top-6">
             <LabelSlider value={minValue} type={type} />
           </label>
