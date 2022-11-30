@@ -28,8 +28,6 @@ const PaymentCartItem = ({ item }: PaymentCartItemProps) => {
     });
   };
 
-  /* const { check_in_instructions: checkInInstructions } = item.extended_data; */
-
   const CartItemBody = () => {
     return (
       <section className="mb-6 px-4">
