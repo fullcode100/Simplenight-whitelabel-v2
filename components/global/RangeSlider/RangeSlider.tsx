@@ -3,6 +3,8 @@ import classnames from 'classnames';
 import LabelSlider from './components/LabelSlider';
 
 interface RangeSliderProps {
+  initialMin?: number;
+  initialMax: number;
   min: number;
   max: number;
   step: number;
@@ -32,6 +34,16 @@ const RangeSlider = ({
   setMaxValue,
 }: RangeSliderProps) => {
   const progressRef: any = useRef(null);
+  const [minValue, setMinValue] = useState(initialMin ?? min);
+  const [maxValue, setMaxValue] = useState(initialMax);
+
+  const setMin = (value: number) => {
+    setMinValue(value);
+  };
+
+  const setMax = (value: number) => {
+    setMaxValue(value);
+  };
 
   const handleMin = (e: ChangeEvent<any>) => {
     if (maxValue - minValue >= minDifference && minValue >= min) {
