@@ -9,9 +9,6 @@ import {
   SQUARE_SANDBOX_APP_ID,
   SQUARE_SANDBOX_LOCATION_ID,
 } from 'config/paymentCredentials';
-// Types
-import { Amount } from 'types/global/Amount';
-import { PaymentRequest } from 'components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
 // Components
 import Button from 'components/global/Button/Button';
 // Layout Components
@@ -34,18 +31,11 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { clearCart } from 'store/actions/cartActions';
-import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
 import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
-
-const test: Amount = {
-  formatted: '$200.00',
-  amount: 200,
-  currency: 'USD',
-};
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
@@ -61,15 +51,15 @@ const Payment = () => {
     'iHaveReviewed',
     'I have reviewed and agree to the ',
   );
-  const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
+
   const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
   const fullAmountLabel = t('fullAmount', 'Full Amount');
   const checkoutLabel = t('checkoutTitle', 'Check Out');
   const backLabel = t('back', 'Back');
   const loadingLabel = t('loading', 'Loading');
 
-  const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
-  const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
+  const appId = SQUARE_SANDBOX_APP_ID;
+  const locationId = SQUARE_SANDBOX_LOCATION_ID;
   const payClickRef = useRef<HTMLButtonElement>(null);
 
   const [country, setCountry] = useState<string | null>(null);

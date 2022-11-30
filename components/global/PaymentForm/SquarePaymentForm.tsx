@@ -4,8 +4,8 @@ import {
   SQUARE_SANDBOX_APP_ID,
   SQUARE_SANDBOX_LOCATION_ID,
 } from 'config/paymentCredentials';
-import classNames from 'classnames';
 import { Customer } from 'types/cart/CartType';
+import classNames from 'classnames';
 
 declare let window: CustomWindow;
 
@@ -49,7 +49,6 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
     }: PaymentFormProps,
     ref,
   ) => {
-    const [cardLoaded, setCardLoaded] = useState(false);
     const [card, setCard] = useState<any>(null);
     const [payments, setPayments] = useState<any>(null);
     const [googlePay, setGooglePay] = useState<any>(null);
@@ -59,13 +58,14 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
         applicationId,
         locationId,
       );
-
-      if (withGooglePay) initializeGooglePay(paymentsForm);
+      if (withGooglePay) {
+        withGooglePay = false;
+        initializeGooglePay(paymentsForm);
+      }
 
       paymentsForm.card().then((newCard: any) => {
         newCard.attach('#card-container').then(() => {
           setCard(newCard);
-          setCardLoaded(true);
         });
       });
 
@@ -101,7 +101,7 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
     };
 
     useEffect(() => {
-      reloadGooglePay();
+      if (withGooglePay) reloadGooglePay();
     }, [amount, currencyCode, countryCode]);
 
     useEffect(() => {
@@ -147,7 +147,7 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
     };
 
     const handlePayClick = async (
-      event: MouseEvent<HTMLButtonElement>,
+      event: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLDivElement>,
       paymentMethod: any,
     ) => {
       event.preventDefault();
@@ -174,14 +174,14 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
           <div
             id="google-pay-button"
             className="mb-4"
-            onClick={(event: any) => handlePayClick(event, googlePay)}
+            onClick={(event) => handlePayClick(event, googlePay)}
           ></div>
         )}
         <div id="card-container"></div>
 
         <button
           id="card-button"
-          onClick={(event: any) => handlePayClick(event, card)}
+          onClick={(event) => handlePayClick(event, card)}
           value="Pay"
           ref={ref}
           className={classNames({

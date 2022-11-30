@@ -27,7 +27,7 @@ const ModalFooter = ({
 
   return (
     <footer
-      className={`w-full bg-white py-6 px-5 shadow-container ${className}`}
+      className={`w-full fixed bottom-0 left-0 bg-white py-4 px-5 shadow-container ${className}`}
     >
       {summary}
 

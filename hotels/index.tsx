@@ -3,7 +3,7 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HotelSearchForm from 'hotels/components/search/HotelSearchForm';
 
 import hotelReducer from './redux/reducer';
-import hotelActions from './redux/actions';
+import { hotelsSetInitialState } from './redux/actions';
 
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import HotelResultsDisplay from 'hotels/components/search/HotelResultsDisplay';
@@ -17,7 +17,6 @@ import { HotelServerSearcher } from './core/search/HotelServerSearcher';
 import { HotelClientDetailer } from './core/detail/HotelClientDetailer';
 import { HotelServerDetailer } from './core/detail/HotelServerDetailer';
 import HotelSearchFormReadState from './components/search/HotelSearchFormReadState';
-import HotelSecondarySearchOptions from './components/search/HotelSecondarySearchOptions';
 import HotelCheckoutDisplay from './components/checkout/HotelCheckoutDisplay';
 import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
 import HotelCheckoutItemDisplay from './components/checkout/HotelCheckoutItemDesplay';
@@ -31,11 +30,10 @@ const Category: CategoryOption = {
   icon: <CategoryIcon categoryName={HOTEL_CATEGORY} className={'h-5 w-5'} />,
   store: {
     reducer: hotelReducer,
-    actions: hotelActions,
+    actions: { hotelsSetInitialState },
   },
   selectedIcon: <BedFillGray />,
   searchForm: <HotelSearchForm />,
-  secondarySearchOptions: <HotelSecondarySearchOptions />,
   readStateSearchForm: <HotelSearchFormReadState />,
   resultsDisplay: <></>,
   detailDisplay: <></>,

@@ -16,7 +16,6 @@ const locizeOptions = {
 };
 
 const withLocize = () => {
-  console.log('withLocize');
   i18next
     .use(Backend)
     .use(initReactI18next)

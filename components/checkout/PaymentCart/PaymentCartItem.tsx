@@ -3,18 +3,25 @@ import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
 import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
 import BreakdownSummary from 'hotels/components/PriceBreakdownModal/components/BreakdownSummary';
-import { useCategorySlug } from 'hooks/category/useCategory';
+import { Item } from 'types/cart/CartType';
 
-const PaymentCartItem = ({ item }: any) => {
+interface PaymentCartItemProps {
+  item: Item;
+}
+
+const PaymentCartItem = ({ item }: PaymentCartItemProps) => {
+  const categoryLowerCase = item.category
+    ? item.category.toLowerCase()
+    : 'no category';
   const CartItemHeader = () => {
-    const category = useCategory(item.category.toLowerCase());
+    const category = useCategory(categoryLowerCase);
     return injectProps(category?.checkoutDisplay, {
       item: item,
     });
   };
 
   const CartItemBreakdown = () => {
-    const category = useCategory(item.category.toLowerCase());
+    const category = useCategory(categoryLowerCase);
     return injectProps(category?.breakdownDisplay, {
       item: item,
       showCollapse: false,
@@ -39,7 +46,13 @@ const PaymentCartItem = ({ item }: any) => {
 
   return (
     <section className="space-y-5 py-6">
-      <CartItemDetail />
+      {item.rate && (
+        <CollapseBordered
+          title={<CartItemHeader />}
+          body={<CartItemBody />}
+          footer={<BreakdownSummary rate={item.rate} showTotal={true} />}
+        />
+      )}
     </section>
   );
 };

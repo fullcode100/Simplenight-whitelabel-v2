@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import RangeSlider from 'components/global/RangeSlider/RangeSlider';
+import RangesliderLegacy from 'components/global/Filters/RangesliderLegacy';
 import FilterContainer from './FilterContainer';
 import FilterTitle from './FilterTitle';
 
@@ -28,7 +28,7 @@ const PriceRangeFilter = ({
   return (
     <FilterContainer>
       <FilterTitle label={priceRangeLabel} />
-      <RangeSlider
+      <RangesliderLegacy
         initialMin={minPrice ? parseInt(minPrice) : 0}
         initialMax={maxPrice ? parseInt(maxPrice) : 5000}
         min={0}
