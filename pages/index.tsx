@@ -15,6 +15,7 @@ import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
 import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useCategories from 'hooks/category/useCategories';
+import HomeCategoryContent from 'components/global/HomeCategoryContent/HomeCategoryContent';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => {
   const { homepage } = useBrandConfig() || {};
@@ -138,6 +139,7 @@ const Home: NextPageWithLayout = () => {
             </section>
           </UpperSectionBackground>
         </section>
+        <HomeCategoryContent activeTab={activeTab} />
         <section className="px-5 py-6 lg:px-20 lg:py-12">
           <section className="flex flex-col gap-4 mx-auto max-w-7xl lg:gap-8 lg:flex-row">
             <OrderLookupCard />

@@ -146,14 +146,11 @@
   "payNow": "Pay now",
   "adult": "Adult",
   "child": "Child",
+  "errorTermsLabel": "Please accept terms and conditions",
   "checkAvailabilityForYourSearch": "Check Availability For Your Selected Guests And Dates.",
   "checkAvailability": "Check Availability",
   "ages": "Ages",
-  "nameOnCard": "Name On Card",
-  "cardNumber": "Credit / Debit Card",
-  "cardExpiration": "Card Expiration",
-  "cvvNumber": "Card CVV Number",
-  "name": "Name",
-  "enterCardNumber": "Enter Your Card Number",
-  "checkOnBackOfCard": "Check On Back Of Card"
+  "sortByLowestPrice": "Lowest Price",
+  "sortByBestDeal": "Best Deal",
+  "sortByBestSeats": "Best Seats"
 }

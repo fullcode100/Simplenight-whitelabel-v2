@@ -3,14 +3,17 @@ import { createRef, useEffect, useState, ReactNode } from 'react';
 interface EmptyStateProps {
   text: string;
   image: ReactNode;
+  forcedHeight?: number;
 }
 
-const EmptyState = ({ text, image }: EmptyStateProps) => {
+const EmptyState = ({ text, image, forcedHeight }: EmptyStateProps) => {
   const [height, setHeight] = useState(0);
 
   const sectionRef = createRef<HTMLElement>();
   useEffect(() => {
-    setHeight(window.innerHeight - (sectionRef.current?.offsetTop ?? 0));
+    setHeight(
+      forcedHeight ?? window.innerHeight - (sectionRef.current?.offsetTop ?? 0),
+    );
   }, []);
 
   return (

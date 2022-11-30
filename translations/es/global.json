@@ -159,14 +159,11 @@
   "payNow": "Pagar ahora",
   "adult": "Adulto",
   "child": "Niño",
+  "errorTermsLabel": "Por favor acepte términos y condiciones",
   "checkAvailabilityForYourSearch": "Verifique la disponibilidad para sus invitados y fechas seleccionados.",
   "checkAvailability": "Consultar Disponibilidad",
   "ages": "Edades",
-  "nameOnCard": "Nombre En La Trajeta",
-  "cardNumber": "Tarjeta de Crédito / Débito",
-  "cardExpiration": "Vencimiento de la Tarjeta",
-  "cvvNumber": "CVV de la Tarjeta",
-  "name": "Nombre",
-  "enterCardNumber": "Ingrese su Número de Tarjeta",
-  "checkOnBackOfCard": "Verifique en el reverso de la tarjeta"
+  "sortByLowestPrice": "Precio más bajo",
+  "sortByBestDeal": "Mejor trato",
+  "sortByBestSeats": "Mejores asientos"
 }

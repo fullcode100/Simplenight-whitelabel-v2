@@ -33,6 +33,7 @@ export interface CategoryOption {
   checkoutItemDisplay?: ReactElement;
   confirmationDisplay?: ReactElement;
   cancelledDisplay?: ReactElement;
+  homeDisplay?: ReactElement;
 }
 
 export interface CategoryStore {
