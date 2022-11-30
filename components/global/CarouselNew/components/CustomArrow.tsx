@@ -6,11 +6,14 @@ import RightArrow from 'public/icons/assets/carousel-right-arrow.svg';
 interface ArrowPropsExtended extends ArrowProps {
   position: 'right' | 'left';
   className: string;
+  rtl?: string;
 }
 
 const CustomArrow = ({
   position,
   className,
+  carouselState,
+  rtl,
   ...restArrowProps
 }: ArrowPropsExtended) => {
   if (position === 'right') {

@@ -53,3 +53,6 @@ yarn-error.log*
 
 # Eslint
 .eslintcache
+
+.idea/
+.history/

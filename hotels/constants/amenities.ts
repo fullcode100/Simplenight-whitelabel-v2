@@ -19,3 +19,14 @@ export const AMENITIES_OPTIONS = [
   { value: 'Spa', label: 'spa' },
   { value: 'Casino', label: 'casino' },
 ];
+
+export const DATES_OPTIONS = [
+  { value: 'All Dates', label: 'allDates' },
+  { value: 'This Weekend', label: 'thisWeekend' },
+];
+
+export const TIME_OPTIONS = [
+  { value: 'Any Time', label: 'anytime' },
+  { value: 'Day', label: 'day' },
+  { value: 'Night', label: 'night' },
+];

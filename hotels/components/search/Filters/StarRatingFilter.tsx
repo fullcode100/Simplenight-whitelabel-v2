@@ -36,6 +36,7 @@ const StarRatingFilter = ({
         step={1}
         minDifference={0}
         type="star"
+        marks={true}
         setMinState={onChangeMinRating}
         setMaxState={onChangeMaxRating}
       />
