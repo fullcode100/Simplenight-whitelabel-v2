@@ -136,6 +136,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         is_total_price: isTotalPrice as string,
         amenities: amenities as string,
         supplier_ids: supplierIds as string,
+        apiUrl: '/hotels',
       };
 
       if (parseQueryNumber(children as string)) {
