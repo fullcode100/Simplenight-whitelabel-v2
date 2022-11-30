@@ -13,6 +13,9 @@ interface FlightSegmentDetailsProps {
 const FlightSegmentDetails = ({ key, segment }: FlightSegmentDetailsProps) => {
   const [t] = useTranslation('flights');
   const terminalLabel = t('terminal', 'Terminal');
+  const flightDurationInMinutes: number = segment?.flightDurationInMinutes
+    ? segment?.flightDurationInMinutes
+    : 0;
 
   return (
     <li
@@ -61,8 +64,10 @@ const FlightSegmentDetails = ({ key, segment }: FlightSegmentDetailsProps) => {
         <section className="flex flex-col grow w-[20%]">
           <section className="w-full flex flex-col items-center justify-center">
             <p className="text-dark-1000 font-normal py-3 whitespace-nowrap text-center">
-              {segment?.flightDuration.substring(0, 2)}h{' '}
-              {segment?.flightDuration.substring(2, 4)}m
+              {Math.floor(flightDurationInMinutes / 60)}h{' '}
+              {flightDurationInMinutes -
+                Math.floor(flightDurationInMinutes / 60) * 60}
+              m
             </p>
             <IconArrowRight className="text-primary-1000 self-center" />
           </section>

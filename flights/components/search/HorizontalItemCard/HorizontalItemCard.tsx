@@ -45,20 +45,14 @@ function HorizontalItemCard<T extends WithId>({
 
   const itemFlight = item;
   let totalFlightTimeInMinutes = itemFlight?.segments?.totalFlightTimeInMinutes
-    ? parseInt(itemFlight?.segments?.totalFlightTimeInMinutes)
+    ? itemFlight?.segments?.totalFlightTimeInMinutes
     : 0;
   if (
     !totalFlightTimeInMinutes &&
-    itemFlight?.segments?.collection[0]?.flightDuration
+    itemFlight?.segments?.collection[0]?.flightDurationInMinutes
   )
     totalFlightTimeInMinutes =
-      parseInt(
-        itemFlight?.segments?.collection[0]?.flightDuration.substring(0, 2),
-      ) *
-        60 +
-      parseInt(
-        itemFlight?.segments?.collection[0]?.flightDuration.substring(2, 4),
-      );
+      itemFlight?.segments?.collection[0]?.flightDurationInMinutes;
 
   const CategoryTag = () => (
     <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br">

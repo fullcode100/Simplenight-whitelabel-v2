@@ -10,7 +10,7 @@ export interface Flight {
   segments: {
     collection: FlightSegment[];
     legType?: string;
-    totalFlightTimeInMinutes?: string | null;
+    totalFlightTimeInMinutes?: number | null;
     fareAndCabinName?: string | null;
     fareType?: string | null;
   };
@@ -30,8 +30,8 @@ export interface FlightSegment {
   arrivalDateTime: string;
   arrivalTerminal?: string | null;
 
-  flightDuration: string;
-  layoverToNextSegmentsInMinutes: string | null;
+  flightDurationInMinutes: number;
+  layoverToNextSegmentsInMinutes: number;
 
   aircraftType: string | null;
 

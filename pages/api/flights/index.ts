@@ -11,7 +11,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<FlightSearchResponse>,
 ) {
-  // Temporary, until SN api/v2/flights is implemented
   const passenger = [];
   const adults = req.query?.adults ? Number(req.query?.adults) : 1;
   for (let i = 0; i < adults; i += 1) {
@@ -26,6 +25,7 @@ export default async function handler(
     passenger.push({ id: `1.${i + 1}`, code: 'INF' });
   }
   const currency = req.query?.currency ? req.query?.currency : 'USD';
+  const lang = req.query?.lang ? req.query?.lang : 'EN';
 
   const direction = req.query?.direction ? req.query?.direction : 'round_trip';
   let itenDetails;
@@ -90,31 +90,47 @@ export default async function handler(
       },
       currency: currency,
     };
-    console.log('postData', JSON.stringify(postData));
-    const { data } = await axios.post(
-      'https://dev.jarnetsolutions.com/sn-booking-service/airsearch', // Amadeus
-      // 'https://dev.jarnetsolutions.com/sn-booking-service/findbargain', // SABRE
-      postData,
-      {
-        headers: {
-          Accept: 'application/json',
-        },
+    const url =
+      'https://dev-api.simplenight.com/v2/categories/flights/items/details?lang=' +
+      lang +
+      '&currency=' +
+      currency +
+      '&rsp_fields_set=extended&inventory_ids=8a577205:5010SYDNEY,c200dbea:5010SYDNEY,87e87a73:5010SYDNEY,f4570ee8:5010SYDNEY'; // SN
+    // 'https://dev.jarnetsolutions.com/sn-booking-service/airsearch', // Amadeus
+    // 'https://dev.jarnetsolutions.com/sn-booking-service/findbargain', // SABRE
+
+    console.log('URL', url);
+    console.log('REQUEST', JSON.stringify(postData));
+
+    const { data } = await axios.post(url, postData, {
+      headers: {
+        Accept: 'application/json',
+        'X-API-KEY': '4I8FoZk7.Vtj5lDdPzv1vharxEzwp5gooD6nl1TXo',
       },
-    );
+    });
+
+    console.log('RESPONSE', data);
 
     // if (data?.pricedItineraries?.pricedItinerary) // SABRE
     if (
-      data?._legCollection?._collection &&
-      data?._offersCollection?.offerLegRefs
+      data &&
+      data.data &&
+      data.data.items &&
+      data.data.items[0] &&
+      data.data.items[0]._legCollection &&
+      data.data.items[0]._legCollection._collection &&
+      data.data.items[0]._offersCollection &&
+      data.data.items[0]._offersCollection.offerLegRefs
     ) {
       // Amadeus
-      const flights = data?._legCollection?._collection;
+      const flights = data.data.items[0]._legCollection._collection;
+      const offers = data.data.items[0]._offersCollection.offerLegRefs;
       flights.forEach((item: Flight, index: number) => {
         flights[index].offers = [];
       });
       res.status(200).json({
         flights: flights,
-        offers: data?._offersCollection?.offerLegRefs,
+        offers: offers,
       }); // Amadeus
       // .json({ flights: data?.pricedItineraries?.pricedItinerary }); // SABRE
     } else res.status(400).json({ flights: [], offers: [] });
