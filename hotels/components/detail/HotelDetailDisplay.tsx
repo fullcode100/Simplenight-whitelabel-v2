@@ -1,6 +1,5 @@
 import Button from 'components/global/Button/Button';
 import Rating from 'components/global/Rating/Rating';
-import { formatAsDisplayHour, formatAsSearchDate } from 'helpers/dajjsUtils';
 import {
   fromLowerCaseToCapitilize,
   getChildrenAges,
@@ -10,16 +9,12 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
 import initialState from './utils/initialState';
 import { HotelDetailPreRequest } from 'hotels/types/request/HotelDetailRequest';
-import {
-  HotelDetailResponse,
-  Occupancy,
-} from 'hotels/types/response/HotelDetailResponse';
+import { Occupancy } from 'hotels/types/response/HotelDetailResponse';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 
 import CalendarIcon from 'public/icons/assets/calendar.svg';
-import ClockIcon from 'public/icons/assets/clock.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import { Tab } from 'components/global/Tabs/types';
@@ -29,7 +24,6 @@ import LocationSection from '../location/LocationSection';
 import SeeMore from 'components/global/ReadMore/SeeMore';
 import RoomsSection from 'hotels/components/Rooms/RoomsSection';
 import Divider from '../../../components/global/Divider/Divider';
-import CustomerReviewsSection from 'components/global/CustomerReviews/CustomerReviewsSection';
 import {
   Hotel,
   HotelSearchResponse,
@@ -37,7 +31,6 @@ import {
 import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import InformationIcon from 'public/icons/assets/information.svg';
-import PoliciesIcon from 'public/icons/assets/policies.svg';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
@@ -118,12 +111,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const policiesLabel = t('policies', 'Policies');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
-  const checkinLabel = t('checkIn', 'Check-In');
-  const checkinTimeLabel = t('checkInTime', 'Check-In Time');
-  const checkoutLabel = t('checkOut', 'Check-Out');
-  const checkoutTimeLabel = t('checkOutTime', 'Check-Out Time');
-  const checkinFromLabel = t('from', 'From');
-  const checkoutBeforeLabel = t('before', 'Before');
 
   const storeCurrency = useSelector((state: any) => state.core.currency);
   const [currency, setCurrency] = useState<string>(storeCurrency);

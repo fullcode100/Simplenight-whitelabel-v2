@@ -6,21 +6,25 @@ import FilterContainer from './FilterContainer';
 import FilterTitle from './FilterTitle';
 
 interface PriceRangeFilterProps {
-  minPrice: string;
-  maxPrice: string;
   onChangeMaxPrice:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
   onChangeMinPrice:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
+  setMaxValue: React.Dispatch<React.SetStateAction<number>>;
+  setMinValue: React.Dispatch<React.SetStateAction<number>>;
+  minValue: number;
+  maxValue: number;
 }
 
 const PriceRangeFilter = ({
-  minPrice,
-  maxPrice,
   onChangeMinPrice,
   onChangeMaxPrice,
+  setMinValue,
+  setMaxValue,
+  minValue,
+  maxValue,
 }: PriceRangeFilterProps) => {
   const [t, i18n] = useTranslation('hotels');
   const priceRangeLabel = t('priceRange', 'Price Range');
@@ -29,8 +33,6 @@ const PriceRangeFilter = ({
     <FilterContainer>
       <FilterTitle label={priceRangeLabel} />
       <RangeSlider
-        initialMin={minPrice ? parseInt(minPrice) : 0}
-        initialMax={maxPrice ? parseInt(maxPrice) : 5000}
         min={0}
         max={5000}
         step={100}
@@ -38,6 +40,10 @@ const PriceRangeFilter = ({
         type="price"
         setMinState={onChangeMinPrice}
         setMaxState={onChangeMaxPrice}
+        setMaxValue={setMaxValue}
+        setMinValue={setMinValue}
+        minValue={minValue}
+        maxValue={maxValue}
       />
     </FilterContainer>
   );

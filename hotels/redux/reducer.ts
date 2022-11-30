@@ -1,23 +1,35 @@
-import { ReduxReducerAction } from 'types/redux/ReduxReducerAction';
-import initialState from './initialState';
-import * as types from './types';
+import { Reducer } from 'redux';
+import { Hotel } from 'hotels/types/response/SearchResponse';
+import { HotelsActionTypes } from './types';
 
-const hotelReducer = (
+const initialState = {
+  loading: false,
+  hotels: [],
+  hotel: {} as Hotel,
+};
+
+const hotelReducer: Reducer<typeof initialState> = (
   state = initialState,
-  { payload, type }: ReduxReducerAction & { payload: any },
+  action,
 ) => {
-  switch (type) {
-    case types.SET_HOTELS:
+  switch (action.type) {
+    case HotelsActionTypes.FETCH_REQUEST:
       return {
         ...state,
-        hotels: payload,
+        loading: action.loading,
+        hotel: action.hotels,
       };
-    case types.SET_DETAIL:
+    case HotelsActionTypes.FETCH_SUCCESS:
       return {
         ...state,
-        hotel: payload,
+        loading: action.loading,
+        hotels: action.hotels.hotels,
       };
-
+    case HotelsActionTypes.FETCH_ERROR:
+      return {
+        ...state,
+        loading: action.loading,
+      };
     default:
       return state;
   }

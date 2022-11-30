@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import RangeSlider from 'components/global/RangeSlider/RangeSlider';
+import RangesliderLegacy from 'components/global/Filters/RangesliderLegacy';
 import FilterContainer from './FilterContainer';
 import FilterTitle from './FilterTitle';
 
@@ -19,7 +19,7 @@ const SeatsFilter = ({ value, onChangeSeats }: SeatsFilterProps) => {
   return (
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
-      <RangeSlider
+      <RangesliderLegacy
         initialMax={value ? parseInt(value) : 1}
         min={1}
         max={6}

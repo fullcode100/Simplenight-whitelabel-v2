@@ -34,8 +34,6 @@ export const decryptSession = (req: NextApiRequestWithSession): Session => {
 export const encryptSession = (data: Session) => {
   const initVector = crypto.randomBytes(16);
 
-  console.log('encrypt session data', data);
-
   const key = crypto
     .createHash('sha256')
     .update(process.env.NEXT_ENCRYPT_KEY as string);

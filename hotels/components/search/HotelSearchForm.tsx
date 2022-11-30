@@ -83,8 +83,6 @@ const HotelSearchForm = ({
   const [showTravelersInput, setShowTravelersInput] = useState(false);
   const [showLocationError, setShowLocationError] = useState(false);
 
-  const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
-
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
   };
@@ -153,14 +151,6 @@ const HotelSearchForm = ({
     setTravelersTotals(roomsData, setAdults, setChildren, setChildrenAges);
     setRooms(roomsData.length.toString());
   }, [roomsData]);
-
-  useEffect(() => {
-    setTravelersPlaceholder(
-      `${
-        parseInt(adults) + parseInt(children)
-      } ${guestsLabel}, ${rooms} ${roomsLabel}`,
-    );
-  }, [adults, children, children]);
 
   return (
     <section
