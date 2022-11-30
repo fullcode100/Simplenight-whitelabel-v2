@@ -17,8 +17,8 @@ interface IconAndTextProps {
   value: JSX.Element | string;
 }
 
-const ThingGeneralInfo = ({
-  item: {
+const ThingGeneralInfo = ({ item }: ThingGeneralInfoProps) => {
+  const {
     booking_data: { date: activityDate, time: activityTime },
     item_data: {
       address: { area, city, country },
@@ -29,9 +29,7 @@ const ThingGeneralInfo = ({
         full_day: fullDay,
       },
     },
-    item_data: itemData,
-  },
-}: ThingGeneralInfoProps) => {
+  } = item;
   const [t] = useTranslation('things');
   const address = `${area}, ${city}, ${country}`;
 

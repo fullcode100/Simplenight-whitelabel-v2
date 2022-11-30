@@ -13,6 +13,7 @@ import TicketCard from '../TicketCard/TicketCard';
 import SeeMore from 'components/global/ReadMore/SeeMore';
 import useMediaViewport from 'hooks/media/useMediaViewport';
 import Button from 'components/global/ButtonNew/Button';
+import FormSchema from 'components/global/FormSchema/FormSchema';
 // icons
 import ApproveUser from 'public/icons/assets/approve-user.svg';
 import Sunset from 'public/icons/assets/sunset.svg';
@@ -37,6 +38,7 @@ import {
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
+import { getQuestionsSchema } from 'thingsToDo/helpers/questions';
 import { ThingsAvailabilityRequest } from 'thingsToDo/types/request/ThingsAvailabilityRequest';
 import { getCurrency } from 'store/selectors/core';
 import { Ticket } from '../../types/response/ThingsDetailResponse';
@@ -358,22 +360,63 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
-  const DetailDisplay = () => {
+  const TicketsList = () => {
     const startTicketsNumber = isDesktop ? 3 : 2;
     const displayTickets = isLoadMoreTickets
       ? tickets
       : tickets?.slice(0, startTicketsNumber);
+    const firstCategoryId = thingsItem?.categories[0].id ?? '';
+    return (
+      <>
+        {displayTickets?.map((ticket, index) => (
+          <button
+            key={`ticket${index}`}
+            onClick={() => setSelectedTicket(index)}
+            className="text-left"
+          >
+            <TicketCard
+              id={thingsItem?.id as string}
+              category={firstCategoryId}
+              ticket={ticket}
+              pickup={selectedPickup}
+              meeting={selectedMeeting}
+              selected={selectedTicket === index}
+              pricing={pricing}
+            />
+          </button>
+        ))}
+      </>
+    );
+  };
 
+  const TicketsSection = () => (
+    <>
+      <section
+        className={`items-start ${
+          tickets.length == 0 ? 'flex justify-center' : 'grid'
+        } gap-4 mt-4 lg:grid-cols-3`}
+      >
+        {tickets.length > 0 ? <TicketsList /> : <EmptyTickets />}
+      </section>
+      {!isLoadMoreTickets && tickets.length > 0 && (
+        <section className="flex justify-center mt-4">
+          <Button width="w-full lg:w-auto" onClick={loadMoreTickets}>
+            <section className="px-4">{loadMoreText}</section>
+          </Button>
+        </section>
+      )}
+    </>
+  );
+
+  const DetailDisplay = () => {
     const meetingPoints = thingsItem?.extra_data.start_locations;
     const pickupPoints = thingsItem?.extra_data.pickup;
-
-    const firstCategoryId = thingsItem?.categories[0].id ?? '';
 
     return (
       <>
         {emptyState ? (
           <section className="flex items-center justify-center h-screen text-xl font-bold text-primary-1000">
-            (!) empty state
+            empty state
           </section>
         ) : (
           thingsItem && (
@@ -392,40 +435,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                     />
                   </section>
                 </section>
-                <section
-                  className={`items-start ${
-                    tickets.length == 0 ? 'flex justify-center' : 'grid'
-                  } gap-4 mt-4 lg:grid-cols-3`}
-                >
-                  {tickets.length > 0 ? (
-                    displayTickets?.map((ticket, index) => (
-                      <button
-                        key={`ticket${index}`}
-                        onClick={() => setSelectedTicket(index)}
-                        className="text-left"
-                      >
-                        <TicketCard
-                          id={thingsItem.id}
-                          category={firstCategoryId}
-                          ticket={ticket}
-                          pickup={selectedPickup}
-                          meeting={selectedMeeting}
-                          selected={selectedTicket === index}
-                          pricing={pricing}
-                        />
-                      </button>
-                    ))
-                  ) : (
-                    <EmptyTickets />
-                  )}
-                </section>
-                {!isLoadMoreTickets && tickets.length > 0 && (
-                  <section className="flex justify-center mt-4">
-                    <Button width="w-full lg:w-auto" onClick={loadMoreTickets}>
-                      <section className="px-4">{loadMoreText}</section>
-                    </Button>
-                  </section>
-                )}
+                <TicketsSection />
               </section>
               <Divider className="mt-6" />
               <section className="mx-auto lg:gap-12 lg:grid lg:grid-cols-2 max-w-7xl">

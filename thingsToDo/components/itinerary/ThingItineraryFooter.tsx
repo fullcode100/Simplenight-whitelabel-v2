@@ -24,6 +24,7 @@ const ThingItineraryFooter = ({
   setReload,
 }: ThingItineraryFooterProps) => {
   const router = useRouter();
+  const pathName = router.pathname;
   const dispatch = useDispatch();
   const [g, i18g] = useTranslation('global');
 
@@ -83,30 +84,36 @@ const ThingItineraryFooter = ({
     router.push(urlDetail);
   };
 
+  const showActions = !(
+    pathName.startsWith('/checkout') || pathName.startsWith('/confirmation')
+  );
+
   return (
     <section className="flex flex-col lg:flex-row gap-3 items center">
       <div className="flex w-full items-center">
         <p className="w-full text-sm">Total</p>
         <p className="text-base">{formatedTotalAmount}</p>
       </div>
-      <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
-        <Button
-          value={removeLabel}
-          size="full-sm"
-          type="outlined"
-          leftIcon={<TrashIcon />}
-          onClick={handleRemoveAllTickets}
-          className="lg:w-[170px] h-8"
-        ></Button>
-        <Button
-          value={editLabel}
-          translationKey="edit"
-          size=""
-          leftIcon={<EdtiIcon />}
-          onClick={handleEdit}
-          className="lg:w-[170px] h-8"
-        ></Button>
-      </section>
+      {showActions && (
+        <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
+          <Button
+            value={removeLabel}
+            size="full-sm"
+            type="outlined"
+            leftIcon={<TrashIcon />}
+            onClick={handleRemoveAllTickets}
+            className="lg:w-[170px] h-8"
+          ></Button>
+          <Button
+            value={editLabel}
+            translationKey="edit"
+            size=""
+            leftIcon={<EdtiIcon />}
+            onClick={handleEdit}
+            className="lg:w-[170px] h-8"
+          ></Button>
+        </section>
+      )}
     </section>
   );
 };

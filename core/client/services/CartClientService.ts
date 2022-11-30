@@ -13,6 +13,8 @@ import { ClientCartUpdate } from '../ClientCartUpdate';
 import { ClientCartSchema } from '../ClientCartSchema';
 import { getStoreCartId } from 'store/selectors/cart';
 import dayjs from 'dayjs';
+import { ClientCartItemUpdater } from '../ClientCartItemUpdater';
+import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';
 
 const cartOption = {
   name: 'cart',
@@ -141,6 +143,35 @@ export const removeFromCart = async (
   } catch (error) {
     console.error(error);
   }
+};
+
+interface UpdateItemRequest {
+  cartId?: string;
+  itemId?: string;
+  bookingAnswers?: BookingAnswer;
+}
+
+export const updateCartItem = (
+  i18next: i18n,
+  itemToUpdate: UpdateItemRequest,
+) => {
+  const { cartId, itemId } = itemToUpdate;
+  const bookingAnswers = itemToUpdate.bookingAnswers ?? null;
+  const cartUpdater = new ClientCartItemUpdater(cartOption);
+  const cartUrl = `/carts/${cartId}/items/${itemId}`;
+  const cartRequest: any = {};
+  if (bookingAnswers) cartRequest.booking_answers = bookingAnswers;
+
+  return new Promise((resolve, reject) => {
+    cartUpdater
+      .request(cartRequest, i18next, cartUrl)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
 
 export const updateCart = async (

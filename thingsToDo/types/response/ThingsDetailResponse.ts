@@ -207,6 +207,10 @@ export interface Ticket {
   times: TimeObject[];
 }
 
+export interface AnswerOption {
+  answer: string;
+  related_question_ids?: string[];
+}
 export interface ExtraData {
   amenities: string[];
   avg_rating: number;
@@ -238,6 +242,18 @@ export interface ExtraData {
   pricing: Pricing;
 }
 
+export interface BookingQuestion {
+  id: string;
+  label: string;
+  hint: string;
+  is_required: boolean;
+  grouping: string;
+  answer_type: string;
+  answer_max_length: number;
+  answer_options: AnswerOption[];
+  is_conditional: boolean;
+  answer_units: string[];
+}
 export interface Redemption {
   instructions: string;
   locations: any[];
@@ -257,7 +273,6 @@ export interface IncludeExclude {
 
 export interface BookingQuestion {
   answer_max_length: number;
-  answer_options?: AnswerOption[];
   answer_type: string;
   grouping: string;
   hint: string;
@@ -265,10 +280,7 @@ export interface BookingQuestion {
   is_conditional: boolean;
   is_required: boolean;
   label: string;
-}
-
-export interface AnswerOption {
-  answer: string;
+  answer_options: AnswerOption[];
 }
 
 export interface Pricing {

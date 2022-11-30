@@ -31,7 +31,7 @@ const LocationSelector = ({
 
   return (
     <Combobox
-      width="w-full lg:w-[405px]"
+      width="w-full"
       placeholder={placeholder}
       items={formattedLocations}
       selectedItem={selectedPoint}

@@ -61,9 +61,11 @@ export const ObjectTemplate = (props: any) => {
 };
 
 export const ObjectFieldTemplate = (props: any) => {
-  const { id, description, properties, title } = props;
+  const { id, description, properties, title, schema } = props;
   const [open, setOpen] = useState(false);
-  const contentClass = classnames({ hidden: title && open });
+  const contentClass = classnames(`${schema?.className || ''}`, {
+    hidden: title && open,
+  });
   const handleOpenContent = () => setOpen(!open);
   const angleClass = classnames({ 'rotate-180': open });
   return (
@@ -85,7 +87,7 @@ export const ObjectFieldTemplate = (props: any) => {
           </section>
         </>
       )}
-      <section className={`${contentClass} lg:grid lg:grid-cols-2 lg:gap-x-4`}>
+      <section className={`${contentClass}`}>
         {properties.map((element: any, i: number) => (
           <section key={`s${i}`} className="mt-4 property-wrapper">
             {element.content}

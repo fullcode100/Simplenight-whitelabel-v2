@@ -75,7 +75,6 @@ export interface Item {
   cart_id?: string;
   cart_item_id?: string;
   category?: string;
-  sector?: string;
   created_at?: string;
   customer?: Customer;
   extended_data?: HotelCart;
@@ -94,6 +93,7 @@ export interface Item {
   adults?: number;
   children?: number;
   room_qty?: number;
+  sector?: string;
 }
 
 export interface Customer {

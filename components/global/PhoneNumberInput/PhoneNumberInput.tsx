@@ -35,7 +35,9 @@ const PhoneNumberInput = ({
     const index = iso2Lookup[country];
     const code = allCountries[index as any as number].dialCode;
     setCountryCode(country);
-    onChange(`+${code}${phoneNumber}`);
+    onChange(
+      JSON.stringify({ phone_prefix: phoneCode, phone_number: phoneNumber }),
+    );
   };
 
   const onFocus = (focus: any) => {

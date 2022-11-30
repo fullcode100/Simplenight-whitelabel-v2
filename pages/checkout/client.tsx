@@ -1,16 +1,14 @@
 /* eslint-disable camelcase */
 // Libraries
 import React, { ReactNode, useEffect, useState } from 'react';
-// Types
-import { Amount } from 'types/global/Amount';
 // Components
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
-import Divider from 'components/global/Divider/Divider';
 import Button from 'components/global/Button/Button';
 import ClientForm from 'components/checkout/ClientForm/ClientForm';
 import {
   getCartId,
   getCartSchema,
+  updateCartItem,
 } from 'core/client/services/CartClientService';
 import { useTranslation } from 'react-i18next';
 import ClientCart from 'components/checkout/ClientCart/ClientCart';
@@ -23,15 +21,8 @@ import { IChangeEvent } from '@rjsf/core';
 import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
 import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
-import BreakdownItemList from 'components/checkout/BreakdownItemList/BreakdownItemList';
 import { getCurrency } from 'store/selectors/core';
 import HelpSection from 'components/global/HelpSection/HelpSection';
-
-const empty: Amount = {
-  formatted: '$0.00',
-  amount: 0,
-  currency: 'USD',
-};
 
 interface LayoutProps {
   children: ReactNode;
@@ -49,14 +40,15 @@ const Client = () => {
   const currency = getCurrency();
 
   let primaryContactData: FormData | undefined;
+  const bookingAnswerData: any = {};
   let itemsForm: Item[] | undefined = [];
   let hasAdditionalRequests = false;
 
   const createAdditionalItem = (item: any) => {
     const { cart_item_id, customer, customer_additional_requests } = item;
     if (customer) {
-      const phone = JSON.parse(customer.phone);
-      customer.phone_number = phone.phone_number;
+      const phone = customer?.phone && JSON?.parse?.(customer?.phone);
+      customer.phone_number = phone?.phone_number;
       delete customer.phone;
     }
 
@@ -140,6 +132,43 @@ const Client = () => {
     primaryContactData = formDataCopy;
   };
 
+  const handleTravelerAnswerChange = (
+    data: IChangeEvent<FormData>,
+    itemId: string,
+    travelerNum?: number,
+  ) => {
+    const formDataCopy = deepCopy(data.formData);
+    Object.keys(formDataCopy).forEach((key) => {
+      if (!bookingAnswerData[itemId]) bookingAnswerData[itemId] = [];
+      const bookingAnswer = bookingAnswerData[itemId].find(
+        (answer: any) =>
+          answer.question_id === key && answer.traveler_num === travelerNum,
+      );
+      if (!bookingAnswer) {
+        bookingAnswerData[itemId].push({
+          question_id: key,
+          value: formDataCopy[key],
+          traveler_num: travelerNum,
+        });
+      } else {
+        bookingAnswerData[itemId] = bookingAnswerData[itemId]?.map(
+          (answer: any) => {
+            if (
+              answer.question_id === key &&
+              answer.traveler_num === travelerNum
+            ) {
+              return {
+                ...answer,
+                value: formDataCopy[key],
+              };
+            }
+            return answer;
+          },
+        );
+      }
+    });
+  };
+
   const redirectToItinerary = () => {
     router.push(ITINERARY_URI);
   };
@@ -147,10 +176,10 @@ const Client = () => {
   const getAddCustomerRequestBody = (): AddCustomerRequest => {
     const primaryContactCopy = deepCopy(primaryContactData);
     const requestItems = itemsForm?.map(createAdditionalItem);
-    const request = hasAdditionalRequests
+    const request: any = hasAdditionalRequests
       ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
-    const phone = JSON.parse(primaryContactCopy.phone);
+    const phone = JSON?.parse?.(primaryContactCopy.phone);
     request.customer.phone_number = phone.phone_number;
     request.customer.phone_prefix = phone.phone_prefix;
 
@@ -165,6 +194,15 @@ const Client = () => {
 
     const customerUpdater = new ClientCartCustomerUpdater();
     const requestBody = getAddCustomerRequestBody();
+
+    Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
+      const itemData: any = {
+        cartId: cart.cart_id,
+        itemId,
+        bookingAnswers: bookingAnswerData[itemId],
+      };
+      await updateCartItem(i18n, itemData);
+    });
 
     await customerUpdater.request(requestBody, i18n, cart.cart_id);
 
@@ -214,6 +252,13 @@ const Client = () => {
     }
   }, [cart, travelersFormSchema]);
 
+  let travelersFormSchemaWithClass;
+  travelersFormSchema &&
+    (travelersFormSchemaWithClass = {
+      ...(travelersFormSchema as any),
+      className: 'lg:grid lg:grid-cols-2 lg:gap-x-4',
+    });
+
   return (
     <>
       <CheckoutHeader step="client" itemsNumber={itemsNumber} />
@@ -225,7 +270,7 @@ const Client = () => {
                 <Title>{primaryContactText}</Title>
                 <section>
                   <ClientForm
-                    schema={travelersFormSchema}
+                    schema={travelersFormSchemaWithClass}
                     uiSchema={travelersUiSchema}
                     onChange={handlePrimaryContactFormChange}
                     onSubmit={continueToPayment}
@@ -235,6 +280,7 @@ const Client = () => {
                       schema={travelersFormSchema}
                       uiSchema={travelersUiSchema}
                       onChange={handleAdditionalRequestChange}
+                      onChangeAnswers={handleTravelerAnswerChange}
                     />
                     <CheckoutFooter type="client">
                       <CheckoutSummary

@@ -1,5 +1,7 @@
+import PickupPoint from 'components/global/PickupPoint/PickupPoint';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
+import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
 import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 
@@ -15,6 +17,7 @@ export const CustomText = (props: any) => {
       {...{
         required,
         id,
+        maxlength: schema?.maxLength,
       }}
     />
   );
@@ -97,4 +100,20 @@ export const CustomCountry = (props: any) => {
   return (
     <CountrySelect value={value} onChange={onChange} required={required} />
   );
+};
+
+export const CustomPickupPoint = (props: any) => {
+  const { value, onChange, schema } = props;
+  return (
+    <PickupPoint
+      pickupPoints={schema?.data}
+      selectedPickup={value}
+      setSelectedPickup={onChange}
+    />
+  );
+};
+
+export const CustomNumberUnit = (props: any) => {
+  const { value, onChange, schema } = props;
+  return <NumberUnitInput onChange={onChange} options={schema?.data} />;
 };

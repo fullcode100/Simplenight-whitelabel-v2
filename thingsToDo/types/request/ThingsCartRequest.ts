@@ -18,4 +18,5 @@ export interface BookingAnswer {
   question_id?: string;
   value?: string;
   unit?: string;
+  traveler_num?: string | number;
 }

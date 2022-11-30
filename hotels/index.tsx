@@ -20,6 +20,7 @@ import HotelSearchFormReadState from './components/search/HotelSearchFormReadSta
 import HotelSecondarySearchOptions from './components/search/HotelSecondarySearchOptions';
 import HotelCheckoutDisplay from './components/checkout/HotelCheckoutDisplay';
 import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
+import HotelCheckoutItemDisplay from './components/checkout/HotelCheckoutItemDesplay';
 
 export const HOTEL_CATEGORY = 'hotels';
 
@@ -66,6 +67,7 @@ Category.detailDisplay = <HotelDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <HotelItineraryDisplay Category={Category} />;
 Category.breakdownDisplay = <HotelBreakdownDisplay Category={Category} />;
 Category.checkoutDisplay = <HotelCheckoutDisplay Category={Category} />;
+Category.checkoutItemDisplay = <HotelCheckoutItemDisplay Category={Category} />;
 Category.confirmationDisplay = <HotelConfirmationDisplay Category={Category} />;
 Category.cancelledDisplay = <HotelCancelledDisplay Category={Category} />;
 

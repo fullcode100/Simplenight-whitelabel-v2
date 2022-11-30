@@ -7,9 +7,13 @@ import FormSchema from 'components/global/FormSchema/FormSchema';
 import { useTranslation } from 'react-i18next';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
-import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
-import BreakdownSummary from 'hotels/components/PriceBreakdownModal/components/BreakdownSummary';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
+import {
+  getBookingQuestionSchema,
+  getTravelerQuestionSchema,
+} from 'thingsToDo/helpers/questions';
+import { useCategorySlug } from 'hooks/category/useCategory';
+import Divider from 'components/global/Divider/Divider';
 
 let additionalRequest: string;
 
@@ -19,8 +23,10 @@ const ClientCartItem = ({
   formSchema,
   formUiSchema,
   onChange,
+  onChangeAnswers,
 }: any) => {
   const [t, i18n] = useTranslation('global');
+  const travelerText = t('traveler', 'Traveler');
   const [usePrimaryContact, setUsePrimaryContact] = useState(true);
 
   const handleChangeAdditionalRequest = (e: any) => {
@@ -29,6 +35,10 @@ const ClientCartItem = ({
   };
   const handleChangeCustomer = (data: any) => {
     onChange(data, item.cart_item_id, false);
+  };
+
+  const handleChangeAnswers = (data: any, travelerNum: number | null) => {
+    onChangeAnswers(data, item.cart_item_id, travelerNum);
   };
 
   const additionalRequestsPlaceholder = t(
@@ -42,41 +52,33 @@ const ClientCartItem = ({
     'Supplier Terms Of Service',
   );
 
-  const CartItemHeader = () => {
-    const category = useCategory(item.category.toLowerCase());
-    return injectProps(category?.checkoutDisplay, {
+  const termsAndConditions = item?.extended_data?.terms_and_conditions;
+
+  const CartItemDetail = () => {
+    const itemCategory = useCategorySlug(item.sector?.toLowerCase() || '');
+    const sector = useCategory(itemCategory?.type || '');
+    return injectProps(sector?.checkoutItemDisplay, {
       item: item,
     });
   };
 
-  const CartItemBreakdown = () => {
-    const category = useCategory(item.category.toLowerCase());
-    return injectProps(category?.breakdownDisplay, {
-      item: item,
-      showCollapse: false,
+  const bookingQuestions = item?.item_data?.extra_data?.booking_questions;
+  const travelerQuestionSchema = getTravelerQuestionSchema(bookingQuestions);
+  const bookingQuestionSchema = getBookingQuestionSchema(bookingQuestions);
+  const getTicketsCuantity = () => {
+    let ticketsCuantity = 0;
+    const itemTravelers = [];
+    item?.booking_data?.ticket_types?.forEach((ticket: any) => {
+      ticketsCuantity += ticket.quantity;
     });
+    for (let i = 0; i < ticketsCuantity; i++) itemTravelers.push(i + 1);
+    return { ticketsCuantity, itemTravelers };
   };
-
-  const {
-    check_in_instructions: checkInInstructions,
-    terms_and_conditions: termsAndConditions,
-  } = item.extended_data;
-
-  const CartItemBody = () => {
-    return (
-      <section className="mb-6 px-4">
-        <CartItemBreakdown />
-      </section>
-    );
-  };
+  const { itemTravelers } = getTicketsCuantity();
 
   return (
     <section className="space-y-5 py-6">
-      <CollapseBordered
-        title={<CartItemHeader />}
-        body={<CartItemBody />}
-        footer={<BreakdownSummary rate={item.rate} showTotal={true} />}
-      />
+      <CartItemDetail />
       <section className="flex items-center">
         <ToggleSwitch
           onChange={() => setUsePrimaryContact(!usePrimaryContact)}
@@ -103,6 +105,37 @@ const ClientCartItem = ({
           )}
         </section>
       )}
+
+      {bookingQuestionSchema && (
+        <section className="mt-1.5">
+          <FormSchema
+            schema={bookingQuestionSchema.schema}
+            uiSchema={bookingQuestionSchema.uiSchema}
+            onChange={(data) => handleChangeAnswers(data, null)}
+          >
+            <></>
+          </FormSchema>
+        </section>
+      )}
+      {travelerQuestionSchema &&
+        itemTravelers?.map((traveler: any) => (
+          <section key={traveler}>
+            <p>
+              {travelerText} {traveler}
+            </p>
+
+            <Divider className="py-1" />
+            <section className="mt-1.5">
+              <FormSchema
+                schema={travelerQuestionSchema.schema}
+                uiSchema={travelerQuestionSchema.uiSchema}
+                onChange={(data) => handleChangeAnswers(data, traveler)}
+              >
+                <></>
+              </FormSchema>
+            </section>
+          </section>
+        ))}
       <section>
         <Label
           value="Additional Requests"

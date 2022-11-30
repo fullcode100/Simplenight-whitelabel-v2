@@ -154,6 +154,62 @@ export interface Rates {
   upgrades: MinRate[];
 }
 
+export interface Rate {
+  fees: any;
+  taxes: Taxes;
+  total: Total;
+  discounts: Discounts;
+  cancellation_policy: any[];
+}
+
+export interface Full {
+  key: string;
+  amount: Amount;
+  description: string;
+}
+
+export interface TotalPostpaid {
+  key: string;
+  amount: Amount;
+  description: string;
+}
+
+export interface Taxes {
+  full: Full;
+  prepaid: Full[];
+  postpaid: any[];
+  total_postpaid: TotalPostpaid;
+}
+
+export interface Net {
+  amount: number;
+  currency: string;
+  formatted: string;
+}
+
+export interface Total {
+  net: Net;
+  full: Amount;
+  prepaid: Amount;
+  postpaid: Amount;
+}
+
+export interface Breakdown {
+  amount: Amount;
+  source: string;
+  percentage: number;
+  description: string;
+}
+
+export interface Discounts {
+  breakdown: Breakdown[];
+  amount_to_apply: Amount;
+  percentage_to_apply: string;
+  net_amount_before_apply?: any;
+  base_amount_before_apply: Amount;
+  total_amount_before_apply: Amount;
+}
+
 export interface MinRate {
   rate_type: MinRateRateType | RateBreakdownRateType;
   meal_plan: MealPlan;

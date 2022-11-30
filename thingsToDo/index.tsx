@@ -32,6 +32,7 @@ const Category: CategoryOption = {
   itineraryDisplay: <></>,
   breakdownDisplay: <></>,
   checkoutDisplay: <></>,
+  checkoutItemDisplay: <></>,
   confirmationDisplay: <></>,
   cancelledDisplay: <></>,
   core: {
@@ -60,6 +61,7 @@ const Category: CategoryOption = {
 Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
 Category.detailDisplay = <ThingsDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <ThingItineraryDisplay Category={Category} />;
+Category.checkoutItemDisplay = <ThingItineraryDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 Category.core.ServerSearcher = new ThingsServerSearcher(Category);

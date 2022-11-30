@@ -98,12 +98,14 @@ const LocationSection = ({
           {meetingPoint}
         </p>
         {meetingPoints && meetingPoints?.length > 1 && (
-          <LocationSelector
-            placeholder={meetingPlaceholder}
-            locations={meetingPoints}
-            selectedPoint={selectedMeeting}
-            setSelectedPoint={setSelectedMeeting}
-          />
+          <section className="lg:w-[405px]">
+            <LocationSelector
+              placeholder={meetingPlaceholder}
+              locations={meetingPoints}
+              selectedPoint={selectedMeeting}
+              setSelectedPoint={setSelectedMeeting}
+            />
+          </section>
         )}
         <PointDetail point={selectedMeeting} />
       </section>
@@ -137,12 +139,14 @@ const LocationSection = ({
           {pickupPoint}
         </p>
         {locations && locations.length > 1 && (
-          <LocationSelector
-            placeholder={pickupPlaceholder}
-            locations={locations}
-            selectedPoint={selectedPickup}
-            setSelectedPoint={setSelectedPickup}
-          />
+          <section className="lg:w-[405px]">
+            <LocationSelector
+              placeholder={pickupPlaceholder}
+              locations={locations}
+              selectedPoint={selectedPickup}
+              setSelectedPoint={setSelectedPickup}
+            />
+          </section>
         )}
         <PointDetail point={selectedPickup} />
         {selectedPickup && hasTime && (
