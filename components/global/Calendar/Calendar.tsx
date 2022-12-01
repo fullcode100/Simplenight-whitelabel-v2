@@ -40,6 +40,7 @@ interface DatePickerProps {
   openOnStart: boolean;
   maxRange?: number;
   minRange?: number;
+  setIsEditing?: (value: boolean) => void;
 }
 
 const DatePicker = ({
@@ -54,6 +55,7 @@ const DatePicker = ({
   openOnStart,
   maxRange = 14,
   minRange = 1,
+  setIsEditing,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
@@ -79,6 +81,9 @@ const DatePicker = ({
   }, [openOnStart]);
 
   const setDate = (date: string) => {
+    if (setIsEditing) {
+      setIsEditing(true);
+    }
     if (isStartDateTurn) {
       if (
         (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
@@ -125,6 +130,9 @@ const DatePicker = ({
   const setFullDate = () => {
     onStartDateChange(startDate);
     onEndDateChange(endDate);
+    if (setIsEditing) {
+      setIsEditing(true);
+    }
     onClose();
   };
 

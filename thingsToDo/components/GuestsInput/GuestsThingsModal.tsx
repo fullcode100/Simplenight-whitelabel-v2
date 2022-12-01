@@ -17,6 +17,7 @@ interface GuestsThingsModalProps {
   inputs: PricingTicketType[];
   isAdultRequired: boolean;
   activityMaxTravelers: number;
+  setIsEditing?: (value: boolean) => void;
 }
 
 const GuestsThingsModal = ({
@@ -27,6 +28,7 @@ const GuestsThingsModal = ({
   inputs,
   isAdultRequired,
   activityMaxTravelers,
+  setIsEditing,
 }: GuestsThingsModalProps) => {
   const [tg, i18next] = useTranslation('global');
   const [t] = useTranslation('things');
@@ -53,6 +55,9 @@ const GuestsThingsModal = ({
 
   const onApply = () => {
     setGuestsData(guests);
+    if (setIsEditing) {
+      setIsEditing(true);
+    }
     onClose();
   };
 
@@ -107,7 +112,7 @@ const GuestsThingsModal = ({
       lg:shadow-full`}
     >
       <section className="h-full px-5 py-[22px] overflow-y-scroll">
-        <section className="flex flex-col gap-y-6 mb-6">
+        <section className="flex flex-col mb-6 gap-y-6">
           <p className="text-sm capitalize text-dark-800">
             {maxLabel}. {activityMaxTravelers} {guestsForThisActivityLabel}
             {isAdultRequired && oneAdultOrSeniorForThisActivityLabel}

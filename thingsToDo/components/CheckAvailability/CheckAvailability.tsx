@@ -3,7 +3,7 @@ import {
   UseCheckInOutInputPropsComponentReturn,
 } from 'hotels/components/CheckInOutInput/CheckInOutInput';
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import DateThingsInput from './DateThingsInput';
@@ -32,23 +32,9 @@ const CheckThingsAvailability = ({
   const params = useQuery();
   const defaultGuestData: any = getDefaultGuests(pricing?.ticket_types, params);
   const [guestsData, setGuestsData] = useState(defaultGuestData);
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const ticketTypes: any[] = [];
-
-  // const onApply = () => {
-  //   if (isEditing) {
-  //     const guestsParams: any = {};
-  //     Object.keys(guestsData).forEach((key) => {
-  //       guestsParams[key] = guestsData[key].toString();
-  //     });
-  //     setQueryParam({
-  //       startDate: startDate.toString(),
-  //       endDate: endDate.toString(),
-  //       ...guestsParams,
-  //     });
-  //     setIsEditing(false);
-  //   }
-  // };
+  console.log(guestsData);
 
   const {
     showDatePicker,
@@ -57,8 +43,6 @@ const CheckThingsAvailability = ({
     handleOpenDatePicker,
     handleCloseDatePicker,
   } = checkInOutProps as UseCheckInOutInputPropsComponentReturn;
-
-  const isInitialMount = useRef(true);
 
   useEffect(() => {
     const entries = Object.entries(guestsData);
@@ -70,14 +54,6 @@ const CheckThingsAvailability = ({
     );
   }, [guestsData]);
 
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      setIsEditing(true);
-    }
-  }, [startDate, endDate, guestsData]);
-
   return (
     <section className="h-full lg:gap-4 lg:flex lg:items-end">
       <section className="flex flex-col lg:gap-4 lg:flex-row lg:w-[85%] items-end">
@@ -87,6 +63,7 @@ const CheckThingsAvailability = ({
           inputs={pricing?.ticket_types}
           isAdultRequired={isAdultRequired}
           activityMaxTravelers={activityMaxTravelers}
+          setIsEditing={setIsEditing}
         />
         <DateThingsInput
           showDatePicker={showDatePicker}
@@ -96,6 +73,7 @@ const CheckThingsAvailability = ({
           handleCloseDatePicker={handleCloseDatePicker}
           startDate={startDate as string}
           endDate={endDate as string}
+          setIsEditing={setIsEditing}
         />
       </section>
       <Button
@@ -103,6 +81,10 @@ const CheckThingsAvailability = ({
         width="mt-4 w-full lg:w-[15%]"
         onClick={() => {
           onApply(startDate as string, ticketTypes);
+          setQueryParam({
+            startDate: startDate as string,
+            endDate: endDate as string,
+          });
           setIsEditing(false);
         }}
       >

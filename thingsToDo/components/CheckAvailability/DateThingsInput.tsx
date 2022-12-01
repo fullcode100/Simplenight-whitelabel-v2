@@ -12,6 +12,7 @@ interface DateThingsInputProps {
   handleEndDateChange: (date: string) => void;
   handleOpenDatePicker: () => void;
   handleCloseDatePicker: () => void;
+  setIsEditing?: (value: boolean) => void;
 }
 
 const DateThingsInput = ({
@@ -22,6 +23,7 @@ const DateThingsInput = ({
   handleEndDateChange,
   handleOpenDatePicker,
   handleCloseDatePicker,
+  setIsEditing,
 }: DateThingsInputProps) => {
   const [tg] = useTranslation('global');
   const dateText = tg('date', 'Date');
@@ -51,6 +53,7 @@ const DateThingsInput = ({
           onStartDateChange={handleStartDateChange}
           onEndDateChange={handleEndDateChange}
           openOnStart={false}
+          setIsEditing={setIsEditing}
         />
       </section>
     </>

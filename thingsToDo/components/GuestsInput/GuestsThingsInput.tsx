@@ -10,6 +10,7 @@ interface GuestsThingsInputProps {
   inputs: PricingTicketType[];
   isAdultRequired: boolean;
   activityMaxTravelers: number;
+  setIsEditing?: (value: boolean) => void;
 }
 
 const GuestsThingsInput = ({
@@ -18,6 +19,7 @@ const GuestsThingsInput = ({
   inputs,
   isAdultRequired,
   activityMaxTravelers,
+  setIsEditing,
 }: GuestsThingsInputProps) => {
   const [t] = useTranslation('global');
   const guests = t('guests', 'Guests');
@@ -41,6 +43,7 @@ const GuestsThingsInput = ({
         inputs={inputs}
         isAdultRequired={isAdultRequired}
         activityMaxTravelers={activityMaxTravelers}
+        setIsEditing={setIsEditing}
       />
       <p className="text-sm font-semibold text-dark-800">{guests}</p>
       <button
