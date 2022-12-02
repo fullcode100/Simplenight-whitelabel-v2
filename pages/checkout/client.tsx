@@ -145,9 +145,10 @@ const Client = () => {
           answer.question_id === key && answer.traveler_num === travelerNum,
       );
       if (!bookingAnswer) {
+        const value = formDataCopy[key].ref || formDataCopy[key];
         bookingAnswerData[itemId].push({
           question_id: key,
-          value: formDataCopy[key],
+          value,
           traveler_num: travelerNum,
         });
       } else {
@@ -157,9 +158,10 @@ const Client = () => {
               answer.question_id === key &&
               answer.traveler_num === travelerNum
             ) {
+              const value = formDataCopy[key].ref || formDataCopy[key];
               return {
                 ...answer,
-                value: formDataCopy[key],
+                value,
               };
             }
             return answer;

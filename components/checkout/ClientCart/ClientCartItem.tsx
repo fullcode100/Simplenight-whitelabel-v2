@@ -28,6 +28,7 @@ const ClientCartItem = ({
   const [t, i18n] = useTranslation('global');
   const travelerText = t('traveler', 'Traveler');
   const [usePrimaryContact, setUsePrimaryContact] = useState(true);
+  const itemCustomer = item?.customer;
 
   const handleChangeAdditionalRequest = (e: any) => {
     additionalRequest = e.target.value;
@@ -40,6 +41,24 @@ const ClientCartItem = ({
   const handleChangeAnswers = (data: any, travelerNum: number | null) => {
     onChangeAnswers(data, item.cart_item_id, travelerNum);
   };
+
+  if (itemCustomer && formSchema) {
+    const newTravelersFormSchema = formSchema;
+    Object.entries(itemCustomer)
+      .filter(
+        ([prop]) =>
+          prop != 'id' && prop != 'extra_fields' && prop != 'phone_prefix',
+      )
+      .map(([prop, value]) => {
+        const propKey = prop == 'phone_number' ? 'phone' : prop;
+        newTravelersFormSchema.properties[propKey] = {
+          ...newTravelersFormSchema.properties[propKey],
+          default: value,
+          prefix: itemCustomer.phone_prefix,
+        };
+      });
+    formSchema = newTravelersFormSchema;
+  }
 
   const additionalRequestsPlaceholder = t(
     'additionalRequestsPlaceholder',

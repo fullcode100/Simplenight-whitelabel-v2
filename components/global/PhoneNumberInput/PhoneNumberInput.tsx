@@ -18,7 +18,7 @@ const PhoneNumberInput = ({
   defaultValue,
 }: PhoneNumberInputProps) => {
   const [countryCode, setCountryCode] = useState(defaultCode ?? 'us');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(defaultValue || '');
   const [focus, setFocus] = useState(false);
   const countryIndex = iso2Lookup[countryCode];
   const phoneCode = allCountries[countryIndex as any as number].dialCode;
