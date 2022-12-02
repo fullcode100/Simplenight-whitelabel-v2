@@ -70,6 +70,14 @@ const DatePicker = ({
   );
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
 
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsDesktop(window.innerWidth >= 1024);
+    }
+  }, []);
+
   useEffect(() => {
     setCalendar(createCalendar(initialYear, initialMonth));
     setStartDate(initialStartDate ?? startDate);
@@ -172,10 +180,9 @@ const DatePicker = ({
 
   return (
     <>
-      <section className="hidden lg:block">
+      {isDesktop ? (
         <DesktopDatePicker />
-      </section>
-      <section className="lg:hidden">
+      ) : (
         <FullScreenModal
           open={showDatePicker}
           closeModal={onClose}
@@ -231,7 +238,7 @@ const DatePicker = ({
             })}
           </section>
         </FullScreenModal>
-      </section>
+      )}
     </>
   );
 };

@@ -34,7 +34,6 @@ const CheckThingsAvailability = ({
   const [guestsData, setGuestsData] = useState(defaultGuestData);
   const [isEditing, setIsEditing] = useState(false);
   const ticketTypes: any[] = [];
-  console.log(guestsData);
 
   const {
     showDatePicker,
@@ -44,14 +43,23 @@ const CheckThingsAvailability = ({
     handleCloseDatePicker,
   } = checkInOutProps as UseCheckInOutInputPropsComponentReturn;
 
+  const entries = Object.entries(guestsData);
+  entries.map(([prop, val]) =>
+    ticketTypes.push({
+      ticket_type_id: prop,
+      quantity: val,
+    }),
+  );
+
   useEffect(() => {
     const entries = Object.entries(guestsData);
-    entries.map(([prop, val]) =>
-      ticketTypes.push({
-        ticket_type_id: prop,
-        quantity: val,
-      }),
-    );
+    entries.map(([prop, val]) => {
+      ticketTypes.map((t) => {
+        if (Object.prototype.hasOwnProperty.call(t, prop)) {
+          t.quantity = val;
+        }
+      });
+    });
   }, [guestsData]);
 
   return (
@@ -81,10 +89,6 @@ const CheckThingsAvailability = ({
         width="mt-4 w-full lg:w-[15%]"
         onClick={() => {
           onApply(startDate as string, ticketTypes);
-          setQueryParam({
-            startDate: startDate as string,
-            endDate: endDate as string,
-          });
           setIsEditing(false);
         }}
       >
