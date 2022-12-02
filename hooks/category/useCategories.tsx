@@ -112,6 +112,14 @@ const getCategoryApiUrl = (category: Category) => {
   return apiUrl;
 };
 
+export interface CategoryInfo {
+  name: string;
+  type: string;
+  slug: string;
+  icon: ReactElement;
+  apiUrl: string;
+}
+
 const useCategories = () => {
   const categories = useSelector(getCategories);
 

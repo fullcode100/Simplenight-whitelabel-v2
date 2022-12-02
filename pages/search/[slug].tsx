@@ -43,13 +43,15 @@ const Search: NextPage = () => {
   return (
     <>
       <header className="fixed z-20 flex flex-col w-full pt-2 bg-dark-100 border-y border-dark-300">
-        <HorizontalTabs
-          tabs={categoriesTabs}
-          activeTab={activeTab}
-          onClick={handleTabClick}
-          primary
-          className="px-4 mt-1"
-        />
+        <section className="hidden lg:block">
+          <HorizontalTabs
+            tabs={categoriesTabs}
+            activeTab={activeTab}
+            onClick={handleTabClick}
+            primary
+            className="px-4 mt-1"
+          />
+        </section>
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
@@ -63,9 +65,9 @@ const Search: NextPage = () => {
       </header>
       <main>
         <section
-          className={classnames('lg:w-full lg:px-20', {
-            ['pt-[153px] lg:pt-[204px]']: multipleCategories,
-            ['pt-[90px] lg:pt-[142px]']: !multipleCategories,
+          className={classnames('lg:w-full lg:px-20 pt-[90px]', {
+            ['lg:pt-[204px]']: multipleCategories,
+            ['lg:pt-[142px]']: !multipleCategories,
           })}
         >
           <section className="mx-auto max-w-7xl">

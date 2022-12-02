@@ -56,3 +56,5 @@ export const diffDays = (
   startDate: string | number | Date | dayjs.Dayjs,
   endDate: string | number | Date | dayjs.Dayjs,
 ) => dayjs(endDate).diff(dayjs(startDate), 'days');
+
+export const getCurrenDate = () => dayjs().format(SEARCH_DATE_FORMAT);
