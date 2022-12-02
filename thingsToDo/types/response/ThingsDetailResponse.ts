@@ -9,6 +9,7 @@ export interface ThingsDetailItem {
   address: Address;
   thumbnail: string;
   rate: RateDetail;
+  main_category: string;
   cancellation_policy: CancellationPolicy;
   categories: Category[];
   extra_data: ExtraData;

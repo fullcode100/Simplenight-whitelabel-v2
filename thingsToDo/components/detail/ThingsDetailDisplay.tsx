@@ -365,7 +365,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     const displayTickets = isLoadMoreTickets
       ? tickets
       : tickets?.slice(0, startTicketsNumber);
-    const firstCategoryId = thingsItem?.categories[0].id ?? '';
+    const mainCategoryId = thingsItem?.main_category as string;
     return (
       <>
         {displayTickets?.map((ticket, index) => (
@@ -376,7 +376,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           >
             <TicketCard
               id={thingsItem?.id as string}
-              category={firstCategoryId}
+              category={mainCategoryId}
               ticket={ticket}
               pickup={selectedPickup}
               meeting={selectedMeeting}
