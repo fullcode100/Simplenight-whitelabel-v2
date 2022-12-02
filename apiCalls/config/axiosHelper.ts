@@ -93,10 +93,9 @@ export const createServerAxiosInstance = (req: any) => {
 
   curlirize(axiosInstance, (result: any, err: any) => {
     const curl = result.command;
-    if (err) {
-      console.error(`Failed request curl: ${curl}`);
-    } else {
-      console.log(`Successful request curl: ${curl}`);
+    const isBooking = curl.includes('bookings');
+    if (!isBooking) {
+      console.log(`Request curl: ${curl}`);
     }
   });
 
