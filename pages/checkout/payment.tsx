@@ -35,6 +35,8 @@ import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
 import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
+import { Card } from 'types/global/Card';
+import PaymentForm from 'components/global/PaymentForm/PaymentForm';
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
