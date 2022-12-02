@@ -239,7 +239,7 @@ const FlightSearchForm = ({
   };
 
   const handleSaveLastSearch = (value: string): void => {
-    localStorage.setItem('lastSearch', value);
+    localStorage.setItem('FlightSearch', value);
   };
 
   const rerouteToSearchPage = () => {
@@ -299,19 +299,19 @@ const FlightSearchForm = ({
   const geolocation2IsNull = geolocation2 === `${NaN},${NaN}`;
 
   const handleSearchClick = () => {
-    if (hasReRoute) {
-      if (geolocationIsNull) {
-        setShowLocationError(true);
-        return;
-      }
-      if (geolocation2IsNull) {
-        setShowLocationError(true);
-        return;
-      }
-      rerouteToSearchPage();
+    // if (hasReRoute) {
+    if (geolocationIsNull) {
+      setShowLocationError(true);
       return;
     }
-
+    if (geolocation2IsNull) {
+      setShowLocationError(true);
+      return;
+    }
+    rerouteToSearchPage();
+    //  return;
+    // }
+    /*
     const _address = address.toString().split('(').pop();
     const startAirport = _address ? _address.toString().split(')')[0] : '';
     if (!startAirport || startAirport.length !== 3)
@@ -410,6 +410,7 @@ const FlightSearchForm = ({
       });
     }
     if (setIsSearching) setIsSearching(false);
+    */
   };
 
   const locationPlaceholder = t('locationInputPlaceholder', 'Leaving From');

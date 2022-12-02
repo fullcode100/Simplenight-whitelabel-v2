@@ -191,7 +191,7 @@ const FlightResultsDisplay = ({
     ) {
       // if (flight selected OR filters changed) use last cached API search response
       const response = JSON.parse(
-        localStorage.getItem('flightsSearchResponse') as string,
+        localStorage.getItem('FlightSearchResponse') as string,
       );
       if (response && response.flights && response.offers) {
         setFlights(response.flights);
@@ -209,7 +209,7 @@ const FlightResultsDisplay = ({
       Searcher?.request(params, i18next)
         .then((response: FlightSearchResponse) => {
           localStorage.setItem(
-            'flightsSearchResponse',
+            'FlightSearchResponse',
             JSON.stringify(response),
           );
           if (response && response.flights && response.offers) {
@@ -404,20 +404,24 @@ const FlightResultsDisplay = ({
               valid = false;
           }
           if (airlines) {
+            let found = false;
             airlines
               .toString()
               .split(',')
               .forEach((airline, index) => {
-                if (_airlines.indexOf(airline) < 0) valid = false;
+                if (_airlines.indexOf(airline) > -1) found = true;
               });
+            if (!found) valid = false;
           }
           if (cities) {
+            let found = false;
             cities
               .toString()
               .split(',')
               .forEach((city, index) => {
-                if (_cities.indexOf(city) < 0) valid = false;
+                if (_cities.indexOf(city) > -1) found = true;
               });
+            if (!found) valid = false;
           }
 
           if (valid) _flightsFiltered.push(item);
@@ -473,7 +477,7 @@ const FlightResultsDisplay = ({
           <Button
             value={loadMoreLabel}
             color="outlined"
-            className="p-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white lg:w-[200px]"
+            className="p-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white hover:bg-primary-1000 lg:w-[200px]"
             size="full"
             onClick={() => setPage(page + 1)}
           />

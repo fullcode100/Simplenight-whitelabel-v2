@@ -24,8 +24,10 @@ export default async function handler(
   for (let i = 0; i < infants; i += 1) {
     passenger.push({ id: `1.${i + 1}`, code: 'INF' });
   }
-  const currency = req.query?.currency ? req.query?.currency : 'USD';
-  const lang = req.query?.lang ? req.query?.lang : 'EN';
+  const currency = req.query?.currency
+    ? (req.query?.currency as string)
+    : 'USD';
+  const lang = req.query?.lang ? (req.query?.lang as string) : 'EN';
 
   const direction = req.query?.direction ? req.query?.direction : 'round_trip';
   let itenDetails;
@@ -90,12 +92,16 @@ export default async function handler(
       },
       currency: currency,
     };
-    const url =
-      'https://dev-api.simplenight.com/v2/categories/flights/items/details?lang=' +
-      lang +
-      '&currency=' +
-      currency +
-      '&rsp_fields_set=extended&inventory_ids=8a577205:5010SYDNEY,c200dbea:5010SYDNEY,87e87a73:5010SYDNEY,f4570ee8:5010SYDNEY'; // SN
+    const getData = {
+      lang: lang,
+      currency: currency,
+      rsp_fields_set: 'extended',
+      inventory_ids:
+        '8a577205:5010SYDNEY,c200dbea:5010SYDNEY,87e87a73:5010SYDNEY,f4570ee8:5010SYDNEY',
+    };
+    const url = `https://dev-api.simplenight.com/v2/categories/flights/items/details?${new URLSearchParams(
+      getData,
+    )}`; // SN
     // 'https://dev.jarnetsolutions.com/sn-booking-service/airsearch', // Amadeus
     // 'https://dev.jarnetsolutions.com/sn-booking-service/findbargain', // SABRE
 

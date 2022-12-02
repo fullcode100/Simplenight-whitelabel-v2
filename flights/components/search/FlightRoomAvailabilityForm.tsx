@@ -91,7 +91,7 @@ const FlightRoomAvailabilityForm = ({
   };
 
   const handleSaveLastSearch = (value: string): void => {
-    localStorage.setItem('lastSearch', value);
+    localStorage.setItem('FlightSearch', value);
   };
 
   const rerouteToSearchPage = () => {
