@@ -10,7 +10,7 @@ interface PaymentCartItemProps {
   item: Item;
 }
 
-const PaymentCartItem = ({ item }: PaymentCartItemProps) => {
+const PaymentCartItem = ({ item, customer }: any) => {
   const categoryLowerCase = item.category
     ? item.category.toLowerCase()
     : 'no category';
