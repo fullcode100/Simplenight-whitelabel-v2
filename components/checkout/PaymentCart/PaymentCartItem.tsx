@@ -4,6 +4,7 @@ import { injectProps } from 'helpers/reactUtils';
 import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
 import BreakdownSummary from 'hotels/components/PriceBreakdownModal/components/BreakdownSummary';
 import { Item } from 'types/cart/CartType';
+import { useCategorySlug } from 'hooks/category/useCategory';
 
 interface PaymentCartItemProps {
   item: Item;
