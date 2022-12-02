@@ -76,6 +76,11 @@ const ClientCartItem = ({
   };
   const { itemTravelers } = getTicketsCuantity();
 
+  /*   const {
+    check_in_instructions: checkInInstructions,
+    terms_and_conditions: termsAndConditions,
+  } = item.extended_data; */
+
   return (
     <section className="space-y-5 py-6">
       <CartItemDetail />
@@ -151,7 +156,7 @@ const ClientCartItem = ({
           }}
         />
       </section>
-      {termsAndConditions && (
+      {/*  {termsAndConditions && (
         <>
           <section className="flex items-center w-full gap-3 mt-2">
             <input
@@ -173,7 +178,7 @@ const ClientCartItem = ({
             </label>
           </section>
         </>
-      )}
+      )} */}
     </section>
   );
 };

@@ -11,9 +11,9 @@ interface CheckoutItemProps {
 }
 
 const CheckoutItem = ({ item, reload, setReload }: CheckoutItemProps) => {
-  const category = useCategory(item.category?.toLowerCase() || '');
+  const sector = useCategory(item.sector?.toLowerCase() || '');
   return (
-    injectProps(category?.breakdownDisplay, {
+    injectProps(sector?.breakdownDisplay, {
       item: item,
       reload: reload,
       setReload: setReload,

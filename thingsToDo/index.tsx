@@ -15,6 +15,10 @@ import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
 import ThingsDetailDisplay from './components/detail/ThingsDetailDisplay';
 import ThingItineraryDisplay from './components/itinerary/ThingItineraryDisplay';
 
+import ThingBreakdownDisplay from 'thingsToDo/components/checkout/ThingBreakdownDisplay';
+import ThingCheckoutDisplay from './components/checkout/ThingCheckoutDisplay';
+import ThingCheckoutItemDisplay from './components/checkout/ThingCheckoutItemDisplay';
+
 export const THINGS_CATEGORY = 'entertainment';
 
 export const categorySectorUUID = '97807fd1-6561-4f3b-a798-42233d9e2b09';
@@ -61,7 +65,9 @@ const Category: CategoryOption = {
 Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
 Category.detailDisplay = <ThingsDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <ThingItineraryDisplay Category={Category} />;
-Category.checkoutItemDisplay = <ThingItineraryDisplay Category={Category} />;
+Category.checkoutItemDisplay = <ThingCheckoutItemDisplay Category={Category} />;
+Category.breakdownDisplay = <ThingBreakdownDisplay Category={Category} />;
+Category.checkoutDisplay = <ThingCheckoutDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 Category.core.ServerSearcher = new ThingsServerSearcher(Category);

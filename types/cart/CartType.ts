@@ -94,6 +94,7 @@ export interface Item {
   children?: number;
   room_qty?: number;
   sector?: string;
+  customer_additional_requests?: string;
 }
 
 export interface Customer {

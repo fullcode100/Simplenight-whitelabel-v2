@@ -1,13 +1,14 @@
 import Divider from 'components/global/Divider/Divider';
-import { Item } from 'types/cart/CartType';
+import { Customer, Item } from 'types/cart/CartType';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import PaymentCartItem from './PaymentCartItem';
 
 interface ClientCartProps {
   items?: Item[];
+  customer?: Customer;
 }
 
-const PaymentCart = ({ items }: ClientCartProps) => {
+const PaymentCart = ({ items, customer }: ClientCartProps) => {
   return (
     <>
       {items && <BlockDivider className="mt-6" />}
@@ -15,7 +16,7 @@ const PaymentCart = ({ items }: ClientCartProps) => {
         const showDivider = index !== items.length - 1;
         return (
           <section key={index}>
-            <PaymentCartItem item={item} />
+            <PaymentCartItem item={item} customer={customer} />
             {showDivider && <Divider />}
           </section>
         );

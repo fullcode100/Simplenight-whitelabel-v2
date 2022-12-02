@@ -5,21 +5,24 @@ import CollapseBordered from 'components/global/CollapseBordered/CollapseBordere
 import BreakdownSummary from 'hotels/components/PriceBreakdownModal/components/BreakdownSummary';
 import { useCategorySlug } from 'hooks/category/useCategory';
 
-const PaymentCartItem = ({ item }: any) => {
+const PaymentCartItem = ({ item, customer }: any) => {
   const CartItemHeader = () => {
-    const category = useCategory(item.category.toLowerCase());
-    return injectProps(category?.checkoutDisplay, {
+    const sector = useCategory(item.sector.toLowerCase());
+    return injectProps(sector?.checkoutDisplay, {
       item: item,
     });
   };
 
   const CartItemBreakdown = () => {
-    const category = useCategory(item.category.toLowerCase());
-    return injectProps(category?.breakdownDisplay, {
+    const sector = useCategory(item.sector.toLowerCase());
+    return injectProps(sector?.breakdownDisplay, {
+      customer: customer,
       item: item,
       showCollapse: false,
     });
   };
+
+  /* const { check_in_instructions: checkInInstructions } = item.extended_data; */
 
   const CartItemBody = () => {
     return (
@@ -34,6 +37,7 @@ const PaymentCartItem = ({ item }: any) => {
     const sector = useCategory(itemCategory?.type || '');
     return injectProps(sector?.checkoutItemDisplay, {
       item: item,
+      customer: customer,
     });
   };
 

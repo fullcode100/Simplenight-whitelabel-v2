@@ -3,6 +3,7 @@
 // Libraries
 import React, { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
+import valid from 'card-validator';
 
 // Credentials
 import {
@@ -12,15 +13,14 @@ import {
 // Types
 import { Amount } from 'types/global/Amount';
 import { PaymentRequest } from 'components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
+import { Card } from 'types/global/Card';
 // Components
 import Button from 'components/global/Button/Button';
 // Layout Components
 import CheckoutMain from 'components/checkout/CheckoutMain/CheckoutMain';
 import CheckoutForm from 'components/checkout/CheckoutForm/CheckoutForm';
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
-// Form Components
-import InputWrapper from 'components/checkout/Inputs/InputWrapper';
-import SquarePaymentForm from 'components/global/PaymentForm/SquarePaymentForm';
+
 // Footer Components
 import Summary from 'components/checkout/Summary/Summary';
 import Terms from 'components/checkout/Terms/Terms';
@@ -40,6 +40,8 @@ import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
 import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
+import PaymentForm from 'components/global/PaymentForm/PaymentForm';
+import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -82,6 +84,7 @@ const Payment = () => {
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
   const [prodExpedia, setProdExpedia] = useState(false);
 
+  const paymentForm = useRef<HTMLDivElement>(null);
   let paymentToken: string;
   let verificationToken: string;
 
@@ -93,7 +96,6 @@ const Payment = () => {
     dispatch,
   };
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
-
   const { getCookie } = useCookies();
 
   const triggerGTagEvent = (bookingId: string, referralItemId: string) => {
@@ -141,8 +143,28 @@ const Payment = () => {
     }
   };
 
-  const triggerFormTokenGeneration = () => {
-    return payClickRef.current?.click();
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+  const validateCard = () => {
+    const validName = valid.cardholderName(card.name).isValid;
+    const validNumber = valid.number(card.number).isValid;
+    const validExpiration = valid.expirationDate(card.expiration).isValid;
+    const validCVV = valid.cvv(card.cvv).isValid;
+    setCardErrors({
+      name: !validName,
+      number: !validNumber,
+      expiration: !validExpiration,
+      cvv: !validCVV,
+    });
+    const cardIsValid = validName && validNumber && validExpiration && validCVV;
+    if (!cardIsValid) {
+      scrollToTop();
+    }
+    if (cardIsValid) console.log('proceed to booking');
   };
 
   const handleTokens = (
@@ -220,20 +242,37 @@ const Payment = () => {
       item.extended_data?.terms_and_conditions &&
       item.extended_data?.terms_and_conditions?.length > 0,
   );
+  const [card, setCard] = useState<Card>({
+    number: '',
+    name: '',
+    expiration: '',
+    cvv: '',
+  });
+  const [cardErrors, setCardErrors] = useState({
+    number: false,
+    name: false,
+    expiration: false,
+    cvv: false,
+  });
 
   return (
     <>
-      <Script src="https://sandbox.web.squarecdn.com/v1/square.js" />
+      {/* <Script src="https://sandbox.web.squarecdn.com/v1/square.js" /> */}
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
         <section className="flex items-start justify-center gap-8 px-0 py-0 lg:px-20 lg:py-12">
           <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
             <CheckoutMain>
               <CheckoutForm title={'Payment Information'}>
-                <InputWrapper label="Country" labelKey="country">
+                <PaymentForm
+                  card={card}
+                  setCard={(value: Card) => setCard(value)}
+                  cardErrors={cardErrors}
+                />
+                {/*  <InputWrapper label="Country" labelKey="country">
                   <CountrySelect value={country} onChange={setCountry} />
-                </InputWrapper>
-                {cart && (
+                </InputWrapper> */}
+                {/* {cart && (
                   <>
                     <SquarePaymentForm
                       applicationId={appId}
@@ -253,7 +292,7 @@ const Payment = () => {
                       disabled={true}
                     />
                   </>
-                )}
+                )} */}
               </CheckoutForm>
               <section className="px-5 pb-6">
                 <Terms
@@ -297,7 +336,7 @@ const Payment = () => {
                 )}
               </section>
               <section className="px-5">
-                <PaymentCart items={cart?.items} />
+                <PaymentCart items={cart?.items} customer={cart?.customer} />
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
@@ -319,7 +358,7 @@ const Payment = () => {
                   disabled={loading}
                   size={'full'}
                   className="text-[18px]"
-                  onClick={triggerFormTokenGeneration}
+                  onClick={validateCard}
                 />
               </section>
             </CheckoutFooter>

@@ -31,7 +31,7 @@ const ThingGeneralInfo = ({ item }: ThingGeneralInfoProps) => {
     },
   } = item;
   const [t] = useTranslation('things');
-  const address = `${area}, ${city}, ${country}`;
+  const address = `${area ? `${area}, ` : ''}, ${city}, ${country}`;
 
   const activityDuration = duration ? duration : { minDuration, maxDuration };
   const dateFormatted = dayjs(activityDate).format('MMM D, YYYY');
