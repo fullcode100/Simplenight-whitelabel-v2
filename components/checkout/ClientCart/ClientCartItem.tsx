@@ -82,8 +82,15 @@ const ClientCartItem = ({
   };
 
   const bookingQuestions = item?.item_data?.extra_data?.booking_questions;
-  const travelerQuestionSchema = getTravelerQuestionSchema(bookingQuestions);
-  const bookingQuestionSchema = getBookingQuestionSchema(bookingQuestions);
+  const pickupPoints = item?.item_data?.extra_data?.pickup;
+  const travelerQuestionSchema = getTravelerQuestionSchema(
+    bookingQuestions,
+    pickupPoints,
+  );
+  const bookingQuestionSchema = getBookingQuestionSchema(
+    bookingQuestions,
+    pickupPoints,
+  );
   const getTicketsCuantity = () => {
     let ticketsCuantity = 0;
     const itemTravelers = [];

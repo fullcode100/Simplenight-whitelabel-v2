@@ -1,4 +1,3 @@
-import { pickupPointsMock } from 'mocks/pickupPointsMock';
 import {
   BookingQuestion,
   LocationPoints,
@@ -7,6 +6,22 @@ import {
 const widgets: any = {
   PICKUP_POINT: 'PickupPoint',
   NUMBER_AND_UNIT: 'NumberUnit',
+};
+
+const defaultPickup = {
+  allow_custom_location: true,
+  options: ['PICKUP'],
+  description: '',
+  locations: [
+    {
+      location: {
+        ref: '',
+        provider: '',
+        name: '',
+      },
+      pickup_type: 'OTHER',
+    },
+  ],
 };
 
 export const getQuestionsSchema = (
@@ -31,7 +46,7 @@ export const getQuestionsSchema = (
     const widgetType = getWidgetType(question);
 
     const widgetData: any = {
-      PICKUP_POINT: pickupPoints || pickupPointsMock,
+      PICKUP_POINT: pickupPoints || defaultPickup,
       NUMBER_AND_UNIT: answerUnits,
     };
     property.data = widgetData[widgetType];
@@ -166,7 +181,7 @@ const getQuestionDependencies = (
         (question) => question.id === relatedQuestionId,
       );
       const widgetData: any = {
-        PICKUP_POINT: pickupPoints || pickupPointsMock,
+        PICKUP_POINT: pickupPoints || defaultPickup,
         NUMBER_AND_UNIT: relatedQuestion?.answer_units,
       };
       const widgetType = getWidgetType(relatedQuestion as BookingQuestion);
