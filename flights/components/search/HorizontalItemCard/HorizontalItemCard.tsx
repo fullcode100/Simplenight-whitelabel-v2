@@ -15,6 +15,7 @@ import { Flight, FlightOffer } from 'flights/types/response/SearchResponse';
 import PriceBreakdownHeader from './components/PriceBreakdownHeader';
 import PriceBreakdownBody from './components/PriceBreakdownBody';
 import FlightDetailsModal from '../../FlightDetailsModal/FlightDetailsModal';
+import { Item } from 'types/cart/CartType';
 
 interface CardProps<T extends WithId> {
   key?: string;
@@ -25,6 +26,7 @@ interface CardProps<T extends WithId> {
   categoryName?: string;
   className?: string;
   showAllOffers: boolean;
+  cartItem: Item;
 }
 
 function HorizontalItemCard<T extends WithId>({
@@ -35,6 +37,7 @@ function HorizontalItemCard<T extends WithId>({
   categoryName,
   className = '',
   showAllOffers,
+  cartItem,
 }: CardProps<T>) {
   const [t, i18next] = useTranslation('flights');
   const durationLabel = t('duration', 'Duration');
@@ -178,9 +181,12 @@ function HorizontalItemCard<T extends WithId>({
           }
           body={
             <PriceBreakdownBody
+              cartItem={cartItem}
+              item={item}
               offers={item.offers}
               currency={currency}
               showAllOffers={showAllOffers}
+              handleFlightClick={handleFlightClick}
             />
           }
         />

@@ -56,9 +56,7 @@ const FlightRoomInfo = ({ room }: FlightRoomInfoProps) => {
       <RoomPriceBreakdown
         total={total}
         taxesAndFees={taxesAndFeesFormatted}
-        resortFees={resortFeesFormatted}
         cancellationPolicy={cancellationPolicy}
-        amenities={amenities}
       />
       <Button
         value={cancelLabel}

@@ -8,6 +8,8 @@ import {
   Room,
 } from 'hotels/types/response/SearchResponse';
 import { Amount } from 'types/global/Amount';
+import { FlightCartRequestDetail } from 'flights/types/request/FlightCartRequest';
+import { FlightCartItemData } from 'flights/types/response/FlightCartItemData';
 
 export interface CartResponse {
   cart?: CartObjectResponse[];
@@ -62,9 +64,13 @@ export interface UpdateCartItemRequest {
 }
 
 export interface Item {
+  category?: string;
+  sector?: string;
+  booking_data?: FlightCartRequestDetail;
+  item_data?: FlightCartItemData;
+
   cart_id?: string;
   cart_item_id?: string;
-  category?: string;
   created_at?: string;
   customer?: Customer;
   extended_data?: HotelCart;

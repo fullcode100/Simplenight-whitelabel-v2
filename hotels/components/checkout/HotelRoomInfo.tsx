@@ -49,7 +49,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   const resortFeesFormatted = resortFees?.tax_amount.formatted;
   const termsOfService = room.extended_data?.terms_and_conditions;
 
-  const checkInInstructions = room.extended_data?.check_in_instructions;
+  const checkInInstructions = room?.extended_data?.check_in_instructions;
 
   const Instructions = () => {
     const instructions = `${checkInInstructions?.instructions ?? ''}

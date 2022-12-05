@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { FlightSearchRequest } from 'flights/types/request/FlightSearchRequest';
@@ -33,6 +34,7 @@ import PriceDisplay from 'flights/components/PriceDisplay/PriceDisplay';
 import FlightCancellable from './FlightCancellable';
 import Button from 'components/global/Button/Button';
 import moment from 'moment';
+import { Item } from 'types/cart/CartType';
 
 declare let window: CustomWindow;
 
@@ -329,9 +331,9 @@ const FlightResultsDisplay = ({
     });
     // sort
     flightOffers.sort((a, b) =>
-      a?.totalAmound < b?.totalAmound
+      parseFloat(a?.totalAmound) < parseFloat(b?.totalAmound)
         ? -1
-        : Number(a?.totalAmound > b?.totalAmound),
+        : Number(parseFloat(a?.totalAmound) > parseFloat(b?.totalAmound)),
     );
     return flightOffers;
   };
@@ -433,15 +435,15 @@ const FlightResultsDisplay = ({
     // sort by price
     if (sortBy && sortBy === 'sortByPriceDesc')
       _flightsFiltered.sort((a, b) =>
-        a?.offers[0]?.totalAmound > b?.offers[0]?.totalAmound
+        parseFloat(a?.offers[0]?.totalAmound) > parseFloat(b?.offers[0]?.totalAmound)
           ? -1
-          : Number(a?.offers[0]?.totalAmound < b?.offers[0]?.totalAmound),
+          : Number(parseFloat(a?.offers[0]?.totalAmound) < parseFloat(b?.offers[0]?.totalAmound)),
       );
     else
       _flightsFiltered.sort((a, b) =>
-        a?.offers[0]?.totalAmound < b?.offers[0]?.totalAmound
+        parseFloat(a?.offers[0]?.totalAmound) < parseFloat(b?.offers[0]?.totalAmound)
           ? -1
-          : Number(a?.offers[0]?.totalAmound > b?.offers[0]?.totalAmound),
+          : Number(parseFloat(a?.offers[0]?.totalAmound) > parseFloat(b?.offers[0]?.totalAmound)),
       );
 
     setFlightsFiltered(_flightsFiltered);
@@ -451,12 +453,51 @@ const FlightResultsDisplay = ({
     localStorage.setItem('flightIndex', `${_flightIndex}`);
   };
 
+  const getFlightsByIds = (_flights: Flight[], ids: string[]) => {
+    let results:Flight[] = [];
+    _flights.forEach((item: Flight, index: number) => {
+      const id = item.legId;
+      const found = ids.indexOf(id);
+      if (found > -1) results[found] = item;
+    });
+    return results;
+  };
+
   const FlightList = () => (
     <ul role="list" className="space-y-4">
       {flightsFiltered.map((flight: Flight, index: number) => {
+        const cartItem:Item = {
+          category: 'FLIGHTS',
+          sector: 'other',
+          booking_data: {
+            inventory_id: "7e6cfd32:7264P3",
+            search: {
+              direction: direction as string,
+
+              start_airport: startAirport as unknown as string,
+              end_airport: endAirport as unknown as string,
+              start_date: formatAsSearchDate(startDate as unknown as string),
+              end_date: formatAsSearchDate(endDate as unknown as string),
+
+              adults: parseQueryNumber(adults ?? ''),
+              children: parseQueryNumber(children ?? ''),
+              infants: parseQueryNumber(infants ?? ''),
+              children_ages: childrenAges as unknown as string,
+              infants_ages: infantsAges as unknown as string,
+
+              start_airports: startAirports as unknown as string,
+              end_airports: endAirports as unknown as string,
+              start_dates: startDates as unknown as string,
+
+              currency: currency as unknown as string,
+            },
+            flights: getFlightsByIds(flights, flightsSelected),
+          },
+        };
         if (index < page * pageItems)
           return (
             <HorizontalItemCard
+              cartItem={cartItem}
               key={`flight_${index}`}
               item={flight}
               showAllOffers={flightIndex + 1 === flightsCount}

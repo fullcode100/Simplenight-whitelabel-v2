@@ -5,10 +5,7 @@ const ListHeader = () => {
   const [t, i18next] = useTranslation('global');
   const checkoutLabel = t('readyForCheckout', 'Ready For Checkout');
   const checkoutTagTitle = t('checkoutNow', 'Check Out Now!');
-  const checkoutTagText = t(
-    'checkoutTagText',
-    'Room rates are increasing soon.',
-  );
+  const checkoutTagText = t('checkoutTagText', 'Prices are increasing soon.');
 
   return (
     <header>

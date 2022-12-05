@@ -97,5 +97,7 @@
   "noReschedulingMissedFlights": "Sin reprogramación de vuelos perdidos",
   "classic": "Clásica",
   "terminal": "Terminal",
-  "upgrade": "Mejora"
+  "upgrade": "Mejora",
+  "removeFlight": "Eliminar vuelo",
+  "select": "Seleccione"
 }

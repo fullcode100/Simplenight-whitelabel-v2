@@ -18,7 +18,11 @@ interface FlightRoomsInfoProps {
   setLoading?: Dispatch<SetStateAction<boolean>>;
 }
 
-const FlightRoomsInfo = ({ item, loading, setLoading }: FlightRoomsInfoProps) => {
+const FlightRoomsInfo = ({
+  item,
+  loading,
+  setLoading,
+}: FlightRoomsInfoProps) => {
   const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
@@ -65,11 +69,7 @@ const FlightRoomsInfo = ({ item, loading, setLoading }: FlightRoomsInfoProps) =>
       <RoomPriceBreakdown
         total={total}
         taxesAndFees={taxesAndFees}
-        resortFees={resortFees}
         cancellationPolicy={cancellationPolicy}
-        amenities={amenities}
-        adultsCount={item?.adults}
-        childrenCount={item?.children}
       />
       <section className="lg:flex lg:justify-end">
         <section className="lg:w-1/4">

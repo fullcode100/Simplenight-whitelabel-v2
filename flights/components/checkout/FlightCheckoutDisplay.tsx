@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import Paragraph from 'components/global/Typography/Paragraph';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import IconOneWay from 'public/icons/assets/flights/one_way.svg';
+import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
+import IconMultiCity from 'public/icons/assets/flights/multi_city.svg';
 
 import { Item } from 'types/cart/CartType';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
@@ -17,14 +20,37 @@ const FlightCheckoutDisplay = ({
   Category,
 }: FlightCheckoutDisplayProps) => {
   const [t, i18n] = useTranslation('flights');
-  const roomText = t('room', 'Room');
-  const roomsText = t('rooms', 'Rooms');
 
-  const name = item?.extended_data?.details?.name;
-  const itemsQty = item?.room_qty ?? 0;
+  let startDates: string[] = [];
+  let startAirports: string[] = [];
+  let endAirports: string[] = [];
+  const direction = item?.booking_data?.search?.direction;
+  let directionLabel = t('one_way', 'One-way');
+  if (direction === 'round_trip')
+    directionLabel = t('round_trip', 'Round-trip');
+  else if (direction === 'multi_city') {
+    directionLabel = t('multi_city', 'Multi-city');
+    startDates = (item?.booking_data?.search?.start_dates as string).split(',');
+    startAirports = (
+      item?.booking_data?.search?.start_airports as string
+    ).split(',');
+    endAirports = (item?.booking_data?.search?.end_airports as string).split(
+      ',',
+    );
+  }
 
-  const roomsLabel = usePlural(itemsQty, roomText, roomsText);
-  const roomsFormatted = `${itemsQty} ${roomsLabel}`;
+  const travelers =
+    (item?.booking_data?.search?.adults ?? 1) +
+    (item?.booking_data?.search?.children ?? 0) +
+    (item?.booking_data?.search?.infants ?? 0);
+  const travelerText = t('traveler', 'Traveler');
+  const travelersText = t('travelers', 'Travelers');
+  const travelersFormatted = `${travelers} ${usePlural(
+    travelers,
+    travelerText,
+    travelersText,
+  )}`;
+  console.log(item?.booking_data?.search);
 
   return (
     <section className="flex flex-row gap-3">
@@ -32,12 +58,32 @@ const FlightCheckoutDisplay = ({
         <div className="text-white">{Category.icon}</div>
       </IconRoundedContainer>
       <section className="grid gap-1">
-        <section className="font-semibold text-dark-800 text-lg leading-6 ">
-          {name}
+        <section className="font-semibold text-dark-1000 text-[20px] leading-[20px]">
+          {direction === 'one_way' && (
+            <section className="flex flex-row">
+              {item?.booking_data?.search?.start_airport}
+              <IconOneWay className="text-dark-1000 mx-2" />
+              {item?.booking_data?.search?.end_airport}
+            </section>
+          )}
+          {direction === 'round_trip' && (
+            <section className="flex flex-row">
+              {item?.booking_data?.search?.start_airport}
+              <IconRoundTrip className="text-dark-1000 mx-2" />
+              {item?.booking_data?.search?.end_airport}
+            </section>
+          )}
+          {direction === 'multi_city' && (
+            <section className="flex flex-row">
+              {startAirports[0]}
+              <IconMultiCity className="text-dark-1000 mx-2" />
+              {endAirports[endAirports.length - 1]}
+            </section>
+          )}
         </section>
-        <Paragraph size="small" fontWeight="normal" textColor="text-dark-800">
-          {roomsFormatted}
-        </Paragraph>
+        <section className="font-normal text-dark-700 text-[14px] leading-[17px]">
+          {directionLabel} | {travelersFormatted}
+        </section>
       </section>
     </section>
   );

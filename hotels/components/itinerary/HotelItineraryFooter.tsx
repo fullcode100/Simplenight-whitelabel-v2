@@ -40,7 +40,7 @@ const HotelItineraryFooter = ({
 
   const editLabel = tg('edit', 'Edit');
 
-  const totalRate = item.rate?.min_rate.rate;
+  const totalRate = item.rate?.min_rate?.rate;
 
   const removeAllRooms = () => {
     const roomToRemove = {

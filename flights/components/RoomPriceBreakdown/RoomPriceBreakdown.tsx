@@ -2,31 +2,19 @@ import { useTranslation } from 'react-i18next';
 
 import AmountDetailItem from './components/AmountDetailItem';
 import ExtraDetailItem from './components/ExtraDataItem';
-import AdultChildrenAmount from '../AdultChildrenAmount/AdultChildrenAmount';
 
 interface RoomPriceBreakdownProps {
   total?: string;
   taxesAndFees?: string;
-  resortFees?: string;
   cancellationPolicy?: string;
-  amenities?: string;
-  adultsCount?: number;
-  childrenCount?: number;
-  infantsCount?: number;
 }
 
 const RoomPriceBreakdown = ({
   total,
   taxesAndFees,
-  resortFees,
   cancellationPolicy,
-  amenities,
-  adultsCount = 2,
-  childrenCount = 0,
-  infantsCount = 0,
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('flights');
-  const resortFeeLabel = t('resortFee', 'Resort Fee');
   const taxesAndFeesLabel = t('taxesAndFees', 'Taxes And Fees');
   const totalLabel = t('total', 'Total');
   const priceIncludesLabel = t('priceIncludes', 'Price Includes');
@@ -37,9 +25,6 @@ const RoomPriceBreakdown = ({
 
   return (
     <>
-      <AdultChildrenAmount adults={adultsCount} child={childrenCount} infant={infantsCount} />
-
-      <AmountDetailItem amount={resortFees} label={resortFeeLabel} />
       <AmountDetailItem amount={taxesAndFees} label={taxesAndFeesLabel} />
 
       <div className="border-t border-dark-200"></div>
@@ -53,7 +38,6 @@ const RoomPriceBreakdown = ({
         </p>
       </section>
 
-      <ExtraDetailItem detail={amenities} label={priceIncludesLabel} />
       <ExtraDetailItem
         detail={cancellationPolicy}
         label={cancellationPolicyLabel}

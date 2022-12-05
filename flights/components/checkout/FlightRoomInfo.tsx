@@ -12,66 +12,40 @@ import { diffDays } from 'helpers/dajjsUtils';
 import TrashIcon from 'public/icons/assets/small-trash.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 
-const RESORT_FEES = 'RESORT_FEES';
-const TAXES_AND_FEES = 'TAXESANDFEES';
-
 interface FlightRoomInfoProps {
-  room: Item;
+  item?: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
 }
 
-const FlightRoomInfo = ({ room, reload, setReload }: FlightRoomInfoProps) => {
+const FlightRoomInfo = ({ item, reload, setReload }: FlightRoomInfoProps) => {
   const dispatch = useDispatch();
 
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
 
-  const roomDetail = room.extended_data?.rooms?.[0];
-  const roomName = roomDetail?.description;
-  const amenities = roomDetail?.amenities.join(', ');
-
-  const roomMinRate = roomDetail?.rates.min_rate;
-  const roomRate = roomMinRate?.rate;
-  const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
-  const total = roomRate?.total_amount.formatted;
-  const roomRateDetail = roomRate?.rate_breakdown;
-
-  const taxesAndFees = roomRateDetail?.taxes.find(
-    (tax) => tax.description === TAXES_AND_FEES,
-  );
-  const taxesAndFeesFormatted = taxesAndFees?.tax_amount.formatted;
-
-  const resortFees = roomRateDetail?.post_paid_rate?.taxes.find(
-    (tax) => tax.description === RESORT_FEES,
-  );
-  const resortFeesFormatted = resortFees?.tax_amount.formatted;
+  const cancellationPolicy = t('nonRefundable', 'Non refundable');
+  const total = `${item?.booking_data?.offer?.totalAmound} ${item?.booking_data?.search?.currency}`;
+  const taxesAndFees = `${item?.booking_data?.offer?.baseFare} ${item?.booking_data?.search?.currency}`;
 
   const handleRemoveRoom = () => {
-    const roomToRemove = {
-      cartId: room.cart_id,
-      itemId: room.cart_item_id,
-    };
-    removeFromCart(i18next, roomToRemove, dispatch)
-      .then(() => setReload?.(!reload))
-      .catch((error) => console.error(error));
+    if (item) {
+      const roomToRemove = {
+        cartId: item.cart_id,
+        itemId: item.cart_item_id,
+      };
+      removeFromCart(i18next, roomToRemove, dispatch)
+        .then(() => setReload?.(!reload))
+        .catch((error) => console.error(error));
+    }
   };
 
   return (
     <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
-      <RoomTitle
-        roomName={roomName}
-        roomQty={room.room_qty}
-        nights={room.nights ?? 0}
-      />
       <RoomPriceBreakdown
         total={total}
-        taxesAndFees={taxesAndFeesFormatted}
-        resortFees={resortFeesFormatted}
+        taxesAndFees={taxesAndFees}
         cancellationPolicy={cancellationPolicy}
-        amenities={amenities}
-        adultsCount={room.adults}
-        childrenCount={room.children}
       />
       <Button
         value={removeLabel}

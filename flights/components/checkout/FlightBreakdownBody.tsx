@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import FlightGeneralInfo from './FlightGeneralInfo';
-import FlightRoomsInfo from './FlightRoomsInfo';
+import FlightRoomInfo from './FlightRoomInfo';
 import { Item } from 'types/cart/CartType';
 
 interface FlightBreakdownBodyProps {
@@ -16,8 +16,8 @@ const FlightBreakdownBody = ({
 }: FlightBreakdownBodyProps) => {
   return (
     <section className="pl-[52px]">
-      <FlightGeneralInfo item={item?.extended_data} />
-      <FlightRoomsInfo item={item} reload={reload} setReload={setReload} />
+      <FlightGeneralInfo item={item} />
+      <FlightRoomInfo item={item} reload={reload} setReload={setReload} />
     </section>
   );
 };

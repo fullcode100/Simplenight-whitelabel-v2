@@ -10,7 +10,7 @@ interface CategoryItemProps {
 
 const CategoryItem = ({ text, icon, url }: CategoryItemProps) => {
   const [t] = useTranslation('global');
-  const categoryLabel = t(url, '');
+  const categoryLabel = t(url, text);
 
   return (
     <section className="h-[120px] w-[120px] lg:h-40 lg:w-40 bg-white rounded-4 flex items-center justify-center shadow-container">

@@ -1,6 +1,6 @@
 import { Item } from 'types/cart/CartType';
 import FlightGeneralInfo from './FlightGeneralInfo';
-import FlightRoomsInfo from './FlightRoomsInfo';
+import FlightRoomInfo from './FlightRoomsInfo';
 
 interface FlightItineraryBodyProps {
   item: Item;
@@ -9,8 +9,8 @@ interface FlightItineraryBodyProps {
 const FlightItineraryBody = ({ item }: FlightItineraryBodyProps) => {
   return (
     <>
-      <FlightGeneralInfo item={item.extended_data} />
-      <FlightRoomsInfo item={item} />
+      <FlightGeneralInfo item={item} />
+      <FlightRoomInfo item={item} />
     </>
   );
 };

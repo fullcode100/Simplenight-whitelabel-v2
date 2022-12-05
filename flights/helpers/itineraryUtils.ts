@@ -7,7 +7,7 @@ export const getPercentage = (before: number, after: number) => {
 
 export const getPriceDisplayParams = (item: FlightCart | undefined) => {
   const totalRate = JSON.parse(
-    JSON.stringify(item?.items?.[0].rate?.min_rate.rate),
+    JSON.stringify(item?.items?.[0].rate?.min_rate?.rate),
   );
 
   item?.items?.slice(1).forEach((room) => {
@@ -15,7 +15,7 @@ export const getPriceDisplayParams = (item: FlightCart | undefined) => {
     const totalDiscounts = totalRate?.rate_breakdown.discounts;
     const totalAmountBeforeDiscount = totalDiscounts?.total_amount_before_apply;
 
-    const roomRate = room.rate?.min_rate.rate;
+    const roomRate = room.rate?.min_rate?.rate;
     const roomTotalAmount = roomRate?.total_amount;
     const roomDiscounts = roomRate?.rate_breakdown.discounts;
     const roomAmountBeforeDiscount = roomDiscounts?.total_amount_before_apply;

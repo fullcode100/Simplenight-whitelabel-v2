@@ -3,7 +3,7 @@ import FlightRoomInfo from './FlightRoomInfo';
 import { Item } from 'types/cart/CartType';
 
 interface FlightRoomsInfoProps {
-  item?: Item;
+  item: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
 }
@@ -12,7 +12,7 @@ const FlightRoomsInfo = ({ item, reload, setReload }: FlightRoomsInfoProps) => {
   return (
     <>
       {item && (
-        <FlightRoomInfo room={item} reload={reload} setReload={setReload} />
+        <FlightRoomInfo item={item} reload={reload} setReload={setReload} />
       )}
     </>
   );

@@ -29,36 +29,37 @@ const FlightItineraryFooter = ({
   const [th, i18h] = useTranslation('flights');
 
   const removeLabel = tg('remove', 'Remove');
-  const roomsAmount = item.room_qty ?? 1;
-  const roomText = th('room', 'Room');
-  const roomsText = th('rooms', 'Rooms');
-  const removeRoomsFormatted = `${removeLabel} ${roomsAmount} ${usePlural(
-    roomsAmount,
-    roomText,
-    roomsText,
+  const flightsAmount = item?.booking_data?.flights.length ?? 1;
+  const flightText = th('flight', 'Flight');
+  const flightsText = th('flights', 'Flights');
+  const removeFlightsFormatted = `${removeLabel} ${flightsAmount} ${usePlural(
+    flightsAmount,
+    flightText,
+    flightsText,
   )}`;
 
   const editLabel = tg('edit', 'Edit');
 
-  const totalRate = item.rate?.min_rate.rate;
+  const totalRate = item.rate?.min_rate?.rate;
 
-  const removeAllRooms = () => {
-    const roomToRemove = {
+  const removeAllFlights = () => {
+    const flightToRemove = {
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, roomToRemove, dispatch)
+    removeFromCart(i18g, flightToRemove, dispatch)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
   };
 
-  const handleRemoveAllRooms = () => {
-    removeAllRooms();
+  const handleRemoveAllFlights = () => {
+    removeAllFlights();
   };
 
   const handleEdit = () => {
-    removeAllRooms();
-    router.push(`/detail/flights/${item.extended_data?.id}`);
+    removeAllFlights();
+    // router.push(`/detail/flights/${item.extended_data?.id}`);
+    router.push('/flights}');
   };
 
   return (
@@ -72,11 +73,11 @@ const FlightItineraryFooter = ({
       )}
       <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
         <Button
-          value={removeRoomsFormatted}
+          value={removeFlightsFormatted}
           size="full-sm"
           type="outlined"
           leftIcon={<TrashIcon />}
-          onClick={handleRemoveAllRooms}
+          onClick={handleRemoveAllFlights}
           className="lg:w-[170px]"
         ></Button>
         <Button

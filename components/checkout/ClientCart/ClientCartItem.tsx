@@ -41,7 +41,7 @@ const ClientCartItem = ({
     });
   };
 
-  const { check_in_instructions: checkInInstructions } = item.extended_data;
+  const checkInInstructions = item?.extended_data?.check_in_instructions;
 
   const Instructions = () => {
     const {
