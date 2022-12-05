@@ -42,13 +42,15 @@ const Search: NextPage = () => {
   return (
     <>
       <header className="fixed z-20 flex flex-col w-full sm:pt-1 pb-2 bg-dark-100 border-y border-dark-300">
-        <HorizontalTabs
-          tabs={categoriesTabs}
-          activeTab={activeTab}
-          onClick={handleTabClick}
-          primary
-          className="px-4 mt-1"
-        />
+        <section className="hidden lg:block">
+          <HorizontalTabs
+            tabs={categoriesTabs}
+            activeTab={activeTab}
+            onClick={handleTabClick}
+            primary
+            className="px-4 mt-1"
+          />
+        </section>
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
