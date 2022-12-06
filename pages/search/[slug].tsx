@@ -42,7 +42,7 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <header className="fixed z-20 flex flex-col w-full pt-2 bg-dark-100 border-y border-dark-300">
+      <header className="fixed z-10 flex flex-col w-full pt-2 lg:pt-6 bg-dark-100 border-y border-dark-300">
         <section className="hidden lg:block">
           <HorizontalTabs
             tabs={categoriesTabs}
