@@ -28,10 +28,14 @@ export const getValidatorErrorMessage = (statusCode: string) => {
 };
 
 export const handleError = (error: any) => {
-  const title = getValidatorErrorMessage(error.status);
+  const title =
+    getValidatorErrorMessage(error.status) !== ''
+      ? getValidatorErrorMessage(error.status)
+      : 'Unknown Error';
   const { errors } = error.data as unknown as {
     errors: ClientResponseError[];
   };
+  console.warn(title);
   const errorMessage = errors.map(({ message }) => message).join('\n');
   notification(title, errorMessage, 'error');
 };

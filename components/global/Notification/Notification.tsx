@@ -52,7 +52,7 @@ export const notification = (
         <section
           className={`max-w-sm w-full border shadow-container rounded ${setBG()}`}
         >
-          <section className="flex gap-3.5 items-start p-4">
+          <section className="flex gap-3.5 items-between p-4">
             <div className="shrink-0">{setIcon()}</div>
             <section className="grid gap-2">
               <p className="text-base leading-[22px] font-semibold text-dark-1000">
