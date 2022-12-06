@@ -73,6 +73,16 @@ const PriceBreakdownBody = ({
           flights: [],
           offer: offer,
         },
+        /*
+        rate: {
+          total: {
+            prepaid: {
+              amount: offer?.totalAmound,
+              currency: cartItem?.booking_data?.search?.currency ?? 'USD',
+            },
+          },
+        },
+        */
       },
       cartItem,
     );
@@ -107,7 +117,7 @@ const PriceBreakdownBody = ({
             </p>
           </section>
 
-          <section className="flex flex-col lg:flex-row justify-between  px-4 py-4">
+          <section className="flex flex-col lg:flex-row justify-between px-4 py-4">
             <section className="flex flex-col justify-between">
               <p className="text-sm leading-[22px] text-dark-700 font-bold font-lato pb-2">
                 {includesLabel}
@@ -148,7 +158,7 @@ const PriceBreakdownBody = ({
               </section>
             </section>
             {showAllOffers ? (
-              <section className="flex flex-col lg:flex-row pt-1 self-end">
+              <section className="flex flex-col lg:flex-row pt-1 lg:self-end">
                 <Button
                   value={addToItineraryText}
                   size="full"
