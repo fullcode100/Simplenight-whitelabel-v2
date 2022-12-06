@@ -133,23 +133,21 @@ const ThingTicketsInfo = ({ item }: Props) => {
     bookingAnswers,
     bookingQuestions,
   }: ExtraQuestionsProps) => {
-    const transformedAnswers = bookingAnswers?.map((answerArray: any) => {
-      const answerId = answerArray[0][1];
-      const answerValue = answerArray[1][1];
-      const answerTraveler = answerArray[3][1];
-      const answerLabel = bookingQuestions?.find(
-        (bookingQuestion) => bookingQuestion.id === answerId,
-      )?.label;
-      return {
-        id: answerId,
-        value: answerValue,
-        traveler: answerTraveler,
-        label: answerLabel,
-      };
-    });
-    transformedAnswers?.sort((a, b) => {
-      return a.traveler - b.traveler;
-    });
+    const transformedAnswers = bookingAnswers?.map(
+      (bookingAnswer: BookingAnswer) => {
+        const answerLabel = bookingQuestions?.find(
+          (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
+        )?.label;
+        const answerValue = bookingAnswer.value;
+
+        return {
+          id: bookingAnswer.question_id,
+          value: answerValue,
+          traveler: bookingAnswer.traveler_num,
+          label: answerLabel,
+        };
+      },
+    );
 
     return (
       <div className="text-sm ">
