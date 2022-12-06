@@ -201,3 +201,20 @@ input[type='range']::-webkit-slider-thumb {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.pin {
+  fill: var(--primary-color-400);
+  stroke: var(--primary-color-1000);
+}
+
+.pin-circle {
+  fill: var(--primary-color-1000);
+}
+
+.active .pin {
+  fill: var(--primary-color-1000);
+}
+
+.active .pin-circle {
+  fill: white;
+}

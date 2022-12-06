@@ -6,17 +6,23 @@ interface LocationMarkerProps {
   $hover?: boolean;
   lat?: number;
   lng?: number;
+  active?: boolean;
 }
 
-const LocationMarker = ({ onClick, $hover }: LocationMarkerProps) => {
+const LocationMarker = ({ onClick, $hover, active }: LocationMarkerProps) => {
   const buttonClassNames = classNames({
-    'text-teal-500 transform scale-110': $hover,
-    'transition-all duration-200 ease-in-out text-primary-1000': true,
+    'text-teal-500 transform': $hover,
+    'absolute transition-all duration-200 origin-bottom ease-in-out text-primary-1000':
+      true,
+    active,
+    'z-10 scale-150': active || $hover,
   });
   return (
-    <button className={buttonClassNames} onClick={onClick}>
-      <MarkerIcon />
-    </button>
+    <section className="relative flex items-end justify-center">
+      <button className={buttonClassNames} onClick={onClick}>
+        <MarkerIcon />
+      </button>
+    </section>
   );
 };
 

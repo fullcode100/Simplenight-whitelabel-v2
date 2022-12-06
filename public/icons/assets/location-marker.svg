@@ -1,22 +1,6 @@
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_1_2)">
-<g filter="url(#filter0_d_1_2)">
-<path d="M19.6667 2C15.7768 2 12.0463 3.5452 9.2958 6.2958C6.5452 9.0463 5 12.7768 5 16.6667C5 26.5667 17.925 37.75 18.475 38.2267C18.8071 38.5107 19.2297 38.6668 19.6667 38.6668C20.1036 38.6668 20.5263 38.5107 20.8583 38.2267C21.5 37.75 34.3333 26.5667 34.3333 16.6667C34.3333 12.7768 32.7881 9.0463 30.0376 6.2958C27.287 3.5452 23.5565 2 19.6667 2Z" fill="currentColor"/>
-<path d="M19.6663 24C23.7164 24 26.9996 20.7168 26.9996 16.6667C26.9996 12.6166 23.7164 9.33337 19.6663 9.33337C15.6162 9.33337 12.333 12.6166 12.333 16.6667C12.333 20.7168 15.6162 24 19.6663 24Z" fill="white"/>
-</g>
-</g>
-<defs>
-<filter id="filter0_d_1_2" x="-17" y="-12.6667" width="73.3333" height="80.6668" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="7.33333"/>
-<feGaussianBlur stdDeviation="11"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_2"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_2" result="shape"/>
-</filter>
-<clipPath id="clip0_1_2">
-<rect width="40" height="40" fill="white"/>
-</clipPath>
-</defs>
+  <path class="pin"
+        d="M19.6667 2C15.7768 2 12.0463 3.5452 9.2958 6.2958C6.5452 9.0463 5 12.7768 5 16.6667C5 26.5667 17.925 37.75 18.475 38.2267C18.8071 38.5107 19.2297 38.6668 19.6667 38.6668C20.1036 38.6668 20.5263 38.5107 20.8583 38.2267C21.5 37.75 34.3333 26.5667 34.3333 16.6667C34.3333 12.7768 32.7881 9.0463 30.0376 6.2958C27.287 3.5452 23.5565 2 19.6667 2Z"/>
+  <path class="pin-circle"
+        d="M19.6663 24C23.7164 24 26.9996 20.7168 26.9996 16.6667C26.9996 12.6166 23.7164 9.33337 19.6663 9.33337C15.6162 9.33337 12.333 12.6166 12.333 16.6667C12.333 20.7168 15.6162 24 19.6663 24Z"/>
 </svg>

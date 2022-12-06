@@ -5,6 +5,7 @@ module.exports = {
     './components/**/*.tsx',
     './layouts/**/*.tsx',
     './hotels/**/*.tsx',
+    './parking/**/*.tsx',
     './showsAndEvents/**/*.tsx',
   ],
   theme: {

@@ -9,7 +9,7 @@ interface CardProps<T extends WithId> {
   item: T;
   icon?: ReactNode;
   categoryName?: string;
-  address?: string;
+  address?: ReactNode;
   title?: string;
   image?: string;
   price?: ReactNode;

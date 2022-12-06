@@ -1,0 +1,54 @@
+// antd slider
+.ant-slider {
+  height: 10px;
+  margin: 10px 16px 10px !important;
+  z-index: 1;
+  user-select: none;
+
+  .ant-slider-track, .ant-slider-rail {
+    height: 2px;
+    background-color: var(--primary-color-1000) !important;
+  }
+
+  &:hover .ant-slider-track {
+    background-color: var(--primary-color-1000) !important;
+  }
+
+  .ant-slider-mark-text {
+    display: none;
+  }
+
+  .ant-slider-dot {
+    top: -3px;
+    background-color: var(--primary-color-600);
+    border: none;
+  }
+
+  .ant-slider-handle {
+    width: 32px;
+    height: 32px;
+    margin-top: -15px;
+    border-color: var(--primary-color-1000) !important;
+    background-color: var(--primary-color-100);
+
+    &::after {
+      display: none;
+    }
+
+    &:focus {
+      //box-shadow: 0 0 0 5px var(--primary-color-100);
+      box-shadow: none;
+    }
+  }
+
+  &::after {
+    content: '';
+    height: 2px;
+    background-color: var(--primary-color-1000);
+    position: absolute;
+    top: 4px;
+    left: -16px;
+    right: -16px;
+    z-index: -1;
+  }
+}
