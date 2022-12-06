@@ -17,7 +17,7 @@ const ConfirmationItem = ({
   loading,
   setLoading,
 }: ConfirmationItemProps) => {
-  const category = useCategory('hotels');
+  const category = useCategory(item.sector);
 
   return (
     injectProps(category?.confirmationDisplay, {
@@ -25,6 +25,7 @@ const ConfirmationItem = ({
       payment: payment,
       loading: loading,
       setLoading: setLoading,
+      customer: item.customer,
     }) ?? null
   );
 };

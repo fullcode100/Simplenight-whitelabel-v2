@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item } from 'types/cart/CartType';
+import { Item } from 'types/booking/bookingType';
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import ThingItineraryPriceBreakdown from '../itinerary/ThingItineraryPriceBreakdown';
 import Divider from 'components/global/Divider/Divider';
@@ -27,6 +27,17 @@ const ThingTicketsInfo = ({ item }: Props) => {
   const cancellationPolicy = tickets?.ticket_types[0].cancellation_policy;
   const [t] = useTranslation('things');
   const [g] = useTranslation('global');
+
+  const voucherLabel = t('viewVoucher', 'View Voucher');
+  const supplierReferenceID = item?.supplier_order_number;
+  const vendorConfirmationNumber =
+    item?.vendor_confirmation_code && item?.vendor_confirmation_code.length > 0
+      ? item?.vendor_confirmation_code
+      : '-';
+  const vendorConfirmationLabel = t(
+    'vendorConfirmation',
+    'Vendor Confirmation Number',
+  );
 
   const FeesRow = ({ priceBreakdown, label }: any) => {
     return (
@@ -176,6 +187,32 @@ const ThingTicketsInfo = ({ item }: Props) => {
         <h3 className="text-base capitalize">
           {quantity}x {ticketName}
         </h3>
+        <section className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+          {supplierReferenceID && (
+            <SupplierReference supplierReferenceID={supplierReferenceID} />
+          )}
+          {vendorConfirmationNumber && (
+            <section className="grid gap-0 ">
+              <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-700">
+                {vendorConfirmationLabel}
+              </p>
+              <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-primary-1000">
+                {vendorConfirmationNumber}
+              </p>
+            </section>
+          )}
+          {item.voucher && (
+            <a
+              href={item.voucher.url}
+              target={'_blank'}
+              className="flex items-center justify-center gap-2 p-3 text-xs font-semibold border bg-primary-100 text-primary-1000 hover:text-primary-1000 border-primary-300 rounded-4"
+              rel="noreferrer"
+            >
+              {voucherLabel}
+              <Link />
+            </a>
+          )}
+        </section>
         <FeesSection />
         <PoliciesSection />
         {item.customer_additional_requests && <AdditionalRequestsSection />}

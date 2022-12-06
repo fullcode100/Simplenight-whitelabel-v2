@@ -26,7 +26,7 @@ const Confirmation: NextPage = () => {
   const fromLookup = lookup == 'true';
 
   const flatBookingItems = booking?.items
-    .map((item) => (item.extra_data.items ? [...item.extra_data.items] : item))
+    .map((item) => (item.item_data ? item : item))
     .flat();
 
   const bookedItemsAmount =

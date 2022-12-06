@@ -1,3 +1,4 @@
+import { Rates } from '../../../types/booking/bookingType';
 import {
   Address,
   CancellationPolicy,
@@ -16,4 +17,5 @@ export interface ThingsCartItemData {
   thumbnail: string;
   categories: Category[];
   extra_data: ExtraData;
+  rate: Rates;
 }

@@ -183,6 +183,8 @@ export interface LocationPoints {
 
 export interface BookingConfirmationSettings {
   confirmation_type: string;
+  cut_off_in_minutes?: number;
+  cut_off_type?: string;
 }
 
 export interface Ticket {

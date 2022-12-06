@@ -18,6 +18,8 @@ import ThingItineraryDisplay from './components/itinerary/ThingItineraryDisplay'
 import ThingBreakdownDisplay from 'thingsToDo/components/checkout/ThingBreakdownDisplay';
 import ThingCheckoutDisplay from './components/checkout/ThingCheckoutDisplay';
 import ThingCheckoutItemDisplay from './components/checkout/ThingCheckoutItemDisplay';
+import ThingConfirmationItemDisplay from './components/confirmation/ThingConfirmationItemDisplay';
+import ThingCheckoutBreakdownDisplay from './components/confirmation/ThingBreakdownDisplay';
 
 export const THINGS_CATEGORY = 'entertainment';
 
@@ -68,6 +70,12 @@ Category.itineraryDisplay = <ThingItineraryDisplay Category={Category} />;
 Category.checkoutItemDisplay = <ThingCheckoutItemDisplay Category={Category} />;
 Category.breakdownDisplay = <ThingBreakdownDisplay Category={Category} />;
 Category.checkoutDisplay = <ThingCheckoutDisplay Category={Category} />;
+Category.confirmationDisplay = (
+  <ThingConfirmationItemDisplay Category={Category} />
+);
+Category.confirmationBreakdownDisplay = (
+  <ThingCheckoutBreakdownDisplay Category={Category} />
+);
 
 Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 Category.core.ServerSearcher = new ThingsServerSearcher(Category);
