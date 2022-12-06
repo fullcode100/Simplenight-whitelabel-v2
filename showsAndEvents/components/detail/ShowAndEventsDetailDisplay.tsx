@@ -61,7 +61,7 @@ interface selectedSeatsProp {
   discountPercent: number;
   discountAmount: number;
   taxes: number;
-  cancellationPolicy: any;
+  cancellationPolicy: string;
   currency: string;
 }
 interface iTicketCard {
@@ -403,13 +403,13 @@ const ShowAndEventsDetailDisplay = ({
     const newSelectedSeat: selectedSeatsProp = {
       name: name,
       title: `${sectorTitle} ${row}`,
-      basePrice: price.total_amount.amount,
+      basePrice: rate.total.net.amount,
       cancellationPolicy: currentCancellation,
       currency,
       discountPercent: rate.discounts.percentage_to_apply,
       discountAmount: rate.discounts.amount_to_apply.amount,
       quantity: currentCount,
-      taxes: price.total_taxes.amount,
+      taxes: price?.total_taxes?.amount || 0,
     };
 
     setSelectedSeats(newSelectedSeat);
@@ -487,7 +487,7 @@ const ShowAndEventsDetailDisplay = ({
                       currentCount = count;
                       buildSelectedSeastsInfo({
                         ...row,
-                        currency: row.price.avg_amount.currency,
+                        currency: row.rate.total.net.currency,
                         availableSeats: row.available_seats,
                         sectorTitle: title,
                         currentCount: count,
@@ -500,7 +500,7 @@ const ShowAndEventsDetailDisplay = ({
                         onClick={() => {
                           buildSelectedSeastsInfo({
                             ...row,
-                            currency: row.price.avg_amount.currency,
+                            currency: row.rate.total.net.currency,
                             availableSeats: row.available_seats,
                             sectorTitle: title,
                             currentCount: currentCount,

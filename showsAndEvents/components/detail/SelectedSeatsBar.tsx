@@ -14,7 +14,7 @@ interface selectedSeatsProp {
   discountPercent: number;
   discountAmount: number;
   taxes: number;
-  cancellationPolicy: any;
+  cancellationPolicy: string;
   currency: string;
 }
 
@@ -51,8 +51,6 @@ const SelectedSeatsBar = ({
     'includesTaxesAndFees',
     'Includes Taxes and Fees',
   );
-
-  console.log({ selectedSeats });
 
   return (
     <>

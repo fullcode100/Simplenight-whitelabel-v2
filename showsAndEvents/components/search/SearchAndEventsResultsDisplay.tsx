@@ -243,7 +243,6 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
           )}
         </section>
       </section>
-      {/* <SearchViewSelectorFixed /> */}
     </div>
   );
 };

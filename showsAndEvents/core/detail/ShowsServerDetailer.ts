@@ -16,8 +16,6 @@ export class ShowsServerDetailer extends ServerDetailer<ShowDetailResponse> {
     response: NextApiResponse,
     axios: AxiosInstance,
   ) {
-    console.log({ request });
-
     const { query: params } = request;
     const { id } = params;
 

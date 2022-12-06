@@ -26,7 +26,7 @@ export enum DeliveryMethod {
 export interface Price {
   rate_type: string;
   avg_amount: AvgAmount;
-  taxes: any[];
+  taxes: string;
   total_taxes: AvgAmount;
   total_amount: AvgAmount;
   recommended_amount: AvgAmount;
@@ -51,7 +51,7 @@ export enum Formatted {
 
 export interface Rate {
   taxes: Taxes;
-  fees: any;
+  fees: string;
   total: Total;
   discounts: Discounts;
 }
@@ -72,7 +72,7 @@ export interface Breakdown {
 }
 
 export interface Taxes {
-  prepaid: any[];
+  prepaid: string;
   postpaid: any[];
   full: any;
   total_postpaid: any;

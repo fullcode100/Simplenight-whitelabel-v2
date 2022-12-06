@@ -155,7 +155,7 @@ export interface Rates {
 }
 
 export interface Rate {
-  fees: any;
+  fees: string;
   taxes: Taxes;
   total: Total;
   discounts: Discounts;

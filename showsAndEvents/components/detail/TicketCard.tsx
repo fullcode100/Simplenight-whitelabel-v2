@@ -14,7 +14,7 @@ interface TicketCard {
   row: string;
   seatTogether?: boolean;
   available_seats: number;
-  price: any;
+  rate: any;
   currency?: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   seatCount: Function;
@@ -25,7 +25,7 @@ const TicketCard: React.FC<TicketCard> = ({
   row,
   available_seats: availableSeats,
   seatTogether,
-  price,
+  rate,
   currency,
   seatCount,
 }) => {
@@ -126,22 +126,22 @@ const TicketCard: React.FC<TicketCard> = ({
             <div className="gap-1 font-semibold text-end">
               <div className="w-[200px] text-end">
                 <p className="text-lg leading-6 text-end m-0">
-                  {price.total_amount.currency}$ {price.total_amount.amount}
+                  {rate.total.net.currency}$ {rate.total.net.amount}
                 </p>
               </div>
             </div>
             <div className="gap-1 font-normal">
               {!!selectedSeats && (
                 <p className="text-xs leading-tight capitalize m-0">
-                  {price.total_amount.currency}{' '}
-                  {selectedSeats * price.total_amount.amount}
+                  {rate.total.net.currency}{' '}
+                  {selectedSeats * rate.total.net.amount}
                   {' Total'}
                 </p>
               )}
               {!selectedSeats && (
                 <p className="text-xs leading-tight capitalize m-0">
-                  {price.total_amount.currency} {'$'}
-                  {selectedSeats * price.total_amount.amount} {'/ Each'}
+                  {rate.total.net.currency} {'$'}
+                  {selectedSeats * rate.total.net.amount} {'/ Each'}
                 </p>
               )}
             </div>

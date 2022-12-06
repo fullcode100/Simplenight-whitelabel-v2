@@ -125,7 +125,7 @@ export interface TotalAmount {
 export interface Rate {
   rate_type: string;
   avg_amount: Amount;
-  taxes: any[];
+  taxes: string;
   total_taxes: Amount;
   total_amount: Amount;
   recommended_amount: Amount;
