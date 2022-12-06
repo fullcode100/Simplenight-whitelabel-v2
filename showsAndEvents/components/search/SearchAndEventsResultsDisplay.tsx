@@ -54,6 +54,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     seats,
     maxPrice,
     minPrice,
+    query,
   } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
   const [showsEvents, setShowsEventsItems] = useState([]);
@@ -71,6 +72,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
       max_price: maxPrice as string,
       radius: distance as string,
       seats: seats as string,
+      query: query as string,
       apiUrl,
     };
     setLoaded(false);
@@ -115,9 +117,8 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
         reviews,
         phone_number: phoneNumber,
         tags,
-        images,
-        fromDate,
         toDate,
+        images,
         cancellation_policy: cancellationPolicy,
         rate,
         extra_data: extraData,
@@ -132,7 +133,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
         console.error(error);
       }
       return `/detail/${slug}/${id}?name=${name}&addres=${stringAddresObject}&reviews=${reviews}&extra_data=${stringExtraDataObject}&phone_number=${phoneNumber}
-        &tags=${tags}&images=${images}&fromDate=${fromDate}&toDate=${toDate}&cancellation_policy=${cancellationPolicy}&rates=${rate}`;
+      &tags=${tags}&images=${images}&fromDate=${startDate}&toDate=${endDate}&cancellation_policy=${cancellationPolicy}&seats=1`;
     };
     return (
       // eslint-disable-next-line react/jsx-no-comment-textnodes
@@ -152,9 +153,9 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                 toDate,
                 cancellation_policy: cancellationPolicy,
                 rate,
+                thumbnail,
               } = thingToDo;
               const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
-
               return (
                 <li key={id}>
                   <ResultCard
@@ -170,6 +171,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                     toDate={toDate}
                     tags={tags}
                     index={index}
+                    thumbnail={thumbnail}
                     cancellable={
                       <ThingsCancellable
                         cancellationPolicy={cancellationPolicy}
@@ -189,7 +191,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     );
   };
   return (
-    <div className="pt-6 px-4">
+    <div className="pt-2 lg:pt-6 px-4">
       <section className="lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <ShowAndEventsFilterFormDesktop />
@@ -241,7 +243,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
           )}
         </section>
       </section>
-      <SearchViewSelectorFixed />
+      {/* <SearchViewSelectorFixed /> */}
     </div>
   );
 };

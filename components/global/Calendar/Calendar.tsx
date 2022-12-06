@@ -22,6 +22,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 import DesktopDatepickerDropdown from './components/DesktopDatepickerDropdown';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -41,6 +42,7 @@ interface DatePickerProps {
   maxRange?: number;
   minRange?: number;
   setIsEditing?: (value: boolean) => void;
+  restricted?: boolean;
 }
 
 const DatePicker = ({
@@ -56,6 +58,7 @@ const DatePicker = ({
   maxRange = 14,
   minRange = 1,
   setIsEditing,
+  restricted = true,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
@@ -69,14 +72,7 @@ const DatePicker = ({
     dayjs().add(1, 'day').format('YYYY-MM-DD'),
   );
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
-
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsDesktop(window.innerWidth >= 1024);
-    }
-  }, []);
+  const { isDesktop } = useMediaViewport();
 
   useEffect(() => {
     setCalendar(createCalendar(initialYear, initialMonth));
@@ -95,11 +91,12 @@ const DatePicker = ({
     if (isStartDateTurn) {
       if (
         (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
-        dayjs(date).isBefore(dayjs(endDate).subtract(maxRange, 'day')) ||
-        dayjs(date).isBetween(
-          dayjs(startDate),
-          dayjs(startDate).add(minRange, 'day'),
-        )
+        (restricted &&
+          (dayjs(date).isBefore(dayjs(endDate).subtract(maxRange, 'day')) ||
+            dayjs(date).isBetween(
+              dayjs(startDate),
+              dayjs(startDate).add(minRange, 'day'),
+            )))
       ) {
         setStartDate(date);
         setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
@@ -174,6 +171,7 @@ const DatePicker = ({
         calendarSecondMonth={calendarSecondMonth}
         setCalendarSecondMonth={setCalendarSecondMonth}
         maxRange={maxRange}
+        restricted={restricted}
       />
     );
   };
@@ -181,63 +179,68 @@ const DatePicker = ({
   return (
     <>
       {isDesktop ? (
-        <DesktopDatePicker />
+        <section>
+          <DesktopDatePicker />
+        </section>
       ) : (
-        <FullScreenModal
-          open={showDatePicker}
-          closeModal={onClose}
-          title={datesText}
-          primaryButtonText={applyText}
-          primaryButtonAction={setFullDate}
-          hasMultipleActions={false}
-          className={`lg:rounded-4 lg:overflow-hidden
-      lg:w-[842px] lg:h-[660px]  lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2
-      lg:shadow-full`}
-        >
-          <RangeDate
-            isStartDateTurn={isStartDateTurn}
-            onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
-            startDateLabel={startDateLabel}
-            endDateLabel={endDateLabel}
-            startDate={formatAsRangeDate(startDate)}
-            endDate={formatAsRangeDate(endDate)}
-          />
-          <section className="grid items-center grid-cols-7 px-5 overflow-y-scroll text-base text-center">
-            {calendar?.map((month: MonthObject, index) => {
-              return (
-                <Fragment key={index}>
-                  <p className="col-span-7 mt-3 text-base font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
-                    month.monthName,
-                  )} ${month.yearNumber}`}</p>
-                  <WeekDays />
-                  {month.days.map((day: DayObject, index: number) => (
-                    <Day
-                      day={day}
-                      key={index + day.dayOfWeek}
-                      setDate={setDate}
-                      isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
-                      isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
-                      isRangeDate={dayjs(day.date).isBetween(
-                        dayjs(startDate),
-                        dayjs(endDate),
-                      )}
-                      isDisabled={
-                        dayjs(day.date).isSameOrBefore(
-                          dayjs().subtract(1, 'day'),
-                        ) ||
-                        dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
-                        (!isStartDateTurn &&
-                          dayjs(day.date).isAfter(
-                            dayjs(startDate).add(maxRange, 'day'),
-                          ))
-                      }
-                    />
-                  ))}
-                </Fragment>
-              );
-            })}
-          </section>
-        </FullScreenModal>
+        <section className="-mt-4">
+          <FullScreenModal
+            open={showDatePicker}
+            closeModal={onClose}
+            title={datesText}
+            primaryButtonText={applyText}
+            primaryButtonAction={setFullDate}
+            hasMultipleActions={false}
+            className={`lg:rounded-4 lg:overflow-hidden
+    lg:w-[842px] lg:h-[660px]  lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2
+    lg:shadow-full`}
+          >
+            <RangeDate
+              isStartDateTurn={isStartDateTurn}
+              onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
+              startDateLabel={startDateLabel}
+              endDateLabel={endDateLabel}
+              startDate={formatAsRangeDate(startDate)}
+              endDate={formatAsRangeDate(endDate)}
+            />
+            <section className="grid items-center grid-cols-7 px-5 overflow-y-scroll text-base text-center">
+              {calendar?.map((month: MonthObject, index) => {
+                return (
+                  <Fragment key={index}>
+                    <p className="col-span-7 pt-6 text-base font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
+                      month.monthName,
+                    )} ${month.yearNumber}`}</p>
+                    <WeekDays />
+                    {month.days.map((day: DayObject, index: number) => (
+                      <Day
+                        day={day}
+                        key={index + day.dayOfWeek}
+                        setDate={setDate}
+                        isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
+                        isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
+                        isRangeDate={dayjs(day.date).isBetween(
+                          dayjs(startDate),
+                          dayjs(endDate),
+                        )}
+                        isDisabled={
+                          dayjs(day.date).isSameOrBefore(
+                            dayjs().subtract(1, 'day'),
+                          ) ||
+                          dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
+                          (!isStartDateTurn &&
+                            restricted &&
+                            dayjs(day.date).isAfter(
+                              dayjs(startDate).add(maxRange, 'day'),
+                            ))
+                        }
+                      />
+                    ))}
+                  </Fragment>
+                );
+              })}
+            </section>
+          </FullScreenModal>
+        </section>
       )}
     </>
   );

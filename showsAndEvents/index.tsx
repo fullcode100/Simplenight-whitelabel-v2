@@ -42,7 +42,7 @@ const Category: CategoryOption = {
       },
       detail: {
         client: '/showsAndEvents',
-        server: '/categories/shows-events',
+        server: '/categories/items/details',
       },
     },
     ClientSearcher: null,

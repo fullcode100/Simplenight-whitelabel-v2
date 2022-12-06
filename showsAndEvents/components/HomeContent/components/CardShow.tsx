@@ -9,28 +9,27 @@ type CardShowProps = {
 
 const CardShow = ({ imageSrc, name, price }: CardShowProps) => {
   return (
-    <section
-      className="border rounded overflow-hidden relative cursor-pointer"
-      style={{ width: '390px' }}
-    >
-      <section className="pointer-events-none select-none">
+    <section className="lg:border rounded overflow-hidden relative cursor-pointer w-[153px] lg:w-[390px]">
+      <section className="pointer-events-none select-none relative h-[140px] h-[135px]">
         <Image
           key={'7'}
-          width={'390px'}
-          height={'140px'}
           src={imageSrc}
           alt=""
           objectFit="cover"
           onClick={() => {
             console.log('clikced');
           }}
+          layout={'fill'}
         />
       </section>
-      <section className="flex justify-between px-5 py-4 select-none">
-        <h6 className="max-w-[250px] truncate" title={name}>
+      <section className="flex flex-col lg:flex-row justify-between px-0 lg:px-5 py-2 lg:py-4 select-none">
+        <h6
+          className="max-w-[140px] lg:max-w-[250px] truncate text-base lg:text-sm"
+          title={name}
+        >
           {name}
         </h6>
-        <h6>{price}</h6>
+        <h6 className="text-xs lg:text-sm">{price}</h6>
       </section>
     </section>
   );

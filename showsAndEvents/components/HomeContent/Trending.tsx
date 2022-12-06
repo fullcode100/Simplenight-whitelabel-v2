@@ -9,7 +9,7 @@ import { ShowsSearchRequest } from 'showsAndEvents/types/request/ShowsSearchRequ
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ShowsSearchResponse } from 'showsAndEvents/types/response/ShowsSearchResponse';
 import { useCategorySlug } from 'hooks/category/useCategory';
-import useQuery from 'hooks/pageInteraction/useQuery';
+import CardShowSkeleton from './components/CardShowSkeleton';
 
 interface TrendingCarouselProps {
   Category: CategoryOption;
@@ -25,8 +25,8 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
   const title = t('trendingArtists', 'Trending Artists');
   const { ClientSearcher: Searcher } = Category.core;
 
-  const [loaded, setLoaded] = useState(true);
-  const [trendingItems, setTrendingItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
 
   const apiUrl = useCategorySlug('shows-events')?.apiUrl ?? '';
 
@@ -41,30 +41,32 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
     };
     Searcher?.request?.(params, i18next)
       .then((data) => {
-        setTrendingItems(data.items);
+        setItems(data.items);
       })
       .finally(() => {
-        setLoaded(true);
+        setLoading(false);
       });
   }, []);
 
   return (
-    <section className="flex flex-col gap-4 mx-auto max-w-7xl lg:gap-4 lg:flex-col">
+    <section className="flex flex-col gap-4 lg:mx-auto max-w-xs lg:max-w-7xl lg:gap-4 lg:flex-col w-full">
       <h5 className="text-dark-800">{title}</h5>
-      <section className="flex flex-col">
+      <section className={'flex flex-col'}>
         <CustomCarousel>
-          {trendingItems.map((item: ShowsSearchResponse, index) => (
-            <CardShow
-              key={item.id}
-              imageSrc={
-                index > 2
-                  ? `/images/mocks/trending/t${getRandomInt(3)}.png`
-                  : `/images/mocks/trending/t${index}.png`
-              }
-              name={item.name}
-              price={`${item.rate.total.net.currency} ${item.rate.total.net.formatted}`}
-            />
-          ))}
+          {loading && [...Array(4)].map((i, e) => <CardShowSkeleton key={e} />)}
+          {!loading &&
+            items.map((item: ShowsSearchResponse, index) => (
+              <CardShow
+                key={item.id}
+                imageSrc={
+                  index > 2
+                    ? `/images/mocks/trending/t${getRandomInt(3)}.png`
+                    : `/images/mocks/trending/t${index}.png`
+                }
+                name={item.name}
+                price={`${item.rate.total.net.currency} ${item.rate.total.net.formatted}`}
+              />
+            ))}
         </CustomCarousel>
       </section>
     </section>

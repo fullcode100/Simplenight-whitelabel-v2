@@ -31,16 +31,16 @@ const CustomCarousel = ({ children }: CustomCarouselProps) => {
 
   const ButtonGroup = ({ next, previous }: ButtonGroupProps) => {
     return (
-      <div className="absolute top-0 w-full">
+      <div className="absolute top-0 w-full hidden lg:block">
         <section onClick={() => previous && previous()}>
           <CustomArrow
-            className="z-[5] absolute -left-12 translate-y-2/4 w-24 h-24"
+            className="z-[5] absolute -left-12 translate-y-2/4 w-24 h-24 cursor-pointer"
             position="left"
           />
         </section>
         <section onClick={() => next && next()}>
           <CustomArrow
-            className="z-[5] absolute -right-12 translate-y-2/4 w-24 h-24"
+            className="z-[5] absolute -right-12 translate-y-2/4 w-24 h-24 cursor-pointer"
             position="right"
           />
         </section>

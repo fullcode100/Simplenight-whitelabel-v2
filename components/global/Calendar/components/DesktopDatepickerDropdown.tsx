@@ -27,6 +27,7 @@ interface Props {
   calendarSecondMonth: number;
   setCalendarSecondMonth: (value: number) => void;
   maxRange: number;
+  restricted?: boolean;
 }
 const DesktopDatepickerDropdown = ({
   open,
@@ -44,6 +45,7 @@ const DesktopDatepickerDropdown = ({
   calendarSecondMonth,
   setCalendarSecondMonth,
   maxRange,
+  restricted = true,
 }: Props) => {
   const ref = useRef<HTMLElement>(null);
   useOnOutsideClick(ref, () => closeModal());
@@ -74,17 +76,17 @@ const DesktopDatepickerDropdown = ({
   };
   const ArrowSection = () => {
     return (
-      <div className="w-full  px-5 absolute top-[80px] mt-1 z-50">
+      <div className="w-full  px-5 absolute top-[80px] mt-[6px] z-50">
         {calendarFirstMonth > 0 && (
           <ArrowButton
-            icon={<LeftArrow />}
+            icon={<LeftArrow className="w-15 h-15" />}
             value={-1}
             className={'absolute left-4'}
           />
         )}
         {calendar && calendarSecondMonth < calendar.length - 1 && (
           <ArrowButton
-            icon={<RightArrow />}
+            icon={<RightArrow className="w-15 h-15" />}
             value={1}
             className={'absolute right-4'}
           />
@@ -98,7 +100,7 @@ const DesktopDatepickerDropdown = ({
   }
   const MonthSection = ({ month }: MonthSectionProps) => (
     <section className="h-full text-xs">
-      <p className="mt-3 text-sm font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
+      <p className="pb-3 text-sm font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
         month.monthName,
       )} ${month.yearNumber}`}</p>
       <section className="grid grid-cols-7 ">
@@ -119,6 +121,7 @@ const DesktopDatepickerDropdown = ({
               dayjs(day.date).isBefore(dayjs().subtract(1, 'day')) ||
               dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
               (!isStartDateTurn &&
+                restricted &&
                 dayjs(day.date).isAfter(dayjs(startDate).add(maxRange, 'day')))
             }
           />

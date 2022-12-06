@@ -1,15 +1,15 @@
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import Rating from 'components/global/Rating/Rating';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { WithId } from 'types/global/WithId';
 import Divider from '../../../../components/global/Divider/Divider';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import Link from 'next/link';
-import Image from 'next/image';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import dayjs from 'dayjs';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
+import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -30,6 +30,7 @@ interface CardProps<T extends WithId> {
   url?: string;
   isHorizontal?: boolean;
   index?: number;
+  thumbnail?: string;
 }
 
 function ResultCard<T extends WithId>({
@@ -49,8 +50,14 @@ function ResultCard<T extends WithId>({
   index = 0,
   url = '/',
   isHorizontal,
+  thumbnail,
 }: CardProps<T>) {
+  const [invalidImage, setInvalidImage] = useState(false);
   const target = window.innerWidth < 640 ? '_self' : '_blank';
+
+  useEffect(() => {
+    checkValidImage();
+  }, [thumbnail]);
 
   const CategoryTag = () => (
     <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br z-10">
@@ -67,11 +74,13 @@ function ResultCard<T extends WithId>({
 
   const TitleSection = () => (
     <section
-      className={
-        'font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg break-words text-overflow: ellipsis;'
-      }
+      className={`font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg truncate ${
+        isHorizontal
+          ? 'max-w-[200px] lg:max-w-[250px]'
+          : 'max-w-[250px] lg:max-w-[350px]'
+      }`}
     >
-      {title.length > 40 ? title.substring(0, 30) + '...' : title}
+      {title}
     </section>
   );
 
@@ -88,6 +97,15 @@ function ResultCard<T extends WithId>({
 
   const CancelationAndPricingSection = () => <section></section>;
   const reviewsLabel = 'reviews';
+
+  const checkValidImage = () => {
+    const img = new Image();
+    img.src = thumbnail as string;
+    img.onerror = () => setInvalidImage(true);
+  };
+
+  const displayEmpty = invalidImage || !thumbnail;
+
   return (
     <div className="w-full bg-white rounded-4 border border-dark-300 mt-3 overflow-hidden">
       <Link href={url} passHref>
@@ -96,20 +114,28 @@ function ResultCard<T extends WithId>({
           rel="noopener noreferrer"
           className="hover:text-inherit"
         >
-          <section className="flex flex-col lg:flex-row relative">
+          <section
+            className={`flex  lg:flex-row relative ${
+              isHorizontal ? 'flex-row' : 'flex-col'
+            }`}
+          >
+            {!displayEmpty && (
+              <section
+                className={` ${
+                  isHorizontal
+                    ? 'w-[108px] h-[108px]'
+                    : 'min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem]'
+                }`}
+                style={{
+                  backgroundImage: `url(${thumbnail ?? '/images/Slide.png'})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              />
+            )}
             <CategoryTag />
-            <Image
-              key={index}
-              width={`${isHorizontal ? '108px' : '240px'}`}
-              height={`${isHorizontal ? '108px' : '180px'}`}
-              src={index % 2 == 0 ? '/images/Slide.png' : '/images/Lady.png'}
-              alt=""
-              onClick={() => {
-                console.log('clikced');
-              }}
-              objectFit={'cover'}
-            />
-
+            {displayEmpty && <EmptyImage />}
             <section
               className={`flex flex-col justify-between ${
                 isHorizontal ? 'gap-1 p-3' : 'gap-2 p-5 pb-0 lg:pb-5'
@@ -119,7 +145,7 @@ function ResultCard<T extends WithId>({
 
               {/* <RatingSection /> */}
               <section className="flex flex-row gap-2">
-                <LocationPin className="h-3.5 lg:h-4 lg:w-4 ml-0.5 lg:ml-0 mt-1 lg:mt-0 text-primary-1000" />
+                <LocationPin className="h-3.5 lg:h-4 lg:w-4 lg:ml-0 mt-1 lg:mt-0 text-primary-1000" />
                 <p className="font-semibold">{address}</p>
               </section>
               <section className="flex flex-row gap-2">
@@ -137,9 +163,9 @@ function ResultCard<T extends WithId>({
             </section>
             <Divider className="lg:hidden" />
             {!isHorizontal && (
-              <section className="flex flex-row lg:flex-col lg:ml-auto justify-between items-center lg:items-start p-3 lg:p-5">
+              <section className="flex flex-row lg:flex-col lg:ml-auto justify-between items-center lg:items-start py-3 lg:py-5 px-4 lg:px-5">
                 <section>{cancellable}</section>
-                <section>{priceDisplay}</section>
+                <section className="ml-auto">{priceDisplay}</section>
               </section>
             )}
 

@@ -75,6 +75,13 @@ const ShowsAndEvents = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
   const [showLocationError, setShowLocationError] = useState(false);
+  const [query, setQuery] = useState(
+    params.query ? params.query.toString() : '',
+  );
+
+  const handleSearchEventsChanges = (value: any) => {
+    setQuery(value);
+  };
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -91,7 +98,9 @@ const ShowsAndEvents = ({
   const rerouteToSearchPage = () => {
     const route = `/search/${SHOWS_AND_EVENTS}?startDate=${startDate}&endDate=${endDate}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
-    }&longitude=${geolocation?.split(',')[LONGITUDE_INDEX]}&address=${address}`;
+    }&longitude=${
+      geolocation?.split(',')[LONGITUDE_INDEX]
+    }&address=${address}&query=${query}`;
     handleSaveLastSearch(route);
     router.push(route);
   };
@@ -111,6 +120,7 @@ const ShowsAndEvents = ({
       return;
     }
     setQueryParam({
+      query,
       startDate,
       endDate,
       address: address as string,
@@ -150,15 +160,14 @@ const ShowsAndEvents = ({
       </section>
 
       <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-        <SearchInput
-          icon={<SearchIcon className="h-5 w-5 text-dark-700 lg:w-full" />}
-          label={'Search'}
+        <IconInput
+          icon={<SearchIcon className="h-5 w-5 text-dark-700 " />}
+          label="Search"
           name="search"
-          placeholder={'Search events'}
-          routeParams={['type']}
-          onSelect={handleSelectLocation}
-          error={showLocationError}
-          onChange={handleChangeLocation}
+          placeholder="Search events"
+          autoFocus
+          onChange={(e) => handleSearchEventsChanges(e.target.value)}
+          value={query}
         />
 
         <DatePicker
@@ -171,6 +180,7 @@ const ShowsAndEvents = ({
           onStartDateChange={handleStartDateChange}
           onEndDateChange={handleEndDateChange}
           openOnStart={clickOnStart ? true : false}
+          restricted={false}
         />
         <section className="flex gap-4 lg:mt-0 lg:w-full">
           <IconInput

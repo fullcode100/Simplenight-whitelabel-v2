@@ -33,6 +33,7 @@ export interface ShowsSearchResponse {
   fromDate: string;
   toDate: string;
   images: string[];
+  thumbnail: string;
   rate: {
     total: {
       net: {

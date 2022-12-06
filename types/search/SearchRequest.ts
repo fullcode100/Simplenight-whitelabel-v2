@@ -15,4 +15,5 @@ export interface SearchRequest {
   supplier_ids?: string;
   apiUrl?: string;
   is_trending_req?: boolean;
+  query?: string;
 }

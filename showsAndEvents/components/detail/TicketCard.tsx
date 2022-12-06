@@ -10,48 +10,51 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 interface TicketCard {
-  title: string;
-  availableTime: string;
-  seatTogether: boolean;
-  availableSeats: number;
-  price: number;
-  currency: string;
-  sectorTitle: string;
+  section: string;
+  row: string;
+  seatTogether?: boolean;
+  available_seats: number;
+  price: any;
+  currency?: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  seatCount: Function;
 }
 
 const TicketCard: React.FC<TicketCard> = ({
-  title,
-  availableTime,
-  availableSeats,
+  section,
+  row,
+  available_seats: availableSeats,
   seatTogether,
   price,
   currency,
-  sectorTitle,
+  seatCount,
 }) => {
-  const [timeLeft, setTimeLeft] = useState<string>('');
+  // const [timeLeft, setTimeLeft] = useState<string>('');
   const [selectedSeats, setSelectedSeats] = useState<number>(0);
   dayjs.extend(relativeTime);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newTimeLeft = dayjs().isBefore(dayjs(availableTime))
-        ? dayjs().to(availableTime, true)
-        : '';
-      setTimeLeft(newTimeLeft);
-    }, 60000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const newTimeLeft = dayjs().isBefore(dayjs(availableTime))
+  //       ? dayjs().to(availableTime, true)
+  //       : '';
+  //     setTimeLeft(newTimeLeft);
+  //   }, 60000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
 
   const increaseSelectedSeats = () => {
     if (availableSeats > selectedSeats) {
       setSelectedSeats(selectedSeats + 1);
+      seatCount(selectedSeats + 1);
     }
   };
 
   const decreaseSelectedSeats = () => {
     if (selectedSeats) {
       setSelectedSeats(selectedSeats - 1);
+      seatCount(selectedSeats - 1);
     }
   };
   return (
@@ -60,14 +63,16 @@ const TicketCard: React.FC<TicketCard> = ({
         <div className="px-4 w-full gap-2 flex flex-col items-start self-stretch">
           <div className="gap-2 flex items-start w-max">
             <div className="text-[rgba(69,69,69,1)]">
-              <p className="text-xl leading-6 capitalize m-0 text-">{title}</p>
+              <p className="text-xl leading-6 capitalize m-0 text-">
+                {section}
+              </p>
             </div>
             <div className="text-[rgba(122,122,122,1)]">
-              <p className="text-xl leading-6 capitalize m-0 ">{sectorTitle}</p>
+              <p className="text-xl leading-6 capitalize m-0 ">{row}</p>
             </div>
           </div>
           <div className="gap-1">
-            {timeLeft && <ShowTimer availableTimeText={timeLeft} />}
+            {/* {timeLeft && <ShowTimer availableTimeText={timeLeft} />} */}
             {seatTogether && (
               <InlineFeature
                 icon={<InfoCircle className="text-dark-800 h-4 w-4" />}
@@ -121,16 +126,24 @@ const TicketCard: React.FC<TicketCard> = ({
             <div className="gap-1 font-semibold text-end">
               <div className="w-[200px] text-end">
                 <p className="text-lg leading-6 text-end m-0">
-                  {currency}$ {price}
+                  {price.total_amount.currency}$ {price.total_amount.amount}
                 </p>
               </div>
             </div>
             <div className="gap-1 font-normal">
-              <p className="text-xs leading-tight capitalize m-0">
-                {selectedSeats
-                  ? `${currency}$ ${selectedSeats * price} Total`
-                  : '/ Each'}
-              </p>
+              {!!selectedSeats && (
+                <p className="text-xs leading-tight capitalize m-0">
+                  {price.total_amount.currency}{' '}
+                  {selectedSeats * price.total_amount.amount}
+                  {' Total'}
+                </p>
+              )}
+              {!selectedSeats && (
+                <p className="text-xs leading-tight capitalize m-0">
+                  {price.total_amount.currency} {'$'}
+                  {selectedSeats * price.total_amount.amount} {'/ Each'}
+                </p>
+              )}
             </div>
           </div>
         </div>

@@ -40,6 +40,10 @@ import Image from 'next/image';
 import { SORT_SECTOR_BY_OPTIONS } from 'showsAndEvents/constants/sortByOptions';
 import SelectedSeatsBar from './SelectedSeatsBar';
 import classnames from 'classnames';
+import { DetailRequest } from 'showsAndEvents/types/request/ShowsSearchRequest';
+import { useCategorySlug } from 'hooks/category/useCategory';
+import { Sector } from 'showsAndEvents/types/response/ShowsDetailResponse';
+import { formatAsSearchDate } from 'helpers/dajjsUtils';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -50,32 +54,41 @@ interface SectorInfoProp {
   isActive: boolean;
 }
 interface selectedSeatsProp {
+  name: any;
   title: string;
-  quantity: number;
+  quantity: any;
   basePrice: number;
   discountPercent: number;
+  discountAmount: number;
   taxes: number;
-  cancellationPolicy: string;
+  cancellationPolicy: any;
   currency: string;
 }
 interface iTicketCard {
+  row: string;
   title: string;
   availableTime: string;
   seatTogether: boolean;
   availableSeats: number;
-  price: number;
+  price: any;
+  rate: any;
   currency: string;
   sectorTitle: string;
+  currentCount: number;
 }
 
 const ShowAndEventsDetailDisplay = ({
   Category,
 }: ShowAndEventsDetailDisplayProps) => {
+  const { ClientDetailer: Detailer, ClientAvailability: Availability } =
+    Category.core;
+
   const params = useQuery();
   const {
     id,
     name,
     fromDate,
+    toDate,
     addres,
     extra_data: extraData,
     slug,
@@ -88,23 +101,17 @@ const ShowAndEventsDetailDisplay = ({
   const [loaded, setLoaded] = useState(false);
   const [showMobileFilters, setShowMobileFilter] = useState(false);
   const [formatDate, setFormatDate] = useState('');
-  const [showSortModal, setShowSortModal] = useState(false);
-  const [sortBy, setSortBy] = useState<string>('recommended');
-  const [selectedSeats, setSelectedSeats] = useState<selectedSeatsProp>({
-    title: 'test Title',
-    quantity: 2,
-    basePrice: 9,
-    discountPercent: 10,
-    taxes: 10,
-    cancellationPolicy: 'test',
-    currency: 'test',
-  });
+  const [sectors, setSectors] = useState<Sector[]>();
+  const [currentCancellation, setCurrentCancellation] = useState<string>('');
+
+  const [selectedSeats, setSelectedSeats] = useState<any>();
   const [showSelectedSeatsBar, setShowSelectedSeatsBar] =
     useState<boolean>(false);
   const [addresObject, setAddressObject] = useState({
     address1: '',
+    area: '',
     city: '',
-    country_code: '',
+    country: '',
     postal_code: '',
     coordinates: { latitude: 0, longitude: 0 },
   });
@@ -123,13 +130,13 @@ const ShowAndEventsDetailDisplay = ({
   const { language } = i18next;
   const {
     address1,
+    area,
     city,
-    country_code: countryCode,
+    country,
     postal_code: postalCode,
     coordinates,
   } = addresObject;
-
-  const { description } = extraDataObject;
+  const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   useEffect(() => {
     if (id) {
@@ -145,6 +152,56 @@ const ShowAndEventsDetailDisplay = ({
       setFormatDate(newFormatDate);
     }
   }, [fromDate]);
+
+  const groupBySectors = (sectorSeats: any) => {
+    const groupToValues = sectorSeats.reduce(function (
+      obj: { [x: string]: any[] },
+      item: { section: string | number },
+    ) {
+      obj[item.section] = obj[item.section] || [];
+      obj[item.section].push(item);
+      return obj;
+    },
+    {});
+    const groups = Object.keys(groupToValues).map(function (key) {
+      return { title: key, rows: groupToValues[key] };
+    });
+    return groups;
+  };
+
+  useEffect(() => {
+    const params: DetailRequest = {
+      start_date: formatAsSearchDate(fromDate as string),
+      end_date: formatAsSearchDate(toDate as string),
+      rsp_fields_set: 'extended',
+      seats: '1' as string,
+      apiUrl,
+    };
+    setLoaded(false);
+    if (id) {
+      Detailer?.request?.(params, i18next, id)
+        .then(({ items }) => {
+          setAddressObject(items[0].address);
+          setCurrentCancellation(
+            items[0].cancellation_policy.cancellation_type,
+          );
+
+          // setExtraDataObject(items[0].extra_data.seats)
+          const tempSeats = items[0].extra_data.seats;
+          const finalSectors = groupBySectors(tempSeats);
+          setSectors(finalSectors);
+
+          // const item: ThingsDetailItem = items[0];
+          // setThingsItem(item);
+          setLoaded(true);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoaded(true);
+          // setEmptyState(true);
+        });
+    }
+  }, [id, fromDate, toDate]);
 
   useEffect(() => {
     if (addres) {
@@ -169,7 +226,7 @@ const ShowAndEventsDetailDisplay = ({
       }
     }
   }, [extraData]);
-
+  const { description, seats } = extraDataObject;
   const showAndEventsList = () => {
     const urlDetail = (thingToDo: iShowAndEventsResult) => {
       const {
@@ -202,12 +259,12 @@ const ShowAndEventsDetailDisplay = ({
       superLargeDesktop: {
         breakpoint: { max: 4000, min: 3000 },
         items: 3,
-        partialVisibilityGutter: 40,
+        partialVisibilityGutter: 80,
       },
       desktop: {
         breakpoint: { max: 3000, min: 1450 },
         items: 3,
-        partialVisibilityGutter: 30,
+        partialVisibilityGutter: 80,
       },
       tablet: {
         breakpoint: { max: 1450, min: 870 },
@@ -217,22 +274,22 @@ const ShowAndEventsDetailDisplay = ({
       mobile: {
         breakpoint: { max: 870, min: 0 },
         items: 1,
-        partialVisibilityGutter: 20,
+        partialVisibilityGutter: 0,
       },
     };
 
     return (
       // eslint-disable-next-line react/jsx-no-comment-textnodes
       <>
-        <div className="px-6">
+        <div className="px-0 lg:px-6">
           {getSectionTitle('You May Also Like', undefined, undefined)}
         </div>
         <Carousel
+          className="pl-0 lg:pl-6"
           partialVisible
           responsive={responsive}
-          infinite
+          infinite={false}
           showDots
-          autoPlay
           shouldResetAutoplay
           customLeftArrow={
             <CustomArrow
@@ -261,15 +318,12 @@ const ShowAndEventsDetailDisplay = ({
               toDate,
               cancellation_policy: cancellationPolicy,
               rate,
+              thumbnail,
             } = thingToDo;
             const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
             return (
-              <div
-                key={id}
-                className=""
-                style={{ minWidth: '391px', minHeight: '200px' }}
-              >
+              <div key={id} className="w-[325px] lg:w-[391px] mb-8">
                 <ResultCard
                   url={url}
                   icon={ThingsCategory.icon}
@@ -286,6 +340,7 @@ const ShowAndEventsDetailDisplay = ({
                   phoneNumber={phoneNumber}
                   tags={tags}
                   isHorizontal
+                  thumbnail={thumbnail}
                   cancellable={
                     <ThingsCancellable
                       cancellationPolicy={cancellationPolicy}
@@ -330,27 +385,31 @@ const ShowAndEventsDetailDisplay = ({
     );
   };
 
-  const getSectorsInfo: SectorInfoProp[] = sectors.map(({ title }) => {
-    return { title, isActive: false };
-  });
+  const getSectorsInfo: SectorInfoProp[] =
+    sectors! &&
+    sectors.map(({ title }) => {
+      return { title, isActive: false };
+    });
 
   const buildSelectedSeastsInfo = ({
-    title,
+    row,
+    availableSeats,
     currency,
     price,
     sectorTitle,
+    rate,
+    currentCount,
   }: iTicketCard) => {
     const newSelectedSeat: selectedSeatsProp = {
-      title: `${sectorTitle} ${title}`,
-      basePrice: price,
-      cancellationPolicy: 'cancellationPolicy as string',
+      name: name,
+      title: `${sectorTitle} ${row}`,
+      basePrice: price.total_amount.amount,
+      cancellationPolicy: currentCancellation,
       currency,
-      // review source
-      discountPercent: 10,
-      // review source
-      quantity: 10,
-      // review source
-      taxes: 10,
+      discountPercent: rate.discounts.percentage_to_apply,
+      discountAmount: rate.discounts.amount_to_apply.amount,
+      quantity: currentCount,
+      taxes: price.total_taxes.amount,
     };
 
     setSelectedSeats(newSelectedSeat);
@@ -367,23 +426,27 @@ const ShowAndEventsDetailDisplay = ({
           placeholder={'Search Sector'}
           routeParams={['type']}
         />
-        <TicketTabs
-          sectorsInfo={getSectorsInfo}
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-        />
-        <ResultsOptionsBar
-          results={sectors
-            .filter(
-              ({ title }) =>
-                selectedTab === 'All sectors' || selectedTab === title,
-            )
-            .reduce((count, { rows }) => {
-              return count + rows.length;
-            }, 0)}
-          sortByOptions={SORT_SECTOR_BY_OPTIONS}
-          onClickFilter={() => setShowMobileFilter(!showMobileFilters)}
-        />
+        {sectors && (
+          <TicketTabs
+            sectorsInfo={getSectorsInfo}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+          />
+        )}
+        {sectors && (
+          <ResultsOptionsBar
+            results={sectors
+              .filter(
+                ({ title }) =>
+                  selectedTab === 'All sectors' || selectedTab === title,
+              )
+              .reduce((count: any, { rows }: any) => {
+                return count + rows.length;
+              }, 0)}
+            sortByOptions={SORT_SECTOR_BY_OPTIONS}
+            onClickFilter={() => setShowMobileFilter(!showMobileFilters)}
+          />
+        )}
         <CollapseElement show={showMobileFilters}>
           <FilterFormMobile />
         </CollapseElement>
@@ -406,36 +469,55 @@ const ShowAndEventsDetailDisplay = ({
             Results
           </p>
         </section> */}
-        {sectors
-          .filter(
-            ({ title }) =>
-              selectedTab === 'All sectors' || selectedTab === title,
-          )
-          .map(({ title, rows }, id) => {
-            return (
-              <div key={id} className="mt-4">
-                <p className="text-lg leading-5 lg:text-[22px] lg:leading-[24px] font-semibold">
-                  {title}
-                </p>
-                {rows.map((row, id) => {
-                  return (
-                    <a
-                      key={id}
-                      className="hover:text-inherit"
-                      onClick={() =>
-                        buildSelectedSeastsInfo({
-                          ...row,
-                          sectorTitle: title,
-                        } as iTicketCard)
-                      }
-                    >
-                      <TicketCard {...row} sectorTitle={title} />
-                    </a>
-                  );
-                })}
-              </div>
-            );
-          })}
+        {sectors &&
+          sectors
+            .filter(
+              ({ title }) =>
+                selectedTab === 'All sectors' || selectedTab === title,
+            )
+            .map(({ title, rows }, id) => {
+              return (
+                <div key={id} className="mt-4">
+                  <p className="text-lg leading-5 lg:text-[22px] lg:leading-[24px] font-semibold">
+                    {title}
+                  </p>
+                  {rows.map((row, id) => {
+                    let currentCount = 0;
+                    const seatCount = (count: number) => {
+                      currentCount = count;
+                      buildSelectedSeastsInfo({
+                        ...row,
+                        currency: row.price.avg_amount.currency,
+                        availableSeats: row.available_seats,
+                        sectorTitle: title,
+                        currentCount: count,
+                      } as unknown as iTicketCard);
+                    };
+                    return (
+                      <a
+                        key={id}
+                        className="hover:text-inherit"
+                        onClick={() => {
+                          buildSelectedSeastsInfo({
+                            ...row,
+                            currency: row.price.avg_amount.currency,
+                            availableSeats: row.available_seats,
+                            sectorTitle: title,
+                            currentCount: currentCount,
+                          } as unknown as iTicketCard);
+                        }}
+                      >
+                        <TicketCard
+                          {...row}
+                          seatCount={seatCount}
+                          section={title}
+                        />
+                      </a>
+                    );
+                  })}
+                </div>
+              );
+            })}
       </section>
     );
   };
@@ -456,7 +538,7 @@ const ShowAndEventsDetailDisplay = ({
         <>
           <span className="block text-right">{address1}</span>
           <span className="block text-right">
-            {`${city}, ${countryCode}, ${postalCode}`}
+            {`${area}, ${city}, ${country}`}
           </span>
         </>
       );
@@ -465,7 +547,15 @@ const ShowAndEventsDetailDisplay = ({
       <section className="pb-6">
         {getSectionTitle('Location', LocationPin, RightElement)}
         <div className="pt-2">
-          <LocationMap center={coordinates} />
+          <LocationMap
+            center={coordinates}
+            coords={[
+              {
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude,
+              },
+            ]}
+          />
         </div>
       </section>
     );
@@ -481,7 +571,7 @@ const ShowAndEventsDetailDisplay = ({
         </label>
         <label className="align-bottom flex">
           <LocationPin className="text-primary-1000 h-4 w-4 mr-2.5" />
-          {address1}
+          {area}, {city}
         </label>
       </section>
     );

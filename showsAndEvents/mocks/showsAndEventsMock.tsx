@@ -2,6 +2,8 @@ export const thingToDo = [
   {
     id: 'x',
     name: 'Richard H. Driehaus Museum',
+    thumbnail:
+      'https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/25/13/74.jpg',
     address: {
       country_code: 'US',
       state: 'Illinois',
@@ -75,6 +77,8 @@ export const thingToDo = [
   {
     id: 'x',
     name: 'Richard H. Driehaus Museum',
+    thumbnail:
+      'https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/25/13/74.jpg',
     address: {
       country_code: 'US',
       state: 'Illinois',
@@ -148,6 +152,8 @@ export const thingToDo = [
   {
     id: 'x',
     name: 'Richard H. Driehaus Museum',
+    thumbnail:
+      'https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/25/13/74.jpg',
     address: {
       country_code: 'US',
       state: 'Illinois',
@@ -221,6 +227,8 @@ export const thingToDo = [
   {
     id: 'x',
     name: 'Richard H. Driehaus Museum',
+    thumbnail:
+      'https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/25/13/74.jpg',
     address: {
       country_code: 'US',
       state: 'Illinois',
@@ -294,6 +302,8 @@ export const thingToDo = [
   {
     id: 'x',
     name: 'Richard H. Driehaus Museum',
+    thumbnail:
+      'https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/25/13/74.jpg',
     address: {
       country_code: 'US',
       state: 'Illinois',
@@ -367,6 +377,8 @@ export const thingToDo = [
   {
     id: 'x',
     name: 'Richard H. Driehaus Museum',
+    thumbnail:
+      'https://hare-media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/07/25/13/74.jpg',
     address: {
       country_code: 'US',
       state: 'Illinois',

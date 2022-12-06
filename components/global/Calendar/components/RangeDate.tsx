@@ -20,7 +20,7 @@ const RangeDate = ({
   return (
     <section className="grid grid-cols-2 justify-center pt-4 px-5">
       <div
-        className={`col-span-1 pb-3 px-2 border-b-2 ${
+        className={`col-span-1 pb-3 pr-2 border-b-2 ${
           isStartDateTurn ? 'border-primary-1000' : 'border-dark-300'
         }`}
       >
@@ -35,7 +35,7 @@ const RangeDate = ({
         </button>
       </div>
       <div
-        className={`col-span-1 pb-3 px-2 border-b-2 ${
+        className={`col-span-1 pb-3 pl-2 border-b-2 ${
           !isStartDateTurn ? 'border-primary-1000' : 'border-dark-300'
         }`}
       >
