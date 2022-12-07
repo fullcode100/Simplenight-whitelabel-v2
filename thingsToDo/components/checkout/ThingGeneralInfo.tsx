@@ -42,14 +42,19 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   }`;
   const fullDayLabel = 'Full day activity';
 
+  const PICKUP_POINT_ID = 'PICKUP_POINT';
+  const pickupPoint = item.booking_data?.booking_answers?.find(
+    (bookingAnswer) => bookingAnswer.question_id === PICKUP_POINT_ID,
+  )?.value;
+  const startingPoint = item.item_data?.extra_data.start_locations?.map(
+    (location) => location.description,
+  );
+  const hasPickupOrMeetingPoint = pickupPoint || startingPoint;
+
   const MeetingPickupPoint = () => {
-    const PICKUP_POINT_ID = 'PICKUP_POINT';
     const pickupPointLabel = 'Pickup Point';
     const meetingPointLabel = 'Meeting Point';
 
-    const pickupPoint = item.booking_data?.booking_answers?.find(
-      (bookingAnswer) => bookingAnswer.question_id === PICKUP_POINT_ID,
-    )?.value;
     const pickupLocations = item.item_data?.extra_data.pickup.locations;
     const selectedPickupLocation = pickupLocations?.find(
       (locationObject) => locationObject.location.ref == pickupPoint,
@@ -58,9 +63,6 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
     const pickupName = selectedPickupLocation?.name;
     const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
 
-    const startingPoint = item.item_data?.extra_data.start_locations?.map(
-      (location) => location.description,
-    );
     return (
       <div>
         <p className="text-dark-700">
@@ -80,7 +82,7 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
     });
     return (
       <div className="flex gap-2 ">
-        {iconWithClasses}
+        <div className="w-5"> {iconWithClasses}</div>
         {content}
       </div>
     );
@@ -126,15 +128,18 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   return (
     <section className="flex flex-col gap-3 py-4 px-4 text-dark-1000">
       <IconAndText icon={<LocationPinIcon />} content={<p>{addressLabel}</p>} />
+      {hasPickupOrMeetingPoint && (
+        <IconAndText
+          icon={<LocationAndMapIcon />}
+          content={<MeetingPickupPoint />}
+        />
+      )}
+
       <IconAndText
         icon={<ClockIcon />}
         content={
           fullDay ? fullDayLabel : <DurationLabel duration={activityDuration} />
         }
-      />
-      <IconAndText
-        icon={<LocationAndMapIcon />}
-        content={<MeetingPickupPoint />}
       />
       <IconAndText icon={<CalendarIcon />} content={dateAndTimeLabel} />
       {customer && <OrderNameCard />}
