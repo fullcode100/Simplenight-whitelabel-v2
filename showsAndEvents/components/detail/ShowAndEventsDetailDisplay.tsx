@@ -16,7 +16,7 @@ import Calendar from 'public/icons/assets/calendar.svg';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { icons } from 'antd/lib/image/PreviewGroup';
 import LocationMap from 'components/global/LocationMap/LocationMap';
-import FilterFormDesktop from './Filters/FilterFormDesktop';
+import FilterFormDesktop, { filters } from './Filters/FilterFormDesktop';
 import ResultsOptionsBar from '../ResultsOptionsBar/ResultsOptionsBar';
 import FilterFormMobile from './Filters/FilterFormMobile';
 import CollapseElement from 'components/global/CollapseElement/CollapseElement';
@@ -105,11 +105,13 @@ const ShowAndEventsDetailDisplay = ({
   const [currentCancellation, setCurrentCancellation] = useState<string>('');
 
   const [selectedSeats, setSelectedSeats] = useState<any>();
+  const [extraDataSeats, setExtraDataSeats] = useState<any>();
+  const [maxSectorPrice, setMaxSectorPrice] = useState(0);
   const [showSelectedSeatsBar, setShowSelectedSeatsBar] =
     useState<boolean>(false);
   const [addresObject, setAddressObject] = useState({
     address1: '',
-    area: '',
+    country_code: '',
     city: '',
     country: '',
     postal_code: '',
@@ -130,7 +132,7 @@ const ShowAndEventsDetailDisplay = ({
   const { language } = i18next;
   const {
     address1,
-    area,
+    country_code: countryCode,
     city,
     country,
     postal_code: postalCode,
@@ -169,6 +171,17 @@ const ShowAndEventsDetailDisplay = ({
     return groups;
   };
 
+  const getMaxSectorPrice = (sectorSeats: any) => {
+    let maxSectorPrice = 0;
+    sectorSeats.forEach((item: any) => {
+      const amount = item.rate.total.net.amount;
+      if (amount > maxSectorPrice) {
+        maxSectorPrice = amount;
+      }
+    });
+    return maxSectorPrice;
+  };
+
   useEffect(() => {
     const params: DetailRequest = {
       start_date: formatAsSearchDate(fromDate as string),
@@ -187,9 +200,7 @@ const ShowAndEventsDetailDisplay = ({
           );
 
           // setExtraDataObject(items[0].extra_data.seats)
-          const tempSeats = items[0].extra_data.seats;
-          const finalSectors = groupBySectors(tempSeats);
-          setSectors(finalSectors);
+          setExtraDataSeats(items[0].extra_data.seats);
 
           // const item: ThingsDetailItem = items[0];
           // setThingsItem(item);
@@ -202,6 +213,26 @@ const ShowAndEventsDetailDisplay = ({
         });
     }
   }, [id, fromDate, toDate]);
+
+  const filterSectors = (filter: filters) => {
+    if (extraDataSeats) {
+      const finalData = extraDataSeats.filter((item: any) => {
+        return (
+          item.available_seats >= filter.seats &&
+          item.rate.total.net.amount >= filter.minPrice &&
+          item.rate.total.net.amount <= filter.maxPrice
+        );
+      });
+      setSectors(groupBySectors(finalData));
+    }
+  };
+
+  useEffect(() => {
+    if (extraDataSeats) {
+      setSectors(groupBySectors(extraDataSeats));
+      setMaxSectorPrice(getMaxSectorPrice(extraDataSeats));
+    }
+  }, [extraDataSeats]);
 
   useEffect(() => {
     if (addres) {
@@ -448,7 +479,10 @@ const ShowAndEventsDetailDisplay = ({
           />
         )}
         <CollapseElement show={showMobileFilters}>
-          <FilterFormMobile />
+          <FilterFormMobile
+            onChange={filterSectors}
+            max={`${maxSectorPrice}`}
+          />
         </CollapseElement>
         {/* <section className="flex items-center justify-between  pt-3 pb-3 lg:mt-4 lg:pb-0">
           <section
@@ -538,7 +572,7 @@ const ShowAndEventsDetailDisplay = ({
         <>
           <span className="block text-right">{address1}</span>
           <span className="block text-right">
-            {`${area}, ${city}, ${country}`}
+            {[city, countryCode, postalCode].filter((item) => item).join(', ')}
           </span>
         </>
       );
@@ -571,7 +605,7 @@ const ShowAndEventsDetailDisplay = ({
         </label>
         <label className="align-bottom flex">
           <LocationPin className="text-primary-1000 h-4 w-4 mr-2.5" />
-          {area}, {city}
+          {[city, countryCode, postalCode].filter((item) => item).join(', ')}
         </label>
       </section>
     );
@@ -590,6 +624,9 @@ const ShowAndEventsDetailDisplay = ({
 
   return (
     <>
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`}
+      />
       {loaded && (
         <main className="relative w-full">
           <section className="grid grid-cols-3">
@@ -617,7 +654,10 @@ const ShowAndEventsDetailDisplay = ({
                     {getSeatsMap()}
                   </section>
                   <section className="hidden lg:block">
-                    <FilterFormDesktop />
+                    <FilterFormDesktop
+                      onChange={filterSectors}
+                      max={`${maxSectorPrice}`}
+                    />
                   </section>
                 </section>
               </section>

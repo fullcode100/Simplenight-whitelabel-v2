@@ -135,7 +135,17 @@ function ResultCard<T extends WithId>({
               />
             )}
             <CategoryTag />
-            {displayEmpty && <EmptyImage />}
+            {displayEmpty && (
+              <section
+                className={` ${
+                  isHorizontal
+                    ? 'w-[108px] h-[108px]'
+                    : 'min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem]'
+                }`}
+              >
+                <EmptyImage />
+              </section>
+            )}
             <section
               className={`flex flex-col justify-between ${
                 isHorizontal ? 'gap-1 p-3' : 'gap-2 p-5 pb-0 lg:pb-5'

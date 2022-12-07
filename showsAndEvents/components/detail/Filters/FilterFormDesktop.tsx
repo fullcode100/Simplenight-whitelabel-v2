@@ -5,7 +5,19 @@ import PriceRangeFilter from 'showsAndEvents/components/search/Filters/PriceRang
 import SeatsFilter from 'showsAndEvents/components/search/Filters/SeatsFilter';
 import { useTranslation } from 'react-i18next';
 
-const FilterFormDesktop = () => {
+export type filters = {
+  minPrice: string;
+  maxPrice: string;
+  seats: string;
+};
+
+const FilterFormDesktop = ({
+  onChange,
+  max,
+}: {
+  onChange(filter: filters): void;
+  max?: string;
+}) => {
   const [t, i18next] = useTranslation('shows');
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
@@ -14,22 +26,53 @@ const FilterFormDesktop = () => {
 
   const initialPriceRange = {
     min: '0',
-    max: '5000',
+    max: max ?? '3000',
   };
+  const initialSeats = '1';
   const [minPrice, setMinPrice] = useState<string>(initialPriceRange.min);
   const [maxPrice, setMaxPrice] = useState<string>(initialPriceRange.max);
-  const [seats, setSeats] = useState<string>('6');
+  const [seats, setSeats] = useState<string>(initialSeats);
+
+  const onChangeUpdate = (data: Partial<filters>) => {
+    onChange({
+      minPrice,
+      maxPrice,
+      seats,
+      ...data,
+    });
+  };
+
+  const resetFilters = () => {
+    const initObj = {
+      minPrice: initialPriceRange.min,
+      maxPrice: initialPriceRange.max,
+      seats: initialSeats,
+    };
+    setMinPrice(initObj.minPrice);
+    setMaxPrice(initObj.maxPrice);
+    setSeats(initObj.seats);
+    onChange(initObj);
+  };
 
   const onChangeMinPrice = (value: string) => {
     setMinPrice(value);
+    onChangeUpdate({
+      minPrice: value,
+    });
   };
 
   const onChangeMaxPrice = (value: string) => {
     setMaxPrice(value);
+    onChangeUpdate({
+      maxPrice: value,
+    });
   };
 
   const onChangeSeats = (value: string) => {
     setSeats(value);
+    onChangeUpdate({
+      seats: value,
+    });
   };
 
   const FilterHeader = () => (
@@ -38,7 +81,7 @@ const FilterFormDesktop = () => {
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
         <button
           className="text-base font-semibold capitalize text-primary-1000"
-          onClick={undefined}
+          onClick={resetFilters}
         >
           {clearFiltersText}
         </button>
@@ -54,8 +97,11 @@ const FilterFormDesktop = () => {
             <PriceRangeFilter
               minPrice={minPrice}
               maxPrice={maxPrice}
+              max={parseInt(initialPriceRange.max)}
               onChangeMinPrice={onChangeMinPrice}
               onChangeMaxPrice={onChangeMaxPrice}
+              step={1}
+              minDifference={1}
             />
           </FilterCollapseTitle>
         </section>

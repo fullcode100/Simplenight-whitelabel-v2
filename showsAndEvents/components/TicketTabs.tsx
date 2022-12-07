@@ -36,7 +36,7 @@ const TicketTabs = ({
     );
   };
   return (
-    <section>
+    <section className="overflow-x-scroll">
       <div className="flex gap-2 text-dark-700 border-b-2">
         <TabItem
           isActive={sectorsInfo.every(({ title }) => title !== selectedTab)}

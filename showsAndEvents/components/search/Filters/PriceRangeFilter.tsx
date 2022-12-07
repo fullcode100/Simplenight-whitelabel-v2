@@ -6,6 +6,9 @@ import FilterContainer from './FilterContainer';
 import FilterTitle from './FilterTitle';
 
 interface PriceRangeFilterProps {
+  step?: number;
+  max?: number;
+  minDifference?: number;
   minPrice: string;
   maxPrice: string;
   onChangeMaxPrice:
@@ -17,6 +20,9 @@ interface PriceRangeFilterProps {
 }
 
 const PriceRangeFilter = ({
+  step = 100,
+  minDifference = 100,
+  max = 5000,
   minPrice,
   maxPrice,
   onChangeMinPrice,
@@ -32,9 +38,9 @@ const PriceRangeFilter = ({
         initialMin={minPrice ? parseInt(minPrice) : 0}
         initialMax={maxPrice ? parseInt(maxPrice) : 5000}
         min={0}
-        max={5000}
-        step={100}
-        minDifference={100}
+        max={max}
+        step={step}
+        minDifference={minDifference}
         type="price"
         setMinState={onChangeMinPrice}
         setMaxState={onChangeMaxPrice}
