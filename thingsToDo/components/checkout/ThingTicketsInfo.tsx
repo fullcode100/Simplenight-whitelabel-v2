@@ -9,8 +9,6 @@ import {
   TicketTypes,
 } from 'thingsToDo/types/request/ThingsCartRequest';
 import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse';
-import Link from 'public/icons/assets/link.svg';
-import SupplierReference from 'hotels/components/SupplierReference/SupplierReference';
 
 interface Props {
   item: Item;
@@ -19,7 +17,7 @@ interface Props {
 const ThingTicketsInfo = ({ item }: Props) => {
   const paxes = item.booking_data?.ticket_types || [];
   const quantity = item.quantity;
-  const rate = item.item_data?.rate as any;
+  const rate = item.rate as any;
   const discounts = rate.discounts;
   const totalAmount = rate.total;
   const tickets = item.item_data?.extra_data.tickets[0];
@@ -30,8 +28,8 @@ const ThingTicketsInfo = ({ item }: Props) => {
 
   const FeesRow = ({ priceBreakdown, label }: any) => {
     return (
-      <section className="flex items-start justify-between">
-        <section className="flex items-center gap-2 text-sm capitalize">
+      <section className="flex justify-between items-start">
+        <section className="text-sm flex items-center gap-2 capitalize">
           <PlusIcon className={'text-primary-1000 h-4 w-4 '} />
           {label}
         </section>
@@ -70,7 +68,7 @@ const ThingTicketsInfo = ({ item }: Props) => {
         <Divider />
         <div className="flex justify-between text-dark-1000">
           <p className="text-sm capitalize ">{payNowLabel}</p>
-          <p className="font-semibold text-dark-1000text-sm">
+          <p className=" text-dark-1000text-sm font-semibold">
             {formattedTotalAmount}
           </p>
         </div>
@@ -100,12 +98,12 @@ const ThingTicketsInfo = ({ item }: Props) => {
 
     return (
       <div className="text-sm ">
-        <h4 className="text-sm font-normal text-dark-700">
+        <h4 className="text-sm  text-dark-700 font-normal">
           {cancellationPolicyLabel}
         </h4>
         <p>{cancellationPolicy?.description}</p>
         {cutoffFlag && (
-          <p className="text-sm text-dark-700">{cutoffFlag.description}</p>
+          <p className="text-sm  text-dark-700">{cutoffFlag.description}</p>
         )}
         {weatherFlag && <p className="text-sm ">{weatherFlag.description}</p>}
         {insufficientTravelersFlag && (
@@ -119,7 +117,7 @@ const ThingTicketsInfo = ({ item }: Props) => {
     const additionalResquestsLabel = 'Additional Requests';
     return (
       <div className="text-sm ">
-        <h4 className="text-sm font-normal text-dark-700">
+        <h4 className="text-sm  text-dark-700 font-normal">
           {additionalResquestsLabel}
         </h4>
         <p>{item.customer_additional_requests}</p>
@@ -135,13 +133,27 @@ const ThingTicketsInfo = ({ item }: Props) => {
     bookingAnswers,
     bookingQuestions,
   }: ExtraQuestionsProps) => {
+    const PICKUP_POINT_ID = 'PICKUP_POINT';
+    const pickupPoint = item.booking_data?.booking_answers?.find(
+      (bookingAnswer) => bookingAnswer.question_id === PICKUP_POINT_ID,
+    )?.value;
+    const pickupLocations = item.item_data?.extra_data.pickup.locations;
+    const selectedPickupLocation = pickupLocations?.find(
+      (locationObject) => locationObject.location.ref == pickupPoint,
+    )?.location;
+    const pickupAddress = selectedPickupLocation?.address;
+    const pickupName = selectedPickupLocation?.name;
+    const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
+
     const transformedAnswers = bookingAnswers?.map(
       (bookingAnswer: BookingAnswer) => {
         const answerLabel = bookingQuestions?.find(
           (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
         )?.label;
-        const answerValue = bookingAnswer.value;
-
+        let answerValue = bookingAnswer.value;
+        if (bookingAnswer.question_id === PICKUP_POINT_ID) {
+          answerValue = pickupAddress ? pickupAddressFormatted : pickupName;
+        }
         return {
           id: bookingAnswer.question_id,
           value: answerValue,
@@ -153,10 +165,10 @@ const ThingTicketsInfo = ({ item }: Props) => {
 
     return (
       <div className="text-sm ">
-        {transformedAnswers?.map((answer: any) => {
+        {transformedAnswers?.map((answer) => {
           return (
             <div key={`${answer.id}-${answer.traveler}`} className="text-sm ">
-              <h4 className="text-sm font-normal text-dark-700">
+              <h4 className="text-sm  text-dark-700 font-normal">
                 {answer.label}
               </h4>
               <p>{answer.value}</p>
@@ -172,7 +184,7 @@ const ThingTicketsInfo = ({ item }: Props) => {
   return (
     <>
       <Divider />
-      <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
+      <section className="flex flex-col gap-3 py-4 px-4 text-dark-1000">
         <h3 className="text-base capitalize">
           {quantity}x {ticketName}
         </h3>

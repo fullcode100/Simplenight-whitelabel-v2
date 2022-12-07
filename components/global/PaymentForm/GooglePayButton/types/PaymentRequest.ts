@@ -18,9 +18,12 @@ export interface Info {
 }
 
 export interface BillingAddress {
+  address1: string;
+  address2: string;
   countryCode: string;
+  state: string;
+  city: string;
   postalCode: string;
-  name: string;
 }
 
 export interface TokenizationData {

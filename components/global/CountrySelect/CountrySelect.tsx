@@ -6,12 +6,14 @@ interface CountrySelectProps {
   value: string | null;
   onChange: (value: string) => void;
   required?: boolean;
+  autoFocus?: boolean;
 }
 
 const CountrySelect = ({
   value,
   onChange,
   required,
+  autoFocus = true,
   ...others
 }: CountrySelectProps) => {
   const [t] = useTranslation('global');
@@ -22,9 +24,9 @@ const CountrySelect = ({
     <select
       value={value ?? ''}
       onChange={(event) => onChange(event.target.value)}
-      autoFocus={true}
+      autoFocus={autoFocus}
       className={classnames(
-        'shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md resize-none',
+        'shadow-sm focus:ring-primary-500 mt-2 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md resize-none',
         {
           'text-dark-600': !value,
         },

@@ -43,10 +43,33 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   const fullDayLabel = 'Full day activity';
 
   const MeetingPickupPoint = () => {
+    const PICKUP_POINT_ID = 'PICKUP_POINT';
+    const pickupPointLabel = 'Pickup Point';
+    const meetingPointLabel = 'Meeting Point';
+
+    const pickupPoint = item.booking_data?.booking_answers?.find(
+      (bookingAnswer) => bookingAnswer.question_id === PICKUP_POINT_ID,
+    )?.value;
+    const pickupLocations = item.item_data?.extra_data.pickup.locations;
+    const selectedPickupLocation = pickupLocations?.find(
+      (locationObject) => locationObject.location.ref == pickupPoint,
+    )?.location;
+    const pickupAddress = selectedPickupLocation?.address;
+    const pickupName = selectedPickupLocation?.name;
+    const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
+
+    const startingPoint = item.item_data?.extra_data.start_locations?.map(
+      (location) => location.description,
+    );
     return (
       <div>
-        <p className="text-dark-700">Pickup point</p>
-        <p>534 Roger St., Chicago, US, 60864</p>
+        <p className="text-dark-700">
+          {pickupPoint ? pickupPointLabel : meetingPointLabel}
+        </p>
+        {pickupPoint && (
+          <p>{pickupAddress ? pickupAddressFormatted : pickupName}</p>
+        )}
+        {!pickupPoint && <p> {startingPoint ? startingPoint : addressLabel}</p>}
       </div>
     );
   };

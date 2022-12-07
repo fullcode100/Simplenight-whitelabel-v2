@@ -42,6 +42,9 @@ import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import PaymentForm from 'components/global/PaymentForm/PaymentForm';
 import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
+import InputWrapper from 'components/checkout/Inputs/InputWrapper';
+import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
+import { BillingAddress } from '../../components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
 
 const test: Amount = {
   formatted: '$200.00',
@@ -70,11 +73,6 @@ const Payment = () => {
   const backLabel = t('back', 'Back');
   const loadingLabel = t('loading', 'Loading');
 
-  const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
-  const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
-  const payClickRef = useRef<HTMLButtonElement>(null);
-
-  const [country, setCountry] = useState<string | null>(null);
   const [terms, setTerms] = useState(false);
   const [errorTerms, setErrorTerms] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -83,10 +81,6 @@ const Payment = () => {
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
   const [prodExpedia, setProdExpedia] = useState(false);
-
-  const paymentForm = useRef<HTMLDivElement>(null);
-  let paymentToken: string;
-  let verificationToken: string;
 
   const currency = getCurrency();
 
@@ -161,16 +155,14 @@ const Payment = () => {
       cvv: !validCVV,
     });
     const cardIsValid = validName && validNumber && validExpiration && validCVV;
-    if (!cardIsValid) {
-      scrollToTop();
-    }
-    if (cardIsValid) console.log('proceed to booking');
+    return cardIsValid;
   };
 
-  const handleTokens = (
-    newPaymentToken: string,
-    newVerificationToken: string,
-  ) => {
+  const handleBooking = () => {
+    const cardIsValid = validateCard();
+    if (!cardIsValid) {
+      return scrollToTop();
+    }
     if (expediaTerms && !acceptExpediaTerms) {
       return setErrorExpediaTerms(true);
     }
@@ -179,20 +171,28 @@ const Payment = () => {
     }
     if (loading) return;
     setLoading(true);
-    paymentToken = newPaymentToken;
-    verificationToken = newVerificationToken;
-    handleBooking();
+
+    bookItem();
   };
+  const bookItem = async () => {
+    const country = cart?.customer.country;
 
-  const handleBooking = async () => {
-    if (!paymentToken || !verificationToken || !country || !terms || !cart)
+    if (!country || !terms || !cart) {
       return;
-
+    }
+    const { address1, address2, city, state, postalCode, countryCode } =
+      billingAddress;
     const paymentParameters = {
-      cartId: cart.cart_id,
-      paymentToken,
-      verificationToken,
-      countryCode: country,
+      cartId: cart?.cart_id,
+      paymentToken: 'cnon:card-nonce-ok',
+      billing_address: {
+        address2: address1,
+        address3: address2,
+        city,
+        province: state,
+        postalCode,
+        countryCode,
+      },
       ...(prodExpedia && { expediaProd: true }),
     };
 
@@ -255,9 +255,25 @@ const Payment = () => {
     cvv: false,
   });
 
+  const [billingAddress, setBillingAddress] = useState<BillingAddress>({
+    address1: '',
+    address2: '',
+    countryCode: cart?.customer.country || '',
+    state: '',
+    city: '',
+    postalCode: '',
+  });
+
+  useEffect(() => {
+    if (cart) {
+      setBillingAddress({
+        ...billingAddress,
+        countryCode: cart?.customer.country,
+      });
+    }
+  }, [cart]);
   return (
     <>
-      {/* <Script src="https://sandbox.web.squarecdn.com/v1/square.js" /> */}
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
       {loaded ? (
         <section className="flex items-start justify-center gap-8 px-0 py-0 lg:px-20 lg:py-12">
@@ -269,30 +285,19 @@ const Payment = () => {
                   setCard={(value: Card) => setCard(value)}
                   cardErrors={cardErrors}
                 />
-                {/*  <InputWrapper label="Country" labelKey="country">
-                  <CountrySelect value={country} onChange={setCountry} />
-                </InputWrapper> */}
-                {/* {cart && (
-                  <>
-                    <SquarePaymentForm
-                      applicationId={appId}
-                      locationId={locationId}
-                      onTokens={handleTokens}
-                      customer={cart.customer}
-                      amount={cart.total_amount.amount}
-                      currencyCode={cart.total_amount.currency}
-                      ref={payClickRef}
-                    />
-                    <InputWrapper
-                      label={amountForThisCardLabel}
-                      labelKey={'amountForThisCard'}
-                      subLabel={fullAmountLabel}
-                      subLabelKey={'fullAmount'}
-                      value={cart?.total_amount.formatted}
-                      disabled={true}
-                    />
-                  </>
-                )} */}
+
+                <InputWrapper
+                  label={amountForThisCardLabel}
+                  labelKey={'amountForThisCard'}
+                  subLabel={fullAmountLabel}
+                  subLabelKey={'fullAmount'}
+                  value={cart?.total_amount.formatted}
+                  disabled={true}
+                />
+                <BillingAddressForm
+                  billingAddress={billingAddress}
+                  setBillingAddress={setBillingAddress}
+                />
               </CheckoutForm>
               <section className="px-5 pb-6">
                 <Terms
@@ -358,7 +363,7 @@ const Payment = () => {
                   disabled={loading}
                   size={'full'}
                   className="text-[18px]"
-                  onClick={validateCard}
+                  onClick={handleBooking}
                 />
               </section>
             </CheckoutFooter>
