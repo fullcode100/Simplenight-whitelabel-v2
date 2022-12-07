@@ -34,6 +34,7 @@ export interface CategoryOption {
   confirmationDisplay?: ReactElement;
   cancelledDisplay?: ReactElement;
   homeDisplay?: ReactElement;
+  confirmationBreakdownDisplay?: ReactElement;
 }
 
 export interface CategoryStore {

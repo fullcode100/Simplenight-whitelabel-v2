@@ -7,6 +7,11 @@ import {
   RelativePosition,
   Services,
 } from 'hotels/types/response/SearchResponse';
+import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
+import {
+  ExtraData,
+  Address,
+} from 'thingsToDo/types/response/ThingsDetailResponse';
 import { CancellationPolicy } from 'types/checkout/CreateBookingResponse';
 import { Amount } from 'types/global/Amount';
 
@@ -43,7 +48,8 @@ export interface Item {
   children: number;
   children_ages: string[];
   customer: PrimaryContact;
-  extra_data: ItemExtraData;
+  item_data: ItemData;
+  extra_data?: ItemExtraData;
   inventory_id: string;
   name: string;
   payment_type_status: string;
@@ -59,6 +65,35 @@ export interface Item {
   total_tax: Amount;
   total_tax_postpaid: Amount;
   vendor_confirmation_code: string;
+  sector: string;
+  booking_data?: ThingsCartRequestDetail;
+  voucher?: Voucher;
+  customer_additional_requests?: string;
+}
+
+export interface Voucher {
+  format: string;
+  url: string;
+}
+
+export interface ItemData {
+  address: Address;
+  cancellation_policy: CancellationPolicy;
+  categories: Category[];
+  extra_data: ExtraData;
+  id: string;
+  main_category: string;
+  name: string;
+  phone_number?: string;
+  rate: RateBreakdown;
+  reviews?: any;
+  supplier: string;
+  thumbnail: string;
+}
+
+export interface Category {
+  id: string;
+  label: string;
 }
 
 export interface ItemExtraData {
@@ -79,6 +114,7 @@ export interface ItemExtraData {
   relative_position: RelativePosition;
   selected_room_code?: string;
   terms_and_conditions?: string;
+  amenities: string[];
 }
 
 export interface AmountMin {

@@ -5,11 +5,9 @@ import RightArrow from 'public/icons/assets/carousel-right-arrow.svg';
 
 import classnames from 'classnames';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
-import WeekDays from './Weekdays';
-import { DayObject, MonthObject } from 'helpers/calendar/calendar';
-import Day from './Day';
-import dayjs from 'dayjs';
+import { MonthObject } from 'helpers/calendar/calendar';
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
+import DayList from './DayList';
 
 interface Props {
   open: boolean;
@@ -28,6 +26,7 @@ interface Props {
   setCalendarSecondMonth: (value: number) => void;
   maxRange: number;
   restricted?: boolean;
+  isRange?: boolean;
 }
 const DesktopDatepickerDropdown = ({
   open,
@@ -46,6 +45,7 @@ const DesktopDatepickerDropdown = ({
   setCalendarSecondMonth,
   maxRange,
   restricted = true,
+  isRange = true,
 }: Props) => {
   const ref = useRef<HTMLElement>(null);
   useOnOutsideClick(ref, () => closeModal());
@@ -98,34 +98,23 @@ const DesktopDatepickerDropdown = ({
   interface MonthSectionProps {
     month: MonthObject;
   }
+
   const MonthSection = ({ month }: MonthSectionProps) => (
     <section className="h-full text-xs">
       <p className="pb-3 text-sm font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
         month.monthName,
       )} ${month.yearNumber}`}</p>
       <section className="grid grid-cols-7 ">
-        <WeekDays />
-        {month.days.map((day: DayObject, index: number) => (
-          <Day
-            className={'pt-2 mt-1 text-xs'}
-            day={day}
-            key={index + day.dayOfWeek}
-            setDate={setDate}
-            isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
-            isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
-            isRangeDate={dayjs(day.date).isBetween(
-              dayjs(startDate),
-              dayjs(endDate),
-            )}
-            isDisabled={
-              dayjs(day.date).isBefore(dayjs().subtract(1, 'day')) ||
-              dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
-              (!isStartDateTurn &&
-                restricted &&
-                dayjs(day.date).isAfter(dayjs(startDate).add(maxRange, 'day')))
-            }
-          />
-        ))}
+        <DayList
+          month={month}
+          isRange={isRange}
+          startDate={startDate}
+          endDate={endDate}
+          setDate={setDate}
+          isStartDateTurn={isStartDateTurn}
+          maxRange={maxRange}
+          className={'pt-2 mt-1 text-xs'}
+        />
       </section>
     </section>
   );

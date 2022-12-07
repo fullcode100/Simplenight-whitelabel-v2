@@ -27,9 +27,9 @@ export class ServerBookingsGetter extends ServerRequester<GetBookingResponse> {
     axios: AxiosInstance,
   ) {
     const { query } = request;
-    const { sn_order_number, customer_last_name } = query;
+    const { sn_order_number } = query;
 
-    const endpoint = `/bookings/?sn_order_number=${sn_order_number}&customer_last_name=${customer_last_name}`;
+    const endpoint = `/bookings/${sn_order_number}`;
 
     const url = applyApiBaseUrlV2(endpoint, request);
 

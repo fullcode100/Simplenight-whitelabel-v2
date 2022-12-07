@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item } from 'types/cart/CartType';
+import { Item } from 'types/booking/bookingType';
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import ThingItineraryPriceBreakdown from '../itinerary/ThingItineraryPriceBreakdown';
 import Divider from 'components/global/Divider/Divider';
@@ -9,6 +9,8 @@ import {
   TicketTypes,
 } from 'thingsToDo/types/request/ThingsCartRequest';
 import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse';
+import Link from 'public/icons/assets/link.svg';
+import SupplierReference from 'hotels/components/SupplierReference/SupplierReference';
 
 interface Props {
   item: Item;
@@ -17,7 +19,7 @@ interface Props {
 const ThingTicketsInfo = ({ item }: Props) => {
   const paxes = item.booking_data?.ticket_types || [];
   const quantity = item.quantity;
-  const rate = item.rate as any;
+  const rate = item.item_data?.rate as any;
   const discounts = rate.discounts;
   const totalAmount = rate.total;
   const tickets = item.item_data?.extra_data.tickets[0];
@@ -26,10 +28,21 @@ const ThingTicketsInfo = ({ item }: Props) => {
   const [t] = useTranslation('things');
   const [g] = useTranslation('global');
 
+  const voucherLabel = t('viewVoucher', 'View Voucher');
+  const supplierReferenceID = item?.supplier_order_number;
+  const vendorConfirmationNumber =
+    item?.vendor_confirmation_code && item?.vendor_confirmation_code.length > 0
+      ? item?.vendor_confirmation_code
+      : '-';
+  const vendorConfirmationLabel = t(
+    'vendorConfirmation',
+    'Vendor Confirmation Number',
+  );
+
   const FeesRow = ({ priceBreakdown, label }: any) => {
     return (
-      <section className="flex justify-between items-start">
-        <section className="text-sm flex items-center gap-2 capitalize">
+      <section className="flex items-start justify-between">
+        <section className="flex items-center gap-2 text-sm capitalize">
           <PlusIcon className={'text-primary-1000 h-4 w-4 '} />
           {label}
         </section>
@@ -68,7 +81,7 @@ const ThingTicketsInfo = ({ item }: Props) => {
         <Divider />
         <div className="flex justify-between text-dark-1000">
           <p className="text-sm capitalize ">{payNowLabel}</p>
-          <p className=" text-dark-1000text-sm font-semibold">
+          <p className="font-semibold text-dark-1000text-sm">
             {formattedTotalAmount}
           </p>
         </div>
@@ -98,12 +111,12 @@ const ThingTicketsInfo = ({ item }: Props) => {
 
     return (
       <div className="text-sm ">
-        <h4 className="text-sm  text-dark-700 font-normal">
+        <h4 className="text-sm font-normal text-dark-700">
           {cancellationPolicyLabel}
         </h4>
         <p>{cancellationPolicy?.description}</p>
         {cutoffFlag && (
-          <p className="text-sm  text-dark-700">{cutoffFlag.description}</p>
+          <p className="text-sm text-dark-700">{cutoffFlag.description}</p>
         )}
         {weatherFlag && <p className="text-sm ">{weatherFlag.description}</p>}
         {insufficientTravelersFlag && (
@@ -117,7 +130,7 @@ const ThingTicketsInfo = ({ item }: Props) => {
     const additionalResquestsLabel = 'Additional Requests';
     return (
       <div className="text-sm ">
-        <h4 className="text-sm  text-dark-700 font-normal">
+        <h4 className="text-sm font-normal text-dark-700">
           {additionalResquestsLabel}
         </h4>
         <p>{item.customer_additional_requests}</p>
@@ -133,27 +146,13 @@ const ThingTicketsInfo = ({ item }: Props) => {
     bookingAnswers,
     bookingQuestions,
   }: ExtraQuestionsProps) => {
-    const PICKUP_POINT_ID = 'PICKUP_POINT';
-    const pickupPoint = item.booking_data?.booking_answers?.find(
-      (bookingAnswer) => bookingAnswer.question_id === PICKUP_POINT_ID,
-    )?.value;
-    const pickupLocations = item.item_data?.extra_data.pickup.locations;
-    const selectedPickupLocation = pickupLocations?.find(
-      (locationObject) => locationObject.location.ref == pickupPoint,
-    )?.location;
-    const pickupAddress = selectedPickupLocation?.address;
-    const pickupName = selectedPickupLocation?.name;
-    const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
-
     const transformedAnswers = bookingAnswers?.map(
       (bookingAnswer: BookingAnswer) => {
         const answerLabel = bookingQuestions?.find(
           (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
         )?.label;
-        let answerValue = bookingAnswer.value;
-        if (bookingAnswer.question_id === PICKUP_POINT_ID) {
-          answerValue = pickupAddress ? pickupAddressFormatted : pickupName;
-        }
+        const answerValue = bookingAnswer.value;
+
         return {
           id: bookingAnswer.question_id,
           value: answerValue,
@@ -165,10 +164,10 @@ const ThingTicketsInfo = ({ item }: Props) => {
 
     return (
       <div className="text-sm ">
-        {transformedAnswers?.map((answer) => {
+        {transformedAnswers?.map((answer: any) => {
           return (
             <div key={`${answer.id}-${answer.traveler}`} className="text-sm ">
-              <h4 className="text-sm  text-dark-700 font-normal">
+              <h4 className="text-sm font-normal text-dark-700">
                 {answer.label}
               </h4>
               <p>{answer.value}</p>
@@ -184,10 +183,36 @@ const ThingTicketsInfo = ({ item }: Props) => {
   return (
     <>
       <Divider />
-      <section className="flex flex-col gap-3 py-4 px-4 text-dark-1000">
+      <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
         <h3 className="text-base capitalize">
           {quantity}x {ticketName}
         </h3>
+        <section className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+          {supplierReferenceID && (
+            <SupplierReference supplierReferenceID={supplierReferenceID} />
+          )}
+          {vendorConfirmationNumber && (
+            <section className="grid gap-0 ">
+              <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-700">
+                {vendorConfirmationLabel}
+              </p>
+              <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-primary-1000">
+                {vendorConfirmationNumber}
+              </p>
+            </section>
+          )}
+          {item.voucher && (
+            <a
+              href={item.voucher.url}
+              target={'_blank'}
+              className="flex items-center justify-center gap-2 p-3 text-xs font-semibold border bg-primary-100 text-primary-1000 hover:text-primary-1000 border-primary-300 rounded-4"
+              rel="noreferrer"
+            >
+              {voucherLabel}
+              <Link />
+            </a>
+          )}
+        </section>
         <FeesSection />
         <PoliciesSection />
         {item.customer_additional_requests && <AdditionalRequestsSection />}

@@ -165,5 +165,18 @@
   "ages": "Edades",
   "sortByLowestPrice": "Precio más bajo",
   "sortByBestDeal": "Mejor trato",
-  "sortByBestSeats": "Mejores asientos"
+  "sortByBestSeats": "Mejores asientos",
+  "nameOnCard": "Nombre En La Trajeta",
+  "cardNumber": "Tarjeta de Crédito / Débito",
+  "cardExpiration": "Vencimiento de la Tarjeta",
+  "cvvNumber": "CVV de la Tarjeta",
+  "name": "Nombre",
+  "enterCardNumber": "Ingrese su Número de Tarjeta",
+  "checkOnBackOfCard": "Verifique en el reverso de la tarjeta",
+  "billingAddress": "Billing Address",
+  "streetAddress": "Dirección",
+  "streetAddress2": "Dirección, Línea 2",
+  "stateProvince": "Estado/Provincia",
+  "city": "Ciudad",
+  "zipCode": "Código Postal"
 }

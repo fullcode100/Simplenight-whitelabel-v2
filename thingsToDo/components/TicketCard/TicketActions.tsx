@@ -36,7 +36,7 @@ const TicketActions = ({
 
   const handleAction = async (url: string) => {
     await addToCart(itemToBook, i18next, store);
-    router.replace(url);
+    router.push(url);
   };
 
   return (
