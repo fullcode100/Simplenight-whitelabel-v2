@@ -82,6 +82,7 @@ const CheckThingsAvailability = ({
           startDate={startDate as string}
           endDate={endDate as string}
           setIsEditing={setIsEditing}
+          isRange={false}
         />
       </section>
       <Button
