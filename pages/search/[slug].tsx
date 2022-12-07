@@ -28,8 +28,6 @@ const Search: NextPage = () => {
   const [searchType, setSearchType] = useState('');
 
   const handleTabClick = (tab: Tab) => {
-    setSearchType(tab.type);
-    setActiveTab(tab);
     setQueryParams({
       slug: tab.slug ?? '',
     });
