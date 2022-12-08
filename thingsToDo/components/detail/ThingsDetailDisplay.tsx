@@ -423,9 +423,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             <>
               <HeaderSection />
               {/* <TabsSection /> */}
-              <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0">
+              <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0 lg:py-12">
                 <SectionTitle icon={<TicketIcon />} title="Tickets" />
-                <section className="p-4 mt-4 rounded bg-dark-100">
+                <section className="p-4 mt-4 rounded bg-dark-100 lg:mt-8 lg:mb-8">
                   <section>
                     <CheckThingsAvailability
                       isAdultRequired={isAdultRequired}
