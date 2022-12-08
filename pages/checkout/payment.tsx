@@ -170,24 +170,31 @@ const Payment = () => {
     if (!country || !terms || !cart) {
       return;
     }
+
     const { address1, address2, city, state, postalCode, countryCode } =
       billingAddress;
-    const paymentParameters = {
-      cartId: cart?.cart_id,
-      paymentToken: 'cnon:card-nonce-ok',
-      billing_address: {
-        address2: address1,
-        address3: address2,
-        city,
-        province: state,
-        postalCode,
-        countryCode,
+    const bookingParameters = {
+      cart_id: cart?.cart_id,
+      payment_request: {
+        payment_method: 'CARD',
+        name_on_card: card.name,
+        credit_card_number: card.number,
+        cvv: card.cvv,
+        expiry_date: card.expiration,
+        billing_address: {
+          address1,
+          address2,
+          city: city,
+          province: state,
+          postal_code: postalCode,
+          country: countryCode,
+        },
       },
-      ...(prodExpedia && { expediaProd: true }),
+      ...(prodExpedia && { expedia_prod: true }),
     };
 
     try {
-      const data = await createBooking(paymentParameters, i18next);
+      const data = await createBooking(bookingParameters, i18next);
       const bookingId = data?.booking.booking_id;
       triggerEventConversion(bookingId);
       dispatch(clearCart());

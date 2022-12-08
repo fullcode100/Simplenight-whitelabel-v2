@@ -26,35 +26,11 @@ export interface PaymentParameters {
 }
 
 export const createBooking = (paymentParameters: any, i18next: i18n) => {
-  const {
-    cartId,
-    paymentToken,
-    billing_address: {
-      address2,
-      address3,
-      city,
-      province,
-      postalCode,
-      countryCode,
-    },
-    expediaProd,
-  } = paymentParameters;
+  const customerTimeCreatedAt = dayjs().format();
 
   const bookingRequest: CreateBookingRequest = {
-    cart_id: cartId,
-    payment_request: {
-      payment_method: PAYMENT_METHOD,
-      payment_token: paymentToken,
-      billing_address: {
-        address2: address2,
-        address3: address3,
-        city: city,
-        province: province,
-        postal_code: postalCode,
-        country: countryCode,
-      },
-    },
-    expedia_prod: expediaProd,
+    ...paymentParameters,
+    customer_time_created_at: customerTimeCreatedAt,
   };
 
   return tryCreateBooking(bookingRequest, i18next);
