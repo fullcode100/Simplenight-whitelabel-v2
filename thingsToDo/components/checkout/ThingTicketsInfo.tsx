@@ -150,16 +150,21 @@ const ThingTicketsInfo = ({ item }: Props) => {
         const answerLabel = bookingQuestions?.find(
           (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
         )?.label;
+        const hasCorrespondingBookingQuestion = bookingQuestions?.find(
+          (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
+        );
         let answerValue = bookingAnswer.value;
         if (bookingAnswer.question_id === PICKUP_POINT_ID) {
           answerValue = pickupAddress ? pickupAddressFormatted : pickupName;
         }
-        return {
-          id: bookingAnswer.question_id,
-          value: answerValue,
-          traveler: bookingAnswer.traveler_num,
-          label: answerLabel,
-        };
+        if (hasCorrespondingBookingQuestion) {
+          return {
+            id: bookingAnswer.question_id,
+            value: answerValue,
+            traveler: bookingAnswer.traveler_num,
+            label: answerLabel,
+          };
+        }
       },
     );
 
@@ -167,11 +172,11 @@ const ThingTicketsInfo = ({ item }: Props) => {
       <div className="text-sm ">
         {transformedAnswers?.map((answer) => {
           return (
-            <div key={`${answer.id}-${answer.traveler}`} className="text-sm ">
+            <div key={`${answer?.id}-${answer?.traveler}`} className="text-sm ">
               <h4 className="text-sm  text-dark-700 font-normal">
-                {answer.label}
+                {answer?.label}
               </h4>
-              <p>{answer.value}</p>
+              <p>{answer?.value}</p>
             </div>
           );
         })}
