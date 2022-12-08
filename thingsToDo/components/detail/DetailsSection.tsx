@@ -106,12 +106,12 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   );
 
   return (
-    <section className="px-5 py-6 lg:px-0 lg:pr-12">
-      <SectionTitle title="Details" />
+    <section className="px-5 py-6 lg:px-0 lg:pr-12 lg:py-12">
+      <SectionTitle title={descriptionText} />
       <Features />
-      <Divider className="py-4" />
+      <Divider className="py-4 lg:py-8" />
       <DescriptionSection />
-      <Divider className="py-4" />
+      <Divider className="py-4 lg:py-8" />
       <IncludedSection />
       <NotIncludedSection />
     </section>

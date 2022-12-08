@@ -160,7 +160,7 @@ const LocationSection = ({
   };
 
   return (
-    <section className="grid gap-6 px-5 py-6 mx-auto lg:py-12 lg:px-0 lg:gap-8 max-w-7xl">
+    <section className="grid gap-6 px-5 py-6 mx-auto lg:py-12 lg:px-0 lg:pt-12 lg:gap-8 max-w-7xl">
       <SectionTitle title={locationLabel} icon={<LocationIcon />} />
       <section className="divide-y divide-dark-300">
         {hasMeetingPoints && (
