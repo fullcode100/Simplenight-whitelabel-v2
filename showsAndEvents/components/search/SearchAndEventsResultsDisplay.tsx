@@ -153,6 +153,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                 toDate,
                 cancellation_policy: cancellationPolicy,
                 rate,
+                extra_data: extraData,
                 thumbnail,
               } = thingToDo;
               const {
@@ -177,7 +178,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                     images={images}
                     address={formattedLocation}
                     className=" flex-0-0-auto"
-                    fromDate={fromDate}
+                    fromDate={extraData.starts_at}
                     toDate={toDate}
                     tags={tags}
                     index={index}

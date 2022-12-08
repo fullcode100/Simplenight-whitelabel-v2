@@ -164,7 +164,7 @@ const ShowsAndEvents = ({
           icon={<SearchIcon className="h-5 w-5 text-dark-700 " />}
           label="Search"
           name="search"
-          placeholder="Search events"
+          placeholder="Search Shows & Events"
           autoFocus
           onChange={(e) => handleSearchEventsChanges(e.target.value)}
           value={query}
@@ -181,6 +181,16 @@ const ShowsAndEvents = ({
           onEndDateChange={handleEndDateChange}
           openOnStart={clickOnStart ? true : false}
           restricted={false}
+        />
+        <LocationInput
+          icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+          name="location"
+          label={'City'}
+          placeholder={'Where are you going?'}
+          routeParams={['type']}
+          onSelect={handleSelectLocation}
+          error={showLocationError}
+          onChange={handleChangeLocation}
         />
         <section className="flex gap-4 lg:mt-0 lg:w-full">
           <IconInput
@@ -214,16 +224,6 @@ const ShowsAndEvents = ({
             disabled
           />
         </section>
-        <LocationInput
-          icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
-          name="location"
-          label={'City'}
-          placeholder={'Where are you going?'}
-          routeParams={['type']}
-          onSelect={handleSelectLocation}
-          error={showLocationError}
-          onChange={handleChangeLocation}
-        />
       </section>
 
       <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">

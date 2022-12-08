@@ -63,6 +63,7 @@ interface selectedSeatsProp {
   taxes: number;
   cancellationPolicy: string;
   currency: string;
+  deliveryMethods: string[];
 }
 interface iTicketCard {
   row: string;
@@ -74,7 +75,7 @@ interface iTicketCard {
   rate: any;
   currency: string;
   sectorTitle: string;
-  currentCount: number;
+  delivery_methods: string[];
 }
 
 const ShowAndEventsDetailDisplay = ({
@@ -104,7 +105,7 @@ const ShowAndEventsDetailDisplay = ({
   const [sectors, setSectors] = useState<Sector[]>();
   const [currentCancellation, setCurrentCancellation] = useState<string>('');
 
-  const [selectedSeats, setSelectedSeats] = useState<any>();
+  const [selectedSeats, setSelectedSeats] = useState<any[]>([]);
   const [extraDataSeats, setExtraDataSeats] = useState<any>();
   const [maxSectorPrice, setMaxSectorPrice] = useState(0);
   const [showSelectedSeatsBar, setShowSelectedSeatsBar] =
@@ -422,14 +423,14 @@ const ShowAndEventsDetailDisplay = ({
       return { title, isActive: false };
     });
 
-  const buildSelectedSeastsInfo = ({
+  const addSelectedSeastsInfo = ({
     row,
-    availableSeats,
     currency,
     price,
     sectorTitle,
     rate,
-    currentCount,
+    delivery_methods: deliveryMethods,
+    availableSeats,
   }: iTicketCard) => {
     const newSelectedSeat: selectedSeatsProp = {
       name: name,
@@ -439,17 +440,61 @@ const ShowAndEventsDetailDisplay = ({
       currency,
       discountPercent: rate.discounts.percentage_to_apply,
       discountAmount: rate.discounts.amount_to_apply.amount,
-      quantity: currentCount,
+      quantity: 1,
       taxes: price?.total_taxes?.amount || 0,
+      deliveryMethods,
     };
 
-    setSelectedSeats(newSelectedSeat);
+    const currentSelectedSeats = [...selectedSeats];
+    const currentSeat = currentSelectedSeats.find(
+      (item) => item.title === newSelectedSeat.title,
+    );
+
+    if (currentSeat && currentSeat.quantity === availableSeats) return;
+
+    if (!currentSeat) {
+      setSelectedSeats([...currentSelectedSeats, newSelectedSeat]);
+    } else {
+      setSelectedSeats(
+        currentSelectedSeats.map((item) => {
+          if (item.title === currentSeat.title) {
+            item.quantity = item.quantity + 1;
+          }
+          return item;
+        }),
+      );
+    }
     setShowSelectedSeatsBar(true);
+  };
+
+  const removeSelectedSeastsInfo = ({ row, sectorTitle }: iTicketCard) => {
+    const title = `${sectorTitle} ${row}`;
+
+    const currentSelectedSeats = [...selectedSeats];
+    const currentSeatIndex = currentSelectedSeats.findIndex(
+      (item) => item.title === title,
+    );
+
+    if (currentSeatIndex < 0) return;
+
+    const currentSeat = currentSelectedSeats[currentSeatIndex];
+
+    if (currentSeat && currentSeat.quantity > 1) {
+      currentSelectedSeats[currentSeatIndex].quantity =
+        currentSelectedSeats[currentSeatIndex].quantity - 1;
+      setSelectedSeats(currentSelectedSeats);
+    } else if (currentSeat && currentSeat.quantity === 1) {
+      currentSelectedSeats.splice(currentSeatIndex, 1);
+      setSelectedSeats(currentSelectedSeats);
+    }
+    if (currentSelectedSeats.length === 0) {
+      setShowSelectedSeatsBar(false);
+    }
   };
 
   const setSector = () => {
     return (
-      <section className="pb-6 mb-6">
+      <section className="lg:pb-6 lg:mb-6">
         <label className="align-bottom flex">Sector</label>
         <SearchInput
           icon={<SearchIcon className="h-5 w-5 text-dark-700 lg:w-full" />}
@@ -516,37 +561,26 @@ const ShowAndEventsDetailDisplay = ({
                     {title}
                   </p>
                   {rows.map((row, id) => {
-                    let currentCount = 0;
-                    const seatCount = (count: number) => {
-                      currentCount = count;
-                      buildSelectedSeastsInfo({
-                        ...row,
-                        currency: row.rate.total.net.currency,
-                        availableSeats: row.available_seats,
-                        sectorTitle: title,
-                        currentCount: count,
-                      } as unknown as iTicketCard);
-                    };
                     return (
-                      <a
+                      <TicketCard
                         key={id}
-                        className="hover:text-inherit"
-                        onClick={() => {
-                          buildSelectedSeastsInfo({
+                        {...row}
+                        add={() => {
+                          addSelectedSeastsInfo({
                             ...row,
                             currency: row.rate.total.net.currency,
                             availableSeats: row.available_seats,
                             sectorTitle: title,
-                            currentCount: currentCount,
                           } as unknown as iTicketCard);
                         }}
-                      >
-                        <TicketCard
-                          {...row}
-                          seatCount={seatCount}
-                          section={title}
-                        />
-                      </a>
+                        remove={() => {
+                          removeSelectedSeastsInfo({
+                            ...row,
+                            sectorTitle: title,
+                          } as unknown as iTicketCard);
+                        }}
+                        section={title}
+                      />
                     );
                   })}
                 </div>
@@ -631,66 +665,76 @@ const ShowAndEventsDetailDisplay = ({
       />
       {loaded && (
         <main className="relative w-full">
-          <section className="grid grid-cols-3">
-            <section
-              className={classnames({
-                'col-span-2': showSelectedSeatsBar,
-                'col-span-3': !showSelectedSeatsBar,
-              })}
-            >
+          <section
+            className={classnames('grid', {
+              'grid-cols-4': showSelectedSeatsBar,
+              'grid-cols-3': !showSelectedSeatsBar,
+            })}
+          >
+            <section className={'col-span-3'}>
               <section
-                className={classnames('grid grid-cols-1 lg:grid-cols-5 py-6', {
-                  'xl:px-0': showSelectedSeatsBar,
+                className={classnames('lg:px-0 px-4 pt-6 lg:pb-6', {
+                  'xl:pl-28 xl:pr-5': showSelectedSeatsBar,
                   'xl:px-20': !showSelectedSeatsBar,
                 })}
               >
-                <section className="xl:mr-16 px-6 py-6 lg:h-[800px] lg:overflow-y-auto col-span-3">
-                  <section className="flex lg:hidden content-center justify-center">
-                    {getSeatsMap()}
+                <section className="grid grid-cols-1 lg:grid-cols-5 w-full mx-auto max-w-7xl">
+                  <section className="xl:mr-24 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto col-span-3">
+                    <section className="flex lg:hidden content-center justify-center">
+                      {getSeatsMap()}
+                    </section>
+                    {getHeader()}
+                    {setSector()}
                   </section>
-                  {getHeader()}
-                  {setSector()}
-                </section>
-                <section className="px-6 py-6 col-span-2">
-                  <section className="hidden lg:flex content-center justify-center">
-                    {getSeatsMap()}
-                  </section>
-                  <section className="hidden lg:block">
-                    <FilterFormDesktop
-                      onChange={filterSectors}
-                      max={`${maxSectorPrice}`}
-                    />
+                  <section className="col-span-2">
+                    <section className="hidden lg:flex content-center justify-center px-6 py-6">
+                      {getSeatsMap()}
+                    </section>
+                    <section className="hidden lg:block">
+                      <FilterFormDesktop
+                        onChange={filterSectors}
+                        max={`${maxSectorPrice}`}
+                      />
+                    </section>
                   </section>
                 </section>
               </section>
               <section
-                className={classnames(
-                  'grid grid-cols-1 lg:grid-cols-2 border-t-2',
-                  {
-                    'xl:px-0': showSelectedSeatsBar,
-                    'xl:px-20': !showSelectedSeatsBar,
-                  },
-                )}
+                className={classnames('lg:border-t-2', {
+                  'xl:pl-28 xl:pr-20': showSelectedSeatsBar,
+                  'xl:px-20': !showSelectedSeatsBar,
+                })}
               >
-                <section className="px-6 py-12 lg:border-r-2">
-                  {getDescription()}
+                <section className="grid grid-cols-1 lg:grid-cols-2 w-full mx-auto max-w-7xl">
+                  <section className="hidden lg:block pr-6 py-12 lg:border-r-2">
+                    {getDescription()}
+                  </section>
+                  <section className="pl-6 pr-6 lg:pr-0 py-12">
+                    {getLocation()}
+                  </section>
                 </section>
-                <section className="px-6 py-12">{getLocation()}</section>
-              </section>
-              <section className="grid grid-cols-1 lg:pl-20 lg:pr-0 px-4 py-6 border-t-2 bg-dark-100">
-                {showAndEventsList()}
               </section>
             </section>
             {showSelectedSeatsBar && (
-              <section className="col-span-1 border-l-2 sticky top-32 h-[45%]">
-                <section className="sticky w-full">
+              <section className="w-full col-span-3 border-l-2 lg:sticky fixed bottom-0 lg:top-32 lg:h-[87vh] h-[25vh] lg:col-span-1 bg-white col border-t-2 z-10">
+                <section className="w-full bg-white">
                   <SelectedSeatsBar
+                    name={name as string}
                     selectedSeats={selectedSeats}
                     hideBar={() => setShowSelectedSeatsBar(false)}
+                    deliveryMethods={[]}
+                    cancellationPolicy=""
                   />
                 </section>
               </section>
             )}
+          </section>
+          <section className={'grid-cols-3'}>
+            <section className={'col-span-3'}>
+              <section className="grid grid-cols-1 lg:pl-20 lg:pr-0 px-4 py-6 border-t-2 bg-dark-100">
+                {showAndEventsList()}
+              </section>
+            </section>
           </section>
         </main>
       )}

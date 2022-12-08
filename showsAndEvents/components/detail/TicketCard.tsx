@@ -16,8 +16,8 @@ interface TicketCard {
   available_seats: number;
   rate: any;
   currency?: string;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  seatCount: Function;
+  add: () => void;
+  remove: () => void;
 }
 
 const TicketCard: React.FC<TicketCard> = ({
@@ -27,7 +27,8 @@ const TicketCard: React.FC<TicketCard> = ({
   seatTogether,
   rate,
   currency,
-  seatCount,
+  add,
+  remove,
 }) => {
   // const [timeLeft, setTimeLeft] = useState<string>('');
   const [selectedSeats, setSelectedSeats] = useState<number>(0);
@@ -47,18 +48,21 @@ const TicketCard: React.FC<TicketCard> = ({
   const increaseSelectedSeats = () => {
     if (availableSeats > selectedSeats) {
       setSelectedSeats(selectedSeats + 1);
-      seatCount(selectedSeats + 1);
+      add();
     }
   };
 
   const decreaseSelectedSeats = () => {
     if (selectedSeats) {
       setSelectedSeats(selectedSeats - 1);
-      seatCount(selectedSeats - 1);
+      remove();
     }
   };
   return (
-    <section className="border border-dark-300 mt-2 rounded">
+    <section
+      className="border border-dark-300 mt-2 rounded cursor-pointer"
+      onClick={increaseSelectedSeats}
+    >
       <div className="py-4 w-full border-solid border-l-0 border-r-0 border-t-0 border-b gap-2.5 flex flex-col items-start self-stretch border-[rgba(212,212,212,1)]">
         <div className="px-4 w-full gap-2 flex flex-col items-start self-stretch">
           <div className="gap-2 flex items-start w-max">

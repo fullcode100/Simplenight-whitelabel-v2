@@ -60,7 +60,7 @@ function ResultCard<T extends WithId>({
   }, [thumbnail]);
 
   const CategoryTag = () => (
-    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br z-10">
+    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br z-19">
       {icon}
       <span className="font-semibold text-[14px]">{categoryName}</span>
     </section>
@@ -161,7 +161,7 @@ function ResultCard<T extends WithId>({
               <section className="flex flex-row gap-2">
                 <CalendarIcon className="h-3.5 lg:h-4 lg:w-4 mt-1 lg:mt-0 text-primary-1000" />
                 <p className="font-semibold">
-                  {dayjs(fromDate as string).format('MMM D, YYYY HH:mm')}
+                  From {dayjs(fromDate as string).format('MMM D, YYYY')}
                 </p>
               </section>
 
