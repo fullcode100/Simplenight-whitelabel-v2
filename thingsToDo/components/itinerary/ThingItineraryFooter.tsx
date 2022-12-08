@@ -29,13 +29,11 @@ const ThingItineraryFooter = ({
   const [g, i18g] = useTranslation('global');
 
   const {
-    category: slug,
+    sector,
     quantity: ticketsAmount,
     rate: { total: totalAmount },
   } = item;
 
-  const category = useCategorySlug(slug);
-  const sector = category?.type;
   const ticketText = 'Ticket';
   const ticketsText = 'Tickets';
   const ticketsFormatted = `${ticketsAmount} ${usePlural(
