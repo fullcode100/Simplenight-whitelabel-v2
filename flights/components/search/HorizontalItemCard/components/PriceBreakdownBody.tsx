@@ -72,17 +72,8 @@ const PriceBreakdownBody = ({
           search: {},
           flights: [],
           offer: offer,
+          rate: {},
         },
-        /*
-        rate: {
-          total: {
-            prepaid: {
-              amount: offer?.totalAmound,
-              currency: cartItem?.booking_data?.search?.currency ?? 'USD',
-            },
-          },
-        },
-        */
       },
       cartItem,
     );
@@ -92,6 +83,14 @@ const PriceBreakdownBody = ({
       if (_item?.legId === item?.legId) found = true;
     });
     if (!found) itemToBook.booking_data.flights.push(item);
+    itemToBook.booking_data.rate = {
+      total: {
+        prepaid: {
+          amount: parseFloat(offer?.totalAmound),
+          currency: cartItem?.booking_data?.search?.currency ?? 'USD',
+        },
+      },
+    };
     await addToCart(itemToBook, i18next, store); // add to cart
     router.replace(url); // redirect to: cart or checkout
   };
