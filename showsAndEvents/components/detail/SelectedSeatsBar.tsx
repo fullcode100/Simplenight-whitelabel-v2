@@ -154,50 +154,51 @@ const SelectedSeatsBar = ({
             </p>
           </div>
         </section>
-        <section className="hidden lg:grid grid-cols-8 border-b-2 pb-6 pl-5  row-start-2 row-span-1">
-          {/* {deliveryMethodMenu} */}
-          {selectedSeats.map((item) => (
-            <>
-              <div className="col-span-5">
-                <p className="text-base font-semibold">{item.title}</p>
-                <p>
-                  {item.quantity} {ticketsText}
-                </p>
-              </div>
-              <div className="col-span-2">
-                <div
-                  className={
-                    'inline-flex flex-col justify-center items-end text-center'
-                  }
-                >
-                  <div className="gap-1 font-semibold">
-                    <div className="w-[91px]">
-                      <p className="text-lg leading-6 m-0">
-                        {item.currency}$ {item.basePrice + item.taxes}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="gap-1 font-normal">
-                    <p className="text-xs leading-tight capitalize m-0">
-                      Total {item.currency}$
-                      {item.quantity * (item.basePrice + item.taxes)}
+      </section>
+      <section className="hidden lg:block overflow-y-scroll w-full row-end-4 row-start-2 lg:h-full -mt-8">
+        {/* {deliveryMethodMenu} */}
+        {selectedSeats.map((item, i) => (
+          <section
+            key={i}
+            className="max-h-20 grid grid-cols-8 border-b-2 py-3 pl-5 h-screen items-center"
+          >
+            <div className="col-span-4 xl:col-span-5">
+              <p className="text-base font-semibold">{item.title}</p>
+              <p>
+                {item.quantity} {ticketsText}
+              </p>
+            </div>
+            <div className="col-span-3 xl:col-span-2 items-center">
+              <div
+                className={
+                  'inline-flex flex-col justify-center items-end text-center '
+                }
+              >
+                <div className="gap-1 font-semibold">
+                  <div className="w-[91px]">
+                    <p className="text-lg leading-6 m-0">
+                      {item.currency}$ {item.basePrice + item.taxes}
                     </p>
                   </div>
                 </div>
+                <div className="gap-1 font-normal">
+                  <p className="text-xs leading-tight capitalize m-0">
+                    Total {item.currency}$
+                    {item.quantity * (item.basePrice + item.taxes)}
+                  </p>
+                </div>
               </div>
-              <div className="col-span-1 items-center flex">
-                <TrashIcon
-                  className="text-gray-800 h-5 w-5 lg:h-[25px] lg:w-[25px] cursor-pointer"
-                  onClick={hideBar}
-                />
-              </div>
-            </>
-          ))}
-        </section>
-      </section>
-      <section className="border-b-2 py-6 px-5 row-start-2 row-end-4 hidden lg:grid">
-        {selectedSeats.map((item) => (
-          <>
+            </div>
+            <div className="col-span-1 items-center flex">
+              <TrashIcon
+                className="text-gray-800 h-5 w-5 lg:h-[25px] lg:w-[25px] cursor-pointer"
+                onClick={hideBar}
+              />
+            </div>
+          </section>
+        ))}
+        {selectedSeats.map((item, i) => (
+          <section key={i} className="px-5 pt-2">
             <div className="flex justify-between">
               <div className="flex items-center text-primary-1000">
                 <PlusIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
@@ -218,9 +219,9 @@ const SelectedSeatsBar = ({
                 {item.currency}${item.quantity * (item.basePrice + item.taxes)}
               </p>
             </div>
-          </>
+          </section>
         ))}
-        <div className="flex justify-between pt-1.5 border-b-2 pb-2">
+        <div className="flex justify-between pt-1.5 border-b-2 pb-2 px-5">
           <div className="flex items-center text-primary-1000">
             <PlusIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
             <p className="pl-2 text-gray-800">{taxesText}</p>
@@ -235,36 +236,38 @@ const SelectedSeatsBar = ({
             </p>
           </div>
         </div>
-        <div className="flex justify-between pt-1.5">
-          <div className="flex items-center text-primary-1000">
-            <p className="text-gray-800">{payNowText}</p>
+        <section className="py-6 px-5 row-start-3 row-end-4 hidden lg:grid">
+          <div className="flex justify-between pt-1.5">
+            <div className="flex items-center text-primary-1000">
+              <p className="text-gray-800">{payNowText}</p>
+            </div>
+            <div className="flex items-center text-gray-1000">
+              <p className="text-base">
+                {selectedSeats && selectedSeats[0].currency}$
+                {selectedSeats.reduce((a, b) => {
+                  const cal = (b.basePrice + b.taxes) * b.quantity;
+                  return a + cal;
+                }, 0)}
+              </p>
+            </div>
           </div>
-          <div className="flex items-center text-gray-1000">
-            <p className="text-base">
-              {selectedSeats && selectedSeats[0].currency}$
-              {selectedSeats.reduce((a, b) => {
-                const cal = (b.basePrice + b.taxes) * b.quantity;
-                return a + cal;
-              }, 0)}
-            </p>
+          <div
+            className={classnames('min-w-max rounded-4 px-2 my-7', {
+              'bg-gray-100': !isFreeCacellationPolicy,
+              'bg-green-100': isFreeCacellationPolicy,
+              'text-green-600': isFreeCacellationPolicy,
+            })}
+          >
+            <div className="flex items-center">
+              {isFreeCacellationPolicy && (
+                <CheckIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
+              )}
+              <p className="pl-2">{cancellationPolicy}</p>
+            </div>
           </div>
-        </div>
-        <div
-          className={classnames('min-w-max rounded-4 px-2 my-7', {
-            'bg-gray-100': !isFreeCacellationPolicy,
-            'bg-green-100': isFreeCacellationPolicy,
-            'text-green-600': isFreeCacellationPolicy,
-          })}
-        >
-          <div className="flex items-center">
-            {isFreeCacellationPolicy && (
-              <CheckIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
-            )}
-            <p className="pl-2">{cancellationPolicy}</p>
-          </div>
-        </div>
+        </section>
       </section>
-      <section className="py-6 px-5 row-span-1 row-start-4">
+      <section className="py-6 px-5 row-span-1 row-start-4 -mt-5 border-t-2">
         <div className="flex justify-between">
           <div className="flex items-center">
             <p className="text-sm">{totalText}</p>

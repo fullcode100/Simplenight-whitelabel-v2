@@ -671,22 +671,27 @@ const ShowAndEventsDetailDisplay = ({
               'grid-cols-3': !showSelectedSeatsBar,
             })}
           >
-            <section className={'col-span-3'}>
+            <section
+              className={classnames('col-span-4 lg:col-span-3', {
+                'col-span-4': !showSelectedSeatsBar,
+                'col-span-3': showSelectedSeatsBar,
+              })}
+            >
               <section
                 className={classnames('lg:px-0 px-4 pt-6 lg:pb-6', {
-                  'xl:pl-28 xl:pr-5': showSelectedSeatsBar,
-                  'xl:px-20': !showSelectedSeatsBar,
+                  'xl:pl-28 xl:pr-5 lg:pl-14 lg:pr-2': showSelectedSeatsBar,
+                  'xl:px-20 lg:px-10': !showSelectedSeatsBar,
                 })}
               >
                 <section className="grid grid-cols-1 lg:grid-cols-5 w-full mx-auto max-w-7xl">
-                  <section className="xl:mr-24 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto col-span-3">
+                  <section className="xl:mr-24 lg:pr-6 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto col-span-3">
                     <section className="flex lg:hidden content-center justify-center">
                       {getSeatsMap()}
                     </section>
                     {getHeader()}
                     {setSector()}
                   </section>
-                  <section className="col-span-2">
+                  <section className="col-span-2 lg:pr-6">
                     <section className="hidden lg:flex content-center justify-center px-6 py-6">
                       {getSeatsMap()}
                     </section>
@@ -701,8 +706,8 @@ const ShowAndEventsDetailDisplay = ({
               </section>
               <section
                 className={classnames('lg:border-t-2', {
-                  'xl:pl-28 xl:pr-20': showSelectedSeatsBar,
-                  'xl:px-20': !showSelectedSeatsBar,
+                  'xl:pl-28 xl:pr-20 lg:pl-14 lg:pr-10': showSelectedSeatsBar,
+                  'xl:px-20 lg:px-10': !showSelectedSeatsBar,
                 })}
               >
                 <section className="grid grid-cols-1 lg:grid-cols-2 w-full mx-auto max-w-7xl">
@@ -716,14 +721,18 @@ const ShowAndEventsDetailDisplay = ({
               </section>
             </section>
             {showSelectedSeatsBar && (
-              <section className="w-full col-span-3 border-l-2 lg:sticky fixed bottom-0 lg:top-32 lg:h-[87vh] h-[25vh] lg:col-span-1 bg-white col border-t-2 z-10">
+              <section className="w-full col-span-3 border-l-2 lg:sticky fixed bottom-0 pt-5 lg:pt-0 lg:top-32 lg:h-[87vh] h-[25vh] lg:col-span-1 bg-white col z-10">
                 <section className="w-full bg-white">
                   <SelectedSeatsBar
                     name={name as string}
                     selectedSeats={selectedSeats}
                     hideBar={() => setShowSelectedSeatsBar(false)}
                     deliveryMethods={[]}
-                    cancellationPolicy=""
+                    cancellationPolicy={
+                      selectedSeats.find(
+                        ({ cancellationPolicy }) => cancellationPolicy,
+                      ).cancellationPolicy
+                    }
                   />
                 </section>
               </section>
