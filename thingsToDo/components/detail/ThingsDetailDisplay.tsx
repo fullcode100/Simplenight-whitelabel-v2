@@ -13,7 +13,6 @@ import TicketCard from '../TicketCard/TicketCard';
 import SeeMore from 'components/global/ReadMore/SeeMore';
 import useMediaViewport from 'hooks/media/useMediaViewport';
 import Button from 'components/global/ButtonNew/Button';
-import FormSchema from 'components/global/FormSchema/FormSchema';
 // icons
 import ApproveUser from 'public/icons/assets/approve-user.svg';
 import Sunset from 'public/icons/assets/sunset.svg';
@@ -38,15 +37,14 @@ import {
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
-import { getQuestionsSchema } from 'thingsToDo/helpers/questions';
 import { ThingsAvailabilityRequest } from 'thingsToDo/types/request/ThingsAvailabilityRequest';
 import { getCurrency } from 'store/selectors/core';
 import { Ticket } from '../../types/response/ThingsDetailResponse';
 import EmptyCheckAvailability from 'public/icons/assets/empty-check-availability.svg';
 import EmptyNoAvailability from 'public/icons/assets/empty-no-availability.svg';
 import CheckThingsAvailability from '../CheckAvailability/CheckAvailability';
-import { categorySectorUUID } from 'thingsToDo';
 import { useCategorySlug } from 'hooks/category/useCategory';
+import { useQuerySetterNotReload } from 'hooks/pageInteraction/useQuerySetter';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -86,6 +84,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   const currentCurrency = getCurrency();
+  const setQueryParam = useQuerySetterNotReload();
 
   const extraData: ExtraData = thingsItem?.extra_data as ExtraData;
   const images = extraData?.images;
@@ -121,6 +120,13 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   }, [id]);
 
   const handleAvailability = (date: string, ticketTypes: any[]) => {
+    const queryParams: any = {
+      startDate: formatAsSearchDate(date as string),
+    };
+    ticketTypes?.forEach((ticketType) => {
+      queryParams[ticketType.ticket_type_id] = ticketType.quantity.toString();
+    });
+    setQueryParam(queryParams);
     setIsCheckingAvailability(true);
     const url = '/categories/' + thingsItem?.categories[0].id ?? '';
     const params: ThingsAvailabilityRequest = {
