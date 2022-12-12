@@ -142,7 +142,7 @@ const TicketCard = ({
     >
       <TicketHeader title={title} description={description} />
       <section
-        className={classnames('lg:block', {
+        className={classnames('', {
           hidden: !selected,
         })}
       >

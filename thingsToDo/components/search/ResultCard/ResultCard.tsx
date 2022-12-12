@@ -36,15 +36,6 @@ function ResultCard<T extends WithId>({
 }: CardProps<T>) {
   const target = window.innerWidth < 640 ? '_self' : '_blank';
 
-  const CategoryTag = () => (
-    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br z-[1]">
-      {icon}
-      <span className="font-semibold text-[14px] capitalize">
-        {categoryName}
-      </span>
-    </section>
-  );
-
   const ImageAndTagSection = () => (
     <section
       className="relative min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem]"
@@ -54,9 +45,7 @@ function ResultCard<T extends WithId>({
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
       }}
-    >
-      <CategoryTag />
-    </section>
+    ></section>
   );
   const TitleSection = () => (
     <section className="font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg break-words">

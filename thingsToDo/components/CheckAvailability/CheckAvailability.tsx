@@ -4,13 +4,12 @@ import {
 } from 'hotels/components/CheckInOutInput/CheckInOutInput';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import useQuery from 'hooks/pageInteraction/useQuery';
 import DateThingsInput from './DateThingsInput';
 import Button from 'components/global/ButtonNew/Button';
 import GuestsThingsInput from '../GuestsInput/GuestsThingsInput';
 import { Pricing } from 'thingsToDo/types/response/ThingsDetailResponse';
 import { getDefaultGuests } from 'thingsToDo/helpers/helper';
+import useQueryParams from 'hooks/pageInteraction/useQueryParams';
 
 interface CheckAvailabilityProps {
   pricing: Pricing;
@@ -26,10 +25,9 @@ const CheckThingsAvailability = ({
   activityMaxTravelers,
 }: CheckAvailabilityProps) => {
   const [t] = useTranslation('global');
-  const setQueryParam = useQuerySetter();
   const textCheckAvailability = t('checkAvailability', 'Check Availability');
   const [checkInOutProps, startDate, endDate] = useCheckInOutInput();
-  const params = useQuery();
+  const params = useQueryParams();
   const defaultGuestData: any = getDefaultGuests(pricing?.ticket_types, params);
   const [guestsData, setGuestsData] = useState(defaultGuestData);
   const [isEditing, setIsEditing] = useState(false);

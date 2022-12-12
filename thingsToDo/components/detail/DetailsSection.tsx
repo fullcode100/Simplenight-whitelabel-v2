@@ -23,6 +23,9 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const descriptionText = t('description', 'Description');
   const includedText = t('included', 'Included');
   const notIncludedText = t('notIncluded', 'Not Included');
+  const offeredIn = t('offeredIn', 'Offered In');
+  const details = t('details', 'Details');
+
   const {
     extra_data: {
       duration,
@@ -45,7 +48,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const excludedItems = thingsItem.extra_data.excludes;
 
   const Features = () => (
-    <section className="flex flex-wrap justify-between w-full mt-4 lg:justify-start">
+    <section className="flex flex-wrap justify-between w-full mt-4">
       <InlineFeature
         icon={<ClockIcon />}
         text={
@@ -55,8 +58,10 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
         }
       />
       <InlineFeature icon={<DeviceMobileIcon />} text={presentations} />
-      <InlineFeature icon={<TransportIcon />} text="Hotel Pickup" />
-      <InlineFeature icon={<LanguageIcon />} text={`Offered in ${languages}`} />
+      <InlineFeature
+        icon={<LanguageIcon />}
+        text={`${offeredIn} ${languages}`}
+      />
     </section>
   );
 
@@ -72,12 +77,12 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const IncludedSection = () => (
     <>
       <SectionSubtitle>{includedText}</SectionSubtitle>
-      <section className="flex flex-col flex-wrap mt-2 mb-3 lg:flex-row gap-3">
+      <section className="flex flex-col flex-wrap gap-3 mt-2 mb-3 lg:flex-row">
         {includedItems?.map((item, idx) => {
           return (
             <InlineFeature
               key={idx}
-              icon={<CheckIcon className="text-green-1000" />}
+              icon={<CheckIcon className="w-3 h-3 text-green-1000" />}
               text={item.description}
               textClassName="text-green-1000"
             />
@@ -90,7 +95,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const NotIncludedSection = () => (
     <>
       <SectionSubtitle>{notIncludedText}</SectionSubtitle>
-      <section className="flex flex-col flex-wrap mt-2 lg:flex-row gap-3">
+      <section className="flex flex-col flex-wrap gap-3 mt-2 lg:flex-row">
         {excludedItems?.map((item, edx) => {
           return (
             <InlineFeature
@@ -106,8 +111,8 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   );
 
   return (
-    <section className="px-5 py-6 lg:px-0 lg:pr-12 lg:py-12">
-      <SectionTitle title={descriptionText} />
+    <section className="px-5 py-6 lg:px-0 lg:pr-12">
+      <SectionTitle title={details} />
       <Features />
       <Divider className="py-4 lg:py-8" />
       <DescriptionSection />

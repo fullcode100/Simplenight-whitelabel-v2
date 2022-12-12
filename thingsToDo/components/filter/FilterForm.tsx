@@ -37,13 +37,15 @@ const FilterForm = ({
 
   return (
     <div className={`h-full overflow-y-hidden ${className}`}>
-      <KeywordSearchFilter
-        keywordSearch={keywordSearchFilter.keywordSearch}
-        keywordSearchLabel={keywordSearchFilter.keywordSearchLabel}
-        keywordSearchPlaceholder={keywordSearchFilter.keywordSearchPlaceholder}
-        setKeywordSearch={keywordSearchFilter.setKeywordSearch}
-      />
-      <div className="w-full h-px bg-dark-300" />
+      {/*
+        <KeywordSearchFilter
+          keywordSearch={keywordSearchFilter.keywordSearch}
+          keywordSearchLabel={keywordSearchFilter.keywordSearchLabel}
+          keywordSearchPlaceholder={keywordSearchFilter.keywordSearchPlaceholder}
+          setKeywordSearch={keywordSearchFilter.setKeywordSearch}
+        />
+        <div className="w-full h-px bg-dark-300" />
+      */}
       <CollapseUnbordered
         title={<Heading tag="h5">{priceLabel}</Heading>}
         body={

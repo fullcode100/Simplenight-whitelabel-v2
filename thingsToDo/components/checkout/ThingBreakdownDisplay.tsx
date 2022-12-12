@@ -10,6 +10,7 @@ import ThingItineraryFooter from '../itinerary/ThingItineraryFooter';
 import { ThingBreakdownHeader } from './ThingBreakdownHeader';
 import ThingBreakdownBody from './ThingBreakdownBody';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
+import ThingItineraryBody from '../itinerary/ThingItineraryBody';
 
 interface ThingBreakdownDisplayProps {
   item?: Item;
@@ -33,11 +34,10 @@ const ThingBreakdownDisplay = ({
         <CollapseUnbordered
           title={<ThingBreakdownHeader icon={Category.icon} item={item} />}
           body={
-            <ThingBreakdownBody
+            <ThingItineraryBody
               item={item}
               reload={reload}
               setReload={setReload}
-              customer={customer}
             />
           }
         />

@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import useQuery from 'hooks/pageInteraction/useQuery';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
+import useQueryParams from 'hooks/pageInteraction/useQueryParams';
 interface CheckInOutInputProps {
   showDatePicker: boolean;
   startDate: string;
@@ -83,7 +83,7 @@ export interface UseCheckInOutInputPropsComponentReturn {
 }
 
 export const useCheckInOutInput = () => {
-  const params = useQuery();
+  const params = useQueryParams();
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<string>(
     params.startDate

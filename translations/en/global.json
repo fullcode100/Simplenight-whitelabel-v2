@@ -126,7 +126,8 @@
   "reviews": "Reviews",
   "location": "Location",
   "policies": "Policies",
-  "seeMore": "See more",
+  "seeMore": "See More",
+  "seeLess": "See Less",
   "sortBy": "Sort by",
   "sortByPriceAsc": "Price (Lowest First)",
   "sortByPriceDesc": "Price (Highest First)",
@@ -167,5 +168,9 @@
   "streetAddress2": "Street Address Line 2",
   "stateProvince": "State / Province",
   "city": "City",
-  "zipCode": "Postal / Zip Code"
+  "zipCode": "Postal / Zip Code",
+  "offeredIn": "Offered In",
+  "addToItinerary": "Add to itinerary",
+  "book": "Book",
+  "details": "Details"
 }

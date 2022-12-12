@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { NextRouter, useRouter } from 'next/router';
 
 const hasMoreQuery = (router: NextRouter, paramsToExclude: string[]) => {
@@ -31,3 +32,27 @@ const useQuerySetter = () => {
 };
 
 export default useQuerySetter;
+
+export const useQuerySetterNotReload = () => {
+  const router = useRouter();
+  const { query } = router;
+  const pathname = router?.pathname as any;
+  const pathParamsKeys = pathname
+    ?.match?.(/\[(.*?)\]/g)
+    .map((key: string) => key.replace(/[\[\]]/g, ''));
+  const hostUrl = `${window.location.protocol}//${window.location.host}`;
+  const baseUrl = `${hostUrl}${window.location.pathname}`;
+
+  return (params: { [key: string]: string }) => {
+    const urlParams = new URLSearchParams(query as unknown as string);
+    Object.keys(params).forEach((key) => {
+      params[key].length > 0 && urlParams.set(key, params[key]);
+      params[key].length === 0 && urlParams.delete(key);
+    });
+    pathParamsKeys.forEach((key: string) => {
+      urlParams.delete(key);
+    });
+    const newUrl = `${baseUrl}?${urlParams.toString()}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+  };
+};
