@@ -5,6 +5,7 @@ module.exports = {
     './components/**/*.tsx',
     './layouts/**/*.tsx',
     './hotels/**/*.tsx',
+    './cars/**/*.tsx',
     './parking/**/*.tsx',
     './showsAndEvents/**/*.tsx',
   ],

@@ -43,3 +43,43 @@ const hotelFilterMachine = createMachine({
     },
   },
 });
+
+const carFilterMachine = createMachine({
+  id: 'carFilters',
+  initial: 'Idle',
+  states: {
+    Idle: {
+      on: {
+        keywordSearch: {
+          target: 'handleFilters',
+        },
+        priceRange: {
+          target: 'handleFilters',
+        },
+        starRating: {
+          target: 'handleFilters',
+        },
+        sortBy: {
+          target: 'handleFilters',
+        },
+        paymentTypes: {
+          target: 'handleFilters',
+        },
+      },
+    },
+    handleFilters: {
+      on: {
+        filterCars: {
+          target: 'filteredCars',
+        },
+      },
+    },
+    filteredCars: {
+      on: {
+        clearFilters: {
+          target: 'Idle',
+        },
+      },
+    },
+  },
+});

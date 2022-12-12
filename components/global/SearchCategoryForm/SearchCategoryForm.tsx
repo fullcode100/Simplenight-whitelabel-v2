@@ -3,7 +3,11 @@ import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { Tab } from 'components/global/Tabs/types';
 
 const SearchCategoryForm = ({ activeTab }: { activeTab: Tab }) => {
-  const searchOption = useCategory(activeTab?.type);
+  const searchOption = useCategory(
+    activeTab?.type === 'transportation' && activeTab?.slug
+      ? activeTab?.slug
+      : activeTab?.type,
+  );
 
   const searchForm = injectProps(searchOption?.searchForm, {
     hasReRoute: true,

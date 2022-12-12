@@ -15,14 +15,22 @@ const PaymentCartItem = ({ item, customer }: any) => {
     ? item.category.toLowerCase()
     : 'no category';
   const CartItemHeader = () => {
-    const category = useCategory(categoryLowerCase);
+    const category = useCategory(
+      item.category.toLowerCase() === 'car-rental'
+        ? 'cars'
+        : item.category.toLowerCase(),
+    );
     return injectProps(category?.checkoutDisplay, {
       item: item,
     });
   };
 
   const CartItemBreakdown = () => {
-    const category = useCategory(categoryLowerCase);
+    const category = useCategory(
+      item.category.toLowerCase() === 'car-rental'
+        ? 'cars'
+        : item.category.toLowerCase(),
+    );
     return injectProps(category?.breakdownDisplay, {
       item: item,
       showCollapse: false,

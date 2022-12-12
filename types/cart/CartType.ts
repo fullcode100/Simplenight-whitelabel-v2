@@ -10,6 +10,15 @@ import {
 import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
 import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData';
 import { Amount } from 'types/global/Amount';
+import { CarCartRequestDetail } from 'cars/types/request/CarCartRequest';
+import { CarCartItemData } from 'cars/types/response/CarCartItemData';
+
+export interface CartBookingData {
+  [key: string]: any;
+}
+export interface CartItemData {
+  [key: string]: any;
+}
 
 export interface CartResponse {
   cart?: CartObjectResponse[];
@@ -53,7 +62,7 @@ export interface TotalAmount {
 }
 
 export interface CartItemRequest {
-  booking_data?: ThingsCartRequestDetail;
+  booking_data?: CartBookingData; // CarCartRequestDetail | ThingsCartRequestDetail;
   category?: string;
   sn_booking_code?: string;
 }
@@ -61,27 +70,27 @@ export interface CartItemRequest {
 export interface NewCartRequest {
   url: string;
   cart: {
-    items: CartItemRequest[];
+    items: Item[];
   };
 }
 
 export interface UpdateCartItemRequest {
   url: string;
-  cart: CartItemRequest;
+  cart: Item;
 }
 
 export interface Item {
-  booking_data?: ThingsCartRequestDetail;
+  booking_data?: CartBookingData; // CarCartRequestDetail | ThingsCartRequestDetail;
+  item_data?: CartItemData; // CarCartItemData | ThingsCartItemData;
+  category?: string;
   cart_id?: string;
   cart_item_id?: string;
-  category?: string;
   created_at?: string;
   customer?: Customer;
   extended_data?: HotelCart;
   inventory_id?: string;
   inventory_name?: string;
   last_validated_rate?: any;
-  item_data?: ThingsCartItemData;
   quantity?: number;
   rate?: Rates;
   sn_booking_code?: string;
@@ -122,6 +131,25 @@ export interface UpdateCartRequest {
 }
 
 export interface HotelCart {
+  amount_min?: Amount;
+  details?: Details;
+  end_date?: string;
+  giata_code?: string;
+  id?: string;
+  min_rate_room?: Room;
+  photos?: Photo[];
+  relative_position?: RelativePosition;
+  items?: Item[];
+  rooms?: Room[];
+  relevance?: number;
+  start_date?: string;
+  thumbnail?: string;
+  terms_and_conditions?: string;
+  check_in_instructions?: CheckInInstructions;
+  selected_room_code?: string;
+}
+
+export interface CarCart {
   amount_min?: Amount;
   details?: Details;
   end_date?: string;
