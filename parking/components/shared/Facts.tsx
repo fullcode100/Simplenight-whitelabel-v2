@@ -12,7 +12,7 @@ interface FeaturesProps {
 export const ParkingFeatures: FC<FeaturesProps> = ({ parking }) => {
   const [t] = useTranslation('parking');
   const info = parking.properties.static;
-  const accessible = info.capacity_disabled;
+  const accessible = info.features?.find((f) => f === 'DISABLED_SPACES');
   const heightRestricted = !!info.height?.restricted;
   const heightRestriction = (info.height?.max_cms || 0) / 100; // cm to m
 

@@ -1,7 +1,8 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Checkbox from '../Checkbox/Checkbox';
 
 interface CheckboxListProps {
+  value: string[];
   items: CheckboxListItemType[];
   onChange: (checked: string[]) => void;
 }
@@ -11,10 +12,24 @@ type CheckboxListItemType = {
   value: string;
 };
 
-export const CheckboxList: FC<CheckboxListProps> = ({ items, onChange }) => {
-  const [itemsList, setItemsList] = useState<{
-    [key: string]: boolean;
-  }>({});
+type ValueType = { [key: string]: boolean };
+
+const valueArrToObj = (value: string[]): ValueType => {
+  return value.reduce((all, curr) => {
+    return { ...all, [curr]: true };
+  }, {});
+};
+
+export const CheckboxList: FC<CheckboxListProps> = ({
+  value,
+  items,
+  onChange,
+}) => {
+  const [itemsList, setItemsList] = useState<ValueType>(valueArrToObj(value));
+
+  useEffect(() => {
+    setItemsList(valueArrToObj(value));
+  }, [value.length]);
 
   return (
     <div className="space-y-3">

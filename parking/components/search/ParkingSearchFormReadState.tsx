@@ -37,11 +37,13 @@ export const ParkingSearchFormReadState: FC<ParkingSearchFormReadStateProps> = (
   const Summary: FC = () => {
     return (
       <section className="grid gap-2 font-normal text-dark-1000">
-        <section className="flex gap-2">
-          <section className="grid w-6 place-items-center">
+        <section className="flex gap-2 min-w-0">
+          <section className="grid w-6 place-items-center shrink-0">
             <LocationPin className="text-primary-1000" />
           </section>
-          <span>{address?.toString().split(', ')[0]}</span>
+          <span className="truncate ...">
+            {decodeURIComponent(address?.toString().split(', ')[0] || '')}
+          </span>
         </section>
         <section className="flex gap-2">
           <section className="grid w-6 place-items-center">

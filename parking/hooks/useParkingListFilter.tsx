@@ -12,20 +12,23 @@ interface UseParkingListFilterReturnType {
   filter: ParkingFilter;
   changeFilter: (partialFilter: Partial<ParkingFilter>) => void;
   isFiltering: boolean;
+  resetFilter: () => void;
 }
+
+const initialFilter: ParkingFilter = {
+  parkingType: 'ALL',
+  highAvailability: false,
+  minPrice: 0,
+  minHeight: 0,
+  maxPrice: 0,
+  maxHeight: 0,
+  surfaceType: [],
+  features: [],
+};
 
 export const useParkingListFilter: UseParkingListFilter = (list) => {
   const [isFiltering, setIsFiltering] = useState(true);
-  const [filter, setFilter] = useState<ParkingFilter>({
-    parkingType: 'ALL',
-    highAvailability: false,
-    minPrice: 0,
-    minHeight: 0,
-    maxPrice: 0,
-    maxHeight: 0,
-    surfaceType: [],
-    features: [],
-  });
+  const [filter, setFilter] = useState<ParkingFilter>(initialFilter);
 
   const debouncedFilter = useDebounce(filter, 1000);
 
@@ -110,10 +113,15 @@ export const useParkingListFilter: UseParkingListFilter = (list) => {
     setIsFiltering(false);
   }, [filteredParkingList]);
 
+  const resetFilter = () => {
+    changeFilter(initialFilter);
+  };
+
   return {
     filter,
     changeFilter,
     filteredParkingList,
     isFiltering,
+    resetFilter,
   };
 };

@@ -14,13 +14,14 @@ interface ParkingFilterFormDesktopProps {
   filter: ParkingFilter;
   onFilterChange: (filters: Partial<ParkingFilter>) => void;
   parkingMetaData: ParkingListMetaData;
+  onClear: () => void;
 }
 
 export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
   filter: {
     highAvailability,
-    // surfaceType,
-    // features,
+    surfaceType,
+    features,
     minPrice,
     maxPrice,
     minHeight,
@@ -28,6 +29,7 @@ export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
   },
   onFilterChange,
   parkingMetaData,
+  onClear,
 }) => {
   const onHighAvailabilityChange = (highAvailability: boolean) => {
     onFilterChange({ highAvailability });
@@ -41,7 +43,7 @@ export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
     onFilterChange({ features });
   };
 
-  const handleClearFilters = () => false;
+  const handleClearFilters = onClear;
 
   const onMinMaxPriceChange = ([minPrice, maxPrice]: [number, number]) => {
     onFilterChange({ minPrice, maxPrice });
@@ -69,9 +71,9 @@ export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
         onChangeHighAvailability={onHighAvailabilityChange}
       />
       <Divider className="my-6" />
-      <SurfaceTypeFilter onChange={onSurfaceTypeChange} />
+      <SurfaceTypeFilter value={surfaceType} onChange={onSurfaceTypeChange} />
       <Divider className="my-6" />
-      <FeaturesFilter onChange={onFeaturesChange} />
+      <FeaturesFilter value={features} onChange={onFeaturesChange} />
       <Divider className="my-6" />
       <VehicleHeightFilter
         minHeight={parkingMetaData.heightRestrictionsList[0]}

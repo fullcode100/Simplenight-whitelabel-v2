@@ -20,7 +20,7 @@ export const RangeSlider: FC<SliderRange> = ({
   ...props
 }) => {
   const [val, setVal] = useState(value);
-  const debouncedVal = useDebounce(val, 200);
+  const debouncedVal = useDebounce(val, 500);
 
   useEffect(() => {
     onChange(debouncedVal);

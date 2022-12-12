@@ -34,8 +34,13 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
   const { ClientSearcher: Searcher } = parkingCategory.core;
 
   const parkingMetaData = useParkingMetaData(parkingList);
-  const { filteredParkingList, filter, changeFilter, isFiltering } =
-    useParkingListFilter(parkingList);
+  const {
+    filteredParkingList,
+    filter,
+    changeFilter,
+    isFiltering,
+    resetFilter,
+  } = useParkingListFilter(parkingList);
   const { sortedParkingList, sortBy, setSortBy } =
     useSortParkingList(filteredParkingList);
 
@@ -89,6 +94,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
             onFilterChange={changeFilter}
             filter={filter}
             parkingMetaData={parkingMetaData}
+            onClear={resetFilter}
           />
         </section>
         <section className="relative flex-1">
@@ -110,7 +116,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
           ) : (
             <section>
               {isListView && (
-                <section className="w-full h-full px-5 pb-6 lg:px-0">
+                <section className="w-full h-full px-4 pb-6 lg:px-0">
                   {!loaded || isFiltering ? (
                     <HorizontalSkeletonList />
                   ) : (

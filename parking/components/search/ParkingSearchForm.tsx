@@ -51,15 +51,15 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const [t] = useTranslation('parking');
   const locationInputLabel = t('locationInputLabel', 'Destination');
   const textSearch = t('search', 'Search');
-  const startDateText = t('startDate', 'Start Date');
-  const endDateText = t('endDate', 'End Date');
+  const startDateText = t('arriving', 'Start Date');
+  const endDateText = t('leaving', 'End Date');
   const startTimeText = t('startTime', 'Start Time');
   const endTimeText = t('endTime', 'End Time');
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
   const [address, setAddress] = useState<string | undefined>(
-    params.address ? (params.address as string) : '',
+    params.address ? decodeURIComponent(params.address as string) : '',
   );
 
   const [geolocation, setGeolocation] = useState<StringGeolocation>(
@@ -130,7 +130,9 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
       props.slug
     }?startDate=${startDate}&startTime=${startTime}&endDate=${endDate}&endTime=${endTime}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
-    }&longitude=${geolocation?.split(',')[LONGITUDE_INDEX]}&address=${address}`;
+    }&longitude=${
+      geolocation?.split(',')[LONGITUDE_INDEX]
+    }&address=${encodeURIComponent(address || '')}`;
 
     handleSaveLastSearch(route);
     router.push(route);
@@ -165,12 +167,15 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
       rerouteToSearchPage();
       return;
     }
+
+    const encodedAddress = encodeURIComponent(address || '');
+
     setQueryParam({
       startDate,
       startTime,
       endDate,
       endTime,
-      address: address as string,
+      address: encodedAddress,
       geolocation: geolocation ?? '',
       latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
       longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
@@ -218,55 +223,57 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
           />
         </section>
 
-        <section className="relative flex gap-4 lg:mt-0 lg:w-full">
-          <IconInput
-            label={startDateText}
-            name="Check-in"
-            placeholder={startDateText}
-            className="lg:mt-0"
-            orientation="left"
-            icon={<Calendar className="w-5 h-5 text-dark-700" />}
-            value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
-            onChange={(event) => handleStartDateChange(event.target.value)}
-            onClick={() => {
-              setClickOnStart(true);
-              setShowDatePicker(true);
-            }}
-          />
+        <section className="relative flex flex-col lg:flex-row gap-4 lg:mt-0 lg:w-full">
+          <section className="flex items-end gap-4 w-full lg:w-1/2">
+            <IconInput
+              label={startDateText}
+              name="Check-in"
+              placeholder={startDateText}
+              className="lg:mt-0"
+              orientation="left"
+              icon={<Calendar className="w-5 h-5 text-dark-700" />}
+              value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
+              onChange={(event) => handleStartDateChange(event.target.value)}
+              onClick={() => {
+                setClickOnStart(true);
+                setShowDatePicker(true);
+              }}
+            />
 
-          <Select
-            label={startTimeText}
-            name="Check-in-time"
-            value={startTime}
-            onChange={setStartTime}
-            items={timeList}
-            icon={<Clock />}
-          />
+            <Select
+              name="Check-in-time"
+              value={startTime}
+              onChange={setStartTime}
+              items={timeList}
+              icon={<Clock />}
+            />
+          </section>
 
-          <IconInput
-            label={endDateText}
-            name="Check-out"
-            placeholder={endDateText}
-            orientation="left"
-            className="lg:mt-0"
-            icon={<Calendar className="w-5 h-5 text-dark-700" />}
-            value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
-            onChange={(event) => handleEndDateChange(event.target.value)}
-            onClick={() => {
-              setClickOnStart(false);
-              setShowDatePicker(true);
-            }}
-          />
+          <section className="flex items-end gap-4 w-full lg:w-1/2">
+            <IconInput
+              label={endDateText}
+              name="Check-out"
+              placeholder={endDateText}
+              orientation="left"
+              className="lg:mt-0"
+              icon={<Calendar className="w-5 h-5 text-dark-700" />}
+              value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
+              onChange={(event) => handleEndDateChange(event.target.value)}
+              onClick={() => {
+                setClickOnStart(false);
+                setShowDatePicker(true);
+              }}
+            />
 
-          <Select
-            label={endTimeText}
-            name="Check-out-time"
-            value={endTime}
-            onChange={handleEndTimeChange}
-            items={timeList}
-            icon={<Clock />}
-            error={showEndTimeError}
-          />
+            <Select
+              name="Check-out-time"
+              value={endTime}
+              onChange={handleEndTimeChange}
+              items={timeList}
+              icon={<Clock />}
+              error={showEndTimeError}
+            />
+          </section>
 
           <DatePicker
             showDatePicker={showDatePicker}

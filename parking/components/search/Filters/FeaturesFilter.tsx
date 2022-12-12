@@ -4,15 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { CheckboxList } from '../../../../components/global/Checkbox/CheckboxList';
 
 interface FeaturesFilter {
+  value: string[];
   onChange: (items: string[]) => void;
 }
 
-export const FeaturesFilter: FC<FeaturesFilter> = ({ onChange }) => {
+export const FeaturesFilter: FC<FeaturesFilter> = ({ value, onChange }) => {
   const [t] = useTranslation('parking');
 
   return (
     <FilterItem title={t('features')}>
       <CheckboxList
+        value={value}
         onChange={onChange}
         items={[
           {
