@@ -61,12 +61,14 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   );
   const policiesLabel = tg('policies', 'Policies');
   const reviewsLabel = tg('reviews', 'Reviews');
-  const loadMoreText = tg('loadMore', 'Load More');
+  const loadMoreText = t('loadMore', 'Load More');
   const noResultsLabel = tg('noResultsSearch', 'No Results Match Your Search.');
   const checkAvailabilityForYourSearchLabel = tg(
     'checkAvailabilityForYourSearch',
     'Check Availability For Your Selected Guests And Dates.',
   );
+  const seeLess = tg('seeLess', 'See Less');
+  const seeMore = tg('seeMore', 'See More');
 
   const { isDesktop } = useMediaViewport();
   const [thingsItem, setThingsItem] = useState<ThingsDetailItem>();
@@ -152,23 +154,24 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   interface ListProps {
-    list: string[];
+    list?: string[];
     limit?: number;
   }
 
   const List = ({ list, limit }: ListProps) => {
     const lineHeight = 27;
     const displaySeeMore = true;
-    if (limit && list.length > limit)
+    const additionalAmount = list ? list.length : 0;
+    if (limit && additionalAmount > limit)
       return (
         <SeeMore
-          textOpened="See less"
-          textClosed="See more"
+          textOpened={seeLess}
+          textClosed={seeMore}
           heightInPixels={lineHeight * limit}
           displayButton={displaySeeMore}
         >
           <ul className="px-5 text-base list-disc list-inside text-dark-1000">
-            {list.map((listItem, idx) => (
+            {list?.map((listItem, idx) => (
               <li key={idx}>{listItem}</li>
             ))}
           </ul>
@@ -176,7 +179,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
       );
     return (
       <ul className="px-5 text-base list-disc list-inside text-dark-1000">
-        {list.map((listItem, idx) => (
+        {list?.map((listItem, idx) => (
           <li key={idx}>{listItem}</li>
         ))}
       </ul>
@@ -295,7 +298,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
 
         <Divider />
         <h5 className="h5">{additionalInformationLabel}</h5>
-        <List list={additionalList} limit={8} />
+        <List list={thingsItem?.extra_data.amenities} limit={8} />
         <p className="text-base text-dark-1000">{additionalDescription}</p>
         <Divider />
         {policies?.map((policy, idx) => (
