@@ -122,7 +122,7 @@ const LocationSection = ({
     );
 
     const locations = pickupPoints?.locations.map(
-      (location) => location.location,
+      (location: any) => location.location,
     );
 
     useEffect(() => {

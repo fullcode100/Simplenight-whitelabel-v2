@@ -1,13 +1,11 @@
-import {
-  applyApiBaseUrl,
-  applyApiBaseUrlV2,
-} from 'apiCalls/config/responseHelpers';
+import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import { FlightDetailResponse } from 'flights/types/response/FlightDetailResponse';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { ApiResponse } from 'types/global/Request';
+import { NextApiRequestWithSession } from 'types/core/server';
 
 export class FlightServerDetailer extends ServerDetailer<FlightDetailResponse> {
   public constructor(category: CategoryOption) {
@@ -15,7 +13,7 @@ export class FlightServerDetailer extends ServerDetailer<FlightDetailResponse> {
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     response: NextApiResponse<FlightDetailResponse>,
     axios: AxiosInstance,
   ): Promise<AxiosResponse<ApiResponse<any, FlightDetailResponse>, any>> {

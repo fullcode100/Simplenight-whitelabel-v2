@@ -13,7 +13,7 @@ import FilterIcon from 'public/icons/assets/filter.svg';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
-import RangeSlider from 'components/global/RangeSlider/RangeSlider';
+import RangeSlider from 'flights/components/RangeSlider/RangeSlider';
 import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
 import { Flight } from 'flights/types/response/SearchResponse';
 

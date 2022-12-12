@@ -156,6 +156,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
   );
 
   const GeneralInformationSection = () => {
+    /*
     const tabs: Tab[] = [{ value: roomsLabel }, { value: locationLabel }];
 
     const scrollFunctions: { [key: string]: () => void } = {
@@ -183,10 +184,10 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
         </section>
         <BlockDivider className="mt-5" />
         <section className="px-4">
-          {/* <HorizontalTabs tabs={tabs} onClick={handleTabClick} /> */}
         </section>
       </section>
     );
+    */
   };
 
   const DetailsSection = () => (
@@ -330,7 +331,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
             <ImageCarouselLargeScreen images={flightImages} title={name} />
           </section>
           <section className="lg:hidden">
-            <GeneralInformationSection />
+            {/* <GeneralInformationSection /> */}
           </section>
           <section className="hidden lg:block px-20 text-left bg-dark-100 py-6">
             <p className="text-[2rem]">{name}</p>

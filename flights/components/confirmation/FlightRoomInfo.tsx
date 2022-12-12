@@ -11,42 +11,21 @@ const RESORT_FEES = 'RESORT_FEES';
 const TAXES_AND_FEES = 'TAXESANDFEES';
 
 interface FlightRoomInfoProps {
-  room: Item;
+  item: Item;
 }
 
-const FlightRoomInfo = ({ room }: FlightRoomInfoProps) => {
+const FlightRoomInfo = ({ item }: FlightRoomInfoProps) => {
   const [t, i18next] = useTranslation('global');
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
   const supplierIdLabel = t('supplierReferenceID', 'Supplier Reference ID');
+  const supplierReferenceID = item.supplier_order_number;
 
-  const supplierReferenceID = room.supplier_order_number;
-  const roomDetail = room.extra_data?.rooms?.[0];
-  const roomName = roomDetail?.description;
-  const amenities = roomDetail?.amenities.join(', ');
-
-  const roomMinRate = roomDetail?.rates.min_rate;
-  const roomRate = roomMinRate?.rate;
-  const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
-  const total = roomRate.total_amount.formatted;
-  const roomRateDetail = roomRate?.rate_breakdown;
-
-  const taxesAndFees = roomRateDetail?.taxes.find(
-    (tax) => tax.description === TAXES_AND_FEES,
-  );
-  const taxesAndFeesFormatted = taxesAndFees?.tax_amount.formatted;
-
-  const resortFees = roomRateDetail?.post_paid_rate?.taxes.find(
-    (tax) => tax.description === RESORT_FEES,
-  );
-  const resortFeesFormatted = resortFees?.tax_amount.formatted;
-
-  const startDate = room.extra_data?.start_date;
-  const endDate = room.extra_data?.end_date;
-  const nights = startDate && endDate ? diffDays(startDate, endDate) : 0;
+  const cancellationPolicy = t('nonRefundable', 'Non refundable');
+  const total = `${item?.booking_data?.offer?.totalAmound} ${item?.booking_data?.search?.currency}`;
+  const taxesAndFees = `${item?.booking_data?.offer?.baseFare} ${item?.booking_data?.search?.currency}`;
 
   return (
     <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
-      <RoomTitle roomName={roomName} nights={nights} />
       <section>
         <p className="font-semibold text-sm text-dark-700">{supplierIdLabel}</p>
         <p className="font-semibold text-sm text-primary-1000">
@@ -55,7 +34,7 @@ const FlightRoomInfo = ({ room }: FlightRoomInfoProps) => {
       </section>
       <RoomPriceBreakdown
         total={total}
-        taxesAndFees={taxesAndFeesFormatted}
+        taxesAndFees={taxesAndFees}
         cancellationPolicy={cancellationPolicy}
       />
       <Button

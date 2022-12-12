@@ -34,7 +34,12 @@ const Search: NextPage = () => {
 
   useEffect(() => {
     setActiveTab(categoriesTabs[activeTabIndex]);
-    setSearchType(categoriesTabs[activeTabIndex]?.type);
+    setSearchType(
+      categoriesTabs[activeTabIndex]?.type === 'transportation' &&
+        categoriesTabs[activeTabIndex]?.slug
+        ? categoriesTabs[activeTabIndex]?.slug
+        : categoriesTabs[activeTabIndex]?.type,
+    );
   }, [categoriesTabs.length > 0]);
 
   return (
@@ -62,6 +67,8 @@ const Search: NextPage = () => {
       <main>
         <section
           className={classnames('lg:w-full lg:px-20 pt-[90px]', {
+            ['lg:pt-[274px]']: slug === 'car-rental',
+            ['lg:pt-[304px]']: slug === 'flights',
             ['lg:pt-[204px]']: multipleCategories,
             ['lg:pt-[142px]']: !multipleCategories,
           })}

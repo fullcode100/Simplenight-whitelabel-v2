@@ -44,10 +44,10 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
 
   const PICKUP_POINT_ID = 'PICKUP_POINT';
   const pickupPoint = item.booking_data?.booking_answers?.find(
-    (bookingAnswer) => bookingAnswer.question_id === PICKUP_POINT_ID,
+    (bookingAnswer: any) => bookingAnswer.question_id === PICKUP_POINT_ID,
   )?.value;
   const startingPoint = item.item_data?.extra_data.start_locations?.map(
-    (location) => location.description,
+    (location: any) => location.description,
   );
   const hasPickupOrMeetingPoint = pickupPoint || startingPoint;
 
@@ -57,7 +57,7 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
 
     const pickupLocations = item.item_data?.extra_data.pickup.locations;
     const selectedPickupLocation = pickupLocations?.find(
-      (locationObject) => locationObject.location.ref == pickupPoint,
+      (locationObject: any) => locationObject.location.ref == pickupPoint,
     )?.location;
     const pickupAddress = selectedPickupLocation?.address;
     const pickupName = selectedPickupLocation?.name;

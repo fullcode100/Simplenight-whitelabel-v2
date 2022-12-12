@@ -66,11 +66,12 @@ const PriceBreakdownBody = ({
 
   const handleAction = async (offer: FlightOffer, url: string) => {
     handleFlightClick(item); // select clicked item
+    const _flights: Flight[] = [];
     const itemToBook = Object.assign(
       {
         booking_data: {
           search: {},
-          flights: [],
+          flights: _flights,
           offer: offer,
           rate: {},
         },

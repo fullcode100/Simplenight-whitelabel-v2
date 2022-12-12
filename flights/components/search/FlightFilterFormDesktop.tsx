@@ -7,7 +7,7 @@ import IconInput from 'components/global/Input/IconInput';
 import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
-import RangeSlider from 'components/global/RangeSlider/RangeSlider';
+import RangeSlider from 'flights/components/RangeSlider/RangeSlider';
 import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
 import MultipleSelect from 'components/global/MultipleSelect/MultipleSelect';
 import CloseIcon from 'public/icons/assets/close.svg';

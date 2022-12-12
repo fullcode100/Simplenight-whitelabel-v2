@@ -12,7 +12,11 @@ import { MinRate, Rate } from 'flights/types/response/SearchResponse';
 import PriceDisplay from '../../PriceDisplay/PriceDisplay';
 import FlightCancellable from 'flights/components/search/FlightCancellable';
 
-const MapView = ({ FlightCategory, items, onViewDetailClick }: MapViewProps) => {
+const MapView = ({
+  FlightCategory,
+  items,
+  onViewDetailClick,
+}: MapViewProps) => {
   const [t, i18next] = useTranslation('flights');
   const flightLabel = t('flight', 'Flight');
   const fromLabel = t('from', 'From');
@@ -108,7 +112,6 @@ const MapView = ({ FlightCategory, items, onViewDetailClick }: MapViewProps) => 
                     key={itemKey}
                     icon={FlightCategory.icon}
                     categoryName={flightLabel}
-                    handleOnViewDetailClick={() => onViewDetailClick(item)}
                     item={item}
                     title={name}
                     image={thumbnail}
