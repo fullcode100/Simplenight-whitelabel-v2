@@ -1,31 +1,36 @@
+import PickupPoint from 'components/global/PickupPoint/PickupPoint';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
+import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
 import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 
 export const CustomText = (props: any) => {
-  const { value, onChange, placeholder, required, id } = props;
+  const { value, onChange, placeholder, required, id, schema } = props;
   return (
     <BaseInput
       type="text"
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
+      defaultValue={schema.default}
       {...{
         required,
         id,
+        maxlength: schema?.maxLength,
       }}
     />
   );
 };
 
 export const CustomPhoneNumber = (props: any) => {
-  const { onChange, placeholder, required } = props;
+  const { onChange, placeholder, required, schema } = props;
   return (
     <PhoneNumberInput
       onChange={onChange}
       placeholder={placeholder}
       required={required}
+      defaultValue={schema.default}
     />
   );
 };
@@ -37,7 +42,7 @@ export const CustomSelect = (props: any) => {
       value={value}
       onChange={(event) => onChange(event.target.value)}
       autoFocus={true}
-      className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md resize-none"
+      className="block w-full border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
       required={required}
       id={id}
     >
@@ -71,7 +76,7 @@ export const CustomCheckbox = (props: any) => {
       <input
         name="comments"
         type="checkbox"
-        className="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300 rounded"
+        className="w-4 h-4 border-gray-300 rounded focus:ring-primary-500 text-primary-600"
         onChange={() => onChange(!props.value)}
         checked={value}
         id={id}
@@ -95,4 +100,20 @@ export const CustomCountry = (props: any) => {
   return (
     <CountrySelect value={value} onChange={onChange} required={required} />
   );
+};
+
+export const CustomPickupPoint = (props: any) => {
+  const { value, onChange, schema } = props;
+  return (
+    <PickupPoint
+      pickupPoints={schema?.data}
+      selectedPickup={value}
+      setSelectedPickup={onChange}
+    />
+  );
+};
+
+export const CustomNumberUnit = (props: any) => {
+  const { value, onChange, schema } = props;
+  return <NumberUnitInput onChange={onChange} options={schema?.data} />;
 };

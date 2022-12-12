@@ -9,7 +9,7 @@ const RefundTotal = () => {
       <p className="font-semibold text-xs leading-lg text-dark-1000 lg:text-sm lg:leading-[22px]">
         {totalRefundLabel}
       </p>
-      <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
+      <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
         {'$0.00'}
       </p>
     </section>

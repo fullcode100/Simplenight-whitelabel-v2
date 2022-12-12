@@ -28,5 +28,5 @@ export interface itemsProps {
 export interface MapViewProps {
   HotelCategory: CategoryOption;
   items: Hotel[];
-  onViewDetailClick: (item: Hotel) => void;
+  createUrl: (item: Hotel) => string;
 }

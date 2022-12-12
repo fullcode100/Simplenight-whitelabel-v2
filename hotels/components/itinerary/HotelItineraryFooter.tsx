@@ -11,6 +11,7 @@ import TrashIcon from 'public/icons/assets/small-trash.svg';
 import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { useCategoryType } from 'hooks/category/useCategory';
 
 interface HotelItineraryFooterProps {
   item: Item;
@@ -40,7 +41,12 @@ const HotelItineraryFooter = ({
 
   const editLabel = tg('edit', 'Edit');
 
-  const totalRate = item.rate?.min_rate?.rate;
+  const selectedRoom = item.extended_data?.rooms?.find(
+    (roomA) => roomA.code == item.extended_data?.selected_room_code,
+  );
+  const totalRate = selectedRoom?.rates.min_rate.rate;
+
+  const slug = useCategoryType('hotels')?.slug;
 
   const removeAllRooms = () => {
     const roomToRemove = {
@@ -67,7 +73,7 @@ const HotelItineraryFooter = ({
 
     removeAllRooms();
     router.push(
-      `/detail/hotels/${item.extended_data?.id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}&rooms=${rooms}`,
+      `/detail/${slug}/${item.extended_data?.id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}&rooms=${rooms}`,
     );
   };
 
@@ -75,9 +81,10 @@ const HotelItineraryFooter = ({
     <section className="flex flex-col gap-3">
       {totalRate && (
         <BreakdownSummary
-          rate={totalRate}
+          rate={selectedRoom.rates}
           nights={item.nights}
           guests={item.guests}
+          showTotal={true}
         />
       )}
       <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">

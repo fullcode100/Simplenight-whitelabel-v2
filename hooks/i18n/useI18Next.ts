@@ -10,6 +10,8 @@ import thingsEn from 'translations/en/things.json';
 import thingsEs from 'translations/es/things.json';
 import flightsEn from 'translations/en/flights.json';
 import flightsEs from 'translations/es/flights.json';
+import parkingEs from 'translations/es/parking.json';
+import parkingEn from 'translations/en/parking.json';
 
 const locizeOptions = {
   projectId: process.env.NEXT_PUBLIC_LOCIZE_PROJECT_ID as unknown as string,
@@ -18,7 +20,6 @@ const locizeOptions = {
 };
 
 const withLocize = () => {
-  console.log('withLocize');
   i18next
     .use(Backend)
     .use(initReactI18next)
@@ -64,12 +65,14 @@ export const initializeI18Next = () => {
         hotels: hotelsEn,
         things: thingsEn,
         flights: flightsEn,
+        parking: parkingEn,
       },
       es: {
         global: globalEs,
         hotels: hotelsEs,
         things: thingsEs,
         flights: flightsEs,
+        parking: parkingEs,
       },
     },
   });

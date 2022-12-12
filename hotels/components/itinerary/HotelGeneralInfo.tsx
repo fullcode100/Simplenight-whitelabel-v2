@@ -1,5 +1,7 @@
+import { InstructionModalItem } from 'hotels/types/response/SearchResponse';
 import { HotelCart } from 'types/cart/CartType';
 import CheckinCheckoutInfo from '../CheckinCheckoutInfo/CheckinCheckoutInfo';
+import InstructionsModal from '../Instructions/InstructionsModal';
 import LocationInfo from '../LocationInfo/LocationInfo';
 
 interface HotelGeneralInfoProps {
@@ -11,16 +13,16 @@ const HotelGeneralInfo = ({ item }: HotelGeneralInfoProps) => {
   const checkoutDate = item?.end_date;
   const checkinTime = item?.details?.checkin_time;
   const checkoutTime = item?.details?.checkout_time;
-
   return (
     <section className="flex flex-col gap-2 py-4 px-4">
+      <LocationInfo address={item?.details?.address} />
       <CheckinCheckoutInfo
         checkinDate={checkinDate}
         checkoutDate={checkoutDate}
         checkinTime={checkinTime}
         checkoutTime={checkoutTime}
       />
-      <LocationInfo address={item?.details?.address} />
+      <InstructionsModal item={item?.details as InstructionModalItem} />
     </section>
   );
 };

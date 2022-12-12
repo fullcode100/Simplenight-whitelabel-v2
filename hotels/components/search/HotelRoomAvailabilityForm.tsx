@@ -145,7 +145,7 @@ const HotelRoomAvailabilityForm = ({
           setRooms={setRoomsData}
         />
         <section className="mt-4 lg:mt-0 lg:w-full">
-          <p className="text-sm font-medium text-dark-800">
+          <p className="text-sm font-semibold text-dark-800">
             {guestsAndRoomsLabel}
           </p>
           <button
@@ -169,49 +169,45 @@ const HotelRoomAvailabilityForm = ({
           </button>
         </section>
 
-        <DatePicker
-          showDatePicker={showDatePicker}
-          onClose={() => setShowDatePicker(false)}
-          startDateLabel={checkInText}
-          endDateLabel={checkOutText}
-          initialStartDate={startDate}
-          initialEndDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-          openOnStart={clickOnStart ? true : false}
-        />
-        <section className="flex gap-4 mt-2 lg:mt-0 lg:w-full">
+        <section className="relative flex gap-4 mt-2 lg:mt-0 lg:w-full">
           <IconInput
             label={checkInText}
             name="Check-in"
             placeholder={checkInText}
             className="mt-4 lg:mt-0"
             orientation="left"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
             onChange={(event) => handleStartDateChange(event.target.value)}
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
             }}
-            disabled
           />
-        </section>
-        <section className="flex gap-4 mt-2 lg:mt-0 lg:w-full">
           <IconInput
             label={checkOutText}
             name="Check-out"
             placeholder={checkOutText}
             orientation="left"
             className="mt-4 lg:mt-0"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
             onChange={(event) => handleEndDateChange(event.target.value)}
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
             }}
-            disabled
+          />
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={checkInText}
+            endDateLabel={checkOutText}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
           />
         </section>
       </section>

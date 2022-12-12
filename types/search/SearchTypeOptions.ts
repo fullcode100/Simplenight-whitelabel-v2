@@ -2,7 +2,7 @@ import { ClientDetailer } from 'core/client/ClientDetailer';
 import { ClientSearcher } from 'core/client/ClientSearcher';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import { ServerSearcher } from 'core/server/ServerSearcher';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { CategoryStoreActions } from 'types/redux/categories/CategoryStoreActions';
 import { SearchRequest } from './SearchRequest';
 
@@ -30,8 +30,11 @@ export interface CategoryOption {
   itineraryDisplay?: ReactElement;
   breakdownDisplay?: ReactElement;
   checkoutDisplay?: ReactElement;
+  checkoutItemDisplay?: ReactElement;
   confirmationDisplay?: ReactElement;
   cancelledDisplay?: ReactElement;
+  homeDisplay?: ReactElement;
+  confirmationBreakdownDisplay?: ReactElement;
 }
 
 export interface CategoryStore {
@@ -49,11 +52,14 @@ export interface CategoryCore<SearchResponse> {
   ServerSearcher: ServerSearcher<SearchResponse> | null;
   ClientDetailer: ClientDetailer<any, SearchResponse, any> | null;
   ServerDetailer: ServerDetailer<any> | null;
+  ClientAvailability?: any | null;
+  ServerAvailability?: any | null;
 }
 
 export interface CategoryUrls {
   search: CategoryUrl;
   detail: CategoryUrl;
+  availability?: CategoryUrl;
 }
 
 export interface CategoryUrl {

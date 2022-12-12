@@ -1,25 +1,19 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-    './layouts/**/*.{js,ts,jsx,tsx}',
-    './hotels/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.tsx',
+    './components/**/*.tsx',
+    './layouts/**/*.tsx',
+    './hotels/**/*.tsx',
+    './parking/**/*.tsx',
+    './showsAndEvents/**/*.tsx',
     './flights/**/*.{js,ts,jsx,tsx}',
   ],
-
-  purge: {
-    options: {
-      safelist: [
-        { pattern: /primary/, variants: ['hover', 'focus', 'active'] },
-        { pattern: /dark/, variants: ['hover', 'focus', 'active'] },
-        { pattern: /error/, variants: ['hover', 'focus', 'active'] },
-        { pattern: /border/, variants: ['hover', 'focus', 'active'] },
-        'bg-transparent',
-      ],
-    },
-  },
   theme: {
     extend: {
+      rotate: {
+        30: '30deg',
+      },
       borderRadius: {
         4: '4px',
         6: '6px',
@@ -40,10 +34,7 @@ module.exports = {
           300: 'var(--primary-color-300)',
           200: 'var(--primary-color-200)',
           100: 'var(--primary-color-100)',
-          50: 'var(--primary-color-50)',
-          25: 'var(--primary-color-25)',
         },
-        'primary-dark': 'var(--primary-color-dark)',
         dark: {
           1000: '#454545',
           900: '#595959',
@@ -77,6 +68,7 @@ module.exports = {
         warning: {
           600: '#DE9812',
           300: '#FFC85C',
+          200: '#FFE5B2',
           100: '#FFF4DE',
         },
         'primary-light': 'var(--primary-light-color)',
@@ -90,7 +82,6 @@ module.exports = {
         '4.5xl': '2.5rem',
       },
       fontFamily: {
-        manrope: ['Manrope', 'sans-serif'],
         lato: ['Lato', 'sans-serif'],
       },
       flex: {
@@ -98,6 +89,7 @@ module.exports = {
       },
       boxShadow: {
         container: '0 0px 12px rgba(0, 0, 0, 0.08)',
+        full: '0 0 0 10000px rgba(0, 0, 0, 0.85)',
       },
     },
     fontFamily: {

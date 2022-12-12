@@ -2,23 +2,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 // Libraries
 import React, { useEffect, useRef, useState } from 'react';
+import Script from 'next/script';
+import valid from 'card-validator';
+
 // Credentials
 import {
   SQUARE_SANDBOX_APP_ID,
   SQUARE_SANDBOX_LOCATION_ID,
 } from 'config/paymentCredentials';
-// Types
-import { Amount } from 'types/global/Amount';
-import { PaymentRequest } from 'components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
 // Components
 import Button from 'components/global/Button/Button';
 // Layout Components
 import CheckoutMain from 'components/checkout/CheckoutMain/CheckoutMain';
 import CheckoutForm from 'components/checkout/CheckoutForm/CheckoutForm';
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
-// Form Components
-import InputWrapper from 'components/checkout/Inputs/InputWrapper';
-import SquarePaymentForm from 'components/global/PaymentForm/SquarePaymentForm';
+
 // Footer Components
 import Summary from 'components/checkout/Summary/Summary';
 import Terms from 'components/checkout/Terms/Terms';
@@ -32,18 +30,22 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { clearCart } from 'store/actions/cartActions';
-import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getCurrency } from 'store/selectors/core';
-
-const test: Amount = {
-  formatted: '$200.00',
-  amount: 200,
-  currency: 'USD',
-};
+import useCookies from 'hooks/localStorage/useCookies';
+import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
+import HelpSection from 'components/global/HelpSection/HelpSection';
+import { Card } from 'types/global/Card';
+import PaymentForm from 'components/global/PaymentForm/PaymentForm';
+import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
+import InputWrapper from 'components/checkout/Inputs/InputWrapper';
+import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
+import { BillingAddress } from '../../components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
+
+const GOOGLE = 'google';
 
 const Payment = () => {
   const router = useRouter();
@@ -54,24 +56,21 @@ const Payment = () => {
     'iHaveReviewed',
     'I have reviewed and agree to the ',
   );
-  const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
+
   const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
   const fullAmountLabel = t('fullAmount', 'Full Amount');
   const checkoutLabel = t('checkoutTitle', 'Check Out');
   const backLabel = t('back', 'Back');
+  const loadingLabel = t('loading', 'Loading');
 
-  const [appId, setAppId] = useState(SQUARE_SANDBOX_APP_ID);
-  const [locationId, setLocationId] = useState(SQUARE_SANDBOX_LOCATION_ID);
-  const payClickRef = useRef<HTMLButtonElement>(null);
-
-  const [token, setToken] = useState<string | null>(null);
-  const [country, setCountry] = useState<string | null>(null);
-  const [nameOnCard, setNameOnCard] = useState('');
   const [terms, setTerms] = useState(false);
+  const [errorTerms, setErrorTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
+  const [prodExpedia, setProdExpedia] = useState(false);
 
   const currency = getCurrency();
 
@@ -81,46 +80,131 @@ const Payment = () => {
     dispatch,
   };
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
+  const { getCookie } = useCookies();
 
-  const triggerPaymentFormTokenGeneration = () => payClickRef.current?.click();
+  const triggerGTagEvent = (bookingId: string, referralItemId: string) => {
+    const referralItem = cart?.items.find(
+      (item) => item.inventory_id === referralItemId,
+    );
 
-  const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
-    const { paymentMethodData } = paymentRequest;
-    const { tokenizationData } = paymentMethodData;
-    const { token: newToken } = tokenizationData;
+    const totalAmount = referralItem?.last_validated_rate.total_amount;
+    const value = totalAmount?.amount;
+    const currency = totalAmount?.currency;
 
-    setToken(newToken);
+    const startDate = referralItem?.extended_data?.start_date;
+    const endDate = referralItem?.extended_data?.end_date;
+
+    return (
+      <Script id="GTM-2938402">
+        {`
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-711765415/leb4CJfbwvwBEKfbstMC',
+          ${value},
+          ${currency},
+          transaction_id: ${bookingId},
+          items: [
+            {
+              id: ${referralItemId},
+              start_date: ${startDate},
+              end_date: ${endDate},
+            },
+          ],
+        });
+      `}
+      </Script>
+    );
   };
 
-  const handlePaymentToken = (newToken: string) => {
-    if (expediaTerms && !acceptExpediaTerms) {
-      return setErrorExpediaTerms(true);
+  const triggerEventConversion = (bookingId?: string) => {
+    const referral = getCookie('referral')?.split('=');
+
+    if (!referral || !bookingId) return;
+
+    const referralCompany = referral[0];
+    if (referralCompany === GOOGLE) {
+      const referralItemId = referral[1];
+      triggerGTagEvent(bookingId, referralItemId);
     }
-    setToken(newToken);
-    handleBooking();
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+  const validateCard = () => {
+    const validName = valid.cardholderName(card.name).isValid;
+    const validNumber = valid.number(card.number).isValid;
+    const validExpiration = valid.expirationDate(card.expiration).isValid;
+    const validCVV = valid.cvv(card.cvv).isValid;
+    setCardErrors({
+      name: !validName,
+      number: !validNumber,
+      expiration: !validExpiration,
+      cvv: !validCVV,
+    });
+    const cardIsValid = validName && validNumber && validExpiration && validCVV;
+    return cardIsValid;
   };
 
   const handleBooking = () => {
-    if (!token) {
-      triggerPaymentFormTokenGeneration();
+    const cardIsValid = validateCard();
+    if (!cardIsValid) {
+      return scrollToTop();
+    }
+    if (expediaTerms && !acceptExpediaTerms) {
+      return setErrorExpediaTerms(true);
+    }
+    if (!terms) {
+      return setErrorTerms(true);
+    }
+    if (loading) return;
+    setLoading(true);
+
+    bookItem();
+  };
+  const bookItem = async () => {
+    const country = cart?.customer.country;
+
+    if (!country || !terms || !cart) {
       return;
     }
-    if (!token || !country || !terms || !cart) return;
 
-    const paymentParameters = {
-      cartId: cart.cart_id,
-      paymentToken: token,
-      countryCode: country,
+    const { address1, address2, city, state, postalCode, countryCode } =
+      billingAddress;
+    const bookingParameters = {
+      cart_id: cart?.cart_id,
+      payment_request: {
+        payment_method: 'CARD',
+        name_on_card: card.name,
+        credit_card_number: card.number,
+        cvv: card.cvv,
+        expiry_date: card.expiration,
+        billing_address: {
+          address1,
+          address2,
+          city: city,
+          province: state,
+          postal_code: postalCode,
+          country: countryCode,
+        },
+      },
+      ...(prodExpedia && { expedia_prod: true }),
     };
 
-    createBooking(paymentParameters, i18next)
-      .then((response) => {
-        const bookingId = response?.booking.booking_id;
-        dispatch(clearCart());
-        localStorage.removeItem('cart');
-        router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
-      })
-      .catch((error) => console.error(error));
+    try {
+      const data = await createBooking(bookingParameters, i18next);
+      const bookingId = data?.booking.booking_id;
+      triggerEventConversion(bookingId);
+      dispatch(clearCart());
+      localStorage.removeItem('cart');
+      setLoading(false);
+      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
   };
 
   const redirectToItinerary = () => {
@@ -143,13 +227,48 @@ const Payment = () => {
       });
   }, [reload, currency]);
 
+  useEffect(() => {
+    if (localStorage.getItem('prod') == 'expedia') {
+      setProdExpedia(true);
+    }
+  }, []);
+
   const itemsNumber = cart?.items?.length;
   const expediaTerms = cart?.items.find(
     (item) =>
       item.extended_data?.terms_and_conditions &&
       item.extended_data?.terms_and_conditions?.length > 0,
   );
+  const [card, setCard] = useState<Card>({
+    number: '',
+    name: '',
+    expiration: '',
+    cvv: '',
+  });
+  const [cardErrors, setCardErrors] = useState({
+    number: false,
+    name: false,
+    expiration: false,
+    cvv: false,
+  });
 
+  const [billingAddress, setBillingAddress] = useState<BillingAddress>({
+    address1: '',
+    address2: '',
+    countryCode: cart?.customer.country || '',
+    state: '',
+    city: '',
+    postalCode: '',
+  });
+
+  useEffect(() => {
+    if (cart) {
+      setBillingAddress({
+        ...billingAddress,
+        countryCode: cart?.customer.country,
+      });
+    }
+  }, [cart]);
   return (
     <>
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
@@ -158,33 +277,32 @@ const Payment = () => {
           <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
             <CheckoutMain>
               <CheckoutForm title={'Payment Information'}>
-                <InputWrapper label="Country" labelKey="country">
-                  <CountrySelect value={country} onChange={setCountry} />
-                </InputWrapper>
-                {cart && (
-                  <>
-                    <SquarePaymentForm
-                      applicationId={appId}
-                      locationId={locationId}
-                      onPaymentToken={handlePaymentToken}
-                      amount={cart.total_amount.amount}
-                      currencyCode={cart.total_amount.currency}
-                      ref={payClickRef}
-                    />
+                <PaymentForm
+                  card={card}
+                  setCard={(value: Card) => setCard(value)}
+                  cardErrors={cardErrors}
+                />
 
-                    <InputWrapper
-                      label={amountForThisCardLabel}
-                      labelKey={'amountForThisCard'}
-                      subLabel={fullAmountLabel}
-                      subLabelKey={'fullAmount'}
-                      value={cart?.total_amount.formatted}
-                      disabled={true}
-                    />
-                  </>
-                )}
+                <InputWrapper
+                  label={amountForThisCardLabel}
+                  labelKey={'amountForThisCard'}
+                  subLabel={fullAmountLabel}
+                  subLabelKey={'fullAmount'}
+                  value={cart?.total_amount.formatted}
+                  disabled={true}
+                />
+                <BillingAddressForm
+                  billingAddress={billingAddress}
+                  setBillingAddress={setBillingAddress}
+                />
               </CheckoutForm>
               <section className="px-5 pb-6">
-                <Terms checkValue={terms} checkboxMethod={setTerms} />
+                <Terms
+                  checkValue={terms}
+                  checkboxMethod={setTerms}
+                  errorTerms={errorTerms}
+                  setErrorTerms={setErrorTerms}
+                />
                 {expediaTerms && (
                   <>
                     <section className="flex items-center w-full gap-3 mt-2">
@@ -198,9 +316,11 @@ const Payment = () => {
                         }
                       />
                       <label htmlFor="expedia">
-                        <span>{iHaveReviewedLabel}</span>
+                        <span className="text-base leading-[22px] text-dark-1000 font-normal">
+                          {iHaveReviewedLabel}
+                        </span>
                         <ExternalLink
-                          className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight"
+                          className="text-primary-1000 hover:text-primary-1000 font-normal text-base leading-[22px]"
                           href={
                             expediaTerms.extended_data?.terms_and_conditions!
                           }
@@ -216,6 +336,9 @@ const Payment = () => {
                     )}
                   </>
                 )}
+              </section>
+              <section className="px-5">
+                <PaymentCart items={cart?.items} customer={cart?.customer} />
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
@@ -233,7 +356,8 @@ const Payment = () => {
               </section>
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value={checkoutLabel}
+                  value={loading ? loadingLabel : checkoutLabel}
+                  disabled={loading}
                   size={'full'}
                   className="text-[18px]"
                   onClick={handleBooking}
@@ -241,18 +365,9 @@ const Payment = () => {
               </section>
             </CheckoutFooter>
           </section>
-          {cart && (
-            <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
-              <h2 className="px-5 py-6 text-lg font-semibold leading-6 bg-white text-dark-800 lg:bg-dark-100">
-                {priceBreakdownLabel}
-              </h2>
-              <BreakdownItemList
-                cart={cart}
-                reload={reload}
-                setReload={setReload}
-              />
-            </section>
-          )}
+          <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
+            <HelpSection inItinerary={true} />
+          </section>
         </section>
       ) : (
         <Loader />

@@ -22,7 +22,7 @@ const Select = ({ options, label = '', onChange }: SelectProps) => {
     <Listbox value={selected} onChange={handleChange}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-sm font-medium text-gray-700">
+          <Listbox.Label className="block text-sm font-semibold text-gray-700">
             {label}
           </Listbox.Label>
           <div className="mt-1 relative">

@@ -1,84 +1,92 @@
-import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { useEffect, useRef, ChangeEvent } from 'react';
+import classnames from 'classnames';
 import LabelSlider from './components/LabelSlider';
 
 interface RangeSliderProps {
-  initialMin: number;
-  initialMax: number;
   min: number;
   max: number;
   step: number;
   minDifference: number;
-  type: 'price' | 'star';
-  setMinState: (value: string) => void;
+  marks?: boolean;
+  type: 'price' | 'star' | 'number' | 'distance';
+  setMinState?: (value: string) => void;
   setMaxState: (value: string) => void;
+  minValue: number;
+  maxValue: number;
+  setMinValue: React.Dispatch<React.SetStateAction<number>>;
+  setMaxValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const RangeSlider = ({
-  initialMin,
-  initialMax,
   min,
   max,
+  minValue,
+  maxValue,
   step,
   minDifference,
+  marks = false,
   type,
   setMinState,
   setMaxState,
+  setMinValue,
+  setMaxValue,
 }: RangeSliderProps) => {
   const progressRef: any = useRef(null);
-  const [minValue, setMinValue] = useState(initialMin);
-  const [maxValue, setMaxValue] = useState(initialMax);
-
-  const setMin = (value: number) => {
-    setMinValue(value);
-  };
-
-  const setMax = (value: number) => {
-    setMaxValue(value);
-  };
 
   const handleMin = (e: ChangeEvent<any>) => {
-    if (maxValue - minValue >= minDifference && maxValue <= max) {
-      if (parseInt(e.target.value) < maxValue) {
-        setMin(parseInt(e.target.value));
+    if (maxValue - minValue >= minDifference && minValue >= min) {
+      if (parseInt(e.target.value) <= maxValue) {
+        setMinValue(parseInt(e.target.value));
       }
     } else {
       if (parseInt(e.target.value) < minValue) {
-        setMin(parseInt(e.target.value));
+        setMinValue(parseInt(e.target.value));
       }
     }
   };
 
   const handleMax = (e: ChangeEvent<any>) => {
     if (maxValue - minValue >= minDifference && maxValue <= max) {
-      if (parseInt(e.target.value) > minValue) {
-        setMax(parseInt(e.target.value));
+      if (parseInt(e.target.value) >= minValue) {
+        setMaxValue(parseInt(e.target.value));
       }
     } else {
       if (parseInt(e.target.value) > maxValue) {
-        setMax(parseInt(e.target.value));
+        setMaxValue(parseInt(e.target.value));
       }
     }
   };
 
-  const StarNotches = () => {
+  const Marks = () => {
+    const isActive = (val: number) => {
+      if (!setMinState) return maxValue < val;
+
+      return minValue > val || maxValue < val;
+    };
     return (
       <>
-        <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px]"></div>
         <div
-          className={`h-2 w-2 rounded-full absolute -top-[3px] left-1/4 ${
-            minValue > 2 ? 'bg-dark-200' : 'bg-primary-600'
+          className={`h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px] ${
+            setMinState !== undefined ? 'bg-dark-200' : 'bg-primary-600'
           }`}
         ></div>
-        <div
-          className={`h-2 w-2 rounded-full absolute -top-[3px] left-1/2 ${
-            minValue > 3 || maxValue < 3 ? 'bg-dark-200' : 'bg-primary-600'
-          }`}
-        ></div>
-        <div
-          className={`h-2 w-2 rounded-full absolute -top-[3px] left-3/4 ${
-            maxValue < 4 ? 'bg-dark-200' : 'bg-primary-600'
-          }`}
-        ></div>
+        {[...Array(max - 2)].map((e, i) => {
+          const marksCount = max - 1;
+          const itemNumber = i + 1;
+          const width = 100;
+          return (
+            <div
+              key={i}
+              style={{
+                left: `${(width / marksCount) * itemNumber}%`,
+                marginLeft: '-4px',
+              }}
+              className={`h-2 w-2 rounded-full absolute -top-[3px] ${
+                isActive(i + 2) ? 'bg-dark-200' : 'bg-primary-600'
+              }`}
+            ></div>
+          );
+        })}
         <div className="h-2 w-2 bg-dark-200 rounded-full absolute -top-[3px] right-0"></div>
       </>
     );
@@ -99,23 +107,28 @@ const RangeSlider = ({
             className="absolute h-0.5 bg-primary-1000 rounded "
             ref={progressRef}
           ></div>
-          {type == 'star' && <StarNotches />}
+          {marks && <Marks />}
         </div>
 
         <div className="relative">
-          <input
-            onChange={handleMin}
-            onMouseUp={() => setMinState(minValue.toString())}
-            onTouchEnd={() => setMinState(minValue.toString())}
-            type="range"
-            min={min}
-            step={step}
-            max={max}
-            value={minValue}
-            id="minValue"
-            name="minValue"
-            className="absolute w-full -top-1 h-1 bg-transparent appearance-none pointer-events-none"
-          />
+          {setMinState && (
+            <input
+              onChange={handleMin}
+              onMouseUp={() => setMinState(minValue.toString())}
+              onTouchEnd={() => setMinState(minValue.toString())}
+              type="range"
+              min={min}
+              step={step}
+              max={max}
+              value={minValue}
+              id="minValue"
+              name="minValue"
+              className={classnames(
+                'absolute w-full h-1 bg-transparent appearance-none pointer-events-none -top-1',
+                { ['z-10']: minValue === max },
+              )}
+            />
+          )}
           <label htmlFor="minValue" className="absolute top-6">
             <LabelSlider value={minValue} type={type} />
           </label>
@@ -131,9 +144,9 @@ const RangeSlider = ({
             value={maxValue}
             id="maxValue"
             name="maxValue"
-            className="absolute w-full -top-1 h-1 bg-transparent appearance-none pointer-events-none"
+            className="absolute w-full h-1 bg-transparent appearance-none pointer-events-none -top-1"
           />
-          <label htmlFor="maxValue" className="absolute top-6 right-0">
+          <label htmlFor="maxValue" className="absolute right-0 top-6">
             <LabelSlider
               value={maxValue}
               type={type}

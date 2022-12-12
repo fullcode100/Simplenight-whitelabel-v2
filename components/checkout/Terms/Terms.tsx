@@ -1,18 +1,23 @@
-import React, { BaseSyntheticEvent } from 'react';
+import React, { BaseSyntheticEvent, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TermsProps = {
   checkValue: boolean;
   checkboxMethod: (check: boolean) => void;
   disabled?: boolean;
+  errorTerms: boolean;
+  setErrorTerms: (error: boolean) => void;
 };
 
 const Terms = ({
   checkValue = false,
   disabled = false,
   checkboxMethod,
+  errorTerms,
+  setErrorTerms,
 }: TermsProps) => {
   const [t, i18next] = useTranslation('global');
+  const [width, setWidth] = useState<number>(0);
   const iHaveReviewedLabel = t(
     'iHaveReviewed',
     'I have reviewed and agree to the ',
@@ -32,9 +37,26 @@ const Terms = ({
     'The payment will be processed in the US.',
   );
 
+  const handleWindowResize = () => setWidth(window.innerWidth);
+
+  useEffect(() => {
+    handleWindowResize();
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
+  const errorTermsLabel = t(
+    'errorTermsLabel',
+    'Please accept terms and conditions',
+  );
+
   const handleCheckbox = (e: BaseSyntheticEvent) => {
     checkboxMethod(e.target.checked);
+    setErrorTerms(false);
   };
+
   return (
     <section className="flex w-full gap-3">
       <input
@@ -56,6 +78,7 @@ const Terms = ({
         <a
           className="underline text-primary-1000 hover:underline"
           href="/terms"
+          target={width < 480 ? '_self' : '_blank'}
         >
           {termsLabel}
         </a>
@@ -69,6 +92,7 @@ const Terms = ({
         {ofSimplenightLabel}&nbsp;
         {thePaymentWill}
       </label>
+      {errorTerms && <p className="pl-8 text-red-500">{errorTermsLabel}</p>}
     </section>
   );
 };

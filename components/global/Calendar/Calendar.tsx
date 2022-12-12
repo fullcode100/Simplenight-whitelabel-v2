@@ -7,12 +7,9 @@ import isBetween from 'dayjs/plugin/isBetween';
 
 import {
   createCalendar,
-  DayObject,
   MonthObject,
 } from '../../../helpers/calendar/calendar';
-import WeekDays from './components/Weekdays';
 import FullScreenModal from '../NewModal/FullScreenModal';
-import Day from './components/Day';
 import RangeDate from './components/RangeDate';
 import {
   formatAsRangeDate,
@@ -21,6 +18,9 @@ import {
 } from 'helpers/dajjsUtils';
 import { useTranslation } from 'react-i18next';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
+import DesktopDatepickerDropdown from './components/DesktopDatepickerDropdown';
+import DayList from './components/DayList';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -37,6 +37,11 @@ interface DatePickerProps {
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
   openOnStart: boolean;
+  maxRange?: number;
+  minRange?: number;
+  setIsEditing?: (value: boolean) => void;
+  restricted?: boolean;
+  isRange?: boolean;
 }
 
 const DatePicker = ({
@@ -49,6 +54,11 @@ const DatePicker = ({
   onStartDateChange,
   onEndDateChange,
   openOnStart,
+  maxRange = 14,
+  minRange = 1,
+  setIsEditing,
+  restricted = true,
+  isRange = true,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
@@ -62,6 +72,9 @@ const DatePicker = ({
     dayjs().add(1, 'day').format('YYYY-MM-DD'),
   );
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
+  const isStartTurnValue = !isRange || !isStartDateTurn;
+
+  const { isDesktop } = useMediaViewport();
 
   useEffect(() => {
     setCalendar(createCalendar(initialYear, initialMonth));
@@ -74,24 +87,43 @@ const DatePicker = ({
   }, [openOnStart]);
 
   const setDate = (date: string) => {
-    if (isStartDateTurn) {
-      if (
-        (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
-        dayjs(date).isBefore(dayjs(endDate).subtract(2, 'week'))
-      ) {
+    setIsEditing?.(true);
+    if (!isRange || isStartDateTurn) {
+      const isMaxRange = isRange
+        ? (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
+          dayjs(date).isBefore(dayjs(endDate).subtract(maxRange, 'day')) ||
+          dayjs(date).isBetween(
+            dayjs(startDate),
+            dayjs(startDate).add(minRange, 'day'),
+          )
+        : false;
+      if (isMaxRange) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(1, 'day').format('YYYY-MM-DD'));
-        setIsStartDateTurn(!isStartDateTurn);
+        setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
+        setIsStartDateTurn(isStartTurnValue);
         return;
       }
       setStartDate(date);
-      setIsStartDateTurn(!isStartDateTurn);
+      setIsStartDateTurn(isStartTurnValue);
       return;
     }
     if (!isStartDateTurn) {
-      if (dayjs(date).isSameOrBefore(dayjs(startDate))) {
+      if (dayjs(date).isBefore(dayjs(startDate))) {
         setStartDate(date);
-        setEndDate(dayjs(date).add(1, 'day').format('YYYY-MM-DD'));
+        setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
+        return;
+      }
+      if (dayjs(date).isSame(dayjs(startDate))) {
+        setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
+        return;
+      }
+      if (
+        dayjs(date).isBetween(
+          dayjs(startDate),
+          dayjs(startDate).add(minRange, 'day'),
+        )
+      ) {
+        setEndDate(dayjs(startDate).add(minRange, 'day').format('YYYY-MM-DD'));
         return;
       }
       setEndDate(date);
@@ -103,60 +135,99 @@ const DatePicker = ({
   const setFullDate = () => {
     onStartDateChange(startDate);
     onEndDateChange(endDate);
+    if (setIsEditing) {
+      setIsEditing(true);
+    }
     onClose();
   };
 
-  return (
-    <FullScreenModal
-      open={showDatePicker}
-      closeModal={onClose}
-      title={datesText}
-      primaryButtonText={applyText}
-      primaryButtonAction={setFullDate}
-      hasMultipleActions={false}
-    >
-      <RangeDate
+  const [calendarFirstMonth, setCalendarFirstMonth] = useState(0);
+  const [calendarSecondMonth, setCalendarSecondMonth] = useState(1);
+
+  const DesktopDatePicker = () => {
+    return (
+      <DesktopDatepickerDropdown
+        open={showDatePicker}
+        closeModal={onClose}
+        rangeDate={
+          <RangeDate
+            isStartDateTurn={isStartTurnValue}
+            onDateTurn={() => setIsStartDateTurn(isStartTurnValue)}
+            startDateLabel={startDateLabel}
+            endDateLabel={endDateLabel}
+            startDate={formatAsRangeDate(startDate)}
+            endDate={formatAsRangeDate(endDate)}
+            isRange={isRange}
+          />
+        }
+        calendar={calendar}
+        setDate={setDate}
+        startDate={startDate}
+        endDate={endDate}
         isStartDateTurn={isStartDateTurn}
-        onDateTurn={() => setIsStartDateTurn(!isStartDateTurn)}
-        startDateLabel={startDateLabel}
-        endDateLabel={endDateLabel}
-        startDate={formatAsRangeDate(startDate)}
-        endDate={formatAsRangeDate(endDate)}
+        onStartDateChange={onStartDateChange}
+        onEndDateChange={onEndDateChange}
+        calendarFirstMonth={calendarFirstMonth}
+        setCalendarFirstMonth={setCalendarFirstMonth}
+        calendarSecondMonth={calendarSecondMonth}
+        setCalendarSecondMonth={setCalendarSecondMonth}
+        maxRange={maxRange}
+        restricted={restricted}
+        isRange={isRange}
       />
-      <section className="grid grid-cols-7 overflow-y-scroll text-center text-base items-center px-5">
-        {calendar?.map((month: MonthObject, index) => {
-          return (
-            <Fragment key={index}>
-              <p className="col-span-7 font-semibold text-dark-1000 text-base leading-base mt-3">{`${fromLowerCaseToCapitilize(
-                month.monthName,
-              )} ${month.yearNumber}`}</p>
-              <WeekDays />
-              {month.days.map((day: DayObject, index) => (
-                <Day
-                  day={day}
-                  key={index + day.dayOfWeek}
-                  setDate={setDate}
-                  isStartDate={dayjs(day.date).isSame(dayjs(startDate))}
-                  isEndDate={dayjs(day.date).isSame(dayjs(endDate))}
-                  isRangeDate={dayjs(day.date).isBetween(
-                    dayjs(startDate),
-                    dayjs(endDate),
-                  )}
-                  isDisabled={
-                    dayjs(day.date).isSameOrBefore(
-                      dayjs().subtract(1, 'day'),
-                    ) ||
-                    dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
-                    (!isStartDateTurn &&
-                      dayjs(day.date).isAfter(dayjs(startDate).add(2, 'week')))
-                  }
-                />
-              ))}
-            </Fragment>
-          );
-        })}
-      </section>
-    </FullScreenModal>
+    );
+  };
+
+  return (
+    <>
+      {isDesktop ? (
+        <section>
+          <DesktopDatePicker />
+        </section>
+      ) : (
+        <FullScreenModal
+          open={showDatePicker}
+          closeModal={onClose}
+          title={datesText}
+          primaryButtonText={applyText}
+          primaryButtonAction={setFullDate}
+          hasMultipleActions={false}
+          className={`lg:rounded-4 lg:overflow-hidden
+      lg:w-[842px] lg:h-[660px]  lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2
+      lg:shadow-full`}
+        >
+          <RangeDate
+            isStartDateTurn={isStartTurnValue}
+            onDateTurn={() => setIsStartDateTurn(isStartTurnValue)}
+            startDateLabel={startDateLabel}
+            endDateLabel={endDateLabel}
+            startDate={formatAsRangeDate(startDate)}
+            endDate={formatAsRangeDate(endDate)}
+            isRange={isRange}
+          />
+          <section className="grid items-center grid-cols-7 px-5 overflow-y-scroll text-base text-center">
+            {calendar?.map((month: MonthObject, index) => {
+              return (
+                <Fragment key={index}>
+                  <p className="col-span-7 mt-3 text-base font-semibold text-dark-1000 leading-base">{`${fromLowerCaseToCapitilize(
+                    month.monthName,
+                  )} ${month.yearNumber}`}</p>
+                  <DayList
+                    month={month}
+                    isRange={isRange}
+                    startDate={startDate}
+                    endDate={endDate}
+                    setDate={setDate}
+                    isStartDateTurn={isStartDateTurn}
+                    maxRange={maxRange}
+                  />
+                </Fragment>
+              );
+            })}
+          </section>
+        </FullScreenModal>
+      )}
+    </>
   );
 };
 

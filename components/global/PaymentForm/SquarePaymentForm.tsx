@@ -1,60 +1,75 @@
 import React, { useEffect, useState, MouseEvent, forwardRef } from 'react';
-import { getIsPaymentLibraryLoaded } from 'store/selectors/core';
 import { CustomWindow } from 'types/global/CustomWindow';
-import Button from '../Button/Button';
 import {
   SQUARE_SANDBOX_APP_ID,
   SQUARE_SANDBOX_LOCATION_ID,
 } from 'config/paymentCredentials';
+import { Customer } from 'types/cart/CartType';
 import classNames from 'classnames';
 
 declare let window: CustomWindow;
 
 interface PaymentFormProps {
-  onPaymentToken?: (token: string) => void;
+  onTokens?: (paymentToken: string, verificationToken: string) => void;
   onError?: (error: any) => void;
   applicationId?: string;
   locationId?: string;
   countryCode?: string;
   currencyCode?: string;
+  customer?: Customer;
   amount?: number;
   withGooglePay?: boolean;
   noPayButton?: boolean;
 }
 
+const defaultCustomer = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  country: '',
+  phone_number: '',
+  phone_prefix: '',
+};
+
 const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
   (
     {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      onPaymentToken = () => {},
+      onTokens = () => {},
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       onError = () => {},
       applicationId = SQUARE_SANDBOX_APP_ID,
       locationId = SQUARE_SANDBOX_LOCATION_ID,
       countryCode = 'US',
       currencyCode = 'USD',
+      customer = defaultCustomer,
       amount = 0,
       withGooglePay = false,
       noPayButton = false,
     }: PaymentFormProps,
     ref,
   ) => {
-    const isPaymentLibraryLoaded = getIsPaymentLibraryLoaded();
-    const [cardLoaded, setCardLoaded] = useState(false);
     const [card, setCard] = useState<any>(null);
+    const [payments, setPayments] = useState<any>(null);
     const [googlePay, setGooglePay] = useState<any>(null);
 
     const initializePaymentForm = async () => {
-      const payments = await window.Square?.payments(applicationId, locationId);
+      const paymentsForm = await window.Square?.payments(
+        applicationId,
+        locationId,
+      );
+      if (withGooglePay) {
+        withGooglePay = false;
+        initializeGooglePay(paymentsForm);
+      }
 
-      if (withGooglePay) initializeGooglePay(payments);
-
-      payments.card().then((newCard: any) => {
+      paymentsForm.card().then((newCard: any) => {
         newCard.attach('#card-container').then(() => {
           setCard(newCard);
-          setCardLoaded(true);
         });
       });
+
+      setPayments(paymentsForm);
     };
 
     const buildPaymentRequest = (payments: any) =>
@@ -86,17 +101,53 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
     };
 
     useEffect(() => {
-      if (!isPaymentLibraryLoaded) return;
-      reloadGooglePay();
+      if (withGooglePay) reloadGooglePay();
     }, [amount, currencyCode, countryCode]);
 
     useEffect(() => {
-      if (!isPaymentLibraryLoaded) return;
       initializePaymentForm();
-    }, [isPaymentLibraryLoaded]);
+    }, []);
+
+    const getVerificationToken = async (paymentToken: any) => {
+      const {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        country,
+        phone_number: phoneNumber,
+      } = customer;
+
+      const verificationDetails = {
+        amount: amount.toString(),
+        billingContact: {
+          addressLines: [],
+          familyName: lastName,
+          givenName: firstName,
+          email,
+          country: country.toUpperCase(),
+          phone: phoneNumber,
+          region: '',
+          city: '',
+        },
+        currencyCode,
+        intent: 'CHARGE',
+      };
+
+      try {
+        const verificationResults = await payments.verifyBuyer(
+          paymentToken,
+          verificationDetails,
+        );
+
+        return verificationResults.token;
+      } catch (e) {
+        console.error(e);
+        onError(e);
+      }
+    };
 
     const handlePayClick = async (
-      event: MouseEvent<HTMLButtonElement>,
+      event: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLDivElement>,
       paymentMethod: any,
     ) => {
       event.preventDefault();
@@ -104,10 +155,12 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
       if (!paymentMethod) return;
 
       try {
-        const { status, token } = await paymentMethod.tokenize();
+        const { status, token: paymentToken } = await paymentMethod.tokenize();
 
         if (status === 'OK') {
-          onPaymentToken(token);
+          const verificationToken = await getVerificationToken(paymentToken);
+
+          onTokens(paymentToken, verificationToken);
         }
       } catch (e) {
         console.error(e);
@@ -121,14 +174,14 @@ const SquarePaymentForm = forwardRef<HTMLButtonElement, PaymentFormProps>(
           <div
             id="google-pay-button"
             className="mb-4"
-            onClick={(event: any) => handlePayClick(event, googlePay)}
+            onClick={(event) => handlePayClick(event, googlePay)}
           ></div>
         )}
         <div id="card-container"></div>
 
         <button
           id="card-button"
-          onClick={(event: any) => handlePayClick(event, card)}
+          onClick={(event) => handlePayClick(event, card)}
           value="Pay"
           ref={ref}
           className={classNames({

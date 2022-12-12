@@ -5,6 +5,7 @@ interface IRadioGroup {
   children?: React.ReactNode[];
   value?: string;
   onChange?: (value: any) => void;
+  gap?: string;
 }
 interface IRadio {
   value?: string;
@@ -37,12 +38,14 @@ export const Radio = ({
   );
 };
 
-export const RadioGroup = ({ children, onChange, value }: IRadioGroup) => {
+export const RadioGroup = ({ children, onChange, value, gap }: IRadioGroup) => {
   const handleChange = (e: any) => {
     if (onChange) onChange(e.target.value);
   };
 
   const newChildren = children?.map?.((element: any) => {
+    console.log(element?.props?.value);
+
     return {
       ...element,
       props: {
@@ -53,5 +56,7 @@ export const RadioGroup = ({ children, onChange, value }: IRadioGroup) => {
     };
   });
 
-  return <section className="grid gap-4">{newChildren}</section>;
+  return (
+    <section className={`grid ${gap ? gap : 'gap-4'}`}>{newChildren}</section>
+  );
 };

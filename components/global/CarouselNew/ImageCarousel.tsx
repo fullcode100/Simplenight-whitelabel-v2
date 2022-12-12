@@ -92,6 +92,7 @@ const ImageCarousel = ({
               src={image}
               alt=""
               onClick={() => setShowImageZoomModal(true)}
+              objectFit="cover"
             />
           );
         })}

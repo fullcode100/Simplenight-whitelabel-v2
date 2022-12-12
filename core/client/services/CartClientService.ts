@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { i18n } from 'i18next';
-import { Item, UpdateCartRequest } from 'types/cart/CartType';
+import { CartItemRequest, Item, UpdateCartRequest } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
 import {
   createCart,
@@ -12,13 +12,20 @@ import { ClientCartRemover } from '../ClientCartItemRemover';
 import { ClientCartUpdate } from '../ClientCartUpdate';
 import { ClientCartSchema } from '../ClientCartSchema';
 import { getStoreCartId } from 'store/selectors/cart';
+import dayjs from 'dayjs';
+import { ClientCartItemUpdater } from '../ClientCartItemUpdater';
+import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';
 
 const cartOption = {
   name: 'cart',
   value: 'cart',
 };
 
-export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
+export const addToCart = async (
+  itemToAdd: CartItemRequest,
+  i18next: i18n,
+  store: any,
+) => {
   const { state, dispatch } = store;
   const cartId = state.cartStore.cart ?? null;
   const cartItemAdder = new ClientCartItemAdder(cartOption);
@@ -73,12 +80,26 @@ export const getCart = async (i18next: i18n, store: any) => {
   try {
     if (cartId) {
       const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
-      return cart && cart;
+      const validCart = cart && cartIsValid(cart?.items);
+      if (validCart) {
+        return cart && cart;
+      }
+      dispatch(clearCart());
+      localStorage.removeItem('cart');
     }
   } catch (error) {
     dispatch(clearCart());
     localStorage.removeItem('cart');
   }
+};
+
+const cartIsValid = (items: Item[]) => {
+  const lastItemIndex = items.length - 1 ?? 0;
+  const lastAdded = items[lastItemIndex].created_at;
+  if (dayjs(lastAdded).isBefore(dayjs().subtract(15, 'minute'))) {
+    return false;
+  }
+  return true;
 };
 
 export const getCartId = async (i18next: i18n, cartId: string | string[]) => {
@@ -122,6 +143,35 @@ export const removeFromCart = async (
   } catch (error) {
     console.error(error);
   }
+};
+
+interface UpdateItemRequest {
+  cartId?: string;
+  itemId?: string;
+  bookingAnswers?: BookingAnswer;
+}
+
+export const updateCartItem = (
+  i18next: i18n,
+  itemToUpdate: UpdateItemRequest,
+) => {
+  const { cartId, itemId } = itemToUpdate;
+  const bookingAnswers = itemToUpdate.bookingAnswers ?? null;
+  const cartUpdater = new ClientCartItemUpdater(cartOption);
+  const cartUrl = `/carts/${cartId}/items/${itemId}`;
+  const cartRequest: any = {};
+  if (bookingAnswers) cartRequest.booking_answers = bookingAnswers;
+
+  return new Promise((resolve, reject) => {
+    cartUpdater
+      .request(cartRequest, i18next, cartUrl)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
 
 export const updateCart = async (

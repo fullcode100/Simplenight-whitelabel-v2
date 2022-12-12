@@ -1,9 +1,10 @@
-import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance, AxiosResponse } from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
+import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 
 export abstract class ServerSearcher<
   SearchResponse,
@@ -13,18 +14,16 @@ export abstract class ServerSearcher<
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     response: NextApiResponse<SearchResponse>,
     axios: AxiosInstance,
   ): Promise<AxiosResponse<ApiResponse<any, SearchResponse>, any>> {
     const { query: params } = request;
 
-    let categoryUrls;
-    if (this.category.core) {
-      categoryUrls = this.category.core.urls;
-    }
-    const endpoint = categoryUrls?.search.server ?? '';
+    const endpoint = params.apiUrl as string;
     const url = applyApiBaseUrlV2(endpoint, request);
+
+    delete params.apiUrl;
 
     return axios.get<ApiResponse<any, SearchResponse>>(url, {
       params,

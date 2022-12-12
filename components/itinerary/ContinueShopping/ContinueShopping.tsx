@@ -1,3 +1,4 @@
+import useCategories from 'hooks/category/useCategories';
 import { createRef, Dispatch, SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useBrandConfig } from '../../../hooks/branding/useBrandConfig';
@@ -10,12 +11,8 @@ const ContinueShopping = ({
 }) => {
   const [t, i18next] = useTranslation('global');
   const continueShoppingTitle = t('continueShopping', 'Continue Shopping');
-  const { features } = useBrandConfig();
 
-  const allCategories = Object.entries(features);
-  const filterCategories = allCategories.filter(
-    ([key, value]) => value == true,
-  );
+  const categoriesTabs = useCategories();
 
   const continueRef = createRef<HTMLElement>();
   useEffect(() => {
@@ -28,7 +25,7 @@ const ContinueShopping = ({
         <h4 className="px-5 py-4 text-lg font-semibold text-dark-800">
           {continueShoppingTitle}
         </h4>
-        <CategoryList categoryList={filterCategories} />
+        <CategoryList categoryList={categoriesTabs} />
       </section>
     </section>
   );

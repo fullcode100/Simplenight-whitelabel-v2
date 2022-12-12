@@ -1,5 +1,7 @@
 export interface Tab {
-  value: string;
+  name: string;
+  type: string;
+  slug?: string;
   href?: string;
   current?: boolean;
   icon?: any;

@@ -105,6 +105,7 @@ const ImageCarouselLargeScreen = ({
                 src={image}
                 alt=""
                 onClick={() => setShowImageZoomModal(true)}
+                objectFit="cover"
               />
             </section>
           );

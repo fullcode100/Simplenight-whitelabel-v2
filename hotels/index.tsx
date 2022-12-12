@@ -3,7 +3,7 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HotelSearchForm from 'hotels/components/search/HotelSearchForm';
 
 import hotelReducer from './redux/reducer';
-import hotelActions from './redux/actions';
+import { hotelsSetInitialState } from './redux/actions';
 
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import HotelResultsDisplay from 'hotels/components/search/HotelResultsDisplay';
@@ -17,9 +17,9 @@ import { HotelServerSearcher } from './core/search/HotelServerSearcher';
 import { HotelClientDetailer } from './core/detail/HotelClientDetailer';
 import { HotelServerDetailer } from './core/detail/HotelServerDetailer';
 import HotelSearchFormReadState from './components/search/HotelSearchFormReadState';
-import BedIcon from 'public/icons/assets/bed.svg';
-import HotelSecondarySearchOptions from './components/search/HotelSecondarySearchOptions';
 import HotelCheckoutDisplay from './components/checkout/HotelCheckoutDisplay';
+import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
+import HotelCheckoutItemDisplay from './components/checkout/HotelCheckoutItemDesplay';
 
 export const HOTEL_CATEGORY = 'hotels';
 
@@ -27,14 +27,13 @@ const Category: CategoryOption = {
   id: 2,
   name: HOTEL_CATEGORY,
   value: HOTEL_CATEGORY,
-  icon: <BedIcon />,
+  icon: <CategoryIcon categoryName={HOTEL_CATEGORY} className={'h-5 w-5'} />,
   store: {
     reducer: hotelReducer,
-    actions: hotelActions,
+    actions: { hotelsSetInitialState },
   },
   selectedIcon: <BedFillGray />,
   searchForm: <HotelSearchForm />,
-  secondarySearchOptions: <HotelSecondarySearchOptions />,
   readStateSearchForm: <HotelSearchFormReadState />,
   resultsDisplay: <></>,
   detailDisplay: <></>,
@@ -66,6 +65,7 @@ Category.detailDisplay = <HotelDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <HotelItineraryDisplay Category={Category} />;
 Category.breakdownDisplay = <HotelBreakdownDisplay Category={Category} />;
 Category.checkoutDisplay = <HotelCheckoutDisplay Category={Category} />;
+Category.checkoutItemDisplay = <HotelCheckoutItemDisplay Category={Category} />;
 Category.confirmationDisplay = <HotelConfirmationDisplay Category={Category} />;
 Category.cancelledDisplay = <HotelCancelledDisplay Category={Category} />;
 

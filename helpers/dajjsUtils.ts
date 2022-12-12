@@ -37,9 +37,16 @@ export const initialYear = parseInt(dayjs().format('YYYY'));
 export const initialMonth = parseInt(dayjs().format('M'));
 
 export const formatAsDisplayHour = (hour: string | number) => {
-  return dayjs(dayjs(hour, EXACT_HOUR_FORMAT).toDate()).format(
-    DISPLAY_HOUR_FORMAT,
-  );
+  const exactDate = dayjs(hour, EXACT_HOUR_FORMAT).toDate();
+  const displayDAte = dayjs(exactDate).format(DISPLAY_HOUR_FORMAT);
+  return displayDAte;
+};
+
+export const formatAsExactHour = (
+  hour: string | number | Date | dayjs.Dayjs,
+) => {
+  const date = dayjs(hour, DISPLAY_HOUR_FORMAT).toDate();
+  return dayjs(date).format('HH:mm');
 };
 
 export const formatAsDisplayDatetime = (datetime: string) =>
@@ -49,3 +56,5 @@ export const diffDays = (
   startDate: string | number | Date | dayjs.Dayjs,
   endDate: string | number | Date | dayjs.Dayjs,
 ) => dayjs(endDate).diff(dayjs(startDate), 'days');
+
+export const getCurrenDate = () => dayjs().format(SEARCH_DATE_FORMAT);

@@ -13,36 +13,24 @@ const tryCreateBooking = async (
   bookingRequest: CreateBookingRequest,
   i18next: i18n,
 ) => {
-  try {
-    const clientBookingCreator = new ClientBookingCreator();
-    return await clientBookingCreator.request(bookingRequest, i18next);
-  } catch (error) {
-    console.error(error);
-  }
+  const clientBookingCreator = new ClientBookingCreator();
+  return await clientBookingCreator.request(bookingRequest, i18next);
 };
 
 export interface PaymentParameters {
   cartId: string;
   paymentToken: string;
+  verificationToken: string;
   countryCode: string;
+  expediaProd?: boolean;
 }
 
-export const createBooking = (
-  paymentParameters: PaymentParameters,
-  i18next: i18n,
-) => {
-  const { cartId, paymentToken, countryCode } = paymentParameters;
+export const createBooking = (paymentParameters: any, i18next: i18n) => {
   const customerTimeCreatedAt = dayjs().format();
+
   const bookingRequest: CreateBookingRequest = {
-    cart_id: cartId,
+    ...paymentParameters,
     customer_time_created_at: customerTimeCreatedAt,
-    payment_request: {
-      payment_method: PAYMENT_METHOD,
-      payment_token: paymentToken,
-      billing_address: {
-        country: countryCode,
-      },
-    },
   };
 
   return tryCreateBooking(bookingRequest, i18next);

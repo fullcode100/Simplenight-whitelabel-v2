@@ -8,17 +8,16 @@ import {
 } from './envHelpers';
 import API_KEYS from './api-keys';
 
-import queryString from 'query-string';
 import {
   getBrandCodeFromHost,
   getFormattedLevels,
-} from '../../config/configJson';
+} from '../../helpers/hostUtils';
 import { getSimplenightApiKey } from './middlewares/authHeaderMiddleware';
 import { i18n } from 'i18next';
 import { handleError } from 'helpers/errorUtils';
 import curlirize from 'axios-curlirize';
 
-export const API_KEY_HEADER_KEY = 'X-API-KEY';
+const X_SESSION = 'x-session';
 
 export const selectApiUrl = (originUrl?: string) => {
   const hostLevels = getFormattedLevels(originUrl);
@@ -46,35 +45,6 @@ export const getApiKey = (originUrl?: string): string => {
     return API_KEYS.PROD;
   }
   return API_KEYS[brandCode] || API_KEYS.DEV;
-};
-
-const headers = {
-  [API_KEY_HEADER_KEY]: '',
-} as any;
-
-export const setAuthHeaders = () => {
-  const queryParams = queryString.parse(window.location.search);
-  const oldKey = localStorage?.getItem('SIMPLENIGHT-X-API-KEY') as string;
-  let newKey: string;
-  if (queryParams.apiKey) {
-    newKey = queryParams.apiKey as string;
-  } else if (oldKey) {
-    newKey = oldKey;
-  } else {
-    newKey = getApiKey();
-  }
-  headers[API_KEY_HEADER_KEY] = newKey;
-  localStorage.setItem('SIMPLENIGHT-X-API-KEY', newKey);
-};
-
-const setServerAuthHeaders = (originUrl: string, apiKey?: string) => {
-  if (apiKey) {
-    headers[API_KEY_HEADER_KEY] = apiKey;
-    return headers;
-  }
-
-  headers[API_KEY_HEADER_KEY] = getApiKey(originUrl);
-  return headers;
 };
 
 export const axiosI18nInterceptor = (i18next: i18n) => (config: any) => {
@@ -123,10 +93,9 @@ export const createServerAxiosInstance = (req: any) => {
 
   curlirize(axiosInstance, (result: any, err: any) => {
     const curl = result.command;
-    if (err) {
-      console.error(`Failed request curl: ${curl}`);
-    } else {
-      console.log(`Successful request curl: ${curl}`);
+    const isBooking = curl.includes('bookings');
+    if (!isBooking) {
+      console.log(`Request curl: ${curl}`);
     }
   });
 
@@ -143,13 +112,21 @@ export const createServerAxiosInstance = (req: any) => {
   return axiosInstance;
 };
 
+const getSessionKey = () => {
+  const Window = tryGetWindow();
+  const session = Window?.sessionStorage.getItem(X_SESSION);
+  return session ?? '';
+};
+
 export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
   const Window = tryGetWindow();
+  const sessionkey = getSessionKey();
 
   const axiosInstance = axios.create({
     baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
     headers: {
       'Content-Type': 'application/json',
+      'x-session': sessionkey,
     },
   });
 

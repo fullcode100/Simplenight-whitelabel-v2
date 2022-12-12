@@ -10,6 +10,7 @@ import { ServerRequester } from './ServerRequester';
 import { ApiResponse } from 'types/global/Request';
 import { GetBookingResponse } from 'types/confirmation/GetBookingResponse';
 import { CoreOption } from 'types/search/SearchTypeOptions';
+import { NextApiRequestWithSession } from 'types/core/server';
 
 export class ServerBookingsGetter extends ServerRequester<GetBookingResponse> {
   public constructor() {
@@ -21,14 +22,14 @@ export class ServerBookingsGetter extends ServerRequester<GetBookingResponse> {
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     _response: NextApiResponse<GetBookingResponse>,
     axios: AxiosInstance,
   ) {
     const { query } = request;
-    const { sn_order_number, customer_last_name } = query;
+    const { sn_order_number } = query;
 
-    const endpoint = `/bookings/?sn_order_number=${sn_order_number}&customer_last_name=${customer_last_name}`;
+    const endpoint = `/bookings/${sn_order_number}`;
 
     const url = applyApiBaseUrlV2(endpoint, request);
 

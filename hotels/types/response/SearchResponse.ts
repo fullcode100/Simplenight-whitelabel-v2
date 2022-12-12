@@ -17,9 +17,21 @@ export interface Hotel {
   thumbnail: string;
   nights?: number;
   guests?: number;
+  roomsQty?: number;
   check_in_instructions?: CheckInInstructions;
+  accommodation_type: string;
 }
 
+export interface InstructionItem {
+  check_in_instructions?: Instruction[];
+  special_instructions?: Instruction[];
+  policies?: Instruction[];
+  fees?: FeesInstructions;
+}
+export interface InstructionModalItem extends InstructionItem {
+  checkin_time: string;
+  checkout_time: string;
+}
 export interface CheckInInstructions {
   fees?: FeesInstructions;
   instructions?: string;
@@ -28,8 +40,8 @@ export interface CheckInInstructions {
 }
 
 export interface FeesInstructions {
-  optional?: string;
-  mandatory?: string;
+  optional?: Instruction[];
+  mandatory?: Instruction[];
 }
 
 export interface Photo {
@@ -51,6 +63,15 @@ export interface Details {
   star_rating: string;
   type: string;
   web: string;
+  check_in_instructions?: Instruction[];
+  special_instructions?: Instruction[];
+  policies?: Instruction[];
+  fees?: FeesInstructions;
+}
+
+export interface Instruction {
+  paragraph: string;
+  list: string[];
 }
 
 export interface Address {
@@ -121,16 +142,72 @@ export interface Services {
   total_rooms: number;
 }
 
-export interface Rates {
+export interface AvgAmount {
   avg_amount: Amount;
+  discounts: Discounts;
+  markups: Discounts;
+}
+
+export interface Rates {
+  avg_amount: AvgAmount;
   min_rate: MinRate;
   upgrades: MinRate[];
 }
 
-export interface Rates {
-  avg_amount: Amount;
-  min_rate: MinRate;
-  upgrades: MinRate[];
+export interface Rate {
+  fees: string;
+  taxes: Taxes;
+  total: Total;
+  discounts: Discounts;
+  cancellation_policy: any[];
+}
+
+export interface Full {
+  key: string;
+  amount: Amount;
+  description: string;
+}
+
+export interface TotalPostpaid {
+  key: string;
+  amount: Amount;
+  description: string;
+}
+
+export interface Taxes {
+  full: Full;
+  prepaid: Full[];
+  postpaid: any[];
+  total_postpaid: TotalPostpaid;
+}
+
+export interface Net {
+  amount: number;
+  currency: string;
+  formatted: string;
+}
+
+export interface Total {
+  net: Net;
+  full: Amount;
+  prepaid: Amount;
+  postpaid: Amount;
+}
+
+export interface Breakdown {
+  amount: Amount;
+  source: string;
+  percentage: number;
+  description: string;
+}
+
+export interface Discounts {
+  breakdown: Breakdown[];
+  amount_to_apply: Amount;
+  percentage_to_apply: string;
+  net_amount_before_apply?: any;
+  base_amount_before_apply: Amount;
+  total_amount_before_apply: Amount;
 }
 
 export interface MinRate {
@@ -154,6 +231,7 @@ export interface RateBreakdown {
   total_base_amount: Amount;
   total_taxes: Amount;
   post_paid_rate?: PostPaidRate;
+  markups?: Discounts;
 }
 
 export interface PostPaidRate {
@@ -166,15 +244,12 @@ export interface Tax {
   description: string;
   included_in_total: boolean;
   tax_amount: Amount;
-}
-
-export interface Tax {
-  description: string;
-  included_in_total: boolean;
-  tax_amount: Amount;
+  type: string;
+  tax_original_amount: Amount;
 }
 
 export interface Discounts {
+  base_amount_before_apply: Amount;
   total_amount_before_apply: Amount;
   amount_to_apply: Amount;
   percentage_to_apply: string;
@@ -207,8 +282,10 @@ export interface MealPlan {
 }
 
 export interface Rate {
+  diff_min_rate: Amount;
   rate_breakdown: RateBreakdown;
   total_amount: Amount;
+  starting_room_total?: Amount;
 }
 
 export interface Capacity {

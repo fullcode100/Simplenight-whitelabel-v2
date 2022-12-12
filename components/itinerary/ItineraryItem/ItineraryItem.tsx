@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
 import { Item } from 'types/cart/CartType';
+import { useCategorySlug } from '../../../hooks/category/useCategory';
 
 interface ItineraryItemProps {
   item: Item;
@@ -11,9 +12,10 @@ interface ItineraryItemProps {
 }
 
 const ItineraryItem = ({ item, reload, setReload }: ItineraryItemProps) => {
-  const category = useCategory(item.category?.toLowerCase() || '');
+  const sector = useCategory(item?.sector || '');
+
   return (
-    injectProps(category?.itineraryDisplay, {
+    injectProps(sector?.itineraryDisplay, {
       item: item,
       reload: reload,
       setReload: setReload,

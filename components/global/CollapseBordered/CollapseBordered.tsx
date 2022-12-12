@@ -6,16 +6,23 @@ import CollapseBody from './components/CollapseBody';
 import CollapseFooter from './components/CollapseFooter';
 
 interface CollapseBorderedProps {
+  disclaimer?: ReactNode;
   title: ReactNode;
   body: ReactNode;
   footer: ReactNode;
 }
 
-const CollapseBordered = ({ title, body, footer }: CollapseBorderedProps) => {
+const CollapseBordered = ({
+  disclaimer,
+  title,
+  body,
+  footer,
+}: CollapseBorderedProps) => {
   const [show, setShow] = useState(false);
 
   return (
-    <section className="border border-dark-300 rounded">
+    <section className="border border-dark-300 rounded overflow-hidden">
+      {disclaimer}
       <CollapseHeader title={title} show={show} setShow={setShow} />
       <Collapse isOpened={show}>
         <CollapseBody body={body} show={show} />

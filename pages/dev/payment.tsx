@@ -28,7 +28,6 @@ const PaymentTest: NextPage = () => {
 
   const handlePaymentToken = (token: string) => {
     setLastUsedToken(token);
-    console.log(`Payment token is ${token}`);
   };
 
   const handlePaymentRequest = (paymentRequest: PaymentRequest) => {
@@ -42,7 +41,7 @@ const PaymentTest: NextPage = () => {
   const LastUsedTokenSection = () => (
     <section className="flex flex-col h-auto">
       <h2>Last used token:</h2>
-      <p className="border-2 px-1 bg-dark-200 overflow-clip">
+      <p className="px-1 border-2 bg-dark-200 overflow-clip">
         {lastUsedToken ?? 'No token has been generated yet'}
       </p>
       <Button
@@ -88,7 +87,7 @@ const PaymentTest: NextPage = () => {
   );
 
   const Title = ({ label }: { label: string }) => (
-    <h2 className="text-xl font-bold mb-2">{label}</h2>
+    <h2 className="mb-2 text-xl font-semibold">{label}</h2>
   );
 
   return (
@@ -98,18 +97,18 @@ const PaymentTest: NextPage = () => {
         merchantId={appId}
         gatewayMerchantId={locationId}
         onLoadPaymentData={handlePaymentRequest}
-        className="mb-4 w-full"
+        className="w-full mb-4"
       />
       <Title label="Square Payment Form" />
       <SquarePaymentForm
         applicationId={appId}
         locationId={locationId}
-        onPaymentToken={handlePaymentToken}
+        onTokens={handlePaymentToken}
         amount={amount}
         countryCode={countryCode}
         currencyCode={currencyCode}
       />
-      <section className="flex flex-col text-xl mt-4">
+      <section className="flex flex-col mt-4 text-xl">
         <LastUsedTokenSection />
 
         <NumberFormRow

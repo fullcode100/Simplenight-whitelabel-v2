@@ -1,0 +1,131 @@
+export const bookingQuestionsMock = [
+  {
+    id: 'AGEBAND',
+    label: 'Age band',
+    hint: '',
+    is_required: true,
+    grouping: 'PER_TRAVELER',
+    answer_type: 'TEXT',
+    answer_max_length: 50,
+    answer_options: [
+      {
+        answer: 'ADULT',
+      },
+      {
+        answer: 'SENIOR',
+      },
+      {
+        answer: 'YOUTH',
+      },
+      {
+        answer: 'CHILD',
+      },
+      {
+        answer: 'INFANT',
+      },
+      {
+        answer: 'TRAVELER',
+      },
+    ],
+    is_conditional: false,
+  },
+  {
+    id: 'FULL_NAMES_FIRST',
+    label: 'First name',
+    hint: 'xxcxcxcxcxcxcxcxcxcxcxcxc',
+    is_required: true,
+    grouping: 'PER_TRAVELER',
+    answer_type: 'TEXT',
+    answer_max_length: 50,
+    is_conditional: false,
+  },
+  {
+    id: 'PICKUP_POINT',
+    label: 'Hotel pickup',
+    hint: 'E.g. 1234 Cedar Way, Brooklyn NY 00123',
+    is_required: true,
+    grouping: 'PER_BOOKING',
+    answer_type: 'LOCATION_FREE_TEXT',
+    answer_max_length: 1000,
+    answer_units: ['LOCATION_REFERENCE', 'FREETEXT'],
+    is_conditional: false,
+  },
+  {
+    id: 'TRANSFER_ARRIVAL_MODE',
+    label: 'Arrival mode',
+    hint: '',
+    is_required: true,
+    grouping: 'PER_BOOKING',
+    answer_type: 'TEXT',
+    answer_max_length: 50,
+    answer_options: [
+      {
+        answer: 'AIR',
+        related_question_ids: ['TRANSFER_ARRIVAL_TIME', 'PICKUP_POINT'],
+      },
+      {
+        answer: 'RAIL',
+        related_question_ids: [
+          'TRANSFER_RAIL_ARRIVAL_LINE',
+          'TRANSFER_RAIL_ARRIVAL_STATION',
+          'TRANSFER_ARRIVAL_TIME',
+        ],
+      },
+      {
+        answer: 'SEA',
+        related_question_ids: [
+          'TRANSFER_PORT_ARRIVAL_TIME',
+          'TRANSFER_PORT_CRUISE_SHIP',
+          'PICKUP_POINT',
+        ],
+      },
+      {
+        answer: 'OTHER',
+        related_question_ids: ['PICKUP_POINT'],
+      },
+    ],
+    is_conditional: false,
+  },
+  {
+    id: 'TRANSFER_ARRIVAL_TIME',
+    label: 'Arrival time',
+    hint: 'TEST TIME 9200',
+    is_required: true,
+    grouping: 'PER_BOOKING',
+    answer_type: 'TIME',
+    answer_max_length: 100,
+    is_conditional: true,
+  },
+  {
+    id: 'TRANSFER_PORT_CRUISE_SHIP',
+    label: 'Name of cruise ship',
+    hint: 'E.g. Brilliance of the Seas',
+    is_required: true,
+    grouping: 'PER_BOOKING',
+    answer_type: 'TEXT',
+    answer_max_length: 255,
+    is_conditional: true,
+  },
+  {
+    id: 'WEIGHT',
+    label:
+      'Traveler weight in pounds or kilograms (required for safety reasons)',
+    hint: '',
+    is_required: true,
+    grouping: 'PER_TRAVELER',
+    answer_type: 'NUMBER_AND_UNIT',
+    answer_max_length: 50,
+    answer_units: ['kg', 'lbs'],
+    is_conditional: false,
+  },
+  {
+    id: 'TRANSFER_RAIL_ARRIVAL_LINE',
+    label: 'Name of arrival rail provider',
+    hint: 'E.g. Amtrak',
+    is_required: true,
+    grouping: 'PER_BOOKING',
+    answer_type: 'TEXT',
+    answer_max_length: 255,
+    is_conditional: true,
+  },
+];

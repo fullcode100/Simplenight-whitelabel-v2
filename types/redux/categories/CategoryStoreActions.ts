@@ -1,4 +1,10 @@
+import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
+import { i18n } from 'i18next';
+import { AppThunk } from 'store';
+
 export interface CategoryStoreActions {
-  search: Function;
-  detail: (id: any, params: any) => void;
+  hotelsSetInitialState: (
+    searchParams: HotelSearchRequest,
+    i18next: i18n,
+  ) => AppThunk;
 }

@@ -1,6 +1,7 @@
 import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
@@ -13,22 +14,17 @@ export abstract class ServerDetailer<
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     response: NextApiResponse,
     axios: AxiosInstance,
   ) {
     const { query: params } = request;
 
-    let categoryUrls;
-    if (this.category.core) {
-      categoryUrls = this.category.core.urls;
-    }
-    const endpoint = categoryUrls?.detail.server;
-
+    const endpoint = params.apiUrl as string;
     const endpointWithId = `${endpoint}/${params.id}`;
     const url = applyApiBaseUrlV2(endpointWithId, request);
 
-    delete params.id;
+    delete params.id, params.apiUrl;
 
     return axios.get<ApiResponse<any, DetailResponse>>(url, {
       params,

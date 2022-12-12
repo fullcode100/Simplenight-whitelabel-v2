@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Rate,
+  Rates,
   CancellationPolicy,
   Services,
 } from '../../../../../types/response/SearchResponse';
@@ -9,13 +9,14 @@ import { Item } from '../../../../../../types/cart/CartType';
 interface DetailItemCardProps {
   label: string;
   description: string;
-  rates: Rate;
+  rates: Rates;
   cancellationPolicy?: CancellationPolicy;
   features: string[];
   itemToBook: Item;
   nights: number;
   guests: number;
   services: Services;
+  rooms?: number;
 }
 
 const DetailItemCard = ({
@@ -28,6 +29,7 @@ const DetailItemCard = ({
   nights,
   guests,
   services,
+  rooms,
 }: DetailItemCardProps) => {
   const [showPriceBreakdown, setShowPriceBreakdown] = useState(false);
 
@@ -44,6 +46,7 @@ const DetailItemCard = ({
         nights={nights}
         guests={guests}
         services={services}
+        rooms={rooms}
       />
       <section>
         <button

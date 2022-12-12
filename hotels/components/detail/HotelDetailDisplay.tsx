@@ -1,6 +1,5 @@
 import Button from 'components/global/Button/Button';
 import Rating from 'components/global/Rating/Rating';
-import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import {
   fromLowerCaseToCapitilize,
   getChildrenAges,
@@ -10,10 +9,7 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
 import initialState from './utils/initialState';
 import { HotelDetailPreRequest } from 'hotels/types/request/HotelDetailRequest';
-import {
-  HotelDetailResponse,
-  Occupancy,
-} from 'hotels/types/response/HotelDetailResponse';
+import { Occupancy } from 'hotels/types/response/HotelDetailResponse';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
@@ -28,7 +24,6 @@ import LocationSection from '../location/LocationSection';
 import SeeMore from 'components/global/ReadMore/SeeMore';
 import RoomsSection from 'hotels/components/Rooms/RoomsSection';
 import Divider from '../../../components/global/Divider/Divider';
-import CustomerReviewsSection from 'components/global/CustomerReviews/CustomerReviewsSection';
 import {
   Hotel,
   HotelSearchResponse,
@@ -47,13 +42,20 @@ import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { createRoom } from 'hotels/helpers/room';
+import { getReferral } from '../../helpers/getReferral';
+import useCookies from 'hooks/localStorage/useCookies';
+import Script from 'next/script';
+import InstructionsSection from '../Instructions/InstructionsSection';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 
 declare let window: CustomWindow;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
-  const { id, roomsData } = useQuery();
+  const params = useQuery();
+  const { id, roomsData } = params;
+  const referralParam = params.referral as string;
+  const { setCookie } = useCookies();
 
   const {
     adults,
@@ -68,10 +70,21 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     ROOMS_TEXT,
   } = useSearchQueries();
 
+  useEffect(() => {
+    const referral = getReferral(referralParam);
+
+    if (referral) {
+      const referralData = `${referral}=${id}`;
+      setCookie('referral', referralData, {
+        path: '/',
+        expires: dayjs().add(30, 'day').toDate(),
+      });
+    }
+  }, [referralParam]);
+
   const roomRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
   const amenitiesRef = useRef<HTMLDivElement>(null);
-
   const [displaySeeMore, setDisplaySeeMore] = useState(true);
   const [descriptionHeight, setDescriptionHeight] = useState(232);
   const [loaded, setLoaded] = useState(false);
@@ -84,9 +97,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     photos,
     nights,
     check_in_instructions: checkInInstructions,
+    roomsQty,
   } = hotel;
 
-  const hotelImages = photos.map((photo) => photo.url);
+  const hotelImages = photos?.map((photo) => photo.url);
   const [tg] = useTranslation('global');
   const [t, i18next] = useTranslation('hotels');
   const { language } = i18next;
@@ -94,6 +108,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const roomsLabel = t('rooms', 'Rooms');
   const locationLabel = t('location', 'Location');
   const detailsLabel = t('details', 'Details');
+  const policiesLabel = t('policies', 'Policies');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
 
@@ -128,7 +143,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       end_date: searchEndDate, // (endDate),
       occupancy: occupancy,
     };
-
     Category.core.ClientDetailer?.request(params, i18next, params.hotel_id)
       .then(({ hotels }: HotelSearchResponse) => {
         setHotel(hotels[0]);
@@ -160,31 +174,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     }
   };
 
-  // TODO: Refactor
-  const Instructions = () => {
-    const instructions = `${checkInInstructions?.instructions}
-    ${checkInInstructions?.special_instructions}
-    ${checkInInstructions?.fees?.mandatory}
-    ${checkInInstructions?.fees?.optional}
-    `;
-    const policies = checkInInstructions?.policies;
-    return (
-      <>
-        {instructions && instructions !== '' && (
-          <>
-            <br />
-            {instructions}
-          </>
-        )}
-        {policies && policies !== '' && (
-          <>
-            <br />
-            {policies}
-          </>
-        )}
-      </>
-    );
-  };
+  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
 
   const RatingSection = () => (
     <section className="flex items-center justify-between w-full mt-4 lg:justify-start lg:gap-2 lg:mt-0">
@@ -197,7 +187,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   );
 
   const GeneralInformationSection = () => {
-    const tabs: Tab[] = [{ value: roomsLabel }, { value: locationLabel }];
+    const tabs: Tab[] = [
+      { name: roomsLabel, type: roomsLabel },
+      { name: locationLabel, type: locationLabel },
+    ];
 
     const scrollFunctions: { [key: string]: () => void } = {
       [roomsLabel]: scrollToRoom,
@@ -215,7 +208,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
     const handleTabClick = (tab: Tab) => {
       setActiveTab(tab);
-      scrollTo(tab.value);
+      scrollTo(tab.name);
     };
 
     return (
@@ -265,15 +258,11 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             className="mt-3 text-base text-dark-1000"
           >
             {description}
-            <Instructions />
           </p>
         </SeeMore>
       </section>
       <section className="hidden lg:block">
-        <p className="mt-3 text-base text-dark-1000">
-          {description}
-          <Instructions />
-        </p>
+        <p className="mt-3 text-base text-dark-1000">{description}</p>
       </section>
     </section>
   );
@@ -353,6 +342,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   return (
     <>
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
+      />
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
       <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
         <section className="flex items-center justify-between h-12">
@@ -386,12 +378,16 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       {loaded && !emptyState && (
         <main className="relative">
           {/* <ImagesSection /> */}
-          <section className="lg:hidden">
-            <ImageCarousel images={hotelImages} title={name} />
-          </section>
-          <section className="hidden w-full pt-8 lg:block bg-dark-100">
-            <ImageCarouselLargeScreen images={hotelImages} title={name} />
-          </section>
+          {hotelImages && (
+            <section className="lg:hidden">
+              <ImageCarousel images={hotelImages} title={name} />
+            </section>
+          )}
+          {hotelImages && (
+            <section className="hidden w-full pt-8 lg:block bg-dark-100">
+              <ImageCarouselLargeScreen images={hotelImages} title={name} />
+            </section>
+          )}
           <section className="lg:hidden">
             <GeneralInformationSection />
           </section>
@@ -415,6 +411,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                   hotelName={name}
                   nights={nights}
                   guests={guests}
+                  roomsQty={roomsQty}
                 />
               }
             </SeeMore>
@@ -427,6 +424,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                 hotelName={name}
                 nights={nights}
                 guests={guests}
+                roomsQty={roomsQty}
               />
             </section>
           </section>
@@ -435,6 +433,17 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             <section className="mx-auto divide-y divide-dark-300 lg:divide-y-0 lg:divide-x lg:flex max-w-7xl">
               <section className="lg:w-[50%] lg:pr-12">
                 <DetailsSection />
+                <div className="my-6">
+                  <div className="w-full h-px bg-dark-300" />
+                </div>
+                <InstructionsSection
+                  checkInTime={hotel.details.checkin_time}
+                  checkOutTime={hotel.details.checkout_time}
+                  checkInInstructions={hotel.details.check_in_instructions}
+                  specialInstructions={hotel.details.special_instructions}
+                  fees={hotel.details.fees}
+                  policies={hotel.details.policies}
+                />
               </section>
               <section
                 ref={locationRef}

@@ -16,7 +16,6 @@ const AmountDetailItem = ({ amount, label }: AmountDetailItemProps) => {
             {label}
           </p>
         </section>
-        <TaxesAndFeesPopover />
       </section>
 
       <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">

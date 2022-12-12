@@ -18,7 +18,8 @@ interface LocationMapProps {
   height?: number;
   coords?: CoordsProps[];
   zoom?: number;
-  onClickMarker?: (lat: number, lng: number) => void;
+  onClickMarker?: (lat: number, lng: number, index: number) => void;
+  activeMarkerIndex?: number;
 }
 
 const LocationMap = ({
@@ -27,6 +28,7 @@ const LocationMap = ({
   height = 400,
   zoom = 15,
   onClickMarker,
+  activeMarkerIndex,
 }: LocationMapProps) => {
   return (
     <section className="w-full" style={{ height }}>
@@ -52,7 +54,8 @@ const LocationMap = ({
               key={`marker${i}`}
               lat={latitude}
               lng={longitude}
-              onClick={() => onClickMarker?.(latitude, longitude)}
+              onClick={() => onClickMarker?.(latitude, longitude, i)}
+              active={i === activeMarkerIndex}
             />
           );
         })}

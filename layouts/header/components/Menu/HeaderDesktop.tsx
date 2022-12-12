@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable indent */
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
-import SimplenightLogo from 'public/icons/assets/simplenight-logo.svg';
 import Link from 'next/link';
 import LanguageIcon from 'public/icons/assets/language.svg';
 import CashIcon from 'public/icons/assets/cash.svg';
@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { getCurrency } from 'store/selectors/core';
 import ChevronDown from 'public/icons/assets/chevron-down.svg';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
+import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 
 interface HeaderDesktopProps {
   color?: string;
@@ -42,6 +43,8 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
     }
   };
   const currentLanguage = getFriendlyLanguage(language);
+  const { images } = useBrandConfig() || {};
+  const { logo } = images || {};
   const languageText = tg('language', 'Language');
   const currencyText = tg('currency', 'Currency');
   const CustomLink = ({ href = '', children }: CustomLinkProps) => (
@@ -53,28 +56,36 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   );
   return (
     <header
-      className={`hidden px-4 py-5 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
+      className={`hidden px-4 py-6 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
     >
-      <section className="max-w-7xl lg:flex items-center justify-between w-full mx-auto">
-        <section className="flex gap-5 items-center">
+      <section className="items-center justify-between w-full mx-auto max-w-7xl lg:flex">
+        <section className="flex items-center gap-5">
           <Link href={'/'}>
             <a>
-              <SimplenightLogo className="w-40 h-16" />
-              <span className="text-[0.8rem]">{poweredByText} SIMPLENIGHT</span>
+              <img
+                src={logo}
+                alt="Branch Logo"
+                width="156px"
+                height="60px"
+                className="object-fit"
+              />
+              <span className="text-[12px] text-dark-800">
+                {poweredByText} SIMPLENIGHT
+              </span>
             </a>
           </Link>
         </section>
         <section className="flex gap-5">
           <CustomLink href={'/lookup'}>{orderLookupText}</CustomLink>
-          {displayCategoryOption && (
+          {/* {displayCategoryOption && (
             <button>
               <a>
-                <span className="text-base text-dark-1000 flex items-center gap-2">
+                <span className="flex items-center gap-2 text-base text-dark-1000">
                   {categoriesText} <ChevronDown />
                 </span>
               </a>
             </button>
-          )}
+          )} */}
           <ButtonDropdown
             icon={<LanguageIcon />}
             value={currentLanguage}
@@ -91,9 +102,9 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
           </ButtonDropdown>
           <button
             onClick={onOpen}
-            className="flex justify-between items-center gap-2 w-14 h-8 border border-dark-300 bg-white px-2 py-1 rounded"
+            className="flex items-center justify-between h-8 gap-2 px-2 py-1 bg-white border rounded w-14 border-dark-300"
           >
-            <span className="text-dark-1000 font-bold text-sm font-lato">
+            <span className="text-sm font-semibold text-dark-1000 font-lato">
               {cartQty ?? 0}
             </span>
             <ShoppingCart className="text-primary-1000" />

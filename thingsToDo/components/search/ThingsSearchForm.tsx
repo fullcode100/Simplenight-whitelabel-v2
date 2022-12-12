@@ -26,6 +26,7 @@ const ThingsSearchForm = ({
   setIsSearching,
   className = '',
   hasReRoute = false,
+  slug = '',
 }: SearchFormProps) => {
   const router = useRouter();
 
@@ -73,7 +74,7 @@ const ThingsSearchForm = ({
   };
 
   const rerouteToSearchPage = () => {
-    const route = `/search/things-to-do?startDate=${startDate}&endDate=${endDate}&latitude=${
+    const route = `/search/${slug}?startDate=${startDate}&endDate=${endDate}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${geolocation?.split(',')[LONGITUDE_INDEX]}&address=${address}`;
     handleSaveLastSearch(route);
@@ -122,7 +123,7 @@ const ThingsSearchForm = ({
     >
       <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
         <LocationInput
-          icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+          icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
           label={locationInputLabel}
           name="location"
           placeholder={locationPlaceholder}
@@ -132,25 +133,14 @@ const ThingsSearchForm = ({
           onChange={handleChangeLocation}
         />
 
-        <DatePicker
-          showDatePicker={showDatePicker}
-          onClose={() => setShowDatePicker(false)}
-          startDateLabel={startDateText}
-          endDateLabel={endDateText}
-          initialStartDate={startDate}
-          initialEndDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-          openOnStart={clickOnStart ? true : false}
-        />
-        <section className="flex gap-4 lg:mt-0 lg:w-full">
+        <section className=" relative flex gap-4 lg:mt-0 lg:w-full">
           <IconInput
             label={startDateText}
             name="Check-in"
             placeholder={startDateText}
             className="lg:mt-0"
             orientation="left"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
             onChange={(event) => handleStartDateChange(event.target.value)}
             onClick={() => {
@@ -165,7 +155,7 @@ const ThingsSearchForm = ({
             placeholder={endDateText}
             orientation="left"
             className="lg:mt-0"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
             onChange={(event) => handleEndDateChange(event.target.value)}
             onClick={() => {
@@ -173,6 +163,17 @@ const ThingsSearchForm = ({
               setShowDatePicker(true);
             }}
             disabled
+          />
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={startDateText}
+            endDateLabel={endDateText}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
           />
         </section>
       </section>

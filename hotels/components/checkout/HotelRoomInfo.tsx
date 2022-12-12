@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 import RoomPriceBreakdown from '../RoomPriceBreakdown/RoomPriceBreakdown';
 import RoomTitle from '../RoomTitle/RoomTitle';
@@ -24,29 +25,28 @@ interface HotelRoomInfoProps {
 
 const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
 
-  const roomDetail = room.extended_data?.rooms?.[0];
-  const roomName = roomDetail?.description;
-  const amenities = roomDetail?.amenities.join(', ');
+  const selectedRoom = room.extended_data?.rooms?.find(
+    (roomA) => roomA.code == room.extended_data?.selected_room_code,
+  );
+  const roomName = selectedRoom?.name;
+  const amenities = selectedRoom?.amenities.join(', ');
 
-  const roomMinRate = roomDetail?.rates.min_rate;
+  const roomMinRate = selectedRoom?.rates.min_rate;
   const roomRate = roomMinRate?.rate;
   const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
   const total = roomRate?.total_amount.formatted;
   const roomRateDetail = roomRate?.rate_breakdown;
 
-  const taxesAndFees = roomRateDetail?.taxes.find(
-    (tax) => tax.description === TAXES_AND_FEES,
-  );
-  const taxesAndFeesFormatted = taxesAndFees?.tax_amount.formatted;
+  const taxesAndFees = roomRateDetail?.total_taxes;
+  const taxesAndFeesFormatted = taxesAndFees?.formatted;
 
-  const resortFees = roomRateDetail?.post_paid_rate?.taxes.find(
-    (tax) => tax.description === RESORT_FEES,
-  );
-  const resortFeesFormatted = resortFees?.tax_amount.formatted;
+  const resortFees = roomRateDetail?.post_paid_rate?.total_taxes;
+  const resortFeesFormatted = resortFees?.formatted;
   const termsOfService = room.extended_data?.terms_and_conditions;
 
   const checkInInstructions = room?.extended_data?.check_in_instructions;
@@ -83,10 +83,11 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
     removeFromCart(i18next, roomToRemove, dispatch)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
+    router.reload();
   };
 
   return (
-    <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
+    <section className="flex flex-col gap-2 py-6 border-t border-dark-300">
       <RoomTitle
         roomName={roomName}
         roomQty={room.room_qty}
@@ -102,6 +103,8 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
         childrenCount={room.children}
         instructions={<Instructions />}
         termsOfService={termsOfService}
+        rate={roomRate}
+        isPriceBase
       />
       <Button
         value={removeLabel}

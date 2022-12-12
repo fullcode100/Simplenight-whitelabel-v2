@@ -1,20 +1,17 @@
-import { camelKeysToKebabKeys, flattenObjectOfObjects } from 'helpers/stringUtils';
 import { useEffect } from 'react';
-import { CoreTheme } from 'types/redux/CoreState';
 import { useBrandTheme } from './useBrandTheme';
 
 export const useThemeUpdater = () => {
-  const theme = useBrandTheme();
+  const theme = useBrandTheme() || {};
+  const { primaryColor } = theme || {};
 
   const updateTheme = () => {
-     const cssProperties = flattenObjectOfObjects(theme);
-     const cssPropertiesKebab = camelKeysToKebabKeys(cssProperties);
-
-     Object.entries(cssPropertiesKebab).forEach(([key, value]) => {
-       const cssPropName = `--${key}`;
-       const cssPropValue = value;
-       document.documentElement.style.setProperty(cssPropName, cssPropValue);
-     });
+    if (!primaryColor) return;
+    Object.entries(primaryColor).forEach(([key, value]) => {
+      const cssPropName = `--primary-color-${key}`;
+      const cssPropValue = value as string;
+      document.documentElement.style.setProperty(cssPropName, cssPropValue);
+    });
   };
 
   useEffect(() => {

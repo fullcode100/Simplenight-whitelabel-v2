@@ -7,9 +7,18 @@ import {
   RelativePosition,
   Room,
 } from 'hotels/types/response/SearchResponse';
+import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
+import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData';
 import { Amount } from 'types/global/Amount';
 import { FlightCartRequestDetail } from 'flights/types/request/FlightCartRequest';
 import { FlightCartItemData } from 'flights/types/response/FlightCartItemData';
+
+export interface CartBookingData {
+  [key: string]: any;
+}
+export interface CartItemData {
+  [key: string]: any;
+}
 
 export interface CartResponse {
   cart?: CartObjectResponse[];
@@ -37,10 +46,12 @@ export interface CartObjectResponse {
   items: Item[];
   lang: string;
   last_update_at: string;
-  organization_id: number;
   sandbox_mode: boolean;
   status: string;
   total_amount: TotalAmount;
+  total_amount_post_paid: TotalAmount;
+  total_amount_taxes: TotalAmount;
+  total_amount_taxes_postpaid: TotalAmount;
   total_item_qty: number;
 }
 
@@ -50,10 +61,15 @@ export interface TotalAmount {
   currency: string;
 }
 
+export interface CartItemRequest {
+  booking_data?: CartBookingData;
+  category?: string;
+  sn_booking_code?: string;
+}
+
 export interface NewCartRequest {
   url: string;
   cart: {
-    currency?: string;
     items: Item[];
   };
 }
@@ -66,9 +82,8 @@ export interface UpdateCartItemRequest {
 export interface Item {
   category?: string;
   sector?: string;
-  booking_data?: FlightCartRequestDetail;
-  item_data?: FlightCartItemData;
-
+  booking_data?: CartBookingData;
+  item_data?: CartItemData;
   cart_id?: string;
   cart_item_id?: string;
   created_at?: string;
@@ -80,6 +95,7 @@ export interface Item {
   quantity?: number;
   rate?: Rates;
   sn_booking_code?: string;
+  status?: string;
   supplier?: string;
   thumbnail_url?: string;
   nights?: number;
@@ -88,20 +104,26 @@ export interface Item {
   children?: number;
   infants?: number;
   room_qty?: number;
+  customer_additional_requests?: string;
 }
 
 export interface Customer {
+  id?: number;
   country: string;
   email: string;
   first_name: string;
   last_name: string;
   phone_number: string;
   phone_prefix: string;
+  extra_fields?: ExtraFields;
 }
 
 export interface ExtraFields {
-  extra1: string;
-  extra2: string;
+  extra1?: string;
+  extra2?: string;
+  lang: string;
+  extra_1: number;
+  extra_2: number;
 }
 
 export interface UpdateCartRequest {
@@ -125,6 +147,7 @@ export interface HotelCart {
   thumbnail?: string;
   terms_and_conditions?: string;
   check_in_instructions?: CheckInInstructions;
+  selected_room_code?: string;
 }
 
 export interface FlightCart {

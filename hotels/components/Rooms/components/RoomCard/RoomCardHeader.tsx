@@ -1,5 +1,5 @@
 import {
-  Rate,
+  Rates,
   CancellationPolicy,
   Services,
 } from '../../../../types/response/SearchResponse';
@@ -9,13 +9,14 @@ import { useTranslation } from 'react-i18next';
 
 interface RoomHeaderProps {
   roomDescription: string;
-  rates: Rate;
+  rates: Rates;
   cancellationPolicy?: CancellationPolicy;
   amenities: string[];
   itemToBook: Item;
   nights: number;
   guests: number;
   services: Services;
+  rooms?: number;
 }
 
 const RoomCardHeader = ({
@@ -27,6 +28,7 @@ const RoomCardHeader = ({
   nights,
   guests,
   services,
+  rooms,
 }: RoomHeaderProps) => {
   const [t] = useTranslation('hotels');
   const roomDetailsText = t('roomDetails', 'Room Details');
@@ -45,6 +47,7 @@ const RoomCardHeader = ({
         nights={nights}
         guests={guests}
         services={services}
+        rooms={rooms}
       />
     </header>
   );

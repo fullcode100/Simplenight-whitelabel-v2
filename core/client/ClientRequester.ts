@@ -1,12 +1,9 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { CategoryOption, CoreOption } from 'types/search/SearchTypeOptions';
-import {
-  axiosCurrencyInterceptor,
-  axiosI18nInterceptor,
-  createClientAxiosInstance,
-} from 'apiCalls/config/axiosHelper';
+import { createClientAxiosInstance } from 'apiCalls/config/axiosHelper';
 import { i18n } from 'i18next';
 import { CustomWindow } from 'types/global/CustomWindow';
+import { X_SESSION } from 'apiCalls/config/middlewares/authHeaderMiddleware';
 
 declare let window: CustomWindow;
 
@@ -27,12 +24,18 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
 
     const result = await this.doRequest(request, axios, ...args);
 
+    this.setSessionKey(result);
+
     this.postRequest(request, result);
 
     const { data } = result;
     this.postRequestResult(request, data);
 
     return data;
+  }
+
+  protected setSessionKey(response: AxiosResponse) {
+    window.sessionStorage.setItem(X_SESSION, response.headers[X_SESSION]);
   }
 
   protected getCurrency(): string {

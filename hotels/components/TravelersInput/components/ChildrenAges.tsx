@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 import BaseInput from 'components/global/Input/BaseInput';
 import { Room } from 'hotels/helpers/room';
@@ -21,6 +22,7 @@ const ChildrenAges = ({
   const [t, i18next] = useTranslation('global');
   // eslint-disable-next-line quotes
   const childrenAgesLabel = t('childrenAges', "Children's Ages");
+  const [indexOnFocus, setIndexOnFocus] = useState(0);
 
   const newChildrenAmount = room.children + room.infants;
   room.childrenAges =
@@ -48,8 +50,9 @@ const ChildrenAges = ({
                   roomNumber,
                 )
               }
+              onClick={() => setIndexOnFocus(indexAge)}
               max={17}
-              autoFocus={true}
+              autoFocus={indexOnFocus == indexAge ? true : false}
             />
           </section>
         ))}

@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { FC, useRef } from 'react';
 import I18nHOC from '../I18nHOC/I18nHOC';
 import Label from '../Label/Label';
 import classnames from 'classnames';
+import ClearIcon from '../../../public/icons/assets/clear.svg';
+
 export interface BaseInputProps {
   children?: any;
   name?: string;
@@ -18,6 +20,9 @@ export interface BaseInputProps {
   onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   max?: number;
   error?: boolean;
+  clearable?: boolean;
+  onClear?: () => void;
+  defaultValue?: string;
 }
 
 type InputType = 'text' | 'number' | 'date' | 'select';
@@ -47,6 +52,9 @@ const BaseInput = ({
   autoFocus = false,
   max,
   error,
+  clearable,
+  onClear,
+  defaultValue,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,7 +63,7 @@ const BaseInput = ({
     'w-11 h-11 text-center': type === 'number',
   });
   const NumberInput = () => (
-    <section className="w-full h-full flex items-center justify-between">
+    <section className="flex items-center justify-between w-full h-full">
       <section className="flex flex-col gap-1">
         <div className="text-dark-850 text-[16px] leading-[16px]">{label}</div>
         <div className="text-dark-800 text-[16px] leading-[16px]">
@@ -67,6 +75,7 @@ const BaseInput = ({
         {leftIcon}
         {Input}
         {rightIcon}
+        {clearable && <ClearIcon />}
       </div>
     </section>
   );
@@ -93,6 +102,8 @@ const BaseInput = ({
       onChange={onChange}
       autoFocus={autoFocus}
       max={type == 'number' ? max : ''}
+      onClick={onClick}
+      defaultValue={defaultValue}
       {...others}
     />
   );
@@ -107,10 +118,26 @@ const BaseInput = ({
         {leftIcon}
         {Input}
         {rightIcon}
+        {!!clearable && !!value && <ClearButton onClick={onClear} />}
       </div>
     </div>
   );
 };
+
+interface ClearButtonProps {
+  onClick?: () => void;
+}
+
+const ClearButton: FC<ClearButtonProps> = (props) => (
+  <section className="absolute top-0 right-0 pr-2 flex items-center inset-y-0">
+    <button
+      className="w-8 h-8 flex justify-center items-center  rounded-2xl hover:bg-primary-100"
+      onClick={props.onClick}
+    >
+      <ClearIcon />
+    </button>
+  </section>
+);
 
 /* eslint new-cap: ["off"] */
 export default I18nHOC<BaseInputProps & BaseInputHiddenProps>(BaseInput);

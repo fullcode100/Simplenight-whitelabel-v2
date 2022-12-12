@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getFeatures } from '../../../../store/selectors/core';
+import { getCategories } from '../../../../store/selectors/core';
 import classnames from 'classnames';
 import SingleBed from 'public/icons/assets/single-bed.svg';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
 
 const CategorySelectDesktop = () => {
-  const features = useSelector(getFeatures);
-  const featureNames = Object.keys(features);
-  const [currentCategory, setCurrentCategory] = useState('flights');
+  const categories = useSelector(getCategories);
+  const categoriesNames = categories.map((category) => category.alias);
+  const [currentCategory, setCurrentCategory] = useState('hotels');
   const displayCategories = useDisplayCategory();
 
   const handleSelectCategory = (category: string) => {
     setCurrentCategory(category);
   };
 
-  const getFeaturesAsOptions = () =>
-    featureNames.map((feature, i) => {
-      const indexLast = featureNames.lastIndexOf(feature);
+  const getCategoriesAsOptions = () =>
+    categoriesNames.map((category, i) => {
+      const indexLast = categoriesNames.lastIndexOf(category);
       const isLast = i === indexLast;
-      if (features[feature]) {
-        const isActive = currentCategory === feature;
+      if (categories[i]) {
+        const isActive = currentCategory === category;
         const className = classnames(
           'px-4 py-2 text-base cursor-pointer grid place-items-center gap-2 relative z-10',
           {
@@ -29,12 +29,12 @@ const CategorySelectDesktop = () => {
         );
         return (
           <section
-            key={feature}
+            key={category}
             className={className}
-            onClick={() => handleSelectCategory(feature)}
+            onClick={() => handleSelectCategory(category)}
           >
             <SingleBed />
-            <p className="capitalize">{feature}</p>
+            <p className="capitalize">{category}</p>
           </section>
         );
       }
@@ -44,8 +44,8 @@ const CategorySelectDesktop = () => {
   return (
     <>
       {displayCategories && (
-        <section className="hidden lg:flex text-dark-800 justify-center mb-3 relative">
-          {getFeaturesAsOptions()}
+        <section className="relative justify-center hidden mb-3 lg:flex text-dark-800">
+          {getCategoriesAsOptions()}
           <span className="absolute bottom-0 h-[2px] bg-dark-300 w-full" />
         </section>
       )}

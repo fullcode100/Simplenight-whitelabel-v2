@@ -5,8 +5,7 @@ export const useApiKey = (defaultValue: string) => {
 
   useEffect(() => {
     (async () => {
-      const getApiKey = (await import('apiCalls/config/axiosHelper'))
-        .getApiKey;
+      const getApiKey = (await import('apiCalls/config/axiosHelper')).getApiKey;
 
       const endpoint = getApiKey();
       setApiKey(endpoint);

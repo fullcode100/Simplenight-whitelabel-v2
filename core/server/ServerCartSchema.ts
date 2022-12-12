@@ -1,7 +1,8 @@
 import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { CartSchemaResponse } from 'types/cart/CartType';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CoreOption } from 'types/search/SearchTypeOptions';
 import { ServerRequester } from './ServerRequester';
@@ -12,7 +13,7 @@ export class ServerCartSchema extends ServerRequester<CartSchemaResponse> {
   }
 
   protected override doRequest(
-    request: NextApiRequest,
+    request: NextApiRequestWithSession,
     response: NextApiResponse,
     axios: AxiosInstance,
   ) {
