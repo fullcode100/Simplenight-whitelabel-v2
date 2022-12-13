@@ -10,6 +10,7 @@ export interface CategoryStoreActions {
     i18next: i18n,
   ) => AppThunk;
 
-  search?: (searchParams: FlightSearchRequest | CarSearchRequest) => void;
+  // search?: (searchParams: FlightSearchRequest | CarSearchRequest) => void;
+  search?: (searchParams: any) => void;
   detail?: (id: any, params: any) => void;
 }
