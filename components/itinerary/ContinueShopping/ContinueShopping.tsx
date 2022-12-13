@@ -22,7 +22,7 @@ const ContinueShopping = ({
   return (
     <section className="py-6 space-y-6 bg-dark-100" ref={continueRef}>
       <section className="w-full mx-auto max-w-7xl">
-        <h4 className="px-5 text-lg font-semibold text-dark-800">
+        <h4 className="px-5 py-4 text-lg font-semibold text-dark-800">
           {continueShoppingTitle}
         </h4>
         <CategoryList categoryList={categoriesTabs} />

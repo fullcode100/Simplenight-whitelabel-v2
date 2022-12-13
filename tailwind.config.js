@@ -8,6 +8,7 @@ module.exports = {
     './cars/**/*.tsx',
     './parking/**/*.tsx',
     './showsAndEvents/**/*.tsx',
+    './flights/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {

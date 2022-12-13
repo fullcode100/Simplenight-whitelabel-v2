@@ -10,6 +10,8 @@ import {
 import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
 import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData';
 import { Amount } from 'types/global/Amount';
+import { FlightCartRequestDetail } from 'flights/types/request/FlightCartRequest';
+import { FlightCartItemData } from 'flights/types/response/FlightCartItemData';
 import { CarCartRequestDetail } from 'cars/types/request/CarCartRequest';
 import { CarCartItemData } from 'cars/types/response/CarCartItemData';
 
@@ -62,7 +64,7 @@ export interface TotalAmount {
 }
 
 export interface CartItemRequest {
-  booking_data?: CartBookingData; // CarCartRequestDetail | ThingsCartRequestDetail;
+  booking_data?: CartBookingData;
   category?: string;
   sn_booking_code?: string;
 }
@@ -80,9 +82,10 @@ export interface UpdateCartItemRequest {
 }
 
 export interface Item {
-  booking_data?: CartBookingData; // CarCartRequestDetail | ThingsCartRequestDetail;
-  item_data?: CartItemData; // CarCartItemData | ThingsCartItemData;
   category?: string;
+  sector?: string;
+  booking_data?: CartBookingData;
+  item_data?: CartItemData;
   cart_id?: string;
   cart_item_id?: string;
   created_at?: string;
@@ -101,8 +104,8 @@ export interface Item {
   guests?: number;
   adults?: number;
   children?: number;
+  infants?: number;
   room_qty?: number;
-  sector?: string;
   customer_additional_requests?: string;
 }
 
@@ -147,6 +150,24 @@ export interface HotelCart {
   terms_and_conditions?: string;
   check_in_instructions?: CheckInInstructions;
   selected_room_code?: string;
+}
+
+export interface FlightCart {
+  amount_min?: Amount;
+  details?: Details;
+  end_date?: string;
+  giata_code?: string;
+  id?: string;
+  min_rate_room?: Room;
+  photos?: Photo[];
+  relative_position?: RelativePosition;
+  items?: Item[];
+  rooms?: Room[];
+  relevance?: number;
+  start_date?: string;
+  thumbnail?: string;
+  terms_and_conditions?: string;
+  check_in_instructions?: CheckInInstructions;
 }
 
 export interface CarCart {

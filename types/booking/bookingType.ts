@@ -16,6 +16,13 @@ import {
 import { CancellationPolicy } from 'types/checkout/CreateBookingResponse';
 import { Amount } from 'types/global/Amount';
 
+export interface CartBookingData {
+  [key: string]: any;
+}
+export interface CartItemData {
+  [key: string]: any;
+}
+
 export interface Booking {
   booking_id: string;
   created_at: string;
@@ -49,7 +56,7 @@ export interface Item {
   children: number;
   children_ages: string[];
   customer: PrimaryContact;
-  item_data: ItemData;
+  item_data: CartItemData;
   extra_data?: ItemExtraData;
   inventory_id: string;
   name: string;
@@ -67,7 +74,7 @@ export interface Item {
   total_tax_postpaid: Amount;
   vendor_confirmation_code: string;
   sector: string;
-  booking_data?: CarCartRequestDetail; // | ThingsCartRequestDetail;
+  booking_data?: CartBookingData;
   voucher?: Voucher;
   customer_additional_requests?: string;
 }
