@@ -1,4 +1,14 @@
-export const SET_HOTELS = 'SET_HOTELS';
-export const SET_DETAIL = 'SET_DETAIL';
+import { HotelDetailResponse } from 'hotels/types/response/HotelDetailResponse';
+import { Hotel } from 'hotels/types/response/SearchResponse';
 
-export default '';
+export enum HotelsActionTypes {
+  FETCH_REQUEST = '@@hotels/FETCH_REQUEST',
+  FETCH_SUCCESS = '@@hotels/FETCH_SUCCESS',
+  FETCH_ERROR = '@@hotels/FETCH_ERROR',
+}
+
+export interface HotelState {
+  loading: boolean;
+  hotels: Hotel[];
+  hotel: HotelDetailResponse | Hotel;
+}

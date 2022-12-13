@@ -1,34 +1,24 @@
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
-import {
-  Hotel,
-  HotelSearchResponse,
-  MinRate,
-  Rates,
-} from 'hotels/types/response/SearchResponse';
-import React, { createRef, ReactNode, useEffect, useState } from 'react';
+import { Hotel, MinRate } from 'hotels/types/response/SearchResponse';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
-import { useRouter } from 'next/router';
+
 import HotelMapView from './HotelResultsMapView';
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
-import { useSelector } from 'react-redux';
-import { CustomWindow } from 'types/global/CustomWindow';
-import Loader from '../../../components/global/Loader/Loader';
-import { Room, createRoom } from 'hotels/helpers/room';
+import { useSelector, useDispatch } from 'react-redux';
+import { createRoom } from 'hotels/helpers/room';
 import HotelItemRateInfo from './HotelItemRateInfo';
 import { sortByAdapter } from 'hotels/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'hotels/adapters/cancellation-type.adapter';
-import MapIcon from 'public/icons/assets/map.svg';
-import ListIcon from 'public/icons/assets/list.svg';
-import classnames from 'classnames';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+
 import HotelFilterFormDesktop from './HotelFilterFormDesktop';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import HotelCancellable from './HotelCancellable';
@@ -36,22 +26,33 @@ import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/Horizon
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
-
-declare let window: CustomWindow;
+import { hotelsSetInitialState } from 'hotels/redux/actions';
+import { useFilterHotels } from '../../hooks/useFilterHotels';
+import HotelSecondarySearchOptions from './HotelSecondarySearchOptions';
+import { ViewActions } from './ViewActions';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
 }
 
-interface ViewButtonProps {
-  children: ReactNode;
-  viewParam: 'list' | 'map';
-}
+export type availableFilters =
+  | 'minPrice'
+  | 'maxPrice'
+  | 'minRating'
+  | 'maxRating'
+  | 'freeCancelation'
+  | 'ratingLowFirst'
+  | 'ratingHighFirst'
+  | 'priceLowFirst'
+  | 'priceHighFirst'
+  | 'showAll'
+  | 'propertyHotel'
+  | 'propertyRental'
+  | 'propertyHotel&Rental'
+  | 'propertyAll';
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
-  const [loaded, setLoaded] = useState(false);
   const [counter, setCounter] = useState(0);
-  const { ClientSearcher: Searcher } = HotelCategory.core;
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
   const hotelsFoundLabelDesktop = t('results', 'Results');
@@ -59,9 +60,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
   const fromLabel = t('from', 'From');
   const { language } = i18next;
-  const router = useRouter();
-  const setQueryParams = useQuerySetter();
-
+  const dispatch = useDispatch();
   const {
     adults,
     children,
@@ -70,7 +69,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     latitude,
     longitude,
     rooms,
-    keywordSearch,
     sortBy,
     paymentTypes,
     propertyTypes,
@@ -84,12 +82,16 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     slug,
   } = useQuery();
 
-  const [hotels, setHotels] = useState<Hotel[]>([]);
-  // It could be useful
-  // const { memoizedFilterHotels } = useFilter(hotels, keywordSearch as string);
-
   const [currency, setCurrency] = useState<string>('');
   const storeCurrency = useSelector((state: any) => state.core.currency);
+  const [filteredHotels, setfilteredHotels] = useState<Hotel[]>([]);
+  const { loading, hotels } = useSelector((state: any) => state.hotels);
+  const { handleFilterHotels } = useFilterHotels(hotels, setfilteredHotels);
+  const [view, setview] = useState('list');
+  const isListView = view === 'list';
+
+  // It could be useful
+  // const { memoizedFilterHotels } = useFilter(hotels, keywordSearch as string);
 
   useEffect(() => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
@@ -136,19 +138,13 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         is_total_price: isTotalPrice as string,
         amenities: amenities as string,
         supplier_ids: supplierIds as string,
+        apiUrl: '/hotels',
       };
 
       if (parseQueryNumber(children as string)) {
         params.children_ages = getChildrenAges(paramRoomsData);
       }
-
-      setLoaded(false);
-      Searcher?.request(params, i18next)
-        .then(({ hotels: searchedHotels }: HotelSearchResponse) => {
-          setHotels(searchedHotels);
-        })
-        .catch((error) => console.error(error))
-        .then(() => setLoaded(true));
+      dispatch(hotelsSetInitialState(params, i18next));
     }
   }, [
     adults,
@@ -165,105 +161,95 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     minPrice,
     maxPrice,
     amenities,
+    counter,
+    roomsData,
+    paymentTypes,
+    propertyTypes,
+    isTotalPrice,
+    supplierIds,
+    dispatch,
+    i18next,
   ]);
+
+  useEffect(() => {
+    if (hotels.length > 0) {
+      setfilteredHotels(hotels);
+    }
+  }, [hotels]);
 
   const urlDetail = (hotel: Hotel) => {
     const { id } = hotel;
     return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
+  const hasNoHotels = hotels.length === 0;
+
   const HotelList = () => (
     <ul role="list" className="space-y-4">
-      {hotels.map((hotel, index) => {
-        const {
-          details: { name, address, star_rating: starRating },
-          min_rate_room: minRateRoom,
-          thumbnail,
-        } = hotel;
+      {loading ? (
+        <HorizontalSkeletonList />
+      ) : (
+        <>
+          {filteredHotels.map((hotel: Hotel) => {
+            const {
+              details: { name, address, star_rating: starRating },
+              min_rate_room: minRateRoom,
+              thumbnail,
+            } = hotel;
 
-        const url = urlDetail(hotel);
-        const itemKey = hotel.id + index;
-        const minRate = minRateRoom.rates;
-        const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
+            const url = urlDetail(hotel);
+            const itemKey = hotel.id;
+            const minRate = minRateRoom.rates;
+            const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
-        return (
-          <HorizontalItemCard
-            key={itemKey}
-            icon={HotelCategory.icon}
-            categoryName={hotelLabel}
-            item={hotel}
-            title={name}
-            image={thumbnail}
-            price={<HotelItemRateInfo minRate={minRate} />}
-            address={formattedLocation}
-            className=" flex-0-0-auto"
-            rating={parseInt(starRating)}
-            url={url}
-            priceDisplay={
-              <PriceDisplay
-                rate={minRate}
-                totalLabel={fromLabel}
-                isStartingTotal={true}
-                isPriceBase
-                isAvgAmount
+            return (
+              <HorizontalItemCard
+                key={itemKey}
+                icon={HotelCategory.icon}
+                categoryName={hotelLabel}
+                item={hotel}
+                title={name}
+                image={thumbnail}
+                price={<HotelItemRateInfo minRate={minRate} />}
+                address={formattedLocation}
+                className=" flex-0-0-auto"
+                rating={parseInt(starRating)}
+                url={url}
+                priceDisplay={
+                  <PriceDisplay
+                    rate={minRate}
+                    totalLabel={fromLabel}
+                    isStartingTotal={true}
+                    isPriceBase
+                    isAvgAmount
+                  />
+                }
+                cancellable={
+                  <HotelCancellable minRate={minRate?.min_rate as MinRate} />
+                }
               />
-            }
-            cancellable={
-              <HotelCancellable minRate={minRate?.min_rate as MinRate} />
-            }
-          />
-        );
-      })}
+            );
+          })}
+        </>
+      )}
     </ul>
   );
-  const { view = 'list' } = useQuery();
-  const isListView = view === 'list';
-
-  const ViewButton = ({ children, viewParam }: ViewButtonProps) => {
-    const active = viewParam === 'list' ? isListView : !isListView;
-    const onClick = () => {
-      setQueryParams({
-        view: viewParam,
-      });
-    };
-    return (
-      <button
-        onClick={onClick}
-        className={classnames(
-          'h-[2.75rem] w-[2.75rem] grid place-content-center',
-          {
-            'bg-white text-primary-1000': !active,
-            'bg-primary-1000 text-white': active,
-          },
-        )}
-      >
-        {children}
-      </button>
-    );
-  };
-
-  const ViewActions = () => {
-    return (
-      <section className="flex rounded-4 overflow-hidden w-[5.5rem] border border-primary-1000">
-        <ViewButton viewParam="list">
-          <ListIcon className="w-[1.3rem] h-[1.3rem]" />
-        </ViewButton>
-        <ViewButton viewParam="map">
-          <MapIcon className="w-[1.3rem] h-[1.3rem]" />
-        </ViewButton>
-      </section>
-    );
-  };
-
-  const hasNoHotels = hotels.length === 0;
 
   return (
     <>
       <section className="lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
-          <HotelFilterFormDesktop />
+          <HotelFilterFormDesktop
+            loading={loading}
+            handleFilterHotels={handleFilterHotels}
+          />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full mt-20 lg:mt-0">
-          {loaded && hasNoHotels ? (
+        <section className="pt-4">
+          <HotelSecondarySearchOptions
+            handleFilterHotels={handleFilterHotels}
+          />
+        </section>
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
+          {!loading && hasNoHotels ? (
             <EmptyState
               text={noResultsLabel}
               image={<EmptyStateIcon className="mx-auto" />}
@@ -275,14 +261,14 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                   isListView ? 'right-0 top-4' : 'right-6 top-6'
                 }`}
               >
-                <ViewActions />
+                <ViewActions setview={setview} isListView={isListView} />
               </section>
               {isListView && (
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
                   <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                    {loaded ? (
+                    {!loading ? (
                       <span>
-                        {hotels.length}
+                        {filteredHotels.length}
                         <span className="lg:hidden"> {hotelsFoundLabel}</span>
                         <span className="hidden lg:inline">
                           {' '}
@@ -293,15 +279,15 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                       <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
                     )}
                   </section>
-                  {loaded ? <HotelList /> : <HorizontalSkeletonList />}
+                  <HotelList />
                 </section>
               )}
               {!isListView && (
                 <section className="relative w-full h-full">
-                  {loaded ? (
+                  {!loading ? (
                     <HotelMapView
                       HotelCategory={HotelCategory}
-                      items={hotels}
+                      items={filteredHotels}
                       createUrl={urlDetail}
                     />
                   ) : (

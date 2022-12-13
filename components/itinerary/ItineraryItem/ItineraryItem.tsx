@@ -12,6 +12,10 @@ interface ItineraryItemProps {
 }
 
 const ItineraryItem = ({ item, reload, setReload }: ItineraryItemProps) => {
+  let categoryName = item.category?.toLowerCase() || '';
+  if (categoryName === 'car-rental') categoryName = 'cars'; // name fix
+  const category = useCategory(categoryName);
+
   const sector = useCategory(item?.sector || '');
 
   return (

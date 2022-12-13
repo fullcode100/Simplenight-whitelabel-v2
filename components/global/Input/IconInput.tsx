@@ -16,6 +16,7 @@ const IconInput = ({
   orientation = 'left',
   customInputClassName = '',
   value,
+  clearable,
   ...others
 }: IconInputProps) => {
   const orientationBaseProp = `${orientation}Icon`;
@@ -29,8 +30,9 @@ const IconInput = ({
 
   const orientationRight = orientation === 'right';
   const inputClassName = classnames({
-    'pr-10': orientationRight,
-    'pl-10': !orientationRight,
+    'px-10': clearable,
+    'pr-10': !clearable && orientationRight,
+    'pl-10': !clearable && !orientationRight,
     customInputClassName,
   });
 
@@ -50,6 +52,7 @@ const IconInput = ({
       name={name}
       value={value}
       inputClassName={inputClassName}
+      clearable={clearable}
       {...dynamicProps}
       {...others}
     />

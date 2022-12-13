@@ -270,7 +270,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     };
 
     return (
-      <div className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12">
+      <div className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12 lg:py-12">
         <SectionTitle title={policiesLabel} icon={<PoliciesIcon />} />
         <h5 className="mt-6 h5 lg:mt-8">{cancellationLabel}</h5>
         <IconAndText
@@ -296,11 +296,11 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           />
         )}
 
-        <Divider />
+        <Divider className="lg:py-8" />
         <h5 className="h5">{additionalInformationLabel}</h5>
         <List list={thingsItem?.extra_data.amenities} limit={8} />
         <p className="text-base text-dark-1000">{additionalDescription}</p>
-        <Divider />
+        <Divider className="lg:py-8" />
         {policies?.map((policy, idx) => (
           <Fragment key={idx}>
             <PolicyCard policy={policy} />
@@ -432,9 +432,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             <>
               <HeaderSection />
               {/* <TabsSection /> */}
-              <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0">
+              <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0 lg:py-12">
                 <SectionTitle icon={<TicketIcon />} title="Tickets" />
-                <section className="p-4 mt-4 rounded bg-dark-100">
+                <section className="p-4 mt-4 rounded bg-dark-100 lg:mt-8 lg:mb-8">
                   <section>
                     <CheckThingsAvailability
                       isAdultRequired={isAdultRequired}
@@ -447,7 +447,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                 <TicketsSection />
               </section>
               <Divider className="mt-6" />
-              <section className="mx-auto lg:gap-12 lg:grid lg:grid-cols-2 max-w-7xl">
+              <section className="mx-auto lg:gap-12 lg:grid lg:grid-cols-2 lg:divide-y-2 max-w-7xl">
                 <DetailsSection thingsItem={thingsItem} />
                 <Divider className="lg:hidden" />
                 <PoliciesSection />

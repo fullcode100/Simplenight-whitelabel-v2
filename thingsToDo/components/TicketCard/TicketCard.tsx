@@ -136,12 +136,9 @@ const TicketCard = ({
 
   return (
     <section
-      className={classnames(
-        'border border-dark-300 rounded w-full max-w-[200px]',
-        {
-          'border-primary-1000 shadow-md': selected,
-        },
-      )}
+      className={classnames('border border-dark-300 rounded w-full ', {
+        'border-primary-1000 shadow-md': selected,
+      })}
     >
       <TicketHeader title={title} description={description} />
       <section

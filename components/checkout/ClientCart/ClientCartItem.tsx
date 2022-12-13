@@ -5,8 +5,10 @@ import Label from 'components/global/Label/Label';
 import Textarea from 'components/global/Textarea/Textarea';
 import FormSchema from 'components/global/FormSchema/FormSchema';
 import { useTranslation } from 'react-i18next';
+import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
+
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import {
   getBookingQuestionSchema,
@@ -15,7 +17,7 @@ import {
 import { useCategorySlug } from 'hooks/category/useCategory';
 import Divider from 'components/global/Divider/Divider';
 
-let additionalRequest: string;
+const additionalRequest = '';
 
 const ClientCartItem = ({
   index,
@@ -30,6 +32,7 @@ const ClientCartItem = ({
   const [usePrimaryContact, setUsePrimaryContact] = useState(true);
   const itemCustomer = item?.customer;
 
+  let additionalRequest = '';
   const handleChangeAdditionalRequest = (e: any) => {
     additionalRequest = e.target.value;
     onChange(e.target.value, item.cart_item_id, true);

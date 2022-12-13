@@ -114,9 +114,9 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
     <section className="px-5 py-6 lg:px-0 lg:pr-12">
       <SectionTitle title={details} />
       <Features />
-      <Divider className="py-4" />
+      <Divider className="py-4 lg:py-8" />
       <DescriptionSection />
-      <Divider className="py-4" />
+      <Divider className="py-4 lg:py-8" />
       <IncludedSection />
       <NotIncludedSection />
     </section>

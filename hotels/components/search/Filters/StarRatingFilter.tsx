@@ -6,21 +6,25 @@ import FilterContainer from './FilterContainer';
 import FilterTitle from './FilterTitle';
 
 interface StarRatingFilterProps {
-  minStarRating: string;
-  maxStarRating: string;
   onChangeMinRating:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
   onChangeMaxRating:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
+  setMaxValue: React.Dispatch<React.SetStateAction<number>>;
+  setMinValue: React.Dispatch<React.SetStateAction<number>>;
+  minValue: number;
+  maxValue: number;
 }
 
 const StarRatingFilter = ({
-  minStarRating,
-  maxStarRating,
   onChangeMinRating,
   onChangeMaxRating,
+  setMaxValue,
+  setMinValue,
+  minValue,
+  maxValue,
 }: StarRatingFilterProps) => {
   const [t, i18n] = useTranslation('hotels');
   const starRatingLabel = t('starRating', 'Star Rating');
@@ -29,15 +33,18 @@ const StarRatingFilter = ({
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
       <RangeSlider
-        initialMin={minStarRating ? parseInt(minStarRating) : 1}
-        initialMax={maxStarRating ? parseInt(maxStarRating) : 5}
         min={1}
         max={5}
         step={1}
         minDifference={0}
         type="star"
+        marks={true}
         setMinState={onChangeMinRating}
         setMaxState={onChangeMaxRating}
+        setMaxValue={setMaxValue}
+        setMinValue={setMinValue}
+        minValue={minValue}
+        maxValue={maxValue}
       />
     </FilterContainer>
   );

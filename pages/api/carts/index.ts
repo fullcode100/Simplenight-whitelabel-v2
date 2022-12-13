@@ -8,6 +8,7 @@ export default async function handler(
   req: NextApiRequestWithSession,
   res: NextApiResponse<CartResponse>,
 ) {
+  console.log(req, res);
   return new Promise((resolve) => {
     const cartOption = {
       name: 'cart',

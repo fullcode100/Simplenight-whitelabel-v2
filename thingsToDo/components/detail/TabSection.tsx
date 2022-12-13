@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface TabItemProps {
   children: React.ReactNode;
@@ -6,6 +7,10 @@ interface TabItemProps {
 }
 
 const TabsSection = () => {
+  const [t] = useTranslation('global');
+  const description = t('description', 'Description');
+  const policies = t('policies', 'Policies');
+  const location = t('location', 'Location');
   const TabItem = ({ children, isActive }: TabItemProps) => {
     return (
       <section
@@ -21,9 +26,9 @@ const TabsSection = () => {
     <section>
       <div className="bg-dark-100 px-5 flex gap-2 text-dark-700">
         <TabItem isActive>Tickets</TabItem>
-        <TabItem>Details</TabItem>
-        <TabItem>Policies</TabItem>
-        <TabItem>Location</TabItem>
+        <TabItem>{description}</TabItem>
+        <TabItem>{policies}</TabItem>
+        <TabItem>{location}</TabItem>
       </div>
     </section>
   );

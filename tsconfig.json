@@ -18,7 +18,18 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@/icons/*": [
+        "public/icons/*"
+      ],
+      "@/components/global": [
+        "components/global"
+      ],
+      "@/components/search": [
+        "components/search"
+      ]
+    }
   },
   "include": [
     "next-env.d.ts",

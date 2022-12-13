@@ -16,7 +16,7 @@ const LocationSelector = ({
   selectedPoint,
   setSelectedPoint,
 }: LocationSelectorProps) => {
-  const formattedLocations = locations.map((location) => {
+  const formattedLocations = locations.map((location: any) => {
     const value = location.name || location.description;
     const { address } = location;
     const formattedAddress = `${address?.address1}, ${address?.city} - ${address?.state} - ${address?.country}, ${address?.postal_code}`;

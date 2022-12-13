@@ -106,12 +106,13 @@ const RoomPriceBreakdownModal = ({
                 )}
                 <p className="font-semibold text-sm leading-[22px] text-dark-800">
                   {
-                    rate?.min_rate.rate?.rate_breakdown.total_base_amount
+                    rate?.min_rate?.rate?.rate_breakdown.total_base_amount
                       .formatted
                   }
                 </p>
               </section>
             </section>
+
             {rate?.min_rate.rate.rate_breakdown.taxes.map((tax, index) => {
               const taxLabel = t(tax.type, tax.description);
               if (tax.tax_amount.amount === 0) return;
@@ -129,13 +130,14 @@ const RoomPriceBreakdownModal = ({
                 </section>
               );
             })}
+
             <div className="h-px bg-dark-300 w-full"></div>
             <section className="flex justify-between">
               <p className="font-semibold text-sm leading-[22px] text-dark-1000">
                 {payNowLabel}
               </p>
               <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
-                {rate?.min_rate.rate?.total_amount.formatted}
+                {rate?.min_rate?.rate?.total_amount.formatted}
               </p>
             </section>
           </section>
@@ -198,7 +200,7 @@ const RoomPriceBreakdownModal = ({
               </p>
               <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
                 {
-                  rate?.min_rate.rate?.rate_breakdown.post_paid_rate
+                  rate?.min_rate?.rate?.rate_breakdown.post_paid_rate
                     ?.total_taxes.formatted
                 }
               </p>

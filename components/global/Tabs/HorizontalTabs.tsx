@@ -8,6 +8,8 @@ export default function HorizontalTabs({
   className = '',
   primary = false,
 }: TabsProps) {
+  console.log({ activeTab });
+
   const hoverCss = primary
     ? 'text-primary-1000 hover:text-primary-700 hover:border-primary-500'
     : '';

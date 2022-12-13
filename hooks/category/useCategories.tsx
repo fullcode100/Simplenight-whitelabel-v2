@@ -57,6 +57,7 @@ export const getCategoryIcon = (key: string) => {
 const getSectorWhitelabelId = (key: string) => {
   if (['hotels', 'accommodations', 'vacation-rentals'].includes(key))
     return 'hotels';
+  if (['shows-events'].includes(key)) return 'shows-events';
   if (
     [
       'air-activities',
@@ -95,7 +96,8 @@ const getSectorWhitelabelId = (key: string) => {
   if (['transportation', 'flights', 'car-rental'].includes(key))
     return 'transportation';
   if (['food-beverage', 'dining'].includes(key)) return 'food-beverage';
-  if (['other', 'parking', 'vacation-rentals'].includes(key)) return 'other';
+  if (['other', 'vacation-rentals'].includes(key)) return 'other';
+  if (['parking'].includes(key)) return 'parking';
   return '';
 };
 

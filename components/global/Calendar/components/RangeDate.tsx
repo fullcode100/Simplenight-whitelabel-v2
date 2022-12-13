@@ -27,7 +27,7 @@ const RangeDate = ({
       })}
     >
       <div
-        className={`col-span-1 pb-3 px-2 border-b-2 ${
+        className={`col-span-1 pb-3 pr-2 border-b-2 ${
           isStartDateTurn ? 'border-primary-1000' : 'border-dark-300'
         }`}
       >

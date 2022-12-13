@@ -5,7 +5,6 @@ import classnames from 'classnames';
 import SearchResultDisplay from 'components/global/SearchResultDisplay/SearchResultDisplay';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import ExtendedSearchCategoryForm from 'components/global/SearchCategoryForm/ExtendedSearchCategoryForm';
-import SecondaryCategorySearchOptions from 'components/global/SecondaryCategorySearchOptions/SecondaryCategorySearchOptions';
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import { Tab } from 'components/global/Tabs/types';
 import SearchCategoryForm from 'components/global/SearchCategoryForm/SearchCategoryForm';
@@ -35,7 +34,12 @@ const Search: NextPage = () => {
 
   useEffect(() => {
     setActiveTab(categoriesTabs[activeTabIndex]);
-    setSearchType(categoriesTabs[activeTabIndex]?.type);
+    setSearchType(
+      categoriesTabs[activeTabIndex]?.type === 'transportation' &&
+        categoriesTabs[activeTabIndex]?.slug
+        ? categoriesTabs[activeTabIndex]?.slug
+        : categoriesTabs[activeTabIndex]?.type,
+    );
   }, [categoriesTabs.length > 0]);
 
   return (
@@ -53,7 +57,6 @@ const Search: NextPage = () => {
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
-          <SecondaryCategorySearchOptions searchType={searchType} />
         </section>
         <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
           <section className="mx-auto max-w-7xl">
@@ -64,6 +67,8 @@ const Search: NextPage = () => {
       <main>
         <section
           className={classnames('lg:w-full lg:px-20 pt-[90px]', {
+            ['lg:pt-[274px]']: slug === 'car-rental',
+            ['lg:pt-[304px]']: slug === 'flights',
             ['lg:pt-[204px]']: multipleCategories,
             ['lg:pt-[142px]']: !multipleCategories,
           })}

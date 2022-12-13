@@ -40,6 +40,7 @@ interface DatePickerProps {
   maxRange?: number;
   minRange?: number;
   setIsEditing?: (value: boolean) => void;
+  restricted?: boolean;
   isRange?: boolean;
 }
 
@@ -56,6 +57,7 @@ const DatePicker = ({
   maxRange = 14,
   minRange = 1,
   setIsEditing,
+  restricted = true,
   isRange = true,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('global');
@@ -170,6 +172,7 @@ const DatePicker = ({
         calendarSecondMonth={calendarSecondMonth}
         setCalendarSecondMonth={setCalendarSecondMonth}
         maxRange={maxRange}
+        restricted={restricted}
         isRange={isRange}
       />
     );
@@ -178,7 +181,9 @@ const DatePicker = ({
   return (
     <>
       {isDesktop ? (
-        <DesktopDatePicker />
+        <section>
+          <DesktopDatePicker />
+        </section>
       ) : (
         <FullScreenModal
           open={showDatePicker}

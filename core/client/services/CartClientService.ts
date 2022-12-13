@@ -21,11 +21,7 @@ const cartOption = {
   value: 'cart',
 };
 
-export const addToCart = async (
-  itemToAdd: CartItemRequest,
-  i18next: i18n,
-  store: any,
-) => {
+export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
   const { state, dispatch } = store;
   const cartId = state.cartStore.cart ?? null;
   const cartItemAdder = new ClientCartItemAdder(cartOption);

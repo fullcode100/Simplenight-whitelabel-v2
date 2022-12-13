@@ -23,6 +23,10 @@ module.exports = {
           name: 'Hotels',
           components: 'components/categories/hotels/**/*.{js,jsx,ts,tsx}',
         },
+        {
+          name: 'Cars',
+          components: 'components/categories/cars/**/*.{js,jsx,ts,tsx}',
+        },
       ],
     },
   ],

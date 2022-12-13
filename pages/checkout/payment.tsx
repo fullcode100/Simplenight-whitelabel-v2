@@ -10,10 +10,6 @@ import {
   SQUARE_SANDBOX_APP_ID,
   SQUARE_SANDBOX_LOCATION_ID,
 } from 'config/paymentCredentials';
-// Types
-import { Amount } from 'types/global/Amount';
-import { PaymentRequest } from 'components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
-import { Card } from 'types/global/Card';
 // Components
 import Button from 'components/global/Button/Button';
 // Layout Components
@@ -34,23 +30,17 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { clearCart } from 'store/actions/cartActions';
-import BreakdownItemList from '../../components/checkout/BreakdownItemList/BreakdownItemList';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
 import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
+import { Card } from 'types/global/Card';
 import PaymentForm from 'components/global/PaymentForm/PaymentForm';
 import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
 import InputWrapper from 'components/checkout/Inputs/InputWrapper';
 import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
 import { BillingAddress } from '../../components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
-
-const test: Amount = {
-  formatted: '$200.00',
-  amount: 200,
-  currency: 'USD',
-};
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
@@ -66,7 +56,7 @@ const Payment = () => {
     'iHaveReviewed',
     'I have reviewed and agree to the ',
   );
-  const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
+
   const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
   const fullAmountLabel = t('fullAmount', 'Full Amount');
   const checkoutLabel = t('checkoutTitle', 'Check Out');
@@ -180,24 +170,31 @@ const Payment = () => {
     if (!country || !terms || !cart) {
       return;
     }
+
     const { address1, address2, city, state, postalCode, countryCode } =
       billingAddress;
-    const paymentParameters = {
-      cartId: cart?.cart_id,
-      paymentToken: 'cnon:card-nonce-ok',
-      billing_address: {
-        address2: address1,
-        address3: address2,
-        city,
-        province: state,
-        postalCode,
-        countryCode,
+    const bookingParameters = {
+      cart_id: cart?.cart_id,
+      payment_request: {
+        payment_method: 'CARD',
+        name_on_card: card.name,
+        credit_card_number: card.number,
+        cvv: card.cvv,
+        expiry_date: card.expiration,
+        billing_address: {
+          address1,
+          address2,
+          city: city,
+          province: state,
+          postal_code: postalCode,
+          country: countryCode,
+        },
       },
-      ...(prodExpedia && { expediaProd: true }),
+      ...(prodExpedia && { expedia_prod: true }),
     };
 
     try {
-      const data = await createBooking(paymentParameters, i18next);
+      const data = await createBooking(bookingParameters, i18next);
       const bookingId = data?.booking.booking_id;
       triggerEventConversion(bookingId);
       dispatch(clearCart());

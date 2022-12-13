@@ -8,6 +8,7 @@ import {
   Services,
 } from 'hotels/types/response/SearchResponse';
 import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
+import { CarCartRequestDetail } from 'cars/types/request/CarCartRequest';
 import {
   ExtraData,
   Address,
@@ -66,7 +67,7 @@ export interface Item {
   total_tax_postpaid: Amount;
   vendor_confirmation_code: string;
   sector: string;
-  booking_data?: ThingsCartRequestDetail;
+  booking_data?: CarCartRequestDetail; // | ThingsCartRequestDetail;
   voucher?: Voucher;
   customer_additional_requests?: string;
 }

@@ -28,6 +28,7 @@ const LocationInput = ({
   routeParams,
   onChange,
   onSelect,
+  onClear,
   ...others
 }: LocationInputProps & BaseInputProps) => {
   const params = useQuery();
@@ -41,6 +42,11 @@ const LocationInput = ({
   const handleChange = (newAddress: string) => {
     setAddress(newAddress);
     if (onChange) onChange(newAddress);
+  };
+
+  const clearLocationHandler = () => {
+    setAddress('');
+    onClear?.();
   };
 
   const handleSelect = async (newAddress: string) => {

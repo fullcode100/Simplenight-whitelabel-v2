@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/antd.scss';
 import { Provider } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import { useStore } from '../store';

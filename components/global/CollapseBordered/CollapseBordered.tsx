@@ -21,7 +21,7 @@ const CollapseBordered = ({
   const [show, setShow] = useState(false);
 
   return (
-    <section className="border border-dark-300 rounded">
+    <section className="border border-dark-300 rounded overflow-hidden">
       {disclaimer}
       <CollapseHeader title={title} show={show} setShow={setShow} />
       <Collapse isOpened={show}>
