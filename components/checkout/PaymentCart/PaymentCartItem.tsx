@@ -56,13 +56,7 @@ const PaymentCartItem = ({ item, customer }: any) => {
 
   return (
     <section className="space-y-5 py-6">
-      {item.rate && (
-        <CollapseBordered
-          title={<CartItemHeader />}
-          body={<CartItemBody />}
-          footer={<BreakdownSummary rate={item.rate} showTotal={true} />}
-        />
-      )}
+      <CartItemDetail />
     </section>
   );
 };
