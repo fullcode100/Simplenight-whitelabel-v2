@@ -44,7 +44,7 @@ const HotelItineraryFooter = ({
   const selectedRoom = item.extended_data?.rooms?.find(
     (roomA) => roomA.code == item.extended_data?.selected_room_code,
   );
-  const totalRate = selectedRoom?.rates.min_rate.rate;
+  const totalRate = selectedRoom?.rates?.min_rate?.rate;
 
   const slug = useCategoryType('hotels')?.slug;
 

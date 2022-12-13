@@ -34,6 +34,7 @@ const UpperSectionBackground = ({ children }: { children?: any }) => {
 
 const LOOKUP_URI = '/lookup';
 
+// Reopen
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
 

@@ -47,5 +47,8 @@
   "price": "Price",
   "all": "All",
   "prices": "Prices",
-  "minToDestination": "min to destination"
+  "minToDestination": "min to destination",
+  "results": "Results",
+  "arriving": "Arriving",
+  "leaving": "Leaving"
 }

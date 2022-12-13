@@ -12,7 +12,7 @@ import Transports from 'public/icons/categories/TransportationIconOutline.svg';
 
 const CategoriesIcons = [
   {
-    category: 'carrentals',
+    category: 'cars',
     text: 'Car Rentals',
     icon: <Car className="mx-auto" />,
   },

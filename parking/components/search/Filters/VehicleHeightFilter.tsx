@@ -27,7 +27,6 @@ export const VehicleHeightFilter: FC<VehicleHeightFilterProps> = ({
         max={maxHeight}
         value={value}
         onChange={onChange}
-        marks={marks}
         format={(height) => `${height / 100}m`}
       />
     </FilterItem>

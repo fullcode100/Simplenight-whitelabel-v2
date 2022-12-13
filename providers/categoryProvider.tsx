@@ -1,4 +1,5 @@
 import { HotelCategory } from 'hotels';
+import { CarCategory } from 'cars';
 import { ThingsCategory } from 'thingsToDo';
 import { ParkingCategory } from 'parking';
 import { ShowsAndEventsCategory } from 'showsAndEvents';
@@ -12,4 +13,5 @@ export const getCategoryOptions = () =>
     ParkingCategory,
     ShowsAndEventsCategory,
     FlightCategory,
+    CarCategory,
   ].filter(categoryExists);

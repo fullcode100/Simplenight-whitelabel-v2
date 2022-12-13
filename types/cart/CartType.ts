@@ -12,6 +12,8 @@ import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData
 import { Amount } from 'types/global/Amount';
 import { FlightCartRequestDetail } from 'flights/types/request/FlightCartRequest';
 import { FlightCartItemData } from 'flights/types/response/FlightCartItemData';
+import { CarCartRequestDetail } from 'cars/types/request/CarCartRequest';
+import { CarCartItemData } from 'cars/types/response/CarCartItemData';
 
 export interface CartBookingData {
   [key: string]: any;
@@ -166,4 +168,23 @@ export interface FlightCart {
   thumbnail?: string;
   terms_and_conditions?: string;
   check_in_instructions?: CheckInInstructions;
+}
+
+export interface CarCart {
+  amount_min?: Amount;
+  details?: Details;
+  end_date?: string;
+  giata_code?: string;
+  id?: string;
+  min_rate_room?: Room;
+  photos?: Photo[];
+  relative_position?: RelativePosition;
+  items?: Item[];
+  rooms?: Room[];
+  relevance?: number;
+  start_date?: string;
+  thumbnail?: string;
+  terms_and_conditions?: string;
+  check_in_instructions?: CheckInInstructions;
+  selected_room_code?: string;
 }

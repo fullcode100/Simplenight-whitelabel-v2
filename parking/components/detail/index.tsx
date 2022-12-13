@@ -10,6 +10,13 @@ import { ParkingDetailImages } from './ParkingDetailImages';
 import { ParkingDetailFacts } from './ParkingDetailFacts';
 import { ParkingDetailsLocation } from './ParkingDetailsLocation';
 import { ParkingDetailPricesAndWorkHours } from './ParkingDetailPricesAndWorkHours';
+import Button from '../../../components/global/Button/Button';
+import { Container } from './Container';
+import { addToCart } from 'core/client/services/CartClientService';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { CartItemRequest } from '../../../types/cart/CartType';
+import { formatAsExactHour } from '../../../helpers/dajjsUtils';
 
 export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
   Category,
@@ -61,11 +68,54 @@ interface ParkingDetailsProps {
 }
 
 const ParkingDetails: FC<ParkingDetailsProps> = ({ parking }) => {
+  const [t, i18next] = useTranslation('parking');
+  const router = useRouter();
+  const [disabled, setDisabled] = useState(false);
+  const state = useSelector((state) => state);
+  const params = useQuery();
+  const dispatch = useDispatch();
+  const store = {
+    state,
+    dispatch,
+  };
+  const itemToBook: CartItemRequest = {
+    category: 'PARKING',
+    booking_data: {
+      inventory_id: '7e6cfd32:7264P3' || (params.id as string),
+      start_date: params.startDate as string,
+      time: formatAsExactHour(params.startTime as string),
+      product_code: null,
+      booking_code_supplier: 'XQfefns...',
+      ticket_types: [],
+      booking_answers: [],
+    },
+  };
+
+  const handleAction = async () => {
+    setDisabled(true);
+    await addToCart(itemToBook, i18next, store);
+    router.replace('/itinerary');
+  };
+
   return (
     <main>
       <ParkingDetailHeader parking={parking} />
       <ParkingDetailImages parking={parking} />
       <ParkingDetailFacts parking={parking} />
+      <section className="mb-4">
+        <Container>
+          <section>
+            <Button
+              size="full"
+              textColor="primary"
+              type="outlined"
+              value="Add To Itinerary"
+              onClick={() => handleAction()}
+              disabled={disabled}
+            />
+          </section>
+        </Container>
+      </section>
       <hr />
       <ParkingDetailPricesAndWorkHours parking={parking} />
       <hr />

@@ -10,6 +10,8 @@ import thingsEn from 'translations/en/things.json';
 import thingsEs from 'translations/es/things.json';
 import flightsEn from 'translations/en/flights.json';
 import flightsEs from 'translations/es/flights.json';
+import carsEn from 'translations/en/cars.json';
+import carsEs from 'translations/es/cars.json';
 import parkingEs from 'translations/es/parking.json';
 import parkingEn from 'translations/en/parking.json';
 
@@ -65,6 +67,7 @@ export const initializeI18Next = () => {
         hotels: hotelsEn,
         things: thingsEn,
         flights: flightsEn,
+        cars: carsEn,
         parking: parkingEn,
       },
       es: {
@@ -72,6 +75,7 @@ export const initializeI18Next = () => {
         hotels: hotelsEs,
         things: thingsEs,
         flights: flightsEs,
+        cars: carsEs,
         parking: parkingEs,
       },
     },

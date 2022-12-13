@@ -7,11 +7,15 @@ import useQuery from '../../../hooks/pageInteraction/useQuery';
 import useQuerySetter from '../../../hooks/pageInteraction/useQuerySetter';
 import MapIcon from '../../../public/icons/assets/map.svg';
 import ListIcon from '../../../public/icons/assets/list.svg';
-import SortIcon from '../../../public/icons/assets/sort.svg';
-import Dropdown from '../../../components/global/Dropdown/Dropdown';
 import { useTranslation } from 'react-i18next';
 import { ParkingFilter, ParkingSortBy } from '../../types/ParkingFilter';
 import { useDebounce } from '../../hooks/useDebounce';
+import Sort from '@/icons/assets/sort.svg';
+import Filter from '@/icons/assets/filter.svg';
+import Chevron from '@/icons/assets/chevron-down-small.svg';
+import { Radio, RadioGroup } from '../../../components/global/Radio/Radio';
+import { Divider } from 'antd';
+import classNames from 'classnames';
 
 interface SearchResultsHeaderProps {
   length: number;
@@ -31,15 +35,21 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
   sortBy,
 }) => {
   const [t] = useTranslation('parking');
+  const { view } = useQuery();
+  const isMapView = view === 'map';
   return (
-    <div className="w-[100%] bg-white relative z-10">
-      <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center gap-2">
+    <div
+      className={classNames('w-[100%] lg:mb-0 bg-white relative z-10', {
+        'mb-16': !isMapView,
+      })}
+    >
+      <section className="mt-6 lg:mt-0 py-3 text-dark-1000 font-semibold text-[20px] leading-[24px] flex justify-between items-center gap-2 px-4 lg:px-0">
         {isLoading ? (
-          <div className="w-40 h-8 rounded bg-dark-200 animate-pulse" />
+          <span className="w-24 h-8 rounded bg-dark-200 animate-pulse" />
         ) : (
-          <div>
-            {length} <span>{t('Items')}</span>
-          </div>
+          <span className="whitespace-nowrap">
+            {length} <span>{t('results')}</span>
+          </span>
         )}
         <ParkingTypeFilter onFilterChange={onFilterChange} filter={filter} />
         <ParkingSortingAndViewType
@@ -47,6 +57,7 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
           onSortChange={onSortChange}
         />
       </section>
+      <Divider className="m-0 lg:hidden" />
     </div>
   );
 };
@@ -81,13 +92,15 @@ const ParkingTypeFilter: FC<{
   };
 
   return (
-    <section className="flex-1 flex justify-center items-center gap-2">
-      <AltRadioButtonGroup
-        items={parkingTypeFilterItems}
-        value={filter.parkingType}
-        onChange={setParkingType}
-        name="parkingType"
-      />
+    <section className="absolute w-full lg:static top-[100%] left-0 p-4 flex justify-center">
+      <section className="flex-1 flex justify-center items-center gap-2 max-w-[400px]">
+        <AltRadioButtonGroup
+          items={parkingTypeFilterItems}
+          value={filter.parkingType}
+          onChange={setParkingType}
+          name="parkingType"
+        />
+      </section>
     </section>
   );
 };
@@ -121,39 +134,73 @@ const ParkingSortingAndViewType: FC<{
     },
   ];
 
+  const [showSortingDropdown, setShowSortingDropdown] = useState(false);
+
   return (
-    <section className="flex gap-1">
-      <section
-        style={{ width: 128, height: 32 }}
-        className="w-auto flex justify-start items-center"
-      >
-        <Dropdown
-          title={t(sortByVal)}
-          leftIcon={<SortIcon />}
-          options={[
-            {
-              value: t('distance'),
-              checkboxName: 'sorting',
-              selected: sortByVal === 'distance',
-              checkboxValue: sortByVal === 'distance',
-              checkboxMethod: () => setSortByVal('distance'),
-            },
-            {
-              value: t('price'),
-              checkboxName: 'sorting',
-              selected: sortByVal === 'price',
-              checkboxValue: sortByVal === 'price',
-              checkboxMethod: () => setSortByVal('price'),
-            },
-          ]}
+    <section className="flex gap-4">
+      <section className="w-auto flex justify-start items-center gap-4 rounded px-2 lg:px-0 bg-primary-100 lg:bg-transparent">
+        <section className="relative">
+          <button
+            className="flex items-center gap-2 lg:w-[100px] h-6"
+            onClick={() => setShowSortingDropdown((p) => !p)}
+            onBlur={() => setShowSortingDropdown(false)}
+          >
+            <span className="text-primary-1000">
+              <Sort />
+            </span>
+            <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+              <span className="hidden lg:inline">{t(sortByVal)}</span>
+              <span className="inline lg:hidden">{t('sort')}</span>
+            </span>
+            <span className="text-dark-800">
+              <Chevron />
+            </span>
+          </button>
+
+          <section
+            className={`absolute z-10 border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
+              !showSortingDropdown && 'opacity-0 invisible'
+            }`}
+          >
+            <RadioGroup onChange={setSortByVal} value={sortBy} gap="gap-0">
+              <Radio
+                value="distance"
+                containerClass="px-3 py-2 border-b border-dark-200"
+              >
+                {t('distance')}
+              </Radio>
+              <Radio
+                value="price"
+                containerClass="px-3 py-2 border-b border-dark-200"
+              >
+                {t('price')}
+              </Radio>
+            </RadioGroup>
+          </section>
+        </section>
+
+        <button
+          className="flex items-center gap-2 lg:w-[100px] h-6 lg:hidden"
+          onClick={() => setShowSortingDropdown((p) => !p)}
+          onBlur={() => setShowSortingDropdown(false)}
+        >
+          <span className="text-primary-1000">
+            <Filter />
+          </span>
+          <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+            {t('filter')}
+          </span>
+        </button>
+      </section>
+      <section className="hidden lg:block">
+        <AltRadioButtonGroup
+          items={viewTypeFilterItems}
+          value={view as string}
+          onChange={handleViewTypeChange}
+          name="viewType"
+          square={true}
         />
       </section>
-      <AltRadioButtonGroup
-        items={viewTypeFilterItems}
-        value={view as string}
-        onChange={handleViewTypeChange}
-        name="parkingType"
-      />
     </section>
   );
 };

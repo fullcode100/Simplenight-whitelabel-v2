@@ -40,19 +40,21 @@ export const ParkingDetailsLocation: FC<ParkingDetailsLocationProps> = ({
             </section>
           }
         >
-          <LocationMap
-            height={400}
-            center={{
-              latitude,
-              longitude,
-            }}
-            coords={[
-              {
+          <section className="rounded overflow-hidden">
+            <LocationMap
+              height={400}
+              center={{
                 latitude,
                 longitude,
-              },
-            ]}
-          />
+              }}
+              coords={[
+                {
+                  latitude,
+                  longitude,
+                },
+              ]}
+            />
+          </section>
 
           <section className="flex justify-center items-center pt-4">
             <StyledLink href={mapLink} target="_blank">
