@@ -29,20 +29,17 @@ const ClientCart = ({
       {items?.map?.((item: Item, index: number) => {
         const showDivider = index !== items.length - 1;
         return (
-          <>
-            {item.extended_data && (
-              <section key={index}>
-                <ClientCartItem
-                  index={index}
-                  item={item}
-                  formSchema={schema}
-                  formUiSchema={uiSchema}
-                  onChange={onChange}
-                />
-                {showDivider && <Divider />}
-              </section>
-            )}
-          </>
+          <section key={index}>
+            <ClientCartItem
+              index={index}
+              item={item}
+              formSchema={schema}
+              formUiSchema={uiSchema}
+              onChange={onChange}
+              onChangeAnswers={onChangeAnswers}
+            />
+            {showDivider && <Divider />}
+          </section>
         );
       })}
     </>
