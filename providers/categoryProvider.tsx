@@ -4,6 +4,7 @@ import { ThingsCategory } from 'thingsToDo';
 import { ParkingCategory } from 'parking';
 import { ShowsAndEventsCategory } from 'showsAndEvents';
 import { FlightCategory } from 'flights';
+import { DiningCategory } from 'dining';
 
 const categoryExists = (category: any) => !!category;
 export const getCategoryOptions = () =>
@@ -14,4 +15,5 @@ export const getCategoryOptions = () =>
     ShowsAndEventsCategory,
     FlightCategory,
     CarCategory,
+    DiningCategory,
   ].filter(categoryExists);

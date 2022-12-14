@@ -52,6 +52,8 @@ const Home: NextPageWithLayout = () => {
   const categoriesTabs = useCategories();
   const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);
 
+  console.log('ACTIVE TABS ', activeTab);
+
   const homePageText = useBrandHeroTitle();
 
   const handleTabClick = (tab: Tab) => {

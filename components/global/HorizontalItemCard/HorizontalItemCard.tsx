@@ -4,6 +4,7 @@ import { WithId } from 'types/global/WithId';
 import EmptyImage from '../EmptyImage/EmptyImage';
 import Rating from '../Rating/Rating';
 import Link from 'next/link';
+import CategoryTags from '../CategoryTags/CategoryTags';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -15,9 +16,11 @@ interface CardProps<T extends WithId> {
   price?: ReactNode;
   className?: string;
   rating?: number;
+  ratingCount?: number;
   priceDisplay?: ReactNode;
   cancellable?: ReactNode;
   url?: string;
+  categoryTags?: string[];
 }
 
 function HorizontalItemCard<T extends WithId>({
@@ -30,14 +33,20 @@ function HorizontalItemCard<T extends WithId>({
   address = '',
   className = '',
   rating,
+  ratingCount = undefined,
   priceDisplay,
   cancellable,
   url = '/',
+  categoryTags = [],
 }: CardProps<T>) {
   const [t, i18next] = useTranslation('global');
   const [invalidImage, setInvalidImage] = useState(false);
   const fromLabel = t('from', 'From');
-  const target = window.innerWidth < 640 ? '_self' : '_blank';
+  const [target, setTarget] = useState('');
+  useEffect(() => {
+    const target = window.innerWidth < 640 ? '_self' : '_blank';
+    setTarget(target);
+  }, []);
 
   useEffect(() => {
     checkValidImage();
@@ -89,10 +98,17 @@ function HorizontalItemCard<T extends WithId>({
             </section>
             <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
               <TitleSection />
-              <AddressSection />
-              <section className="mt-2">
-                {rating && <Rating value={rating} />}
+              <section className="mt-4">
+                {rating && <Rating value={rating} reviews={ratingCount} />}
               </section>
+              <section className="mt-4">
+                <AddressSection />
+              </section>
+              {categoryTags && (
+                <section className="flex flex-row lg:justify-start gap-2 mt-4">
+                  <CategoryTags tags={categoryTags} />
+                </section>
+              )}
             </section>
             <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
               <section className="text-left">{cancellable}</section>
