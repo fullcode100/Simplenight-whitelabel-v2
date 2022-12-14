@@ -5,7 +5,7 @@ interface RangeDateProps {
   isStartDateTurn: boolean;
   onDateTurn: any;
   startDateLabel: string;
-  endDateLabel: string;
+  endDateLabel?: string;
   startDate: string;
   endDate: string;
   isRange?: boolean;

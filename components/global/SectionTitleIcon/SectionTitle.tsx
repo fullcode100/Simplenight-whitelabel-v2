@@ -7,6 +7,7 @@ interface SectionTitleProps {
   title?: string;
   subTitle?: string;
   displayIcon?: boolean;
+  className?: string;
 }
 
 const SectionTitle = ({
@@ -14,8 +15,9 @@ const SectionTitle = ({
   title,
   subTitle,
   displayIcon = true,
+  className,
 }: SectionTitleProps) => (
-  <section className="flex items-center gap-3 lg:gap-5">
+  <section className={`flex items-center gap-3 lg:gap-5 ${className}`}>
     {displayIcon && <SectionIcon icon={icon} />}
     <section>
       <h2 className="text-lg font-bold leading-6 text-dark-800 lg:text-[32px] lg:leading-[38px]">

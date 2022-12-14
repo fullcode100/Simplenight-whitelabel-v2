@@ -95,6 +95,8 @@ const getSectorWhitelabelId = (key: string) => {
     return 'entertainment';
   if (['transportation', 'flights', 'car-rental'].includes(key))
     return 'transportation';
+  if (key === 'dining') return 'dining';
+  if (['showandevents'].includes(key)) return 'showandevents';
   if (['food-beverage', 'dining'].includes(key)) return 'food-beverage';
   if (['other', 'vacation-rentals'].includes(key)) return 'other';
   if (['parking'].includes(key)) return 'parking';

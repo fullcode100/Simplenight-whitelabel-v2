@@ -9,6 +9,7 @@ export const useApiEndpoint = (defaultValue: string) => {
         .selectApiUrl;
 
       const endpoint = selectApiUrl();
+      console.log('Endpoint', endpoint)
       setApiEndpoint(endpoint);
     })();
   }, []);
