@@ -25,12 +25,6 @@ interface HotelsFilterFormDesktopProps {
   loading: boolean;
 }
 
-export type sortByFilters =
-  | 'sortByPriceAsc'
-  | 'sortByPriceDesc'
-  | 'sortByStarRatingDesc'
-  | 'sortByStarRatingAsc';
-
 const initialPriceRange = {
   min: 0,
   max: 5000,
@@ -39,7 +33,6 @@ const initialPriceRange = {
 const FREE_CANCELATION_INITIAL_VALUE = false;
 const MIN_STAR_RATING_INITIAL_VALUE = 1;
 const MAX_STAR_RATING_INITIAL_VALUE = 5;
-const SORT_BY_INITIAL_VALUE = 'sortByPriceAsc';
 const HOTELS_INITIAL_VALUE = false;
 const VACATION_RENTALS_INITIAL_VALUE = false;
 
@@ -49,7 +42,6 @@ const HotelFilterFormDesktop = ({
 }: HotelsFilterFormDesktopProps) => {
   const setQueryParams = useQuerySetter();
   const payAtProperty = false;
-  const [sortBy, setSortBy] = useState<string>(SORT_BY_INITIAL_VALUE);
   const [freeCancellation, setFreeCancellation] = useState<boolean>(
     FREE_CANCELATION_INITIAL_VALUE,
   );
@@ -86,7 +78,6 @@ const HotelFilterFormDesktop = ({
     setFreeCancellation(FREE_CANCELATION_INITIAL_VALUE);
     setMinStarRating(MIN_STAR_RATING_INITIAL_VALUE);
     setMaxStarRating(MAX_STAR_RATING_INITIAL_VALUE);
-    setSortBy(SORT_BY_INITIAL_VALUE);
     setHotels(HOTELS_INITIAL_VALUE);
     setVacationRentals(VACATION_RENTALS_INITIAL_VALUE);
   };
@@ -97,25 +88,6 @@ const HotelFilterFormDesktop = ({
 
   const onChangeMaxPrice = (value: string) => {
     handleFilterHotels('maxPrice', value);
-  };
-
-  const onChangeSortBy = (value: string) => {
-    const typedValue: sortByFilters = value as sortByFilters;
-    setSortBy(value);
-    switch (typedValue) {
-      case 'sortByStarRatingAsc':
-        handleFilterHotels('ratingLowFirst');
-        break;
-      case 'sortByStarRatingDesc':
-        handleFilterHotels('ratingHighFirst');
-        break;
-      case 'sortByPriceAsc':
-        handleFilterHotels('priceLowFirst');
-        break;
-      case 'sortByPriceDesc':
-        handleFilterHotels('priceHighFirst');
-        break;
-    }
   };
 
   const onChangeMinRating = (value: string) => {
@@ -256,7 +228,6 @@ const HotelFilterFormDesktop = ({
         maxValue={maxPrice}
       />
       <Divider className="my-4 opacity-0" />
-      <SortByFilter sortBy={sortBy} onChangeSortBy={onChangeSortBy} />
       <Divider className="my-6" />
       <StarRatingFilter
         onChangeMinRating={onChangeMinRating}

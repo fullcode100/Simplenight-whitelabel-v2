@@ -28,8 +28,8 @@ import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import { hotelsSetInitialState } from 'hotels/redux/actions';
 import { useFilterHotels } from '../../hooks/useFilterHotels';
-import HotelSecondarySearchOptions from './HotelSecondarySearchOptions';
 import { ViewActions } from './ViewActions';
+import { DropdownRadio } from 'components/global/DropdownRadio';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -50,6 +50,17 @@ export type availableFilters =
   | 'propertyRental'
   | 'propertyHotel&Rental'
   | 'propertyAll';
+
+export type sortByFilters =
+  | 'Price (Lowest First)'
+  | 'Price (Highest First)'
+  | 'Rating (Highest First)'
+  | 'Rating (Lowest First)';
+
+const priceLowerFirst = 'Price (Lowest First)';
+const priceHihgerFirst = 'Price (Highest First)';
+const ratingHighestFirst = 'Rating (Highest First)';
+const ratingLoweFirst = 'Rating (Lowest First)';
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [counter, setCounter] = useState(0);
@@ -81,12 +92,13 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     supplierIds,
     slug,
   } = useQuery();
-
+  const [sortByVal, setSortByVal] = useState(priceLowerFirst);
   const [currency, setCurrency] = useState<string>('');
   const storeCurrency = useSelector((state: any) => state.core.currency);
-  const [filteredHotels, setfilteredHotels] = useState<Hotel[]>([]);
-  const { loading, hotels } = useSelector((state: any) => state.hotels);
-  const { handleFilterHotels } = useFilterHotels(hotels, setfilteredHotels);
+  const { loading, hotels, filteredHotels } = useSelector(
+    (state: any) => state.hotels,
+  );
+  const { handleFilterHotels } = useFilterHotels(hotels);
   const [view, setview] = useState('list');
   const isListView = view === 'list';
 
@@ -171,11 +183,24 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     i18next,
   ]);
 
-  useEffect(() => {
-    if (hotels.length > 0) {
-      setfilteredHotels(hotels);
+  const onChangeSortBy = (value: string) => {
+    const typedValue: sortByFilters = value as sortByFilters;
+    setSortByVal(value);
+    switch (typedValue) {
+      case 'Rating (Lowest First)':
+        handleFilterHotels('ratingLowFirst');
+        break;
+      case 'Rating (Highest First)':
+        handleFilterHotels('ratingHighFirst');
+        break;
+      case 'Price (Lowest First)':
+        handleFilterHotels('priceLowFirst');
+        break;
+      case 'Price (Highest First)':
+        handleFilterHotels('priceHighFirst');
+        break;
     }
-  }, [hotels]);
+  };
 
   const urlDetail = (hotel: Hotel) => {
     const { id } = hotel;
@@ -243,12 +268,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             handleFilterHotels={handleFilterHotels}
           />
         </section>
-        <section className="pt-4">
-          <HotelSecondarySearchOptions
-            handleFilterHotels={handleFilterHotels}
-          />
-        </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0 ">
           {!loading && hasNoHotels ? (
             <EmptyState
               text={noResultsLabel}
@@ -256,16 +276,13 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             />
           ) : (
             <>
-              <section
-                className={`hidden lg:block absolute z-[1] ${
-                  isListView ? 'right-0 top-4' : 'right-6 top-6'
-                }`}
-              >
-                <ViewActions setview={setview} isListView={isListView} />
-              </section>
-              {isListView && (
-                <section className="w-full h-full px-5 pb-6 lg:px-0">
-                  <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
+              <section className="hidden w-full lg:block absolute z-[1] right-0 top-2">
+                <div
+                  className={`flex bg-white  rounded justify-between py-4 ${
+                    !isListView ? 'px-4 shadow-container' : ''
+                  }`}
+                >
+                  <section className=" text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
                     {!loading ? (
                       <span>
                         {filteredHotels.length}
@@ -279,11 +296,32 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                       <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
                     )}
                   </section>
+                  <section className="flex gap-4 items-center">
+                    {isListView && (
+                      <DropdownRadio
+                        translation="hotels"
+                        sortByVal={sortByVal}
+                        setSortByVal={setSortByVal}
+                        onClickOption={onChangeSortBy}
+                        options={[
+                          priceLowerFirst,
+                          priceHihgerFirst,
+                          ratingHighestFirst,
+                          ratingLoweFirst,
+                        ]}
+                      />
+                    )}
+                    <ViewActions view={view} setview={setview} />
+                  </section>
+                </div>
+              </section>
+              {isListView && (
+                <section className="w-full h-full px-5 pb-6 lg:px-0 mt-24">
                   <HotelList />
                 </section>
               )}
               {!isListView && (
-                <section className="relative w-full h-full">
+                <section className="w-full h-full">
                   {!loading ? (
                     <HotelMapView
                       HotelCategory={HotelCategory}

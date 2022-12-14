@@ -116,6 +116,7 @@ const DesktopDatepickerDropdown = ({
           isStartDateTurn={isStartDateTurn}
           maxRange={maxRange}
           className={'pt-2 mt-1 text-xs'}
+          restricted={restricted}
         />
       </section>
     </section>

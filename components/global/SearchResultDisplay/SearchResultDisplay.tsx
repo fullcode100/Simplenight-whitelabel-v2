@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import DiningResultsDisplay from 'dining/components/search/DiningResultsDisplay';
 

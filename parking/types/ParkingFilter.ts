@@ -7,6 +7,7 @@ export type ParkingFilter = {
   maxPrice: number;
   minHeight: number;
   maxHeight: number;
+  sortBy: ParkingSortBy;
 };
 
 export type ParkingListMetaData = ParkingListPriceMetaData &

@@ -72,7 +72,7 @@ const DatePicker = ({
     dayjs().add(1, 'day').format('YYYY-MM-DD'),
   );
   const [isStartDateTurn, setIsStartDateTurn] = useState<boolean>(openOnStart);
-  const isStartTurnValue = !isRange || !isStartDateTurn;
+  const isStartTurnValue = !isRange || isStartDateTurn;
 
   const { isDesktop } = useMediaViewport();
 
@@ -91,20 +91,21 @@ const DatePicker = ({
     if (!isRange || isStartDateTurn) {
       const isMaxRange = isRange
         ? (dayjs(date).isSameOrAfter(dayjs(endDate)) && startDate) ||
-          dayjs(date).isBefore(dayjs(endDate).subtract(maxRange, 'day')) ||
-          dayjs(date).isBetween(
-            dayjs(startDate),
-            dayjs(startDate).add(minRange, 'day'),
-          )
+          (restricted &&
+            (dayjs(date).isBefore(dayjs(endDate).subtract(maxRange, 'day')) ||
+              dayjs(date).isBetween(
+                dayjs(startDate),
+                dayjs(startDate).add(minRange, 'day'),
+              )))
         : false;
       if (isMaxRange) {
         setStartDate(date);
         setEndDate(dayjs(date).add(minRange, 'day').format('YYYY-MM-DD'));
-        setIsStartDateTurn(isStartTurnValue);
+        setIsStartDateTurn(!isStartTurnValue);
         return;
       }
       setStartDate(date);
-      setIsStartDateTurn(isStartTurnValue);
+      setIsStartDateTurn(!isStartTurnValue);
       return;
     }
     if (!isStartDateTurn) {
@@ -152,7 +153,7 @@ const DatePicker = ({
         rangeDate={
           <RangeDate
             isStartDateTurn={isStartTurnValue}
-            onDateTurn={() => setIsStartDateTurn(isStartTurnValue)}
+            onDateTurn={() => setIsStartDateTurn(!isStartTurnValue)}
             startDateLabel={startDateLabel}
             endDateLabel={endDateLabel}
             startDate={formatAsRangeDate(startDate)}
@@ -198,7 +199,7 @@ const DatePicker = ({
         >
           <RangeDate
             isStartDateTurn={isStartTurnValue}
-            onDateTurn={() => setIsStartDateTurn(isStartTurnValue)}
+            onDateTurn={() => setIsStartDateTurn(!isStartTurnValue)}
             startDateLabel={startDateLabel}
             endDateLabel={endDateLabel}
             startDate={formatAsRangeDate(startDate)}
@@ -220,6 +221,7 @@ const DatePicker = ({
                     setDate={setDate}
                     isStartDateTurn={isStartDateTurn}
                     maxRange={maxRange}
+                    restricted={restricted}
                   />
                 </Fragment>
               );

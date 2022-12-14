@@ -1,6 +1,11 @@
 /* eslint-disable camelcase */
 import { i18n } from 'i18next';
-import { CartItemRequest, Item, UpdateCartRequest } from 'types/cart/CartType';
+import {
+  CartClientResponse,
+  CartItemRequest,
+  Item,
+  UpdateCartRequest,
+} from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
 import {
   createCart,
@@ -50,14 +55,12 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
       }
       return item;
     }
-    const { cart } = await cartItemAdder.request(
-      newCartRequest,
-      i18next,
-      cartUrl,
-    );
+    const item = await cartItemAdder.request(newCartRequest, i18next, cartUrl);
+    const { cart } = item;
     if (cart) {
       dispatch(createCart(cart.cart_id));
     }
+    return item;
   } catch (error) {
     console.error(error);
   }

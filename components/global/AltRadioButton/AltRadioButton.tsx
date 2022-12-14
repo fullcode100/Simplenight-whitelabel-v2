@@ -22,7 +22,7 @@ const AltRadioButton: FC<RadioItemType & RadioInputType> = (props) => {
           'bg-primary-100 border-primary-1000 border-primary-1000 hover:border-primary-1000 text-primary-1000':
             props.checked,
           'px-4': !props.square,
-          'w-8': props.square,
+          'w-9': props.square,
         },
       )}
     >

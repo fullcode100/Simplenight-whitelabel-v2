@@ -6,6 +6,7 @@ const initialState = {
   loading: false,
   hotels: [],
   hotel: {} as Hotel,
+  filteredHotels: [] as Hotel[],
 };
 
 const hotelReducer: Reducer<typeof initialState> = (
@@ -24,11 +25,17 @@ const hotelReducer: Reducer<typeof initialState> = (
         ...state,
         loading: action.loading,
         hotels: action.hotels.hotels,
+        filteredHotels: action.hotels.hotels,
       };
     case HotelsActionTypes.FETCH_ERROR:
       return {
         ...state,
         loading: action.loading,
+      };
+    case HotelsActionTypes.SET_FILTERED_HOTELS:
+      return {
+        ...state,
+        filteredHotels: action.hotels,
       };
     default:
       return state;

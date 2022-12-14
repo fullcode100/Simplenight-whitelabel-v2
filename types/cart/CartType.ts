@@ -7,6 +7,8 @@ import {
   RelativePosition,
   Room,
 } from 'hotels/types/response/SearchResponse';
+import { ShowsCartRequestDetail } from 'showsAndEvents/types/request/ShowsCartRequest';
+import { ShowsCartItemData } from 'showsAndEvents/types/response/ShowsCartResponse';
 import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
 import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData';
 import { Amount } from 'types/global/Amount';
@@ -81,6 +83,39 @@ export interface UpdateCartItemRequest {
   cart: Item;
 }
 
+export interface Breakdown {
+  amount: Amount;
+  description: string;
+  percentage: number;
+  source: string;
+}
+export interface Discounts {
+  amount_to_apply: Amount;
+  breakdown: Breakdown[];
+  total_amount_before_apply: Amount;
+  net_amount_before_apply: Amount;
+  percentage_to_apply: string;
+}
+
+export interface Rate {
+  discounts: Discounts;
+  taxes: {
+    full: Partial<Amount>;
+    postpaid: Amount[];
+    prepaid: Amount[];
+    total_postpaid: Partial<Amount>;
+  };
+  total: {
+    full: Amount;
+    net: Amount;
+    postpaid: Amount;
+    prepaid: Amount;
+  };
+}
+export interface ItemData extends ThingsCartItemData, ShowsCartItemData {
+  rate: Rate;
+}
+
 export interface Item {
   category?: string;
   sector?: string;
@@ -95,7 +130,7 @@ export interface Item {
   inventory_name?: string;
   last_validated_rate?: any;
   quantity?: number;
-  rate?: Rates;
+  rate?: Rates & Rate;
   sn_booking_code?: string;
   status?: string;
   supplier?: string;

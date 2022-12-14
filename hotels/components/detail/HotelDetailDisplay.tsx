@@ -99,7 +99,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     check_in_instructions: checkInInstructions,
     roomsQty,
   } = hotel;
-
   const hotelImages = photos?.map((photo) => photo.url);
   const [tg] = useTranslation('global');
   const [t, i18next] = useTranslation('hotels');

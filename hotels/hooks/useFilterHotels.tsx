@@ -1,10 +1,10 @@
 import { Hotel } from 'hotels/types/response/SearchResponse';
 import { availableFilters } from '../components/search/HotelResultsDisplay';
+import { updateHotels } from 'hotels/redux/actions';
+import { useDispatch } from 'react-redux';
 
-export const useFilterHotels = (
-  hotels: Hotel[],
-  setfilteredHotels: React.Dispatch<React.SetStateAction<Hotel[]>>,
-) => {
+export const useFilterHotels = (hotels: Hotel[]) => {
+  const dispatch = useDispatch();
   const handleFilterHotels = (
     filterToApply: availableFilters,
     valueToFilter?: string | boolean,
@@ -16,7 +16,7 @@ export const useFilterHotels = (
           filterResult = filterResult.filter(
             (hotel) => hotel.amount_min.amount >= Number(valueToFilter),
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'maxPrice':
@@ -24,7 +24,7 @@ export const useFilterHotels = (
           filterResult = filterResult.filter(
             (hotel) => hotel.amount_min.amount <= Number(valueToFilter),
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'minRating':
@@ -33,7 +33,7 @@ export const useFilterHotels = (
             (hotel) =>
               Number(hotel.details.star_rating) >= Number(valueToFilter),
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'maxRating':
@@ -42,21 +42,23 @@ export const useFilterHotels = (
             (hotel) =>
               Number(hotel.details.star_rating) <= Number(valueToFilter),
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'freeCancelation':
         {
           if (valueToFilter) {
-            setfilteredHotels(
-              filterResult.filter(
-                (hotel) =>
-                  hotel.min_rate_room.rates.min_rate.cancellation_policy
-                    ?.cancellation_type === 'FREE_CANCELLATION',
+            dispatch(
+              updateHotels(
+                filterResult.filter(
+                  (hotel) =>
+                    hotel.min_rate_room.rates.min_rate.cancellation_policy
+                      ?.cancellation_type === 'FREE_CANCELLATION',
+                ),
               ),
             );
           } else {
-            setfilteredHotels(hotels);
+            dispatch(updateHotels(filterResult));
           }
         }
         break;
@@ -65,7 +67,7 @@ export const useFilterHotels = (
           filterResult = [...filterResult].sort(
             (a, b) => a.amount_min.amount - b.amount_min.amount,
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'priceHighFirst':
@@ -73,7 +75,7 @@ export const useFilterHotels = (
           filterResult = [...filterResult].sort(
             (a, b) => b.amount_min.amount - a.amount_min.amount,
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'ratingLowFirst':
@@ -82,7 +84,7 @@ export const useFilterHotels = (
             (a, b) =>
               Number(a.details.star_rating) - Number(b.details.star_rating),
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'ratingHighFirst':
@@ -91,7 +93,7 @@ export const useFilterHotels = (
             (a, b) =>
               Number(b.details.star_rating) - Number(a.details.star_rating),
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'propertyHotel':
@@ -99,7 +101,7 @@ export const useFilterHotels = (
           filterResult = filterResult.filter(
             (hotel) => hotel.accommodation_type === 'HOTELS',
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'propertyRental':
@@ -107,7 +109,7 @@ export const useFilterHotels = (
           filterResult = filterResult.filter(
             (hotel) => hotel.accommodation_type === 'VACATION_RENTALS',
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       case 'propertyHotel&Rental':
@@ -117,11 +119,11 @@ export const useFilterHotels = (
               hotel.accommodation_type === 'VACATION_RENTALS' ||
               hotel.accommodation_type === 'HOTELS',
           );
-          setfilteredHotels(filterResult);
+          dispatch(updateHotels(filterResult));
         }
         break;
       default:
-        setfilteredHotels(hotels);
+        dispatch(updateHotels(hotels));
     }
   };
   return { handleFilterHotels };

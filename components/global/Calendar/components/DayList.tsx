@@ -12,6 +12,7 @@ interface DayListProps {
   isStartDateTurn: boolean;
   maxRange: number;
   className?: string;
+  restricted?: boolean;
 }
 
 const DayList = ({
@@ -23,6 +24,7 @@ const DayList = ({
   isStartDateTurn,
   maxRange,
   className = '',
+  restricted = true,
 }: DayListProps) => {
   return (
     <>
@@ -38,6 +40,7 @@ const DayList = ({
           ? dayjs(day.date).isBefore(dayjs().subtract(1, 'day')) ||
             dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
             (!isStartDateTurn &&
+              restricted &&
               dayjs(day.date).isAfter(dayjs(startDate).add(maxRange, 'day')))
           : false;
         return (

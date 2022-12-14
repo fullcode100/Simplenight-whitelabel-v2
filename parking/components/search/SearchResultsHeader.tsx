@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   AltRadioButtonGroup,
   RadioItemType,
@@ -9,7 +9,6 @@ import MapIcon from '../../../public/icons/assets/map.svg';
 import ListIcon from '../../../public/icons/assets/list.svg';
 import { useTranslation } from 'react-i18next';
 import { ParkingFilter, ParkingSortBy } from '../../types/ParkingFilter';
-import { useDebounce } from '../../hooks/useDebounce';
 import Sort from '@/icons/assets/sort.svg';
 import Filter from '@/icons/assets/filter.svg';
 import Chevron from '@/icons/assets/chevron-down-small.svg';
@@ -21,8 +20,6 @@ interface SearchResultsHeaderProps {
   length: number;
   isLoading: boolean;
   onFilterChange: (filter: Partial<ParkingFilter>) => void;
-  onSortChange: (sortBy: ParkingSortBy) => void;
-  sortBy: ParkingSortBy;
   filter: ParkingFilter;
 }
 
@@ -31,17 +28,32 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
   length,
   onFilterChange,
   filter,
-  onSortChange,
-  sortBy,
 }) => {
+  const [parkingType, setParkingType] = useState(filter.parkingType);
+  const [sortBy, setSortBy] = useState<ParkingSortBy>(filter.sortBy);
+
+  const onParkingTypeChange = (parkingType: string) => {
+    setParkingType(parkingType);
+    onFilterChange({ parkingType });
+  };
+
+  const onSortByChange = (sortBy: ParkingSortBy) => {
+    setSortBy(sortBy);
+    onFilterChange({ sortBy });
+  };
+
   const [t] = useTranslation('parking');
   const { view } = useQuery();
   const isMapView = view === 'map';
   return (
     <div
-      className={classNames('w-[100%] lg:mb-0 bg-white relative z-10', {
+      className={classNames('w-[100%] lg:mb-0 bg-white relative z-[9]', {
         'mb-16': !isMapView,
+        'lg:absolute lg:m-4 lg:rounded px-4': isMapView,
       })}
+      style={{
+        width: isMapView ? 'calc(100% - 32px)' : undefined,
+      }}
     >
       <section className="mt-6 lg:mt-0 py-3 text-dark-1000 font-semibold text-[20px] leading-[24px] flex justify-between items-center gap-2 px-4 lg:px-0">
         {isLoading ? (
@@ -51,10 +63,14 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
             {length} <span>{t('results')}</span>
           </span>
         )}
-        <ParkingTypeFilter onFilterChange={onFilterChange} filter={filter} />
+        <ParkingTypeFilter
+          onParkingTypeChange={onParkingTypeChange}
+          parkingType={parkingType}
+        />
+
         <ParkingSortingAndViewType
           sortBy={sortBy}
-          onSortChange={onSortChange}
+          onSortChange={onSortByChange}
         />
       </section>
       <Divider className="m-0 lg:hidden" />
@@ -63,10 +79,12 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
 };
 
 const ParkingTypeFilter: FC<{
-  filter: ParkingFilter;
-  onFilterChange: (filter: Partial<ParkingFilter>) => void;
-}> = ({ filter, onFilterChange }) => {
+  parkingType: string;
+  onParkingTypeChange: (parkingType: string) => void;
+}> = ({ parkingType, onParkingTypeChange }) => {
   const [t] = useTranslation('parking');
+  const { view } = useQuery();
+  const isMapView = view === 'map';
 
   const parkingTypeFilterItems: RadioItemType[] = [
     {
@@ -87,17 +105,18 @@ const ParkingTypeFilter: FC<{
     },
   ];
 
-  const setParkingType = (parkingType: string) => {
-    onFilterChange({ parkingType });
-  };
-
   return (
-    <section className="absolute w-full lg:static top-[100%] left-0 p-4 flex justify-center">
+    <section
+      className={classNames(
+        'absolute w-full lg:static top-[100%] left-0 flex justify-center p-4',
+        { 'lg:p-0': isMapView },
+      )}
+    >
       <section className="flex-1 flex justify-center items-center gap-2 max-w-[400px]">
         <AltRadioButtonGroup
           items={parkingTypeFilterItems}
-          value={filter.parkingType}
-          onChange={setParkingType}
+          value={parkingType}
+          onChange={onParkingTypeChange}
           name="parkingType"
         />
       </section>
@@ -115,13 +134,6 @@ const ParkingSortingAndViewType: FC<{
   const handleViewTypeChange = (view: string) => {
     setQueryParam({ view });
   };
-
-  const [sortByVal, setSortByVal] = useState(sortBy);
-  const debouncedSortBy = useDebounce(sortByVal, 200);
-
-  useEffect(() => {
-    onSortChange(debouncedSortBy);
-  }, [debouncedSortBy]);
 
   const viewTypeFilterItems: RadioItemType[] = [
     {
@@ -149,7 +161,7 @@ const ParkingSortingAndViewType: FC<{
               <Sort />
             </span>
             <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
-              <span className="hidden lg:inline">{t(sortByVal)}</span>
+              <span className="hidden lg:inline">{t(sortBy)}</span>
               <span className="inline lg:hidden">{t('sort')}</span>
             </span>
             <span className="text-dark-800">
@@ -158,11 +170,11 @@ const ParkingSortingAndViewType: FC<{
           </button>
 
           <section
-            className={`absolute z-10 border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
+            className={`absolute z-[9] border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
               !showSortingDropdown && 'opacity-0 invisible'
             }`}
           >
-            <RadioGroup onChange={setSortByVal} value={sortBy} gap="gap-0">
+            <RadioGroup onChange={onSortChange} value={sortBy} gap="gap-0">
               <Radio
                 value="distance"
                 containerClass="px-3 py-2 border-b border-dark-200"

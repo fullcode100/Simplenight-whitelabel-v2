@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import classnames from 'classnames';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
+import { CartClientResponse } from 'types/cart/CartType';
 
 interface selectedSeatsProp {
   name: string;
@@ -26,6 +27,7 @@ interface selectedSeatsProp {
   cancellationPolicy: string;
   currency: string;
   deliveryMethods: string[];
+  bookingCodeSupplier: string;
 }
 
 interface SelectedSeatsBarProps {
@@ -34,6 +36,10 @@ interface SelectedSeatsBarProps {
   name: string;
   deliveryMethods: string[];
   cancellationPolicy: string;
+  category: string;
+  id: string;
+  startDate: string;
+  endDate: string;
 }
 
 const SelectedSeatsBar = ({
@@ -42,18 +48,11 @@ const SelectedSeatsBar = ({
   name,
   deliveryMethods,
   cancellationPolicy,
+  category,
+  id,
+  startDate,
+  endDate,
 }: SelectedSeatsBarProps) => {
-  // const {
-  //   deliveryMethods,
-  //   title,
-  //   quantity,
-  //   basePrice,
-  //   discountPercent,
-  //   discountAmount,
-  //   taxes,
-  //   cancellationPolicy,
-  //   currency,
-  // } = selectedSeats;
   const [t, i18next] = useTranslation('things');
   const [et] = useTranslation('events');
   const [gt] = useTranslation('global');
@@ -76,17 +75,42 @@ const SelectedSeatsBar = ({
 
   const router = useRouter();
 
-  const itemToBook = {
-    // TODO: Hard coded field. we need to ask it to BE
-    sn_booking_code:
-      'HOTELS|1|0f97e283:39127842|20221208|20221231|SN_PUBLIC|314146299|RO|1|2|0|',
-  };
-
   const [isDisabled, setIsDisabled] = useState(false);
+
+  const generateItemToBook = (ticket: selectedSeatsProp) => {
+    return {
+      booking_data: {
+        inventory_id: id,
+        booking_code_supplier: ticket.bookingCodeSupplier,
+        start_date: startDate,
+        end_date: endDate,
+        seats: ticket.quantity,
+        delivery_method: ticket.deliveryMethods[0],
+      },
+      category: category,
+    };
+  };
 
   const handleAction = async (url: string) => {
     setIsDisabled(true);
-    await addToCart(itemToBook, i18next, store);
+    const { state: currentState } = store as any;
+    let currentCartId = currentState.cartStore.cart ?? null;
+    for (const ticket of selectedSeats) {
+      const item: CartClientResponse | undefined = await addToCart(
+        generateItemToBook(ticket),
+        i18next,
+        {
+          ...store,
+          state: {
+            ...store.state,
+            cartStore: { cart: currentCartId },
+          },
+        },
+      );
+      if (!currentCartId) {
+        currentCartId = item?.cart?.cart_id || null;
+      }
+    }
     router.replace(url);
   };
   const [isFreeCacellationPolicy, setIsFreeCacellationPolicy] = useState(false);

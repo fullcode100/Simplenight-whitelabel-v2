@@ -36,10 +36,12 @@ interface HotelSecondarySearchOptionsProps {
     filterToApply: availableFilters,
     valueToFilter?: string | boolean,
   ) => void;
+  loading: boolean;
 }
 
 const HotelSecondarySearchOptions = ({
   handleFilterHotels,
+  loading,
 }: HotelSecondarySearchOptionsProps) => {
   const setQueryParams = useQuerySetter();
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
@@ -224,7 +226,7 @@ const HotelSecondarySearchOptions = ({
   };
 
   return (
-    <section className="lg:invisible flex w-full gap-2 px-4 py-3">
+    <section className=" flex w-full gap-2 px-4 py-3">
       <Button
         value={filtersLabel}
         size="full-sm"
@@ -232,6 +234,7 @@ const HotelSecondarySearchOptions = ({
         onClick={handleFilterButtonClick}
         translationKey="filters"
         context="hotels"
+        disabled={loading}
       />
       <Button
         value={viewButtonValue}
