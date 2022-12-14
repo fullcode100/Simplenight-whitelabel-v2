@@ -26,7 +26,13 @@ const ShowsItineraryDisplay = ({
       disclaimer={<ShowsItineraryDisclaimer item={item} />}
       title={<ShowsItineraryHeader item={item} icon={Category.icon} />}
       body={<ShowsItineraryBody item={item} />}
-      footer={<ShowsItineraryFooter item={item} />}
+      footer={
+        <ShowsItineraryFooter
+          item={item}
+          reload={reload}
+          setReload={setReload}
+        />
+      }
     />
   );
 };

@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Item } from 'types/cart/CartType';
 import ShowsGeneralInfo from './ShowsGeneralInfo';
-import { fromUpperCaseToCapitilize } from 'helpers/stringUtils';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 
 import PlusIcon from 'public/icons/assets/Plus.svg';
@@ -13,24 +12,25 @@ interface ShowsItineraryBodyProps {
 }
 
 const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
-  const qty = 2;
-  const nameFormatted = fromUpperCaseToCapitilize('State Street Pavillio Club');
   const [t, i18next] = useTranslation('events');
+  const sectorLabel = t('sector', 'Sector');
+  const rowLabel = t('row', 'Row');
   const ticketLabel = t('ticket', 'Ticket');
   const ticketsLabel = t('tickets', 'Tickets');
   const basePriceLabel = t('basePrice', 'Base Price');
   const taxesLabel = t('taxes', 'Taxes');
   const payNowLabel = t('payNow', 'Pay now');
 
+  const qty = item.quantity as number;
   const ticketsCountLabel = qty > 1 ? ticketsLabel : ticketLabel;
 
   return (
     <>
-      <ShowsGeneralInfo />
+      <ShowsGeneralInfo item={item} />
       <section className="flex flex-col gap-2 border-t border-dark-300 py-4 px-4">
         <section className="flex justify-between font-semibold">
           <p className="text-sm lg:text-lg leading-[22px] lg:leading-[26px] text-dark-1000">
-            {nameFormatted}
+            {`${sectorLabel} ${item?.item_data?.extra_data.seats[0].section}, ${rowLabel} ${item?.item_data?.extra_data.seats[0].row}`}
           </p>
           <p className="text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-800">
             {qty} {ticketsCountLabel}
@@ -47,24 +47,18 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
           </section>
 
           <section className="text-right">
-            <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-              {'US$407.00'}
-            </p>
-          </section>
-        </section>
-        <section className="flex justify-between pb-2">
-          <section className="flex flex-row gap-1">
-            <section className="flex flex-row gap-1 lg:gap-3 items-baseline">
-              <PlusIcon className="h-3.5 lg:h-4 lg:w-4 ml-0.5 mr-1 mt-1 text-primary-1000" />
-              <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-                {basePriceLabel}
+            <div className="flex items-center text-gray-500">
+              <p className="text-xs pr-2 ">
+                {item.rate?.total.net.currency}
+                {item.rate?.total.net.formatted}
               </p>
-            </section>
-          </section>
-
-          <section className="text-right">
+              <p className="text-primary-1000">
+                {item.rate?.discounts.percentage_to_apply}
+              </p>
+            </div>
             <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-              {'US$397.00'}
+              {item.rate?.discounts.total_amount_before_apply.currency}
+              {item.rate?.discounts.total_amount_before_apply.formatted}
             </p>
           </section>
         </section>
@@ -80,7 +74,7 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
 
           <section className="text-right">
             <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-              {'US$10.00'}
+              {'US$0.00'}
             </p>
           </section>
         </section>
@@ -90,15 +84,12 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
             {payNowLabel}
           </p>
           <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
-            {'US$1018.00'}
+            {item?.rate?.total.net.currency}
+            {item?.rate?.total.net.formatted}
           </p>
         </section>
         <ExtraDetailItem
-          detail={'{ticket features}'}
-          label={'Price includes'}
-        />
-        <ExtraDetailItem
-          detail={'{cancellation policy}'}
+          detail={'All sales are final and not cancellable.'}
           label={'Cancellation Policy'}
         />
         <ExternalLink

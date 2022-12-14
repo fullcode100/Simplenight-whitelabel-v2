@@ -11,11 +11,10 @@ interface CheckoutItemProps {
 }
 
 const CheckoutItem = ({ item, reload, setReload }: CheckoutItemProps) => {
-  const sector = useCategory(
-    item.sector?.toLowerCase() === 'car-rental'
-      ? 'cars'
-      : item.sector?.toLowerCase() || '',
-  );
+  let sectorName = item.sector?.toLowerCase();
+  const categoryName = item.category?.toLowerCase();
+  if (categoryName === 'shows-events') sectorName = 'shows-events';
+  const sector = useCategory(sectorName || '');
   return (
     injectProps(sector?.breakdownDisplay, {
       item: item,

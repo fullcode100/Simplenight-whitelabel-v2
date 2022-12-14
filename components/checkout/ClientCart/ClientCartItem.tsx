@@ -77,8 +77,10 @@ const ClientCartItem = ({
   const termsAndConditions = item?.extended_data?.terms_and_conditions;
 
   const CartItemDetail = () => {
-    const itemCategory = useCategorySlug(item.sector?.toLowerCase() || '');
-    const sector = useCategory(itemCategory?.type || '');
+    let sectorName = item.sector?.toLowerCase();
+    const categoryName = item.category?.toLowerCase();
+    if (categoryName === 'shows-events') sectorName = 'shows-events';
+    const sector = useCategory(sectorName || '');
     return injectProps(sector?.checkoutItemDisplay, {
       item: item,
     });

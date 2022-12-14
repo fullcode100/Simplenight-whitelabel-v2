@@ -17,5 +17,4 @@ export interface ThingsCartItemData {
   thumbnail: string;
   categories: Category[];
   extra_data: ExtraData;
-  rate: Rates;
 }
