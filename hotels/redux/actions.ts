@@ -29,6 +29,13 @@ const invalidateHotels = () => ({
   error:true
 });
 
+export const updateHotels = (hotels:Hotel[]) => ({
+  type:HotelsActionTypes.SET_FILTERED_HOTELS,
+  loading:false,
+  hotels,
+  error:false,
+});
+
 export const hotelsSetInitialState = (searchParams: HotelSearchRequest, i18next:i18n):AppThunk => 
   async (dispatch) => {
     dispatch(requestHotels());

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Carousel from 'react-multi-carousel';
 import ImageZoomModal from './ImageZoomModal';
 import CustomArrow from './components/CustomArrow';
@@ -37,6 +36,7 @@ const ImageCarouselLargeScreen = ({
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
       items: 1,
+      partialVisibilityGutter: 40,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -61,10 +61,8 @@ const ImageCarouselLargeScreen = ({
         title={title}
       />
       <Carousel
-        partialVisible={true}
         itemClass="px-4"
         responsive={responsive}
-        // additionalTransfrom={65}
         infinite={infinite}
         draggable
         showDots={showDots}
@@ -94,19 +92,21 @@ const ImageCarouselLargeScreen = ({
       >
         {images.map((image, index) => {
           const imageClass = classnames(
-            'w-[100%] h-[500px] rounded-md overflow-hidden',
+            'w-[100%] h-[500px] rounded-md bg-dark-500 overflow-hidden flex items-center justify-center',
           );
           return (
             <section key={index + image} className={imageClass}>
-              <Image
-                width="375px"
-                height="200px"
-                layout="responsive"
-                src={image}
-                alt=""
-                onClick={() => setShowImageZoomModal(true)}
-                objectFit="cover"
-              />
+              <div className="w-[752px] h-[100%] flex items-center justify-center">
+                <img
+                  src={image}
+                  style={{
+                    maxWidth: '100%',
+                    height: 'auto',
+                  }}
+                  alt=""
+                  onClick={() => setShowImageZoomModal(true)}
+                />
+              </div>
             </section>
           );
         })}
