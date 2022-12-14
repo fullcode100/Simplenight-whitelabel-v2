@@ -16,9 +16,9 @@ import {
 } from '../../types/response/ParkingSearchResponse';
 import { ParkingMapView } from './MapView';
 import { ParkingCard } from './ParkingCard';
-import { useParkingListFilter } from '../../hooks/useParkingListFilter';
-import { useParkingMetaData } from '../../hooks/useParkingMetaData';
-import { useSortParkingList } from '../../hooks/useSortParkingList';
+import { useFilter } from '../../hooks/useFilter';
+import { ParkingListMetaData } from '../../types/ParkingFilter';
+import { getParkingMetadata } from '../../helpers/getParkingMetadata';
 
 interface ParkingResultsDisplayProps {
   parkingCategory: CategoryOption;
@@ -30,19 +30,20 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
   const [loaded, setLoaded] = useState(false);
   const [counter, setCounter] = useState(0);
   const [parkingList, setParkingList] = useState<Parking[]>([]);
+  const [metadata, setMetadata] = useState<ParkingListMetaData>({
+    minPrice: 0,
+    maxPrice: 0,
+    currencySymbol: '$',
+    currency: 'USD',
+    heightRestrictionsList: [],
+  });
   const [t, i18next] = useTranslation('parking');
   const { ClientSearcher: Searcher } = parkingCategory.core;
 
-  const parkingMetaData = useParkingMetaData(parkingList);
-  const {
-    filteredParkingList,
-    filter,
-    changeFilter,
-    isFiltering,
-    resetFilter,
-  } = useParkingListFilter(parkingList);
-  const { sortedParkingList, sortBy, setSortBy } =
-    useSortParkingList(filteredParkingList);
+  const { filteredList, filter, updateFilter } = useFilter(
+    parkingList,
+    metadata,
+  );
 
   const { latitude, longitude, startDate, endDate, startTime, endTime, view } =
     useQuery();
@@ -70,7 +71,14 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     setLoaded(false);
     Searcher?.request(params, i18next)
       .then((results: ParkingSearchResponseItemResult) => {
+        const metadata = getParkingMetadata(results.features);
         setParkingList(results.features);
+        setMetadata(metadata);
+        updateFilter({
+          maxHeight: metadata.maxPrice,
+          minPrice: metadata.minPrice,
+          maxPrice: metadata.maxPrice,
+        });
         setLoaded(true);
       })
       .catch((error) => console.error(error));
@@ -88,27 +96,24 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
 
   return (
     <>
-      <section className="lg:flex lg:w-full">
+      <section className="lg:flex lg:w-full pt-4">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <ParkingFilterFormDesktop
-            onFilterChange={changeFilter}
+            onFilterChange={updateFilter}
             filter={filter}
-            parkingMetaData={parkingMetaData}
-            onClear={resetFilter}
+            parkingMetaData={metadata}
           />
         </section>
         <section className="relative flex-1">
           <section>
             <SearchResultsHeader
-              length={sortedParkingList.length}
-              isLoading={!loaded || isFiltering}
-              onFilterChange={changeFilter}
+              length={filteredList.length}
+              isLoading={!loaded}
+              onFilterChange={updateFilter}
               filter={filter}
-              onSortChange={setSortBy}
-              sortBy={sortBy}
             />
           </section>
-          {loaded && sortedParkingList.length === 0 && !isFiltering ? (
+          {loaded && filteredList.length === 0 ? (
             <EmptyState
               text={t('no parking spots')}
               image={<EmptyStateIcon className="mx-auto" />}
@@ -117,21 +122,21 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
             <section>
               {isListView && (
                 <section className="w-full h-full px-4 pb-6 lg:px-0">
-                  {!loaded || isFiltering ? (
+                  {!loaded ? (
                     <HorizontalSkeletonList />
                   ) : (
-                    <ParkingList parkingList={sortedParkingList} />
+                    <ParkingList parkingList={filteredList} />
                   )}
                 </section>
               )}
               {!isListView && (
                 <section className="relative w-full h-full">
-                  {!loaded || isFiltering ? (
+                  {!loaded ? (
                     <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
                       <HorizontalSkeletonCard />
                     </div>
                   ) : (
-                    <ParkingMapView parkingList={sortedParkingList} />
+                    <ParkingMapView parkingList={filteredList} />
                   )}
                 </section>
               )}

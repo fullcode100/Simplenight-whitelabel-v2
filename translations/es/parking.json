@@ -50,5 +50,6 @@
   "minToDestination": "min al destino",
   "results": "Resultados",
   "arriving": "llegando",
-  "leaving": "Partida"
+  "leaving": "Partida",
+  "DAYTIME": "Tiempo de día"
 }
