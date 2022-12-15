@@ -6,6 +6,7 @@ import {
 const widgets: any = {
   PICKUP_POINT: 'PickupPoint',
   NUMBER_AND_UNIT: 'NumberUnit',
+  LANG_GUIDE: 'LanguageGuide',
 };
 
 const defaultPickup = {
@@ -29,7 +30,8 @@ export const getQuestionsSchema = (
   pickupPoints?: LocationPoints,
 ) => {
   const { schema, uiSchema } = getSchemasLayout();
-  questions?.forEach((question: BookingQuestion) => {
+  questions?.forEach?.((question: BookingQuestion) => {
+    if (!question) return;
     const {
       id,
       hint,
@@ -49,9 +51,9 @@ export const getQuestionsSchema = (
       PICKUP_POINT: pickupPoints || defaultPickup,
       NUMBER_AND_UNIT: answerUnits,
     };
-    property.data = widgetData[widgetType];
+    property.data = widgetData[widgetType] || answerOptions;
 
-    const widget = widgets[widgetType];
+    const widget = getWidget(question);
     widget && (uiSchema[id]['ui:widget'] = widget);
     isRequired && schema.required.push(id);
 
@@ -72,32 +74,40 @@ export const getQuestionsSchema = (
   return { schema, uiSchema };
 };
 
-export const getTravelerQuestionSchema = (
-  questions: BookingQuestion[],
-  pickupPoints?: LocationPoints,
-) => {
-  const travelerQuestions = questions?.filter(
-    (question) => question?.grouping === 'PER_TRAVELER',
-  );
-  const travelerSchema = getQuestionsSchema(travelerQuestions, pickupPoints);
-  return travelerQuestions?.length ? travelerSchema : null;
+export const getItemQuestionSchemas = (item: any) => {
+  const travelerSchema = getQuestionSchemaByGrouping(item, 'PER_TRAVELER');
+  const bookingSchema = getQuestionSchemaByGrouping(item, 'PER_BOOKING');
+  return { travelerSchema, bookingSchema };
 };
 
-export const getBookingQuestionSchema = (
-  questions: BookingQuestion[],
-  pickupPoints?: LocationPoints,
-) => {
-  const bookingQuestions = questions?.filter(
-    (question) => question?.grouping === 'PER_BOOKING',
+export const getQuestionSchemaByGrouping = (item: any, grouping?: string) => {
+  const questions = item?.item_data?.extra_data?.booking_questions;
+  const pickupPoints = item?.item_data?.extra_data?.pickup;
+  const productCode = item?.booking_data?.product_code;
+  const questionsByGrouping = questions?.filter(
+    (question: any) =>
+      question?.grouping === grouping && question?.id !== 'LANG_GUIDE',
   );
-  const bookingSchema = getQuestionsSchema(bookingQuestions, pickupPoints);
-  return bookingQuestions?.length ? bookingSchema : null;
+  const itemQuestionLanguage = questions?.find(
+    (question: any) =>
+      question?.grouping === grouping &&
+      question?.id === 'LANG_GUIDE' &&
+      question?.option_code === productCode,
+  );
+  if (itemQuestionLanguage) questionsByGrouping.push(itemQuestionLanguage);
+  const schema = getQuestionsSchema(questionsByGrouping, pickupPoints);
+  return questionsByGrouping?.length ? schema : null;
 };
 
 const getWidgetType = (question: BookingQuestion) => {
-  const isPickupPoint = question?.id === 'PICKUP_POINT';
-  const widgetType = isPickupPoint ? question?.id : question?.answer_type;
+  const numberAndUnit = 'NUMBER_AND_UNIT';
+  const isNumberUnit = question?.answer_type === numberAndUnit;
+  const widgetType = isNumberUnit ? numberAndUnit : question?.id;
   return widgetType;
+};
+
+const getWidget = (question: BookingQuestion) => {
+  return widgets[question?.id] || widgets[question?.answer_type];
 };
 
 const getSchemasLayout = () => {
@@ -142,10 +152,10 @@ const getConditionalPropertyUiSchema = (
       const relatedQuestion = questions.find(
         (question) => question.id === relatedQuestionId,
       );
-      const widgetType = getWidgetType(relatedQuestion as BookingQuestion);
+      const widget = getWidget(relatedQuestion as BookingQuestion);
       uiSchema[id][relatedQuestionId] = {
         'ui:placeholder': relatedQuestion?.hint,
-        'ui:widget': widgets[widgetType],
+        'ui:widget': widget,
       };
       if (relatedQuestion?.is_required) required.push(relatedQuestionId);
     });

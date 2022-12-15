@@ -11,6 +11,7 @@ interface ComboboxProps {
   items: any;
   selectedItem: any;
   setSelectedItem: any;
+  isSearchable?: boolean;
 }
 
 const Combobox = ({
@@ -19,6 +20,7 @@ const Combobox = ({
   items,
   selectedItem,
   setSelectedItem,
+  isSearchable = true,
 }: ComboboxProps) => {
   const [searchResults, setSearchResults] = useState(items);
   const [open, setOpen] = useState(false);
@@ -55,31 +57,35 @@ const Combobox = ({
     setSearch(selectedItem?.value);
   }, [selectedItem]);
 
-  const InputSearch = () => {
-    return (
-      <section
-        className={classnames(
-          `${width} flex items-center px-3 border border-dark-300 rounded outline-none`,
-          {
-            'border-primary-500 rounded-b-none': open,
-          },
-        )}
-      >
-        <input
-          type="text"
-          className={
-            'px-0 w-full text-dark-1000 border-none focus:shadow-none focus:inset-0 focus:ring-0 focus:outline-none focus:border-transparent'
-          }
-          placeholder={placeholder}
-          value={search}
-          onChange={handleSearch}
-        />
-        <button className="w-5 h-10 px-5" onClick={() => setOpen(!open)}>
-          <ChevronDownIcon className="text-dark-700" />
-        </button>
-      </section>
-    );
+  const handleOpen = () => {
+    setOpen(!open);
   };
+
+  const InputSearch = (
+    <section
+      className={classnames(
+        `${width} flex items-center px-3 border border-dark-300 rounded outline-none`,
+        {
+          'border-primary-500 rounded-b-none': open,
+        },
+      )}
+      onClick={!isSearchable ? handleOpen : undefined}
+    >
+      <input
+        type="text"
+        className={
+          'px-0 w-full text-dark-1000 border-none focus:shadow-none focus:inset-0 focus:ring-0 focus:outline-none focus:border-transparent'
+        }
+        placeholder={placeholder}
+        value={search}
+        onChange={handleSearch}
+        disabled={!isSearchable}
+      />
+      <button className="w-5 h-10 px-5" onClick={handleOpen} type="button">
+        <ChevronDownIcon className="text-dark-700" />
+      </button>
+    </section>
+  );
 
   const DropDown = () => {
     if (searchResults.length === 0) return <></>;
@@ -111,7 +117,7 @@ const Combobox = ({
   return (
     <>
       <section className="relative" ref={selectRef}>
-        <InputSearch />
+        {InputSearch}
         <DropDown />
       </section>
     </>

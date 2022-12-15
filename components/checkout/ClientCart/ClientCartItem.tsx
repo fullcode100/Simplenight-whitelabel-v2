@@ -10,10 +10,7 @@ import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
 
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
-import {
-  getBookingQuestionSchema,
-  getTravelerQuestionSchema,
-} from 'thingsToDo/helpers/questions';
+import { getItemQuestionSchemas } from 'thingsToDo/helpers/questions';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import Divider from 'components/global/Divider/Divider';
 
@@ -86,16 +83,11 @@ const ClientCartItem = ({
     });
   };
 
-  const bookingQuestions = item?.item_data?.extra_data?.booking_questions;
-  const pickupPoints = item?.item_data?.extra_data?.pickup;
-  const travelerQuestionSchema = getTravelerQuestionSchema(
-    bookingQuestions,
-    pickupPoints,
-  );
-  const bookingQuestionSchema = getBookingQuestionSchema(
-    bookingQuestions,
-    pickupPoints,
-  );
+  const {
+    travelerSchema: travelerQuestionSchema,
+    bookingSchema: bookingQuestionSchema,
+  } = getItemQuestionSchemas(item);
+
   const getTicketsCuantity = () => {
     let ticketsCuantity = 0;
     const itemTravelers = [];
