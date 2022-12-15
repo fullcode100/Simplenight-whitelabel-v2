@@ -35,6 +35,10 @@ import FlightCancellable from './FlightCancellable';
 import Button from 'components/global/Button/Button';
 import moment from 'moment';
 import { Item } from 'types/cart/CartType';
+import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
+import SortIcon from 'public/icons/assets/sort.svg';
+import Dropdown from 'components/global/Dropdown/Dropdown';
+import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
 
 declare let window: CustomWindow;
 
@@ -90,7 +94,7 @@ const FlightResultsDisplay = ({
     longitude,
 
     // filters
-    sortBy,
+    //sortBy,
     minPrice,
     maxPrice,
     departureTimes,
@@ -106,6 +110,8 @@ const FlightResultsDisplay = ({
 
     selected,
   } = useQuery();
+
+  const [sortBy, setSortBy] = useState<string>('sortByPriceAsc');
 
   const [flights, setFlights] = useState<Flight[]>([]);
   const [offers, setOffers] = useState<FlightOffer[]>([]);
@@ -182,7 +188,7 @@ const FlightResultsDisplay = ({
 
     if (
       selected ||
-      sortBy ||
+      //sortBy ||
       minPrice ||
       maxPrice ||
       departureTimes ||
@@ -570,38 +576,44 @@ const FlightResultsDisplay = ({
         </section>
         <section className="lg:flex-1 lg:w-[75%] h-full">
           {!loaded ? (
-            <Loader />
+            <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
+              <HorizontalSkeletonList />
+            </section>
           ) : flightsFiltered.length > 0 ? (
             <>
               {isListView && (
-                <section className="w-full h-full px-5 pb-6 pt-20 lg:pt-0">
-                  <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                    <section className="flex flex-row mb-3 lg:mb-0">
+                <section className="w-full h-full px-5 pb-6">
+                  <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
+
+                    <section className="py-4">
+                      {flightsFiltered.length}
+                      <span className="lg:hidden"> {flightsFoundLabel}</span>
+                      <span className="hidden lg:inline">
+                        {' '}
+                        {flightsFoundLabelDesktop}
+                      </span>
+                    </section>
+
+                    <section className="flex flex-row mb-3 lg:mb-0 hidden lg:block">
                       {direction === 'round_trip' && (
                         <>
-                          <Button
-                            value={departingFlightsLabel}
-                            color="outlined"
+                          <span
                             className={
                               flightIndex < 1
-                                ? 'p-3 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white'
-                                : 'p-3 mr-3 text-[15px] font-normal bg-white border border-primary-300 text-primary-1000 whitespace-nowrap hover:text-white'
+                                ? 'px-4 py-2 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
+                                : 'px-4 py-2 mr-3 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
                             }
-                            size="full"
                             onClick={() =>
                               flightIndex > 0 && onChangeFlightIndex(0)
                             }
-                          />
-                          <Button
-                            value={returningFlightsLabel}
-                            color="outlined"
+                          >{departingFlightsLabel}</span>
+                          <span
                             className={
                               flightIndex === 1
-                                ? 'p-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white'
-                                : 'p-3 text-[15px] font-normal bg-white border border-primary-300 text-primary-1000 whitespace-nowrap hover:text-white'
+                                ? 'px-4 py-2 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
+                                : 'px-4 py-2 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
                             }
-                            size="full"
-                          />
+                          >{returningFlightsLabel}</span>
                         </>
                       )}
                       {direction === 'multi_city' && (
@@ -610,37 +622,55 @@ const FlightResultsDisplay = ({
                             ?.toString()
                             .split('|')
                             .map((item, index) => (
-                              <Button
+                              <span
                                 key={`tab_flight_${index}`}
-                                value={`${
-                                  startAirports?.toString().split('|')[index]
-                                } - ${
-                                  endAirports?.toString().split('|')[index]
-                                }`}
                                 color="outlined"
                                 className={
                                   flightIndex === index
-                                    ? 'p-3 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white'
-                                    : 'p-3 mr-3 text-[15px] font-normal bg-white border border-primary-300 text-primary-1000 whitespace-nowrap hover:text-white'
+                                ? 'px-4 py-2 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
+                                : 'px-4 py-2 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
                                 }
-                                size="full"
                                 onClick={() =>
                                   index < flightIndex &&
                                   onChangeFlightIndex(index)
                                 }
-                              />
+                              >{`${
+                                  startAirports?.toString().split('|')[index]
+                                } - ${
+                                  endAirports?.toString().split('|')[index]
+                                }`}</span>
                             ))}
                         </>
                       )}
                     </section>
-                    <section>
-                      {flightsFiltered.length}
-                      <span className="lg:hidden"> {flightsFoundLabel}</span>
-                      <span className="hidden lg:inline">
-                        {' '}
-                        {flightsFoundLabelDesktop}
-                      </span>
+
+                    <section
+                      style={{ width: 140, height: 32 }}
+                      className="w-auto flex justify-start items-center"
+                    >
+                      <Dropdown
+                        title={t(sortBy)}
+                        leftIcon={<SortIcon />}
+                        options={[
+                          {
+                            value: t('sortByPriceAsc'),
+                            checkboxName: 'sorting',
+                            selected: sortBy === 'sortByPriceAsc',
+                            checkboxValue: sortBy === 'sortByPriceAsc',
+                            checkboxMethod: () => setSortBy('sortByPriceAsc'),
+                          },
+                          {
+                            value: t('sortByPriceDesc'),
+                            checkboxName: 'sorting',
+                            selected: sortBy === 'sortByPriceDesc',
+                            checkboxValue: sortBy === 'sortByPriceDesc',
+                            checkboxMethod: () => setSortBy('sortByPriceDesc'),
+                          },
+                        ]}
+                      />
                     </section>
+
+                    <FlightSecondarySearchOptions />
                   </section>
                   <FlightList />
                 </section>

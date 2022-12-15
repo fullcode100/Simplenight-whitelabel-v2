@@ -60,10 +60,15 @@ const Search: NextPage = () => {
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
+
+          {/*
+
           <HotelSecondarySearchOptions
             handleFilterHotels={handleFilterHotels}
             loading={loading}
           />
+
+          */}
         </section>
         <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
           <section className="mx-auto max-w-7xl">
@@ -73,10 +78,15 @@ const Search: NextPage = () => {
       </header>
       <main>
         <section
-          className={classnames('lg:w-full lg:px-20 ', {
-            ['lg:pt-[294px]']: slug === 'car-rental',
-            ['lg:pt-[314px]']: slug === 'flights',
+          className={classnames('lg:w-full lg:px-20', {
+            //  pt-[90px]
+            /*
+            ['lg:pt-[204px]']:
+              multipleCategories && slug !== 'car-rental' && slug !== 'flights',
             ['lg:pt-[142px]']: !multipleCategories,
+            ['lg:pt-[250px]']: slug === 'car-rental',
+            ['lg:pt-[280px]']: slug === 'flights',
+            */
           })}
         >
           <section className="mx-auto max-w-7xl ">

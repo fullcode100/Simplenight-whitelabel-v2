@@ -11,37 +11,39 @@ export const getRequestReferer = (req: NextApiRequestWithSession) => {
 
 export const decryptSession = (req: NextApiRequestWithSession): Session => {
   const sessionHeader = req.headers['x-session'] as string;
-  const sessionParts = sessionHeader.split(':');
-  const initVector = Buffer.from(sessionParts.shift() as string, 'hex');
-  const encryptedSession = Buffer.from(sessionParts.join(':'), 'hex');
+  // const sessionParts = sessionHeader.split(':');
+  // const initVector = Buffer.from(sessionParts.shift() as string, 'hex');
+  // const encryptedSession = Buffer.from(sessionParts.join(':'), 'hex');
 
-  const key = crypto
-    .createHash('sha256')
-    .update(process.env.NEXT_ENCRYPT_KEY as string);
+  // const key = crypto
+  //   .createHash('sha256')
+  //   .update(process.env.NEXT_ENCRYPT_KEY as string);
 
-  const decipher = crypto.createDecipheriv(
-    'aes-256-cbc',
-    key.digest(),
-    initVector,
-  );
+  // const decipher = crypto.createDecipheriv(
+  //   'aes-256-cbc',
+  //   key.digest(),
+  //   initVector,
+  // );
 
-  let decrypted = decipher.update(encryptedSession);
-  decrypted = Buffer.concat([decrypted, decipher.final()]);
+  // let decrypted = decipher.update(encryptedSession);
+  // decrypted = Buffer.concat([decrypted, decipher.final()]);
 
-  return JSON.parse(decrypted.toString());
+  // return JSON.parse(decrypted.toString());
+  return JSON.parse(sessionHeader);
 };
 
 export const encryptSession = (data: Session) => {
-  const initVector = crypto.randomBytes(16);
+  // const initVector = crypto.randomBytes(16);
 
-  const key = crypto
-    .createHash('sha256')
-    .update(process.env.NEXT_ENCRYPT_KEY as string);
+  // const key = crypto
+  //   .createHash('sha256')
+  //   .update(process.env.NEXT_ENCRYPT_KEY as string);
 
-  const cipher = crypto.createCipheriv('aes-256-cbc', key.digest(), initVector);
+  // const cipher = crypto.createCipheriv('aes-256-cbc', key.digest(), initVector);
 
-  let encrypted = cipher.update(JSON.stringify(data));
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  // let encrypted = cipher.update(JSON.stringify(data));
+  // encrypted = Buffer.concat([encrypted, cipher.final()]);
 
-  return initVector.toString('hex') + ':' + encrypted.toString('hex');
+  // return initVector.toString('hex') + ':' + encrypted.toString('hex');
+  return JSON.stringify(data);
 };

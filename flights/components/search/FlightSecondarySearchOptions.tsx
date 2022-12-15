@@ -58,8 +58,8 @@ const FlightSecondarySearchOptions = () => {
     'Venue Name, Landmark, Location, etc.',
   );
   const sortByLabel = t('sortBy', 'Sort By');
-  const sortByPriceAsc = t('sortByPriceAsc', 'Price (Lowest First)');
-  const sortByPriceDesc = t('sortByPriceDesc', 'Price (Highest First)');
+  const sortByPriceAsc = t('sortByPriceAsc', 'Lowest Price');
+  const sortByPriceDesc = t('sortByPriceDesc', 'Highest Price');
   const SORT_BY_OPTIONS = [
     { value: 'sortByPriceAsc', label: sortByPriceAsc },
     { value: 'sortByPriceDesc', label: sortByPriceDesc },
@@ -426,8 +426,9 @@ const FlightSecondarySearchOptions = () => {
       {/* <KeywordSearchFilter /> */}
       <PriceRangeFilter />
       <Divider className="my-4 opacity-0" />
+      {/*
       <SortByFilter />
-
+      */}
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={stopsLabel} />
@@ -501,15 +502,18 @@ const FlightSecondarySearchOptions = () => {
   };
 
   return (
-    <section className="px-4 w-full flex gap-1 py-3">
-      <Button
-        value={filtersLabel}
-        size="full-sm"
-        leftIcon={<FilterIcon />}
+    <section className="lg:hidden">
+      <button
+        className="flex items-center gap-2 w-[75px] bg-primary-100 py-1 px-2 rounded"
         onClick={handleFilterButtonClick}
-        translationKey="filters"
-        context="flights"
-      />
+      >
+        <span className="text-primary-1000">
+          <FilterIcon />
+        </span>
+        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+          {t('filter', 'Filter')}
+        </span>
+      </button>
       {Modals}
     </section>
   );

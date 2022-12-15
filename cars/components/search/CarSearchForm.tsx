@@ -12,7 +12,7 @@ import IconInput from 'components/global/Input/IconInput';
 import Button from 'components/global/Button/Button';
 import { SearchFormProps } from 'types/search/SearchFormProps';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import LocationInput from '../Input/LocationInput';
+import LocationInput from 'components/global/Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import {
@@ -76,12 +76,12 @@ const CarSearchForm = ({
   const [startDate, setStartDate] = useState<string>(
     params.startDate
       ? params.startDate.toString()
-      : formatAsSearchDate(dayjs()),
+      : formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const [endDate, setEndDate] = useState<string>(
     params.endDate
       ? params.endDate.toString()
-      : formatAsSearchDate(dayjs().add(1, 'day')),
+      : formatAsSearchDate(dayjs().add(2, 'day')),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
@@ -185,17 +185,17 @@ const CarSearchForm = ({
       <section
         className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
       >
-        <section className="flex flex-col gap-2 lg:gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-end">
+        <section className="relative flex flex-col gap-2 lg:gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-end">
           <LocationInput
             icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
             label={locationInputLabel}
             name="location"
             placeholder={locationPlaceholder}
             routeParams={['address']}
-            defaultAddress={address}
             onSelect={handleSelectLocation}
             error={showLocationError}
             onChange={handleChangeLocation}
+            autoFocus
           />
           <section className="block w-full flex flex-row gap-2 items-end">
             <IconInput
@@ -235,7 +235,6 @@ const CarSearchForm = ({
               name="location2"
               placeholder={locationPlaceholder2}
               routeParams={['address2']}
-              defaultAddress={address2}
               onSelect={handleSelectLocation2}
               error={showLocationError}
               onChange={handleChangeLocation}

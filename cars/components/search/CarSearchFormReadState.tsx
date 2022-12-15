@@ -46,9 +46,12 @@ const CarSearchFormReadState = ({
     address2,
   } = useQuery();
 
-  const location = `${address ? address?.toString().split(',')[0] : ''} - ${
-    address2 ? address2?.toString().split(',')[0] : ''
-  }`;
+  let location = `${address ? address?.toString().split(',')[0] : ''}`;
+  if (address2) {
+    location = `${address ? address?.toString().split(',')[0] : ''} - ${
+      address2 ? address2?.toString().split(',')[0] : ''
+    }`;
+  }
 
   const startDate = dayjs(startDateQuery as unknown as string).format(
     SEARCH_DATE_FORMAT,
@@ -97,7 +100,7 @@ const CarSearchFormReadState = ({
     setIsSearching(true);
   };
   return (
-    <section className="z-0 flex items-center justify-between px-4 text-sm font-lato">
+    <section className="z-0 flex items-center justify-between px-4 pb-4 text-sm font-lato">
       <section className="flex flex-col w-[90%]">
         <LocationAndDatesSection />
       </section>

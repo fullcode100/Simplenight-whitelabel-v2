@@ -30,7 +30,9 @@ const SearchViewSelector = () => {
     return (
       <Button type={type} onClick={() => setView(value)} width="w-full">
         <section
-          className={classNames('flex gap-3 items-center font-semibold')}
+          className={classNames(
+            'flex gap-3 items-center font-semibold hover:text-primary-1000',
+          )}
         >
           {children}
         </section>

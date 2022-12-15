@@ -25,8 +25,6 @@ import { Room, createRoom } from 'cars/helpers/room';
 import CarItemRateInfo from './CarItemRateInfo';
 import { sortByAdapter } from 'cars/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'cars/adapters/cancellation-type.adapter';
-import MapIcon from 'public/icons/assets/map.svg';
-import ListIcon from 'public/icons/assets/list.svg';
 import classnames from 'classnames';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import CarFilterFormDesktop from './CarFilterFormDesktop';
@@ -37,6 +35,17 @@ import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/Horizon
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import Button from 'components/global/Button/Button';
 import { Item } from 'types/cart/CartType';
+import {
+  AltRadioButtonGroup,
+  RadioItemType,
+} from 'components/global/AltRadioButton/AltRadioButton';
+import MapIcon from 'public/icons/assets/map.svg';
+import ListIcon from 'public/icons/assets/list.svg';
+import SortIcon from 'public/icons/assets/sort.svg';
+import FilterIcon from 'public/icons/assets/filter.svg';
+import Dropdown from 'components/global/Dropdown/Dropdown';
+import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
+import CarSecondarySearchOptions from './CarSecondarySearchOptions';
 
 declare let window: CustomWindow;
 
@@ -76,13 +85,15 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     latitude2,
     longitude2,
     keywordSearch,
-    sortBy,
+    // sortBy,
     types,
     companies,
     passengers,
     minPrice,
     maxPrice,
   } = useQuery();
+
+  const [sortBy, setSortBy] = useState<string>('sortByPriceAsc');
 
   const [cars, setCars] = useState<Car[]>([]);
   const [carsFiltered, setCarsFiltered] = useState<Car[]>([]);
@@ -122,7 +133,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     };
 
     if (
-      sortBy ||
+      // sortBy ||
       keywordSearch ||
       minPrice ||
       maxPrice ||
@@ -355,6 +366,12 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
 
+  const handleViewTypeChange = (value: string) => {
+    setQueryParams({
+      view: value,
+    });
+  };
+
   const ViewButton = ({ children, viewParam }: ViewButtonProps) => {
     const active = viewParam === 'list' ? isListView : !isListView;
     const onClick = () => {
@@ -365,13 +382,10 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     return (
       <button
         onClick={onClick}
-        className={classnames(
-          'h-[2.75rem] w-[2.75rem] grid place-content-center',
-          {
-            'bg-white text-primary-1000': !active,
-            'bg-primary-1000 text-white': active,
-          },
-        )}
+        className={classnames('h-[2rem] w-[2rem] grid place-content-center', {
+          'bg-white-100 text-dark-1000': !active,
+          'bg-primary-100 text-primary-1000 border border-primary-1000': active,
+        })}
       >
         {children}
       </button>
@@ -380,7 +394,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
 
   const ViewActions = () => {
     return (
-      <section className="flex rounded-4 overflow-hidden w-[5.5rem] border border-primary-1000">
+      <section className="flex rounded-4 overflow-hidden w-[5.5rem]">
         <ViewButton viewParam="list">
           <ListIcon className="w-[1.3rem] h-[1.3rem]" />
         </ViewButton>
@@ -393,13 +407,24 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
 
   const hasNoCars = carsFiltered.length === 0;
 
+  const viewTypeFilterItems: RadioItemType[] = [
+    {
+      value: 'list',
+      label: <ListIcon />,
+    },
+    {
+      value: 'map',
+      label: <MapIcon />,
+    },
+  ];
+
   return (
     <>
       <section className="lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <CarFilterFormDesktop cars={cars} />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full mt-20 lg:mt-0">
+        <section className="relative lg:flex-1 lg:w-[75%] h-full">
           {loaded && hasNoCars ? (
             <EmptyState
               text={noResultsLabel}
@@ -408,11 +433,50 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
           ) : (
             <>
               <section
-                className={`hidden lg:block absolute z-[1] ${
-                  isListView ? 'right-0 top-4' : 'right-6 top-6'
+                className={`absolute z-2 ${
+                  isListView ? 'right-0 top-6' : 'hidden'
                 }`}
               >
-                <ViewActions />
+                <section className="flex gap-1">
+                  <section
+                    style={{ width: 140, height: 32 }}
+                    className="w-auto flex justify-start items-center"
+                  >
+                    <Dropdown
+                      title={t(sortBy)}
+                      leftIcon={<SortIcon />}
+                      options={[
+                        {
+                          value: t('sortByPriceAsc'),
+                          checkboxName: 'sorting',
+                          selected: sortBy === 'sortByPriceAsc',
+                          checkboxValue: sortBy === 'sortByPriceAsc',
+                          checkboxMethod: () => setSortBy('sortByPriceAsc'),
+                        },
+                        {
+                          value: t('sortByPriceDesc'),
+                          checkboxName: 'sorting',
+                          selected: sortBy === 'sortByPriceDesc',
+                          checkboxValue: sortBy === 'sortByPriceDesc',
+                          checkboxMethod: () => setSortBy('sortByPriceDesc'),
+                        },
+                      ]}
+                    />
+                  </section>
+                  <section
+                    style={{ width: 110, height: 32 }}
+                    className="hidden lg:block w-auto flex justify-start items-center"
+                  >
+                    <AltRadioButtonGroup
+                      items={viewTypeFilterItems}
+                      value={view as string}
+                      onChange={handleViewTypeChange}
+                      name="viewType"
+                    />
+                  </section>
+
+                  <CarSecondarySearchOptions />
+                </section>
               </section>
               {isListView && (
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
@@ -452,6 +516,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
           )}
         </section>
       </section>
+      <SearchViewSelectorFixed />
     </>
   );
 };

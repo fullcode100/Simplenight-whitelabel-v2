@@ -55,8 +55,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     'Venue Name, Landmark, Location, etc.',
   );
   const sortByLabel = t('sortBy', 'Sort By');
-  const sortByPriceAsc = t('sortByPriceAsc', 'Price (Lowest First)');
-  const sortByPriceDesc = t('sortByPriceDesc', 'Price (Highest First)');
+  const sortByPriceAsc = t('sortByPriceAsc', 'Lowest Price');
+  const sortByPriceDesc = t('sortByPriceDesc', 'Highest Price');
   const SORT_BY_OPTIONS = [
     { value: 'sortByPriceAsc', label: sortByPriceAsc },
     { value: 'sortByPriceDesc', label: sortByPriceDesc },
@@ -257,7 +257,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
       <section className="flex justify-between items-center">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
         <button
-          className="font-semibold text-base text-primary-1000 capitalize"
+          className="font-semibold text-base text-primary-1000 capitalize underline"
           onClick={handleClearFilters}
         >
           {clearFiltersText}
@@ -393,8 +393,9 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
       {/* <KeywordSearchFilter /> */}
       <PriceRangeFilter />
       <Divider className="my-4 opacity-0" />
+      {/*
       <SortByFilter />
-
+      */}
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={stopsLabel} />
