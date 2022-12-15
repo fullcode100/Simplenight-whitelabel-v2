@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 export const deepMerge = (target: any, source: any) => {
   const isObject = (item: any) => item && typeof item === 'object';
 
@@ -25,4 +26,14 @@ export const deepCopy = (obj: any) => {
   }
 
   return copy;
+};
+
+export const formatObjectToString = (obj: any) => {
+  if (obj === null || typeof obj !== 'object') return obj;
+
+  const values: any = [];
+  Object.keys(obj).forEach((key: string) => {
+    values.push(`${key}: ${obj[key]}`);
+  });
+  return values.join(', ');
 };

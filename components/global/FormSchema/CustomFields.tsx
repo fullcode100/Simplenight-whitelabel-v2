@@ -1,4 +1,6 @@
 import PickupPoint from 'components/global/PickupPoint/PickupPoint';
+import { useState } from 'react';
+import Combobox from '../Combobox/Combobox';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
 import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
@@ -116,4 +118,34 @@ export const CustomPickupPoint = (props: any) => {
 export const CustomNumberUnit = (props: any) => {
   const { value, onChange, schema } = props;
   return <NumberUnitInput onChange={onChange} options={schema?.data} />;
+};
+
+export const CustomLanguageGuide = (props: any) => {
+  const { value, onChange, schema, uiSchema } = props;
+  const [selectedItem, setSelectedItem] = useState<any>(undefined);
+  const placeholder = uiSchema['ui:placeholder'] || 'Language Guide';
+  const dataByLabel: any = {};
+  const data = schema?.data;
+  const items: any = [];
+  data?.forEach?.((item: any) => {
+    dataByLabel[item.label] = item;
+    items.push({ value: item.label });
+  });
+  const onChangeHandler = (itemValue: any) => {
+    const item = dataByLabel[itemValue.value];
+    const answer = { type: item?.type, language: item?.language };
+    setSelectedItem(itemValue);
+    onChange?.(answer);
+  };
+
+  return (
+    <Combobox
+      width={'w-full'}
+      placeholder={placeholder}
+      items={items}
+      selectedItem={selectedItem}
+      setSelectedItem={onChangeHandler}
+      isSearchable={false}
+    />
+  );
 };
