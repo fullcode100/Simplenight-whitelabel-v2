@@ -513,6 +513,7 @@ const FlightSearchForm = ({
                 }
                 error={showLocationError}
                 onChange={() => setShowLocationError(false)}
+                autoFocus
               />
               <LocationInput
                 icon={
