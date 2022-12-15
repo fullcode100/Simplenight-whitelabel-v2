@@ -12,14 +12,14 @@ import DayList from './DayList';
 interface Props {
   open: boolean;
   closeModal: (event?: MouseEvent<HTMLElement>) => void;
-  rangeDate: JSX.Element;
+  rangeDate?: JSX.Element;
   calendar?: MonthObject[];
   setDate: (date: string) => void;
   startDate: string;
   endDate: string;
   isStartDateTurn: boolean;
   onStartDateChange: (value: string) => void;
-  onEndDateChange: (value: string) => void;
+  onEndDateChange?: (value: string) => void;
   calendarFirstMonth: number;
   setCalendarFirstMonth: (value: number) => void;
   calendarSecondMonth: number;
@@ -52,7 +52,9 @@ const DesktopDatepickerDropdown = ({
 
   useEffect(() => {
     onStartDateChange(startDate);
-    onEndDateChange(endDate);
+    if (onEndDateChange) {
+      onEndDateChange(endDate);
+    }
   }, [startDate, endDate]);
 
   interface ArrowButtonProps {
@@ -114,6 +116,7 @@ const DesktopDatepickerDropdown = ({
           isStartDateTurn={isStartDateTurn}
           maxRange={maxRange}
           className={'pt-2 mt-1 text-xs'}
+          restricted={restricted}
         />
       </section>
     </section>

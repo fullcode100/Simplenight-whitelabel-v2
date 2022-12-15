@@ -42,8 +42,12 @@ import SelectedSeatsBar from './SelectedSeatsBar';
 import classnames from 'classnames';
 import { DetailRequest } from 'showsAndEvents/types/request/ShowsSearchRequest';
 import { useCategorySlug } from 'hooks/category/useCategory';
-import { Sector } from 'showsAndEvents/types/response/ShowsDetailResponse';
+import {
+  Sector,
+  ShowDetailItem,
+} from 'showsAndEvents/types/response/ShowsDetailResponse';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
+import IconInput from 'components/global/Input/IconInput';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -64,6 +68,7 @@ interface selectedSeatsProp {
   cancellationPolicy: string;
   currency: string;
   deliveryMethods: string[];
+  bookingCodeSupplier: string;
 }
 interface iTicketCard {
   row: string;
@@ -76,6 +81,7 @@ interface iTicketCard {
   currency: string;
   sectorTitle: string;
   delivery_methods: string[];
+  booking_code_supplier: string;
 }
 
 const ShowAndEventsDetailDisplay = ({
@@ -98,6 +104,8 @@ const ShowAndEventsDetailDisplay = ({
   const referralParam = params.referral as string;
   const { setCookie } = useCookies();
   const [selectedTab, setSelectedTab] = useState<ReactNode>('All sectors');
+
+  const [showEventItem, setShowEventItem] = useState<ShowDetailItem>();
 
   const [loaded, setLoaded] = useState(false);
   const [showMobileFilters, setShowMobileFilter] = useState(false);
@@ -195,6 +203,7 @@ const ShowAndEventsDetailDisplay = ({
     if (id) {
       Detailer?.request?.(params, i18next, id)
         .then(({ items }) => {
+          setShowEventItem(items[0]);
           setAddressObject(items[0].address);
           setCurrentCancellation(
             items[0].cancellation_policy.cancellation_type,
@@ -431,6 +440,7 @@ const ShowAndEventsDetailDisplay = ({
     rate,
     delivery_methods: deliveryMethods,
     availableSeats,
+    booking_code_supplier: bookingCodeSupplier,
   }: iTicketCard) => {
     const newSelectedSeat: selectedSeatsProp = {
       name: name,
@@ -443,6 +453,7 @@ const ShowAndEventsDetailDisplay = ({
       quantity: 1,
       taxes: price?.total_taxes?.amount || 0,
       deliveryMethods,
+      bookingCodeSupplier,
     };
 
     const currentSelectedSeats = [...selectedSeats];
@@ -492,15 +503,30 @@ const ShowAndEventsDetailDisplay = ({
     }
   };
 
+  const filterSectorsSearch = (e: any) => {
+    const { value } = e.target;
+    if (value) {
+      const searchSectors = groupBySectors(extraDataSeats)?.filter(
+        ({ title }) => title.toLowerCase().includes(value.toLowerCase()),
+      );
+      setSectors(searchSectors);
+    } else {
+      setSectors(groupBySectors(extraDataSeats));
+    }
+  };
+
   const setSector = () => {
     return (
       <section className="lg:pb-6 lg:mb-6">
         <label className="align-bottom flex">Sector</label>
-        <SearchInput
-          icon={<SearchIcon className="h-5 w-5 text-dark-700 lg:w-full" />}
+        <IconInput
+          icon={<SearchIcon className="h-5 w-5 text-dark-700 " />}
           name="search"
-          placeholder={'Search Sector'}
-          routeParams={['type']}
+          placeholder="Search Sector"
+          autoFocus
+          onChange={(e) => {
+            filterSectorsSearch(e);
+          }}
         />
         {sectors && (
           <TicketTabs
@@ -674,7 +700,7 @@ const ShowAndEventsDetailDisplay = ({
             <section
               className={classnames('col-span-4 lg:col-span-3', {
                 'col-span-4': !showSelectedSeatsBar,
-                'col-span-3': showSelectedSeatsBar,
+                'lg:col-span-3': showSelectedSeatsBar,
               })}
             >
               <section
@@ -724,6 +750,10 @@ const ShowAndEventsDetailDisplay = ({
               <section className="w-full col-span-3 border-l-2 lg:sticky fixed bottom-0 pt-5 lg:pt-0 lg:top-32 lg:h-[87vh] h-[25vh] lg:col-span-1 bg-white col z-10">
                 <section className="w-full bg-white">
                   <SelectedSeatsBar
+                    id={id as string}
+                    startDate={fromDate as string}
+                    endDate={toDate as string}
+                    category={showEventItem?.main_category || ''}
                     name={name as string}
                     selectedSeats={selectedSeats}
                     hideBar={() => setShowSelectedSeatsBar(false)}

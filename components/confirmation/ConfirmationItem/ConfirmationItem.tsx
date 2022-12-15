@@ -17,10 +17,13 @@ const ConfirmationItem = ({
   loading,
   setLoading,
 }: ConfirmationItemProps) => {
-  const category = useCategory(item.sector);
+  let sectorName = item.sector?.toLowerCase();
+  const categoryName = item.category?.toLowerCase();
+  if (categoryName === 'shows-events') sectorName = 'shows-events';
+  const sector = useCategory(sectorName || '');
 
   return (
-    injectProps(category?.confirmationDisplay, {
+    injectProps(sector?.confirmationDisplay, {
       item: item,
       payment: payment,
       loading: loading,

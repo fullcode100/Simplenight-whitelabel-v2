@@ -1,5 +1,13 @@
+export interface ShowDetailItem {
+  id: string;
+  name: string;
+  main_category: string;
+}
+
 export interface ShowDetailResponse {
-  example: string;
+  data: {
+    items: ShowDetailItem[];
+  };
 }
 
 export interface Sector {
@@ -12,7 +20,6 @@ export interface Row {
   section: string;
   row: string;
   available_seats: number;
-  price: Price;
   delivery_methods: DeliveryMethod[];
   rate: Rate;
 }

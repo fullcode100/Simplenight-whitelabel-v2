@@ -1,7 +1,10 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { FilterItem } from '@/components/search';
 import { useTranslation } from 'react-i18next';
 import { CheckboxList } from '../../../../components/global/Checkbox/CheckboxList';
+import Heading from '../../../../components/global/Typography/Heading';
+import { RangeSlider } from '../../../../components/global/RangeSliderNew/RangeSlider';
+import CollapseUnbordered from '../../../../components/global/CollapseUnbordered/CollapseUnbordered';
 
 interface SurfaceTypeFilter {
   value: string[];
@@ -15,33 +18,37 @@ export const SurfaceTypeFilter: FC<SurfaceTypeFilter> = ({
   const [t] = useTranslation('parking');
 
   return (
-    <FilterItem title={t('surfaceType')}>
-      <CheckboxList
-        value={value}
-        onChange={onChange}
-        items={[
-          {
-            value: 'COVERED',
-            label: t('covered'),
-          },
-          {
-            value: 'MULTISTOREY',
-            label: t('multistory'),
-          },
-          {
-            value: 'PARTIALLY_COVERED',
-            label: t('partiallyCovered'),
-          },
-          {
-            value: 'NOT_COVERED',
-            label: t('notCovered'),
-          },
-          {
-            value: 'UNDERGROUND',
-            label: t('underGround'),
-          },
-        ]}
-      />
-    </FilterItem>
+    <CollapseUnbordered
+      title={<Heading tag="h6">{t('surfaceType')}</Heading>}
+      initialState={true}
+      body={
+        <CheckboxList
+          value={value}
+          onChange={onChange}
+          items={[
+            {
+              value: 'COVERED',
+              label: t('covered'),
+            },
+            {
+              value: 'MULTISTOREY',
+              label: t('multistory'),
+            },
+            {
+              value: 'PARTIALLY_COVERED',
+              label: t('partiallyCovered'),
+            },
+            {
+              value: 'NOT_COVERED',
+              label: t('notCovered'),
+            },
+            {
+              value: 'UNDERGROUND',
+              label: t('underGround'),
+            },
+          ]}
+        />
+      }
+    />
   );
 };

@@ -8,7 +8,6 @@ import { useState } from 'react';
 import classnames from 'classnames';
 import { MapViewProps } from './MapViewTypes';
 import HotelItemRateInfo from 'hotels/components/search/HotelItemRateInfo';
-import { MinRate, Rate } from 'hotels/types/response/SearchResponse';
 import PriceDisplay from '../../PriceDisplay/PriceDisplay';
 import HotelCancellable from 'hotels/components/search/HotelCancellable';
 

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 import Button from 'components/global/Button/Button';
 import { Item } from 'types/cart/CartType';
@@ -9,9 +10,10 @@ import TrashIcon from 'public/icons/assets/small-trash.svg';
 import EdtiIcon from 'public/icons/assets/edit.svg';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import TaxesAndFeesPopover from '../TaxesAndFeesPopover/TaxesAndFeesPopover';
+import { removeFromCart } from 'core/client/services/CartClientService';
 
 interface ShowsItineraryFooterProps {
-  item: Item;
+  item?: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
 }
@@ -21,24 +23,40 @@ const ShowsItineraryFooter = ({
   reload,
   setReload,
 }: ShowsItineraryFooterProps) => {
+  const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
   const [th, i18h] = useTranslation('events');
 
   const removeLabel = tg('remove', 'Remove');
-  const ticketsAmount = 2;
   const ticketText = th('ticket', 'Ticket');
   const ticketsText = th('tickets', 'Tickets');
   const taxesAndFeesLabel = tg(
     'includesTaxesAndFees',
     'Includes Taxes and Fees',
   );
-  const removeRoomsFormatted = `${removeLabel} ${ticketsAmount} ${usePlural(
+
+  const ticketsAmount = item?.quantity || 0;
+  const removeFormatted = `${removeLabel} ${ticketsAmount} ${usePlural(
     ticketsAmount,
     ticketText,
     ticketsText,
   )}`;
 
   const editLabel = tg('edit', 'Edit');
+
+  const removeAllTickes = () => {
+    const roomToRemove = {
+      cartId: item?.cart_id,
+      itemId: item?.cart_item_id,
+    };
+    removeFromCart(i18g, roomToRemove, dispatch)
+      .then(() => setReload?.(!reload))
+      .catch((error) => console.error(error));
+  };
+
+  const handleRemoveAllTickets = () => {
+    removeAllTickes();
+  };
 
   return (
     <section className="flex flex-col gap-3">
@@ -50,7 +68,8 @@ const ShowsItineraryFooter = ({
           <section className="text-right ml-auto">
             <section className="flex flex-col gap-1 justify-end">
               <p className="font-semibold text-[18px] leading-[18px] text-dark-1000">
-                {'US$1018.00'}
+                {item?.rate?.total.net.currency}
+                {item?.rate?.total.net.formatted}
               </p>
               <section className="flex flex-row gap-1 justify-end">
                 <p className="text-[12px] leading-[15px] text-dark-800">
@@ -63,11 +82,12 @@ const ShowsItineraryFooter = ({
         </section>
         <section className="flex flex-col gap-3 lg:flex-row lg:justify-end w-full">
           <Button
-            value={removeRoomsFormatted}
+            value={removeFormatted}
             size="full-sm"
             type="outlined"
             leftIcon={<TrashIcon />}
             className="lg:w-[170px]"
+            onClick={handleRemoveAllTickets}
           ></Button>
           <Button
             value={editLabel}

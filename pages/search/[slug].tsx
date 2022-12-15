@@ -11,6 +11,9 @@ import SearchCategoryForm from 'components/global/SearchCategoryForm/SearchCateg
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import useCategories from 'hooks/category/useCategories';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
+import HotelSecondarySearchOptions from 'hotels/components/search/HotelSecondarySearchOptions';
+import { useFilterHotels } from 'hotels/hooks/useFilterHotels';
+import { useSelector } from 'react-redux';
 
 const Search: NextPage = () => {
   const { slug } = useQuery();
@@ -31,6 +34,8 @@ const Search: NextPage = () => {
       slug: tab.slug ?? '',
     });
   };
+  const { loading, hotels } = useSelector((state: any) => state.hotels);
+  const { handleFilterHotels } = useFilterHotels(hotels);
 
   useEffect(() => {
     setActiveTab(categoriesTabs[activeTabIndex]);
@@ -44,19 +49,26 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <header className="fixed z-10 flex flex-col w-full pt-2 lg:pt-6 bg-dark-100 border-y border-dark-300">
-        <section className="hidden lg:block">
-          <HorizontalTabs
-            tabs={categoriesTabs}
-            activeTab={activeTab}
-            onClick={handleTabClick}
-            primary
-            className="px-4 mt-1"
-          />
-        </section>
+      <header className="z-20 flex flex-col w-full sm:pt-1 pb-2 bg-dark-100 border-y border-dark-300">
+        <HorizontalTabs
+          tabs={categoriesTabs}
+          activeTab={activeTab}
+          onClick={handleTabClick}
+          primary
+          className="px-4 mt-1"
+        />
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
+
+          {/*
+
+          <HotelSecondarySearchOptions
+            handleFilterHotels={handleFilterHotels}
+            loading={loading}
+          />
+
+          */}
         </section>
         <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
           <section className="mx-auto max-w-7xl">
@@ -66,14 +78,18 @@ const Search: NextPage = () => {
       </header>
       <main>
         <section
-          className={classnames('lg:w-full lg:px-20 pt-[90px]', {
-            ['lg:pt-[274px]']: slug === 'car-rental',
-            ['lg:pt-[304px]']: slug === 'flights',
-            ['lg:pt-[204px]']: multipleCategories,
+          className={classnames('lg:w-full lg:px-20', {
+            //  pt-[90px]
+            /*
+            ['lg:pt-[204px]']:
+              multipleCategories && slug !== 'car-rental' && slug !== 'flights',
             ['lg:pt-[142px]']: !multipleCategories,
+            ['lg:pt-[250px]']: slug === 'car-rental',
+            ['lg:pt-[280px]']: slug === 'flights',
+            */
           })}
         >
-          <section className="mx-auto max-w-7xl">
+          <section className="mx-auto max-w-7xl ">
             <SearchResultDisplay searchType={searchType} />
           </section>
         </section>

@@ -14,12 +14,12 @@ const BreakdownTotal = ({ total }: BreakdownTotalProps) => {
   );
 
   return (
-    <section className="flex justify-between">
+    <section className="flex items-center justify-between">
       <p className="mt-2.5 text-sm leading-[22px] text-dark-1000">
         {totalLabel}
       </p>
       <section>
-        <p className="font-semibold text-lg leading-[25px] text-dark-1000">
+        <p className="font-semibold text-lg leading-[25px] text-dark-1000 text-right">
           {total}
         </p>
         <section className="flex flex-row gap-1">

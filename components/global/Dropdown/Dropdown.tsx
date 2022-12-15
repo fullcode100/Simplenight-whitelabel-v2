@@ -39,7 +39,7 @@ const Dropdown = ({
     });
 
   return (
-    <Menu as="div" className="relative text-left w-44">
+    <Menu as="div" className="relative text-left w-44 whitespace-nowrap">
       <Menu.Button
         className={classnames(
           'inline-flex justify-between items-center text-sm w-full',

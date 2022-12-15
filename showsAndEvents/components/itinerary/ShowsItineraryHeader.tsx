@@ -6,15 +6,15 @@ import { Item } from 'types/cart/CartType';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface ShowsItineraryHeaderProps {
-  item: Item;
+  item?: Item;
   icon: ReactElement;
 }
 
 const ShowsItineraryHeader = ({ item, icon }: ShowsItineraryHeaderProps) => {
   const [t, i18next] = useTranslation('events');
 
-  const name = 'Lady Gaga Boston Tour';
-  const amount = 2;
+  const name = item?.item_data?.name || '';
+  const amount = item?.quantity || 0;
   const amountFormatted = `${amount} ${usePlural(
     amount,
     t('ticket', 'Ticket'),

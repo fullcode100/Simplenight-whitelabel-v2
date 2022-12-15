@@ -5,9 +5,11 @@ module.exports = {
     './components/**/*.tsx',
     './layouts/**/*.tsx',
     './hotels/**/*.tsx',
+    './dining/**/*.tsx',
     './cars/**/*.tsx',
     './parking/**/*.tsx',
     './showsAndEvents/**/*.tsx',
+    './flights/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -70,6 +72,11 @@ module.exports = {
           300: '#FFC85C',
           200: '#FFE5B2',
           100: '#FFF4DE',
+        },
+        teal: {
+          100: '#EDFBFC',
+          300: '#CCE6E8',
+          1000: '#0DADB9',
         },
         'primary-light': 'var(--primary-light-color)',
       },

@@ -14,6 +14,9 @@ import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
 import ShowsSecondarySearchOptions from './components/search/ShowsSecondarySearchOptions';
 import ShowAndEventsDetailDisplay from './components/detail/ShowAndEventsDetailDisplay';
 import HomeContent from './components/HomeContent/HomeContent';
+import ShowsCheckoutDisplay from './components/checkout/ShowsCheckoutDisplay';
+import ShowsCheckoutItemDisplay from './components/checkout/ShowsCheckoutItemDisplay';
+import ShowsBreakdownDisplay from './components/checkout/ShowsBreakdownDisplay';
 
 export const SHOWS_AND_EVENTS = 'shows-events';
 export const categorySectorUUID = '97807fd1-6561-4f3b-a798-42233d9e2b09';
@@ -55,6 +58,9 @@ Category.resultsDisplay = <ThingsResultsDisplay ShowsCategory={Category} />;
 Category.detailDisplay = <ShowAndEventsDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <ShowsItineraryDisplay Category={Category} />;
 Category.homeDisplay = <HomeContent Category={Category} />;
+Category.checkoutItemDisplay = <ShowsCheckoutItemDisplay Category={Category} />;
+Category.breakdownDisplay = <ShowsBreakdownDisplay Category={Category} />;
+Category.checkoutDisplay = <ShowsCheckoutDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new ShowsClientSearcher(Category);
 Category.core.ServerSearcher = new ShowsServerSearcher(Category);

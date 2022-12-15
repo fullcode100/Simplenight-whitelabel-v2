@@ -1,14 +1,16 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { FilterItem } from '@/components/search';
 import { useTranslation } from 'react-i18next';
 import { RangeSlider } from '../../../../components/global/RangeSliderNew/RangeSlider';
+import Heading from '../../../../components/global/Typography/Heading';
+import CollapseUnbordered from '../../../../components/global/CollapseUnbordered/CollapseUnbordered';
 
 interface VehicleHeightFilterProps {
   minHeight: number;
   maxHeight: number;
   value: [number, number];
   onChange: (minMax: [number, number]) => void;
-  marks: number[];
+  onAfterChange: (minMax: [number, number]) => void;
 }
 
 export const VehicleHeightFilter: FC<VehicleHeightFilterProps> = ({
@@ -16,19 +18,24 @@ export const VehicleHeightFilter: FC<VehicleHeightFilterProps> = ({
   maxHeight = 5000,
   value,
   onChange,
-  marks,
+  onAfterChange,
 }) => {
   const [t] = useTranslation('parking');
 
   return (
-    <FilterItem title={t('vehicleHeight')}>
-      <RangeSlider
-        min={minHeight}
-        max={maxHeight}
-        value={value}
-        onChange={onChange}
-        format={(height) => `${height / 100}m`}
-      />
-    </FilterItem>
+    <CollapseUnbordered
+      title={<Heading tag="h6">{t('vehicleHeight')}</Heading>}
+      initialState={true}
+      body={
+        <RangeSlider
+          min={minHeight}
+          max={maxHeight}
+          value={value}
+          onChange={onChange}
+          onAfterChange={onAfterChange}
+          format={(height) => `${height / 100}m`}
+        />
+      }
+    />
   );
 };

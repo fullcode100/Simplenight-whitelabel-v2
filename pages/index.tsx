@@ -34,6 +34,7 @@ const UpperSectionBackground = ({ children }: { children?: any }) => {
 
 const LOOKUP_URI = '/lookup';
 
+// Reopen
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
 
@@ -50,6 +51,8 @@ const Home: NextPageWithLayout = () => {
 
   const categoriesTabs = useCategories();
   const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);
+
+  console.log('ACTIVE TABS ', activeTab);
 
   const homePageText = useBrandHeroTitle();
 

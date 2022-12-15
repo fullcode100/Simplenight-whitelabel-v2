@@ -7,9 +7,13 @@ import {
   RelativePosition,
   Room,
 } from 'hotels/types/response/SearchResponse';
+import { ShowsCartRequestDetail } from 'showsAndEvents/types/request/ShowsCartRequest';
+import { ShowsCartItemData } from 'showsAndEvents/types/response/ShowsCartResponse';
 import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
 import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData';
 import { Amount } from 'types/global/Amount';
+import { FlightCartRequestDetail } from 'flights/types/request/FlightCartRequest';
+import { FlightCartItemData } from 'flights/types/response/FlightCartItemData';
 import { CarCartRequestDetail } from 'cars/types/request/CarCartRequest';
 import { CarCartItemData } from 'cars/types/response/CarCartItemData';
 
@@ -62,7 +66,7 @@ export interface TotalAmount {
 }
 
 export interface CartItemRequest {
-  booking_data?: CartBookingData; // CarCartRequestDetail | ThingsCartRequestDetail;
+  booking_data?: CartBookingData;
   category?: string;
   sn_booking_code?: string;
 }
@@ -79,10 +83,44 @@ export interface UpdateCartItemRequest {
   cart: Item;
 }
 
+export interface Breakdown {
+  amount: Amount;
+  description: string;
+  percentage: number;
+  source: string;
+}
+export interface Discounts {
+  amount_to_apply: Amount;
+  breakdown: Breakdown[];
+  total_amount_before_apply: Amount;
+  net_amount_before_apply: Amount;
+  percentage_to_apply: string;
+}
+
+export interface Rate {
+  discounts: Discounts;
+  taxes: {
+    full: Partial<Amount>;
+    postpaid: Amount[];
+    prepaid: Amount[];
+    total_postpaid: Partial<Amount>;
+  };
+  total: {
+    full: Amount;
+    net: Amount;
+    postpaid: Amount;
+    prepaid: Amount;
+  };
+}
+export interface ItemData extends ThingsCartItemData, ShowsCartItemData {
+  rate: Rate;
+}
+
 export interface Item {
-  booking_data?: CartBookingData; // CarCartRequestDetail | ThingsCartRequestDetail;
-  item_data?: CartItemData; // CarCartItemData | ThingsCartItemData;
   category?: string;
+  sector?: string;
+  booking_data?: CartBookingData;
+  item_data?: CartItemData;
   cart_id?: string;
   cart_item_id?: string;
   created_at?: string;
@@ -92,7 +130,7 @@ export interface Item {
   inventory_name?: string;
   last_validated_rate?: any;
   quantity?: number;
-  rate?: Rates;
+  rate?: Rates & Rate;
   sn_booking_code?: string;
   status?: string;
   supplier?: string;
@@ -101,8 +139,8 @@ export interface Item {
   guests?: number;
   adults?: number;
   children?: number;
+  infants?: number;
   room_qty?: number;
-  sector?: string;
   customer_additional_requests?: string;
 }
 
@@ -147,6 +185,24 @@ export interface HotelCart {
   terms_and_conditions?: string;
   check_in_instructions?: CheckInInstructions;
   selected_room_code?: string;
+}
+
+export interface FlightCart {
+  amount_min?: Amount;
+  details?: Details;
+  end_date?: string;
+  giata_code?: string;
+  id?: string;
+  min_rate_room?: Room;
+  photos?: Photo[];
+  relative_position?: RelativePosition;
+  items?: Item[];
+  rooms?: Room[];
+  relevance?: number;
+  start_date?: string;
+  thumbnail?: string;
+  terms_and_conditions?: string;
+  check_in_instructions?: CheckInInstructions;
 }
 
 export interface CarCart {

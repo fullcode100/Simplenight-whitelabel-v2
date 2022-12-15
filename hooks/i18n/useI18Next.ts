@@ -8,6 +8,12 @@ import hotelsEn from 'translations/en/hotels.json';
 import hotelsEs from 'translations/es/hotels.json';
 import thingsEn from 'translations/en/things.json';
 import thingsEs from 'translations/es/things.json';
+
+import diningEn from 'translations/en/dining.json';
+import diningEs from 'translations/es/dining.json';
+
+import flightsEn from 'translations/en/flights.json';
+import flightsEs from 'translations/es/flights.json';
 import carsEn from 'translations/en/cars.json';
 import carsEs from 'translations/es/cars.json';
 import parkingEs from 'translations/es/parking.json';
@@ -64,15 +70,19 @@ export const initializeI18Next = () => {
         global: globalEn,
         hotels: hotelsEn,
         things: thingsEn,
+        flights: flightsEn,
         cars: carsEn,
         parking: parkingEn,
+        dining: diningEn,
       },
       es: {
         global: globalEs,
         hotels: hotelsEs,
         things: thingsEs,
+        flights: flightsEs,
         cars: carsEs,
         parking: parkingEs,
+        dining: diningEs,
       },
     },
   });

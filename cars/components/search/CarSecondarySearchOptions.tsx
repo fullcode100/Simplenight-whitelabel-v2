@@ -58,8 +58,8 @@ const CarSecondarySearchOptions = () => {
     'Venue Name, Landmark, Location, etc.',
   );
   const sortByLabel = t('sortBy', 'Sort By');
-  const sortByPriceAsc = t('sortByPriceAsc', 'Price (Lowest First)');
-  const sortByPriceDesc = t('sortByPriceDesc', 'Price (Highest First)');
+  const sortByPriceAsc = t('sortByPriceAsc', 'Lowest Price');
+  const sortByPriceDesc = t('sortByPriceDesc', 'Highest Price');
   const SORT_BY_OPTIONS = [
     { value: 'sortByPriceAsc', label: sortByPriceAsc },
     { value: 'sortByPriceDesc', label: sortByPriceDesc },
@@ -308,7 +308,7 @@ const CarSecondarySearchOptions = () => {
       <section className="flex justify-between items-center">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
         <button
-          className="font-semibold text-base text-primary-1000 capitalize"
+          className="font-semibold text-base text-primary-1000 capitalize underline"
           onClick={handleClearFilters}
         >
           {clearFiltersText}
@@ -348,12 +348,14 @@ const CarSecondarySearchOptions = () => {
 
   const FilterForm = (
     <section className="py-4 h-full overflow-y-scroll">
+      {/*
       <SortByFilter />
 
       <Divider className="my-4 opacity-0" />
       <KeywordSearchFilter />
 
       <Divider className="my-6" />
+      */}
       <FilterContainer>
         <FilterTitle label={carTypeLabel} />
         <Checkbox
@@ -417,15 +419,18 @@ const CarSecondarySearchOptions = () => {
   };
 
   return (
-    <section className="px-4 w-full flex gap-1 py-3">
-      <Button
-        value={filtersLabel}
-        size="full-sm"
-        leftIcon={<FilterIcon />}
+    <section>
+      <button
+        className="flex items-center gap-2 w-[75px] lg:hidden bg-primary-100 py-1 px-2 rounded mr-5"
         onClick={handleFilterButtonClick}
-        translationKey="filters"
-        context="cars"
-      />
+      >
+        <span className="text-primary-1000">
+          <FilterIcon />
+        </span>
+        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+          {t('filter', 'Filter')}
+        </span>
+      </button>
       {Modals}
     </section>
   );
