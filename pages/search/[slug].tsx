@@ -60,12 +60,16 @@ const Search: NextPage = () => {
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
+
           {/*
+
           <HotelSecondarySearchOptions
             handleFilterHotels={handleFilterHotels}
             loading={loading}
           />
+
           */}
+
         </section>
         <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
           <section className="mx-auto max-w-7xl">
