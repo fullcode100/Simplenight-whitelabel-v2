@@ -71,12 +71,12 @@ const HotelSearchForm = ({
   const [startDate, setStartDate] = useState<string>(
     params.startDate
       ? params.startDate.toString()
-      : formatAsSearchDate(dayjs()),
+      : formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const [endDate, setEndDate] = useState<string>(
     params.endDate
       ? params.endDate.toString()
-      : formatAsSearchDate(dayjs().add(1, 'day')),
+      : formatAsSearchDate(dayjs().add(2, 'day')),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
