@@ -19,6 +19,7 @@ export interface BaseInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   max?: number;
+  min?: number;
   error?: boolean;
   clearable?: boolean;
   onClear?: () => void;
@@ -51,6 +52,7 @@ const BaseInput = ({
   children,
   autoFocus = false,
   max,
+  min,
   error,
   clearable,
   onClear,
@@ -102,6 +104,7 @@ const BaseInput = ({
       onChange={onChange}
       autoFocus={autoFocus}
       max={type == 'number' ? max : ''}
+      min={type == 'number' ? min : ''}
       onClick={onClick}
       defaultValue={defaultValue}
       {...others}

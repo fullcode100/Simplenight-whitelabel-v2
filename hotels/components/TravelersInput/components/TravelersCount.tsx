@@ -17,7 +17,7 @@ const TravelersCount = ({
   const [t, i18next] = useTranslation('global');
   const adultsLabel = t('adults', 'Adults');
   const childrenLabel = t('children', 'Children');
-  const childrenAgeRangeLabel = t('childrenRange', 'Ages 0 to 17');
+  const childrenAgeRangeLabel = t('childrenRange', 'Ages 1 to 17');
 
   return (
     <section className="flex flex-col gap-y-6 mb-6">

@@ -45,6 +45,8 @@ const ChildrenAges = ({
                 handleAgesChange(
                   parseInt(e.target.value) >= 17
                     ? 17
+                    : parseInt(e.target.value) === 0
+                    ? 1
                     : parseInt(e.target.value),
                   indexAge,
                   roomNumber,
@@ -52,6 +54,7 @@ const ChildrenAges = ({
               }
               onClick={() => setIndexOnFocus(indexAge)}
               max={17}
+              min={1}
               autoFocus={indexOnFocus == indexAge ? true : false}
             />
           </section>

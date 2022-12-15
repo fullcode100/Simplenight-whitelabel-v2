@@ -44,6 +44,7 @@ const FullScreenModal = ({
         `h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100] ${className}`,
         { ['hidden']: !open },
       )}
+      style={{ width: '90%' }}
     >
       {!noHeader && (
         <ModalHeader

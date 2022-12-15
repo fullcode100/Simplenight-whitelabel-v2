@@ -3,6 +3,7 @@ import Form, { IChangeEvent } from '@rjsf/core';
 import {
   CustomCheckbox,
   CustomCountry,
+  CustomLanguageGuide,
   CustomNumberUnit,
   CustomPhoneNumber,
   CustomPickupPoint,
@@ -45,6 +46,7 @@ const FormSchema = ({
     PhoneWidget: CustomPhoneNumber,
     PickupPoint: CustomPickupPoint,
     NumberUnit: CustomNumberUnit,
+    LanguageGuide: CustomLanguageGuide,
   };
 
   const CustomFieldTemplate = (props: any) => {

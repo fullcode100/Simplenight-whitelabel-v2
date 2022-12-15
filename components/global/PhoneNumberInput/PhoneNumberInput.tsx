@@ -67,7 +67,7 @@ const PhoneNumberInput = ({
       </select>
       <span className="text-sm">{`+${phoneCode}`}</span>
       <input
-        type="text"
+        type="number"
         value={phoneNumber}
         onChange={(event) => handleChange(event.target.value)}
         placeholder={placeholder}

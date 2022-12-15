@@ -163,7 +163,7 @@
   "name": "Name",
   "enterCardNumber": "Enter Your Card Number",
   "checkOnBackOfCard": "Check On Back Of Card",
-  "billingAddress": "Dirección de Facturación",
+  "billingAddress": "Billing Address",
   "streetAddress": "Street Address",
   "streetAddress2": "Street Address Line 2",
   "stateProvince": "State / Province",

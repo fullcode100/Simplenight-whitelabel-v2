@@ -9,6 +9,7 @@ import {
   TicketTypes,
 } from 'thingsToDo/types/request/ThingsCartRequest';
 import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse';
+import { formatObjectToString } from 'helpers/objectUtils';
 
 interface Props {
   item: Item;
@@ -153,7 +154,7 @@ const ThingTicketsInfo = ({ item }: Props) => {
         const hasCorrespondingBookingQuestion = bookingQuestions?.find(
           (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
         );
-        let answerValue = bookingAnswer.value;
+        let answerValue = formatObjectToString(bookingAnswer.value);
         if (bookingAnswer.question_id === PICKUP_POINT_ID) {
           answerValue = pickupAddress ? pickupAddressFormatted : pickupName;
         }
