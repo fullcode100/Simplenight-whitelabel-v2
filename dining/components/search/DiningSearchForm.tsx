@@ -126,12 +126,13 @@ const DiningSearchForm = ({
           showDatePicker={showDatePicker}
           onClose={() => setShowDatePicker(false)}
           startDateLabel={t('startDate')}
+          endDateLabel={t('endDate')}
           initialStartDate={startDate}
           initialEndDate={endDate}
           onStartDateChange={handleStartDateChange}
           onEndDateChange={handleEndDateChange}
           openOnStart={clickOnStart ? true : false}
-          endDateLabel={'endDate'}
+          isRange={false}
         />
         <section className="flex gap-4 lg:mt-0 lg:w-full">
           <IconInput

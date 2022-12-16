@@ -33,6 +33,7 @@ import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import Dining from 'public/icons/categories/Category-Dining.svg';
 import Button from 'components/global/Button/Button';
 import BreakdownTotal from 'components/checkout/BreakdownTotal/BreakdownTotal';
+import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
 
 const HighlightedText = ({ label }: { label: string }) => {
   return (
@@ -165,34 +166,6 @@ const SummaryDetail = ({
           <p>|</p>
           <PhoneAndEMail phone={phone} />
         </div>
-        <div className="py-4">
-          <div className="flex">
-            <Image
-              width={536}
-              height={276}
-              className="max-w-[536px] max-h-[276px] w-full"
-              src={images[0]}
-              alt="Dining image"
-            />
-            <div className="ml-2">
-              <Image
-                width={357}
-                height={225}
-                className="max-w-[357px] max-h-[225px] w-full"
-                src={images[1]}
-                alt="Dining image"
-              />
-              <div className="flex justify-center mt-3">
-                <button
-                  onClick={() => setOpenImages(true)}
-                  className="flex items-center justify-center w-[40px] h-[40px] rounded-[50%] border-teal-1000 border-2"
-                >
-                  <Arrows />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
         <AboutSummaryDetail categories={categories} isOpen={isOpen} />
       </section>
       {openImages && (
@@ -274,12 +247,13 @@ const DateSection = ({
         showDatePicker={showDatePicker}
         onClose={() => setShowDatePicker(false)}
         startDateLabel="Date"
+        endDateLabel="End Date"
         initialStartDate={startDate}
         initialEndDate={endDate}
         onStartDateChange={handleStartDateChange}
         onEndDateChange={handleEndDateChange}
         openOnStart={false}
-        endDateLabel={'Date'}
+        isRange={false}
       />
       <section className="flex gap-4 lg:mt-0 lg:w-full">
         <IconInput
@@ -692,6 +666,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   const locationLabel = t('location', 'Location');
   const reviewsLabel = t('reviews', 'Reviews');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
+  const diningImages = data?.images;
 
   const overviewRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
@@ -826,9 +801,16 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
           categories={data.categories}
           isOpen={!data.is_closed}
         />
-        <section className="w-full lg:hidden">
-          <ImageCarousel images={data.images} title="" />
-        </section>
+        {diningImages && (
+          <section className="lg:hidden">
+            <ImageCarousel images={data.images} title="" />
+          </section>
+        )}
+        {diningImages && (
+          <section className="hidden w-full pt-8 lg:block bg-dark-100">
+            <ImageCarouselLargeScreen images={diningImages} title="" />
+          </section>
+        )}
         <section>
           <GeneralInformationSection
             name={data.name}

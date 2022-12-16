@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { DiningCategory } from 'dining';
-import { NextApiRequestWithSession } from '../../../types/core/server';
+import { NextApiRequestWithSession } from 'types/core/server';
 
 type Data = {
   name: string;

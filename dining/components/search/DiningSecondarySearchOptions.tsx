@@ -26,20 +26,21 @@ const DiningSecondarySearchOptions = () => {
   const setQueryParams = useQuerySetter();
 
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+  const [priceRange, setPriceRange] = useState<string>('');
 
   const [sortBy, setSortBy] = useState<string>(
     (queryFilter?.sortBy as string) || 'sortByPriceAsc',
   );
 
   const initialPriceRange = {
-    min: '0',
-    max: '5000',
+    min: '1',
+    max: '4',
   };
   const [minPrice, setMinPrice] = useState<string>(
-    (queryFilter?.minPrice as string) || initialPriceRange.min,
+    (queryFilter?.price && queryFilter?.price[0]) || initialPriceRange.min,
   );
   const [maxPrice, setMaxPrice] = useState<string>(
-    (queryFilter?.maxPrice as string) || initialPriceRange.max,
+    (queryFilter.price && queryFilter?.price[2]) || initialPriceRange.max,
   );
   const [minStarRating, setMinStarRating] = useState<string>(
     (queryFilter.starRating && queryFilter?.starRating[0]) || '1',
@@ -63,15 +64,8 @@ const DiningSecondarySearchOptions = () => {
 
   const handleClearFilters = () => {
     setQueryParams({
-      propertyTypes: '',
-      paymentTypes: '',
-      amenities: '',
+      price: '',
       starRating: '',
-      priceRange: '',
-      sortBy: '',
-      isTotalPrice: '',
-      minPrice: '',
-      maxPrice: '',
     });
   };
 
@@ -79,34 +73,42 @@ const DiningSecondarySearchOptions = () => {
     starRating = `${minStarRating ?? 1},${maxStarRating ?? 5}`;
   };
 
+  const onChangeMinPrice = (value: string) => {
+    const queryValue = `${value ?? 1},${maxPrice ?? 5}`;
+    setPriceRange(queryValue);
+  };
+
+  const onChangeMaxPrice = (value: string) => {
+    const queryValue = `${minPrice ?? 1},${value ?? 5}`;
+    setPriceRange(queryValue);
+  };
+
   const handleDispatchFilters = () => {
     setFilterModalOpen(false);
     setStarRatingFilter();
     setQueryParams({
-      ...queryFilter,
-      sortBy,
-      ...(starRating && { starRating }),
-      ...(minPrice && { minPrice }),
-      ...(maxPrice && { maxPrice }),
-      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
+      price: priceRange,
     });
   };
 
   const FilterForm = (
-    <section className="h-full px-5 py-4 overflow-y-scroll">
-      <SortByFilter
+    <section
+      className="overflow-y-auto px-5 py-4"
+      style={{ maxHeight: '75vh' }}
+    >
+      {/* <SortByFilter
         recommended={true}
         openNow={false}
         offeringDiscounts={false}
         onChangeHotels={() => true}
         onChangeVacationRentals={() => true}
-      />
+      /> */}
       <Divider className="my-6" />
       <PriceRangeFilter
         minPrice={minPrice}
         maxPrice={maxPrice}
-        onChangeMinPrice={setMinPrice}
-        onChangeMaxPrice={setMaxPrice}
+        onChangeMinPrice={onChangeMinPrice}
+        onChangeMaxPrice={onChangeMaxPrice}
       />
       <Divider className="my-6" />
       <StarRatingFilter
@@ -129,7 +131,7 @@ const DiningSecondarySearchOptions = () => {
   );
 
   const Modals = (
-    <>
+    <div className="relative">
       <FullScreenModal
         open={isFilterModalOpen}
         closeModal={() => setFilterModalOpen(false)}
@@ -140,7 +142,7 @@ const DiningSecondarySearchOptions = () => {
       >
         {FilterForm}
       </FullScreenModal>
-    </>
+    </div>
   );
 
   const { view = 'list' } = useQuery();
@@ -156,7 +158,7 @@ const DiningSecondarySearchOptions = () => {
   };
 
   return (
-    <section className="flex w-full gap-2 px-4 py-3">
+    <section className="lg:invisible flex w-full gap-2 px-4 py-3">
       <Button
         value={filtersLabel}
         size="full-sm"

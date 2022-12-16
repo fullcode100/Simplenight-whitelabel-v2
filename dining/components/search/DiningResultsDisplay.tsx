@@ -29,6 +29,7 @@ import HorizontalSkeletonList from 'components/global/HorizontalItemCard/Horizon
 import { DiningClientSearcher } from 'dining/core/search/DiningClientSearcher';
 import EmptyState from 'components/global/EmptyState/EmptyState';
 import { useTranslation } from 'react-i18next';
+import DiningSecondarySearchOptions from './DiningSecondarySearchOptions';
 
 const resultsMock = diningData;
 interface ViewButtonProps {
@@ -94,7 +95,7 @@ const DiningResultsDisplay = () => {
 
   const urlDetail = (dining: Dining) => {
     const { id } = dining;
-    return `/detail/${slug}/${id}?covers=2&startDate${startDate}&geolocation=${latitude},${longitude}`;
+    return `/detail/${slug}/${id}?covers=2&startDate=${startDate}&geolocation=${latitude},${longitude}`;
   };
 
   const DiningData = () => (
@@ -179,6 +180,9 @@ const DiningResultsDisplay = () => {
       <section className="lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <DiningFilterFormDesktop />
+        </section>
+        <section className="pt-4">
+          <DiningSecondarySearchOptions />
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full mt-20 lg:mt-0">
           {loaded && hasNoRestaurants ? (

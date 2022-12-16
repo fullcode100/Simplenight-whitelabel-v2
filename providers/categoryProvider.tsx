@@ -7,7 +7,6 @@ import { FlightCategory } from 'flights';
 
 import { DiningCategory } from 'dining';
 
-
 const categoryExists = (category: any) => !!category;
 export const getCategoryOptions = () =>
   [

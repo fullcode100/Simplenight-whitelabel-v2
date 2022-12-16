@@ -3,10 +3,12 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import dayjs from 'dayjs';
 import { DiningDetailResponse } from 'dining/types/response/DiningDetailResponse';
-import { NextApiResponse } from 'next';
+import { DiningSearchResponse } from 'dining/types/response/SearchResponse';
+import { HotelDetailResponse } from 'hotels/types/response/HotelDetailResponse';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import { NextApiRequestWithSession } from '../../../types/core/server';
 
 export class DiningServerDetailer extends ServerDetailer<DiningDetailResponse> {
   public constructor(category: CategoryOption) {

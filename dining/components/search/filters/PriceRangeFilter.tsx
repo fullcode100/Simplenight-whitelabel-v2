@@ -1,13 +1,14 @@
 import { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import RangeSlider from 'components/global/Filters/RangesliderLegacy';
+import RangesliderLegacy from 'components/global/Filters/RangesliderLegacy';
 import FilterContainer from './FilterContainer';
 import FilterTitle from './FilterTitle';
 
 interface PriceRangeFilterProps {
   minPrice: string;
   maxPrice: string;
+  max?: number;
   onChangeMaxPrice:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
@@ -19,6 +20,7 @@ interface PriceRangeFilterProps {
 const PriceRangeFilter = ({
   minPrice,
   maxPrice,
+  max = 4,
   onChangeMinPrice,
   onChangeMaxPrice,
 }: PriceRangeFilterProps) => {
@@ -28,13 +30,14 @@ const PriceRangeFilter = ({
   return (
     <FilterContainer>
       <FilterTitle label={priceRangeLabel} />
-      <RangeSlider
-        initialMin={parseInt(minPrice) || 0}
-        initialMax={parseInt(maxPrice) || 500}
-        min={0}
-        max={500}
-        step={10}
-        minDifference={10}
+      <RangesliderLegacy
+        initialMin={minPrice ? parseInt(minPrice) : 1}
+        initialMax={maxPrice ? parseInt(maxPrice) : 4}
+        min={1}
+        max={max}
+        step={1}
+        minDifference={0}
+        marks={true}
         type="price"
         setMinState={onChangeMinPrice}
         setMaxState={onChangeMaxPrice}

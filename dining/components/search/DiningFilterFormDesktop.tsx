@@ -44,8 +44,8 @@ function DiningFilterFormDesktop() {
 
   const handleClearFilters = () => {
     setQueryParams({
-      minPrice: '',
-      maxPrice: '',
+      price: '',
+      starRating: '',
     });
   };
 
@@ -103,28 +103,30 @@ function DiningFilterFormDesktop() {
   );
   return (
     <section className="h-full py-4 overflow-y-scroll">
-      <FilterHeader />
-      <Divider className="my-6" />
-      {/* <SortByFilter
-        recommended={true}
-        openNow={false}
-        offeringDiscounts={false}
-        onChangeHotels={() => true}
-        onChangeVacationRentals={() => true}
-      /> */}
-      <PriceRangeFilter
-        minPrice={minPrice}
-        maxPrice={maxPrice}
-        onChangeMinPrice={onChangeMinPrice}
-        onChangeMaxPrice={onChangeMaxPrice}
-      />
-      <Divider className="my-4 opacity-0" />
-      <StarRatingFilter
-        minStarRating={minStarRating}
-        maxStarRating={maxStarRating}
-        onChangeMinRating={onChangeMinRating}
-        onChangeMaxRating={onChangeMaxRating}
-      />
+      <section className="pr-4">
+        <FilterHeader />
+        <Divider className="my-6" />
+        {/* <SortByFilter
+          recommended={true}
+          openNow={false}
+          offeringDiscounts={false}
+          onChangeHotels={() => true}
+          onChangeVacationRentals={() => true}
+        /> */}
+        <PriceRangeFilter
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          onChangeMinPrice={onChangeMinPrice}
+          onChangeMaxPrice={onChangeMaxPrice}
+        />
+        <Divider className="my-4 opacity-0" />
+        <StarRatingFilter
+          minStarRating={minStarRating}
+          maxStarRating={maxStarRating}
+          onChangeMinRating={onChangeMinRating}
+          onChangeMaxRating={onChangeMaxRating}
+        />
+      </section>
     </section>
   );
 }
