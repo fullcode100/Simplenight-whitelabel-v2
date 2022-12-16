@@ -10,10 +10,16 @@ const coreReducer = (
   { payload, type }: ReduxReducerAction & { payload: any },
 ) => {
   switch (type) {
+    case types.SET_LOAD_BRAND_CONFIG:
+      return {
+        ...state,
+        brandConfigLoaded: false,
+      };
     case types.SET_BRAND_CONFIG:
       return {
         ...state,
         brandConfig: payload,
+        brandConfigLoaded: true,
       };
     case types.SET_INTL_MESSAGES:
       return {

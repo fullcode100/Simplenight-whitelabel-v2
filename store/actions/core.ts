@@ -9,6 +9,7 @@ import * as types from '../reducers/core/types';
 declare let window: CustomWindow;
 
 export const setBrandConfig = (): AppThunk => async (dispatch) => {
+  dispatch({ type: types.SET_LOAD_BRAND_CONFIG });
   const settings: BrandConfig = await getSettings();
   dispatch({
     type: types.SET_BRAND_CONFIG,

@@ -7,6 +7,7 @@ import InitAppHOC from '../components/global/InitAppHOC';
 import { AppPropsWithLayout } from 'types/layout/pageTypes';
 import { useLayout } from 'hooks/layoutAndUITooling/useLayout';
 import { initializeI18Next } from 'hooks/i18n/useI18Next';
+import ConfigLoader from 'components/global/ConfigLoader/ConfigLoader';
 
 const i18next = initializeI18Next();
 
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Provider store={store}>
       <InitAppHOC i18next={i18next}>
+        <ConfigLoader />
         <Toaster />
         <PageWithLayout />
       </InitAppHOC>

@@ -1,6 +1,7 @@
 import { CoreState } from '../../../types/redux/CoreState';
 
 export const initialState: CoreState = {
+  brandConfigLoaded: false,
   brandConfig: {
     information: {},
     theme: {

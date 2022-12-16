@@ -2,6 +2,7 @@
 import { IntlMessages } from './IntlMessages';
 
 export interface CoreState {
+  brandConfigLoaded: boolean;
   brandConfig: any;
   languages: CoreLanguages;
   theme: CoreTheme[];
