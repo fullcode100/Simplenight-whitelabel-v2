@@ -268,7 +268,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             handleFilterHotels={handleFilterHotels}
           />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0 ">
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           {!loading && hasNoHotels ? (
             <EmptyState
               text={noResultsLabel}
@@ -276,7 +276,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             />
           ) : (
             <>
-              <section className="hidden w-full lg:block absolute z-[1] right-0 top-2">
+              <section className=" w-full lg:block absolute z-[1] right-0 -top-20 lg:top-2 px-5 lg:px-0 ">
                 <div
                   className={`flex bg-white  rounded justify-between py-4 ${
                     !isListView ? 'px-4 shadow-container' : ''

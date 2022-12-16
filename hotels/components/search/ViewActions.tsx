@@ -28,7 +28,7 @@ export const ViewActions = ({ setview, view }: ViewActionsProps) => {
     setview(viewParam);
   };
   return (
-    <div className="ml-2">
+    <div className="ml-2 hidden lg:flex">
       <AltRadioButtonGroup
         items={viewTypeFilterItems}
         value={view}
