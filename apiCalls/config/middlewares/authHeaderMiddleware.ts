@@ -18,7 +18,7 @@ export const applySimplenightApiKey = (
 };
 
 export const setSession = async (req: NextApiRequestWithSession) => {
-  if (req.headers[X_SESSION] == '') {
+  if (!req.headers[X_SESSION] || req.headers[X_SESSION] === 'undefined') {
     const originRefefer = getRequestReferer(req);
     const data = await getCredentials(originRefefer);
     req.session = data;

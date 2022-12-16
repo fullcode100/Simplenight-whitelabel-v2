@@ -178,6 +178,7 @@ const CarSearchForm = ({
 
   const handleCheckLocation = (value: boolean) => {
     setShowLocation2(value);
+    if (!value) setAddress2('');
   };
 
   return (

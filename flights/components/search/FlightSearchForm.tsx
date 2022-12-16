@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
+// import DatePicker from '../../../components/global/Calendar/Calendar';
 import DatePicker from '../Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
 import { Room, createRoom } from 'flights/helpers/room';
@@ -552,6 +553,7 @@ const FlightSearchForm = ({
                 onEndDateChange={handleEndDateChange}
                 openOnStart={clickOnStart ? true : false}
                 equal={direction !== 'round_trip'}
+                // isRange={direction === 'round_trip'}
               />
               <section className="flex gap-4 lg:mt-0 lg:w-full">
                 <IconInput

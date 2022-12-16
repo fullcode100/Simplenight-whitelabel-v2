@@ -133,11 +133,8 @@ const FlightResultsDisplay = ({
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
-
-  useEffect(() => {
+  const doSearch = () => {
+    // console.log('Search Flights');
     const hasEmptyValues = checkIfAnyNull([
       direction,
       startAirport,
@@ -234,6 +231,14 @@ const FlightResultsDisplay = ({
         .catch((error) => console.error(error))
         .then(() => setLoaded(true));
     }
+  };
+
+  useEffect(() => {
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
+
+  useEffect(() => {
+    doSearch();
   }, [
     direction,
 
@@ -266,6 +271,10 @@ const FlightResultsDisplay = ({
     endAirports,
     startDates,
   ]);
+
+  useEffect(() => {
+    // doSearch();
+  }, []);
 
   const onChangeFlightIndex = (value: number) => {
     const _flightsSelected: string[] = [];

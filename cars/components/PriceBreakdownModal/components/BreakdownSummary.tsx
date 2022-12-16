@@ -7,7 +7,7 @@ import TaxesAndFeesPopover from 'cars/components/TaxesAndFeesPopover/TaxesAndFee
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface BreakdownSummaryProps {
-  rate: Rates;
+  rate: any;
   nights?: number;
   guests?: number;
   CustomPriceBreakdown?: React.ReactElement;
@@ -22,25 +22,24 @@ const BreakdownSummary = ({
   nights = 0,
   roomsQty = 0,
 }: BreakdownSummaryProps) => {
+  console.log(rate);
   const [tg] = useTranslation('global');
+  const [t] = useTranslation('flights');
+  const includesTaxesAndFeesText = t(
+    'includesTaxesAndFees',
+    'Includes Taxes And Fees',
+  );
   const totalLabel = tg('total', 'Total');
-  const tRoom = tg('room', 'Room');
-  const tRooms = tg('rooms', 'Rooms');
-  const ROOM_TEXT = usePlural(roomsQty, tRoom, tRooms);
-  const tNight = tg('night', 'Night');
-  const tNights = tg('nights', 'Nights');
-  const NIGHT_TEXT = usePlural(nights, tNight, tNights);
 
   return (
     <section className="flex items-center justify-between">
       <Paragraph size="small" fontWeight="normal">
-        {showTotal
-          ? totalLabel
-          : `${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}
+        {totalLabel}
       </Paragraph>
       <section className="text-right">
         {/* <PriceDisplay rate={rate} /> */}
-
+        {rate?.total?.prepaid?.amount} {rate?.total?.prepaid?.currency}
+        <p className="text-dark-800 text-xs">{includesTaxesAndFeesText}</p>
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>
     </section>

@@ -20,6 +20,7 @@ import FlightSearchFormReadState from './components/search/FlightSearchFormReadS
 import FlightsIcon from 'public/icons/assets/flights1.svg';
 import FlightSecondarySearchOptions from './components/search/FlightSecondarySearchOptions';
 import FlightCheckoutDisplay from './components/checkout/FlightCheckoutDisplay';
+import FlightCheckoutItemDisplay from './components/checkout/FlightCheckoutItemDesplay';
 
 export const FLIGHT_CATEGORY = 'flights';
 
@@ -66,7 +67,12 @@ Category.detailDisplay = <FlightDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <FlightItineraryDisplay Category={Category} />;
 Category.breakdownDisplay = <FlightBreakdownDisplay Category={Category} />;
 Category.checkoutDisplay = <FlightCheckoutDisplay Category={Category} />;
-Category.confirmationDisplay = <FlightConfirmationDisplay Category={Category} />;
+Category.checkoutItemDisplay = (
+  <FlightCheckoutItemDisplay Category={Category} />
+);
+Category.confirmationDisplay = (
+  <FlightConfirmationDisplay Category={Category} />
+);
 Category.cancelledDisplay = <FlightCancelledDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new FlightClientSearcher(Category);

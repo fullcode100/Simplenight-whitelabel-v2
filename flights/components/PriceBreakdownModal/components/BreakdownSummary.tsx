@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Paragraph from '../../../../components/global/Typography/Paragraph';
 
 interface BreakdownSummaryProps {
-  rate: Rate;
+  rate: any;
   nights?: number;
   guests?: number;
   CustomPriceBreakdown?: React.ReactElement;
@@ -28,7 +28,8 @@ const BreakdownSummary = ({
         {totalLabel}
       </Paragraph>
       <section className="text-right">
-        <PriceDisplay rate={rate} />
+        {/* <PriceDisplay rate={rate} /> */}
+        {rate?.total?.prepaid?.amount} {rate?.total?.prepaid?.currency}
         <p className="text-dark-800 text-xs">{includesTaxesAndFeesText}</p>
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>

@@ -5,31 +5,41 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { useTranslation } from 'react-i18next';
 import IconInput from 'components/global/Input/IconInput';
+import CloseIcon from 'public/icons/assets/close.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
-import { getIsMapLoaded } from 'store/selectors/core';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useState } from 'react';
+import { getIsMapLoaded } from 'store/selectors/core';
+import { setIsMapsLoaded } from 'store/actions/core';
+import { useDispatch } from 'react-redux';
+import Script from 'next/script';
 
 interface LocationInputProps {
   icon: any;
   routeParams?: string[];
-  defaultAddress?: string;
   onChange?: (value: string) => void;
   onSelect?: (value: latLngProp, address: string) => void;
+  defaultAddress?: string;
 }
 
 const LocationInput = ({
   icon,
   routeParams,
-  defaultAddress,
   onChange,
   onSelect,
+  onClear,
+  defaultAddress,
   ...others
 }: LocationInputProps & BaseInputProps) => {
   const params = useQuery();
-  if (!defaultAddress) defaultAddress = params?.address?.toString() || '';
+  // let defaultAddress = params?.address?.toString() || '';
+  if (!defaultAddress)
+    defaultAddress =
+      routeParams && routeParams[0] && params[routeParams[0]]
+        ? params[routeParams[0]]?.toString()
+        : '';
   const [address, setAddress] = useState(defaultAddress);
   const isMapLoaded = getIsMapLoaded();
 
@@ -39,6 +49,11 @@ const LocationInput = ({
   const handleChange = (newAddress: string) => {
     setAddress(newAddress);
     if (onChange) onChange(newAddress);
+  };
+
+  const clearLocationHandler = () => {
+    setAddress('');
+    onClear?.();
   };
 
   const handleSelect = async (newAddress: string) => {
@@ -59,66 +74,95 @@ const LocationInput = ({
     'Pick your destination',
   );
 
+  const dispatch = useDispatch();
+
+  const handleMapsLoaded = () => {
+    dispatch(setIsMapsLoaded(true));
+  };
+
+  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
+
   return (
-    isMapLoaded && (
-      <PlacesAutocomplete
-        value={address}
-        onChange={handleChange}
-        onSelect={handleSelect}
-        searchOptions={{types: ['airport']}}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <section className="relative lg:w-full">
-            <IconInput
-              icon={<LocationPin className="h-5 w-5 text-dark-700" />}
-              {...getInputProps({
-                placeholder: locationPlaceholder,
-                className: 'location-search-input overflow-y-scroll',
-              })}
-              {...others}
-            />
-            <section
-              className={classnames(
-                'autocomplete-dropdown-container rounded absolute z-10 w-full block',
-                {
-                  'shadow-md': suggestions[0],
-                },
+    <>
+      <Script
+        onLoad={handleMapsLoaded}
+        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
+        strategy="lazyOnload"
+      />
+      {isMapLoaded && (
+        <PlacesAutocomplete
+          value={address}
+          onChange={handleChange}
+          onSelect={handleSelect}
+          searchOptions={{ types: ['airport'] }}
+        >
+          {({
+            getInputProps,
+            suggestions,
+            getSuggestionItemProps,
+            loading,
+          }) => (
+            <div className=" relative lg:w-full">
+              {address && (
+                <section
+                  className=" absolute right-3 top-8 z-10"
+                  onClick={() => setAddress('')}
+                >
+                  <CloseIcon className="text-dark-700" />
+                </section>
               )}
-            >
-              {loading && <section>{loadingMessage}...</section>}
-              {suggestions.map((suggestion, index) => {
-                // console.log(suggestion);
-                const { active, description } = suggestion;
-                const className = classnames(
-                  'py-2 px-4 flex justify-between suggestion-item',
-                  {
-                    'suggestion-item--active': active,
-                  },
-                );
-                // inline style for demonstration purpose
-                const style = active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+              <section className="relative lg:w-full">
+                <IconInput
+                  icon={<LocationPin className="w-5 h-5 text-dark-700" />}
+                  {...getInputProps({
+                    placeholder: locationPlaceholder,
+                    className: 'location-search-input',
+                  })}
+                  {...others}
+                />
+                <section
+                  className={classnames(
+                    'autocomplete-dropdown-container rounded absolute z-10 w-full block',
+                    {
+                      'shadow-md': suggestions[0],
+                    },
+                  )}
+                >
+                  {loading && <section>{loadingMessage}...</section>}
+                  {suggestions.map((suggestion, index) => {
+                    const { active, description } = suggestion;
+                    const className = classnames(
+                      'py-2 px-4 flex justify-between suggestion-item',
+                      {
+                        'suggestion-item--active': active,
+                      },
+                    );
+                    // inline style for demonstration purpose
+                    const style = active
+                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
 
-                const suggestionKey = index + suggestion.placeId;
+                    const suggestionKey = index + suggestion.placeId;
 
-                return (
-                  <section
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
-                    key={suggestionKey}
-                  >
-                    <span>{description}</span>
-                  </section>
-                );
-              })}
-            </section>
-          </section>
-        )}
-      </PlacesAutocomplete>
-    )
+                    return (
+                      <section
+                        {...getSuggestionItemProps(suggestion, {
+                          className,
+                          style,
+                        })}
+                        key={suggestionKey}
+                      >
+                        <span>{description}</span>
+                      </section>
+                    );
+                  })}
+                </section>
+              </section>
+            </div>
+          )}
+        </PlacesAutocomplete>
+      )}
+    </>
   );
 };
 

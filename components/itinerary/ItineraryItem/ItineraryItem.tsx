@@ -15,6 +15,16 @@ const ItineraryItem = ({ item, reload, setReload }: ItineraryItemProps) => {
   let sectorName = item.sector?.toLowerCase();
   const categoryName = item.category?.toLowerCase();
   if (categoryName === 'shows-events') sectorName = 'shows-events';
+  // console.log('sectorName, categoryName', sectorName, categoryName);
+  if (sectorName === 'flights' || categoryName === 'flights')
+    sectorName = 'flights';
+  if (
+    sectorName === 'cars' ||
+    sectorName === 'car-rental' ||
+    categoryName === 'cars' ||
+    categoryName === 'car-rental'
+  )
+    sectorName = 'car-rental';
   const sector = useCategory(sectorName || '');
 
   return (

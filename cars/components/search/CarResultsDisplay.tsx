@@ -103,11 +103,8 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
-
-  useEffect(() => {
+  const doSearch = () => {
+    // console.log('Search Cars');
     const hasEmptyValues = checkIfAnyNull([
       startDate,
       endDate,
@@ -163,6 +160,14 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
         .catch((error) => console.error(error))
         .then(() => setLoaded(true));
     }
+  };
+
+  useEffect(() => {
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
+
+  useEffect(() => {
+    doSearch();
   }, [
     startDate,
     endDate,
@@ -180,7 +185,13 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     passengers,
     minPrice,
     maxPrice,
+
+    currency,
   ]);
+
+  useEffect(() => {
+    // doSearch();
+  }, []);
 
   const filterCars = (_cars: Car[]) => {
     const _carsFiltered: Car[] = [];

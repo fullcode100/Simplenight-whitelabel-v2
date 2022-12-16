@@ -20,6 +20,7 @@ import CarSearchFormReadState from './components/search/CarSearchFormReadState';
 import CarIcon from 'public/icons/assets/car.svg';
 import CarSecondarySearchOptions from './components/search/CarSecondarySearchOptions';
 import CarCheckoutDisplay from './components/checkout/CarCheckoutDisplay';
+import CarCheckoutItemDisplay from './components/checkout/CarCheckoutItemDesplay';
 
 export const CAR_CATEGORY = 'car-rental';
 
@@ -66,6 +67,7 @@ Category.detailDisplay = <CarDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <CarItineraryDisplay Category={Category} />;
 Category.breakdownDisplay = <CarBreakdownDisplay Category={Category} />;
 Category.checkoutDisplay = <CarCheckoutDisplay Category={Category} />;
+Category.checkoutItemDisplay = <CarCheckoutItemDisplay Category={Category} />;
 Category.confirmationDisplay = <CarConfirmationDisplay Category={Category} />;
 Category.cancelledDisplay = <CarCancelledDisplay Category={Category} />;
 
