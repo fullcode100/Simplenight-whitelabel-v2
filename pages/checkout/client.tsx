@@ -6,6 +6,8 @@ import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Button from 'components/global/Button/Button';
 import ClientForm from 'components/checkout/ClientForm/ClientForm';
 import {
+  deleteCart,
+  getCartAvailability,
   getCartId,
   getCartSchema,
   updateCartItem,
@@ -23,6 +25,7 @@ import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
 import { getCurrency } from 'store/selectors/core';
 import HelpSection from 'components/global/HelpSection/HelpSection';
+import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,6 +39,7 @@ const Client = () => {
 
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
   const [travelersUiSchema, setTravelersUiSchema] = useState();
+  const [isRemoved, setIsRemoved] = useState(false);
 
   const currency = getCurrency();
 
@@ -101,6 +105,7 @@ const Client = () => {
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const cancelButton = t('cancel', 'Cancel');
   const continueButton = t('continue', 'Continue');
+  const continueShoppingText = t('continueShopping', 'Continue Shopping');
 
   const handleGetSchema = async () => {
     try {
@@ -109,6 +114,30 @@ const Client = () => {
       const schemas = await getCartSchema(i18n, cartId);
       setTravelersFormSchema(schemas?.travelers_form_schema);
       setTravelersUiSchema(schemas?.travel_form_ui_schema);
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleInactiveCartMessage = async () => {
+    try {
+      if (!cartId) throw new Error('Cart ID is not defined');
+      await deleteCart(i18n, cartId);
+      window.localStorage.removeItem('cart');
+      setIsRemoved(true);
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleGetCartAvailability = async () => {
+    try {
+      if (cartId) {
+        const response = await getCartAvailability(i18n, cartId);
+        const isActiveCart = response?.status === 'active';
+        !isActiveCart && handleInactiveCartMessage();
+        return { isActiveCart };
+      }
     } catch (error) {
       return error;
     }
@@ -192,29 +221,36 @@ const Client = () => {
   };
 
   const continueToPayment = async (values: any) => {
-    if (!cart || cart.total_item_qty <= 0 || !primaryContactData) return;
+    try {
+      if (!cart || cart.total_item_qty <= 0 || !primaryContactData) return;
 
-    const customerUpdater = new ClientCartCustomerUpdater();
-    const requestBody = getAddCustomerRequestBody();
+      const cartAvailability: any = await handleGetCartAvailability();
+      if (!cartAvailability?.isActiveCart) return;
 
-    Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
-      const itemData: any = {
-        cartId: cart.cart_id,
-        itemId,
-        bookingAnswers: bookingAnswerData[itemId],
-      };
-      await updateCartItem(i18n, itemData);
-    });
+      const customerUpdater = new ClientCartCustomerUpdater();
+      const requestBody = getAddCustomerRequestBody();
 
-    await customerUpdater.request(requestBody, i18n, cart.cart_id);
+      Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
+        const itemData: any = {
+          cartId: cart.cart_id,
+          itemId,
+          bookingAnswers: bookingAnswerData[itemId],
+        };
+        await updateCartItem(i18n, itemData);
+      });
 
-    router.push('/checkout/payment');
+      await customerUpdater.request(requestBody, i18n, cart.cart_id);
+
+      router.push('/checkout/payment');
+    } catch (error) {
+      return error;
+    }
   };
 
   useEffect(() => {
     cartId = JSON.parse(window.localStorage.getItem('cart') ?? 'null');
     handleGetCart()
-      .then(() => handleGetSchema())
+      .then(() => handleGetSchema().then(() => handleGetCartAvailability()))
       .catch((error) => console.error(error));
   }, [reload, currency]);
 
@@ -228,6 +264,24 @@ const Client = () => {
     <section className="lg:border lg:rounded-md lg:shadow-sm">
       {children}
     </section>
+  );
+
+  const continueShopping = () => {
+    router.push('/');
+  };
+
+  const InactiveCartMessage = () => (
+    <FullScreenModal
+      open={isRemoved}
+      title={continueShoppingText}
+      primaryButtonText={continueShoppingText}
+      primaryButtonAction={continueShopping}
+      closeModal={continueShopping}
+    >
+      <section className="p-8 text-2xl text-error-400 font-bold w-full text-center h-[90vh] grid content-center">
+        The booking must start again
+      </section>
+    </FullScreenModal>
   );
 
   const itemsNumber = cart?.items?.length;
@@ -268,6 +322,7 @@ const Client = () => {
         <section className="lg:px-20 lg:py-12">
           <section className="mx-auto lg:flex lg:gap-8 lg:justify-start max-w-7xl">
             <section className="lg:w-[68%]">
+              <InactiveCartMessage />
               <Card>
                 <Title>{primaryContactText}</Title>
                 <section>
