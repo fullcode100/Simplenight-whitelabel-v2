@@ -16,12 +16,14 @@ interface ShowsItineraryFooterProps {
   item?: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
+  isItineraryView?: boolean;
 }
 
 const ShowsItineraryFooter = ({
   item,
   reload,
   setReload,
+  isItineraryView,
 }: ShowsItineraryFooterProps) => {
   const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
@@ -80,23 +82,25 @@ const ShowsItineraryFooter = ({
             </section>
           </section>
         </section>
-        <section className="flex flex-col gap-3 lg:flex-row lg:justify-end w-full">
-          <Button
-            value={removeFormatted}
-            size="full-sm"
-            type="outlined"
-            leftIcon={<TrashIcon />}
-            className="lg:w-[170px]"
-            onClick={handleRemoveAllTickets}
-          ></Button>
-          <Button
-            value={editLabel}
-            translationKey="edit"
-            size=""
-            leftIcon={<EdtiIcon />}
-            className="lg:w-[170px] h-8"
-          ></Button>
-        </section>
+        {isItineraryView && (
+          <section className="flex flex-col gap-3 lg:flex-row lg:justify-end w-full">
+            <Button
+              value={removeFormatted}
+              size="full-sm"
+              type="outlined"
+              leftIcon={<TrashIcon />}
+              className="lg:w-[170px]"
+              onClick={handleRemoveAllTickets}
+            ></Button>
+            <Button
+              value={editLabel}
+              translationKey="edit"
+              size=""
+              leftIcon={<EdtiIcon />}
+              className="lg:w-[170px] h-8"
+            ></Button>
+          </section>
+        )}
       </section>
     </section>
   );

@@ -110,30 +110,9 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
 
   const ThingsToDoList = () => {
     const urlDetail = (thingToDo: iShowAndEventsResult) => {
-      const {
-        id,
-        name,
-        address,
-        reviews,
-        phone_number: phoneNumber,
-        tags,
-        toDate,
-        images,
-        cancellation_policy: cancellationPolicy,
-        rate,
-        extra_data: extraData,
-      } = thingToDo;
+      const { id } = thingToDo;
 
-      let stringAddresObject = '';
-      let stringExtraDataObject = '';
-      try {
-        stringAddresObject = JSON.stringify(address);
-        stringExtraDataObject = JSON.stringify(extraData);
-      } catch (error) {
-        console.error(error);
-      }
-      return `/detail/${slug}/${id}?name=${name}&addres=${stringAddresObject}&reviews=${reviews}&extra_data=${stringExtraDataObject}&phone_number=${phoneNumber}
-      &tags=${tags}&images=${images}&fromDate=${startDate}&toDate=${endDate}&cancellation_policy=${cancellationPolicy}&seats=1`;
+      return `/detail/${slug}/${id}?fromDate=${startDate}&toDate=${endDate}`;
     };
     return (
       // eslint-disable-next-line react/jsx-no-comment-textnodes
@@ -228,14 +207,16 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                   )}
                 </section>
               )}
-              <section className="text-center">
-                <Button
-                  onClick={loadMoreResults}
-                  value={'Load More'}
-                  size="w-60 h-11 text-base leading-[18px]"
-                  className="mt-4 mb-12"
-                />
-              </section>
+              {showsEvents.length > next && (
+                <section className="text-center">
+                  <Button
+                    onClick={loadMoreResults}
+                    value={'Load More'}
+                    size="w-60 h-11 text-base leading-[18px]"
+                    className="mt-4 mb-12"
+                  />
+                </section>
+              )}
             </>
           ) : (
             <>

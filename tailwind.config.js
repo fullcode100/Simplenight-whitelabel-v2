@@ -68,6 +68,7 @@ module.exports = {
           100: '#F5FCF7',
         },
         warning: {
+          1000: '#99680A',
           600: '#DE9812',
           300: '#FFC85C',
           200: '#FFE5B2',
@@ -81,6 +82,7 @@ module.exports = {
         'primary-light': 'var(--primary-light-color)',
       },
       fontSize: {
+        '0xs': '0.75rem',
         xs: '0.875rem',
         sm: '1rem',
         base: '1.125rem',
@@ -96,6 +98,7 @@ module.exports = {
       },
       boxShadow: {
         container: '0 0px 12px rgba(0, 0, 0, 0.08)',
+        up: '0 0 12px rgba(0, 0, 0, 0.16)',
         full: '0 0 0 10000px rgba(0, 0, 0, 0.85)',
       },
     },

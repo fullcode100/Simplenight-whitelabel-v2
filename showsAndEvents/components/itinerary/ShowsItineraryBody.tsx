@@ -6,6 +6,7 @@ import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import ExtraDetailItem from '../ShowsPriceBreakdown/ExtraDataItem/ExtraDataItem';
+import SupplierReference from '../SupplierReference/SupplierReference';
 
 interface ShowsItineraryBodyProps {
   item: Item;
@@ -20,9 +21,19 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
   const basePriceLabel = t('basePrice', 'Base Price');
   const taxesLabel = t('taxes', 'Taxes');
   const payNowLabel = t('payNow', 'Pay now');
+  const vendorConfirmationLabel = t(
+    'vendorConfirmation',
+    'Vendor Confirmation Number',
+  );
 
   const qty = item.quantity as number;
   const ticketsCountLabel = qty > 1 ? ticketsLabel : ticketLabel;
+
+  const supplierReferenceID = item?.supplier_order_number;
+  const vendorConfirmationNumber =
+    item?.vendor_confirmation_code && item?.vendor_confirmation_code.length > 0
+      ? item?.vendor_confirmation_code
+      : '-';
 
   return (
     <>
@@ -36,6 +47,22 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
             {qty} {ticketsCountLabel}
           </p>
         </section>
+        {supplierReferenceID && (
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-4">
+            <SupplierReference supplierReferenceID={supplierReferenceID} />
+
+            {vendorConfirmationNumber && (
+              <section className="grid gap-0 ">
+                <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-700">
+                  {vendorConfirmationLabel}
+                </p>
+                <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-primary-1000">
+                  {vendorConfirmationNumber}
+                </p>
+              </section>
+            )}
+          </section>
+        )}
         <section className="flex justify-between py-2">
           <section className="flex flex-row gap-1">
             <section className="flex flex-row gap-1 lg:gap-3 items-baseline">

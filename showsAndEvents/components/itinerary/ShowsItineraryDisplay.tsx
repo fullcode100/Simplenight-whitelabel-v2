@@ -31,6 +31,7 @@ const ShowsItineraryDisplay = ({
           item={item}
           reload={reload}
           setReload={setReload}
+          isItineraryView
         />
       }
     />

@@ -142,6 +142,8 @@ export interface Item {
   infants?: number;
   room_qty?: number;
   customer_additional_requests?: string;
+  supplier_order_number?: string;
+  vendor_confirmation_code?: string;
 }
 
 export interface Customer {

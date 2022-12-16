@@ -59,6 +59,8 @@ interface SectorInfoProp {
 }
 interface selectedSeatsProp {
   name: any;
+  sector: string;
+  row: string;
   title: string;
   quantity: any;
   basePrice: number;
@@ -91,18 +93,7 @@ const ShowAndEventsDetailDisplay = ({
     Category.core;
 
   const params = useQuery();
-  const {
-    id,
-    name,
-    fromDate,
-    toDate,
-    addres,
-    extra_data: extraData,
-    slug,
-    cancellation_policy: cancellationPolicy,
-  } = params;
-  const referralParam = params.referral as string;
-  const { setCookie } = useCookies();
+  const { id, fromDate, toDate, slug } = params;
   const [selectedTab, setSelectedTab] = useState<ReactNode>('All sectors');
 
   const [showEventItem, setShowEventItem] = useState<ShowDetailItem>();
@@ -111,6 +102,7 @@ const ShowAndEventsDetailDisplay = ({
   const [showMobileFilters, setShowMobileFilter] = useState(false);
   const [formatDate, setFormatDate] = useState('');
   const [sectors, setSectors] = useState<Sector[]>();
+
   const [currentCancellation, setCurrentCancellation] = useState<string>('');
 
   const [selectedSeats, setSelectedSeats] = useState<any[]>([]);
@@ -134,7 +126,8 @@ const ShowAndEventsDetailDisplay = ({
     seat_map: null,
     images: [],
   });
-  const [t, i18next] = useTranslation('things');
+  const [t, i18next] = useTranslation('events');
+  const sectorLabel = t('sector', 'Sector');
   const [tg] = useTranslation('global');
   const sortLabel = tg('sort', 'Sort');
   const thingsToDoLabel = t('shows', 'Shows');
@@ -209,11 +202,9 @@ const ShowAndEventsDetailDisplay = ({
             items[0].cancellation_policy.cancellation_type,
           );
 
-          // setExtraDataObject(items[0].extra_data.seats)
+          setExtraDataObject(items[0].extra_data);
           setExtraDataSeats(items[0].extra_data.seats);
 
-          // const item: ThingsDetailItem = items[0];
-          // setThingsItem(item);
           setLoaded(true);
         })
         .catch((e) => {
@@ -244,57 +235,12 @@ const ShowAndEventsDetailDisplay = ({
     }
   }, [extraDataSeats]);
 
-  useEffect(() => {
-    if (addres) {
-      let newAddressObject;
-      try {
-        newAddressObject = JSON.parse(addres as string);
-        setAddressObject(newAddressObject);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, [addres]);
-
-  useEffect(() => {
-    if (extraData) {
-      let newExtraDataObject;
-      try {
-        newExtraDataObject = JSON.parse(extraData as string);
-        setExtraDataObject(newExtraDataObject);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, [extraData]);
-  const { description, seats } = extraDataObject;
+  const { description } = extraDataObject;
   const showAndEventsList = () => {
     const urlDetail = (thingToDo: iShowAndEventsResult) => {
-      const {
-        id,
-        name,
-        address,
-        reviews,
-        phone_number: phoneNumber,
-        tags,
-        images,
-        fromDate,
-        toDate,
-        cancellation_policy: cancellationPolicy,
-        rate,
-        extra_data: extraData,
-      } = thingToDo;
+      const { id } = thingToDo;
 
-      let stringAddresObject = '';
-      let stringExtraDataObject = '';
-      try {
-        stringAddresObject = JSON.stringify(address);
-        stringExtraDataObject = JSON.stringify(extraData);
-      } catch (error) {
-        console.error(error);
-      }
-      return `/detail/${slug}/${id}?name=${name}&addres=${stringAddresObject}&reviews=${reviews}&extra_data=${stringExtraDataObject}&phone_number=${phoneNumber}
-        &tags=${tags}&images=${images}&fromDate=${fromDate}&toDate=${toDate}&cancellation_policy=${cancellationPolicy}&rates=${rate}`;
+      return `/detail/${slug}/${id}?fromDate=${fromDate}&toDate=${toDate}`;
     };
     const responsive = {
       superLargeDesktop: {
@@ -445,6 +391,8 @@ const ShowAndEventsDetailDisplay = ({
     const newSelectedSeat: selectedSeatsProp = {
       name: name,
       title: `${sectorTitle} ${row}`,
+      sector: sectorTitle,
+      row: row,
       basePrice: rate.total.net.amount,
       cancellationPolicy: currentCancellation,
       currency,
@@ -583,8 +531,8 @@ const ShowAndEventsDetailDisplay = ({
             .map(({ title, rows }, id) => {
               return (
                 <div key={id} className="mt-4">
-                  <p className="text-lg leading-5 lg:text-[22px] lg:leading-[24px] font-semibold">
-                    {title}
+                  <p className="text-lg leading-5 lg:text-[18px] lg:leading-[22px] font-semibold">
+                    {`${sectorLabel} ${title}`}
                   </p>
                   {rows.map((row, id) => {
                     return (
@@ -658,7 +606,7 @@ const ShowAndEventsDetailDisplay = ({
   const getHeader = () => {
     return (
       <section className="pb-6 border-b-2 mb-6">
-        {getSectionTitle(name as string, undefined, undefined)}
+        {getSectionTitle(showEventItem?.name || '', undefined, undefined)}
         <label className="align-middle flex mb-2">
           <Calendar className="text-primary-1000 h-4 w-4 mr-2.5" />
           {formatDate}
@@ -675,6 +623,7 @@ const ShowAndEventsDetailDisplay = ({
     // We wll use the script value from the BE to build the seatsMap
     return (
       <Image
+        alt="seats-map"
         src={require('../../mocks/images/seatsMap.png')}
         width={500}
         height={500}
@@ -747,14 +696,14 @@ const ShowAndEventsDetailDisplay = ({
               </section>
             </section>
             {showSelectedSeatsBar && (
-              <section className="w-full col-span-3 border-l-2 lg:sticky fixed bottom-0 pt-5 lg:pt-0 lg:top-32 lg:h-[87vh] h-[25vh] lg:col-span-1 bg-white col z-10">
-                <section className="w-full bg-white">
+              <section className="w-full col-span-3 border-l-0 lg:border-l-2 lg:sticky fixed bottom-0 pt-0 lg:top-32 lg:h-[82vh] h-[30vh] lg:col-span-1 bg-white col z-10 shadow-up lg:shadow-container rounded-t-lg lg:rounded-none overflow-hidden">
+                <section className="w-full bg-white h-full">
                   <SelectedSeatsBar
                     id={id as string}
                     startDate={fromDate as string}
                     endDate={toDate as string}
                     category={showEventItem?.main_category || ''}
-                    name={name as string}
+                    name={showEventItem?.name || ''}
                     selectedSeats={selectedSeats}
                     hideBar={() => setShowSelectedSeatsBar(false)}
                     deliveryMethods={[]}

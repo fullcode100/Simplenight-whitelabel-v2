@@ -68,7 +68,11 @@ const BillingAddressForm = ({
           />
         </InputWrapper>
         <InputWrapper label={cityLabel} labelKey="city">
-          <BaseInput placeholder={cityLabel} />
+          <BaseInput
+            name="city"
+            placeholder={cityLabel}
+            onChange={(e) => handleAddressChange(e)}
+          />
         </InputWrapper>
         <InputWrapper label={zipCodeLabel} labelKey="zipCode">
           <BaseInput

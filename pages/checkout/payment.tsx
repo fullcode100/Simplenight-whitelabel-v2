@@ -182,8 +182,8 @@ const Payment = () => {
         cvv: card.cvv,
         expiry_date: card.expiration,
         billing_address: {
-          address1,
-          address2,
+          address2: address1,
+          address3: address2,
           city: city,
           province: state,
           postal_code: postalCode,
