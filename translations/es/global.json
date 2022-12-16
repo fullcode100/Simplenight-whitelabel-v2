@@ -176,7 +176,7 @@
   "name": "Nombre",
   "enterCardNumber": "Ingrese su Número de Tarjeta",
   "checkOnBackOfCard": "Verifique en el reverso de la tarjeta",
-  "billingAddress": "Billing Address",
+  "billingAddress": "Dirección de Facturación",
   "streetAddress": "Dirección",
   "streetAddress2": "Dirección, Línea 2",
   "stateProvince": "Estado/Provincia",
