@@ -15,3 +15,16 @@ export const getLocationText = (value: LocationPrefix | undefined): string => {
 
   return locationText.join(', ').replace(' ,', '');
 };
+
+export const getAddressByLatLng = async (lat: number, lng: number) => {
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&latlng=${lat},${lng}`;
+  const response = await fetch(url);
+  const location = await response.json();
+  const place = location.results[0].formatted_address;
+  const placeToArray = place.split(', ');
+  placeToArray.splice(0, 1);
+
+  const formattedPlace = placeToArray.join(', ');
+
+  return formattedPlace;
+};

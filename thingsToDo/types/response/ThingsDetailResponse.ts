@@ -219,6 +219,7 @@ export interface ExtraData {
   avg_rating: number;
   booking_confirmation_settings: BookingConfirmationSettings;
   booking_questions: BookingQuestion[];
+  cancellation_policy: CancellationPolicyDetail;
   end_location?: Location[];
   excludes: IncludeExclude[];
   includes: IncludeExclude[];
@@ -245,6 +246,17 @@ export interface ExtraData {
   pricing: Pricing;
 }
 
+export interface CancellationPolicyDetail {
+  cancellation_type: string;
+  description: string;
+  flags: Flag[];
+}
+
+export interface Flag {
+  description: string;
+  flag_id: string;
+  value: boolean;
+}
 export interface BookingQuestion {
   id: string;
   label: string;

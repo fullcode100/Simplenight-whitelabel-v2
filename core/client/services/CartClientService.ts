@@ -20,6 +20,7 @@ import { getStoreCartId } from 'store/selectors/cart';
 import dayjs from 'dayjs';
 import { ClientCartItemUpdater } from '../ClientCartItemUpdater';
 import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';
+import { ClientCartDelete } from '../ClientCartDelete';
 
 const cartOption = {
   name: 'cart',
@@ -118,6 +119,26 @@ export const getCartId = async (i18next: i18n, cartId: string | string[]) => {
   }
 };
 
+export const getCartAvailability = async (
+  i18next: i18n,
+  cartId: string | string[],
+) => {
+  const cartGetter = new ClientCartGetter(cartOption);
+  const cartUrl = `/carts/${cartId}/availability`;
+  const cartRequest = {
+    id: cartId,
+  };
+
+  try {
+    if (cartId) {
+      const { cart } = await cartGetter.request(cartRequest, i18next, cartUrl);
+      return cart && cart;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 interface RemoveItemRequest {
   cartId?: string;
   itemId?: string;
@@ -182,6 +203,18 @@ export const updateCart = async (
 
   try {
     if (cartId) await cartUpdate.request(data, i18next, cartId);
+
+    return {};
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteCart = async (i18next: i18n, cartId: string) => {
+  const cartDelete = new ClientCartDelete(cartOption);
+
+  try {
+    if (cartId) await cartDelete.request(cartId, i18next);
 
     return {};
   } catch (error) {
