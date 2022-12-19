@@ -419,9 +419,9 @@ const CarSecondarySearchOptions = () => {
   };
 
   return (
-    <section>
+    <section className="lg:hidden">
       <button
-        className="flex items-center gap-2 w-[75px] lg:hidden bg-primary-100 py-1 px-2 rounded mr-5"
+        className="flex items-center gap-2 py-1 me-2 lg:hidden"
         onClick={handleFilterButtonClick}
       >
         <span className="text-primary-1000">

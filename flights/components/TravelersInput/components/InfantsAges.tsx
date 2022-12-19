@@ -41,14 +41,12 @@ const InfantsAges = ({
               value={age}
               onChange={(e) =>
                 handleInfantsAgesChange(
-                  parseInt(e.target.value) >= 2
-                    ? 2
-                    : parseInt(e.target.value),
+                  parseInt(e.target.value) >= 2 ? 2 : parseInt(e.target.value),
                   indexAge,
                   roomNumber,
                 )
               }
-              max={17}
+              max={2}
             />
           </section>
         ))}

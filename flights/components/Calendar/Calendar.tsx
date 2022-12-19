@@ -130,6 +130,9 @@ const DatePicker = ({
       primaryButtonText={applyText}
       primaryButtonAction={setFullDate}
       hasMultipleActions={false}
+      className={
+        'lg:max-w-[842px] lg:max-h-[660px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-4 overflow-hidden shadow-full'
+      }
     >
       {equal ? (
         <RangeDate

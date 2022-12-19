@@ -26,6 +26,9 @@ const FlightDetailsModal = ({
       closeModal={onClose}
       primaryButtonAction={onClose}
       noFooter={true}
+      className={
+        'lg:max-w-[842px] lg:max-h-[660px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-4 overflow-hidden shadow-full'
+      }
     >
       <section className="p-5 overflow-y-scroll flex flex-col items-center justify-between">
         <ul role="list" className="space-y-4 w-full text-left">

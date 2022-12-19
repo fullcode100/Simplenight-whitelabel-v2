@@ -101,7 +101,7 @@ const CarSearchFormReadState = ({
   };
   return (
     <section className="z-0 flex items-center justify-between px-4 pb-4 text-sm font-lato">
-      <section className="flex flex-col w-[90%]">
+      <section className="flex flex-col w-[100%]">
         <LocationAndDatesSection />
       </section>
       <section className="flex items-center justify-center w-[25%]">

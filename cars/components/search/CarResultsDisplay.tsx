@@ -46,6 +46,10 @@ import FilterIcon from 'public/icons/assets/filter.svg';
 import Dropdown from 'components/global/Dropdown/Dropdown';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import CarSecondarySearchOptions from './CarSecondarySearchOptions';
+import Sort from '@/icons/assets/sort.svg';
+import Chevron from '@/icons/assets/chevron-down-small.svg';
+import { Radio, RadioGroup } from 'components/global/Radio/Radio';
+import classNames from 'classnames';
 
 declare let window: CustomWindow;
 
@@ -94,6 +98,11 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   } = useQuery();
 
   const [sortBy, setSortBy] = useState<string>('sortByPriceAsc');
+  const [showSortingDropdown, setShowSortingDropdown] = useState(false);
+
+  const onSortByChange = (_sortBy: string) => {
+    setSortBy(_sortBy);
+  };
 
   const [cars, setCars] = useState<Car[]>([]);
   const [carsFiltered, setCarsFiltered] = useState<Car[]>([]);
@@ -104,7 +113,6 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
   const doSearch = () => {
-    // console.log('Search Cars');
     const hasEmptyValues = checkIfAnyNull([
       startDate,
       endDate,
@@ -115,6 +123,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       latitude2,
       longitude2,
     ]);
+    // console.log('Search Cars', hasEmptyValues);
     if (hasEmptyValues) return;
 
     const geolocation = `${latitude},${longitude}`;
@@ -443,37 +452,77 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
             />
           ) : (
             <>
-              <section
-                className={`absolute z-2 ${
-                  isListView ? 'right-0 top-6' : 'hidden'
-                }`}
+              <div
+                className={classNames(
+                  'flex justify-between items-center lg:mb-0 bg-white relative z-[9]',
+                  {
+                    'mb-0 px-5 lg:px-0 w-[100%]': isListView,
+                    'lg:absolute lg:m-4 lg:rounded] px-5 lg:px-4 w-[100%] lg:w-[96%]':
+                      !isListView,
+                  },
+                )}
               >
-                <section className="flex gap-1">
-                  <section
-                    style={{ width: 140, height: 32 }}
-                    className="w-auto flex justify-start items-center"
-                  >
-                    <Dropdown
-                      title={t(sortBy)}
-                      leftIcon={<SortIcon />}
-                      options={[
-                        {
-                          value: t('sortByPriceAsc'),
-                          checkboxName: 'sorting',
-                          selected: sortBy === 'sortByPriceAsc',
-                          checkboxValue: sortBy === 'sortByPriceAsc',
-                          checkboxMethod: () => setSortBy('sortByPriceAsc'),
-                        },
-                        {
-                          value: t('sortByPriceDesc'),
-                          checkboxName: 'sorting',
-                          selected: sortBy === 'sortByPriceDesc',
-                          checkboxValue: sortBy === 'sortByPriceDesc',
-                          checkboxMethod: () => setSortBy('sortByPriceDesc'),
-                        },
-                      ]}
-                    />
+                <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
+                  {loaded ? (
+                    <span>
+                      {carsFiltered.length}
+                      <span className="lg:hidden"> {carsFoundLabel}</span>
+                      <span className="hidden lg:inline">
+                        {' '}
+                        {carsFoundLabelDesktop}
+                      </span>
+                    </span>
+                  ) : (
+                    <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
+                  )}
+                </section>
+                <section className="relative flex gap-1 bg-primary-100 lg:bg-transparent py-1 px-3 lg:px-0 rounded lg:mr-0">
+                  <section className="relative w-auto flex justify-start items-center">
+                    <button
+                      className="flex items-center gap-2 h-6 lg:h-10 mr-2"
+                      onClick={() => setShowSortingDropdown((p) => !p)}
+                      onBlur={() => setShowSortingDropdown(false)}
+                    >
+                      <span className="text-primary-1000">
+                        <Sort />
+                      </span>
+                      <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+                        <span className="hidden lg:inline whitespace-nowrap">
+                          {t(sortBy)}
+                        </span>
+                        <span className="inline lg:hidden">{t('sort')}</span>
+                      </span>
+                      <span className="text-dark-800">
+                        <Chevron />
+                      </span>
+                    </button>
+
+                    <section
+                      className={`absolute z-[9] border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
+                        !showSortingDropdown && 'opacity-0 invisible'
+                      }`}
+                    >
+                      <RadioGroup
+                        onChange={onSortByChange}
+                        value={sortBy}
+                        gap="gap-0"
+                      >
+                        <Radio
+                          value="sortByPriceAsc"
+                          containerClass="px-3 py-2 border-b border-dark-200"
+                        >
+                          {t('sortByPriceAsc')}
+                        </Radio>
+                        <Radio
+                          value="sortByPriceDesc"
+                          containerClass="px-3 py-2 border-b border-dark-200"
+                        >
+                          {t('sortByPriceDesc')}
+                        </Radio>
+                      </RadioGroup>
+                    </section>
                   </section>
+
                   <section
                     style={{ width: 110, height: 32 }}
                     className="hidden lg:block w-auto flex justify-start items-center"
@@ -488,26 +537,14 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
 
                   <CarSecondarySearchOptions />
                 </section>
-              </section>
+              </div>
+
               {isListView && (
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
-                  <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                    {loaded ? (
-                      <span>
-                        {carsFiltered.length}
-                        <span className="lg:hidden"> {carsFoundLabel}</span>
-                        <span className="hidden lg:inline">
-                          {' '}
-                          {carsFoundLabelDesktop}
-                        </span>
-                      </span>
-                    ) : (
-                      <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
-                    )}
-                  </section>
                   {loaded ? <CarList /> : <HorizontalSkeletonList />}
                 </section>
               )}
+
               {!isListView && (
                 <section className="relative w-full h-full">
                   {loaded ? (

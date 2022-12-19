@@ -437,6 +437,13 @@ const FlightSearchForm = ({
     );
   }, [adults, children, infants]);
 
+  useEffect(() => {
+    if (!params?.direction && address && address2) {
+      // got here by switching tabs --> perform an auto-search
+      handleSearchClick();
+    }
+  }, []);
+
   return (
     <section
       className={

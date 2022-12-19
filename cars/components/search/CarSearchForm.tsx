@@ -12,7 +12,8 @@ import IconInput from 'components/global/Input/IconInput';
 import Button from 'components/global/Button/Button';
 import { SearchFormProps } from 'types/search/SearchFormProps';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import LocationInput from 'components/global/Input/LocationInput';
+// import LocationInput from 'components/global/Input/LocationInput';
+import LocationInput from '../Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import {
@@ -181,6 +182,19 @@ const CarSearchForm = ({
     if (!value) setAddress2('');
   };
 
+  useEffect(() => {
+    if (
+      !params?.startDate ||
+      !params?.endDate ||
+      !params?.startTime ||
+      !params?.endTime ||
+      !params?.address
+    ) {
+      // got here by switching tabs --> perform an auto-search
+      handleSearchClick();
+    }
+  }, []);
+
   return (
     <section className="flex flex-col">
       <section
@@ -193,6 +207,7 @@ const CarSearchForm = ({
             name="location"
             placeholder={locationPlaceholder}
             routeParams={['address']}
+            defaultAddress={address}
             onSelect={handleSelectLocation}
             error={showLocationError}
             onChange={handleChangeLocation}
@@ -229,6 +244,18 @@ const CarSearchForm = ({
             </Checkbox>
           </section>
 
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={locationInputLabel}
+            endDateLabel={locationInputLabel2}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
+          />
+
           {showLocation2 && (
             <LocationInput
               icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
@@ -236,6 +263,7 @@ const CarSearchForm = ({
               name="location2"
               placeholder={locationPlaceholder2}
               routeParams={['address2']}
+              defaultAddress={address2}
               onSelect={handleSelectLocation2}
               error={showLocationError}
               onChange={handleChangeLocation}
@@ -262,18 +290,6 @@ const CarSearchForm = ({
               onChange={(value) => setEndTime(value)}
             />
           </section>
-
-          <DatePicker
-            showDatePicker={showDatePicker}
-            onClose={() => setShowDatePicker(false)}
-            startDateLabel={locationInputLabel}
-            endDateLabel={locationInputLabel2}
-            initialStartDate={startDate}
-            initialEndDate={endDate}
-            onStartDateChange={handleStartDateChange}
-            onEndDateChange={handleEndDateChange}
-            openOnStart={clickOnStart ? true : false}
-          />
         </section>
 
         <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">

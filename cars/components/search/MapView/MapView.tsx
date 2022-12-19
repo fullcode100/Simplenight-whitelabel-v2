@@ -4,7 +4,7 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import CustomArrow from '../../../../components/global/CarouselNew/components/CustomArrow';
-import HorizontalItemCard from '../HorizontalItemCard/HorizontalItemCard';
+import HorizontalItemCard from '../HorizontalItemCard/HorizontalItemCard2';
 import LocationMap from '../../../../components/global/LocationMap/LocationMap';
 import { useState } from 'react';
 import classnames from 'classnames';

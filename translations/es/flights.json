@@ -30,7 +30,7 @@
   "listView": "Vista de lista",
   "edit": "Editar",
   "flightsFound": "Vuelo(s) Encontrados",
-  "flight": "Flight",
+  "flight": "Vuelo",
   "locationInputLabel": "Yéndose de",
   "locationInputPlaceholder": "Yéndose de",
   "location2InputLabel": "Ir a",
@@ -99,5 +99,6 @@
   "terminal": "Terminal",
   "upgrade": "Mejora",
   "removeFlight": "Eliminar vuelo",
-  "select": "Seleccione"
+  "select": "Seleccione",
+  "layover": "Escala"
 }

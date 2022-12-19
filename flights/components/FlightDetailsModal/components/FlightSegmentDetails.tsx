@@ -13,6 +13,7 @@ interface FlightSegmentDetailsProps {
 const FlightSegmentDetails = ({ key, segment }: FlightSegmentDetailsProps) => {
   const [t] = useTranslation('flights');
   const terminalLabel = t('terminal', 'Terminal');
+  const flightLabel = t('flight', 'Flight');
   const flightDurationInMinutes: number = segment?.flightDurationInMinutes
     ? segment?.flightDurationInMinutes
     : 0;
@@ -41,7 +42,7 @@ const FlightSegmentDetails = ({ key, segment }: FlightSegmentDetailsProps) => {
         <section className="w-full border border-dark-300 rounded flex flex-row items-center justify-center px-3 py-1">
           <IconFlight className="w-[16px] h-[16px] text-dark-700 mr-3" />
           <section className="text-dark-700 self-center">
-            Flight {segment?.marketingFlightNumber}
+            {flightLabel} {segment?.marketingFlightNumber}
           </section>
         </section>
       </section>

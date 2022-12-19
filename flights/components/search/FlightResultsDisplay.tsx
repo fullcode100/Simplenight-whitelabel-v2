@@ -39,6 +39,9 @@ import HorizontalSkeletonList from 'components/global/HorizontalItemCard/Horizon
 import SortIcon from 'public/icons/assets/sort.svg';
 import Dropdown from 'components/global/Dropdown/Dropdown';
 import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
+import Sort from '@/icons/assets/sort.svg';
+import Chevron from '@/icons/assets/chevron-down-small.svg';
+import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 
 declare let window: CustomWindow;
 
@@ -112,6 +115,11 @@ const FlightResultsDisplay = ({
   } = useQuery();
 
   const [sortBy, setSortBy] = useState<string>('sortByPriceAsc');
+  const [showSortingDropdown, setShowSortingDropdown] = useState(false);
+
+  const onSortByChange = (_sortBy: string) => {
+    setSortBy(_sortBy);
+  };
 
   const [flights, setFlights] = useState<Flight[]>([]);
   const [offers, setOffers] = useState<FlightOffer[]>([]);
@@ -134,7 +142,6 @@ const FlightResultsDisplay = ({
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
   const doSearch = () => {
-    // console.log('Search Flights');
     const hasEmptyValues = checkIfAnyNull([
       direction,
       startAirport,
@@ -149,6 +156,7 @@ const FlightResultsDisplay = ({
       // latitude,
       // longitude,
     ]);
+    // console.log('Search Flights', hasEmptyValues);
     if (hasEmptyValues) return;
 
     if (direction === 'multi_city') {
@@ -653,33 +661,52 @@ const FlightResultsDisplay = ({
                       )}
                     </section>
 
-                    <section
-                      style={{ width: 140, height: 32 }}
-                      className="w-auto flex justify-start items-center"
-                    >
-                      <Dropdown
-                        title={t(sortBy)}
-                        leftIcon={<SortIcon />}
-                        options={[
-                          {
-                            value: t('sortByPriceAsc'),
-                            checkboxName: 'sorting',
-                            selected: sortBy === 'sortByPriceAsc',
-                            checkboxValue: sortBy === 'sortByPriceAsc',
-                            checkboxMethod: () => setSortBy('sortByPriceAsc'),
-                          },
-                          {
-                            value: t('sortByPriceDesc'),
-                            checkboxName: 'sorting',
-                            selected: sortBy === 'sortByPriceDesc',
-                            checkboxValue: sortBy === 'sortByPriceDesc',
-                            checkboxMethod: () => setSortBy('sortByPriceDesc'),
-                          },
-                        ]}
-                      />
+                    <section className="relative flex gap-1 bg-primary-100 lg:bg-transparent py-1 px-3 lg:px-0 rounded lg:mr-0">
+                      <section
+                        className="w-auto flex justify-start items-center"
+                      >
+                        <button
+                          className="flex items-center gap-2 h-6 mr-2"
+                          onClick={() => setShowSortingDropdown((p) => !p)}
+                          onBlur={() => setShowSortingDropdown(false)}
+                        >
+                          <span className="text-primary-1000">
+                            <Sort />
+                          </span>
+                          <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+                            <span className="hidden lg:inline whitespace-nowrap">{t(sortBy)}</span>
+                            <span className="inline lg:hidden">{t('sort')}</span>
+                          </span>
+                          <span className="text-dark-800">
+                            <Chevron />
+                          </span>
+                        </button>
+
+                        <section
+                          className={`absolute z-[9] border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
+                            !showSortingDropdown && 'opacity-0 invisible'
+                          }`}
+                        >
+                          <RadioGroup onChange={onSortByChange} value={sortBy} gap="gap-0">
+                            <Radio
+                              value="sortByPriceAsc"
+                              containerClass="px-3 py-2 border-b border-dark-200"
+                            >
+                              {t('sortByPriceAsc')}
+                            </Radio>
+                            <Radio
+                              value="sortByPriceDesc"
+                              containerClass="px-3 py-2 border-b border-dark-200"
+                            >
+                              {t('sortByPriceDesc')}
+                            </Radio>
+                          </RadioGroup>
+                        </section>
+                      </section>
+
+                      <FlightSecondarySearchOptions />
                     </section>
 
-                    <FlightSecondarySearchOptions />
                   </section>
                   <FlightList />
                 </section>

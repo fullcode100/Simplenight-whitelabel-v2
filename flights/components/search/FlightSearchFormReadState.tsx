@@ -163,7 +163,7 @@ const FlightSearchFormReadState = ({
   };
   return (
     <section className="flex font-lato items-center justify-between text-sm px-4 z-0 pb-4">
-      <section className="flex flex-col w-[90%]">
+      <section className="flex flex-col w-[100%]">
         <OccupancyAndDatesSection />
       </section>
       <section className="flex items-center justify-center w-[25%]">
