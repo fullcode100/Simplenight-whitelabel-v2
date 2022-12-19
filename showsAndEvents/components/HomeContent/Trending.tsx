@@ -10,6 +10,7 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ShowsSearchResponse } from 'showsAndEvents/types/response/ShowsSearchResponse';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import CardShowSkeleton from './components/CardShowSkeleton';
+import { ShowsSearchResponse as iShowAndEventsResult } from '../../types/response/ShowsSearchResponse';
 
 interface TrendingCarouselProps {
   Category: CategoryOption;
@@ -55,18 +56,41 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
         <CustomCarousel>
           {loading && [...Array(4)].map((i, e) => <CardShowSkeleton key={e} />)}
           {!loading &&
-            items.map((item: ShowsSearchResponse, index) => (
-              <CardShow
-                key={item.id}
-                imageSrc={
-                  index > 2
-                    ? `/images/mocks/trending/t${getRandomInt(3)}.png`
-                    : `/images/mocks/trending/t${index}.png`
-                }
-                name={item.name}
-                price={`${item.rate.total.net.currency} ${item.rate.total.net.formatted}`}
-              />
-            ))}
+            items.map((item: ShowsSearchResponse, index) => {
+              const urlDetail = ({
+                id,
+                extra_data: { starts_at: startsAt },
+              }: iShowAndEventsResult) => {
+                return `/detail/shows-events/${id}?fromDate=${startsAt}`;
+              };
+              const url = urlDetail(item);
+              const {
+                id,
+                name,
+                address,
+                rate: {
+                  total: {
+                    net: { currency, formatted },
+                  },
+                },
+                thumbnail,
+              } = item;
+              const {
+                address1,
+                city,
+                state,
+                country_code: countryCode,
+              } = address ?? {};
+              return (
+                <CardShow
+                  key={id}
+                  imageSrc={thumbnail}
+                  name={name}
+                  url={url}
+                  price={`${currency} ${formatted}`}
+                />
+              );
+            })}
         </CustomCarousel>
       </section>
     </section>

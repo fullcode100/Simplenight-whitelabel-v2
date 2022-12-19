@@ -32,7 +32,21 @@ const ShowAndEventsFilterFormDesktop = () => {
   const [seats, setSeats] = useState<string>(
     (queryFilter.seats as string) || '6',
   );
+  const [minSeats, setMinSeats] = useState<string>(
+    (queryFilter.seats as string) || '1',
+  );
+  const [maxSeats, setMaxSeats] = useState<string>(
+    (queryFilter.seats as string) || '6',
+  );
   const [distance, setDistance] = useState<string>(
+    (queryFilter.distance as string) || '3000',
+  );
+
+  const [minDistance, setMinDistance] = useState<string>(
+    (queryFilter.distance as string) || '0',
+  );
+
+  const [maxDistance, setMaxDistance] = useState<string>(
     (queryFilter.distance as string) || '3000',
   );
   const [t, i18n] = useTranslation('events');
@@ -76,11 +90,39 @@ const ShowAndEventsFilterFormDesktop = () => {
     });
   };
 
+  const onChangeMinSeats = (value: string) => {
+    setMinSeats(value);
+    // setQueryParams({
+    //   minSeats: value,
+    // });
+  };
+
+  const onChangeMaxSeats = (value: string) => {
+    setMaxSeats(value);
+    // setQueryParams({
+    //   maxSeats: value,
+    // });
+  };
+
   const onChangeDistance = (value: string) => {
     setDistance(value);
     setQueryParams({
       distance: value,
     });
+  };
+
+  const onChangeMinDistance = (value: string) => {
+    setMinDistance(value);
+    // setQueryParams({
+    //   distance: value,
+    // });
+  };
+
+  const onChangeMaxDistance = (value: string) => {
+    setMaxDistance(value);
+    // setQueryParams({
+    //   distance: value,
+    // });
   };
 
   const FilterHeader = () => (
@@ -111,11 +153,25 @@ const ShowAndEventsFilterFormDesktop = () => {
       </FilterCollapseTitle>
       <Divider className="my-6" />
       <FilterCollapseTitle title={distanceText}>
-        <DistanceFilter value={distance} onChangeDistance={onChangeDistance} />
+        <DistanceFilter
+          minValue={minDistance}
+          maxValue={maxDistance}
+          value={distance}
+          onChangeDistance={onChangeDistance}
+          onChangeMinDistance={onChangeMinDistance}
+          onChangeMaxDistance={onChangeMaxDistance}
+        />
       </FilterCollapseTitle>
       <Divider className="my-6" />
       <FilterCollapseTitle title={seatsText}>
-        <SeatsFilter value={seats} onChangeSeats={onChangeSeats} />
+        <SeatsFilter
+          minValue={minSeats}
+          maxValue={maxSeats}
+          value={seats}
+          onChangeMaxSeats={onChangeMaxSeats}
+          onChangeMinSeats={onChangeMinSeats}
+          onChangeSeats={onChangeSeats}
+        />
       </FilterCollapseTitle>
     </section>
   );

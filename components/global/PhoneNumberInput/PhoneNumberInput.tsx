@@ -10,6 +10,15 @@ interface PhoneNumberInputProps {
   defaultValue?: string;
 }
 
+const getDefaultDialCode = (value = 'us') => {
+  const countryIndex = iso2Lookup[value];
+  const dialCode = countryIndex
+    ? allCountries[countryIndex as any as number].dialCode
+    : value;
+
+  return dialCode || '1';
+};
+
 const PhoneNumberInput = ({
   onChange,
   placeholder,
@@ -17,27 +26,23 @@ const PhoneNumberInput = ({
   defaultCode,
   defaultValue,
 }: PhoneNumberInputProps) => {
-  const [countryCode, setCountryCode] = useState(defaultCode ?? 'us');
+  const [countryDialCode, setCountryDialCode] = useState(
+    getDefaultDialCode(defaultCode),
+  );
   const [phoneNumber, setPhoneNumber] = useState(defaultValue || '');
   const [focus, setFocus] = useState(false);
-  const countryIndex = iso2Lookup[countryCode];
-  const phoneCode = allCountries[countryIndex as any as number].dialCode;
 
   const handleChange = (value: string) => {
     setPhoneNumber(value);
     onChange(
-      JSON.stringify({ phone_prefix: phoneCode, phone_number: phoneNumber }),
+      JSON.stringify({ phone_prefix: countryDialCode, phone_number: value }),
     );
   };
 
   const handleChangeCode = (e: any) => {
-    const country = e.target.value;
-    const index = iso2Lookup[country];
-    const code = allCountries[index as any as number].dialCode;
-    setCountryCode(country);
-    onChange(
-      JSON.stringify({ phone_prefix: phoneCode, phone_number: phoneNumber }),
-    );
+    const code = e.target.value;
+    setCountryDialCode(code);
+    onChange(JSON.stringify({ phone_prefix: code, phone_number: phoneNumber }));
   };
 
   const onFocus = (focus: any) => {
@@ -55,17 +60,17 @@ const PhoneNumberInput = ({
       )}
     >
       <select
-        value={countryCode}
+        value={countryDialCode}
         onChange={handleChangeCode}
         className="border-0 rounded-md focus:ring-0"
       >
         {allCountries.map((option: any, i: number) => (
-          <option key={`${option.dialCode}${i}`} value={option.iso2}>
+          <option key={`${option.dialCode}${i}`} value={option.dialCode}>
             {option.iso2.toUpperCase()}
           </option>
         ))}
       </select>
-      <span className="text-sm">{`+${phoneCode}`}</span>
+      <span className="text-sm">{`+${countryDialCode}`}</span>
       <input
         type="number"
         value={phoneNumber}

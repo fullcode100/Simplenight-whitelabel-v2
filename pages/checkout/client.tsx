@@ -204,20 +204,22 @@ const Client = () => {
     router.push(ITINERARY_URI);
   };
 
-  const getAddCustomerRequestBody = (): AddCustomerRequest => {
+  const getAddCustomerRequestBody = (): { customer: AddCustomerRequest } => {
     const primaryContactCopy = deepCopy(primaryContactData);
     const requestItems = itemsForm?.map(createAdditionalItem);
     const request: any = hasAdditionalRequests
       ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
     const phone = JSON?.parse?.(primaryContactCopy.phone);
-    request.customer.phone_number = phone.phone_number;
-    request.customer.phone_prefix = phone.phone_prefix;
+    if (phone && phone.phone_number && phone.phone_prefix) {
+      request.customer.phone_number = phone.phone_number;
+      request.customer.phone_prefix = phone.phone_prefix;
+    }
 
     delete request.customer.phone;
     delete request.customer.primary_contact;
 
-    return request as unknown as AddCustomerRequest;
+    return { ...request };
   };
 
   const continueToPayment = async (values: any) => {
@@ -295,14 +297,18 @@ const Client = () => {
             prop != 'id' && prop != 'extra_fields' && prop != 'phone_prefix',
         )
         .map(([prop, value]) => {
-          newTravelersFormSchema.properties[
-            prop == 'phone_number' ? 'phone' : prop
-          ] = {
-            ...newTravelersFormSchema.properties[
-              prop == 'phone_number' ? 'phone' : prop
-            ],
-            default: value,
-          };
+          if (prop == 'phone_number') {
+            newTravelersFormSchema.properties['phone'] = {
+              ...newTravelersFormSchema.properties['phone'],
+              defaultCode: cart.customer.phone_prefix,
+              default: value,
+            };
+          } else {
+            newTravelersFormSchema.properties[prop] = {
+              ...newTravelersFormSchema.properties[prop],
+              default: value,
+            };
+          }
         });
       setTravelersFormSchema(newTravelersFormSchema);
     }

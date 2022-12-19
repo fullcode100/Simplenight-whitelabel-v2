@@ -10,9 +10,24 @@ interface SeatsFilterProps {
   onChangeSeats:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
+  onChangeMinSeats?:
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
+  onChangeMaxSeats?:
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
+  minValue?: string;
+  maxValue?: string;
 }
 
-const SeatsFilter = ({ value, onChangeSeats }: SeatsFilterProps) => {
+const SeatsFilter = ({
+  value,
+  onChangeSeats,
+  onChangeMinSeats,
+  onChangeMaxSeats,
+  minValue,
+  maxValue,
+}: SeatsFilterProps) => {
   const [t, i18n] = useTranslation('events');
   const starRatingLabel = t('seatsAvailable', 'Seat Available');
 
@@ -20,14 +35,16 @@ const SeatsFilter = ({ value, onChangeSeats }: SeatsFilterProps) => {
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
       <RangesliderLegacy
-        initialMax={value ? parseInt(value) : 1}
+        initialMin={minValue ? parseInt(minValue) : 1}
+        initialMax={maxValue ? parseInt(maxValue) : value ? parseInt(value) : 6}
         min={1}
         max={6}
         step={1}
         minDifference={0}
         marks={true}
         type="number"
-        setMaxState={onChangeSeats}
+        setMinState={onChangeMinSeats}
+        setMaxState={onChangeMaxSeats || onChangeSeats}
       />
     </FilterContainer>
   );

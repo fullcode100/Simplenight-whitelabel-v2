@@ -4,9 +4,9 @@ import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import { ClientRequester } from './ClientRequester';
 
 export class ClientCartCustomerUpdater extends ClientRequester<
-  AddCustomerRequest,
+  { customer: AddCustomerRequest },
   CartObjectResponse,
-  AddCustomerRequest
+  { customer: AddCustomerRequest }
 > {
   public constructor() {
     const category = {
@@ -17,7 +17,7 @@ export class ClientCartCustomerUpdater extends ClientRequester<
   }
 
   protected override doRequest(
-    request: AddCustomerRequest,
+    request: { customer: AddCustomerRequest },
     axios: AxiosInstance,
     id: any,
   ): Promise<AxiosResponse<CartObjectResponse, any>> {

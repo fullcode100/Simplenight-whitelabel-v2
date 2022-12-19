@@ -10,9 +10,24 @@ interface DistanceFilterProps {
   onChangeDistance:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
+  onChangeMinDistance?:
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
+  onChangeMaxDistance?:
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
+  minValue?: string;
+  maxValue?: string;
 }
 
-const DistanceFilter = ({ value, onChangeDistance }: DistanceFilterProps) => {
+const DistanceFilter = ({
+  value,
+  onChangeDistance,
+  onChangeMinDistance,
+  onChangeMaxDistance,
+  minValue,
+  maxValue,
+}: DistanceFilterProps) => {
   const [t, i18n] = useTranslation('events');
   const starRatingLabel = t('distanceRange', 'Distance Range');
 
@@ -20,13 +35,17 @@ const DistanceFilter = ({ value, onChangeDistance }: DistanceFilterProps) => {
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
       <RangesliderLegacy
-        initialMax={value ? parseInt(value) : 3000}
+        initialMin={minValue ? parseInt(minValue) : 0}
+        initialMax={
+          maxValue ? parseInt(maxValue) : value ? parseInt(value) : 3000
+        }
         min={0}
         max={3000}
         step={1}
         minDifference={0}
         type="distance"
-        setMaxState={onChangeDistance}
+        setMinState={onChangeMinDistance}
+        setMaxState={onChangeMaxDistance || onChangeDistance}
       />
     </FilterContainer>
   );

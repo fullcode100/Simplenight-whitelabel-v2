@@ -32,6 +32,7 @@ export const CustomPhoneNumber = (props: any) => {
       onChange={onChange}
       placeholder={placeholder}
       required={required}
+      defaultCode={schema.defaultCode}
       defaultValue={schema.default}
     />
   );
