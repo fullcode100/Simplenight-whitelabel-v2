@@ -223,30 +223,33 @@ const Client = () => {
   };
 
   const continueToPayment = async (values: any) => {
-    try {
-      if (!cart || cart.total_item_qty <= 0 || !primaryContactData) return;
+    if (!cart || cart.total_item_qty <= 0 || !primaryContactData) return;
 
-      const cartAvailability: any = await handleGetCartAvailability();
-      if (!cartAvailability?.isActiveCart) return;
+    const customerUpdater = new ClientCartCustomerUpdater();
+    const requestBody = getAddCustomerRequestBody();
 
-      const customerUpdater = new ClientCartCustomerUpdater();
-      const requestBody = getAddCustomerRequestBody();
+    Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
+      const itemData: any = {
+        cartId: cart.cart_id,
+        itemId,
+        bookingAnswers: bookingAnswerData[itemId],
+      };
+      await updateCartItem(i18n, itemData);
+    });
 
-      Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
-        const itemData: any = {
-          cartId: cart.cart_id,
-          itemId,
-          bookingAnswers: bookingAnswerData[itemId],
-        };
-        await updateCartItem(i18n, itemData);
-      });
+    const data = {
+      ...requestBody,
+      customer: {
+        ...cart.customer,
+        ...requestBody.customer,
+      },
+    };
 
-      await customerUpdater.request(requestBody, i18n, cart.cart_id);
+    delete data.customer.id;
 
-      router.push('/checkout/payment');
-    } catch (error) {
-      return error;
-    }
+    await customerUpdater.request(data, i18n, cart.cart_id);
+
+    router.push('/checkout/payment');
   };
 
   useEffect(() => {
