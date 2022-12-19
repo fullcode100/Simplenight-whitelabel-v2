@@ -49,7 +49,8 @@ export type availableFilters =
   | 'propertyHotel'
   | 'propertyRental'
   | 'propertyHotel&Rental'
-  | 'propertyAll';
+  | 'propertyAll'
+  | 'hotelName';
 
 export type sortByFilters =
   | 'Price (Lowest First)'

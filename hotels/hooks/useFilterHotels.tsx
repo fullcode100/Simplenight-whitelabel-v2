@@ -122,6 +122,20 @@ export const useFilterHotels = (hotels: Hotel[]) => {
           dispatch(updateHotels(filterResult));
         }
         break;
+      case 'hotelName':
+        {
+          if (valueToFilter) {
+            filterResult = filterResult.filter((hotel) =>
+              hotel.details.name
+                .toUpperCase()
+                .match(valueToFilter.toString().toUpperCase()),
+            );
+            dispatch(updateHotels(filterResult));
+          } else {
+            dispatch(updateHotels(filterResult));
+          }
+        }
+        break;
       default:
         dispatch(updateHotels(hotels));
     }

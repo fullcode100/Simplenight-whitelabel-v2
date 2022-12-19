@@ -12,6 +12,7 @@ import PropertyFilter from './Filters/PropertyFilter';
 import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import { availableFilters } from './HotelResultsDisplay';
+import NameFilter from './Filters/NameFilter';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -58,6 +59,8 @@ const HotelFilterFormDesktop = ({
     MAX_STAR_RATING_INITIAL_VALUE,
   );
 
+  const [name, setName] = useState<string>('');
+
   const getAmenities = () => {
     const amenitiesListParams: string | string[] = [];
     return AMENITIES_OPTIONS.filter((amenity) =>
@@ -96,6 +99,11 @@ const HotelFilterFormDesktop = ({
 
   const onChangeMaxRating = (value: string) => {
     handleFilterHotels('maxRating', value);
+  };
+
+  const onChangeHotelName = (value: string) => {
+    setName(value);
+    handleFilterHotels('hotelName', value);
   };
 
   const onChangeFreeCancellation = (value: boolean) => {
@@ -212,6 +220,8 @@ const HotelFilterFormDesktop = ({
     >
       <FilterHeader />
       {/* <KeywordSearchFilter /> */}
+      <NameFilter name={name} onChangeHotels={onChangeHotelName} />
+      <Divider className="my-6" />
       <PropertyFilter
         hotels={hotels}
         vacationRentals={vacationRentals}
