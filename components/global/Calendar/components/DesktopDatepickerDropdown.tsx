@@ -27,6 +27,7 @@ interface Props {
   maxRange: number;
   restricted?: boolean;
   isRange?: boolean;
+  disabledDays?: string[];
 }
 const DesktopDatepickerDropdown = ({
   open,
@@ -46,6 +47,7 @@ const DesktopDatepickerDropdown = ({
   maxRange,
   restricted = true,
   isRange = true,
+  disabledDays,
 }: Props) => {
   const ref = useRef<HTMLElement>(null);
   useOnOutsideClick(ref, () => closeModal());
@@ -117,6 +119,7 @@ const DesktopDatepickerDropdown = ({
           maxRange={maxRange}
           className={'pt-2 mt-1 text-xs'}
           restricted={restricted}
+          disabledDays={disabledDays}
         />
       </section>
     </section>

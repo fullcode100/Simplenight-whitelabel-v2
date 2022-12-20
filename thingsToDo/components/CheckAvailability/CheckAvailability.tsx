@@ -16,6 +16,7 @@ interface CheckAvailabilityProps {
   onApply: (date: string, ticketTypes: any[]) => any;
   isAdultRequired: boolean;
   activityMaxTravelers: number;
+  disabledDays: string[];
 }
 
 const CheckThingsAvailability = ({
@@ -23,6 +24,7 @@ const CheckThingsAvailability = ({
   onApply,
   isAdultRequired,
   activityMaxTravelers,
+  disabledDays,
 }: CheckAvailabilityProps) => {
   const [t] = useTranslation('global');
   const textCheckAvailability = t('checkAvailability', 'Check Availability');
@@ -81,6 +83,7 @@ const CheckThingsAvailability = ({
           endDate={endDate as string}
           setIsEditing={setIsEditing}
           isRange={false}
+          disabledDays={disabledDays}
         />
       </section>
       <Button

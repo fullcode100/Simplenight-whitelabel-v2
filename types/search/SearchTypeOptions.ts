@@ -54,12 +54,15 @@ export interface CategoryCore<SearchResponse> {
   ServerDetailer: ServerDetailer<any> | null;
   ClientAvailability?: any | null;
   ServerAvailability?: any | null;
+  ClientAvailabilitySchedule?: any | null;
+  ServerAvailabilitySchedule?: any | null;
 }
 
 export interface CategoryUrls {
   search: CategoryUrl;
   detail: CategoryUrl;
   availability?: CategoryUrl;
+  availabilitySchedule?: CategoryUrl;
 }
 
 export interface CategoryUrl {

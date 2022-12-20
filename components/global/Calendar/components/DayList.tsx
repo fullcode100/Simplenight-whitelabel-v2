@@ -2,6 +2,7 @@ import Day from './Day';
 import WeekDays from './Weekdays';
 import { DayObject, MonthObject } from 'helpers/calendar/calendar';
 import dayjs from 'dayjs';
+import { formatAsSearchDate } from 'helpers/dajjsUtils';
 
 interface DayListProps {
   month: MonthObject;
@@ -13,6 +14,7 @@ interface DayListProps {
   maxRange: number;
   className?: string;
   restricted?: boolean;
+  disabledDays?: string[];
 }
 
 const DayList = ({
@@ -25,6 +27,7 @@ const DayList = ({
   maxRange,
   className = '',
   restricted = true,
+  disabledDays,
 }: DayListProps) => {
   return (
     <>
@@ -36,13 +39,18 @@ const DayList = ({
         const isRangeDate = isRange
           ? dayjs(day.date).isBetween(dayjs(startDate), dayjs(endDate))
           : false;
-        const isDisabled = isRange
+        const isDisabledRange = isRange
           ? dayjs(day.date).isBefore(dayjs().subtract(1, 'day')) ||
             dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
             (!isStartDateTurn &&
               restricted &&
               dayjs(day.date).isAfter(dayjs(startDate).add(maxRange, 'day')))
           : false;
+        const isDisabledDay = disabledDays
+          ? !disabledDays?.includes(day.date)
+          : false;
+        const isDisabled = isDisabledRange || isDisabledDay;
+
         return (
           <Day
             day={day}
