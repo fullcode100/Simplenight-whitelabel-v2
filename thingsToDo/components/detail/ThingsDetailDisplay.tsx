@@ -186,24 +186,45 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
-  const PoliciesSection = () => {
-    const { cancellation_policy: cancellationPolicy } = extraData;
-    const {
-      cancellation_type: cancellationType,
-      description,
-      flags,
-    } = cancellationPolicy;
+  interface Policy {
+    title?: string;
+    list?: string[];
+    paragraph?: string;
+  }
+  interface PolicyCardProps {
+    policy: Policy;
+  }
+  const PolicyCard = ({ policy }: PolicyCardProps) => {
+    const { title, list, paragraph } = policy;
+    return (
+      <>
+        <h5 className="h5">{title}</h5>
+        {list && <List list={list} />}
+        <p className="text-base text-dark-1000">{paragraph}</p>
+      </>
+    );
+  };
 
-    const BAD_WEATHER_FLAG_INDEX = flags.findIndex(
+  const PoliciesSection = () => {
+    const {
+      additional_information: {
+        paragraph: additionalDescription,
+        list: additionalList,
+      },
+      policies,
+      cancellation_policy: {
+        cancellation_type: cancellationType,
+        description: cancelationDescription,
+        flags: cancellationFlags,
+      },
+    } = thingToDoDetail;
+
+    const BAD_WEATHER_FLAG_INDEX = cancellationFlags.findIndex(
       (flag) => flag.flag_id === 'CANCEL_IF_BAD_WEATHER',
     );
-    const INSUFFICIENT_TRAVELERS_FLAG_INDEX = flags.findIndex(
+    const INSUFFICIENT_TRAVELERS_FLAG_INDEX = cancellationFlags.findIndex(
       (flag) => flag.flag_id === 'CANCEL_IF_INSUFFICIENT_TRAVELERS',
     );
-    const CUT_OFF_TIMES_FLAG_INDEX = flags.findIndex(
-      (flag) => flag.flag_id === 'CUT_OFF_TIMES_LOCAL_BASED',
-    );
-
     interface IconAndTextProps {
       icon?: ReactElement;
       text: string;
@@ -251,29 +272,41 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     return (
       <div className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12 lg:py-12">
         <SectionTitle title={policiesLabel} icon={<PoliciesIcon />} />
-        <h5 className="mt-3 h5 lg:mt-5">{cancellationLabel}</h5>
+        <h5 className="mt-6 h5 lg:mt-8">{cancellationLabel}</h5>
         <IconAndText
           icon={cancellable || partialRefund ? <Check /> : <Close />}
-          text={description}
+          text={cancelationDescription}
           colorScheme={cancellable ? 'success' : 'grey'}
-          additionalText={flags[CUT_OFF_TIMES_FLAG_INDEX]?.description}
+          additionalText="Cut-off times are based on the experience’s local time."
         />
-        {flags[BAD_WEATHER_FLAG_INDEX]?.value && (
+        {cancellationFlags[BAD_WEATHER_FLAG_INDEX].value && (
           <IconAndText
             icon={<Sunset />}
-            text={flags[BAD_WEATHER_FLAG_INDEX].description}
+            text={
+              'This experience requires good weather. If it’s canceled due to poor weather, you’ll be offered a different date or a full refund'
+            }
           />
         )}
-        {flags[INSUFFICIENT_TRAVELERS_FLAG_INDEX]?.value && (
+        {cancellationFlags[INSUFFICIENT_TRAVELERS_FLAG_INDEX].value && (
           <IconAndText
             icon={<ApproveUser />}
-            text={flags[INSUFFICIENT_TRAVELERS_FLAG_INDEX].description}
+            text={
+              'This experience requires a minimum number of travelers. If it’s canceled because the minimum isn’t met, you’ll be offered a different date or a full refund'
+            }
           />
         )}
 
-        <Divider className="py-3 lg:py-5" />
+        <Divider className="lg:py-8" />
         <h5 className="h5">{additionalInformationLabel}</h5>
-        <List list={extraData.amenities} limit={8} />
+        <List list={thingsItem?.extra_data.amenities} limit={8} />
+        <p className="text-base text-dark-1000">{additionalDescription}</p>
+        <Divider className="lg:py-8" />
+        {policies?.map((policy, idx) => (
+          <Fragment key={idx}>
+            <PolicyCard policy={policy} />
+            {idx < policies.length - 1 && <Divider />}
+          </Fragment>
+        ))}
       </div>
     );
   };
