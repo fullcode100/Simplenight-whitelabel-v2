@@ -18,6 +18,7 @@ import { getDefaultGuests } from 'thingsToDo/helpers/helper';
 import { formatAsExactHour } from 'helpers/dajjsUtils';
 import { getCurrency } from 'store/selectors/core';
 import { Location } from 'thingsToDo/types/response/ThingsDetailResponse';
+import DurationLabel from '../DurationLabel/DurationLabel';
 
 const MOCK_PRODUCT_CODE = 'TG3';
 const PICKUP_QUESTION_ID = 'PICKUP_POINT';
@@ -54,7 +55,19 @@ const TicketCard = ({
   const title = ticket?.name;
   const description = ticket?.description;
   const isFullDay = ticket?.full_day;
-  const duration = false;
+  const hasNoStartTime = ticket.times.length === 0;
+  const {
+    duration: actiyvityDuration,
+    min_duration: minDuration,
+    max_duration: maxDuration,
+  } = ticket;
+  const rangeDuration = minDuration &&
+    maxDuration && { minDuration, maxDuration };
+  const fixedDuration = actiyvityDuration ? actiyvityDuration : 0;
+
+  const duration = (
+    <DurationLabel duration={rangeDuration ? rangeDuration : fixedDuration} />
+  );
   const fulldayText = t('fullDay', 'Full Day');
   const fullDayOrDuration = isFullDay ? fulldayText : duration;
   const guestsData = getDefaultGuests(pricing?.ticket_types, params);
@@ -68,6 +81,10 @@ const TicketCard = ({
   const totalGuests = getTotalGuests();
 
   const timeNotSelected = selectedTime == '' ? true : false;
+  /* selected */
+  const cantSelectTime = hasNoStartTime || isFullDay;
+  const actionsAreDisabled =
+    cantSelectTime && selected ? false : timeNotSelected;
 
   const addToCartRequest = () => {
     const ticketTypes = Object.keys(guestsData).map((guest) => {
@@ -148,7 +165,7 @@ const TicketCard = ({
       >
         <Divider />
         <section className="p-4">
-          {fullDayOrDuration ? (
+          {cantSelectTime ? (
             <section className="flex items-center gap-3 text-xs text-dark-1000">
               <ClockIcon className="text-primary-1000" /> {fullDayOrDuration}
             </section>
@@ -172,7 +189,7 @@ const TicketCard = ({
       <section className="p-4">
         <TicketActions
           itemToBook={addToCartRequest()}
-          timeNotSelected={timeNotSelected}
+          timeNotSelected={actionsAreDisabled}
           numberTickets={totalGuests}
         />
       </section>

@@ -25,7 +25,10 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   const address = item.item_data?.address;
   const addressArea = `${address?.area ? `${address?.area}, ` : ''}`;
   const activityDate = item.booking_data?.start_date;
-  const activityTime = item.booking_data?.time;
+  const INVALID_TIME_LABEL = 'Invalid Date';
+  const activityTime =
+    item.booking_data?.time !== INVALID_TIME_LABEL && item.booking_data?.time;
+
   const duration = item.item_data?.extra_data.duration;
   const minDuration = item.item_data?.extra_data.min_duration || 0;
   const maxDuration = item.item_data?.extra_data.max_duration || 0;

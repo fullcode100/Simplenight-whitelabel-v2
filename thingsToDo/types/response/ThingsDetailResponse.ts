@@ -190,7 +190,9 @@ export interface BookingConfirmationSettings {
 export interface Ticket {
   booking_code_supplier: string;
   description: string;
-  duration: number;
+  duration?: number;
+  min_duration?: number;
+  max_duration?: number;
   full_day: boolean;
   name: string;
   code: string;
