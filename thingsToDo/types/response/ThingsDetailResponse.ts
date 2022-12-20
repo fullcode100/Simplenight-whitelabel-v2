@@ -137,6 +137,7 @@ export interface TicketType {
   available_qty: number;
   cancellation_policy: CancellationPolicy2;
   rate: Rate;
+  quantity: number;
 }
 
 export interface Grouping {
