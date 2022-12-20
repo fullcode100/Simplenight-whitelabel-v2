@@ -66,7 +66,7 @@ const HorizontalTabs = ({
             <div className="flex items-center justify-center w-6 h-6">
               <Plus />
             </div>
-            more
+            Coming Soon
           </button>
         </nav>
       </div>
