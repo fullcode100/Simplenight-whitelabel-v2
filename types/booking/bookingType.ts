@@ -63,6 +63,8 @@ export interface Item {
   payment_type_status: string;
   product_order_number: string;
   quantity: string;
+  rate: any;
+  refund_amount_estimate: Amount;
   room_qty: number;
   status: string;
   supplier: string;

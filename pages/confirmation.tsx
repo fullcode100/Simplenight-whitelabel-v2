@@ -20,6 +20,7 @@ const Confirmation: NextPage = () => {
   const [booking, setBooking] = useState<Booking | undefined>(undefined);
   const [bookingId, setBookingId] = useState('');
   const [loading, setLoading] = useState(false);
+  const [reload, setReload] = useState(false);
   const [t, i18next] = useTranslation('global');
 
   const { bookingId: bookingIdParams, lookup } = useQuery();
@@ -53,7 +54,7 @@ const Confirmation: NextPage = () => {
         })
         .catch((error) => console.error(error));
     }
-  }, [bookingId]);
+  }, [bookingId, reload]);
 
   const HelpSection = () => {
     const [t, i18next] = useTranslation('global');
@@ -137,6 +138,8 @@ const Confirmation: NextPage = () => {
                       loading={loading}
                       setLoading={setLoading}
                       bookedAmount={bookedItemsAmount}
+                      reload={reload}
+                      setReload={setReload}
                     />
                   )}
 

@@ -20,6 +20,7 @@ import ThingCheckoutDisplay from './components/checkout/ThingCheckoutDisplay';
 import ThingCheckoutItemDisplay from './components/checkout/ThingCheckoutItemDisplay';
 import ThingConfirmationItemDisplay from './components/confirmation/ThingConfirmationItemDisplay';
 import ThingCheckoutBreakdownDisplay from './components/confirmation/ThingBreakdownDisplay';
+import ThingCancelledDisplay from './components/confirmation/ThingCancelledDisplay';
 
 export const THINGS_CATEGORY = 'entertainment';
 
@@ -76,6 +77,7 @@ Category.confirmationDisplay = (
 Category.confirmationBreakdownDisplay = (
   <ThingCheckoutBreakdownDisplay Category={Category} />
 );
+Category.cancelledDisplay = <ThingCancelledDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new ThingsClientSearcher(Category);
 Category.core.ServerSearcher = new ThingsServerSearcher(Category);

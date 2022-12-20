@@ -1,6 +1,8 @@
 import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
 import { injectProps } from 'helpers/reactUtils';
-import { Customer, Item } from 'types/cart/CartType';
+import { Dispatch, SetStateAction } from 'react';
+import { Payment, Item } from 'types/booking/bookingType';
+import { Customer } from 'types/cart/CartType';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import ThingConfirmationFooter from './ThingConfirmationFooter';
 
@@ -8,8 +10,18 @@ interface Props {
   Category: CategoryOption;
   item?: Item;
   customer?: Customer;
+  payment?: Payment;
+  reload?: boolean;
+  setReload?: Dispatch<SetStateAction<boolean>>;
 }
-const ThingConfirmationItemDisplay = ({ Category, item, customer }: Props) => {
+const ThingConfirmationItemDisplay = ({
+  Category,
+  item,
+  customer,
+  payment,
+  reload,
+  setReload,
+}: Props) => {
   const CartItemHeader = () => {
     return injectProps(Category.checkoutDisplay, {
       item: item,
@@ -37,11 +49,16 @@ const ThingConfirmationItemDisplay = ({ Category, item, customer }: Props) => {
       title={<CartItemHeader />}
       body={<CartItemBody />}
       footer={
-        <ThingConfirmationFooter
-          item={item}
-          /*  reload={reload}
-          setReload={setReload} */
-        />
+        item && (
+          <ThingConfirmationFooter
+            item={item}
+            reload={reload}
+            setReload={setReload}
+            Category={Category}
+            customer={customer}
+            payment={payment}
+          />
+        )
       }
     />
   );
