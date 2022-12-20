@@ -73,8 +73,8 @@ const TicketCard = ({
   const guestsData = getDefaultGuests(pricing?.ticket_types, params);
   const getTotalGuests = () => {
     let totalGuests = 0;
-    Object.values(guestsData).forEach((value) => {
-      totalGuests += value as number;
+    ticket?.ticket_types.map((type) => {
+      totalGuests += type.quantity;
     });
     return totalGuests;
   };
