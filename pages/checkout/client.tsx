@@ -167,6 +167,8 @@ const Client = () => {
     travelerNum?: number,
   ) => {
     const formDataCopy = deepCopy(data.formData);
+    const pickupPointId = 'PICKUP_POINT';
+    const pickupPointUnit = 'LOCATION_REFERENCE';
     Object.keys(formDataCopy).forEach((key) => {
       if (!bookingAnswerData[itemId]) bookingAnswerData[itemId] = [];
       const bookingAnswer = bookingAnswerData[itemId].find(
@@ -175,11 +177,13 @@ const Client = () => {
       );
       if (!bookingAnswer) {
         const value = formDataCopy[key].ref || formDataCopy[key];
-        bookingAnswerData[itemId].push({
+        const answerItem: any = {
           question_id: key,
           value,
           traveler_num: travelerNum,
-        });
+        };
+        if (key === pickupPointId) answerItem.unit = pickupPointUnit;
+        bookingAnswerData[itemId].push(answerItem);
       } else {
         bookingAnswerData[itemId] = bookingAnswerData[itemId]?.map(
           (answer: any) => {
