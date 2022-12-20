@@ -32,7 +32,8 @@ const LocationInput = ({
   ...others
 }: LocationInputProps & BaseInputProps) => {
   const params = useQuery();
-  const defaultAddress = params?.address?.toString() || '';
+  const routeParam = routeParams && routeParams[0];
+  const defaultAddress = params?.[routeParam || 'address']?.toString() || '';
   const [address, setAddress] = useState(defaultAddress);
   const isMapLoaded = getIsMapLoaded();
 

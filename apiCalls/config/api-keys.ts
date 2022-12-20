@@ -1,6 +1,6 @@
 export default {
   PROD: 'PKm8iJeX.QNgG2bNvanJMtlhozara4wyevXaaqADy',
-  DEV: 'rm3n1DWi.bJd0DONE9PWgo4wK3b5CXNuo9pEQycNz',
+  DEV: '4lMqWTs8.LPCuXybWBiORR9nVPKUBT0qYXib4SrY0',
 } as {
   PROD: string;
   DEV: string;

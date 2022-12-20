@@ -10,6 +10,8 @@ module.exports = {
     './parking/**/*.tsx',
     './showsAndEvents/**/*.tsx',
     './flights/**/*.{js,ts,jsx,tsx}',
+    './transportation/**/*.tsx',
+    './ground-transportation/**/*.tsx',
   ],
   theme: {
     extend: {

@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FilterContainer } from '@/components/search';
-import { StyledLink } from '../../global/StyledLink/StyledLink';
 
 interface FilterHeader {
   handleClearFilters: () => void;

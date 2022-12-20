@@ -22,6 +22,7 @@ import TicketIcon from 'public/icons/categories/ticket.svg';
 import BedDoubleIcon from 'public/icons/categories/bed-double.svg';
 import CoffeeIcon from 'public/icons/categories/coffee.svg';
 import ParkingIcon from 'public/icons/categories/parking-square.svg';
+import TransportIcon from 'public/icons/categories/Category-Transport.svg';
 import { Category } from 'types/settings/BrandConfig';
 
 interface IconsMap {
@@ -32,7 +33,7 @@ export const getCategoryIcon = (key: string) => {
   const iconsMapping: IconsMap = {
     bed: <BedIcon />,
     plane: <PlaneIcon />,
-    'car-sideview': <CarSideviewIcon />,
+    'car-sideview': <TransportIcon />,
     'plane-fly': <PlaneSideviewIcon />,
     estate: <RentalsIcon />,
     backpack: <BackpackIcon />,
@@ -68,6 +69,7 @@ const getSectorWhitelabelId = (key: string) => {
       'cultural',
       'entertainment',
       'excursion',
+      'festivals',
       'hop-on-hop-off',
       'indoor',
       'markets',
@@ -88,7 +90,6 @@ const getSectorWhitelabelId = (key: string) => {
       'wedding',
       'wellness',
       'fun-games',
-      'transportation',
       'shows-events',
     ].includes(key)
   )
@@ -100,6 +101,7 @@ const getSectorWhitelabelId = (key: string) => {
   if (['food-beverage', 'dining'].includes(key)) return 'food-beverage';
   if (['other', 'vacation-rentals'].includes(key)) return 'other';
   if (['parking'].includes(key)) return 'parking';
+  if (['ground-transportation'].includes(key)) return 'ground-transportation';
   return '';
 };
 

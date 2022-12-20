@@ -1,0 +1,2354 @@
+{
+    "quotes": [
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=24a6059f-93cb-4e93-af5c-181611a93bc0&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 30.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "24a6059f-93cb-4e93-af5c-181611a93bc0",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=24a6059f-93cb-4e93-af5c-181611a93bc0&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 3.5,
+                    "count": 2170
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/2/2754b3d2-e94c-4163-98bf-f96800344f6b.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/d/d94921c1-71ef-4f2d-b1bc-80f8ac9a68c5.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/6/63888c2d-0968-445a-81b3-1a8c3e1a6dae.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "AirBus Sydney offers a wide range of transport solution in and around Sydney. \r\n\r\nAirBus Sydney is a city based transportation company that satisfies your travelling needs by providing fast, safe and cost efficient transfers. Our fully air-conditioned 2008 model HIACE commuters are kept to a 5 star standard. We cater for all your transport needs whether you're a conference with multiple transfers or just a single traveller. \r\n\r\nConferences are our specialty, always providing an accurate number of seats for each transfer. Our wide range of vehicles can transfer delegates in luxury to their conference. Our drivers meet and greet you at the airport with a name sign and transfer your party in style to their destination.",
+                    "id": "19589",
+                    "name": "Airbus Airport Shuttles",
+                    "photo_url": "https://jayride-testing.imgix.net/6/6616f388-a113-4a99-8f61-2d93a69bb2e0.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "shared"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=6e4f7b7e-65e8-484a-bcf4-1d90f86a9323&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 41.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "6e4f7b7e-65e8-484a-bcf4-1d90f86a9323",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=6e4f7b7e-65e8-484a-bcf4-1d90f86a9323&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 34
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Always the ride you want-- Request a ride, hop in and relax. \r\n\r\nRides on demand: Get a reliable ride. \r\n\r\nBudget friendly options: Prices on every kind of ride, from daily commutes to special evenings out. \r\n\r\nAn easy way to get around: Relax and let your driver take you where you want to go. \r\n\r\nYour safety matters: Peace of mind is designed into your experience. \r\n\r\nSee you there: transportation at 600+ airports. You can get a ride to and from most major airports. Schedule a ride to the airport for one less thing to worry about. ",
+                    "id": "135478",
+                    "name": "RideShare - Australia",
+                    "photo_url": "https://jayride-testing.imgix.net/a/a8efb11f-f7fb-47c9-9aad-2592950b8d45.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=bf4949d8-5e20-4a1a-9c3a-e55dbbfe4a05&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 44.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "bf4949d8-5e20-4a1a-9c3a-e55dbbfe4a05",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=bf4949d8-5e20-4a1a-9c3a-e55dbbfe4a05&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 29
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Sydney Transfers offers private transfer services to/from Sydney airport. We are committed to making your transfer incredible.",
+                    "id": "135295",
+                    "name": "Sydney Transfers",
+                    "photo_url": "https://jayride-testing.imgix.net/a/a20ddb44-8547-426f-bca2-3f7b96d4be0e.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=285bfaa7-92ff-47fa-8e3c-08ffec91085b&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 46.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "285bfaa7-92ff-47fa-8e3c-08ffec91085b",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=285bfaa7-92ff-47fa-8e3c-08ffec91085b&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 535
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/2/27f085da-5b1f-46de-9a13-01f045da3a86.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/8/8f2431d4-08fa-4147-b0dc-4aabf54d446b.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/a/ab943403-21bf-4ca0-9636-a110466afea4.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "World-Class Service for Travelers, Residents & Businesses. FREE Wi-Fi is provided onboard.\r\n\r\nPeople Moving People - It’s the people that truly set REDY2GO apart from your typical, run-of-the-mill airport shuttle service. At REDY2GO, our people are focused on one thing: delivering a superior airport shuttle experience to each and every one of our customers. With an emphasis on convenience, efficiency, and affordable rates, our Sydney airport shuttle services are a perfect alternative to expensive airport taxis.\r\n\r\nWho Are Our People? - We're a Sydney airport shuttle service dedicated not only to moving people, but making travelers happy. Our people are friendly drivers, helpful support staff, and interested management with a common goal of transferring you to and from SYD Airport in complete comfort. Sit back and relax in this year’s spacious Fiat Ducato or book our 12-seat shuttle bus for larger groups. Regardless of how you travel, REDY2GO provides vehicles with your safety and comfort in mind.\r\n\r\nWe provide shuttle services to all major hotels and timely airport shuttles any time of day. If you're looking for a Sydney airport shuttle with excellent service then you're ready for REDY2GO.\r\n\r\nAre You Ready? - Get to know our people and give REDY2GO SYD Airport Shuttles a try today!",
+                    "id": "27927",
+                    "name": "REDY2GO",
+                    "photo_url": "https://jayride-testing.imgix.net/3/3c796e75-c369-4b91-8b16-8ec8d3589976.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "shared"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1dce94f5-8751-444a-a712-8e1489ed4a71&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 46.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "1dce94f5-8751-444a-a712-8e1489ed4a71",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1dce94f5-8751-444a-a712-8e1489ed4a71&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 12
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "The NSBC Group is Sydney’s Largest Privately Owned Bus and Coach Charter Company with seven (7) distinct brands covering metropolitan Sydney and the Australian Capital Territory. The company was founded in July 2002 by Scott Riley, a former Tennis Pro and Coach.  His love of sport brought him to bus transport seeing the need to transport school children to his Tennis Centres. The Schools were so impressed with his commitment further expansion to cope with the growing demand was necessary and today the Group is operating over 150 buses and coaches in Sydney and continues to expand.  New Seat Belted Coaches were introduced progressively and today over 200 brand new vehicles have entered service, many being retired after 4 years to make way for the latest in technical advances.",
+                    "id": "135247",
+                    "name": "Sydney Super Shuttle",
+                    "photo_url": "https://jayride-testing.imgix.net/8/8bcf3613-7aaa-4940-9139-ce98722d86ed.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "shared"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=0a3b1e59-e9d6-43e0-adac-f0fc1210ae77&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 52.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "0a3b1e59-e9d6-43e0-adac-f0fc1210ae77",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=0a3b1e59-e9d6-43e0-adac-f0fc1210ae77&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": "",
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 578
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-bus.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-bus.png",
+                    "https://jayride-testing.imgix.net/8/88ff3d80-6c4e-44e3-824a-f18293aa1ba5.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "bus",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 13,
+                "supplier": {
+                    "description": "ASN Transfers is Sydney's leading shared ride airport shuttle service and private transfer service, providing door-to-door ground transportation to more than 80,000 passengers per year.",
+                    "id": "10042",
+                    "name": "Airport Shuttle North",
+                    "photo_url": "https://jayride-testing.imgix.net/a/a8063528-8cdb-4e35-aa66-f2c8dc5d4046.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "shared"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=23fbc723-58be-4e3b-a148-9990afd2b93c&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 52.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "23fbc723-58be-4e3b-a148-9990afd2b93c",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=23fbc723-58be-4e3b-a148-9990afd2b93c&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 11
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Door to Door Home/Hotel Airport services. Professional drivers. Stops at both international and domestic terminals. Pick & Drop at your door step of your home or hotel.",
+                    "id": "31002",
+                    "name": "2Airport ",
+                    "photo_url": "https://jayride-testing.imgix.net/b/b8543138-94c5-4ca8-a37a-89f096134ef5.png?fit=crop&w=180&h=180"
+                },
+                "type": "shared"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=a2520ce9-227f-4335-8c28-0235c63d84df&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 53.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "a2520ce9-227f-4335-8c28-0235c63d84df",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=a2520ce9-227f-4335-8c28-0235c63d84df&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 3.5,
+                    "count": 26
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/b/bba73d7f-eab7-4688-9f79-0a68cd3e8080.png?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Rides done right, with Ola.\r\n\r\nOla is the world’s 3rd largest rideshare app now serving 200+ million customers in over 250 cities, spanning 3 continents.\r\n\r\nHeading out with friends? Going to the airport? Running late for work? Simply Ola there!\r\n\r\nRushing to an early morning flight? Heading home from the airport? Simply Ola there!\r\n\r\nEnjoy airport rides in Sydney, Melbourne, Avalon, Brisbane, Adelaide, Perth, Canberra, Gold Coast and Sunshine Coast.\r\n\r\nFounded in 2011 by Bhavish Aggarwal and Ankit Bhati, Ola is one of the world’s largest ride-sharing companies. Ola integrates city transportation for customers and drivers onto a mobile technology platform ensuring convenient, transparent, and quick service fulfillment. Ola is focused on leveraging the best of technology and building innovative solutions ground-up, that are relevant at a global scale.",
+                    "id": "135206",
+                    "name": "Ola Cabs",
+                    "photo_url": "https://jayride-testing.imgix.net/e/e221ee50-9c61-46ed-8d2c-a0f629642f81.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1acdf87e-f737-4264-8c98-327457e03576&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 53.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "1acdf87e-f737-4264-8c98-327457e03576",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1acdf87e-f737-4264-8c98-327457e03576&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 14
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/e/e0c66a77-15e9-4945-9235-ec9c75e94ad8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/6/688b0aad-2a89-45cb-88a5-d7ab82f13aca.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "We bring the best of the taxi industry; the knowledge, the professionalism, the safety, the network, and couple it with cutting edge technology that saves our clients time and money and gives our drivers jobs and security. We are fair and honest. We are there when you need us, and we will never charge you more because we are busy.\r\n\r\nThe way we travel will always be changing and we will remain fluid in our outlook and our service to ensure that both our drivers and our passengers get the best experience possible.",
+                    "id": "133790",
+                    "name": "Rydo London Cab",
+                    "photo_url": "https://jayride-testing.imgix.net/e/e57515a7-61ba-47fe-8e92-a3e2cbf907a6.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=ff0a20bb-0cc3-455c-88ce-4905b13a0acf&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 55.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "ff0a20bb-0cc3-455c-88ce-4905b13a0acf",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=ff0a20bb-0cc3-455c-88ce-4905b13a0acf&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 216
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/d/d03d8d23-fe14-4fcf-9396-2e45c8443a3c.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Our door to door shuttle service offers a fast, friendly and reliable service at a competitive price.\r\n\r\nBob’s Airport Shuttle is an established company servicing the airport, Parramatta, Blacktown and The Hills District.\r\n\r\nIf you are looking for a comfortable, convenient and reliable shuttle service that offers the flexibility to travel in a large group or carry large items - without the expense of a Taxi - call Bob's Airport Shuttles!",
+                    "id": "21312",
+                    "name": "Bob's Airport Shuttle & Mini Bus Hire",
+                    "photo_url": "https://jayride-testing.imgix.net/d/d74655b8-ea4a-4697-a46a-a983681f3c1b.png?fit=crop&w=180&h=180"
+                },
+                "type": "shared"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=3f3ee4bf-1fe6-4d39-937e-e8a92e5f266e&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 58.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "3f3ee4bf-1fe6-4d39-937e-e8a92e5f266e",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=3f3ee4bf-1fe6-4d39-937e-e8a92e5f266e&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 418
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/f/f10567e8-644f-4d05-acec-d988040364d3.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/7/7687a36a-acac-4283-bb32-a8197a9f1bd7.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/7/755ea08d-ef55-4117-9279-826284573784.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Tired of paying too much for a taxi, or getting crowded in with hundreds of others on the airport train? With Go Sydney Shuttle you can now have a VIP shuttle service and get a Meet and Greet service at Sydney Airport at a regular shuttle price! Our Sydney airport transfers and cruise ship terminal transfers are affordable and most importantly stress free! After long haul flights the last thing you want to do is to worry about your pre-booked transfer or run around the airport to look for that \"Shuttle Bus Stop\" with some unclear directions.Let us worry about that!\r\n\r\nThe difference with Go Sydney Shuttle is the little extra touches we offer to make your journey as simple and enjoyable as possible. Whether you’re booking your airport transfer for business or leisure, we believe you shouldn’t have to spend hours on the phone or waiting around at your meeting point forever, which is why our booking system offers you to choose your desired and precise pickup time slot.",
+                    "id": "27975",
+                    "name": "Go Sydney Shuttle",
+                    "photo_url": "https://jayride-testing.imgix.net/c/cd7ff10c-4b39-4d69-877d-1624e8b064e6.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "shared"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=eda76a25-0dad-443c-b920-e90919e3351c&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 58.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "eda76a25-0dad-443c-b920-e90919e3351c",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=eda76a25-0dad-443c-b920-e90919e3351c&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 29
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 4,
+                "supplier": {
+                    "description": "Sydney Transfers offers private transfer services to/from Sydney airport. We are committed to making your transfer incredible.",
+                    "id": "135295",
+                    "name": "Sydney Transfers",
+                    "photo_url": "https://jayride-testing.imgix.net/a/a20ddb44-8547-426f-bca2-3f7b96d4be0e.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=807a44e2-3e12-425d-bcd7-d21e93e0ed89&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 63.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "807a44e2-3e12-425d-bcd7-d21e93e0ed89",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=807a44e2-3e12-425d-bcd7-d21e93e0ed89&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 67
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/f/f139255e-f397-4d4e-90b2-9439ebbaeee7.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/4/4c335762-7ae8-410b-8b7f-123b41518f60.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Fly Miles Pty Ltd offers private transfer services to/from Sydney airport, 24 hours a day, 7 days a week.",
+                    "id": "31913",
+                    "name": "Fly Miles Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/0/0222b0d8-6287-4034-8145-e692e946838e.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=b0d115f3-c612-49ac-a5b9-e0f5a5d93b54&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 66.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "b0d115f3-c612-49ac-a5b9-e0f5a5d93b54",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=b0d115f3-c612-49ac-a5b9-e0f5a5d93b54&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 3.0,
+                    "count": 28
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/3/371246d6-16af-4496-8a86-32ff1cd7c72d.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/c936d536-c6db-403f-8b24-5181903b5b04.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/6/68064e75-95a0-428b-96b9-4d2fae36b806.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 7,
+                "supplier": {
+                    "description": "We bring the best of the taxi industry; the knowledge, the professionalism, the safety, the network, and couple it with cutting edge technology that saves our clients time and money and gives our drivers jobs and security. We are fair and honest. We are there when you need us, and we will never charge you more because we are busy.\r\n\r\nThe way we travel will always be changing and we will remain fluid in our outlook and our service to ensure that both our drivers and our passengers get the best experience possible.",
+                    "id": "133789",
+                    "name": "Rydo Maxi Taxi",
+                    "photo_url": "https://jayride-testing.imgix.net/0/0da90c51-4bb6-498f-a13d-5a199088af74.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=86193bd0-88bd-4269-9a71-f8764ab3c655&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 67.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "86193bd0-88bd-4269-9a71-f8764ab3c655",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=86193bd0-88bd-4269-9a71-f8764ab3c655&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 59
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/f/fa209757-7e6b-4418-b904-85f9b9516e15.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/c8320a01-452c-486c-a915-eb15abd1f2b8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/b51b81a8-b17d-4ddd-af3d-ffaed19609c8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/0/0f839750-01a8-4bf3-ab36-c2599de4fbde.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Unique Chauffeur Cars Pty Ltd is a Sydney based licensed chauffeur drive service that is locally owned and operated by Mario Alfonso whom has spent 33 years in Tourism . We cover the entire Sydney metropolitan area for all your requirements in our vehicles. We are renowned for our service and reliability and specialise in Airport and Cruise Ship Transfers. We operate 2022 Mercedes Benz VClass for their style and comfort. ",
+                    "id": "134904",
+                    "name": "Unique Chauffeur Cars Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/5/511c4a04-3456-40f4-9a48-9b71b2bd1440.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=32b2e1d2-1495-48a9-a230-51fdb837e6c7&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 69.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "32b2e1d2-1495-48a9-a230-51fdb837e6c7",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=32b2e1d2-1495-48a9-a230-51fdb837e6c7&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 85
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/c/cd9467e1-9494-4703-8a31-5a53e5f2bbc2.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/0/03e8887e-4c5c-4550-911c-c6c83ef49532.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/c9ce2f36-0d4b-4bba-9822-25a36345a9d0.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/7/7b06fa3a-8454-426c-96cf-6193eed55dd6.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "World-Class Service for Travelers, Residents & Businesses. FREE Wi-Fi is provided onboard.\r\n\r\nPeople Moving People - It’s the people that truly set REDY2GO apart from your typical, run-of-the-mill airport shuttle service. At REDY2GO, our people are focused on one thing: delivering a superior airport shuttle experience to each and every one of our customers. With an emphasis on convenience, efficiency, and affordable rates, our Sydney airport shuttle services are a perfect alternative to expensive airport taxis.\r\n\r\nWho Are Our People? - We're a Sydney airport shuttle service dedicated not only to moving people, but making travelers happy. Our people are friendly drivers, helpful support staff, and interested management with a common goal of transferring you to and from SYD Airport in complete comfort. Sit back and relax in this year’s spacious Fiat Ducato or book our 12-seat shuttle bus for larger groups. Regardless of how you travel, REDY2GO provides vehicles with your safety and comfort in mind.\r\n\r\nWe provide shuttle services to all major hotels and timely airport shuttles any time of day. If you're looking for a Sydney airport shuttle with excellent service then you're ready for REDY2GO.\r\n\r\nAre You Ready? - Get to know our people and give REDY2GO SYD Airport Shuttles a try today!",
+                    "id": "27927",
+                    "name": "REDY2GO",
+                    "photo_url": "https://jayride-testing.imgix.net/3/3c796e75-c369-4b91-8b16-8ec8d3589976.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=6e241176-8a38-4c0c-99a7-b9ee9622bc68&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 74.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "6e241176-8a38-4c0c-99a7-b9ee9622bc68",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=6e241176-8a38-4c0c-99a7-b9ee9622bc68&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 67
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/f/f139255e-f397-4d4e-90b2-9439ebbaeee7.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/4/4c335762-7ae8-410b-8b7f-123b41518f60.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 4,
+                "supplier": {
+                    "description": "Fly Miles Pty Ltd offers private transfer services to/from Sydney airport, 24 hours a day, 7 days a week.",
+                    "id": "31913",
+                    "name": "Fly Miles Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/0/0222b0d8-6287-4034-8145-e692e946838e.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=80fce070-d730-4752-b94c-07a850fd77fc&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 79.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "80fce070-d730-4752-b94c-07a850fd77fc",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=80fce070-d730-4752-b94c-07a850fd77fc&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 29
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 10,
+                "supplier": {
+                    "description": "Sydney Transfers offers private transfer services to/from Sydney airport. We are committed to making your transfer incredible.",
+                    "id": "135295",
+                    "name": "Sydney Transfers",
+                    "photo_url": "https://jayride-testing.imgix.net/a/a20ddb44-8547-426f-bca2-3f7b96d4be0e.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=a22a87fd-d73c-4383-ad57-e4263f46f289&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 79.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "a22a87fd-d73c-4383-ad57-e4263f46f289",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=a22a87fd-d73c-4383-ad57-e4263f46f289&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 10
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/f/fd86fa0a-fa32-469d-994e-70ae70b74c7c.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/e/ef8b491a-801b-4283-955d-f7f32edb5f4b.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/5/5b8b4904-7c30-4411-838d-56c24693a28d.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Tired of paying too much for a taxi, or getting crowded in with hundreds of others on the airport train? With Go Sydney Shuttle you can now have a VIP shuttle service and get a Meet and Greet service at Sydney Airport at a regular shuttle price! Our Sydney airport transfers and cruise ship terminal transfers are affordable and most importantly stress free! After long haul flights the last thing you want to do is to worry about your pre-booked transfer or run around the airport to look for that \"Shuttle Bus Stop\" with some unclear directions.Let us worry about that!\r\n\r\nThe difference with Go Sydney Shuttle is the little extra touches we offer to make your journey as simple and enjoyable as possible. Whether you’re booking your airport transfer for business or leisure, we believe you shouldn’t have to spend hours on the phone or waiting around at your meeting point forever, which is why our booking system offers you to choose your desired and precise pickup time slot.",
+                    "id": "27975",
+                    "name": "Go Sydney Shuttle",
+                    "photo_url": "https://jayride-testing.imgix.net/c/cd7ff10c-4b39-4d69-877d-1624e8b064e6.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1420f6ed-4c86-4c82-b8ce-e4568f9a5372&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 79.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "1420f6ed-4c86-4c82-b8ce-e4568f9a5372",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1420f6ed-4c86-4c82-b8ce-e4568f9a5372&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 67
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-sedan.png",
+                    "https://jayride-testing.imgix.net/f/f139255e-f397-4d4e-90b2-9439ebbaeee7.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/4/4c335762-7ae8-410b-8b7f-123b41518f60.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "business",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Fly Miles Pty Ltd offers private transfer services to/from Sydney airport, 24 hours a day, 7 days a week.",
+                    "id": "31913",
+                    "name": "Fly Miles Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/0/0222b0d8-6287-4034-8145-e692e946838e.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=9b5447ad-bbc6-463d-94f6-330bd0d31c2b&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 80.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "9b5447ad-bbc6-463d-94f6-330bd0d31c2b",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=9b5447ad-bbc6-463d-94f6-330bd0d31c2b&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 10
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/0/0f8016a5-a29b-460c-8b93-92dbb60ffb13.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/3/367735a8-70d9-4497-bf74-21f16a0ee31c.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "We are the most active travel company in Sydney. We provide 24/7 transfer services in both Sydney urban and rural areas, including airport pickups and drop offs, as well as day tours.  With the most reliable staff on board, we offer a variety of passenger vehicles including Mercedes Benz, Toyota Alphard and other large space MPVs.",
+                    "id": "135049",
+                    "name": "CS Happy Travel",
+                    "photo_url": "https://jayride-testing.imgix.net/f/fe1a6102-6622-4830-949b-d7afb9359c5e.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=27ad05bf-42f9-41c9-89ce-c73560173336&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 83.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "27ad05bf-42f9-41c9-89ce-c73560173336",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=27ad05bf-42f9-41c9-89ce-c73560173336&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 3.5,
+                    "count": 12
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "AirBus Sydney offers a wide range of transport solution in and around Sydney. \r\n\r\nAirBus Sydney is a city based transportation company that satisfies your travelling needs by providing fast, safe and cost efficient transfers. Our fully air-conditioned 2008 model HIACE commuters are kept to a 5 star standard. We cater for all your transport needs whether you're a conference with multiple transfers or just a single traveller. \r\n\r\nConferences are our specialty, always providing an accurate number of seats for each transfer. Our wide range of vehicles can transfer delegates in luxury to their conference. Our drivers meet and greet you at the airport with a name sign and transfer your party in style to their destination.",
+                    "id": "19589",
+                    "name": "Airbus Airport Shuttles",
+                    "photo_url": "https://jayride-testing.imgix.net/6/6616f388-a113-4a99-8f61-2d93a69bb2e0.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=37f72ab3-d1ff-4f8b-a87b-9e3d078d8570&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 84.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "37f72ab3-d1ff-4f8b-a87b-9e3d078d8570",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=37f72ab3-d1ff-4f8b-a87b-9e3d078d8570&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 59
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/f/fa209757-7e6b-4418-b904-85f9b9516e15.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/c8320a01-452c-486c-a915-eb15abd1f2b8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/b51b81a8-b17d-4ddd-af3d-ffaed19609c8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/0/0f839750-01a8-4bf3-ab36-c2599de4fbde.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 5,
+                "supplier": {
+                    "description": "Unique Chauffeur Cars Pty Ltd is a Sydney based licensed chauffeur drive service that is locally owned and operated by Mario Alfonso whom has spent 33 years in Tourism . We cover the entire Sydney metropolitan area for all your requirements in our vehicles. We are renowned for our service and reliability and specialise in Airport and Cruise Ship Transfers. We operate 2022 Mercedes Benz VClass for their style and comfort. ",
+                    "id": "134904",
+                    "name": "Unique Chauffeur Cars Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/5/511c4a04-3456-40f4-9a48-9b71b2bd1440.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=8ca7a7db-4928-4c43-a59c-ca0f5dc636d4&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 86.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "8ca7a7db-4928-4c43-a59c-ca0f5dc636d4",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=8ca7a7db-4928-4c43-a59c-ca0f5dc636d4&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 202
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/a/a5af1caa-489f-4762-9c00-e7f2652779ff.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/ba3c4514-dd90-49a3-9653-5c1448d582c3.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "At AusTransfers our aim is to provide a service that gives you the peace of mind at an affordable price.\r\n\r\nWhether it may be for Business or Leisure we try to create a relaxed atmosphere, Our goal is to ensure a comfortable, relaxed and a laid back environment.\r\n\r\nWith the Safety of our experienced and Fully Accredited drivers with a range of cars from luxury, SUV, standard or People Movers, we have you or the whole group/family covered.\r\n\r\nWe provide a high-end service, but without the price tag.\r\n\r\nLet us, let you, enjoy the luxury vehicles at a fraction of the price.",
+                    "id": "29615",
+                    "name": "AusTransfers",
+                    "photo_url": "https://jayride-testing.imgix.net/a/ab13a198-f0aa-4eec-bba5-627e71fe6d96.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=0e9ad5ac-aec1-4d15-b5af-9a9a606953ca&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 90.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "0e9ad5ac-aec1-4d15-b5af-9a9a606953ca",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=0e9ad5ac-aec1-4d15-b5af-9a9a606953ca&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 10
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/0/0f8016a5-a29b-460c-8b93-92dbb60ffb13.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/3/367735a8-70d9-4497-bf74-21f16a0ee31c.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 5,
+                "supplier": {
+                    "description": "We are the most active travel company in Sydney. We provide 24/7 transfer services in both Sydney urban and rural areas, including airport pickups and drop offs, as well as day tours.  With the most reliable staff on board, we offer a variety of passenger vehicles including Mercedes Benz, Toyota Alphard and other large space MPVs.",
+                    "id": "135049",
+                    "name": "CS Happy Travel",
+                    "photo_url": "https://jayride-testing.imgix.net/f/fe1a6102-6622-4830-949b-d7afb9359c5e.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=7ebcfa5f-4ba6-4d2d-a870-2a4170362c40&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 91.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "7ebcfa5f-4ba6-4d2d-a870-2a4170362c40",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=7ebcfa5f-4ba6-4d2d-a870-2a4170362c40&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 2
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/8/89cb29e9-5964-4fe4-9b7c-701e6e2d14c4.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/2/2658f1f5-77cc-44b7-ac88-921a9f175941.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Driver services. Pick up Drop off Sydney wide. Airport Transfers. Night out in town.\r\n\r\nWe offer 24-hour private service. ",
+                    "id": "29904",
+                    "name": "DJD Driver Services",
+                    "photo_url": "https://jayride-testing.imgix.net/6/6ca94a71-6c20-42cd-83f7-03e14ddf9283.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=b7a48ba6-4f70-4788-b79d-5820e5799842&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 91.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "b7a48ba6-4f70-4788-b79d-5820e5799842",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=b7a48ba6-4f70-4788-b79d-5820e5799842&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 59
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/f/fa209757-7e6b-4418-b904-85f9b9516e15.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/c8320a01-452c-486c-a915-eb15abd1f2b8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/b51b81a8-b17d-4ddd-af3d-ffaed19609c8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/0/0f839750-01a8-4bf3-ab36-c2599de4fbde.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 7,
+                "supplier": {
+                    "description": "Unique Chauffeur Cars Pty Ltd is a Sydney based licensed chauffeur drive service that is locally owned and operated by Mario Alfonso whom has spent 33 years in Tourism . We cover the entire Sydney metropolitan area for all your requirements in our vehicles. We are renowned for our service and reliability and specialise in Airport and Cruise Ship Transfers. We operate 2022 Mercedes Benz VClass for their style and comfort. ",
+                    "id": "134904",
+                    "name": "Unique Chauffeur Cars Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/5/511c4a04-3456-40f4-9a48-9b71b2bd1440.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=be65f18e-e899-484a-a594-209dc74a639c&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 94.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "be65f18e-e899-484a-a594-209dc74a639c",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=be65f18e-e899-484a-a594-209dc74a639c&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 8
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/5/5d58615a-3cb5-4d09-a58c-d8b9f500eb01.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 4,
+                "supplier": {
+                    "description": "At Book A Limo, we commit ourselves to looking after your ground transportation needs at highly competitive prices. When you book our Sydney airport limousine service in advance, you can rest assured of confirmation as per your preferred day and time.\r\n\r\nTime is money! Our experienced chauffeur will drive you straight to the destination via shortest path so that you do not waste your precious time travelling from place to place.\r\n\r\nIf you are looking for a Sydney luxury car hire service for corporate travels, wedding transfer, sightseeing or just to spend a special evening with your loved one, Book A Limo can provide a luxurious limo at the best rates. We provide 24/7 support to our customers and charge a reasonable amount for their journeys during odd hours. ",
+                    "id": "30058",
+                    "name": "Book a Limo Sydney",
+                    "photo_url": "https://jayride-testing.imgix.net/1/14eeab5e-c475-4133-9e11-c27e60185e14.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=cfaabf12-b7af-472f-b7e5-1db05af3469e&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 95.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "cfaabf12-b7af-472f-b7e5-1db05af3469e",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=cfaabf12-b7af-472f-b7e5-1db05af3469e&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 58
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/d/d76fa130-ba0e-4e69-af7d-b0130cd25746.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/8/896c2f9f-f384-4af8-85d3-b10045734b06.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/b8ad7d3b-5aa1-4040-9473-2f2e17d062d0.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/bf4beced-9cdb-4d4a-91a7-b72d28986bae.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 6,
+                "supplier": {
+                    "description": "Since 1904 discerning Australians have relied upon Hughes for their personal transport needs.\r\n\r\nHughes’ fleet of limousines and coaches is Australia’s only national, chauffeur driven limousine service and is serviced by a 24 hour a day, state-of-the-art reservations system. With international affiliates around the globe servicing 810 cities, Hughes is the answer to all your personal transport requirements.\r\n\r\nHughes is the only Quality Endorsed limousine company in Australia which has been awarded the global quality standard AS/NZS ISO 9001:2008. This dedication to the highest of standards underlies our commitment to providing our clients with superior service, reliability and care. \r\n\r\nImmaculately presented vehicles with professional, reliable chauffeurs and an unsurpassed service commitment ensures that wherever your journey takes you, Hughes will make it memorable.\r\n\r\nHughes Limousines has offices in every major centre in Australia, therefore have unsurpassed local knowledge which proves invaluable for you, our client. Local traffic is monitored by each office to ensure we get you to your destination as efficiently as possible.",
+                    "id": "24265",
+                    "name": "Hughes Chauffeured Cars - Limousines - Coaches",
+                    "photo_url": "https://jayride-testing.imgix.net/3/317324e2-71cf-4cd1-9aa1-d31b326886f8.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=2e756c53-a493-4fa4-9b0f-a03bc2beb814&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 95.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "2e756c53-a493-4fa4-9b0f-a03bc2beb814",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=2e756c53-a493-4fa4-9b0f-a03bc2beb814&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 10
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/f/fd86fa0a-fa32-469d-994e-70ae70b74c7c.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/e/ef8b491a-801b-4283-955d-f7f32edb5f4b.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/5/5b8b4904-7c30-4411-838d-56c24693a28d.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 5,
+                "supplier": {
+                    "description": "Tired of paying too much for a taxi, or getting crowded in with hundreds of others on the airport train? With Go Sydney Shuttle you can now have a VIP shuttle service and get a Meet and Greet service at Sydney Airport at a regular shuttle price! Our Sydney airport transfers and cruise ship terminal transfers are affordable and most importantly stress free! After long haul flights the last thing you want to do is to worry about your pre-booked transfer or run around the airport to look for that \"Shuttle Bus Stop\" with some unclear directions.Let us worry about that!\r\n\r\nThe difference with Go Sydney Shuttle is the little extra touches we offer to make your journey as simple and enjoyable as possible. Whether you’re booking your airport transfer for business or leisure, we believe you shouldn’t have to spend hours on the phone or waiting around at your meeting point forever, which is why our booking system offers you to choose your desired and precise pickup time slot.",
+                    "id": "27975",
+                    "name": "Go Sydney Shuttle",
+                    "photo_url": "https://jayride-testing.imgix.net/c/cd7ff10c-4b39-4d69-877d-1624e8b064e6.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=8ef12971-22cf-45fd-adec-4c548086af0a&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 95.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "8ef12971-22cf-45fd-adec-4c548086af0a",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=8ef12971-22cf-45fd-adec-4c548086af0a&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 119
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/6/674180ac-8a6f-4d80-82a4-3174e6eade6e.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/cbd12e02-2b31-40e1-9f73-e91b222b004b.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/c684f517-d851-4e6d-8323-ee34b9809a0f.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "OZ Private Tours Pty Ltd offers private transfers between Melbourne Airport and multiple areas including Melbourne CBD, South Yarra, etc., operating 24 hours a day, 7 days a week.",
+                    "id": "134325",
+                    "name": "OZ Private Tours Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/f/f1cb200a-6cb8-43f6-be3e-c464fec8523d.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=fa5b8555-8189-4921-8576-6297c6088193&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 98.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "fa5b8555-8189-4921-8576-6297c6088193",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=fa5b8555-8189-4921-8576-6297c6088193&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 317
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/f/f5f06b4b-dc69-4d11-be6f-25216ee1fb4b.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/e/edf9dd58-fb31-40e5-95a3-6dff28cf95dc.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "From airport transfers to corporate travel or private hire for that special occasion, CitiCar’s fleet of premium vehicles and courteous drivers gives you the comfort and convenience of a private chauffeur – without the celebrity price tag.",
+                    "id": "27040",
+                    "name": "Citicar",
+                    "photo_url": "https://jayride-testing.imgix.net/e/eb8bd6c7-0329-4efa-9d58-68cf33eb83ce.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=c7821a79-ad27-45df-9c5b-4c1afb42cecc&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 98.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "c7821a79-ad27-45df-9c5b-4c1afb42cecc",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=c7821a79-ad27-45df-9c5b-4c1afb42cecc&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 218
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/0/02bf2466-d34c-4e37-a760-2a63b2ff87f5.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/d/dc33d78b-f144-453f-bfcd-0cf6a3566b70.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Travel in style and comfort with Limousines Australia.Our private chauffeurs can meet you or your guests on arrival, take care of your luggage and deliver you to your destination without fuss or hassle.\r\nOur chauffeurs operate from all airports at any time of the day or night, every day of the year. We specialize in airport transfers – servicing Sydney, Brisbane, Melbourne, Adelaide and Perth Airports.\r\n\r\nChoose Limousines Australia for: \r\n-Professional, courteous and immaculately presented chauffeurs.\r\n-Luggage assistance from the carousel to your vehicle.\r\n-Flexible payment options including credit card, Cabcharge, cash and invoice.\r\n-Stress free travel and timely arrival at the airport.\r\n-Highly competitive corporate rates for travel in any Australian State and around the world.\r\n-Peace of mind knowing that your clients, VIP guests and travelling colleagues will be collected on time and arrive safely feeling refreshed and comfortable.\r\n-Time saving and hassle-free transportation, avoiding taxi queues and delays.\r\n-Beyond Australia’s national airports, we can also assist with transfers to and from cruise ships, event venues and hotels.",
+                    "id": "29553",
+                    "name": "Car Australia",
+                    "photo_url": "https://jayride-testing.imgix.net/f/f80f00bf-ec21-402a-9bb8-17472267c6a5.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=a5b48e01-ca37-4175-ae38-ba28c04e29df&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 98.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "a5b48e01-ca37-4175-ae38-ba28c04e29df",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=a5b48e01-ca37-4175-ae38-ba28c04e29df&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 59
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-van.png",
+                    "https://jayride-testing.imgix.net/f/fa209757-7e6b-4418-b904-85f9b9516e15.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/c8320a01-452c-486c-a915-eb15abd1f2b8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/b51b81a8-b17d-4ddd-af3d-ffaed19609c8.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/0/0f839750-01a8-4bf3-ab36-c2599de4fbde.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "business",
+                "min_pax": 1,
+                "max_pax": 6,
+                "supplier": {
+                    "description": "Unique Chauffeur Cars Pty Ltd is a Sydney based licensed chauffeur drive service that is locally owned and operated by Mario Alfonso whom has spent 33 years in Tourism . We cover the entire Sydney metropolitan area for all your requirements in our vehicles. We are renowned for our service and reliability and specialise in Airport and Cruise Ship Transfers. We operate 2022 Mercedes Benz VClass for their style and comfort. ",
+                    "id": "134904",
+                    "name": "Unique Chauffeur Cars Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/5/511c4a04-3456-40f4-9a48-9b71b2bd1440.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=4940df35-2986-454c-b485-9b4a7d8ce5b9&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 99.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "4940df35-2986-454c-b485-9b4a7d8ce5b9",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=4940df35-2986-454c-b485-9b4a7d8ce5b9&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 202
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/a/a5af1caa-489f-4762-9c00-e7f2652779ff.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/ba3c4514-dd90-49a3-9653-5c1448d582c3.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 5,
+                "supplier": {
+                    "description": "At AusTransfers our aim is to provide a service that gives you the peace of mind at an affordable price.\r\n\r\nWhether it may be for Business or Leisure we try to create a relaxed atmosphere, Our goal is to ensure a comfortable, relaxed and a laid back environment.\r\n\r\nWith the Safety of our experienced and Fully Accredited drivers with a range of cars from luxury, SUV, standard or People Movers, we have you or the whole group/family covered.\r\n\r\nWe provide a high-end service, but without the price tag.\r\n\r\nLet us, let you, enjoy the luxury vehicles at a fraction of the price.",
+                    "id": "29615",
+                    "name": "AusTransfers",
+                    "photo_url": "https://jayride-testing.imgix.net/a/ab13a198-f0aa-4eec-bba5-627e71fe6d96.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=cbee4fbc-5442-4804-8ae2-7c2519d316de&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 100.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "cbee4fbc-5442-4804-8ae2-7c2519d316de",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=cbee4fbc-5442-4804-8ae2-7c2519d316de&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 29
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-van.png"
+                ],
+                "vehicle_type": "van",
+                "service_class": "business",
+                "min_pax": 1,
+                "max_pax": 6,
+                "supplier": {
+                    "description": "Sydney Transfers offers private transfer services to/from Sydney airport. We are committed to making your transfer incredible.",
+                    "id": "135295",
+                    "name": "Sydney Transfers",
+                    "photo_url": "https://jayride-testing.imgix.net/a/a20ddb44-8547-426f-bca2-3f7b96d4be0e.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=f2e63a14-ccf7-43d8-a6e1-39cb2ff0ceb8&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 100.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "f2e63a14-ccf7-43d8-a6e1-39cb2ff0ceb8",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=f2e63a14-ccf7-43d8-a6e1-39cb2ff0ceb8&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 67
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-sedan.png",
+                    "https://jayride-testing.imgix.net/f/f139255e-f397-4d4e-90b2-9439ebbaeee7.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/4/4c335762-7ae8-410b-8b7f-123b41518f60.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "luxury",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "Fly Miles Pty Ltd offers private transfer services to/from Sydney airport, 24 hours a day, 7 days a week.",
+                    "id": "31913",
+                    "name": "Fly Miles Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/0/0222b0d8-6287-4034-8145-e692e946838e.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=3f3f7206-efa6-4384-b791-b8c2c6c6dec9&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 101.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "3f3f7206-efa6-4384-b791-b8c2c6c6dec9",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=3f3f7206-efa6-4384-b791-b8c2c6c6dec9&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 2
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/8/89cb29e9-5964-4fe4-9b7c-701e6e2d14c4.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/2/2658f1f5-77cc-44b7-ac88-921a9f175941.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 5,
+                "supplier": {
+                    "description": "Driver services. Pick up Drop off Sydney wide. Airport Transfers. Night out in town.\r\n\r\nWe offer 24-hour private service. ",
+                    "id": "29904",
+                    "name": "DJD Driver Services",
+                    "photo_url": "https://jayride-testing.imgix.net/6/6ca94a71-6c20-42cd-83f7-03e14ddf9283.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=36ca1d20-dea7-4b0c-88b0-ceb42f469e1a&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 101.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "36ca1d20-dea7-4b0c-88b0-ceb42f469e1a",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=36ca1d20-dea7-4b0c-88b0-ceb42f469e1a&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 17
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-suv.png",
+                    "https://jayride-testing.imgix.net/d/d0db86f4-f2ab-4672-b2c7-622b0b2d9d75.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "luxury",
+                "min_pax": 1,
+                "max_pax": 4,
+                "supplier": {
+                    "description": "All Quest Limousines drivers are fully vaccinated in sanitised Limousines. \r\nQuest Limousines provides Next Generation Limousine Services to Sydney, Newcastle, Wollongong, Blue Mountains, Hunter Valley, Central / South Coast, Southern Highlands areas and nearby regions with a reliable, professional, transportation service. Whether you are a holiday maker or frequent business traveller, Quest Limousines can provide you with dependable and affordable limousine services for a variety of needs.\r\n\r\nOur experienced professional chauffeurs pride themselves on providing years of dedicated and courteous transportation solutions that will make your trip easier and more enjoyable.\r\n\r\nQuest Limousines take accreditation's very seriously, we are fully compliant with all insurance and recently introduced stringent government regulations including CoVid19.",
+                    "id": "31846",
+                    "name": "Quest Limousines",
+                    "photo_url": "https://jayride-testing.imgix.net/8/8f709469-6639-4767-b18b-6f2d218d1e92.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=73df6ead-a025-4242-9f98-61a064831cf7&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 104.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "73df6ead-a025-4242-9f98-61a064831cf7",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=73df6ead-a025-4242-9f98-61a064831cf7&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 3.0,
+                    "count": 3
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/4/42671de2-6159-47fb-a314-0e33e5c3f4f0.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 4,
+                "supplier": {
+                    "description": "Ecolimo pioneered the introduction of environmentally friendlier hire car and limousine services in Australia. Established in Melbourne in 2006 we started out with the luxurious hybrid Lexus GS450H which produces 45% less CO2 emissions than a standard limousine. A Carbon Neutral Company.\r\n\r\nStill, we wanted to offer an even more environmentally friendly choice and although the Toyota Prius fit the bill, the size of the Prius wheel base did not comply with State laws applied to the hire car industry in both NSW and Victoria.\r\nNever one to turn our back on a challenge, Ecolimo lobbied governments in NSW and Victoria to change the law as it no longer reflected community sentiments. Finally in late 2007 the law was changed in NSW enabling Ecolimo to create an even greener choice hire car and limousine service for environmentally discerning Sydneysiders. And so in January 2008, for the first time ever in Australia, the Toyota Prius was used officially as a hire car by Ecolimo.\r\n\r\nFollowing the change in regulation in NSW, we knew that it was only a matter of time before Victoria followed suit and when it did in June 2008, we promptly added two Prius to our Melbourne fleet. After all, we didn’t want anyone to think we were playing favourites.\r\nEcolimo prides itself on its environmentally accountable business practices. We choose to be a carbon neutral company, purchasing carbon credits from Climate Friendly to offset our carbon emissions and fund renewable energy projects throughout the world.",
+                    "id": "10434",
+                    "name": "Ecolimo",
+                    "photo_url": "https://jayride-testing.imgix.net/6/606eed65-0896-4ad6-aac7-bf803fc729fc.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=0f6b0801-5075-448d-bf8d-e44c1e6309df&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 105.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "0f6b0801-5075-448d-bf8d-e44c1e6309df",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=0f6b0801-5075-448d-bf8d-e44c1e6309df&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 202
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/a/a5af1caa-489f-4762-9c00-e7f2652779ff.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/ba3c4514-dd90-49a3-9653-5c1448d582c3.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 7,
+                "supplier": {
+                    "description": "At AusTransfers our aim is to provide a service that gives you the peace of mind at an affordable price.\r\n\r\nWhether it may be for Business or Leisure we try to create a relaxed atmosphere, Our goal is to ensure a comfortable, relaxed and a laid back environment.\r\n\r\nWith the Safety of our experienced and Fully Accredited drivers with a range of cars from luxury, SUV, standard or People Movers, we have you or the whole group/family covered.\r\n\r\nWe provide a high-end service, but without the price tag.\r\n\r\nLet us, let you, enjoy the luxury vehicles at a fraction of the price.",
+                    "id": "29615",
+                    "name": "AusTransfers",
+                    "photo_url": "https://jayride-testing.imgix.net/a/ab13a198-f0aa-4eec-bba5-627e71fe6d96.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=04fa28ba-b03f-4c6c-b702-ae1521c7d36f&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 105.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "04fa28ba-b03f-4c6c-b702-ae1521c7d36f",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=04fa28ba-b03f-4c6c-b702-ae1521c7d36f&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 67
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-suv.png",
+                    "https://jayride-testing.imgix.net/f/f139255e-f397-4d4e-90b2-9439ebbaeee7.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/4/4c335762-7ae8-410b-8b7f-123b41518f60.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "luxury",
+                "min_pax": 1,
+                "max_pax": 4,
+                "supplier": {
+                    "description": "Fly Miles Pty Ltd offers private transfer services to/from Sydney airport, 24 hours a day, 7 days a week.",
+                    "id": "31913",
+                    "name": "Fly Miles Pty Ltd",
+                    "photo_url": "https://jayride-testing.imgix.net/0/0222b0d8-6287-4034-8145-e692e946838e.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=6594ca2f-a2d2-4d68-8873-a77f2ae8568a&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 105.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "6594ca2f-a2d2-4d68-8873-a77f2ae8568a",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=6594ca2f-a2d2-4d68-8873-a77f2ae8568a&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 276
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/e/eb9cf4fa-3725-453b-a896-b557d30b7297.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "GoCatch is an established Australian rideshare and taxi booking service with over 60,000 registered drivers. GoCatch offers airport transfers and point-to-point trips across Australia.\r\n\r\nOur technology is industry leading and enables you to watch your driver on approach and during your trip. All GoCatch passengers can access our 24/7 support team to assist with their booking at anytime. GoCatch Economy provides private sedans that seat up to 4 passengers. Baby seats can be provided on request.",
+                    "id": "31883",
+                    "name": "GoCatch",
+                    "photo_url": "https://jayride-testing.imgix.net/8/86fa2c7a-2f7d-4fec-92ab-b493ab541c63.png?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=df8abab1-0c3e-432f-9237-59c760072d95&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 108.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "df8abab1-0c3e-432f-9237-59c760072d95",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=df8abab1-0c3e-432f-9237-59c760072d95&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 317
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/f/f5f06b4b-dc69-4d11-be6f-25216ee1fb4b.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/e/edf9dd58-fb31-40e5-95a3-6dff28cf95dc.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 5,
+                "supplier": {
+                    "description": "From airport transfers to corporate travel or private hire for that special occasion, CitiCar’s fleet of premium vehicles and courteous drivers gives you the comfort and convenience of a private chauffeur – without the celebrity price tag.",
+                    "id": "27040",
+                    "name": "Citicar",
+                    "photo_url": "https://jayride-testing.imgix.net/e/eb8bd6c7-0329-4efa-9d58-68cf33eb83ce.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=868984cd-e34f-4885-a4ed-b4dde9df61e4&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 108.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "868984cd-e34f-4885-a4ed-b4dde9df61e4",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=868984cd-e34f-4885-a4ed-b4dde9df61e4&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 218
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-suv.png",
+                    "https://jayride-testing.imgix.net/0/02bf2466-d34c-4e37-a760-2a63b2ff87f5.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/d/dc33d78b-f144-453f-bfcd-0cf6a3566b70.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 5,
+                "supplier": {
+                    "description": "Travel in style and comfort with Limousines Australia.Our private chauffeurs can meet you or your guests on arrival, take care of your luggage and deliver you to your destination without fuss or hassle.\r\nOur chauffeurs operate from all airports at any time of the day or night, every day of the year. We specialize in airport transfers – servicing Sydney, Brisbane, Melbourne, Adelaide and Perth Airports.\r\n\r\nChoose Limousines Australia for: \r\n-Professional, courteous and immaculately presented chauffeurs.\r\n-Luggage assistance from the carousel to your vehicle.\r\n-Flexible payment options including credit card, Cabcharge, cash and invoice.\r\n-Stress free travel and timely arrival at the airport.\r\n-Highly competitive corporate rates for travel in any Australian State and around the world.\r\n-Peace of mind knowing that your clients, VIP guests and travelling colleagues will be collected on time and arrive safely feeling refreshed and comfortable.\r\n-Time saving and hassle-free transportation, avoiding taxi queues and delays.\r\n-Beyond Australia’s national airports, we can also assist with transfers to and from cruise ships, event venues and hotels.",
+                    "id": "29553",
+                    "name": "Car Australia",
+                    "photo_url": "https://jayride-testing.imgix.net/f/f80f00bf-ec21-402a-9bb8-17472267c6a5.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=8f63c004-634d-4db2-a5ca-379c2f52aedb&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 109.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "8f63c004-634d-4db2-a5ca-379c2f52aedb",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=8f63c004-634d-4db2-a5ca-379c2f52aedb&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 2
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-sedan.png",
+                    "https://jayride-testing.imgix.net/5/55772568-e2d9-4304-9893-56009b3405f7.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "sedan",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 3,
+                "supplier": {
+                    "description": "GoCatch is an established Australian rideshare and taxi booking service with over 60,000 registered drivers. GoCatch offers airport transfers and point-to-point trips across Australia.\r\n\r\nOur technology is industry leading and enables you to watch your driver on approach and during your trip. All GoCatch passengers can access our 24/7 support team to assist with their booking at anytime. GoCatch Economy provides private sedans that seat up to 4 passengers. Baby seats can be provided on request.",
+                    "id": "133813",
+                    "name": "GoCatch Taxi",
+                    "photo_url": "https://jayride-testing.imgix.net/5/57792f59-a788-40aa-89f4-96c8d4a7295b.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1dda0bc2-bc17-4e67-b649-504149013c05&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 113.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "1dda0bc2-bc17-4e67-b649-504149013c05",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=1dda0bc2-bc17-4e67-b649-504149013c05&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.5,
+                    "count": 8
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-van.png",
+                    "https://jayride-testing.imgix.net/5/5d58615a-3cb5-4d09-a58c-d8b9f500eb01.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 6,
+                "supplier": {
+                    "description": "At Book A Limo, we commit ourselves to looking after your ground transportation needs at highly competitive prices. When you book our Sydney airport limousine service in advance, you can rest assured of confirmation as per your preferred day and time.\r\n\r\nTime is money! Our experienced chauffeur will drive you straight to the destination via shortest path so that you do not waste your precious time travelling from place to place.\r\n\r\nIf you are looking for a Sydney luxury car hire service for corporate travels, wedding transfer, sightseeing or just to spend a special evening with your loved one, Book A Limo can provide a luxurious limo at the best rates. We provide 24/7 support to our customers and charge a reasonable amount for their journeys during odd hours. ",
+                    "id": "30058",
+                    "name": "Book a Limo Sydney",
+                    "photo_url": "https://jayride-testing.imgix.net/1/14eeab5e-c475-4133-9e11-c27e60185e14.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=2166c92b-d2fb-427f-9750-92f2d296fe22&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 114.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "2166c92b-d2fb-427f-9750-92f2d296fe22",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=2166c92b-d2fb-427f-9750-92f2d296fe22&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 2
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-van.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-business-van.png",
+                    "https://jayride-testing.imgix.net/2/21417fda-30e9-42ef-9238-1e5fa696a7b9.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/6/695208a5-d65e-4b5f-97da-099c56a3be37.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/2/27387565-fcd8-49d6-bc29-03ef42c99cd5.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/b76bf8b0-742c-4e74-81d2-9f1d89606d0d.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/2/25e6dd57-e3d9-41e5-b3b0-833859b5d5ea.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "van",
+                "service_class": "business",
+                "min_pax": 1,
+                "max_pax": 6,
+                "supplier": {
+                    "description": "The NSBC Group is Sydney’s Largest Privately Owned Bus and Coach Charter Company with seven (7) distinct brands covering metropolitan Sydney and the Australian Capital Territory. The company was founded in July 2002 by Scott Riley, a former Tennis Pro and Coach.  His love of sport brought him to bus transport seeing the need to transport school children to his Tennis Centres. The Schools were so impressed with his commitment further expansion to cope with the growing demand was necessary and today the Group is operating over 150 buses and coaches in Sydney and continues to expand.  New Seat Belted Coaches were introduced progressively and today over 200 brand new vehicles have entered service, many being retired after 4 years to make way for the latest in technical advances.",
+                    "id": "135247",
+                    "name": "Sydney Super Shuttle",
+                    "photo_url": "https://jayride-testing.imgix.net/8/8bcf3613-7aaa-4940-9139-ce98722d86ed.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=b804e987-fd41-4159-b39d-9fc4e716c623&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 115.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "b804e987-fd41-4159-b39d-9fc4e716c623",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=b804e987-fd41-4159-b39d-9fc4e716c623&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 4.0,
+                    "count": 38
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-bus.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-economy-bus.png",
+                    "https://jayride-testing.imgix.net/e/e0c3afaa-44bf-4188-b067-8bb3d3be10bb.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/c/ce865d10-9e90-47a1-a8a4-f3345de30f11.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "bus",
+                "service_class": "economy",
+                "min_pax": 1,
+                "max_pax": 10,
+                "supplier": {
+                    "description": "A fixed price taxi alternative with competitive rates taking you anywhere you wish to go in Sydney, Brisbane or Melbourne. Modern spacious vehicles providing door to door service with great customer service. Specialist uniformed drivers that will get you to your destination in comfort. Available from the airport, hotel, Airbnb, conference venue or private address or any other location in either city or suburbs. Book now and experience the difference.",
+                    "id": "134660",
+                    "name": "Redy2Go Business",
+                    "photo_url": "https://jayride-testing.imgix.net/6/6d4d12a2-093a-4645-8994-a36932658405.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        },
+        {
+            "book_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=eff603af-fd3b-41a0-a501-ea638a477935&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "expire_datetime_utc": "2022-12-13T12:29:39",
+            "fare": {
+                "currency_code": "USD",
+                "price": 115.0,
+                "refund_cancellation_policy": "You are eligible for a 100% refund on your booking, with no cancellation fees, for cancellations greater than 24 hours prior to your pick-up departure time.",
+                "type": "estimated",
+                "refund_policies": [
+                    {
+                        "minute_prior": 1440,
+                        "percent": 1.0,
+                        "method": "refund"
+                    }
+                ]
+            },
+            "luggage": {
+                "inclusive_allowance": "3 carry-on & 3 check-in bags included"
+            },
+            "quote_id": "eff603af-fd3b-41a0-a501-ea638a477935",
+            "quote_url": "https://staging-booking.jayride.com/find?from-type=address&from-description=55%20Clarence%20St%20Sydney%20NSW%202000&from-lat=-33.864932&from-lng=151.204588&to-type=airport-terminal&to-description=Sydney%20Airport%20(SYD),%20T3%20Domestic%20Terminal&to-lat=-33.932193&to-lng=151.178762&passengers=3&include-return-trip=false&quote-request-id=99d4d0aa-09e7-45d7-a2ab-535ece81bcd9&quote-id=eff603af-fd3b-41a0-a501-ea638a477935&utm_source=member-35335&utm_medium=web&utm_campaign=api",
+            "service_info": {
+                "description": null,
+                "passenger_reviews": {
+                    "average_rating": 5.0,
+                    "count": 2
+                },
+                "photo_url": "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-suv.png",
+                "photo_urls": [
+                    "//staging-res.jayride.com/web/dotcom/vehicle/370x300/car-luxury-suv.png",
+                    "https://jayride-testing.imgix.net/2/21417fda-30e9-42ef-9238-1e5fa696a7b9.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/6/695208a5-d65e-4b5f-97da-099c56a3be37.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/2/27387565-fcd8-49d6-bc29-03ef42c99cd5.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/b/b76bf8b0-742c-4e74-81d2-9f1d89606d0d.jpg?fit=crop&w=370&h=300",
+                    "https://jayride-testing.imgix.net/2/25e6dd57-e3d9-41e5-b3b0-833859b5d5ea.jpg?fit=crop&w=370&h=300"
+                ],
+                "vehicle_type": "suv",
+                "service_class": "luxury",
+                "min_pax": 1,
+                "max_pax": 4,
+                "supplier": {
+                    "description": "The NSBC Group is Sydney’s Largest Privately Owned Bus and Coach Charter Company with seven (7) distinct brands covering metropolitan Sydney and the Australian Capital Territory. The company was founded in July 2002 by Scott Riley, a former Tennis Pro and Coach.  His love of sport brought him to bus transport seeing the need to transport school children to his Tennis Centres. The Schools were so impressed with his commitment further expansion to cope with the growing demand was necessary and today the Group is operating over 150 buses and coaches in Sydney and continues to expand.  New Seat Belted Coaches were introduced progressively and today over 200 brand new vehicles have entered service, many being retired after 4 years to make way for the latest in technical advances.",
+                    "id": "135247",
+                    "name": "Sydney Super Shuttle",
+                    "photo_url": "https://jayride-testing.imgix.net/8/8bcf3613-7aaa-4940-9139-ce98722d86ed.jpg?fit=crop&w=180&h=180"
+                },
+                "type": "private"
+            },
+            "status": "price-estimated"
+        }
+    ]
+}
