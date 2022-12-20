@@ -42,6 +42,7 @@ interface DatePickerProps {
   setIsEditing?: (value: boolean) => void;
   restricted?: boolean;
   isRange?: boolean;
+  disabledDays?: string[];
 }
 
 const DatePicker = ({
@@ -59,6 +60,7 @@ const DatePicker = ({
   setIsEditing,
   restricted = true,
   isRange = true,
+  disabledDays,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
@@ -175,6 +177,7 @@ const DatePicker = ({
         maxRange={maxRange}
         restricted={restricted}
         isRange={isRange}
+        disabledDays={disabledDays}
       />
     );
   };
@@ -222,6 +225,7 @@ const DatePicker = ({
                     isStartDateTurn={isStartDateTurn}
                     maxRange={maxRange}
                     restricted={restricted}
+                    disabledDays={disabledDays}
                   />
                 </Fragment>
               );

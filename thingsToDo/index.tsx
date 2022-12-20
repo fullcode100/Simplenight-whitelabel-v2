@@ -21,6 +21,8 @@ import ThingCheckoutItemDisplay from './components/checkout/ThingCheckoutItemDis
 import ThingConfirmationItemDisplay from './components/confirmation/ThingConfirmationItemDisplay';
 import ThingCheckoutBreakdownDisplay from './components/confirmation/ThingBreakdownDisplay';
 import ThingCancelledDisplay from './components/confirmation/ThingCancelledDisplay';
+import { ThingsClientAvailabilitySchedule } from './core/availability/ThingsClientAvailabilitySchedule';
+import { ThingsServerAvailabilitySchedule } from './core/availability/ThingsServerAvailabilitySchedule';
 
 export const THINGS_CATEGORY = 'entertainment';
 
@@ -56,6 +58,10 @@ const Category: CategoryOption = {
         client: '/entertainment',
         server: '/sectors',
       },
+      availabilitySchedule: {
+        client: '/entertainment',
+        server: '/sectors',
+      },
     },
     ClientSearcher: null,
     ServerSearcher: null,
@@ -63,6 +69,8 @@ const Category: CategoryOption = {
     ServerDetailer: null,
     ClientAvailability: null,
     ServerAvailability: null,
+    ClientAvailabilitySchedule: null,
+    ServerAvailabilitySchedule: null,
   },
 };
 Category.resultsDisplay = <ThingsResultsDisplay ThingsCategory={Category} />;
@@ -87,5 +95,12 @@ Category.core.ServerDetailer = new ThingsServerDetailer(Category);
 
 Category.core.ClientAvailability = new ThingsClientAvailability(Category);
 Category.core.ServerAvailability = new ThingsServerAvailability(Category);
+
+Category.core.ClientAvailabilitySchedule = new ThingsClientAvailabilitySchedule(
+  Category,
+);
+Category.core.ServerAvailabilitySchedule = new ThingsServerAvailabilitySchedule(
+  Category,
+);
 
 export const ThingsCategory = Category;

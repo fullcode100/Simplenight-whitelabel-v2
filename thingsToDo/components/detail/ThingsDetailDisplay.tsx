@@ -45,12 +45,23 @@ import EmptyNoAvailability from 'public/icons/assets/empty-no-availability.svg';
 import CheckThingsAvailability from '../CheckAvailability/CheckAvailability';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { useQuerySetterNotReload } from 'hooks/pageInteraction/useQuerySetter';
+import { ThingsAvailabilityScheduleRequest } from 'thingsToDo/types/request/ThingsAvailabilityScheduleRequest';
+import {
+  ThingsAvailabilityScheduleResponse,
+  ThingsScheduleDetail,
+} from 'thingsToDo/types/response/ThingsAvailabilityScheduleResponse';
+import dayjs from 'dayjs';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
+const AVAILABLE = 'AVAILABLE';
+
 const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
-  const { ClientDetailer: Detailer, ClientAvailability: Availability } =
-    Category.core;
+  const {
+    ClientDetailer: Detailer,
+    ClientAvailability: Availability,
+    ClientAvailabilitySchedule: Schedule,
+  } = Category.core;
 
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
@@ -75,6 +86,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const [isLoadMoreTickets, setIsLoadMoreTickets] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [scheduleLoaded, setScheduleLoaded] = useState(false);
   const [emptyState, setEmptyState] = useState<boolean>(false);
   const [selectedMeeting, setSelectedMeeting] = useState<Location | undefined>(
     undefined,
@@ -84,6 +96,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   );
   const [selectedTicket, setSelectedTicket] = useState<number>();
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [schedule, setSchedule] = useState<ThingsScheduleDetail[]>([]);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   const currentCurrency = getCurrency();
   const setQueryParam = useQuerySetterNotReload();
@@ -120,6 +133,31 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
         });
     }
   }, [id]);
+
+  useEffect(() => {
+    const url = '/categories/' + thingsItem?.main_category ?? '';
+    const startDate = formatAsSearchDate(dayjs());
+    const endDate = formatAsSearchDate(dayjs().add(1, 'years'));
+
+    const params: ThingsAvailabilityScheduleRequest = {
+      inventory_id: id as string,
+      start_date: startDate,
+      end_date: endDate,
+      apiUrl: url,
+    };
+
+    if (thingsItem) {
+      Schedule.request(params, i18next, id)
+        .then(({ tickets }: ThingsAvailabilityScheduleResponse) => {
+          setSchedule(tickets);
+          setScheduleLoaded(true);
+        })
+        .catch((e: any) => {
+          console.error(e);
+          setScheduleLoaded(true);
+        });
+    }
+  }, [thingsItem]);
 
   const handleAvailability = (date: string, ticketTypes: any[]) => {
     const queryParams: any = {
@@ -365,24 +403,50 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
-  const TicketsSection = () => (
-    <>
-      <section
-        className={`items-start ${
-          tickets.length == 0 ? 'flex justify-center' : 'grid'
-        } gap-4 mt-4 lg:grid-cols-3`}
-      >
-        {tickets.length > 0 ? <TicketsList /> : <EmptyTickets />}
-      </section>
-      {!isLoadMoreTickets && tickets.length > 0 && (
-        <section className="flex justify-center mt-4">
-          <Button width="w-full lg:w-auto" onClick={loadMoreTickets}>
-            <section className="px-4">{loadMoreText}</section>
-          </Button>
+  const TicketsSection = () => {
+    if (!scheduleLoaded) {
+      return <Loader />;
+    }
+
+    const disabledDays = schedule
+      .filter((day) => day.status === AVAILABLE)
+      .map((day) => {
+        return day.date;
+      });
+
+    return (
+      <>
+        <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0 lg:py-12">
+          <SectionTitle icon={<TicketIcon />} title="Tickets" />
+          <section className="p-4 mt-4 rounded bg-dark-100 lg:mt-8 lg:mb-8">
+            <section>
+              <CheckThingsAvailability
+                isAdultRequired={isAdultRequired}
+                pricing={pricing}
+                onApply={handleAvailability}
+                activityMaxTravelers={activityMaxTravelers}
+                disabledDays={disabledDays}
+              />
+            </section>
+          </section>
+          <section
+            className={`items-start ${
+              tickets.length == 0 ? 'flex justify-center' : 'grid'
+            } gap-4 mt-4 lg:grid-cols-3`}
+          >
+            {tickets.length > 0 ? <TicketsList /> : <EmptyTickets />}
+          </section>
+          {!isLoadMoreTickets && tickets.length > 0 && (
+            <section className="flex justify-center mt-4">
+              <Button width="w-full lg:w-auto" onClick={loadMoreTickets}>
+                <section className="px-4">{loadMoreText}</section>
+              </Button>
+            </section>
+          )}
         </section>
-      )}
-    </>
-  );
+      </>
+    );
+  };
 
   const DetailDisplay = () => {
     const meetingPoints = thingsItem?.extra_data.start_locations;
@@ -399,20 +463,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             <>
               <HeaderSection />
               {/* <TabsSection /> */}
-              <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0 lg:py-12">
-                <SectionTitle icon={<TicketIcon />} title="Tickets" />
-                <section className="p-4 mt-4 rounded bg-dark-100 lg:mt-8 lg:mb-8">
-                  <section>
-                    <CheckThingsAvailability
-                      isAdultRequired={isAdultRequired}
-                      pricing={pricing}
-                      onApply={handleAvailability}
-                      activityMaxTravelers={activityMaxTravelers}
-                    />
-                  </section>
-                </section>
-                <TicketsSection />
-              </section>
+              <TicketsSection />
               <Divider className="mt-6" />
               <section className="mx-auto lg:gap-12 lg:grid lg:grid-cols-2 lg:divide-y-2 max-w-7xl">
                 <DetailsSection thingsItem={thingsItem} />
