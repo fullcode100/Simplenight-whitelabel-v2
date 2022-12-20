@@ -28,7 +28,7 @@ export const useFilter: UseFilter = (list, metadata) => {
       metadata.heightRestrictionsList[
         metadata.heightRestrictionsList.length - 1
       ],
-    sortBy: 'distance',
+    sortBy: 'distanceASC',
   });
 
   const parkingFilterFn = useCallback(
@@ -98,7 +98,7 @@ export const useFilter: UseFilter = (list, metadata) => {
 
   const parkingSortFn = useCallback(
     (parking1: Parking, parking2: Parking) => {
-      if (filter.sortBy === 'distance') {
+      if (filter.sortBy === 'distanceASC') {
         const distance1 = parking1.properties.static.distance || 0;
         const distance2 = parking2.properties.static.distance || 0;
 
@@ -107,7 +107,16 @@ export const useFilter: UseFilter = (list, metadata) => {
         } else if (distance1 > distance2) {
           return 1;
         } else return 0;
-      } else {
+      } else if (filter.sortBy === 'distanceDESC') {
+        const distance1 = parking1.properties.static.distance || 0;
+        const distance2 = parking2.properties.static.distance || 0;
+
+        if (distance1 < distance2) {
+          return 1;
+        } else if (distance1 > distance2) {
+          return -1;
+        } else return 0;
+      } else if (filter.sortBy === 'priceASC') {
         const price1 = parking1.properties.dynamic?.rates?.[0].price || 0;
         const price2 = parking2.properties.dynamic?.rates?.[0].price || 0;
 
@@ -115,6 +124,15 @@ export const useFilter: UseFilter = (list, metadata) => {
           return -1;
         } else if (price1 > price2) {
           return 1;
+        } else return 0;
+      } else {
+        const price1 = parking1.properties.dynamic?.rates?.[0].price || 0;
+        const price2 = parking2.properties.dynamic?.rates?.[0].price || 0;
+
+        if (price1 < price2) {
+          return 1;
+        } else if (price1 > price2) {
+          return -1;
         } else return 0;
       }
     },

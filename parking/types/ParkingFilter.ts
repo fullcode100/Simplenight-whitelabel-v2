@@ -24,4 +24,9 @@ export type ParkingListPriceMetaData = {
   currencySymbol?: string;
 };
 
-export type ParkingSortBy = 'distance' | 'price';
+export type ParkingSortBy =
+  | 'distanceASC'
+  | 'distanceDESC'
+  | 'priceASC'
+  | 'priceDESC';
+export type SetFilterMetadataRef = (metadata: ParkingListMetaData) => void;

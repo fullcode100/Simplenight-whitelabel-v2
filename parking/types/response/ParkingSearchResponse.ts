@@ -80,7 +80,7 @@ export interface Static {
   rate_tables?: RateTables;
   restrictions?: string[];
   surface_type: string;
-  times: Times;
+  times?: Times;
   timezone: string;
   type: string;
   url: string;

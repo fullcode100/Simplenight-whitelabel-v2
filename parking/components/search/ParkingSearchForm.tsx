@@ -26,15 +26,7 @@ import Button from '../../../components/global/Button/Button';
 import { SearchFormProps } from '../../../types/search/SearchFormProps';
 import { Select } from '../../../components/global/SelectNew/Select';
 import classNames from 'classnames';
-
-const ceilToNextHalfHour = (date: dayjs.Dayjs): dayjs.Dayjs => {
-  const minutes = date.get('minutes');
-  if (minutes > 30) {
-    return date.startOf('hour').add(1, 'hour');
-  } else {
-    return date.set('minutes', 30);
-  }
-};
+import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
 
 export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const router = useRouter();
@@ -53,8 +45,6 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const textSearch = t('search', 'Search');
   const startDateText = t('arriving', 'Start Date');
   const endDateText = t('leaving', 'End Date');
-  const startTimeText = t('startTime', 'Start Time');
-  const endTimeText = t('endTime', 'End Time');
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();

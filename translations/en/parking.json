@@ -45,11 +45,21 @@
   "minutes": "Minutes",
   "distance": "Distance",
   "price": "Price",
+  "distanceASC": "Distance (nearest to farthest)",
+  "distanceDESC": "Distance (farthest to nearest)",
+  "priceASC": "Price (lowest to highest)",
+  "priceDESC": "Price (highest to lowest)",
   "all": "All",
   "prices": "Prices",
   "minToDestination": "min to destination",
   "results": "Results",
   "arriving": "Arriving",
   "leaving": "Leaving",
-  "DAYTIME": "Day time"
+  "DAYTIME": "Day time",
+  "EVENTS_ONLY": "Events Only",
+  "CUSTOMERS_ONLY": "Customers Only",
+  "VISITORS_ONLY": "Visitors Only",
+  "DISABLED_ONLY": "Disabled Only",
+  "toDestination": "To Destination",
+  "priceUpTo": "Price Up To"
 }

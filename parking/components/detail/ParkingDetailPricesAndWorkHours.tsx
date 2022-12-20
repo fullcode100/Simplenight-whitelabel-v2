@@ -46,12 +46,12 @@ export const ParkingDetailPricesAndWorkHours: FC<ParkingDetailProps> = ({
 
 const ParkingDetailOpeningHours: FC<ParkingDetailProps> = ({ parking }) => {
   const [t] = useTranslation('parking');
-  const openingList = parking.properties.static.times.open;
+  const openingList = parking.properties.static.times?.open;
   const openingMap = new Map<string, string>();
   const timezone = parking.properties.static.timezone;
   const firstDay = dayjs.tz(dayjs(), timezone).startOf('weeks');
 
-  openingList.forEach((list) => {
+  openingList?.forEach((list) => {
     const openTime = dayjs()
       .set('hours', parseInt(list.from.substring(0, 2)))
       .set('minutes', parseInt(list.from.substring(2, 4)));

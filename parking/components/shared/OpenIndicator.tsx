@@ -19,6 +19,24 @@ interface OpenIndicatorProps {
 export const OpenIndicator: FC<OpenIndicatorProps> = ({ parking }) => {
   const [t] = useTranslation('parking');
   const times = parking.properties.static.times;
+
+  if (!times) {
+    const restrictionsList = parking.properties.static.restrictions?.find(
+      (item) => item === 'EVENTS_ONLY',
+    );
+
+    if (!restrictionsList) return null;
+
+    return (
+      <section className="flex items-center gap-2">
+        <Highlighted color="warning">
+          <TimeIcon />
+          <span>{t('EVENTS_ONLY')}</span>
+        </Highlighted>
+      </section>
+    );
+  }
+
   const now = dayjs().tz(parking.properties.static.timezone);
   const today = now.format('ddd').toUpperCase();
   const match = times.open.find((i) => i.days.includes(today))!;

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import TaxesAndFeesPopover from '../../../hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { Parking } from '../../types/response/ParkingSearchResponse';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 
 interface PriceDisplayProps {
   parking: Parking;
@@ -15,8 +16,10 @@ export const PriceDisplay: FC<PriceDisplayProps> = ({ parking }) => {
   const currencyCode = staticDetails.rate_tables?.currency_code;
   const currency = staticDetails.rate_tables?.currency;
   // const ratePerHour = rateTable?.rates?.find((r) => r.type === 'PT1H');
-  const price = dynamicDetails?.rates?.[0]?.price || 0;
   const isCurrencyAndCodeSame = currencyCode === currency;
+  const fareDetails = dynamicDetails?.rates?.[0];
+  const price = fareDetails?.price || 0;
+  const durationIso = fareDetails?.value;
 
   return (
     <section className="text-right flex flex-col gap-2">
@@ -34,7 +37,9 @@ export const PriceDisplay: FC<PriceDisplayProps> = ({ parking }) => {
               t('free')
             )}
           </p>{' '}
-          {price > 0 && <p className="text-xs text-dark-1000">{t('total')}</p>}
+          {price > 0 && durationIso && (
+            <ParkingDuration durationIso={durationIso} />
+          )}
         </section>
       )}
       {price > 0 && (
@@ -46,5 +51,23 @@ export const PriceDisplay: FC<PriceDisplayProps> = ({ parking }) => {
         </section>
       )}
     </section>
+  );
+};
+
+const ParkingDuration: FC<{ durationIso: string }> = ({ durationIso }) => {
+  const [t] = useTranslation('parking');
+  const duration = dayjs.duration(durationIso);
+  const asHours = duration.asHours();
+
+  return (
+    <p className="text-[12px] text-dark-1000 flex items-center gap-1">
+      {t('priceUpTo')}
+
+      {!!asHours && (
+        <span>
+          {asHours} {t(asHours > 1 ? 'hours' : 'hour')}
+        </span>
+      )}
+    </p>
   );
 };

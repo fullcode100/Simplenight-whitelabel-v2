@@ -17,8 +17,11 @@ import {
 import { ParkingMapView } from './MapView';
 import { ParkingCard } from './ParkingCard';
 import { useFilter } from '../../hooks/useFilter';
-import { ParkingListMetaData } from '../../types/ParkingFilter';
+import { ParkingListMetaData, ParkingSortBy } from '../../types/ParkingFilter';
 import { getParkingMetadata } from '../../helpers/getParkingMetadata';
+import useQuerySetter from '../../../hooks/pageInteraction/useQuerySetter';
+import dayjs from 'dayjs';
+import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
 
 interface ParkingResultsDisplayProps {
   parkingCategory: CategoryOption;
@@ -32,28 +35,150 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
   const [parkingList, setParkingList] = useState<Parking[]>([]);
   const [metadata, setMetadata] = useState<ParkingListMetaData>({
     minPrice: 0,
-    maxPrice: 0,
+    maxPrice: 100,
     currencySymbol: '$',
     currency: 'USD',
-    heightRestrictionsList: [],
+    heightRestrictionsList: [0, 1000],
   });
-  const [t, i18next] = useTranslation('parking');
-  const { ClientSearcher: Searcher } = parkingCategory.core;
 
   const { filteredList, filter, updateFilter } = useFilter(
     parkingList,
     metadata,
   );
 
-  const { latitude, longitude, startDate, endDate, startTime, endTime, view } =
+  const cachedViewType = localStorage.getItem('view') || '';
+  const [view, setView] = useState(
+    ['list', 'map'].includes(cachedViewType) ? cachedViewType : 'list',
+  );
+  const viewChangeHandler = (view: string) => {
+    setView(view);
+    localStorage.setItem('view', view);
+  };
+
+  const [highAvailability, setHighAvailability] = useState(
+    filter.highAvailability,
+  );
+  const [surfaceType, setSurfaceType] = useState(filter.surfaceType);
+  const [features, setFeatures] = useState(filter.features);
+  const [minPrice, setMinPrice] = useState(filter.minPrice);
+  const [maxPrice, setMaxPrice] = useState(filter.maxPrice);
+  const [minHeight, setMinHeight] = useState(filter.minHeight);
+  const [maxHeight, setMaxHeight] = useState(filter.maxHeight);
+
+  const [parkingType, setParkingType] = useState(filter.parkingType);
+  const [sortBy, setSortBy] = useState<ParkingSortBy>(filter.sortBy);
+
+  const onHighAvailabilityChange = (highAvailability: boolean) => {
+    setHighAvailability(highAvailability);
+    updateFilter({ highAvailability });
+  };
+
+  const onSurfaceTypeChange = (surfaceType: string[]) => {
+    setSurfaceType(surfaceType);
+    updateFilter({ surfaceType });
+  };
+
+  const onFeaturesChange = (features: string[]) => {
+    setFeatures(features);
+    updateFilter({ features });
+  };
+
+  const onMinMaxPriceChange = ([minPrice, maxPrice]: [number, number]) => {
+    setMinPrice(minPrice);
+    setMaxPrice(maxPrice);
+  };
+
+  const onMinMaxPriceAfterChange = ([minPrice, maxPrice]: [number, number]) => {
+    updateFilter({ minPrice, maxPrice });
+  };
+
+  const onMinMaxHeightChange = ([minHeight, maxHeight]: [number, number]) => {
+    setMinHeight(minHeight);
+    setMaxHeight(maxHeight);
+  };
+
+  const onMinMaxHeightAfterChange = ([minHeight, maxHeight]: [
+    number,
+    number,
+  ]) => {
+    updateFilter({ minHeight, maxHeight });
+  };
+
+  const onParkingTypeChange = (parkingType: string) => {
+    setParkingType(parkingType);
+    updateFilter({ parkingType });
+  };
+
+  const onSortByChange = (sortBy: ParkingSortBy) => {
+    setSortBy(sortBy);
+    updateFilter({ sortBy });
+  };
+
+  const onReset = () => {
+    setHighAvailability(false);
+    setSurfaceType([]);
+    setFeatures([]);
+    setMinPrice(metadata.minPrice);
+    setMaxPrice(metadata.maxPrice);
+    setMinHeight(0);
+    setMaxHeight(
+      metadata.heightRestrictionsList[
+        metadata.heightRestrictionsList.length - 1
+      ],
+    );
+    setParkingType('ALL');
+    setSortBy('distanceASC');
+
+    updateFilter({
+      minPrice: metadata.minPrice,
+      maxPrice: metadata.maxPrice,
+      maxHeight:
+        metadata.heightRestrictionsList[
+          metadata.heightRestrictionsList.length - 1
+        ],
+      surfaceType: [],
+      minHeight: 0,
+      features: [],
+      highAvailability: false,
+      parkingType: 'ALL',
+      sortBy: 'distanceASC',
+    });
+  };
+
+  const [t, i18next] = useTranslation('parking');
+  const { ClientSearcher: Searcher } = parkingCategory.core;
+
+  const { latitude, longitude, startDate, endDate, startTime, endTime } =
     useQuery();
+  const setQueryParam = useQuerySetter();
 
   const isListView = view !== 'map';
 
   useEffect(() => {
     if (counter !== 0) return;
     setCounter((p) => p + 1);
-    const hasEmptyValues = checkIfAnyNull([latitude, longitude]);
+    const hasEmptyValues = checkIfAnyNull([
+      latitude,
+      longitude,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+    ]);
+
+    if (!startTime || !endTime) {
+      const TIME_SELECTION_FORMAT = 'HHmm';
+      const thirtyMinutesFromNow = dayjs().add(30, 'minutes').startOf('minute');
+      const twoHoursAndThirtyMinutes = thirtyMinutesFromNow.add(2, 'hours');
+      const start = ceilToNextHalfHour(thirtyMinutesFromNow).format(
+        TIME_SELECTION_FORMAT,
+      );
+      const end = ceilToNextHalfHour(twoHoursAndThirtyMinutes).format(
+        TIME_SELECTION_FORMAT,
+      );
+      setQueryParam({ startTime: start, endTime: end });
+    }
+
     if (hasEmptyValues) return;
 
     const params: any = {
@@ -74,34 +199,50 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
         const metadata = getParkingMetadata(results.features);
         setParkingList(results.features);
         setMetadata(metadata);
+
+        const maxHeight =
+          metadata.heightRestrictionsList[
+            metadata.heightRestrictionsList.length - 1
+          ];
+
         updateFilter({
-          maxHeight: metadata.maxPrice,
+          maxHeight,
           minPrice: metadata.minPrice,
           maxPrice: metadata.maxPrice,
         });
+        setMinPrice(metadata.minPrice);
+        setMaxPrice(metadata.maxPrice);
+        setMaxHeight(maxHeight);
         setLoaded(true);
       })
       .catch((error) => console.error(error));
   }, [latitude, longitude]);
 
-  const ParkingList: FC<{ parkingList: Parking[] }> = ({ parkingList }) => {
-    return (
-      <section className="flex flex-col gap-4">
-        {parkingList.map((parkingItem) => (
-          <ParkingCard key={parkingItem.id} parkingItem={parkingItem} />
-        ))}
-      </section>
-    );
-  };
-
   return (
     <>
       <section className="lg:flex lg:w-full pt-4">
-        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
+        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 shrink-0">
           <ParkingFilterFormDesktop
-            onFilterChange={updateFilter}
-            filter={filter}
+            handleReset={onReset}
+            filter={{
+              highAvailability,
+              surfaceType,
+              features,
+              minPrice,
+              maxPrice,
+              minHeight,
+              maxHeight,
+              parkingType: filter.parkingType,
+              sortBy: filter.sortBy,
+            }}
             parkingMetaData={metadata}
+            onFeaturesChange={onFeaturesChange}
+            onHighAvailabilityChange={onHighAvailabilityChange}
+            onMinMaxHeightAfterChange={onMinMaxHeightAfterChange}
+            onMinMaxHeightChange={onMinMaxHeightChange}
+            onMinMaxPriceAfterChange={onMinMaxPriceAfterChange}
+            onMinMaxPriceChange={onMinMaxPriceChange}
+            onSurfaceTypeChange={onSurfaceTypeChange}
           />
         </section>
         <section className="relative flex-1">
@@ -109,8 +250,12 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
             <SearchResultsHeader
               length={filteredList.length}
               isLoading={!loaded}
-              onFilterChange={updateFilter}
-              filter={filter}
+              sortBy={sortBy}
+              parkingType={parkingType}
+              onParkingTypeChange={onParkingTypeChange}
+              onSortByChange={onSortByChange}
+              view={view}
+              onViewChange={viewChangeHandler}
             />
           </section>
           {loaded && filteredList.length === 0 ? (
@@ -146,5 +291,15 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
       </section>
       <SearchViewSelectorFixed />
     </>
+  );
+};
+
+const ParkingList: FC<{ parkingList: Parking[] }> = ({ parkingList }) => {
+  return (
+    <section className="flex flex-col gap-4">
+      {parkingList.map((parkingItem) => (
+        <ParkingCard key={parkingItem.id} parkingItem={parkingItem} />
+      ))}
+    </section>
   );
 };

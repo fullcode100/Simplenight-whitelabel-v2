@@ -12,108 +12,54 @@ import { ParkingFilter, ParkingListMetaData } from '../../types/ParkingFilter';
 
 interface ParkingFilterFormDesktopProps {
   filter: ParkingFilter;
-  onFilterChange: (filters: Partial<ParkingFilter>) => void;
+  handleReset: () => void;
   parkingMetaData: ParkingListMetaData;
+  onMinMaxPriceChange: ([minPrice, maxPrice]: [number, number]) => void;
+  onMinMaxPriceAfterChange: ([minPrice, maxPrice]: [number, number]) => void;
+  onHighAvailabilityChange: (highAvailability: boolean) => void;
+  onSurfaceTypeChange: (surfaceType: string[]) => void;
+  onFeaturesChange: (features: string[]) => void;
+  onMinMaxHeightChange: ([minHeight, maxHeight]: [number, number]) => void;
+  onMinMaxHeightAfterChange: ([minHeight, maxHeight]: [number, number]) => void;
 }
 
 export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
   filter,
-  onFilterChange,
   parkingMetaData,
+  handleReset,
+  onFeaturesChange,
+  onMinMaxHeightAfterChange,
+  onHighAvailabilityChange,
+  onMinMaxPriceAfterChange,
+  onMinMaxHeightChange,
+  onSurfaceTypeChange,
+  onMinMaxPriceChange,
 }) => {
-  const [highAvailability, setHighAvailability] = useState(
-    filter.highAvailability,
-  );
-  const [surfaceType, setSurfaceType] = useState(filter.surfaceType);
-  const [features, setFeatures] = useState(filter.features);
-
-  const [minPrice, setMinPrice] = useState(filter.minPrice);
-  const [maxPrice, setMaxPrice] = useState(filter.maxPrice);
-
-  const [minHeight, setMinHeight] = useState(filter.minHeight);
-  const [maxHeight, setMaxHeight] = useState(filter.maxHeight);
-
-  const onHighAvailabilityChange = (highAvailability: boolean) => {
-    setHighAvailability(highAvailability);
-    onFilterChange({ highAvailability });
-  };
-
-  const onSurfaceTypeChange = (surfaceType: string[]) => {
-    setSurfaceType(surfaceType);
-    onFilterChange({ surfaceType });
-  };
-
-  const onFeaturesChange = (features: string[]) => {
-    setFeatures(features);
-    onFilterChange({ features });
-  };
-
-  const onMinMaxPriceChange = ([minPrice, maxPrice]: [number, number]) => {
-    setMinPrice(minPrice);
-    setMaxPrice(maxPrice);
-  };
-
-  const onMinMaxPriceAfterChange = ([minPrice, maxPrice]: [number, number]) => {
-    onFilterChange({ minPrice, maxPrice });
-  };
-
-  const onMinMaxHeightChange = ([minHeight, maxHeight]: [number, number]) => {
-    setMinHeight(minHeight);
-    setMaxHeight(maxHeight);
-  };
-
-  const onMinMaxHeightAfterChange = ([minHeight, maxHeight]: [
-    number,
-    number,
-  ]) => {
-    onFilterChange({ minHeight, maxHeight });
-  };
-
-  const handleClearFilters = () => {
-    setHighAvailability(false);
-    setSurfaceType([]);
-    setFeatures([]);
-    setMinPrice(0);
-    setMaxPrice(30);
-    setMinHeight(0);
-    setMaxHeight(10);
-
-    onFilterChange({
-      parkingType: 'ALL',
-      highAvailability: false,
-      features: [],
-      surfaceType: [],
-      sortBy: 'distance',
-      minPrice: 0,
-      maxPrice: 30,
-      minHeight: 0,
-      maxHeight: 5,
-    });
-  };
-
   return (
     <section className="h-full py-4">
-      <FilterHeader handleClearFilters={handleClearFilters} />
+      <FilterHeader handleClearFilters={handleReset} />
       <PriceFilter
         minPrice={parkingMetaData.minPrice}
         maxPrice={parkingMetaData.maxPrice}
-        value={[minPrice, maxPrice]}
+        value={[filter.minPrice, filter.maxPrice]}
         onChange={onMinMaxPriceChange}
         onAfterChange={onMinMaxPriceAfterChange}
         currency={
-          '$'
-          // parkingMetaData.currencySymbol || `${parkingMetaData.currency} `
+          parkingMetaData.currencySymbol || `${parkingMetaData.currency} `
         }
       />
       <Divider className="my-6" />
       <AvailabilityFilter
-        highAvailability={highAvailability}
+        highAvailability={filter.highAvailability}
         onChangeHighAvailability={onHighAvailabilityChange}
       />
       <Divider className="my-6" />
-      <SurfaceTypeFilter value={surfaceType} onChange={onSurfaceTypeChange} />
+      <SurfaceTypeFilter
+        value={filter.surfaceType}
+        onChange={onSurfaceTypeChange}
+      />
       <Divider className="my-6" />
-      <FeaturesFilter value={features} onChange={onFeaturesChange} />
+      <FeaturesFilter value={filter.features} onChange={onFeaturesChange} />
       <Divider className="my-6" />
       <VehicleHeightFilter
         minHeight={0}
@@ -122,7 +68,7 @@ export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
             parkingMetaData.heightRestrictionsList.length - 1
           ]
         }
-        value={[minHeight, maxHeight]}
+        value={[filter.minHeight, filter.maxHeight]}
         onChange={onMinMaxHeightChange}
         onAfterChange={onMinMaxHeightAfterChange}
       />

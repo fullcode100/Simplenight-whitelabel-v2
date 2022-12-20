@@ -2,7 +2,7 @@ import React, { FC, PropsWithChildren } from 'react';
 import classNames from 'classnames';
 
 interface HighlightedProps {
-  color?: 'success' | 'danger';
+  color?: 'success' | 'danger' | 'warning';
 }
 
 export const Highlighted: FC<PropsWithChildren<HighlightedProps>> = ({
@@ -14,6 +14,7 @@ export const Highlighted: FC<PropsWithChildren<HighlightedProps>> = ({
     {
       'bg-green-100 text-green-800': color === 'success',
       'bg-red-100 text-red-800': color === 'danger',
+      'bg-orange-100 text-orange-800': color === 'warning',
     },
   );
 
