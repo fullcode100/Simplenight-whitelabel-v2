@@ -12,7 +12,7 @@ interface CardProps<T extends WithId> {
   categoryName?: string;
   address?: ReactNode;
   title?: string;
-  image?: string;
+  image?: ReactNode;
   price?: ReactNode;
   className?: string;
   rating?: number;
@@ -43,6 +43,9 @@ function HorizontalItemCard<T extends WithId>({
   const [invalidImage, setInvalidImage] = useState(false);
   const fromLabel = t('from', 'From');
   const [target, setTarget] = useState('');
+  const isImageComponent = typeof image !== 'string';
+  const ImageComponent = image;
+
   useEffect(() => {
     const target = window.innerWidth < 640 ? '_self' : '_blank';
     setTarget(target);
@@ -69,6 +72,7 @@ function HorizontalItemCard<T extends WithId>({
   );
 
   const checkValidImage = () => {
+    if (isImageComponent) return;
     const img = new Image();
     img.src = image;
     img.onerror = () => setInvalidImage(true);
@@ -84,18 +88,24 @@ function HorizontalItemCard<T extends WithId>({
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
           <section className="flex flex-row">
-            <section
-              className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] "
-              style={{
-                backgroundImage: `url(${image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            >
-              <CategoryTag />
-              {displayEmpty && <EmptyImage />}
-            </section>
+            {isImageComponent ? (
+              <section className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] flex justify-center items-center text-primary-1000">
+                {ImageComponent}
+              </section>
+            ) : (
+              <section
+                className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] "
+                style={{
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                <CategoryTag />
+                {displayEmpty && <EmptyImage />}
+              </section>
+            )}
             <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
               <TitleSection />
               <section className="mt-4">

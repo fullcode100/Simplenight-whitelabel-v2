@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import EmptyImage from '@/icons/assets/image-empty.svg';
+import EmptyImage from '@/icons/assets/generic-parking-image.svg';
 import ExpandIcon from '@/icons/assets/expand.svg';
 import { useTranslation } from 'react-i18next';
 
@@ -12,18 +12,17 @@ export const ImageBox: FC<ImageBoxProps> = ({ images }) => {
   return (
     <section className="flex gap-2" style={{ height: 320 }}>
       {!images.length ? (
-        <section className="h-[100%] grow flex flex-col justify-center items-center gap-2 text-dark-700">
+        <section className="h-[100%] grow flex flex-col justify-center items-center gap-2 text-primary-1000">
           <EmptyImage />
-          <span>{t('noImages')}</span>
         </section>
       ) : (
         <>
-          <section className="h-[100%] grow-[2] shrink-0 basis-0 rounded-lg overflow-hidden bg-orange-400">
+          <section className="h-[100%] grow-[2] shrink-0 basis-0 rounded-lg overflow-hidden">
             <ImageItem src={images[0]} />
           </section>
           {images.length > 1 && (
             <section className="hidden lg:flex h-[100%] grow-[1] shrink-0 basis-0 flex-col gap-2">
-              <section className="bg-orange-400 grow rounded-lg overflow-hidden">
+              <section className="grow rounded-lg overflow-hidden">
                 <ImageItem src={images[1]} />
               </section>
               <section className="flex justify-center items-center">

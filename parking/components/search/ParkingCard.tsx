@@ -9,6 +9,7 @@ import { Capacity } from '../shared/Capacity';
 import { ParkingFeatures } from '../shared/Facts';
 import { TimeDistance } from '../shared/TimeDistance';
 import { Restrictions } from '../shared/Restrictions';
+import ParkingGenericImage from 'public/icons/assets/generic-parking-image.svg';
 
 interface ParkingCardProps {
   parkingItem: Parking;
@@ -37,8 +38,6 @@ export const ParkingCard: FC<ParkingCardProps> = memo(({ parkingItem }) => {
 
   const title = operator ? operator : name ? name : address.street.formatted;
 
-  const GENERIC_PARKING_IMAGE = '/images/parking-no-image-status.png';
-
   return (
     <HorizontalItemCard
       key={parkingItem.id}
@@ -46,7 +45,7 @@ export const ParkingCard: FC<ParkingCardProps> = memo(({ parkingItem }) => {
       categoryName={t('parking')}
       item={parkingItem}
       title={title}
-      image={thumbnail?.url || GENERIC_PARKING_IMAGE}
+      image={thumbnail?.url || <ParkingGenericImage />}
       url={parkingDetailsPageUrl}
       priceDisplay={rateTable && <PriceDisplay parking={parkingItem} />}
       address={<ParkingCardDetails parking={parkingItem} />}
