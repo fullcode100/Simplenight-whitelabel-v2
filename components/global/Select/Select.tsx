@@ -8,10 +8,16 @@ interface SelectProps {
   options: string[];
   label?: string;
   onChange?: (value: string) => void;
+  defaultValue?: string;
 }
 
-const Select = ({ options, label = '', onChange }: SelectProps) => {
-  const [selected, setSelected] = useState(options[0] ?? '');
+const Select = ({
+  options,
+  label = '',
+  onChange,
+  defaultValue,
+}: SelectProps) => {
+  const [selected, setSelected] = useState(defaultValue ?? options[0] ?? '');
 
   const handleChange = (value: string) => {
     setSelected(value);

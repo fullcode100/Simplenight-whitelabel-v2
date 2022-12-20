@@ -13,6 +13,7 @@ const Divider = ({ className }: { className?: string }) => (
 
 function DiningFilterFormDesktop() {
   const router = useRouter();
+  const [t] = useTranslation('dining');
   const setQueryParams = useQuerySetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
 
@@ -36,11 +37,6 @@ function DiningFilterFormDesktop() {
   const [maxStarRating, setMaxStarRating] = useState<string>(
     (queryFilter.starRating && queryFilter?.starRating[2]) || '5',
   );
-
-  const [t, i18n] = useTranslation('hotels');
-
-  const clearFiltersText = t('clearFilters', 'Clear filters');
-  const filtersText = t('filters', 'Filters');
 
   const handleClearFilters = () => {
     setQueryParams({
@@ -91,12 +87,12 @@ function DiningFilterFormDesktop() {
   const FilterHeader = () => (
     <FilterContainer>
       <section className="flex items-center justify-between">
-        <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
+        <p className="text-lg font-semibold text-dark-1000">{t('filters')}</p>
         <button
           className="text-base font-semibold capitalize text-primary-1000"
           onClick={handleClearFilters}
         >
-          {clearFiltersText}
+          {t('clearFilters')}
         </button>
       </section>
     </FilterContainer>

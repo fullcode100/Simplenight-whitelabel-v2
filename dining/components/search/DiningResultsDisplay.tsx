@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import { useRouter } from 'next/router';
 import { DiningCategory } from '../../index';
 import { DiningSearchRequest } from 'dining/types/request/DiningSearchRequest';
 import {
@@ -8,8 +7,6 @@ import {
   DiningSearchResponse,
 } from 'dining/types/response/SearchResponse';
 import React, { useState, ReactNode, useEffect } from 'react';
-import { diningData } from 'dining/mocks/diningData';
-import { CategoryOption } from 'types/search/SearchTypeOptions';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import DiningFilterFormDesktop from './DiningFilterFormDesktop';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
@@ -21,17 +18,15 @@ import MapView from './MapView/MapView';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
-import { parseQueryNumber } from 'helpers/stringUtils';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
-import i18next from 'i18next';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { DiningClientSearcher } from 'dining/core/search/DiningClientSearcher';
 import EmptyState from 'components/global/EmptyState/EmptyState';
 import { useTranslation } from 'react-i18next';
 import DiningSecondarySearchOptions from './DiningSecondarySearchOptions';
+import DiningItemPriceInfo from './DiningItemPriceInfo';
 
-const resultsMock = diningData;
 interface ViewButtonProps {
   children: ReactNode;
   viewParam: 'list' | 'map';
@@ -40,9 +35,8 @@ interface ViewButtonProps {
 const DiningResultsDisplay = () => {
   const [loaded, setLoaded] = useState(false);
   const [t, i18next] = useTranslation('dining');
-  const restaurantsFoundLabelDesktop = t('results', 'Results');
-  const restaurantsFoundLabel = t('restaurantsFound', 'Restaurants Found');
-  const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
+  const restaurantsFoundLabel = t('restaurantsFoundLabel');
+  const noResultsLabel = t('noResultsSearch');
   const setQueryParams = useQuerySetter();
 
   const {
@@ -129,8 +123,9 @@ const DiningResultsDisplay = () => {
             className="flex-0-0-auto"
             rating={rating}
             url={url}
+            price={<DiningItemPriceInfo />}
             ratingCount={review_count}
-            priceDisplay={<PriceDisplay price={'Free'} />}
+            priceDisplay={<PriceDisplay price={t('free')} />}
           />
         );
       })}
@@ -181,10 +176,10 @@ const DiningResultsDisplay = () => {
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <DiningFilterFormDesktop />
         </section>
-        <section className="pt-4">
+        <section className="pt-4 lg:hidden">
           <DiningSecondarySearchOptions />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full mt-20 lg:mt-0">
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-6 w-full">
           {loaded && hasNoRestaurants ? (
             <EmptyState
               text={noResultsLabel}
@@ -211,7 +206,7 @@ const DiningResultsDisplay = () => {
                         </span>
                         <span className="hidden lg:inline">
                           {' '}
-                          {restaurantsFoundLabelDesktop}
+                          {t('results')}
                         </span>
                       </span>
                     ) : (
@@ -223,7 +218,7 @@ const DiningResultsDisplay = () => {
               )}
               {!isListView && (
                 <section className="relative w-full h-full">
-                  <MapView items={resultsMock} createUrl={() => 'search'} />
+                  <MapView items={restaurants} createUrl={urlDetail} />
                 </section>
               )}
             </>

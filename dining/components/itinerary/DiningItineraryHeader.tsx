@@ -8,13 +8,17 @@ import { usePlural } from 'hooks/stringBehavior/usePlural';
 interface DiningItineraryHeaderProps {
   item: Item;
   icon: ReactElement;
+  name?: string;
+  amount?: string;
 }
 
-const DiningItineraryHeader = ({ item, icon }: DiningItineraryHeaderProps) => {
+const DiningItineraryHeader = ({
+  item,
+  icon,
+  name,
+  amount,
+}: DiningItineraryHeaderProps) => {
   const [t, i18next] = useTranslation('dining');
-
-  const name = 'Cracker Barrel Old Country Store';
-  const amount = 2;
   const amountFormatted = t('tableFor', 'Table For') + ` ${amount}`;
 
   return (

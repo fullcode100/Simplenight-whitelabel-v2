@@ -24,8 +24,8 @@ const PriceRangeFilter = ({
   onChangeMinPrice,
   onChangeMaxPrice,
 }: PriceRangeFilterProps) => {
-  const [t, i18n] = useTranslation('hotels');
-  const priceRangeLabel = t('priceRange', 'Price Range');
+  const [t] = useTranslation('dining');
+  const priceRangeLabel = t('priceRange');
 
   return (
     <FilterContainer>

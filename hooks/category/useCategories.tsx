@@ -131,7 +131,7 @@ export interface CategoryInfo {
 const useCategories = () => {
   const categories = useSelector(getCategories);
 
-  const categoriesTabs = categories.map((category) => {
+  const categoriesTabs = categories?.map((category) => {
     const apiUrl = getCategoryApiUrl(category);
     return {
       name: category.alias,

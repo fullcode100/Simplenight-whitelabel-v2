@@ -93,7 +93,7 @@ const DiningSecondarySearchOptions = () => {
 
   const FilterForm = (
     <section
-      className="overflow-y-auto px-5 py-4"
+      className="px-5 py-4 overflow-y-auto"
       style={{ maxHeight: '75vh' }}
     >
       {/* <SortByFilter
@@ -158,7 +158,7 @@ const DiningSecondarySearchOptions = () => {
   };
 
   return (
-    <section className="lg:invisible flex w-full gap-2 px-4 py-3">
+    <section className="flex w-full gap-2 px-4 py-3 lg:hidden">
       <Button
         value={filtersLabel}
         size="full-sm"
