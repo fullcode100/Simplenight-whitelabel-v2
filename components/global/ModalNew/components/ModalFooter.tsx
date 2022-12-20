@@ -19,7 +19,7 @@ const ModalFooter = ({
 }: ModalFooterProps) => {
   const renderButtons = !!primaryButtonText || !!secondaryButtonText;
   return (
-    <footer className="w-full bg-white shadow-container px-5 py-6 lg:px-6 lg:rounded-b-4">
+    <footer className="w-full px-5 py-6 bg-white shadow-container lg:px-6 lg:rounded-b-4">
       <section className={renderButtons ? 'grid gap-4' : ''}>
         {footerSummary}
 
@@ -27,18 +27,18 @@ const ModalFooter = ({
           {secondaryButtonText && (
             <Button
               type="outlined"
-              width="w-full"
+              width="w-full lg:w-[30%]"
               onClick={secondaryButtonAction}
             >
-              <p className="font-semibold text-base leading-base">
+              <p className="text-base font-semibold leading-base">
                 {secondaryButtonText}
               </p>
             </Button>
           )}
 
           {primaryButtonText && (
-            <Button width="w-full" onClick={primaryButtonAction}>
-              <p className="font-semibold text-base leading-base">
+            <Button width="w-full lg:w-[70%]" onClick={primaryButtonAction}>
+              <p className="text-base font-semibold leading-base">
                 {primaryButtonText}
               </p>
             </Button>

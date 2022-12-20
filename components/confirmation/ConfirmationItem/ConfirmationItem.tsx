@@ -9,6 +9,8 @@ interface ConfirmationItemProps {
   payment?: Payment;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  reload?: boolean;
+  setReload?: Dispatch<SetStateAction<boolean>>;
 }
 
 const ConfirmationItem = ({
@@ -16,6 +18,8 @@ const ConfirmationItem = ({
   payment,
   loading,
   setLoading,
+  reload,
+  setReload,
 }: ConfirmationItemProps) => {
   let sectorName = item.sector?.toLowerCase();
   const categoryName = item.category?.toLowerCase();
@@ -38,6 +42,8 @@ const ConfirmationItem = ({
       loading: loading,
       setLoading: setLoading,
       customer: item.customer,
+      reload: reload,
+      setReload: setReload,
     }) ?? null
   );
 };

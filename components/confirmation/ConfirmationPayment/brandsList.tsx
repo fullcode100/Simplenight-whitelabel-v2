@@ -8,11 +8,11 @@ import UnionPayIcon from 'public/icons/logos/unionpay.svg';
 
 const brandsList = [
   {
-    name: 'VISA',
+    name: 'Visa',
     icon: <VisaIcon />,
   },
   {
-    name: 'MASTERCARD',
+    name: 'Mastercard',
     icon: <MastercardIcon />,
   },
   {

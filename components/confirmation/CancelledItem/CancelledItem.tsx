@@ -7,10 +7,13 @@ interface CancelledItemProps {
 }
 
 const CancelledItem = ({ item }: CancelledItemProps) => {
-  const category = useCategory('hotels');
+  let sectorName = item.sector?.toLowerCase();
+  const categoryName = item.category?.toLowerCase();
+  if (categoryName === 'shows-events') sectorName = 'shows-events';
+  const sector = useCategory(sectorName || '');
 
   return (
-    injectProps(category?.cancelledDisplay, {
+    injectProps(sector?.cancelledDisplay, {
       item: item,
     }) ?? null
   );

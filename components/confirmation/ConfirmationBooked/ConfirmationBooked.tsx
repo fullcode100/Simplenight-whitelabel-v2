@@ -9,6 +9,8 @@ interface ConfirmationBookedProps {
   bookedAmount: number;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  reload?: boolean;
+  setReload?: Dispatch<SetStateAction<boolean>>;
 }
 
 const ConfirmationBooked = ({
@@ -16,6 +18,8 @@ const ConfirmationBooked = ({
   bookedAmount,
   loading,
   setLoading,
+  reload,
+  setReload,
 }: ConfirmationBookedProps) => {
   const [t, i18next] = useTranslation('global');
   const bookedItinerary = t('bookedItinerary', 'Booked Itinerary');
@@ -41,6 +45,8 @@ const ConfirmationBooked = ({
         payment={payment}
         loading={loading}
         setLoading={setLoading}
+        reload={reload}
+        setReload={setReload}
       />
     </section>
   );

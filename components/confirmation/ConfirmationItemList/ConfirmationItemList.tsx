@@ -8,6 +8,8 @@ interface ConfirmationItemListProps {
   payment?: Payment;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  reload?: boolean;
+  setReload?: Dispatch<SetStateAction<boolean>>;
 }
 
 const ConfirmationItemList = ({
@@ -15,6 +17,8 @@ const ConfirmationItemList = ({
   payment,
   loading,
   setLoading,
+  reload,
+  setReload,
 }: ConfirmationItemListProps) => {
   return (
     <section className="grid py-5 divide-y lg:px-6 divide-dark-300">
@@ -28,6 +32,8 @@ const ConfirmationItemList = ({
               payment={payment}
               loading={loading}
               setLoading={setLoading}
+              reload={reload}
+              setReload={setReload}
             />
           </section>
         );
