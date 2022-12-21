@@ -135,7 +135,6 @@ export interface TicketType {
   id: string;
   quantity: number;
   rate: Rate;
-  quantity: number;
 }
 
 export interface Grouping {
