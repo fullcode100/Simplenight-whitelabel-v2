@@ -395,7 +395,6 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
               pickup={selectedPickup}
               meeting={selectedMeeting}
               selected={selectedTicket === index}
-              pricing={pricing}
             />
           </button>
         ))}

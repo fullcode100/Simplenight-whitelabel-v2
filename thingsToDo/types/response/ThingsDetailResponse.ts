@@ -133,9 +133,7 @@ export interface Rate {
 
 export interface TicketType {
   id: string;
-  label: string;
-  available_qty: number;
-  cancellation_policy: CancellationPolicy2;
+  quantity: number;
   rate: Rate;
   quantity: number;
 }
