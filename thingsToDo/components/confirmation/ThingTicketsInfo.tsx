@@ -11,6 +11,7 @@ import {
 import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse';
 import Link from 'public/icons/assets/link.svg';
 import SupplierReference from 'hotels/components/SupplierReference/SupplierReference';
+import { formatObjectToString } from 'helpers/objectUtils';
 
 interface Props {
   item: Item;
@@ -146,31 +147,50 @@ const ThingTicketsInfo = ({ item }: Props) => {
     bookingAnswers,
     bookingQuestions,
   }: ExtraQuestionsProps) => {
+    const PICKUP_POINT_ID = 'PICKUP_POINT';
+    const pickupPoint = item.booking_data?.booking_answers?.find(
+      (bookingAnswer: any) => bookingAnswer.question_id === PICKUP_POINT_ID,
+    )?.value;
+    const pickupLocations = item.item_data?.extra_data.pickup.locations;
+    const selectedPickupLocation = pickupLocations?.find(
+      (locationObject: any) => locationObject.location.ref == pickupPoint,
+    )?.location;
+    const pickupAddress = selectedPickupLocation?.address;
+    const pickupName = selectedPickupLocation?.name;
+    const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
+
     const transformedAnswers = bookingAnswers?.map(
       (bookingAnswer: BookingAnswer) => {
         const answerLabel = bookingQuestions?.find(
           (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
         )?.label;
-        const answerValue = bookingAnswer.value;
-
-        return {
-          id: bookingAnswer.question_id,
-          value: answerValue,
-          traveler: bookingAnswer.traveler_num,
-          label: answerLabel,
-        };
+        const hasCorrespondingBookingQuestion = bookingQuestions?.find(
+          (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
+        );
+        let answerValue = formatObjectToString(bookingAnswer.value);
+        if (bookingAnswer.question_id === PICKUP_POINT_ID) {
+          answerValue = pickupAddress ? pickupAddressFormatted : pickupName;
+        }
+        if (hasCorrespondingBookingQuestion) {
+          return {
+            id: bookingAnswer.question_id,
+            value: answerValue,
+            traveler: bookingAnswer.traveler_num,
+            label: answerLabel,
+          };
+        }
       },
     );
 
     return (
       <div className="text-sm ">
-        {transformedAnswers?.map((answer: any) => {
+        {transformedAnswers?.map((answer) => {
           return (
-            <div key={`${answer.id}-${answer.traveler}`} className="text-sm ">
+            <div key={`${answer?.id}-${answer?.traveler}`} className="text-sm ">
               <h4 className="text-sm font-normal text-dark-700">
-                {answer.label}
+                {answer?.label}
               </h4>
-              <p>{answer.value}</p>
+              <p>{answer?.value}</p>
             </div>
           );
         })}

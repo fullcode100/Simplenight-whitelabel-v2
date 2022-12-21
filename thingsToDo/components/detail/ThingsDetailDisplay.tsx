@@ -51,6 +51,7 @@ import {
   ThingsScheduleDetail,
 } from 'thingsToDo/types/response/ThingsAvailabilityScheduleResponse';
 import dayjs from 'dayjs';
+import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -448,8 +449,16 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const DetailDisplay = () => {
-    const meetingPoints = thingsItem?.extra_data.start_locations;
-    const pickupPoints = thingsItem?.extra_data.pickup;
+    const bookingQuestions = thingsItem?.extra_data?.booking_questions;
+    const hasMeeting = bookingQuestions?.find(
+      (question) => question.id === MEETING_POINT_ID,
+    );
+    const hasPickup = bookingQuestions?.find(
+      (question) => question.id === PICKUP_POINT_ID,
+    );
+    const meetingPoints = hasMeeting && thingsItem?.extra_data.start_locations;
+    const pickupPoints = hasPickup && thingsItem?.extra_data.pickup;
+    const hasPoints = meetingPoints || pickupPoints;
 
     return (
       <>
@@ -470,14 +479,16 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                 <PoliciesSection />
               </section>
               <Divider />
-              <LocationSection
-                meetingPoints={meetingPoints}
-                selectedMeeting={selectedMeeting}
-                setSelectedMeeting={setSelectedMeeting}
-                pickupPoints={pickupPoints}
-                selectedPickup={selectedPickup}
-                setSelectedPickup={setSelectedPickup}
-              />
+              {hasPoints && (
+                <LocationSection
+                  meetingPoints={meetingPoints}
+                  selectedMeeting={selectedMeeting}
+                  setSelectedMeeting={setSelectedMeeting}
+                  pickupPoints={pickupPoints}
+                  selectedPickup={selectedPickup}
+                  setSelectedPickup={setSelectedPickup}
+                />
+              )}
             </>
           )
         )}
