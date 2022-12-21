@@ -22,12 +22,12 @@ const NumberUnitInput = ({
 
   const handleChange = (value: string) => {
     setNumberUnit(value);
-    onChange({ number: numberUnit, unit });
+    onChange({ number: value, unit });
   };
 
-  const handleChangeUnit = (e: any) => {
-    setUnit(e.target.value);
-    onChange({ number: numberUnit, unit });
+  const handleChangeUnit = (value: string) => {
+    setUnit(value);
+    onChange({ number: numberUnit, unit: value });
   };
 
   const onFocus = (focus: any) => {
@@ -47,7 +47,7 @@ const NumberUnitInput = ({
       <input
         type="number"
         value={numberUnit}
-        onChange={(event) => handleChange(event.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
         placeholder={placeholder}
         required={required}
         className="border-0 focus:ring-0 w-full rounded-md"
@@ -56,7 +56,7 @@ const NumberUnitInput = ({
       />
       <select
         value={unit}
-        onChange={handleChangeUnit}
+        onChange={(e) => handleChangeUnit(e.target.value)}
         className="border-0 focus:ring-0 rounded-md"
       >
         {options.map((option: string, i: number) => (

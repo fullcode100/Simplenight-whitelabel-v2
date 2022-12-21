@@ -182,8 +182,10 @@ const Client = () => {
           value,
           traveler_num: travelerNum,
         };
-        value?.unit && (answerItem.unit = value.unit);
-        value?.value && (answerItem.value = value.value);
+        if (value.unit) {
+          answerItem.unit = value.unit;
+          answerItem.value = value.number || 0;
+        }
         if (key === pickupPointId) answerItem.unit = pickupPointUnit;
         bookingAnswerData[itemId].push(answerItem);
       } else {
@@ -194,10 +196,16 @@ const Client = () => {
               answer.traveler_num === travelerNum
             ) {
               const value = formDataCopy[key].ref || formDataCopy[key];
-              return {
+              const answerItem: any = {
                 ...answer,
                 value,
               };
+              if (value.unit) {
+                answerItem.unit = value.unit;
+                answerItem.value = value.number || 0;
+              }
+              if (key === pickupPointId) answerItem.unit = pickupPointUnit;
+              return answerItem;
             }
             return answer;
           },
