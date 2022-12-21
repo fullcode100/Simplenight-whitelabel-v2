@@ -46,11 +46,36 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   }`;
   const fullDayLabel = 'Full day activity';
 
+  const PICKUP_POINT_ID = 'PICKUP_POINT';
+  const pickupPoint = item.booking_data?.booking_answers?.find(
+    (bookingAnswer: any) => bookingAnswer.question_id === PICKUP_POINT_ID,
+  )?.value;
+  const startingPoint = item.item_data?.extra_data.start_locations?.map(
+    (location: any) => location.description,
+  );
+  const hasPickupOrMeetingPoint = pickupPoint || startingPoint;
+
   const MeetingPickupPoint = () => {
+    const pickupPointLabel = 'Pickup Point';
+    const meetingPointLabel = 'Meeting Point';
+
+    const pickupLocations = item.item_data?.extra_data.pickup.locations;
+    const selectedPickupLocation = pickupLocations?.find(
+      (locationObject: any) => locationObject.location.ref == pickupPoint,
+    )?.location;
+    const pickupAddress = selectedPickupLocation?.address;
+    const pickupName = selectedPickupLocation?.name;
+    const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
+
     return (
       <div>
-        <p className="text-dark-700">Pickup point</p>
-        <p>534 Roger St., Chicago, US, 60864</p>
+        <p className="text-dark-700">
+          {pickupPoint ? pickupPointLabel : meetingPointLabel}
+        </p>
+        {pickupPoint && (
+          <p>{pickupAddress ? pickupAddressFormatted : pickupName}</p>
+        )}
+        {!pickupPoint && <p> {startingPoint ? startingPoint : addressLabel}</p>}
       </div>
     );
   };
@@ -107,15 +132,17 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   return (
     <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
       <IconAndText icon={<LocationPinIcon />} content={<p>{addressLabel}</p>} />
+      {hasPickupOrMeetingPoint && (
+        <IconAndText
+          icon={<LocationAndMapIcon />}
+          content={<MeetingPickupPoint />}
+        />
+      )}
       <IconAndText
         icon={<ClockIcon />}
         content={
           fullDay ? fullDayLabel : <DurationLabel duration={activityDuration} />
         }
-      />
-      <IconAndText
-        icon={<LocationAndMapIcon />}
-        content={<MeetingPickupPoint />}
       />
       <IconAndText icon={<CalendarIcon />} content={dateAndTimeLabel} />
       {customer && <OrderNameCard />}
