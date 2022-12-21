@@ -1,0 +1,2 @@
+export const PICKUP_POINT_ID = 'PICKUP_POINT';
+export const MEETING_POINT_ID = 'MEETING_POINT';

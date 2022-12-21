@@ -182,6 +182,8 @@ const Client = () => {
           value,
           traveler_num: travelerNum,
         };
+        value?.unit && (answerItem.unit = value.unit);
+        value?.value && (answerItem.value = value.value);
         if (key === pickupPointId) answerItem.unit = pickupPointUnit;
         bookingAnswerData[itemId].push(answerItem);
       } else {
