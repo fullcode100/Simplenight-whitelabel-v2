@@ -1,2 +1,15 @@
 export const PICKUP_POINT_ID = 'PICKUP_POINT';
 export const MEETING_POINT_ID = 'MEETING_POINT';
+export const PICKUP_POINT_UNIT = 'LOCATION_REFERENCE';
+
+export const questionsFormDataDestructuring = (data: any) => {
+  let destructObject = {};
+  Object.keys(data)?.forEach((key: string) => {
+    if (data[key][key]) {
+      delete data[key][PICKUP_POINT_ID];
+      destructObject = data[key];
+      delete data[key];
+    }
+  });
+  return { ...data, ...destructObject };
+};

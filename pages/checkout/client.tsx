@@ -26,6 +26,11 @@ import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary
 import { getCurrency } from 'store/selectors/core';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
+import {
+  PICKUP_POINT_ID,
+  PICKUP_POINT_UNIT,
+  questionsFormDataDestructuring,
+} from 'helpers/bookingQuestions';
 
 interface LayoutProps {
   children: ReactNode;
@@ -166,9 +171,9 @@ const Client = () => {
     itemId: string,
     travelerNum?: number,
   ) => {
-    const formDataCopy = deepCopy(data.formData);
-    const pickupPointId = 'PICKUP_POINT';
-    const pickupPointUnit = 'LOCATION_REFERENCE';
+    const formDataCopy = questionsFormDataDestructuring(
+      deepCopy(data.formData),
+    );
     Object.keys(formDataCopy).forEach((key) => {
       if (!bookingAnswerData[itemId]) bookingAnswerData[itemId] = [];
       const bookingAnswer = bookingAnswerData[itemId].find(
@@ -186,7 +191,7 @@ const Client = () => {
           answerItem.unit = value.unit;
           answerItem.value = value.number || 0;
         }
-        if (key === pickupPointId) answerItem.unit = pickupPointUnit;
+        if (key === PICKUP_POINT_ID) answerItem.unit = PICKUP_POINT_UNIT;
         bookingAnswerData[itemId].push(answerItem);
       } else {
         bookingAnswerData[itemId] = bookingAnswerData[itemId]?.map(
@@ -204,7 +209,7 @@ const Client = () => {
                 answerItem.unit = value.unit;
                 answerItem.value = value.number || 0;
               }
-              if (key === pickupPointId) answerItem.unit = pickupPointUnit;
+              if (key === PICKUP_POINT_ID) answerItem.unit = PICKUP_POINT_UNIT;
               return answerItem;
             }
             return answer;
