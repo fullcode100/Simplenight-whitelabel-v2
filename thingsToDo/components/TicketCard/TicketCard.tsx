@@ -1,5 +1,4 @@
 import Divider from 'components/global/Divider/Divider';
-import { timesMock } from 'mocks/thingsTimesMock';
 import { useState } from 'react';
 import TimeSelectorPill from '../TimeSelector/TimeSelectorPill';
 import TicketHeader from './TicketHeader';
@@ -10,16 +9,13 @@ import {
 } from 'thingsToDo/types/response/ThingsDetailResponse';
 import ClockIcon from 'public/icons/assets/clock.svg';
 import { useTranslation } from 'react-i18next';
-import useQuery from 'hooks/pageInteraction/useQuery';
 import classnames from 'classnames';
 import PriceBreakdown from '../PriceBreakdown/PriceBreakdown';
 import TicketActions from './TicketActions';
-import { getDefaultGuests } from 'thingsToDo/helpers/helper';
 import { formatAsExactHour } from 'helpers/dajjsUtils';
 import { getCurrency } from 'store/selectors/core';
 import { Location } from 'thingsToDo/types/response/ThingsDetailResponse';
 
-const MOCK_PRODUCT_CODE = 'TG3';
 const PICKUP_QUESTION_ID = 'PICKUP_POINT';
 const MEETING_QUESTION_ID = 'MEETING_POINT';
 const LOCATION_UNIT = 'LOCATION_REFERENCE';
@@ -31,7 +27,6 @@ interface TicketCardProps {
   pickup?: Location;
   meeting?: Location;
   selected?: boolean;
-  pricing: Pricing;
 }
 
 const TicketCard = ({
@@ -41,42 +36,28 @@ const TicketCard = ({
   pickup,
   meeting,
   selected,
-  pricing,
 }: TicketCardProps) => {
   const [t] = useTranslation('things');
   const [selectedTime, setSelectedTime] = useState('');
-  const params = useQuery();
-  const { adults, children, infants } = params;
-  const totalTickets =
-    parseInt(adults as string) +
-    parseInt(children as string) +
-    parseInt(infants as string);
   const title = ticket?.name;
   const description = ticket?.description;
   const isFullDay = ticket?.full_day;
   const duration = false;
   const fulldayText = t('fullDay', 'Full Day');
   const fullDayOrDuration = isFullDay ? fulldayText : duration;
-  const guestsData = getDefaultGuests(pricing?.ticket_types, params);
-  const getTotalGuests = () => {
-    let totalGuests = 0;
-    Object.values(guestsData).forEach((value) => {
-      totalGuests += value as number;
-    });
-    return totalGuests;
-  };
-  const totalGuests = getTotalGuests();
+
+  let totalGuests = 0;
+  const ticketTypes = ticket.ticket_types.map((ticket) => {
+    totalGuests += ticket.quantity;
+    return {
+      ticket_type_id: ticket.id,
+      quantity: ticket.quantity,
+    };
+  });
 
   const timeNotSelected = selectedTime == '' ? true : false;
 
   const addToCartRequest = () => {
-    const ticketTypes = Object.keys(guestsData).map((guest) => {
-      return {
-        ticket_type_id: guest,
-        quantity: guestsData[guest],
-      };
-    });
-
     const time = formatAsExactHour(selectedTime);
     const currency = getCurrency();
 
