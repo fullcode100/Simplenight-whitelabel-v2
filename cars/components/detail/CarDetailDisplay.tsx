@@ -427,9 +427,6 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
 
   return (
     <>
-      <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
-      />
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
       <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
         <section className="flex items-center justify-between h-12">

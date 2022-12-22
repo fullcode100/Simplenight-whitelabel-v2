@@ -75,17 +75,17 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
 
           <section className="text-right">
             <div className="flex items-center text-gray-500">
-              <p className="text-xs pr-2 ">
-                {item.rate?.total.net.currency}
-                {item.rate?.total.net.formatted}
+              <p className="text-xs pr-2 line-through">
+                {item.rate?.discounts.total_amount_before_apply.currency}
+                {item.rate?.discounts.total_amount_before_apply.formatted}
               </p>
               <p className="text-primary-1000">
                 {item.rate?.discounts.percentage_to_apply}
               </p>
             </div>
             <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-              {item.rate?.discounts.total_amount_before_apply.currency}
-              {item.rate?.discounts.total_amount_before_apply.formatted}
+              {item.rate?.total.net.currency}
+              {item.rate?.total.net.formatted}
             </p>
           </section>
         </section>
@@ -101,7 +101,8 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
 
           <section className="text-right">
             <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-              {'US$0.00'}
+              {item.rate?.taxes.full.currency || 'USD'}
+              {item.rate?.taxes.full.formatted || '$0.00'}
             </p>
           </section>
         </section>

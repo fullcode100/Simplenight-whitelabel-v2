@@ -5,32 +5,29 @@ import InfoCircle from 'public/icons/assets/info-circle.svg';
 import ButtonMinusPlus from 'components/global/ButtonMinusPlus/ButtonMinusPlus';
 import SquareInputLarge from './SquareInput';
 import TransportSeat from './TransportSeat';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { useTranslation } from 'react-i18next';
 import classnames from 'classnames';
 
 interface TicketCard {
   section: string;
   row: string;
-  seatTogether?: boolean;
   available_seats: number;
   rate: any;
-  currency?: string;
-  add: () => void;
-  remove: () => void;
+  add: (value: number) => void;
+  remove: (value: number) => void;
+  purchasable_quantities: number[];
 }
 
 const TicketCard: React.FC<TicketCard> = ({
   section,
   row,
   available_seats: availableSeats,
-  seatTogether,
   rate,
-  currency,
   add,
   remove,
+  purchasable_quantities: purchasableQuantities,
 }) => {
   const [t, i18next] = useTranslation('events');
   const sectorLabel = t('sector', 'Sector');
@@ -40,36 +37,38 @@ const TicketCard: React.FC<TicketCard> = ({
   const totalLabel = t('total', 'Total');
   const eachLabel = t('each', 'Each');
 
-  // const [timeLeft, setTimeLeft] = useState<string>('');
+  const purchasableQuantitiesList = useMemo(() => {
+    purchasableQuantities.sort((a, b) => {
+      return a - b;
+    });
+    return purchasableQuantities;
+  }, [purchasableQuantities]);
+
   const [selectedSeats, setSelectedSeats] = useState<number>(0);
+  const [seatTogether, setSeatTogether] = useState(false);
   const ticketsCountLabel = selectedSeats > 1 ? ticketsLabel : ticketLabel;
   const availableSeatsLabel = availableSeats > 1 ? ticketsLabel : ticketLabel;
-  dayjs.extend(relativeTime);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const newTimeLeft = dayjs().isBefore(dayjs(availableTime))
-  //       ? dayjs().to(availableTime, true)
-  //       : '';
-  //     setTimeLeft(newTimeLeft);
-  //   }, 60000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
 
   const increaseSelectedSeats = () => {
-    if (availableSeats > selectedSeats) {
-      setSelectedSeats(selectedSeats + 1);
-      add();
+    const currentIndex = purchasableQuantitiesList.indexOf(selectedSeats);
+    const isLastIndex = currentIndex + 1 === purchasableQuantitiesList.length;
+    if (!isLastIndex) {
+      const value = purchasableQuantitiesList[currentIndex + 1];
+      setSeatTogether(value > 1);
+      setSelectedSeats(value);
+      add(value);
     }
   };
 
   const decreaseSelectedSeats = () => {
-    if (selectedSeats) {
-      setSelectedSeats(selectedSeats - 1);
-      remove();
-    }
+    const currentIndex = purchasableQuantitiesList.indexOf(selectedSeats);
+    const value =
+      currentIndex > 0 ? purchasableQuantitiesList[currentIndex - 1] : 0;
+    setSeatTogether(value > 1);
+    setSelectedSeats(value);
+    remove(value);
   };
+
   return (
     <section
       className="border border-dark-300 mt-2 rounded cursor-pointer"
@@ -90,7 +89,6 @@ const TicketCard: React.FC<TicketCard> = ({
             </div>
           </div>
           <div className="gap-1">
-            {/* {timeLeft && <ShowTimer availableTimeText={timeLeft} />} */}
             {seatTogether && (
               <InlineFeature
                 icon={<InfoCircle className="text-dark-800 h-4 w-4" />}

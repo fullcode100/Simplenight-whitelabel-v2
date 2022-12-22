@@ -2,6 +2,9 @@ export interface ShowDetailItem {
   id: string;
   name: string;
   main_category: string;
+  extra_data: {
+    starts_at: string;
+  };
 }
 
 export interface ShowDetailResponse {
@@ -15,6 +18,10 @@ export interface Sector {
   rows: Row[];
 }
 
+export interface CancelationPolicy {
+  description: string;
+  cancellation_type: string;
+}
 export interface Row {
   booking_code_supplier: string;
   section: string;
@@ -22,6 +29,8 @@ export interface Row {
   available_seats: number;
   delivery_methods: DeliveryMethod[];
   rate: Rate;
+  purchasable_quantities: number[];
+  cancellation_policy: CancelationPolicy;
 }
 
 export enum DeliveryMethod {

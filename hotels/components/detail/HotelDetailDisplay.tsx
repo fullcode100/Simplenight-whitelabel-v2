@@ -173,8 +173,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     }
   };
 
-  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
-
   const RatingSection = () => (
     <section className="flex items-center justify-between w-full mt-4 lg:justify-start lg:gap-2 lg:mt-0">
       <span className="text-sm font-semibold lg:text-base text-primary-1000">
@@ -341,9 +339,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   return (
     <>
-      <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
-      />
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
       <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
         <section className="flex items-center justify-between h-12">

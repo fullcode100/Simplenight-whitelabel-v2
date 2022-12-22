@@ -13,4 +13,13 @@ export interface DetailRequest {
   apiUrl: string;
 }
 
+export interface SimilarEventRequest {
+  start_date: string;
+  end_date: string;
+  rsp_fields_set: string;
+  relation_id: string;
+  dst_geolocation: string;
+  apiUrl: string;
+}
+
 export type ShowsSearchRequest = SearchRequest;

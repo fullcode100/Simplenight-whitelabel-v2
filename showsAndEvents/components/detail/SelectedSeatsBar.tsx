@@ -15,6 +15,9 @@ import classnames from 'classnames';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import { CartClientResponse } from 'types/cart/CartType';
+import NonRefundable from 'components/global/NonRefundable/NonRefundable';
+import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
+import { CancelationPolicy } from 'showsAndEvents/types/response/ShowsDetailResponse';
 
 interface selectedSeatsProp {
   name: string;
@@ -26,10 +29,10 @@ interface selectedSeatsProp {
   discountPercent: number;
   discountAmount: number;
   taxes: number;
-  cancellationPolicy: string;
   currency: string;
   deliveryMethods: string[];
   bookingCodeSupplier: string;
+  cancellationPolicy: CancelationPolicy;
 }
 
 interface SelectedSeatsBarProps {
@@ -37,7 +40,6 @@ interface SelectedSeatsBarProps {
   hideBar: () => void;
   name: string;
   deliveryMethods: string[];
-  cancellationPolicy: string;
   category: string;
   id: string;
   startDate: string;
@@ -49,7 +51,6 @@ const SelectedSeatsBar = ({
   hideBar,
   name,
   deliveryMethods,
-  cancellationPolicy,
   category,
   id,
   startDate,
@@ -90,6 +91,7 @@ const SelectedSeatsBar = ({
 
   const generateItemToBook = (ticket: selectedSeatsProp) => {
     return {
+      quantity: ticket.quantity,
       booking_data: {
         inventory_id: id,
         booking_code_supplier: ticket.bookingCodeSupplier,
@@ -127,9 +129,16 @@ const SelectedSeatsBar = ({
   const [isFreeCacellationPolicy, setIsFreeCacellationPolicy] = useState(false);
   const [showDeliveryMethodMenu, setShowDeliveryMethodMenu] = useState(false);
 
-  useEffect(() => {
-    setIsFreeCacellationPolicy(cancellationPolicy?.includes('Free'));
-  }, [cancellationPolicy]);
+  const cancellableType = 'FREE_CANCELLATION';
+  const nonRefundableType = 'NON_REFUNDABLE';
+
+  const defaultItem =
+    selectedSeats && selectedSeats[0] ? selectedSeats[0] : undefined;
+
+  const cancellable =
+    defaultItem?.cancellationPolicy?.cancellation_type === cancellableType;
+  const nonRefundable =
+    defaultItem?.cancellationPolicy?.cancellation_type === nonRefundableType;
 
   const deliveryMethodMenu = (
     <section className="w-full relative col-span-8 pr-5">
@@ -210,13 +219,13 @@ const SelectedSeatsBar = ({
               <div className={'flex flex-col text-right '}>
                 <div className="gap-1 font-semibold">
                   <div className="">
-                    <p className="text-base leading-6 m-0">
+                    <p className="text-base leading-6 m-0 whitespace-nowrap">
                       {item.currency}$ {item.basePrice + item.taxes}
                     </p>
                   </div>
                 </div>
                 <div className="gap-1 font-normal">
-                  <p className="text-0xs leading-tight capitalize m-0">
+                  <p className="text-0xs leading-tight capitalize m-0 whitespace-nowrap">
                     Total {item.currency}$
                     {item.quantity * (item.basePrice + item.taxes)}
                   </p>
@@ -234,11 +243,12 @@ const SelectedSeatsBar = ({
         {selectedSeats.map((item, i) => (
           <section key={i} className="px-5 pt-2">
             <div className="flex justify-between">
-              <div className="flex items-center text-primary-1000">
+              <div className="flex items-center text-primary-1000 max-w-[60%]">
                 <PlusIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
-                <p className="pl-2 text-gray-800">
+                <p className="pl-2 text-gray-800 truncate">
                   x{item.quantity}{' '}
                   {item.quantity > 1 ? ticketsLabel : ticketLabel}
+                  {`, ${item.row} ${item.sector}`}
                 </p>
               </div>
               <div className="flex items-center text-gray-500">
@@ -294,10 +304,15 @@ const SelectedSeatsBar = ({
             })}
           >
             <div className="flex items-center">
-              {isFreeCacellationPolicy && (
-                <CheckIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
+              {cancellable && (
+                <FreeCancellationExtended
+                  policy={defaultItem?.cancellationPolicy?.description}
+                />
               )}
-              <p className="pl-2">{cancellationPolicy}</p>
+              <NonRefundable
+                nonCancellable={nonRefundable}
+                description={defaultItem?.cancellationPolicy?.description}
+              />
             </div>
           </div>
         </section>

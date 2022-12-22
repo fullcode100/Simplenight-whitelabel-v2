@@ -40,67 +40,74 @@ import Image from 'next/image';
 import { SORT_SECTOR_BY_OPTIONS } from 'showsAndEvents/constants/sortByOptions';
 import SelectedSeatsBar from './SelectedSeatsBar';
 import classnames from 'classnames';
-import { DetailRequest } from 'showsAndEvents/types/request/ShowsSearchRequest';
+import {
+  DetailRequest,
+  SimilarEventRequest,
+} from 'showsAndEvents/types/request/ShowsSearchRequest';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import {
+  CancelationPolicy,
   Sector,
   ShowDetailItem,
+  Rate,
 } from 'showsAndEvents/types/response/ShowsDetailResponse';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import IconInput from 'components/global/Input/IconInput';
+import { SearchRequest } from 'types/search/SearchRequest';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
-
-declare let window: CustomWindow;
 
 interface SectorInfoProp {
   title: string;
   isActive: boolean;
 }
+
 interface selectedSeatsProp {
-  name: any;
   sector: string;
   row: string;
   title: string;
   quantity: any;
   basePrice: number;
-  discountPercent: number;
+  discountPercent: string;
   discountAmount: number;
   taxes: number;
-  cancellationPolicy: string;
+  cancellationPolicy: CancelationPolicy;
   currency: string;
   deliveryMethods: string[];
   bookingCodeSupplier: string;
 }
 interface iTicketCard {
   row: string;
-  title: string;
-  availableTime: string;
-  seatTogether: boolean;
   availableSeats: number;
-  price: any;
-  rate: any;
+  rate: Rate;
   currency: string;
   sectorTitle: string;
   delivery_methods: string[];
   booking_code_supplier: string;
+  cancellation_policy: CancelationPolicy;
+  quantity: number;
 }
 
 const ShowAndEventsDetailDisplay = ({
   Category,
 }: ShowAndEventsDetailDisplayProps) => {
-  const { ClientDetailer: Detailer, ClientAvailability: Availability } =
-    Category.core;
+  const {
+    ClientDetailer: Detailer,
+    ClientAvailability: Availability,
+    ClientSearcher: Searcher,
+  } = Category.core;
 
   const params = useQuery();
   const { id, fromDate, toDate, slug } = params;
   const [selectedTab, setSelectedTab] = useState<ReactNode>('All sectors');
 
   const [showEventItem, setShowEventItem] = useState<ShowDetailItem>();
+  const [similarShowEventItems, setSimilarShowEventItems] =
+    useState<ShowDetailItem[]>();
 
   const [loaded, setLoaded] = useState(false);
+  const [similarEventsLoaded, setSimilarEventsLoaded] = useState(false);
   const [showMobileFilters, setShowMobileFilter] = useState(false);
-  const [formatDate, setFormatDate] = useState('');
   const [sectors, setSectors] = useState<Sector[]>();
 
   const [currentCancellation, setCurrentCancellation] = useState<string>('');
@@ -125,6 +132,7 @@ const ShowAndEventsDetailDisplay = ({
     description: '',
     seat_map: null,
     images: [],
+    relation_id: '',
   });
   const [t, i18next] = useTranslation('events');
   const sectorLabel = t('sector', 'Sector');
@@ -147,15 +155,6 @@ const ShowAndEventsDetailDisplay = ({
       setLoaded(true);
     }
   }, [id]);
-
-  useEffect(() => {
-    if (fromDate) {
-      const newFormatDate = dayjs(fromDate as string).format(
-        'MMM D, YYYY HH:mm',
-      );
-      setFormatDate(newFormatDate);
-    }
-  }, [fromDate]);
 
   const groupBySectors = (sectorSeats: any) => {
     const groupToValues = sectorSeats.reduce(function (
@@ -183,6 +182,29 @@ const ShowAndEventsDetailDisplay = ({
     });
     return maxSectorPrice;
   };
+
+  useEffect(() => {
+    if (extraDataObject?.relation_id) {
+      const {
+        coordinates: { latitude, longitude },
+      } = addresObject;
+      const params: SearchRequest = {
+        start_date: formatAsSearchDate(fromDate as string),
+        end_date: formatAsSearchDate(toDate as string),
+        rsp_fields_set: 'basic',
+        relation_id: extraDataObject.relation_id,
+        dst_geolocation: `${latitude},${longitude}`,
+        apiUrl,
+      };
+      Searcher?.request?.(params as SearchRequest, i18next)
+        .then(({ items }) => {
+          setSimilarShowEventItems(items);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  }, [extraDataObject]);
 
   useEffect(() => {
     const params: DetailRequest = {
@@ -237,6 +259,9 @@ const ShowAndEventsDetailDisplay = ({
 
   const { description } = extraDataObject;
   const showAndEventsList = () => {
+    if (!similarShowEventItems) {
+      return;
+    }
     const urlDetail = (thingToDo: iShowAndEventsResult) => {
       const { id } = thingToDo;
 
@@ -291,13 +316,12 @@ const ShowAndEventsDetailDisplay = ({
             />
           }
         >
-          {showsAndEventsMock.map((thingToDo: any) => {
+          {similarShowEventItems?.map((thingToDo: any) => {
             const url = urlDetail(thingToDo);
             const {
               id,
               name,
               address,
-              reviews: { rating, amount: reviewsAmount },
               phone_number: phoneNumber,
               tags,
               images,
@@ -320,10 +344,8 @@ const ShowAndEventsDetailDisplay = ({
                   images={images}
                   address={formattedLocation}
                   className=" flex-0-0-auto"
-                  rating={rating}
                   fromDate={fromDate}
                   toDate={toDate}
-                  reviewsAmount={reviewsAmount}
                   phoneNumber={phoneNumber}
                   tags={tags}
                   isHorizontal
@@ -381,25 +403,25 @@ const ShowAndEventsDetailDisplay = ({
   const addSelectedSeastsInfo = ({
     row,
     currency,
-    price,
     sectorTitle,
     rate,
     delivery_methods: deliveryMethods,
     availableSeats,
     booking_code_supplier: bookingCodeSupplier,
+    quantity,
+    cancellation_policy: cancellationPolicy,
   }: iTicketCard) => {
     const newSelectedSeat: selectedSeatsProp = {
-      name: name,
       title: `${sectorTitle} ${row}`,
       sector: sectorTitle,
       row: row,
       basePrice: rate.total.net.amount,
-      cancellationPolicy: currentCancellation,
+      cancellationPolicy: cancellationPolicy,
       currency,
       discountPercent: rate.discounts.percentage_to_apply,
       discountAmount: rate.discounts.amount_to_apply.amount,
-      quantity: 1,
-      taxes: price?.total_taxes?.amount || 0,
+      taxes: rate.taxes.full.amount || 0,
+      quantity: quantity,
       deliveryMethods,
       bookingCodeSupplier,
     };
@@ -409,15 +431,13 @@ const ShowAndEventsDetailDisplay = ({
       (item) => item.title === newSelectedSeat.title,
     );
 
-    if (currentSeat && currentSeat.quantity === availableSeats) return;
-
     if (!currentSeat) {
       setSelectedSeats([...currentSelectedSeats, newSelectedSeat]);
     } else {
       setSelectedSeats(
         currentSelectedSeats.map((item) => {
           if (item.title === currentSeat.title) {
-            item.quantity = item.quantity + 1;
+            item.quantity = newSelectedSeat.quantity;
           }
           return item;
         }),
@@ -436,16 +456,8 @@ const ShowAndEventsDetailDisplay = ({
 
     if (currentSeatIndex < 0) return;
 
-    const currentSeat = currentSelectedSeats[currentSeatIndex];
-
-    if (currentSeat && currentSeat.quantity > 1) {
-      currentSelectedSeats[currentSeatIndex].quantity =
-        currentSelectedSeats[currentSeatIndex].quantity - 1;
-      setSelectedSeats(currentSelectedSeats);
-    } else if (currentSeat && currentSeat.quantity === 1) {
-      currentSelectedSeats.splice(currentSeatIndex, 1);
-      setSelectedSeats(currentSelectedSeats);
-    }
+    currentSelectedSeats.splice(currentSeatIndex, 1);
+    setSelectedSeats(currentSelectedSeats);
     if (currentSelectedSeats.length === 0) {
       setShowSelectedSeatsBar(false);
     }
@@ -539,19 +551,30 @@ const ShowAndEventsDetailDisplay = ({
                       <TicketCard
                         key={id}
                         {...row}
-                        add={() => {
+                        add={(value) => {
                           addSelectedSeastsInfo({
                             ...row,
                             currency: row.rate.total.net.currency,
                             availableSeats: row.available_seats,
                             sectorTitle: title,
-                          } as unknown as iTicketCard);
+                            quantity: value,
+                          } as iTicketCard);
                         }}
-                        remove={() => {
-                          removeSelectedSeastsInfo({
-                            ...row,
-                            sectorTitle: title,
-                          } as unknown as iTicketCard);
+                        remove={(value) => {
+                          if (value === 0) {
+                            removeSelectedSeastsInfo({
+                              ...row,
+                              sectorTitle: title,
+                            } as unknown as iTicketCard);
+                          } else {
+                            addSelectedSeastsInfo({
+                              ...row,
+                              currency: row.rate.total.net.currency,
+                              availableSeats: row.available_seats,
+                              sectorTitle: title,
+                              quantity: value,
+                            } as iTicketCard);
+                          }
                         }}
                         section={title}
                       />
@@ -609,7 +632,9 @@ const ShowAndEventsDetailDisplay = ({
         {getSectionTitle(showEventItem?.name || '', undefined, undefined)}
         <label className="align-middle flex mb-2">
           <Calendar className="text-primary-1000 h-4 w-4 mr-2.5" />
-          {formatDate}
+          {dayjs(showEventItem?.extra_data.starts_at as string).format(
+            'MMM D, YYYY HH:mm',
+          )}
         </label>
         <label className="align-bottom flex">
           <LocationPin className="text-primary-1000 h-4 w-4 mr-2.5" />
@@ -631,13 +656,8 @@ const ShowAndEventsDetailDisplay = ({
     );
   };
 
-  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
-
   return (
     <>
-      <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
-      />
       {loaded && (
         <main className="relative w-full">
           <section
@@ -707,11 +727,6 @@ const ShowAndEventsDetailDisplay = ({
                     selectedSeats={selectedSeats}
                     hideBar={() => setShowSelectedSeatsBar(false)}
                     deliveryMethods={[]}
-                    cancellationPolicy={
-                      selectedSeats.find(
-                        ({ cancellationPolicy }) => cancellationPolicy,
-                      ).cancellationPolicy
-                    }
                   />
                 </section>
               </section>

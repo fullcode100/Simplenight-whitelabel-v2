@@ -16,4 +16,5 @@ export interface SearchRequest {
   apiUrl?: string;
   is_trending_req?: boolean;
   query?: string;
+  relation_id?: string;
 }

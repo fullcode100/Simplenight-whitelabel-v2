@@ -130,7 +130,7 @@ const ShowAndEventsFilterFormDesktop = () => {
       <section className="flex items-center justify-between">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
         <button
-          className="text-base font-semibold capitalize text-primary-1000"
+          className="text-base font-semibold capitalize text-primary-1000 underline"
           onClick={handleClearFilters}
         >
           {clearFiltersText}
