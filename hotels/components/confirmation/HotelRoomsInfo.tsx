@@ -130,6 +130,7 @@ const HotelRoomsInfo = ({
             loading={loading}
             setLoading={setLoading}
             handleCancel={handleItemRemoval}
+            bookingTotalOrder={'$0.0'}
           />
         </section>
       </section>

@@ -17,6 +17,7 @@ interface CancelModalProps {
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
   isCancelOrder?: boolean;
+  bookingTotalOrder: string;
 }
 
 const CancelModal = ({
@@ -26,6 +27,7 @@ const CancelModal = ({
   payment,
   handleCancel,
   loading = false,
+  bookingTotalOrder,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setLoading = () => {},
   isCancelOrder,
@@ -70,7 +72,7 @@ const CancelModal = ({
             <CardLogo cardBrand={cardBrand} />
           </section>
           <p className="text-sm leading-[22px] font-semibold text-dark-1000">
-            $0.00
+            {bookingTotalOrder}
           </p>
         </section>
       </section>

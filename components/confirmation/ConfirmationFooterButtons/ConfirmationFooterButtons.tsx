@@ -32,6 +32,7 @@ const ConfirmationFooterButtons = ({
   const bookingId = booking.booking_id;
   const payment = booking.payments[0];
   const bookingItemsList = booking.items;
+  const bookingTotalOrder = booking.order_total.formatted;
 
   const handleContinueShopping = () => {
     router.push('/');
@@ -72,6 +73,7 @@ const ConfirmationFooterButtons = ({
             loading={loading}
             setLoading={setLoading}
             handleCancel={handleCancelBooking}
+            bookingTotalOrder={bookingTotalOrder}
             isCancelOrder
           />
         </section>
