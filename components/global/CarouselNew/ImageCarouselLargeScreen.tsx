@@ -51,7 +51,6 @@ const ImageCarouselLargeScreen = ({
       items: 1,
     },
   };
-
   return (
     <section className="max-w-7xl mx-auto">
       <ImageZoomModal

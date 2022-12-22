@@ -14,7 +14,7 @@ import {
 } from 'core/client/services/CartClientService';
 import { useTranslation } from 'react-i18next';
 import ClientCart from 'components/checkout/ClientCart/ClientCart';
-import { CartObjectResponse, Item } from 'types/cart/CartType';
+// import { CartObjectResponse } from 'types/cart/CartType';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
@@ -51,7 +51,7 @@ const Client = () => {
 
   let primaryContactData: FormData | undefined;
   const bookingAnswerData: any = {};
-  let itemsForm: Item[] | undefined = [];
+  let itemsForm: any[] | undefined = [];
   let hasAdditionalRequests = false;
 
   const createAdditionalItem = (item: any) => {
@@ -72,7 +72,7 @@ const Client = () => {
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  const [cart, setCart] = useState<CartObjectResponse>();
+  const [cart, setCart] = useState<any>();
   const [isDisabled, setIsDisabled] = useState(true);
   let cartId: string | null = null;
 
@@ -81,27 +81,26 @@ const Client = () => {
     cartItemId: string,
     isAddingSpecialRequest?: boolean,
   ) => {
-    const newItemsForm =
-      cart &&
-      cart.items.map((item) => {
-        if (item.cart_item_id === cartItemId) {
-          return {
-            ...item,
-            cart_item_id: cartItemId,
-            ...(isAddingSpecialRequest && {
-              customer_additional_requests: data,
-            }),
-            ...(!isAddingSpecialRequest && {
-              customer: data.formData,
-            }),
-          };
-        }
-        return item;
-      });
+    const newItemsForm = cart
+      ? cart.items.map((item: { cart_item_id: string }) => {
+          if (item.cart_item_id === cartItemId) {
+            return {
+              ...item,
+              cart_item_id: cartItemId,
+              ...(isAddingSpecialRequest && {
+                customer_additional_requests: data,
+              }),
+              ...(!isAddingSpecialRequest && {
+                customer: data.formData,
+              }),
+            };
+          }
+          return item;
+        })
+      : [];
     if (cart) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      cart.items = newItemsForm!;
-      itemsForm = cart?.items;
+      cart.items = newItemsForm;
+      itemsForm = cart.items;
     }
 
     hasAdditionalRequests = true;
@@ -364,7 +363,7 @@ const Client = () => {
                     onSubmit={continueToPayment}
                   >
                     <ClientCart
-                      items={cart?.items}
+                      items={cart.items}
                       schema={travelersFormSchema}
                       uiSchema={travelersUiSchema}
                       onChange={handleAdditionalRequestChange}

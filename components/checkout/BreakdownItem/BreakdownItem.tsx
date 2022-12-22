@@ -23,6 +23,9 @@ const CheckoutItem = ({ item, reload, setReload }: CheckoutItemProps) => {
     categoryName === 'car-rental'
   )
     sectorName = 'car-rental';
+  if (sectorName === 'accommodations') {
+    sectorName = 'hotels';
+  }
   const sector = useCategory(sectorName || '');
   return (
     injectProps(sector?.breakdownDisplay, {

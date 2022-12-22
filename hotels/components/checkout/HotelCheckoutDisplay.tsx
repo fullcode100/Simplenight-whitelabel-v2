@@ -4,7 +4,7 @@ import Paragraph from 'components/global/Typography/Paragraph';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
-import { Item } from 'types/cart/CartType';
+import { Item } from '../../types/response/CartHotels';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 interface HotelCheckoutDisplayProps {
@@ -20,8 +20,10 @@ const HotelCheckoutDisplay = ({
   const roomText = t('room', 'Room');
   const roomsText = t('rooms', 'Rooms');
 
-  const name = item?.extended_data?.details?.name;
-  const itemsQty = item?.room_qty ?? 0;
+  const name = item?.item_data.details.name;
+  const itemsQty = item?.booking_data.room_qty
+    ? item?.booking_data.room_qty
+    : 0;
 
   const roomsLabel = usePlural(itemsQty, roomText, roomsText);
   const roomsFormatted = `${itemsQty} ${roomsLabel}`;

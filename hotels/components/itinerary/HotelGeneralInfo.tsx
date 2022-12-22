@@ -1,7 +1,8 @@
-import { InstructionModalItem } from 'hotels/types/response/SearchResponse';
 import { HotelCart } from 'types/cart/CartType';
 import CheckinCheckoutInfo from '../CheckinCheckoutInfo/CheckinCheckoutInfo';
-import InstructionsModal from '../Instructions/InstructionsModal';
+import InstructionsModal, {
+  InstructionProps,
+} from '../Instructions/InstructionsModal';
 import LocationInfo from '../LocationInfo/LocationInfo';
 
 interface HotelGeneralInfoProps {
@@ -22,7 +23,7 @@ const HotelGeneralInfo = ({ item }: HotelGeneralInfoProps) => {
         checkinTime={checkinTime}
         checkoutTime={checkoutTime}
       />
-      <InstructionsModal item={item?.details as InstructionModalItem} />
+      <InstructionsModal item={item?.details as InstructionProps} />
     </section>
   );
 };

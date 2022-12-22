@@ -42,13 +42,12 @@ const BreakdownSummary = ({
           : `${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}
       </Paragraph>
       <section className="text-right">
-        {/*  <PriceDisplay
-            rate={rate}
-            isPriceBase={isPriceBase}
-            isAvgAmount={isAvgAmount}
-            isStartingTotal={true}
-          />
-         */}
+        <PriceDisplay
+          rate={rate}
+          isPriceBase={isPriceBase}
+          isAvgAmount={isAvgAmount}
+          isStartingTotal={true}
+        />
 
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>

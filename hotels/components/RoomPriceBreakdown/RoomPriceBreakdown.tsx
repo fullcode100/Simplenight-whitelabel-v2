@@ -7,6 +7,7 @@ import AdultChildrenAmount from '../AdultChildrenAmount/AdultChildrenAmount';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { Rate } from '../../../types/booking/bookingType';
 import PlusIcon from 'public/icons/assets/Plus.svg';
+import { MinRateRate } from 'hotels/types/response/CartHotels';
 
 interface RoomPriceBreakdownProps {
   total?: string;
@@ -19,7 +20,7 @@ interface RoomPriceBreakdownProps {
   childrenAges?: string[];
   instructions?: React.ReactNode;
   termsOfService?: string | null;
-  rate?: Rate;
+  rate?: Rate | MinRateRate;
   isPriceBase?: boolean;
 }
 

@@ -7,7 +7,7 @@ import HotelBreakdownBody from './HotelBreakdownBody';
 import HotelBreakdownHeader from './HotelBreakdownHeader';
 
 interface HotelBreakdownDisplayProps {
-  item?: Item;
+  item?: any;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
   Category: CategoryOption;
@@ -25,7 +25,7 @@ const HotelBreakdownDisplay = ({
     <>
       {showCollapse ? (
         <CollapseUnbordered
-          title={<HotelBreakdownHeader item={item} icon={Category.icon} />}
+          title={<HotelBreakdownHeader item={item.item} icon={Category.icon} />}
           body={
             <HotelBreakdownBody
               item={item}
@@ -36,7 +36,7 @@ const HotelBreakdownDisplay = ({
         />
       ) : (
         <HotelBreakdownBody
-          item={item}
+          item={item.item}
           reload={reload}
           setReload={setReload}
           useCollapse={!showCollapse && false}

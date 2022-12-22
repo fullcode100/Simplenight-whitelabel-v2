@@ -3,20 +3,22 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Close from 'public/icons/assets/cross.svg';
 import InstructionsSection from './InstructionsSection';
-import {
+/* import {
   FeesInstructions,
   Instruction,
   InstructionItem,
-} from 'hotels/types/response/SearchResponse';
+} from 'hotels/types/response/SearchResponse'; */
+import { CheckInInstruction, Fees } from '../../types/response/CartHotels';
+
 import { hasInstructionsProps } from 'helpers/instructionUtil';
 
-interface InstructionProps {
-  checkin_time: string;
-  checkout_time: string;
-  check_in_instructions?: Instruction[];
-  special_instructions?: Instruction[];
-  policies?: Instruction[];
-  fees?: FeesInstructions;
+export interface InstructionProps {
+  checkin_time: string | undefined;
+  checkout_time: string | undefined;
+  check_in_instructions?: CheckInInstruction[] | undefined;
+  // special_instructions?: Instruction[];
+  policies?: CheckInInstruction[] | undefined;
+  fees?: Fees;
 }
 
 interface ModalProps {
@@ -35,14 +37,13 @@ const InstructionsModal = ({ item }: ModalProps) => {
     'checkInSpecialInstructions',
     '  Check-In & Special Instructions',
   );
-  const hasInstructionProps =
-    item && hasInstructionsProps(item as InstructionItem);
+  const hasInstructionProps = item && hasInstructionsProps(item as any);
   if (!hasInstructionProps) return null;
 
   const checkInTime = item?.checkin_time;
   const checkOutTime = item?.checkout_time;
   const checkInInstructions = item?.check_in_instructions;
-  const specialInstructions = item?.special_instructions;
+  // const specialInstructions = item?.special_instructions;
   const fees = item?.fees;
   const policies = item?.policies;
   return (
@@ -77,10 +78,10 @@ const InstructionsModal = ({ item }: ModalProps) => {
         <section className="overflow-y-scroll">
           <section className="mt-6">
             <InstructionsSection
-              checkInTime={checkInTime}
-              checkOutTime={checkOutTime}
+              checkInTime={checkInTime ? checkInTime : ''}
+              checkOutTime={checkOutTime ? checkOutTime : ''}
               checkInInstructions={checkInInstructions}
-              specialInstructions={specialInstructions}
+              // specialInstructions={specialInstructions}
               fees={fees}
               policies={policies}
             />

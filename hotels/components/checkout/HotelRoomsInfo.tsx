@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import HotelRoomInfo from './HotelRoomInfo';
-import { Item } from 'types/cart/CartType';
+import { Item } from '../../types/response/CartHotels';
 
 interface HotelRoomsInfoProps {
   item?: Item;

@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import HotelGeneralInfo from './HotelGeneralInfo';
 import HotelRoomsInfo from './HotelRoomsInfo';
-import { Item } from 'types/cart/CartType';
+// import { Item } from 'types/cart/CartType';
+import { Item } from '../../types/response/CartHotels';
 
 interface HotelBreakdownBodyProps {
   item?: Item;
@@ -18,7 +19,7 @@ const HotelBreakdownBody = ({
 }: HotelBreakdownBodyProps) => {
   return (
     <section className={`${useCollapse && 'pl-[52px]'}`}>
-      <HotelGeneralInfo item={item?.extended_data} />
+      <HotelGeneralInfo item={item?.item_data} />
       <HotelRoomsInfo item={item} reload={reload} setReload={setReload} />
     </section>
   );

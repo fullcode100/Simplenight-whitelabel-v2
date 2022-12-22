@@ -1,6 +1,6 @@
 import Divider from 'components/global/Divider/Divider';
 import ClientCartItem from './ClientCartItem';
-import { Item } from 'types/cart/CartType';
+import { Item } from '../../../hotels/types/response/CartHotels';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import { IChangeEvent } from '@rjsf/core';
 

@@ -56,7 +56,7 @@ const RoomCard = ({
   const images = room?.photos?.map((photo) => photo.url) ?? [];
   const [isOpen, onOpen, onClose] = useModal();
 
-  const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
+  const priceBreakdownText = t('YOU ARE', 'YOU ARE');
   const PriceBreakDown = () => (
     <>
       <RoomPriceBreakdownModal

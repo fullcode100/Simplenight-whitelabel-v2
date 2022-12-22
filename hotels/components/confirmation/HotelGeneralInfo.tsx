@@ -1,8 +1,9 @@
 import CheckinCheckoutInfo from '../CheckinCheckoutInfo/CheckinCheckoutInfo';
 import LocationInfo from '../LocationInfo/LocationInfo';
 import { Item } from 'types/booking/bookingType';
-import InstructionsModal from '../Instructions/InstructionsModal';
-import { InstructionModalItem } from 'hotels/types/response/SearchResponse';
+import InstructionsModal, {
+  InstructionProps,
+} from '../Instructions/InstructionsModal';
 
 interface HotelGeneralInfoProps {
   item?: Item;
@@ -22,9 +23,7 @@ const HotelGeneralInfo = ({ item }: HotelGeneralInfoProps) => {
         checkinTime={checkinTime}
         checkoutTime={checkoutTime}
       />
-      <InstructionsModal
-        item={item?.extra_data?.details as InstructionModalItem}
-      />
+      <InstructionsModal item={item?.extra_data?.details as InstructionProps} />
     </section>
   );
 };

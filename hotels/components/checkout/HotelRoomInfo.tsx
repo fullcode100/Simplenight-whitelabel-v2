@@ -7,12 +7,10 @@ import RoomPriceBreakdown from '../RoomPriceBreakdown/RoomPriceBreakdown';
 import RoomTitle from '../RoomTitle/RoomTitle';
 import Button from 'components/global/Button/Button';
 
-import { Item } from 'types/cart/CartType';
-import { diffDays } from 'helpers/dajjsUtils';
-
+import { Item, MinRateRate } from '../../types/response/CartHotels';
 import TrashIcon from 'public/icons/assets/small-trash.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
-import { CheckInInstructions } from 'hotels/types/response/SearchResponse';
+import { Rate } from '../../../types/booking/bookingType';
 
 const RESORT_FEES = 'RESORT_FEES';
 const TAXES_AND_FEES = 'TAXESANDFEES';
@@ -30,15 +28,15 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
 
-  const selectedRoom = room.extended_data?.rooms?.find(
-    (roomA) => roomA.code == room.extended_data?.selected_room_code,
-  );
-  const roomName = selectedRoom?.name;
-  const amenities = selectedRoom?.amenities.join(', ');
+  const roomName = room.item_data.min_rate_room.name;
+  const amenities = room.item_data.min_rate_room.amenities.join(', ');
 
-  const roomMinRate = selectedRoom?.rates.min_rate;
-  const roomRate = roomMinRate?.rate;
-  const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
+  const roomMinRate = room.item_data.min_rate_room;
+  const roomRate: MinRateRate = roomMinRate.rates.min_rate.rate;
+
+  const cancellationPolicy = room.item_data.rooms
+    .map((room) => room.rates.min_rate.cancellation_policy.description)
+    .join(', ');
   const total = roomRate?.total_amount.formatted;
   const roomRateDetail = roomRate?.rate_breakdown;
 
@@ -47,28 +45,27 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
 
   const resortFees = roomRateDetail?.post_paid_rate?.total_taxes;
   const resortFeesFormatted = resortFees?.formatted;
-  const termsOfService = room.extended_data?.terms_and_conditions;
+  const termsOfService = room.item_data?.terms_and_conditions;
 
-  const checkInInstructions = room?.extended_data?.check_in_instructions;
+  const checkInInstructions = room?.item_data?.details.check_in_instructions;
 
   const Instructions = () => {
-    const instructions = `${checkInInstructions?.instructions ?? ''}
-    ${checkInInstructions?.special_instructions ?? ''}
-    ${checkInInstructions?.fees?.mandatory ?? ''}
-    ${checkInInstructions?.fees?.optional ?? ''}
+    const instructions = `${checkInInstructions ?? ''}
+    ${room.item_data.details?.special_instructions ?? ''}
+    ${room.item_data.details.fees?.mandatory ?? ''}
+    ${room.item_data.details.fees?.optional ?? ''}
     `;
-    const policies = checkInInstructions?.policies ?? '';
+    const policies = room.item_data.details.policies ?? '';
 
-    const hasInstructions = instructions && instructions !== '';
-    const hasPolicies = policies && policies !== '';
+    const hasInstructions = instructions.length > 0;
+    const hasPolicies = policies.length > 0;
 
     return (
       <section className="mb-6 font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-        {hasInstructions && <>{instructions}</>}
         {hasPolicies && (
           <>
             <br />
-            {policies}
+            {policies[0].list[0]}
           </>
         )}
       </section>
@@ -90,8 +87,8 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
     <section className="flex flex-col gap-2 py-6 border-t border-dark-300">
       <RoomTitle
         roomName={roomName}
-        roomQty={room.room_qty}
-        nights={room.nights ?? 0}
+        roomQty={room.booking_data.room_qty}
+        nights={room.booking_data.nights ?? 0}
       />
       <RoomPriceBreakdown
         total={total}
@@ -99,8 +96,8 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
         resortFees={resortFeesFormatted}
         cancellationPolicy={cancellationPolicy}
         amenities={amenities}
-        adultsCount={room.adults}
-        childrenCount={room.children}
+        adultsCount={room.booking_data.adults}
+        childrenCount={room.booking_data.children}
         instructions={<Instructions />}
         termsOfService={termsOfService}
         rate={roomRate}

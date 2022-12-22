@@ -3,18 +3,22 @@ import { injectProps } from 'helpers/reactUtils';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary';
+import { Rates } from '../../types/response/SearchResponse';
 
-const HotelCheckoutItemDisplay = ({ item }: any) => {
+const HotelCheckoutItemDisplay = (item: any) => {
+  const breakDownInfo: Rates = item.item.item_data.min_rate_room.rates;
   const CartItemHeader = () => {
-    const itemCategory = useCategorySlug(item.category?.toLowerCase() || '');
+    const itemCategory = useCategorySlug(
+      item.item.category?.toLowerCase() || '',
+    );
     const sector = useCategory(itemCategory?.type || '');
     return injectProps(sector?.checkoutDisplay, {
-      item: item,
+      item: item.item,
     });
   };
 
   const CartItemBreakdown = () => {
-    const category = useCategory(item.category.toLowerCase());
+    const category = useCategory(item.item.category.toLowerCase());
     return injectProps(category?.breakdownDisplay, {
       item: item,
       showCollapse: false,
@@ -33,7 +37,7 @@ const HotelCheckoutItemDisplay = ({ item }: any) => {
     <CollapseBordered
       title={<CartItemHeader />}
       body={<CartItemBody />}
-      footer={<BreakdownSummary rate={item.rate} showTotal={true} />}
+      footer={<BreakdownSummary rate={breakDownInfo} showTotal={true} />}
     />
   );
 };
