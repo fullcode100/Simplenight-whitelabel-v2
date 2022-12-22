@@ -115,7 +115,7 @@ const ThingConfirmationFooter = ({
                   <CardLogo cardBrand={payment.card_brand} />
                 </section>
                 <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold self-center">
-                  {item.refund_amount_estimate.formatted}
+                  {item.refund_amount_estimate?.formatted}
                 </h4>
               </section>
             </section>

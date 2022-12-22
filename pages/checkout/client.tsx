@@ -27,6 +27,7 @@ import { getCurrency } from 'store/selectors/core';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import {
+  FREETEXT_UNIT,
   PICKUP_POINT_ID,
   PICKUP_POINT_UNIT,
   questionsFormDataDestructuring,
@@ -192,6 +193,8 @@ const Client = () => {
           answerItem.value = value.number || 0;
         }
         if (key === PICKUP_POINT_ID) answerItem.unit = PICKUP_POINT_UNIT;
+        if (key === 'TRANSFER_ARRIVAL_DROP_OFF')
+          answerItem.unit = FREETEXT_UNIT;
         bookingAnswerData[itemId].push(answerItem);
       } else {
         bookingAnswerData[itemId] = bookingAnswerData[itemId]?.map(
