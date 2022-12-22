@@ -358,7 +358,7 @@ const ShowAndEventsDetailDisplay = ({
                   priceDisplay={
                     <PriceDisplay
                       rate={rate}
-                      totalLabel={`USD ${rate?.total?.formatted}`}
+                      totalLabel={`${rate?.total?.net.formatted}`}
                     />
                   }
                 />
@@ -428,7 +428,8 @@ const ShowAndEventsDetailDisplay = ({
 
     const currentSelectedSeats = [...selectedSeats];
     const currentSeat = currentSelectedSeats.find(
-      (item) => item.title === newSelectedSeat.title,
+      (item) =>
+        item.bookingCodeSupplier === newSelectedSeat.bookingCodeSupplier,
     );
 
     if (!currentSeat) {
@@ -436,7 +437,7 @@ const ShowAndEventsDetailDisplay = ({
     } else {
       setSelectedSeats(
         currentSelectedSeats.map((item) => {
-          if (item.title === currentSeat.title) {
+          if (item.bookingCodeSupplier === currentSeat.bookingCodeSupplier) {
             item.quantity = newSelectedSeat.quantity;
           }
           return item;
@@ -446,12 +447,10 @@ const ShowAndEventsDetailDisplay = ({
     setShowSelectedSeatsBar(true);
   };
 
-  const removeSelectedSeastsInfo = ({ row, sectorTitle }: iTicketCard) => {
-    const title = `${sectorTitle} ${row}`;
-
+  const removeSelectedSeastsInfo = (bookingCodeSupplier: string) => {
     const currentSelectedSeats = [...selectedSeats];
     const currentSeatIndex = currentSelectedSeats.findIndex(
-      (item) => item.title === title,
+      (item) => item.bookingCodeSupplier === bookingCodeSupplier,
     );
 
     if (currentSeatIndex < 0) return;
@@ -546,10 +545,10 @@ const ShowAndEventsDetailDisplay = ({
                   <p className="text-lg leading-5 lg:text-[18px] lg:leading-[22px] font-semibold">
                     {`${sectorLabel} ${title}`}
                   </p>
-                  {rows.map((row, id) => {
+                  {rows.map((row, idx) => {
                     return (
                       <TicketCard
-                        key={id}
+                        key={idx}
                         {...row}
                         add={(value) => {
                           addSelectedSeastsInfo({
@@ -562,10 +561,7 @@ const ShowAndEventsDetailDisplay = ({
                         }}
                         remove={(value) => {
                           if (value === 0) {
-                            removeSelectedSeastsInfo({
-                              ...row,
-                              sectorTitle: title,
-                            } as unknown as iTicketCard);
+                            removeSelectedSeastsInfo(row.booking_code_supplier);
                           } else {
                             addSelectedSeastsInfo({
                               ...row,
@@ -577,6 +573,13 @@ const ShowAndEventsDetailDisplay = ({
                           }
                         }}
                         section={title}
+                        selectedSeats={
+                          selectedSeats.find(
+                            (item) =>
+                              item.bookingCodeSupplier ===
+                              row.booking_code_supplier,
+                          )?.quantity || 0
+                        }
                       />
                     );
                   })}
@@ -725,7 +728,7 @@ const ShowAndEventsDetailDisplay = ({
                     category={showEventItem?.main_category || ''}
                     name={showEventItem?.name || ''}
                     selectedSeats={selectedSeats}
-                    hideBar={() => setShowSelectedSeatsBar(false)}
+                    removeItem={removeSelectedSeastsInfo}
                     deliveryMethods={[]}
                   />
                 </section>

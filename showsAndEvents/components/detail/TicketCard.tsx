@@ -18,6 +18,7 @@ interface TicketCard {
   add: (value: number) => void;
   remove: (value: number) => void;
   purchasable_quantities: number[];
+  selectedSeats: number;
 }
 
 const TicketCard: React.FC<TicketCard> = ({
@@ -28,6 +29,7 @@ const TicketCard: React.FC<TicketCard> = ({
   add,
   remove,
   purchasable_quantities: purchasableQuantities,
+  selectedSeats = 0,
 }) => {
   const [t, i18next] = useTranslation('events');
   const sectorLabel = t('sector', 'Sector');
@@ -44,7 +46,6 @@ const TicketCard: React.FC<TicketCard> = ({
     return purchasableQuantities;
   }, [purchasableQuantities]);
 
-  const [selectedSeats, setSelectedSeats] = useState<number>(0);
   const [seatTogether, setSeatTogether] = useState(false);
   const ticketsCountLabel = selectedSeats > 1 ? ticketsLabel : ticketLabel;
   const availableSeatsLabel = availableSeats > 1 ? ticketsLabel : ticketLabel;
@@ -55,7 +56,6 @@ const TicketCard: React.FC<TicketCard> = ({
     if (!isLastIndex) {
       const value = purchasableQuantitiesList[currentIndex + 1];
       setSeatTogether(value > 1);
-      setSelectedSeats(value);
       add(value);
     }
   };
@@ -65,7 +65,6 @@ const TicketCard: React.FC<TicketCard> = ({
     const value =
       currentIndex > 0 ? purchasableQuantitiesList[currentIndex - 1] : 0;
     setSeatTogether(value > 1);
-    setSelectedSeats(value);
     remove(value);
   };
 
@@ -148,16 +147,15 @@ const TicketCard: React.FC<TicketCard> = ({
             <div className="gap-1 font-semibold text-end">
               <div className="w-[200px] text-end">
                 <p className="text-lg leading-6 text-end m-0">
-                  {rate.total.net.currency}${rate.total.net.amount}
+                  ${rate.total.net.amount.toFixed(2)}
                 </p>
               </div>
             </div>
             <div className="gap-1 font-normal">
               {!!selectedSeats && (
                 <p className="text-xs leading-tight capitalize m-0">
-                  {rate.total.net.currency}
-                  {'$'}
-                  {selectedSeats * rate.total.net.amount} {totalLabel}
+                  ${(selectedSeats * rate.total.net.amount).toFixed(2)}{' '}
+                  {totalLabel}
                 </p>
               )}
               {!selectedSeats && (
@@ -168,9 +166,8 @@ const TicketCard: React.FC<TicketCard> = ({
                       hidden: !selectedSeats,
                     })}
                   >
-                    {rate.total.net.currency}
                     {'$'}
-                    {selectedSeats * rate.total.net.amount}
+                    {(selectedSeats * rate.total.net.amount).toFixed(2)}
                   </span>
                   {` / ${eachLabel}`}
                 </p>

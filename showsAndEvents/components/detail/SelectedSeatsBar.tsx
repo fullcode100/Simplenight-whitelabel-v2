@@ -20,7 +20,6 @@ import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCan
 import { CancelationPolicy } from 'showsAndEvents/types/response/ShowsDetailResponse';
 
 interface selectedSeatsProp {
-  name: string;
   sector: string;
   row: string;
   title: string;
@@ -37,7 +36,7 @@ interface selectedSeatsProp {
 
 interface SelectedSeatsBarProps {
   selectedSeats: selectedSeatsProp[];
-  hideBar: () => void;
+  removeItem: (bookingCodeSupplier: string) => void;
   name: string;
   deliveryMethods: string[];
   category: string;
@@ -48,7 +47,7 @@ interface SelectedSeatsBarProps {
 
 const SelectedSeatsBar = ({
   selectedSeats,
-  hideBar,
+  removeItem,
   name,
   deliveryMethods,
   category,
@@ -220,14 +219,14 @@ const SelectedSeatsBar = ({
                 <div className="gap-1 font-semibold">
                   <div className="">
                     <p className="text-base leading-6 m-0 whitespace-nowrap">
-                      {item.currency}$ {item.basePrice + item.taxes}
+                      ${(item.basePrice + item.taxes).toFixed(2)}
                     </p>
                   </div>
                 </div>
                 <div className="gap-1 font-normal">
                   <p className="text-0xs leading-tight capitalize m-0 whitespace-nowrap">
-                    Total {item.currency}$
-                    {item.quantity * (item.basePrice + item.taxes)}
+                    Total $
+                    {(item.quantity * (item.basePrice + item.taxes)).toFixed(2)}
                   </p>
                 </div>
               </div>
@@ -235,7 +234,7 @@ const SelectedSeatsBar = ({
             <div className="col-span-1 flex justify-center">
               <TrashIcon
                 className="text-gray-800 h-5 w-5 lg:h-[20px] lg:w-[18px] cursor-pointer"
-                onClick={hideBar}
+                onClick={() => removeItem(item.bookingCodeSupplier)}
               />
             </div>
           </section>
@@ -253,15 +252,14 @@ const SelectedSeatsBar = ({
               </div>
               <div className="flex items-center text-gray-500">
                 <p className="text-xs pr-2 line-through">
-                  {item.currency}$
-                  {item.quantity * (item.basePrice + item.taxes)}
+                  ${(item.quantity * (item.basePrice + item.taxes)).toFixed(2)}
                 </p>
                 <p className="text-primary-1000">{item.discountPercent} Off</p>
               </div>
             </div>
             <div className="flex justify-end">
               <p>
-                {item.currency}${item.quantity * (item.basePrice + item.taxes)}
+                ${(item.quantity * (item.basePrice + item.taxes)).toFixed(2)}
               </p>
             </div>
           </section>
@@ -273,11 +271,13 @@ const SelectedSeatsBar = ({
           </div>
           <div className="flex items-center text-gray-1000">
             <p className="text-xs">
-              {selectedSeats && selectedSeats[0].currency}$
-              {selectedSeats.reduce((a, b) => {
-                const cal = b.taxes * b.quantity;
-                return a + cal;
-              }, 0)}
+              $
+              {selectedSeats
+                .reduce((a, b) => {
+                  const cal = b.taxes * b.quantity;
+                  return a + cal;
+                }, 0)
+                .toFixed(2)}
             </p>
           </div>
         </div>
@@ -288,11 +288,13 @@ const SelectedSeatsBar = ({
             </div>
             <div className="flex items-center text-gray-1000">
               <p className="text-base">
-                {selectedSeats && selectedSeats[0].currency}$
-                {selectedSeats.reduce((a, b) => {
-                  const cal = (b.basePrice + b.taxes) * b.quantity;
-                  return a + cal;
-                }, 0)}
+                $
+                {selectedSeats
+                  .reduce((a, b) => {
+                    const cal = (b.basePrice + b.taxes) * b.quantity;
+                    return a + cal;
+                  }, 0)
+                  .toFixed(2)}
               </p>
             </div>
           </div>
@@ -324,11 +326,13 @@ const SelectedSeatsBar = ({
           </div>
           <div className="items-center">
             <p className="text-base text-end">
-              {selectedSeats && selectedSeats[0].currency}$
-              {selectedSeats.reduce((a, b) => {
-                const cal = (b.basePrice + b.taxes) * b.quantity;
-                return a + cal;
-              }, 0)}
+              $
+              {selectedSeats
+                .reduce((a, b) => {
+                  const cal = (b.basePrice + b.taxes) * b.quantity;
+                  return a + cal;
+                }, 0)
+                .toFixed(2)}
             </p>
             <p className="text-sm text-end text-gray-400">
               {includesTaxesAndFeesText}

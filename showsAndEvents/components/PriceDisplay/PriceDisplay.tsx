@@ -2,39 +2,28 @@ import React from 'react';
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
+import { Rate } from 'types/cart/CartType';
 
-interface ThingsRates {
-  total: {
-    amount: number;
-    formatted: string;
-    currency: string;
-  };
-  discount_percentage: string;
-  total_amount_before_discount: {
-    amount: number;
-    formatted: string;
-    currency: string;
-  };
-}
 interface PriceDisplayProps {
-  rate: ThingsRates;
+  rate: Rate;
   totalLabel?: string;
 }
 
 const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
-  // const percentageToApply = rate?.discount_percentage;
-  // const totalBeforeDiscount = rate?.total_amount_before_discount.formatted;
+  const percentageToApply = rate?.discounts.percentage_to_apply;
+  const totalBeforeDiscount =
+    rate?.discounts.total_amount_before_apply.formatted;
 
   const [t] = useTranslation('global');
   // const startingRoomTotalLabel = t('total', 'Total');
-  // const taxesAndFeesLabel = t(
-  //   'includesTaxesAndFees',
-  //   'Includes Taxes and Fees',
-  // );
+  const taxesAndFeesLabel = t(
+    'includesTaxesAndFees',
+    'Includes Taxes and Fees',
+  );
 
   return (
     <section className="text-right">
-      {/* {totalBeforeDiscount && (
+      {totalBeforeDiscount && (
         <p className="text-xs">
           <span className="text-dark-700 line-through font-normal">
             {totalBeforeDiscount}
@@ -43,7 +32,7 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
             {percentageToApply} Off
           </span>
         </p>
-      )} */}
+      )}
       <p
         className={classnames('leading-[22px] text-dark-1000', {
           ['flex flex-row gap-1 justify-end']: totalLabel,
@@ -54,12 +43,12 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
         </span>
       </p>
 
-      {/* <section className="flex flex-row gap-1 justify-end">
+      <section className="flex flex-row gap-1 justify-end">
         <p className="text-[12px] leading-[15px] text-dark-800">
           {taxesAndFeesLabel}
         </p>
         <TaxesAndFeesPopover />
-      </section> */}
+      </section>
     </section>
   );
 };

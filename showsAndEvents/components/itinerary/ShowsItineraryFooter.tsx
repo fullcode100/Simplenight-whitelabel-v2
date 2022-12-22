@@ -70,7 +70,6 @@ const ShowsItineraryFooter = ({
           <section className="text-right ml-auto">
             <section className="flex flex-col gap-1 justify-end">
               <p className="font-semibold text-[18px] leading-[18px] text-dark-1000">
-                {item?.rate?.total.net.currency}
                 {item?.rate?.total.net.formatted}
               </p>
               <section className="flex flex-row gap-1 justify-end">

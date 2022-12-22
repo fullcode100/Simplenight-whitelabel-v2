@@ -1,3 +1,5 @@
+import { Rate } from 'types/cart/CartType';
+
 export interface ShowsSearchResponse {
   id: string;
   name: string;
@@ -34,23 +36,7 @@ export interface ShowsSearchResponse {
   toDate: string;
   images: string[];
   thumbnail: string;
-  rate: {
-    total: {
-      net: {
-        formatted: number;
-        currency: string;
-      };
-      amount: number;
-      formatted: string;
-      currency: string;
-    };
-    discount_percentage: string;
-    total_amount_before_discount: {
-      amount: number;
-      formatted: string;
-      currency: string;
-    };
-  };
+  rate: Rate;
   tags: string;
   cancellation_policy: {
     description: string;

@@ -87,7 +87,7 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
                   imageSrc={thumbnail}
                   name={name}
                   url={url}
-                  price={`${currency} ${formatted}`}
+                  price={`${formatted}`}
                 />
               );
             })}

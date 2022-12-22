@@ -64,7 +64,7 @@ const FeaturedCarousel = ({ Category }: FeaturedCarouselProps) => {
                     : `/images/mocks/trending/t${index}.png`
                 }
                 name={item.name}
-                price={`${item.rate.total.net.currency} ${item.rate.total.net.formatted}`}
+                price={`${item.rate.total.net.formatted}`}
               />
             ))}
         </CustomCarousel>

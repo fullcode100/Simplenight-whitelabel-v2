@@ -170,7 +170,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                     priceDisplay={
                       <PriceDisplay
                         rate={rate}
-                        totalLabel={`USD ${rate.total.net.formatted}`}
+                        totalLabel={`${rate.total.net.formatted}`}
                       />
                     }
                   />
