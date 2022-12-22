@@ -6,6 +6,7 @@ import FilterContainer from './filters/FilterContainer';
 import PriceRangeFilter from './filters/PriceRangeFilter';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import SortByFilter from './filters/SortByFilter';
+import FilterCollapseTitle from './filters/FilterCollapseTitle';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -14,6 +15,7 @@ const Divider = ({ className }: { className?: string }) => (
 function DiningFilterFormDesktop() {
   const router = useRouter();
   const [t] = useTranslation('dining');
+  const priceText = t('price', 'Price');
   const setQueryParams = useQuerySetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
 
@@ -89,7 +91,7 @@ function DiningFilterFormDesktop() {
       <section className="flex items-center justify-between">
         <p className="text-lg font-semibold text-dark-1000">{t('filters')}</p>
         <button
-          className="text-base font-semibold capitalize text-primary-1000"
+          className="text-base font-semibold capitalize underline text-primary-1000"
           onClick={handleClearFilters}
         >
           {t('clearFilters')}
@@ -109,12 +111,14 @@ function DiningFilterFormDesktop() {
           onChangeHotels={() => true}
           onChangeVacationRentals={() => true}
         /> */}
-        <PriceRangeFilter
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-          onChangeMinPrice={onChangeMinPrice}
-          onChangeMaxPrice={onChangeMaxPrice}
-        />
+        <FilterCollapseTitle title={priceText}>
+          <PriceRangeFilter
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            onChangeMinPrice={onChangeMinPrice}
+            onChangeMaxPrice={onChangeMaxPrice}
+          />
+        </FilterCollapseTitle>
         <Divider className="my-4 opacity-0" />
         {/* <StarRatingFilter
           minStarRating={minStarRating}
