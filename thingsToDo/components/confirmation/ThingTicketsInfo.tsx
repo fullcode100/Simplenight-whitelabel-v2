@@ -20,7 +20,7 @@ interface Props {
 const ThingTicketsInfo = ({ item }: Props) => {
   const paxes = item.booking_data?.ticket_types || [];
   const quantity = item.quantity;
-  const rate = item.item_data?.rate as any;
+  const rate = item.rate;
   const discounts = rate.discounts;
   const totalAmount = rate.total;
   const tickets = item.item_data?.extra_data.tickets[0];
