@@ -9,7 +9,6 @@ import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
-import BedsAmount from 'hotels/components/BedsAmount/BedsAmount';
 import { useState } from 'react';
 import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
 import { useTranslation } from 'react-i18next';
@@ -56,7 +55,7 @@ const RoomCard = ({
   const images = room?.photos?.map((photo) => photo.url) ?? [];
   const [isOpen, onOpen, onClose] = useModal();
 
-  const priceBreakdownText = t('YOU ARE', 'YOU ARE');
+  const priceBreakdownText = t('Price Breakdown', 'Price Breakdown');
   const PriceBreakDown = () => (
     <>
       <RoomPriceBreakdownModal
