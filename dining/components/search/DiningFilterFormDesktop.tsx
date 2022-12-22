@@ -116,12 +116,12 @@ function DiningFilterFormDesktop() {
           onChangeMaxPrice={onChangeMaxPrice}
         />
         <Divider className="my-4 opacity-0" />
-        <StarRatingFilter
+        {/* <StarRatingFilter
           minStarRating={minStarRating}
           maxStarRating={maxStarRating}
           onChangeMinRating={onChangeMinRating}
           onChangeMaxRating={onChangeMaxRating}
-        />
+        /> */}
       </section>
     </section>
   );

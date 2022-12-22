@@ -111,13 +111,13 @@ const DiningSecondarySearchOptions = () => {
         onChangeMaxPrice={onChangeMaxPrice}
       />
       <Divider className="my-6" />
-      <StarRatingFilter
+      {/* <StarRatingFilter
         minStarRating={minStarRating}
         maxStarRating={maxStarRating}
         onChangeMinRating={setMinStarRating}
         onChangeMaxRating={setMaxStarRating}
       />
-      <Divider className="my-6" />
+      <Divider className="my-6" /> */}
     </section>
   );
 
@@ -158,22 +158,18 @@ const DiningSecondarySearchOptions = () => {
   };
 
   return (
-    <section className="flex w-full gap-2 px-4 py-3 lg:hidden">
-      <Button
-        value={filtersLabel}
-        size="full-sm"
-        leftIcon={<FilterIcon />}
+    <section className="lg:hidden">
+      <button
+        className="flex items-center gap-2 py-1 me-2 lg:hidden"
         onClick={handleFilterButtonClick}
-        translationKey="filters"
-        context="dining"
-      />
-      <Button
-        value={viewButtonValue}
-        size="full-sm"
-        type="outlined"
-        leftIcon={icon}
-        onClick={handleChangeResultView}
-      />
+      >
+        <span className="text-primary-1000">
+          <FilterIcon />
+        </span>
+        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+          {t('filter', 'Filter')}
+        </span>
+      </button>
       {Modals}
     </section>
   );

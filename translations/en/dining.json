@@ -42,5 +42,9 @@
     "free": "Free",
     "priceRange": "Price Range",
     "search": "Search",
-    "results": "Results"
+    "results": "Results",
+    "sortByBestMatch": "Best Match",
+    "sortByRating": "Rating",
+    "sortByReviewCount": "Review Count",
+    "sortByDistance": "Distance"
 }

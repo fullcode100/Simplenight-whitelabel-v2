@@ -11,6 +11,7 @@ const HorizontalTabs = ({
   onClick,
   className = '',
   primary = false,
+  hideMore,
 }: TabsProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -54,20 +55,22 @@ const HorizontalTabs = ({
               {tab.name}
             </button>
           ))}
-          <button
-            key={'more'}
-            onClick={() => setIsModalOpen(true)}
-            className={classNames(
-              'border-transparent text-dark-700 hover:text-dark-1000 hover:border-gray-300',
-              'whitespace-nowrap pb-2 px-3 flex flex-col items-center justify-center border-b-2 text-sm font-semibold',
-            )}
-            aria-current={undefined}
-          >
-            <div className="flex items-center justify-center w-6 h-6">
-              <Plus />
-            </div>
-            Coming Soon
-          </button>
+          {hideMore && (
+            <button
+              key={'more'}
+              onClick={() => setIsModalOpen(true)}
+              className={classNames(
+                'border-transparent text-dark-700 hover:text-dark-1000 hover:border-gray-300',
+                'whitespace-nowrap pb-2 px-3 flex flex-col items-center justify-center border-b-2 text-sm font-semibold',
+              )}
+              aria-current={undefined}
+            >
+              <div className="flex items-center justify-center w-6 h-6">
+                <Plus />
+              </div>
+              Coming Soon
+            </button>
+          )}
         </nav>
       </div>
       <Modal

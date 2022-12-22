@@ -87,7 +87,7 @@ function HorizontalItemCard<T extends WithId>({
     >
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
-          <section className="flex flex-row">
+          <section className="flex min-[300px]:flex-col md:flex-row lg:flex-row">
             {isImageComponent ? (
               <section className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] flex justify-center items-center text-primary-1000">
                 {ImageComponent}

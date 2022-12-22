@@ -13,4 +13,5 @@ export interface TabsProps {
   primary?: boolean;
   activeTab: Tab;
   onClick: (tab: Tab) => void;
+  hideMore?: boolean;
 }

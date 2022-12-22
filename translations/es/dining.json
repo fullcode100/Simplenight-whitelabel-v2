@@ -43,5 +43,9 @@
     "free": "Gratis",
     "priceRange": "Rango de precios",
     "search": "Buscar",
-    "results": "Resultados"
+    "results": "Resultados",
+    "sortByBestMatch": "Mejor Coincidencia",
+    "sortByRating": "Clasificación",
+    "sortByReviewCount": "Recuento de reseñas",
+    "sortByDistance": "Distancia"
 }

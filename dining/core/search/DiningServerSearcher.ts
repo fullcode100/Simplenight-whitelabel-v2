@@ -38,7 +38,6 @@ export class DiningServerSearcher extends ServerSearcher<DiningSearchResponse> {
     params.lang = 'en';
     params.covers = '2';
     params.limit = '20';
-    params.sort_by = 'rating';
 
     delete params.cancellation_type;
     delete params.supplier_ids;

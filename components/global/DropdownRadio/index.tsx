@@ -9,9 +9,12 @@ import Filter from '@/icons/assets/filter.svg';
 import Chevron from '@/icons/assets/chevron-down-small.svg';
 
 interface DropdownRadioProps {
-  translation: 'hotels' | 'parking';
+  translation: 'hotels' | 'parking' | 'dining';
   sortByVal: string;
-  setSortByVal: React.Dispatch<React.SetStateAction<string>>;
+  showFilter?: boolean;
+  setSortByVal:
+    | React.Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   options: string[];
   onClickOption: (value: string) => void;
 }
@@ -19,6 +22,7 @@ interface DropdownRadioProps {
 export const DropdownRadio = ({
   translation,
   sortByVal,
+  showFilter = true,
   setSortByVal,
   options,
   onClickOption,
@@ -72,19 +76,20 @@ export const DropdownRadio = ({
           </RadioGroup>
         </section>
       </section>
-
-      <button
-        className="flex items-center gap-2 lg:w-[100px] h-6 lg:hidden "
-        onClick={() => setShowSortingDropdown((p) => !p)}
-        onBlur={() => setShowSortingDropdown(false)}
-      >
-        <span className="text-primary-1000">
-          <Filter />
-        </span>
-        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
-          {t('filter')}
-        </span>
-      </button>
+      {showFilter && (
+        <button
+          className="flex items-center gap-2 lg:w-[100px] h-6 lg:hidden "
+          onClick={() => setShowSortingDropdown((p) => !p)}
+          onBlur={() => setShowSortingDropdown(false)}
+        >
+          <span className="text-primary-1000">
+            <Filter />
+          </span>
+          <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+            {t('filter')}
+          </span>
+        </button>
+      )}
     </section>
   );
 };

@@ -5,7 +5,7 @@ export interface DiningSearchRequest extends SearchRequest {
   covers: string;
   limit: number;
   price: string;
-  starRating: string;
+  sort_by: string;
 }
 
 export interface DiningSearchPreRequest {
