@@ -1,4 +1,3 @@
-import IconWrapper from './IconWrapper';
 import CategoryTab from './CategoryTab';
 
 export default function ComingSoon() {
@@ -6,7 +5,7 @@ export default function ComingSoon() {
     <div
       className={
         // eslint-disable-next-line quotes
-        "bg-white inline-flex flex-col items-start rounded drop-shadow-lg overflow-clip font-['Lato']"
+        " w-full inline-flex flex-col items-start rounded overflow-clip font-['Lato']"
       }
     >
       <div className="pt-5 bg-white gap-2.5 flex flex-col items-start w-full"></div>
@@ -21,33 +20,34 @@ export default function ComingSoon() {
               your customers.
             </p>
           </div>
-          <div className="px-6 w-full flex flex-col items-start self-stretch text-white text-left font-semibold">
+          <div className="pr-6 pl-6 w-full flex flex-col items-start self-stretch text-white text-left font-semibold">
             <div className="w-full gap-3 flex flex-col items-center self-stretch">
-              <div className="w-full gap-3 flex items-start self-stretch">
+              <div
+                className="w-full"
+                style={{
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(7rem, 3fr))',
+                  gap: 12,
+                  display: 'grid',
+                }}
+              >
                 <CategoryTab type="OFF_GAS_CHARGING_OFF_TYPE" />
                 <CategoryTab type="OFF_CAR_WASH_OFF_TYPE" />
                 <CategoryTab type="OFF_FOOD_DELIVERY_OFF_TYPE" />
                 <CategoryTab type="OFF_FAST_FOOD_OFF_TYPE" />
                 <CategoryTab type="OFF_COFFEE_TEA_OFF_TYPE" />
                 <CategoryTab type="OFF_SHOPPING_OFF_TYPE" />
-              </div>
-              <div className="w-full gap-3 flex items-start self-stretch">
                 <CategoryTab type="OFF_ROAD_TRIPS_OFF_TYPE" />
                 <CategoryTab type="OFF_CAMPING_OFF_TYPE" />
                 <CategoryTab type="OFF_HIKING_OFF_TYPE" />
                 <CategoryTab type="OFF_ATTRACTIONS_OFF_TYPE" />
                 <CategoryTab type="OFF_NIGHTLIFE_OFF_TYPE" />
                 <CategoryTab type="OFF_MOVIES_OFF_TYPE" />
-              </div>
-              <div className="w-full gap-3 flex items-start self-stretch">
                 <CategoryTab type="OFF_SPA_OFF_TYPE" />
                 <CategoryTab type="OFF_FITNESS_OFF_TYPE" />
                 <CategoryTab type="OFF_BEAUTY_OFF_TYPE" />
                 <CategoryTab type="OFF_BEACHES_AND_POOLS_OFF_TYPE" />
                 <CategoryTab type="OFF_LUXURY_OFF_TYPE" />
                 <CategoryTab type="OFF_CRUISE_OFF_TYPE" />
-              </div>
-              <div className="gap-3 flex items-start w-[660px]">
                 <CategoryTab type="OFF_GROCERY_OFF_TYPE" />
                 <CategoryTab type="OFF_PHARMACY_OFF_TYPE" />
                 <CategoryTab type="OFF_MEDICAL_OFF_TYPE" />
@@ -65,15 +65,3 @@ export default function ComingSoon() {
     </div>
   );
 }
-
-/**
- * This component was generated from Figma with FireJet.
- * Learn more at https://www.firejet.io
- *
- * README:
- * The output code may look slightly different when copied to your codebase. To fix this:
- * 1. Include the necessary fonts. The required fonts are imported from public/index.html
- * 2. Include the global styles. They can be found in App.css
- *
- * Note: Step 2 is not required for tailwind.css output
- */

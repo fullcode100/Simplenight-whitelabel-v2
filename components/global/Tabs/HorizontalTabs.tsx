@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { TabsProps } from './types';
 import Plus from '../../../public/icons/assets/Plus.svg';
 import { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import CommingSoon from '../ComingSoon';
 
 const HorizontalTabs = ({
@@ -79,6 +79,7 @@ const HorizontalTabs = ({
         onCancel={handleCancel}
         footer={null}
         width={842}
+        bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}
       >
         <CommingSoon />
       </Modal>
