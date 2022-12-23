@@ -207,7 +207,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
             onSelect={handleSelectLocation}
             error={showLocationError}
             onChange={handleChangeLocation}
-            clearable={true}
+            clearable={false}
             onClear={handleClearLocation}
             autoFocus
           />

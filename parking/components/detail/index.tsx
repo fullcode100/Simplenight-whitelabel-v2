@@ -15,8 +15,8 @@ import { Container } from './Container';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { CartItemRequest } from '../../../types/cart/CartType';
-import { formatAsExactHour } from '../../../helpers/dajjsUtils';
+import { Item } from 'types/cart/CartType';
+import { CategoryOption } from '../../../types/search/SearchTypeOptions';
 
 export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
   Category,
@@ -48,7 +48,10 @@ export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
 
   return (
     <>
-      {loaded && parking && <ParkingDetails parking={parking} />}
+      {loaded && parking && (
+        <ParkingDetails parking={parking} category={Category} />
+      )}
+
       {!loaded && (
         <section className="lg:pt-14">
           <Loader />
@@ -59,10 +62,11 @@ export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
 };
 
 interface ParkingDetailsProps {
+  category: CategoryOption;
   parking: Parking;
 }
 
-const ParkingDetails: FC<ParkingDetailsProps> = ({ parking }) => {
+const ParkingDetails: FC<ParkingDetailsProps> = ({ parking, category }) => {
   const [t, i18next] = useTranslation('parking');
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
@@ -73,16 +77,17 @@ const ParkingDetails: FC<ParkingDetailsProps> = ({ parking }) => {
     state,
     dispatch,
   };
-  const itemToBook: CartItemRequest = {
+  const PROVIDER_CODE = '7e6cfd32'; // TODO: Change provider code with to be dynamic
+  const itemToBook: Item = {
     category: 'PARKING',
+    sector: 'other',
     booking_data: {
-      inventory_id: '7e6cfd32:7264P3' || (params.id as string),
-      start_date: params.startDate as string,
-      time: formatAsExactHour(params.startTime as string),
-      product_code: null,
-      booking_code_supplier: 'XQfefns...',
-      ticket_types: [],
-      booking_answers: [],
+      inventory_id: `${PROVIDER_CODE}:${parking.id}`,
+      start_date: params.startDate,
+      start_time: params.startTime,
+      end_date: params.endDate,
+      end_time: params.endTime,
+      parking,
     },
   };
 

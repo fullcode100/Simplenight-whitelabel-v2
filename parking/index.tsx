@@ -9,6 +9,7 @@ import { ParkingServerSearcher } from './core/search/ParkingServerSearcher';
 import { ParkingServerDetailer } from './core/detail/ParkingServerDetailer';
 import { ParkingClientDetailer } from './core/detail/ParkingClientDetailer';
 import { ParkingDetailDisplay } from './components/detail';
+import { ParkingItineraryDisplay } from './components/Itinerary';
 
 export const PARKING_CATEGORY = 'parking';
 
@@ -49,10 +50,15 @@ const Category: CategoryOption = {
 Category.resultsDisplay = <ParkingResultsDisplay parkingCategory={Category} />;
 Category.detailDisplay = <ParkingDetailDisplay Category={Category} />;
 
+Category.itineraryDisplay = <ParkingItineraryDisplay Category={Category} />;
+Category.breakdownDisplay = <></>;
+Category.checkoutDisplay = <></>;
+Category.confirmationDisplay = <></>;
+Category.cancelledDisplay = <></>;
+
 Category.core.ClientSearcher = new ParkingClientSearcher(Category);
 Category.core.ServerSearcher = new ParkingServerSearcher(Category);
 
 Category.core.ClientDetailer = new ParkingClientDetailer(Category);
 Category.core.ServerDetailer = new ParkingServerDetailer(Category);
-
 export const ParkingCategory = Category;

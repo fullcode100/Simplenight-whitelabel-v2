@@ -10,12 +10,14 @@ interface ParkingDetailImagesProps {
 export const ParkingDetailImages: FC<ParkingDetailImagesProps> = ({
   parking,
 }) => {
+  const address = parking.properties.static.address;
+  const title = `${address.street.formatted}, ${address.city}, ${address?.country}, ${address.postcode}`;
   const images = parking.properties.static.images?.map((img) => img.url) || [];
 
   return (
     <section>
       <Container>
-        <ImageBox images={images} />
+        <ImageBox title={title} images={images} />
       </Container>
     </section>
   );
