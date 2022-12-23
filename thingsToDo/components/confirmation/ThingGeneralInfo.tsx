@@ -35,6 +35,8 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   const maxDuration = item.item_data?.extra_data.max_duration || 0;
   const fullDay = item.item_data?.extra_data.full_day;
 
+  const showDuration = duration !== undefined && duration > 0;
+
   const [t] = useTranslation('things');
   const addressLabel = `${addressArea} ${address?.city}, ${address?.country}`;
 
@@ -138,12 +140,18 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
           content={<MeetingPickupPoint />}
         />
       )}
-      <IconAndText
-        icon={<ClockIcon />}
-        content={
-          fullDay ? fullDayLabel : <DurationLabel duration={activityDuration} />
-        }
-      />
+      {showDuration && (
+        <IconAndText
+          icon={<ClockIcon />}
+          content={
+            fullDay ? (
+              fullDayLabel
+            ) : (
+              <DurationLabel duration={activityDuration} />
+            )
+          }
+        />
+      )}
       <IconAndText icon={<CalendarIcon />} content={dateAndTimeLabel} />
       {customer && <OrderNameCard />}
     </section>

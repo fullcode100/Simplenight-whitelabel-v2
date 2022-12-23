@@ -59,6 +59,8 @@ const TicketCard = ({
   const fulldayText = t('fullDay', 'Full Day');
   const fullDayOrDuration = isFullDay ? fulldayText : duration;
 
+  const showDuration = actiyvityDuration !== undefined && actiyvityDuration > 0;
+
   let totalGuests = 0;
   const ticketTypes = ticket.ticket_types.map((ticket) => {
     totalGuests += ticket.quantity;
@@ -141,12 +143,12 @@ const TicketCard = ({
       <TicketHeader title={title} description={description} />
       <section
         className={classnames('', {
-          hidden: !selected,
+          hidden: !selected || !showDuration,
         })}
       >
         <Divider />
         <section className="p-4">
-          {cantSelectTime ? (
+          {cantSelectTime && showDuration ? (
             <section className="flex items-center gap-3 text-xs text-dark-1000">
               <ClockIcon className="text-primary-1000" /> {fullDayOrDuration}
             </section>

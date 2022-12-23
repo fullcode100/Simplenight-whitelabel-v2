@@ -49,14 +49,16 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
 
   const Features = () => (
     <section className="flex flex-wrap justify-between w-full mt-4">
-      <InlineFeature
-        icon={<ClockIcon />}
-        text={
-          <DurationLabel
-            duration={rangeDuration ? rangeDuration : fixedDuration}
-          />
-        }
-      />
+      {duration !== undefined && duration > 0 && (
+        <InlineFeature
+          icon={<ClockIcon />}
+          text={
+            <DurationLabel
+              duration={rangeDuration ? rangeDuration : fixedDuration}
+            />
+          }
+        />
+      )}
       <InlineFeature icon={<DeviceMobileIcon />} text={presentations} />
       <InlineFeature
         icon={<LanguageIcon />}
