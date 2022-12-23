@@ -175,6 +175,10 @@ const Client = () => {
     primaryContactData = formDataCopy;
   };
 
+  const questions = cart?.items[0]?.item_data?.extra_data?.booking_questions;
+  const hasQuestionPickup = questions?.find(
+    (question: any) => question.id === PICKUP_POINT_ID,
+  );
   const handleTravelerAnswerChange = (
     data: IChangeEvent<FormData>,
     itemId: string,
@@ -183,6 +187,8 @@ const Client = () => {
     const formDataCopy = questionsFormDataDestructuring(
       deepCopy(data.formData),
     );
+    if (formDataCopy?.[PICKUP_POINT_ID] && !hasQuestionPickup)
+      delete formDataCopy[PICKUP_POINT_ID];
     Object.keys(formDataCopy).forEach((key) => {
       if (!bookingAnswerData[itemId]) bookingAnswerData[itemId] = [];
       const bookingAnswer = bookingAnswerData[itemId].find(
@@ -264,6 +270,7 @@ const Client = () => {
         itemId,
         bookingAnswers: bookingAnswerData[itemId],
       };
+
       await updateCartItem(i18n, itemData);
     });
 
@@ -372,7 +379,7 @@ const Client = () => {
                     ref={formRef}
                   >
                     <ClientForm
-                      schema={travelersFormSchema}
+                      schema={travelersFormSchemaWithClass}
                       uiSchema={travelersUiSchema}
                       onChange={handlePrimaryContactFormChange}
                     >
