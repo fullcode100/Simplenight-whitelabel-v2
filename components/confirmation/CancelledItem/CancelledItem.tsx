@@ -10,6 +10,9 @@ const CancelledItem = ({ item }: CancelledItemProps) => {
   let sectorName = item.sector?.toLowerCase();
   const categoryName = item.category?.toLowerCase();
   if (categoryName === 'shows-events') sectorName = 'shows-events';
+  if (sectorName === 'food-beverage') {
+    sectorName = 'dining';
+  }
   const sector = useCategory(sectorName || '');
 
   return (

@@ -46,5 +46,14 @@
     "sortByBestMatch": "Best Match",
     "sortByRating": "Rating",
     "sortByReviewCount": "Review Count",
-    "sortByDistance": "Distance"
+    "sortByDistance": "Distance",
+    "day0": "Mon",
+    "day1": "Tue",
+    "day2": "Wed",
+    "day3": "Thu",
+    "day4": "Fri",
+    "day5": "Sat",
+    "day6": "Sun",
+    "supplierReference": "Supplier Reference ID",
+    "confirmationNumber": "Confirmation Number"
 }

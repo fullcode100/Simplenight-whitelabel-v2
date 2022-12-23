@@ -26,6 +26,9 @@ const CheckoutItem = ({ item, reload, setReload }: CheckoutItemProps) => {
   if (sectorName === 'accommodations') {
     sectorName = 'hotels';
   }
+  if (sectorName === 'food-beverage') {
+    sectorName = 'dining';
+  }
   const sector = useCategory(sectorName || '');
   return (
     injectProps(sector?.breakdownDisplay, {

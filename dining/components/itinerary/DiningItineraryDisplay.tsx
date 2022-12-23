@@ -62,7 +62,6 @@ const DiningItineraryDisplay = ({
       body={
         <DiningItineraryBody
           item={item}
-          name={name}
           time={item?.booking_data?.time}
           date={item?.booking_data?.date}
           covers={item?.booking_data?.covers}

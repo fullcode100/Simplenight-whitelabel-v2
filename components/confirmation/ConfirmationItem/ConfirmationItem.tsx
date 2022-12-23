@@ -33,6 +33,9 @@ const ConfirmationItem = ({
     categoryName === 'car-rental'
   )
     sectorName = 'car-rental';
+  if (sectorName === 'food-beverage') {
+    sectorName = 'dining';
+  }
   const sector = useCategory(sectorName || '');
 
   return (

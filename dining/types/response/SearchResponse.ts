@@ -160,3 +160,7 @@ export interface CancellationDetails {
 export enum RateBreakdownRateType {
   SnPublic = 'SN_PUBLIC',
 }
+
+type OpenHours = { start: string; end: string };
+
+export type WeekDaysAvailability = OpenHours[][];

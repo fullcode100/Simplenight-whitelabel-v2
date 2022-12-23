@@ -47,5 +47,14 @@
     "sortByBestMatch": "Mejor Coincidencia",
     "sortByRating": "Clasificación",
     "sortByReviewCount": "Recuento de reseñas",
-    "sortByDistance": "Distancia"
+    "sortByDistance": "Distancia",
+    "day0": "Lun",
+    "day1": "Mar",
+    "day2": "Mie",
+    "day3": "Jue",
+    "day4": "Vie",
+    "day5": "Sab",
+    "day6": "Dom",
+    "supplierReference": "ID de referencia del proveedor",
+    "confirmationNumber": "Número de confirmación"
 }

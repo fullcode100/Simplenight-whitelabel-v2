@@ -39,7 +39,7 @@ const PaymentCartItem = ({ item, customer }: any) => {
 
   const CartItemBody = () => {
     return (
-      <section className="mb-6 px-4">
+      <section className="px-4 mb-6">
         <CartItemBreakdown />
       </section>
     );
@@ -58,6 +58,9 @@ const PaymentCartItem = ({ item, customer }: any) => {
       categoryName === 'car-rental'
     )
       sectorName = 'car-rental';
+    if (sectorName === 'food-beverage') {
+      sectorName = 'dining';
+    }
     const sector = useCategory(sectorName || '');
     return injectProps(sector?.checkoutItemDisplay, {
       item: item,
@@ -66,7 +69,7 @@ const PaymentCartItem = ({ item, customer }: any) => {
   };
 
   return (
-    <section className="space-y-5 py-6">
+    <section className="py-6 space-y-5">
       <CartItemDetail />
     </section>
   );

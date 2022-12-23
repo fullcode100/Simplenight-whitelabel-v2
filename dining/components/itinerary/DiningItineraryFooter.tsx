@@ -13,14 +13,16 @@ import { useRouter } from 'next/router';
 import { useCategoryType } from 'hooks/category/useCategory';
 
 interface DiningItineraryFooterProps {
-  item: Item;
+  item?: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
+  hideActions?: boolean;
 }
 const DiningItineraryFooter = ({
   item,
   reload,
   setReload,
+  hideActions,
 }: DiningItineraryFooterProps) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -32,8 +34,8 @@ const DiningItineraryFooter = ({
 
   const removeItem = () => {
     const itemToRemove = {
-      cartId: item.cart_id,
-      itemId: item.cart_item_id,
+      cartId: item?.cart_id,
+      itemId: item?.cart_item_id,
     };
     removeFromCart(i18g, itemToRemove, dispatch)
       .then(() => setReload?.(!reload))
@@ -42,9 +44,9 @@ const DiningItineraryFooter = ({
 
   const handleEdit = () => {
     removeItem();
-    const realId = (item.booking_data?.inventory_id as string).split(':');
+    const realId = (item?.booking_data?.inventory_id as string).split(':');
     router.push(
-      `/detail/${slug}/${realId[1]}?startDate=${item.booking_data?.date}&endDate=${item.booking_data?.date}&covers=${item.booking_data?.covers}&time=${item.booking_data?.time}`,
+      `/detail/${slug}/${realId[1]}?startDate=${item?.booking_data?.date}&endDate=${item?.booking_data?.date}&covers=${item?.booking_data?.covers}&time=${item?.booking_data?.time}`,
     );
   };
 
@@ -58,30 +60,32 @@ const DiningItineraryFooter = ({
           <section className="ml-auto text-right">
             <section className="flex flex-col justify-end gap-1">
               <p className="font-semibold text-[18px] leading-[18px] text-dark-1000">
-                {'US$0.00'}
+                {'$0.00'}
               </p>
               <section className="flex flex-row justify-end gap-1"></section>
             </section>
           </section>
         </section>
-        <section className="flex flex-col w-full gap-3 lg:flex-row lg:justify-end">
-          <Button
-            value={removeLabel}
-            size="full-sm"
-            type="outlined"
-            leftIcon={<TrashIcon />}
-            className="lg:w-[170px]"
-            onClick={removeItem}
-          ></Button>
-          <Button
-            value={editLabel}
-            translationKey="edit"
-            size=""
-            leftIcon={<EdtiIcon />}
-            className="lg:w-[170px] h-8"
-            onClick={handleEdit}
-          ></Button>
-        </section>
+        {!hideActions && (
+          <section className="flex flex-col w-full gap-3 lg:flex-row lg:justify-end">
+            <Button
+              value={removeLabel}
+              size="full-sm"
+              type="outlined"
+              leftIcon={<TrashIcon />}
+              className="lg:w-[170px]"
+              onClick={removeItem}
+            ></Button>
+            <Button
+              value={editLabel}
+              translationKey="edit"
+              size=""
+              leftIcon={<EdtiIcon />}
+              className="lg:w-[170px] h-8"
+              onClick={handleEdit}
+            ></Button>
+          </section>
+        )}
       </section>
     </section>
   );

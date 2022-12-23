@@ -21,7 +21,7 @@ const ItemItinerary = ({ label }: { label: string }) => {
         <span className="pr-3 text-lg leading-3 text-primary-1000">+</span>
         {label}
       </p>
-      <p>US$0.00</p>
+      <p>$0.00</p>
     </div>
   );
 };
@@ -30,7 +30,7 @@ const TotalItinerary = ({ label }: { label: string }) => {
   return (
     <div className="flex justify-between text-xs">
       <p>{label}</p>
-      <p className="text-lg">US$0.00</p>
+      <p className="text-lg">$0.00</p>
     </div>
   );
 };

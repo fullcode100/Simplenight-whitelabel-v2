@@ -6,7 +6,7 @@ import { Item } from 'types/cart/CartType';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface DiningItineraryHeaderProps {
-  item: Item;
+  item?: Item;
   icon: ReactElement;
   name?: string;
   amount?: string;

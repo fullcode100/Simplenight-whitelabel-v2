@@ -1,52 +1,14 @@
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
+import { WeekDaysAvailability } from 'dining/types/response/SearchResponse';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import DiningCategoryDetail from './DiningCategoryDetail';
 import DiningCoverSelect from './DiningCoverSelect';
 import DiningDateDetail from './DiningDateDetail';
+import DiningOpenTimes from './DiningOpenTimes';
 import DiningPhoneEmail from './DiningPhoneEmail';
 import DiningTimeDetail from './DiningTimeDetail';
 import DiningTimeSelector from './DiningTimeSelector';
-
-const OpeningTimes = () => {
-  const [t] = useTranslation('dining');
-
-  return (
-    <>
-      <h5 className="pb-6 text-lg pt-9 text-dark-800">{t('reservation')}</h5>
-      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-y-9 gap-x-11">
-        <div className="flex justify-between">
-          <p className="text-lg text-dark-800">Mon</p>
-          <div>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-lg text-dark-800">Mon</p>
-          <div>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-lg text-dark-800">Mon</p>
-          <div>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-lg text-dark-800">Mon</p>
-          <div>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-            <p className="py-1 text-sm text-dark-800">12:00 PM - 03:30 PM</p>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
 
 const DiningAboutDetail = ({
   phone,
@@ -58,6 +20,7 @@ const DiningAboutDetail = ({
   defaultTime,
   onChangeCovers,
   defaultCovers,
+  hoursByDay,
 }: {
   phone?: string;
   categories: string[];
@@ -68,6 +31,7 @@ const DiningAboutDetail = ({
   defaultTime?: string;
   onChangeCovers?: (covers: number) => void;
   defaultCovers?: number;
+  hoursByDay?: WeekDaysAvailability;
 }) => {
   const [t] = useTranslation('dining');
 
@@ -84,7 +48,7 @@ const DiningAboutDetail = ({
         categories={categories}
       />
       <SectionTitle title={t('about')} />
-      {/* <OpeningTimes /> */}
+      <DiningOpenTimes hoursByDay={hoursByDay} />
       <h5 className="mt-10 text-lg text-dark-800">{t('reservation')}</h5>
       <div className="relative grid grid-cols-1 mt-6 gap-x-3 md:grid-cols-2">
         <div className="w-full lg:w-[446px] mr-3">

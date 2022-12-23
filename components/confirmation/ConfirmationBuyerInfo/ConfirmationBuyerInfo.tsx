@@ -6,9 +6,13 @@ import { useTranslation } from 'react-i18next';
 
 interface ConfirmationBuyerInfoProps {
   booking?: Booking;
+  className?: string;
 }
 
-const ConfirmationBuyerInfo = ({ booking }: ConfirmationBuyerInfoProps) => {
+const ConfirmationBuyerInfo = ({
+  booking,
+  className,
+}: ConfirmationBuyerInfoProps) => {
   const firstName = booking?.primary_contact.first_name;
   const lastName = booking?.primary_contact.last_name;
   const email = booking?.primary_contact.email;
@@ -19,7 +23,9 @@ const ConfirmationBuyerInfo = ({ booking }: ConfirmationBuyerInfoProps) => {
   const orderName = t('orderName', 'Order Name');
 
   return (
-    <section className="flex flex-col gap-2 lg:text-sm lg:leading-[22px]">
+    <section
+      className={`flex flex-col gap-2 lg:text-sm lg:leading-[22px] ${className}`}
+    >
       <section className="flex gap-2">
         <Customer className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000" />
         <section className="flex flex-col">
@@ -29,13 +35,13 @@ const ConfirmationBuyerInfo = ({ booking }: ConfirmationBuyerInfoProps) => {
           </p>
         </section>
       </section>
-      <section className="flex gap-2 items-center">
+      <section className="flex items-center gap-2">
         <Email className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000 h-4" />
-        <p className="font-semibold text-dark-1000 underline">{email}</p>
+        <p className="font-semibold underline text-dark-1000">{email}</p>
       </section>
-      <section className="flex gap-2 items-center">
+      <section className="flex items-center gap-2">
         <Phone className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000 h-4" />
-        <p className="font-semibold text-dark-1000 underline">
+        <p className="font-semibold underline text-dark-1000">
           +{phonePrefix} {phoneNumber}
         </p>
       </section>

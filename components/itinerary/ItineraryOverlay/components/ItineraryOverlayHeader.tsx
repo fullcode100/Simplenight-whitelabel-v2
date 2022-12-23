@@ -56,7 +56,7 @@ const ItineraryOverlayHeader = ({
           </Paragraph>
         )}
       </section>
-      <section className="flex justify-end gap-7 items-center">
+      <section className="flex items-center justify-end gap-7">
         {itemsQty && (
           <section className="flex gap-1 ">
             <Paragraph
