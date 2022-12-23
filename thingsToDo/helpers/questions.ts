@@ -62,7 +62,11 @@ export const getQuestionsSchema = (
 
     if (isConditionalQuestion) {
       property.properties = getConditionalQuestionProperties(question);
-      property.dependencies = getQuestionDependencies(question, questions);
+      property.dependencies = getQuestionDependencies(
+        question,
+        questions,
+        pickupPoints,
+      );
       const conditionalUi = getConditionalPropertyUiSchema(question, questions);
       uiSchema[id] = conditionalUi.uiSchema[id];
       property.required = conditionalUi.required;

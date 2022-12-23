@@ -31,8 +31,8 @@ const CountrySelect = ({
           'text-dark-600': !value,
         },
       )}
-      required={required}
       {...others}
+      required={required}
     >
       <option value={''} className="text-dark-600" disabled>
         {countryText}

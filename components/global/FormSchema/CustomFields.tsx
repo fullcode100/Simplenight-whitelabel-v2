@@ -1,10 +1,11 @@
 import PickupPoint from 'components/global/PickupPoint/PickupPoint';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Combobox from '../Combobox/Combobox';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
 import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
 import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
+import SelectInput from '../SelectInput/SelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 
 export const CustomText = (props: any) => {
@@ -41,20 +42,16 @@ export const CustomPhoneNumber = (props: any) => {
 export const CustomSelect = (props: any) => {
   const { options, value, onChange, required, id } = props;
   return (
-    <select
+    <SelectInput
       value={value}
-      onChange={(event) => onChange(event.target.value)}
-      autoFocus={true}
-      className="block w-full border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+      onChange={onChange}
       required={required}
+      options={options.enumOptions}
       id={id}
-    >
-      {options.enumOptions.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+      {...{
+        autoFocus: true,
+      }}
+    />
   );
 };
 export const CustomTextArea = (props: any) => {
@@ -107,6 +104,12 @@ export const CustomCountry = (props: any) => {
 
 export const CustomPickupPoint = (props: any) => {
   const { value, onChange, schema } = props;
+  useEffect(() => {
+    const locations = schema?.data?.locations?.map?.(
+      (location: any) => location.location,
+    );
+    onChange(locations[0]);
+  }, []);
   return (
     <PickupPoint
       pickupPoints={schema?.data}
@@ -123,8 +126,6 @@ export const CustomNumberUnit = (props: any) => {
 
 export const CustomLanguageGuide = (props: any) => {
   const { value, onChange, schema, uiSchema } = props;
-  const [selectedItem, setSelectedItem] = useState<any>(undefined);
-  const placeholder = uiSchema['ui:placeholder'] || 'Language Guide';
   const dataByLabel: any = {};
   const data = schema?.data;
   const items: any = [];
@@ -132,6 +133,8 @@ export const CustomLanguageGuide = (props: any) => {
     dataByLabel[item.label] = item;
     items.push({ value: item.label });
   });
+  const [selectedItem, setSelectedItem] = useState<any>(items[0]);
+  const placeholder = uiSchema['ui:placeholder'] || 'Language Guide';
   const onChangeHandler = (itemValue: any) => {
     const item = dataByLabel[itemValue.value];
     const answer = { type: item?.type, language: item?.language };

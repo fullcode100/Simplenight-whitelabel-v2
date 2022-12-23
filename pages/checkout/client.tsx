@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 // Libraries
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 // Components
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Button from 'components/global/Button/Button';
@@ -19,7 +19,7 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { deepCopy } from 'helpers/objectUtils';
-import { IChangeEvent } from '@rjsf/core';
+import Form, { IChangeEvent } from '@rjsf/core';
 import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
 import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
@@ -46,6 +46,7 @@ const Client = () => {
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
   const [travelersUiSchema, setTravelersUiSchema] = useState();
   const [isRemoved, setIsRemoved] = useState(false);
+  const formRef = useRef<any>(null);
 
   const currency = getCurrency();
 
@@ -75,6 +76,15 @@ const Client = () => {
   const [cart, setCart] = useState<any>();
   const [isDisabled, setIsDisabled] = useState(true);
   let cartId: string | null = null;
+
+  const checkFormValidate = () => {
+    const hasFormChild = formRef.current?.formElement?.[0];
+    if (hasFormChild) {
+      const validate = document.forms[0].checkValidity();
+      return validate;
+    }
+    return true;
+  };
 
   const handleAdditionalRequestChange = (
     data: any,
@@ -153,7 +163,6 @@ const Client = () => {
       if (cartId) {
         const response = await getCartId(i18n, cartId);
         setCart(response);
-        setIsDisabled(false);
         setLoaded(true);
       }
     } catch (error) {
@@ -356,40 +365,46 @@ const Client = () => {
               <Card>
                 <Title>{primaryContactText}</Title>
                 <section>
-                  <ClientForm
-                    schema={travelersFormSchemaWithClass}
-                    uiSchema={travelersUiSchema}
-                    onChange={handlePrimaryContactFormChange}
+                  <Form
+                    schema={{}}
+                    uiSchema={{}}
                     onSubmit={continueToPayment}
+                    ref={formRef}
                   >
-                    <ClientCart
-                      items={cart.items}
+                    <ClientForm
                       schema={travelersFormSchema}
                       uiSchema={travelersUiSchema}
-                      onChange={handleAdditionalRequestChange}
-                      onChangeAnswers={handleTravelerAnswerChange}
-                    />
-                    <CheckoutFooter type="client">
-                      <CheckoutSummary
-                        cart={cart}
-                        reload={reload}
-                        setReload={setReload}
+                      onChange={handlePrimaryContactFormChange}
+                    >
+                      <ClientCart
+                        items={cart?.items}
+                        schema={travelersFormSchema}
+                        uiSchema={travelersUiSchema}
+                        onChange={handleAdditionalRequestChange}
+                        onChangeAnswers={handleTravelerAnswerChange}
                       />
-                      <Button
-                        value={cancelButton}
-                        size={'full'}
-                        onClick={redirectToItinerary}
-                        color="outlined"
-                        className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                      />
-                      <Button
-                        value={continueButton}
-                        size={'full'}
-                        disabled={isDisabled}
-                        className="lg:w-[35%] text-[18px] font-normal"
-                      />
-                    </CheckoutFooter>
-                  </ClientForm>
+                      <CheckoutFooter type="client">
+                        <CheckoutSummary
+                          cart={cart}
+                          reload={reload}
+                          setReload={setReload}
+                        />
+                        <Button
+                          value={cancelButton}
+                          size={'full'}
+                          onClick={redirectToItinerary}
+                          color="outlined"
+                          className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+                        />
+                        <Button
+                          value={continueButton}
+                          size={'full'}
+                          disabled={false}
+                          className="lg:w-[35%] text-[18px] font-normal"
+                        />
+                      </CheckoutFooter>
+                    </ClientForm>
+                  </Form>
                 </section>
               </Card>
             </section>
