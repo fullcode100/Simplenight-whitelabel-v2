@@ -1,5 +1,5 @@
 // Libraries
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // models
 import { CategoryOption } from 'types/search/SearchTypeOptions';
@@ -57,7 +57,13 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     query,
   } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
-  const [showsEvents, setShowsEventsItems] = useState([]);
+  const [showsEvents, setShowsEventsItems] = useState<iShowAndEventsResult[]>(
+    [],
+  );
+  const [sortedShowsEvents, setSortedShowsEvents] = useState<
+    iShowAndEventsResult[]
+  >([]);
+  const [sortBy, setSortBy] = useState<any>(SORT_BY_OPTIONS?.[0].value || '');
 
   const [gt] = useTranslation('global');
   const noResultsLabel = gt('noResultsSearch', 'No Results Match Your Search.');
@@ -86,6 +92,38 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
       })
       .then(() => setLoaded(true));
   }, [startDate, endDate, dstGeolocation, distance, seats, maxPrice, minPrice]);
+
+  const lowestPriceItems = useMemo(() => {
+    return [...showsEvents].sort(
+      (
+        { rate: rate1 }: iShowAndEventsResult,
+        { rate: rate2 }: iShowAndEventsResult,
+      ) => {
+        return rate1.total.net.amount - rate2.total.net.amount;
+      },
+    );
+  }, [showsEvents]);
+
+  const HighestPriceItems = useMemo(() => {
+    return [...showsEvents].sort(
+      (
+        { rate: rate1 }: iShowAndEventsResult,
+        { rate: rate2 }: iShowAndEventsResult,
+      ) => {
+        return rate2.total.net.amount - rate1.total.net.amount;
+      },
+    );
+  }, [showsEvents]);
+
+  useEffect(() => {
+    if (showsEvents.length) {
+      if (sortBy === SORT_BY_OPTIONS[0].value) {
+        setSortedShowsEvents(lowestPriceItems);
+      } else if (sortBy === SORT_BY_OPTIONS[1].value) {
+        setSortedShowsEvents(HighestPriceItems);
+      }
+    }
+  }, [showsEvents, sortBy]);
 
   const [addresObject, setAddressObject] = useState({
     address1: '',
@@ -117,8 +155,8 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     return (
       // eslint-disable-next-line react/jsx-no-comment-textnodes
       <ul>
-        {showsEvents &&
-          showsEvents
+        {sortedShowsEvents &&
+          sortedShowsEvents
             ?.slice(0, next)
             .map((thingToDo: iShowAndEventsResult, index) => {
               const url = urlDetail(thingToDo);
@@ -186,14 +224,15 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <ShowAndEventsFilterFormDesktop />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full mt-20 lg:mt-0">
-          {loaded && showsEvents.length ? (
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-20 lg:mt-0">
+          {loaded && sortedShowsEvents.length ? (
             <>
-              <section className="hidden lg:block">
+              <section className="block">
                 <>
                   <ResultsOptionsBar
-                    results={showsEvents.length}
+                    results={sortedShowsEvents.length}
                     sortByOptions={SORT_BY_OPTIONS}
+                    onClickSort={setSortBy}
                   />{' '}
                 </>
               </section>
@@ -207,7 +246,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                   )}
                 </section>
               )}
-              {showsEvents.length > next && (
+              {sortedShowsEvents.length > next && (
                 <section className="text-center">
                   <Button
                     onClick={loadMoreResults}
