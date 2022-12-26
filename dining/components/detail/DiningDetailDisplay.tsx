@@ -13,6 +13,7 @@ import { DiningDetailPreRequest } from 'dining/types/request/DiningDetailRequest
 import {
   DiningSearchResponse,
   Restaurant,
+  WeekDaysAvailability,
 } from 'dining/types/response/SearchResponse';
 import Loader from 'components/global/Loader/Loader';
 import EmptyState from 'components/global/EmptyState/EmptyState';
@@ -64,12 +65,12 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   const locationRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
 
-  const daySelected = new Date(selectedDate).getDay() + 1;
+  const selectedDay = new Date(selectedDate).getDay();
 
   const available = data?.hours?.[0]?.open;
   const availableHours: string[] | undefined = available?.reduce(
     (acum, { start, end, day }) => {
-      if (daySelected === day) {
+      if (selectedDay === day) {
         const startNumber = parseInt(start);
         const endNumber = parseInt(end);
 
@@ -91,6 +92,15 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
     [] as string[],
   );
 
+  const availableHoursByDay = available?.reduce((acum, { start, end, day }) => {
+    if (!acum[day]) {
+      acum[day] = [];
+    }
+    acum[day].push({ start, end });
+
+    return acum;
+  }, [] as WeekDaysAvailability);
+
   useEffect(() => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
   }, [storeCurrency]);
@@ -104,7 +114,6 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
 
     Category.core.ClientDetailer?.request(params, i18next, params.id)
       .then(({ items }: DiningSearchResponse) => {
-        console.log('items => ', items[0]);
         setRestaurant(items[0]);
       })
       .catch((e) => {
@@ -148,7 +157,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
         inventory_id: `817e6010:${id}`,
         date: formatAsSearchDate(selectedDate),
         time,
-        covers,
+        covers: covers.toString(),
       },
     };
     await addToCart(itemToBook, i18next, store);
@@ -266,6 +275,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
               defaultTime={time}
               onChangeCovers={(newCovers) => setCovers(newCovers)}
               defaultCovers={covers}
+              hoursByDay={availableHoursByDay}
             />
           </section>
         </section>

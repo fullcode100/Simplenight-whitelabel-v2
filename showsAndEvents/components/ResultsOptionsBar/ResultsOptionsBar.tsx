@@ -59,7 +59,7 @@ const ResultsOptionsBar = ({
         <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
           {results} {resultsLabel}
         </p>
-        <section className="relative items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
+        <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
           <button
             className="flex items-center gap-1"
             onClick={() => setShowSortModal(!showSortModal)}
@@ -82,7 +82,7 @@ const ResultsOptionsBar = ({
             </span>
           </button>
           <button
-            className="flex items-center gap-1 hidden"
+            className="flex items-center gap-1 lg:hidden"
             onClick={onClickFilter}
           >
             <span className="text-primary-1000">

@@ -16,6 +16,10 @@ import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
 import DiningItineraryDisplay from './components/itinerary/DiningItineraryDisplay';
 import diningReducer from './redux/reducer';
 import diningActions from './redux/actions';
+import DiningCheckoutItemDisplay from './components/checkout/DiningCheckoutItemDisplay';
+import DiningConfirmationDisplay from './components/confirmation/DiningConfirmationDisplay';
+import DiningCancelledDisplay from './components/confirmation/DiningCancelledDisplay';
+import DiningBreakdownDisplay from './components/checkout/DiningBreakDownDisplay';
 
 export const DINING_CATEGORY = 'dining';
 
@@ -60,6 +64,14 @@ const Category: CategoryOption = {
 Category.resultsDisplay = <DiningResultsDisplay />;
 Category.detailDisplay = <DiningDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <DiningItineraryDisplay Category={Category} />;
+Category.checkoutItemDisplay = (
+  <DiningCheckoutItemDisplay Category={Category} />
+);
+Category.confirmationDisplay = (
+  <DiningConfirmationDisplay Category={Category} />
+);
+Category.cancelledDisplay = <DiningCancelledDisplay Category={Category} />;
+Category.breakdownDisplay = <DiningBreakdownDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new DiningClientSearcher(Category);
 Category.core.ServerSearcher = new DiningServerSearcher(Category);

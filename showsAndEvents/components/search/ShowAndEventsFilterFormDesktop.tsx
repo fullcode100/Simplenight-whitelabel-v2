@@ -9,12 +9,22 @@ import FilterContainer from './Filters/FilterContainer';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import DistanceFilter from './Filters/DistanceFilter';
 import FilterCollapseTitle from './Filters/FilterCollapseTitle';
+import Button from 'components/global/Button/Button';
+import Close from 'public/icons/assets/close.svg';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 
-const ShowAndEventsFilterFormDesktop = () => {
+interface iShowAndEventsFilterFormDesktop {
+  handleHideFilters: () => void;
+  isMobile?: boolean;
+}
+
+const ShowAndEventsFilterFormDesktop = ({
+  handleHideFilters,
+  isMobile,
+}: iShowAndEventsFilterFormDesktop) => {
   const router = useRouter();
   const setQueryParams = useQuerySetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
@@ -32,9 +42,7 @@ const ShowAndEventsFilterFormDesktop = () => {
   const [seats, setSeats] = useState<string>(
     (queryFilter.seats as string) || '6',
   );
-  const [minSeats, setMinSeats] = useState<string>(
-    (queryFilter.seats as string) || '1',
-  );
+  const [minSeats, setMinSeats] = useState<string>('1');
   const [maxSeats, setMaxSeats] = useState<string>(
     (queryFilter.seats as string) || '6',
   );
@@ -42,9 +50,7 @@ const ShowAndEventsFilterFormDesktop = () => {
     (queryFilter.distance as string) || '3000',
   );
 
-  const [minDistance, setMinDistance] = useState<string>(
-    (queryFilter.distance as string) || '0',
-  );
+  const [minDistance, setMinDistance] = useState<string>('0');
 
   const [maxDistance, setMaxDistance] = useState<string>(
     (queryFilter.distance as string) || '3000',
@@ -69,25 +75,28 @@ const ShowAndEventsFilterFormDesktop = () => {
 
   const onChangeMinPrice = (value: string) => {
     setMinPrice(value);
-    setQueryParams({
-      minPrice: value,
-      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
-    });
+    !isMobile &&
+      setQueryParams({
+        minPrice: value,
+        ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
+      });
   };
 
   const onChangeMaxPrice = (value: string) => {
     setMaxPrice(value);
-    setQueryParams({
-      maxPrice: value,
-      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
-    });
+    !isMobile &&
+      setQueryParams({
+        maxPrice: value,
+        ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
+      });
   };
 
   const onChangeSeats = (value: string) => {
     setSeats(value);
-    setQueryParams({
-      seats: value,
-    });
+    !isMobile &&
+      setQueryParams({
+        seats: value,
+      });
   };
 
   const onChangeMinSeats = (value: string) => {
@@ -99,16 +108,19 @@ const ShowAndEventsFilterFormDesktop = () => {
 
   const onChangeMaxSeats = (value: string) => {
     setMaxSeats(value);
-    // setQueryParams({
-    //   maxSeats: value,
-    // });
+    // Ultil we have a max/min seats params available for BE
+    !isMobile &&
+      setQueryParams({
+        seats: value,
+      });
   };
 
   const onChangeDistance = (value: string) => {
     setDistance(value);
-    setQueryParams({
-      distance: value,
-    });
+    !isMobile &&
+      setQueryParams({
+        distance: value,
+      });
   };
 
   const onChangeMinDistance = (value: string) => {
@@ -120,21 +132,43 @@ const ShowAndEventsFilterFormDesktop = () => {
 
   const onChangeMaxDistance = (value: string) => {
     setMaxDistance(value);
-    // setQueryParams({
-    //   distance: value,
-    // });
+    // Ultil we have a max/min seats params available for BE
+    !isMobile &&
+      setQueryParams({
+        distance: value,
+      });
+  };
+
+  const handleAplyFilters = () => {
+    const isTotalPrice = ((minPrice || maxPrice) && 'false') || 'true';
+    isMobile &&
+      setQueryParams({
+        minPrice,
+        maxPrice,
+        isTotalPrice,
+        distance: maxDistance != distance ? maxDistance : distance,
+        seats: maxSeats != seats ? maxSeats : seats,
+      });
+    handleHideFilters();
   };
 
   const FilterHeader = () => (
     <FilterContainer>
       <section className="flex items-center justify-between">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
-        <button
-          className="text-base font-semibold capitalize text-primary-1000 underline"
-          onClick={handleClearFilters}
-        >
-          {clearFiltersText}
-        </button>
+        <section className="items-center flex">
+          <button
+            className="text-base font-semibold capitalize text-primary-1000 underline"
+            onClick={handleClearFilters}
+          >
+            {clearFiltersText}
+          </button>
+          {isMobile && (
+            <button className="ml-2" onClick={handleHideFilters}>
+              <Close />
+            </button>
+          )}
+        </section>
       </section>
     </FilterContainer>
   );
@@ -173,6 +207,14 @@ const ShowAndEventsFilterFormDesktop = () => {
           onChangeSeats={onChangeSeats}
         />
       </FilterCollapseTitle>
+      <section className="text-center lg:hidden">
+        <Button
+          onClick={handleAplyFilters}
+          value={'Apply Filters'}
+          size="w-60 h-11 text-base leading-[18px]"
+          className="mt-4 mb-12"
+        />
+      </section>
     </section>
   );
 };

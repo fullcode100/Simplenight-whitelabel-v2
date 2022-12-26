@@ -21,7 +21,7 @@ const DiningTimeSelector = ({
       onClick={() => onSelect(label)}
       className={`w-full h-7 rounded-4 mb-4 border-[1px] ${availableStatus[status]}`}
     >
-      {transformTo12hours(label)}
+      {transformTo12hours(label, true)}
     </button>
   );
 };

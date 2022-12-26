@@ -64,6 +64,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     iShowAndEventsResult[]
   >([]);
   const [sortBy, setSortBy] = useState<any>(SORT_BY_OPTIONS?.[0].value || '');
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const [gt] = useTranslation('global');
   const noResultsLabel = gt('noResultsSearch', 'No Results Match Your Search.');
@@ -221,10 +222,29 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   return (
     <div className="pt-2 lg:pt-6 px-4">
       <section className="lg:flex lg:w-full">
-        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
-          <ShowAndEventsFilterFormDesktop />
+        <section
+          className={classnames(
+            ' lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8',
+            {
+              hidden: !showMobileFilters,
+              block: showMobileFilters,
+            },
+          )}
+        >
+          <ShowAndEventsFilterFormDesktop
+            handleHideFilters={() => setShowMobileFilters(false)}
+            isMobile={showMobileFilters}
+          />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-20 lg:mt-0">
+        <section
+          className={classnames(
+            'lg:block relative lg:flex-1 lg:w-[75%] h-full lg:mt-0',
+            {
+              hidden: showMobileFilters,
+              block: !showMobileFilters,
+            },
+          )}
+        >
           {loaded && sortedShowsEvents.length ? (
             <>
               <section className="block">
@@ -233,6 +253,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                     results={sortedShowsEvents.length}
                     sortByOptions={SORT_BY_OPTIONS}
                     onClickSort={setSortBy}
+                    onClickFilter={() => setShowMobileFilters(true)}
                   />{' '}
                 </>
               </section>

@@ -1,7 +1,12 @@
-export const transformTo12hours = (label: string) => {
+export const transformTo12hours = (label: string, withDivider?: boolean) => {
   let labelString = label;
   if (labelString) {
     const labelSplited = label.split(':');
+    if (!withDivider) {
+      labelSplited[0] = label.substring(0, 2);
+      labelSplited[1] = label.substring(2);
+    }
+
     const hour = Number(labelSplited[0]);
     const isMoreThan12 = hour > 12;
     const newHour = isMoreThan12 ? hour - 12 : hour;

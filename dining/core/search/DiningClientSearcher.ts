@@ -20,8 +20,6 @@ export class DiningClientSearcher extends ClientSearcher<
     ...args: any
   ): DiningSearchRequest {
     const newRequest = Object.assign({}, request as any);
-
-    console.log('pre request from CLIENTE SEA = > ', newRequest);
     return newRequest;
   }
 }

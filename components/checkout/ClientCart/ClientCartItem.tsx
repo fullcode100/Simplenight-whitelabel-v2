@@ -89,6 +89,9 @@ const ClientCartItem = ({
     if (sectorName === 'accommodations') {
       sectorName = 'hotels';
     }
+    if (sectorName === 'food-beverage') {
+      sectorName = 'dining';
+    }
     const sector = useCategory(sectorName || '');
     return injectProps(sector?.checkoutItemDisplay, {
       item: item,
@@ -117,7 +120,7 @@ const ClientCartItem = ({
   } = item.extended_data; */
 
   return (
-    <section className="space-y-5 py-6">
+    <section className="py-6 space-y-5">
       <CartItemDetail />
       <section className="flex items-center">
         <ToggleSwitch

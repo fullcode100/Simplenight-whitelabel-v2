@@ -10,12 +10,12 @@ const ConfirmationPayment = ({ booking }: ConfirmationPaymentProps) => {
   const [t] = useTranslation('global');
   const paymentMethods = t('paymentMethods', 'Payment Methods');
 
-  const payment = booking.payments[0];
+  const payment = booking.payments?.[0];
   const {
     last_four: lastFour,
     transaction_amount: transactionAmount,
     card_brand: cardBrand,
-  } = payment;
+  } = payment || {};
 
   return (
     <section className="flex flex-col gap-5 px-5 py-6 lg:gap-0 lg:shadow-container lg:px-0 lg:py-0 lg:border lg:rounded lg:border-dark-300">
@@ -30,7 +30,7 @@ const ConfirmationPayment = ({ booking }: ConfirmationPaymentProps) => {
           <CardLogo cardBrand={cardBrand} />
         </section>
         <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold self-center">
-          {transactionAmount.formatted}
+          {transactionAmount?.formatted}
         </h4>
       </section>
     </section>
