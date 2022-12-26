@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import {
   AltRadioButtonGroup,
   RadioItemType,
@@ -24,6 +24,7 @@ interface SearchResultsHeaderProps {
   onSortByChange: (sortBy: ParkingSortBy) => void;
   view: string;
   onViewChange: (view: string) => void;
+  setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
@@ -35,6 +36,7 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
   onSortByChange,
   view,
   onViewChange,
+  setMobileFilterOpen,
 }) => {
   const [t] = useTranslation('parking');
   const isMapView = view === 'map';
@@ -49,7 +51,7 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
         width: isMapView ? 'calc(100% - 32px)' : undefined,
       }}
     >
-      <section className="mt-6 lg:mt-0 py-3 text-dark-1000 font-semibold text-[20px] leading-[24px] flex justify-between items-center gap-2 px-4 lg:px-0">
+      <section className="lg:mt-0 py-3 text-dark-1000 font-semibold text-[20px] leading-[24px] flex justify-between items-center gap-2 px-4 lg:px-0">
         {isLoading ? (
           <span className="w-24 h-8 rounded bg-dark-200 animate-pulse" />
         ) : (
@@ -68,6 +70,7 @@ export const SearchResultsHeader: FC<SearchResultsHeaderProps> = ({
           onSortChange={onSortByChange}
           view={view}
           onViewChange={onViewChange}
+          setMobileFilterOpen={setMobileFilterOpen}
         />
       </section>
       <Divider className="m-0 lg:hidden" />
@@ -125,7 +128,8 @@ const ParkingSortingAndViewType: FC<{
   onSortChange: (sortBy: ParkingSortBy) => void;
   view: string;
   onViewChange: (view: string) => void;
-}> = ({ sortBy, onSortChange, view, onViewChange }) => {
+  setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
+}> = ({ sortBy, onSortChange, view, onViewChange, setMobileFilterOpen }) => {
   const { t } = useTranslation('parking');
   const viewTypeFilterItems: RadioItemType[] = [
     {
@@ -199,8 +203,7 @@ const ParkingSortingAndViewType: FC<{
 
         <button
           className="flex items-center gap-2 lg:w-[100px] h-6 lg:hidden"
-          onClick={() => setShowSortingDropdown((p) => !p)}
-          onBlur={() => setShowSortingDropdown(false)}
+          onClick={() => setMobileFilterOpen(true)}
         >
           <span className="text-primary-1000">
             <Filter />

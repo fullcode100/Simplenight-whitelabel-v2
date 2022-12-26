@@ -9,7 +9,10 @@ import { ParkingServerSearcher } from './core/search/ParkingServerSearcher';
 import { ParkingServerDetailer } from './core/detail/ParkingServerDetailer';
 import { ParkingClientDetailer } from './core/detail/ParkingClientDetailer';
 import { ParkingDetailDisplay } from './components/detail';
-import { ParkingItineraryDisplay } from './components/Itinerary';
+import {
+  ParkingBreakdownDisplay,
+  ParkingItineraryDisplay,
+} from './components/Itinerary';
 
 export const PARKING_CATEGORY = 'parking';
 
@@ -51,7 +54,7 @@ Category.resultsDisplay = <ParkingResultsDisplay parkingCategory={Category} />;
 Category.detailDisplay = <ParkingDetailDisplay Category={Category} />;
 
 Category.itineraryDisplay = <ParkingItineraryDisplay Category={Category} />;
-Category.breakdownDisplay = <></>;
+Category.breakdownDisplay = <ParkingBreakdownDisplay Category={Category} />;
 Category.checkoutDisplay = <></>;
 Category.confirmationDisplay = <></>;
 Category.cancelledDisplay = <></>;

@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { Dispatch, FC, ReactNode, SetStateAction } from 'react';
 import { Item } from '../../../types/cart/CartType';
 import CarRightIcon from '@/icons/assets/car-right.svg';
 import CarLeftIcon from '@/icons/assets/car-left.svg';
@@ -12,6 +12,11 @@ import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import classNames from 'classnames';
+import TrashIcon from '@/icons/assets/small-trash.svg';
+import Button from '../../../components/global/Button/Button';
+import { removeFromCart } from '../../../core/client/services/CartClientService';
+import { useDispatch } from 'react-redux';
 
 dayjs.extend(localeData);
 dayjs.extend(utc);
@@ -19,12 +24,21 @@ dayjs.extend(timezone);
 
 interface ParkingItineraryBodyProps {
   item: Item;
+  reload?: boolean;
+  setReload?: Dispatch<SetStateAction<boolean>>;
+  breakdown?: boolean;
 }
 
 export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
   item,
+  reload,
+  setReload,
+  breakdown = false,
 }) => {
+  const [tg, i18g] = useTranslation('global');
   const [t] = useTranslation('parking');
+  const dispatch = useDispatch();
+
   const bookingData = item.booking_data;
   const parking: Parking = bookingData?.parking;
   const location = parking.properties.static.address.street.formatted;
@@ -45,6 +59,19 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
     'YYYY-MM-DD HHmm',
   );
   const duration = dayjs.duration(endDate.diff(startDate)).asHours();
+  const removeParkingFromShoppingCart = () => {
+    const flightToRemove = {
+      cartId: item.cart_id,
+      itemId: item.cart_item_id,
+    };
+    removeFromCart(i18g, flightToRemove, dispatch)
+      .then(() => setReload?.(!reload))
+      .catch((error) => console.error(error));
+  };
+
+  const handleRemoveAllFlights = () => {
+    removeParkingFromShoppingCart();
+  };
 
   return (
     <section>
@@ -67,7 +94,9 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
         />
       </section>
 
-      <Divider />
+      <section className={classNames({ 'px-4': breakdown })}>
+        <Divider />
+      </section>
 
       <section className="flex flex-col gap-6 py-4 px-4">
         <section className="flex flex-col gap-2">
@@ -88,11 +117,24 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
           <Divider />
         </section>
 
-        <section>
-          <p className="text-[16px] font-semibold underline text-primary-1000 hover:text-primary-600 cursor-pointer">
-            [SUPPLIER] Terms Of Service
-          </p>
-        </section>
+        {breakdown ? (
+          <section>
+            <Button
+              value={tg('remove')}
+              size="full-sm"
+              type="outlined"
+              leftIcon={<TrashIcon />}
+              onClick={handleRemoveAllFlights}
+              className="w-full"
+            />
+          </section>
+        ) : (
+          <section>
+            <p className="text-[16px] font-semibold underline text-primary-1000 hover:text-primary-600 cursor-pointer">
+              [SUPPLIER] Terms Of Service
+            </p>
+          </section>
+        )}
       </section>
     </section>
   );

@@ -6,7 +6,7 @@ import HorizontalSkeletonList from '../../../components/global/HorizontalItemCar
 import HorizontalSkeletonCard from '../../../components/global/HorizontalItemCard/HorizontalSkeletonCard';
 import SearchViewSelectorFixed from '../../../components/global/SearchViewSelector/SearchViewSelectorFixed';
 import { useTranslation } from 'react-i18next';
-import { ParkingFilterFormDesktop } from './ParkingFilterFormDesktop';
+import { ParkingFilterForm } from './ParkingFilterForm';
 import { SearchResultsHeader } from './SearchResultsHeader';
 import { checkIfAnyNull } from '../../../helpers/arrayUtils';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
@@ -22,6 +22,7 @@ import { getParkingMetadata } from '../../helpers/getParkingMetadata';
 import useQuerySetter from '../../../hooks/pageInteraction/useQuerySetter';
 import dayjs from 'dayjs';
 import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
+import { ParkingFilterMobileView } from './ParkingFilterMobileView';
 
 interface ParkingResultsDisplayProps {
   parkingCategory: CategoryOption;
@@ -40,6 +41,8 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     currency: 'USD',
     heightRestrictionsList: [0, 1000],
   });
+
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   const { filteredList, filter, updateFilter } = useFilter(
     parkingList,
@@ -222,7 +225,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     <>
       <section className="lg:flex lg:w-full pt-4">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 shrink-0">
-          <ParkingFilterFormDesktop
+          <ParkingFilterForm
             handleReset={onReset}
             filter={{
               highAvailability,
@@ -256,6 +259,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
               onSortByChange={onSortByChange}
               view={view}
               onViewChange={viewChangeHandler}
+              setMobileFilterOpen={setMobileFilterOpen}
             />
           </section>
           {loaded && filteredList.length === 0 ? (
@@ -289,6 +293,31 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
           )}
         </section>
       </section>
+      {mobileFilterOpen && (
+        <ParkingFilterMobileView
+          onClose={() => setMobileFilterOpen(false)}
+          handleReset={onReset}
+          filter={{
+            highAvailability,
+            surfaceType,
+            features,
+            minPrice,
+            maxPrice,
+            minHeight,
+            maxHeight,
+            parkingType: filter.parkingType,
+            sortBy: filter.sortBy,
+          }}
+          parkingMetaData={metadata}
+          onFeaturesChange={onFeaturesChange}
+          onHighAvailabilityChange={onHighAvailabilityChange}
+          onMinMaxHeightAfterChange={onMinMaxHeightAfterChange}
+          onMinMaxHeightChange={onMinMaxHeightChange}
+          onMinMaxPriceAfterChange={onMinMaxPriceAfterChange}
+          onMinMaxPriceChange={onMinMaxPriceChange}
+          onSurfaceTypeChange={onSurfaceTypeChange}
+        />
+      )}
       <SearchViewSelectorFixed />
     </>
   );

@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import { ParkingFilter, ParkingListMetaData } from '../../types/ParkingFilter';
+import React, { FC } from 'react';
 import { FilterHeader } from '@/components/search';
 import {
   AvailabilityFilter,
@@ -8,9 +9,8 @@ import {
   VehicleHeightFilter,
 } from './Filters';
 import { Divider } from 'antd';
-import { ParkingFilter, ParkingListMetaData } from '../../types/ParkingFilter';
 
-interface ParkingFilterFormDesktopProps {
+export interface ParkingFilterFormProps {
   filter: ParkingFilter;
   handleReset: () => void;
   parkingMetaData: ParkingListMetaData;
@@ -21,9 +21,10 @@ interface ParkingFilterFormDesktopProps {
   onFeaturesChange: (features: string[]) => void;
   onMinMaxHeightChange: ([minHeight, maxHeight]: [number, number]) => void;
   onMinMaxHeightAfterChange: ([minHeight, maxHeight]: [number, number]) => void;
+  noHeader?: boolean;
 }
 
-export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
+export const ParkingFilterForm: FC<ParkingFilterFormProps> = ({
   filter,
   parkingMetaData,
   handleReset,
@@ -34,10 +35,11 @@ export const ParkingFilterFormDesktop: FC<ParkingFilterFormDesktopProps> = ({
   onMinMaxHeightChange,
   onSurfaceTypeChange,
   onMinMaxPriceChange,
+  noHeader,
 }) => {
   return (
-    <section className="h-full py-4">
-      <FilterHeader handleClearFilters={handleReset} />
+    <section className="lg:h-full py-4">
+      {!noHeader && <FilterHeader handleClearFilters={handleReset} />}
       <PriceFilter
         minPrice={parkingMetaData.minPrice}
         maxPrice={parkingMetaData.maxPrice}

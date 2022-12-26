@@ -26,6 +26,10 @@ const CheckoutItem = ({ item, reload, setReload }: CheckoutItemProps) => {
   if (sectorName === 'accommodations') {
     sectorName = 'hotels';
   }
+  if (sectorName === 'parking' || categoryName === 'parking') {
+    sectorName = 'parking';
+  }
+
   if (sectorName === 'food-beverage') {
     sectorName = 'dining';
   }
