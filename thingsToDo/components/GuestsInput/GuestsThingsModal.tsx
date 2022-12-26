@@ -108,8 +108,10 @@ const GuestsThingsModal = ({
       primaryButtonText={applyLabel}
       primaryButtonAction={onApply}
       className={`lg:rounded-4 lg:overflow-hidden
-      lg:w-[842px] lg:h-[660px]  lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2
-      lg:shadow-full`}
+      lg:max-w-[842px] lg:h-[660px]  lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2
+      lg:shadow-full
+      
+      `}
     >
       <section className="h-full px-5 py-[22px] overflow-y-scroll">
         <section className="flex flex-col mb-6 gap-y-6">

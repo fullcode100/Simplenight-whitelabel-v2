@@ -49,14 +49,16 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <header className="z-20 flex flex-col w-full sm:pt-1 pb-2 bg-dark-100 border-y border-dark-300">
-        <HorizontalTabs
-          tabs={categoriesTabs}
-          activeTab={activeTab}
-          onClick={handleTabClick}
-          primary
-          className="px-4 mt-1"
-        />
+      <header className="fixed z-20 flex flex-col w-full pb-2 lg:pt-6 sm:pt-1 bg-dark-100 border-y border-dark-300">
+        <section className="hidden lg:block">
+          <HorizontalTabs
+            tabs={categoriesTabs}
+            activeTab={activeTab}
+            onClick={handleTabClick}
+            primary
+            className="px-4 mt-1"
+          />
+        </section>
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
@@ -75,15 +77,11 @@ const Search: NextPage = () => {
       </header>
       <main>
         <section
-          className={classnames('lg:w-full lg:px-20', {
-            //  pt-[90px]
-            /*
-            ['lg:pt-[204px]']:
-              multipleCategories && slug !== 'car-rental' && slug !== 'flights',
+          className={classnames('lg:w-full lg:px-20 pt-[90px]', {
+            ['lg:pt-[274px]']: slug === 'car-rental',
+            ['lg:pt-[304px]']: slug === 'flights',
+            ['lg:pt-[204px]']: multipleCategories,
             ['lg:pt-[142px]']: !multipleCategories,
-            ['lg:pt-[250px]']: slug === 'car-rental',
-            ['lg:pt-[280px]']: slug === 'flights',
-            */
           })}
         >
           <section className="mx-auto max-w-7xl ">

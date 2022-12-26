@@ -3,10 +3,7 @@ import { useState } from 'react';
 import TimeSelectorPill from '../TimeSelector/TimeSelectorPill';
 import TicketHeader from './TicketHeader';
 import TimeSelectorDrop from '../TimeSelector/TimeSelectorDrop';
-import {
-  Pricing,
-  Ticket,
-} from 'thingsToDo/types/response/ThingsDetailResponse';
+import { Ticket } from 'thingsToDo/types/response/ThingsDetailResponse';
 import ClockIcon from 'public/icons/assets/clock.svg';
 import { useTranslation } from 'react-i18next';
 import classnames from 'classnames';
@@ -115,24 +112,27 @@ const TicketCard = ({
     };
   };
 
-  const TimeSelector = () => (
-    <>
-      <section className="hidden lg:block">
-        <TimeSelectorPill
-          onChange={setSelectedTime}
-          value={selectedTime}
-          data={ticket.times}
-        />
-      </section>
-      <section className="lg:hidden">
-        <TimeSelectorDrop
-          onChange={setSelectedTime}
-          value={selectedTime}
-          data={ticket.times}
-        />
-      </section>
-    </>
-  );
+  const TimeSelector = () => {
+    ticket.times.sort((a, b) => a.start_time.localeCompare(b.start_time));
+    return (
+      <>
+        <section className="hidden lg:block">
+          <TimeSelectorPill
+            onChange={setSelectedTime}
+            value={selectedTime}
+            data={ticket.times}
+          />
+        </section>
+        <section className="lg:hidden">
+          <TimeSelectorDrop
+            onChange={setSelectedTime}
+            value={selectedTime}
+            data={ticket.times}
+          />
+        </section>
+      </>
+    );
+  };
 
   return (
     <section

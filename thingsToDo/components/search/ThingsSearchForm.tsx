@@ -127,13 +127,13 @@ const ThingsSearchForm = ({
           label={locationInputLabel}
           name="location"
           placeholder={locationPlaceholder}
-          routeParams={['type']}
+          routeParams={['address']}
           onSelect={handleSelectLocation}
           error={showLocationError}
           onChange={handleChangeLocation}
         />
 
-        <section className=" relative flex gap-4 lg:mt-0 lg:w-full">
+        <section className="relative flex gap-4  lg:mt-0 lg:w-full">
           <IconInput
             label={startDateText}
             name="Check-in"

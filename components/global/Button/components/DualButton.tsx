@@ -27,6 +27,7 @@ const DualButton = ({
         className,
       )}
       onClick={onLeftClick}
+      disabled={disabledLeft}
       {...others}
     >
       {leftValue}
@@ -42,6 +43,7 @@ const DualButton = ({
         className,
       )}
       onClick={onRightClick}
+      disabled={disabledRight}
       {...others}
     >
       {rightValue}

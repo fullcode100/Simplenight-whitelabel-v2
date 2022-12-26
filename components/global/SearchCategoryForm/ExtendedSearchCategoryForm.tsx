@@ -26,7 +26,7 @@ const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
 
   const searchFormWithProps = injectProps(searchForm, {
     ...injectableProps,
-    className: 'h-full mt-8 px-5 pb-6',
+    className: 'h-full px-5 py-6',
   });
 
   return isSearching ? (
@@ -39,7 +39,7 @@ const ExtendedSearchCategoryForm = ({ searchType }: { searchType: string }) => {
       primaryButtonAction={() => {}}
       noFooter
     >
-      <section className="h-full overflow-y-auto px-2 py-2">
+      <section className="h-full px-2 py-2 overflow-y-auto">
         {searchFormWithProps}
       </section>
     </FullScreenModal>

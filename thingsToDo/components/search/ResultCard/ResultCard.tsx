@@ -6,6 +6,7 @@ import Divider from '../../../../components/global/Divider/Divider';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import Link from 'next/link';
 import ReadMore from './ReadMoreDescription';
+import { useTranslation } from 'react-i18next';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -35,6 +36,8 @@ function ResultCard<T extends WithId>({
   description,
 }: CardProps<T>) {
   const target = window.innerWidth < 640 ? '_self' : '_blank';
+  const [t] = useTranslation('global');
+  const noReviewsLabel = t('noReviews', 'No reviews yet');
 
   const ImageAndTagSection = () => (
     <section
@@ -56,12 +59,14 @@ function ResultCard<T extends WithId>({
   const RatingSection = () => (
     <section className="flex gap-2 ">
       {rating && <Rating value={parseInt(rating.toFixed(0))} />}
-      {reviewsAmount && (
+      {reviewsAmount ? (
         <p className="text-xs text-dark-700">
           {`${
             Number.isInteger(rating) ? rating : rating?.toFixed(2)
           }/5 (${reviewsAmount} ${reviewsLabel})`}
         </p>
+      ) : (
+        <p className="text-xs text-dark-700">{noReviewsLabel}</p>
       )}
     </section>
   );

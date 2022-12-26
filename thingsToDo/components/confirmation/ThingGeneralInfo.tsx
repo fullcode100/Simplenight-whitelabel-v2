@@ -38,10 +38,13 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   const showDuration = duration !== undefined && duration > 0;
 
   const [t] = useTranslation('things');
+  const [g, i18n] = useTranslation('global');
   const addressLabel = `${addressArea} ${address?.city}, ${address?.country}`;
 
   const activityDuration = duration ? duration : { minDuration, maxDuration };
-  const dateFormatted = dayjs(activityDate).format('MMM D, YYYY');
+  const dateFormatted = dayjs(activityDate)
+    .locale(i18n.resolvedLanguage)
+    .format('MMM D, YYYY');
   const timeFormatted = `${t('at', 'at')} ${activityTime}`;
   const dateAndTimeLabel = `${dateFormatted} ${
     activityTime ? timeFormatted : ''
@@ -53,13 +56,13 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
     (bookingAnswer: any) => bookingAnswer.question_id === PICKUP_POINT_ID,
   )?.value;
   const startingPoint = item.item_data?.extra_data.start_locations?.map(
-    (location: any) => location.description,
+    (location: any) => location.description || location.name,
   );
   const hasPickupOrMeetingPoint = pickupPoint || startingPoint;
 
   const MeetingPickupPoint = () => {
-    const pickupPointLabel = 'Pickup Point';
-    const meetingPointLabel = 'Meeting Point';
+    const pickupPointLabel = t('pickupPoint', 'Pickup Point');
+    const meetingPointLabel = t('meetingPoint', 'Meeting Point');
 
     const pickupLocations = item.item_data?.extra_data.pickup.locations;
     const selectedPickupLocation = pickupLocations?.find(
@@ -110,12 +113,13 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
     const userIconWithClasses = injectProps(<UserIcon />, {
       className: 'h-5 w-5 text-primary-1000',
     });
+    const orderNameLabel = g('orderName', 'Order Name');
     return (
       <div className="flex gap-3 p-3 border bg-primary-100 border-primary-300 rounded-4">
         {userIconWithClasses}
         <div className="grid w-full gap-2 lg:grid-cols-2">
           <div>
-            <p className="text-dark-700">Order Name </p>
+            <p className="text-dark-700">{orderNameLabel}</p>
             <p>
               {customer?.first_name} {customer?.last_name}
             </p>

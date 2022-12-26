@@ -34,12 +34,13 @@ const ThingGeneralInfo = ({ item }: ThingGeneralInfoProps) => {
   const maxDuration = item.item_data?.extra_data.max_duration || 0;
   const fullDay = item.item_data?.extra_data.full_day;
 
-  const [t] = useTranslation('things');
+  const [t, i18n] = useTranslation('things');
   const addressLabel = `${addressArea} ${address?.city}, ${address?.country}`;
 
   const activityDuration = duration ? duration : { minDuration, maxDuration };
-  const dateFormatted = dayjs(activityDate).format('MMM D, YYYY');
-
+  const dateFormatted = dayjs(activityDate)
+    .locale(i18n.resolvedLanguage)
+    .format('MMM D, YYYY');
   const timeFormatted = `${t('at', 'at')} ${activityTime}`;
   const dateAndTimeLabel = `${dateFormatted} ${
     activityTime ? timeFormatted : ''
@@ -51,7 +52,7 @@ const ThingGeneralInfo = ({ item }: ThingGeneralInfoProps) => {
     (bookingAnswer: any) => bookingAnswer.question_id === PICKUP_POINT_ID,
   )?.value;
   const startingPoint = item.item_data?.extra_data.start_locations?.map(
-    (location: any) => location.description,
+    (location: any) => location.name || location.description,
   );
   const hasPickupOrMeetingPoint = pickupPoint || startingPoint;
 
@@ -68,8 +69,8 @@ const ThingGeneralInfo = ({ item }: ThingGeneralInfoProps) => {
   };
 
   const MeetingPickupPoint = () => {
-    const pickupPointLabel = 'Pickup Point';
-    const meetingPointLabel = 'Meeting Point';
+    const pickupPointLabel = t('pickupPoint', 'Pickup Point');
+    const meetingPointLabel = t('meetingPoint', 'Meeting Point');
 
     const pickupLocations = item.item_data?.extra_data.pickup.locations;
     const selectedPickupLocation = pickupLocations?.find(

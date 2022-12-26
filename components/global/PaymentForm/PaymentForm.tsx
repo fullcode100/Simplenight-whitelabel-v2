@@ -3,6 +3,7 @@ import BaseInput from 'components/global/Input/BaseInput';
 import InputWrapper from 'components/checkout/Inputs/InputWrapper';
 import { useTranslation } from 'react-i18next';
 import { Card } from 'types/global/Card';
+import InputMask from 'react-input-mask';
 
 interface CardErrors {
   name: boolean;
@@ -59,11 +60,16 @@ const PaymentForm = ({ card, setCard, cardErrors }: PaymentProps) => {
         labelKey="cardExpiration"
         subLabel={requiredText}
       >
-        <BaseInput
-          placeholder="MM/YY"
+        <InputMask
+          mask="99/99"
+          maskChar={null}
+          value={card.expiration}
           onChange={(e) => setCard({ ...card, expiration: e.target.value })}
-          error={cardErrors.expiration}
-        />
+        >
+          {() => (
+            <BaseInput placeholder="MM/YY" error={cardErrors.expiration} />
+          )}
+        </InputMask>
       </InputWrapper>
       <InputWrapper
         label={cvvText}

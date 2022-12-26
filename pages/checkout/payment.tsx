@@ -126,7 +126,10 @@ const Payment = () => {
       triggerGTagEvent(bookingId, referralItemId);
     }
   };
-
+  const dateIsInCorrectFormat = (val: string) => {
+    const datePattern = /\d\d\/\d\d/;
+    return datePattern.test(val);
+  };
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -136,7 +139,9 @@ const Payment = () => {
   const validateCard = () => {
     const validName = valid.cardholderName(card.name).isValid;
     const validNumber = valid.number(card.number).isValid;
-    const validExpiration = valid.expirationDate(card.expiration).isValid;
+    const validExpiration =
+      valid.expirationDate(card.expiration).isValid &&
+      dateIsInCorrectFormat(card.expiration);
     const validCVV = valid.cvv(card.cvv).isValid;
     setCardErrors({
       name: !validName,

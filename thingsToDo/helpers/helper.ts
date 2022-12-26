@@ -4,11 +4,12 @@ import dayjs from 'dayjs';
 import duration, { Duration } from 'dayjs/plugin/duration';
 
 export {};
-export const formatTicketTime = (date = '10:00') => {
-  const [hours, minutes] = date.split(':');
-  const ampm = parseInt(hours) >= 12 ? 'PM' : 'AM';
-  const time = `${parseInt(hours) % 12}:${minutes} ${ampm}`;
-  return time;
+const DISPLAY_HOUR_FORMAT = 'h:mm A';
+const EXACT_HOUR_FORMAT = 'HH:mm';
+export const formatTicketTime = (hour: string) => {
+  const exactDate = dayjs(hour, EXACT_HOUR_FORMAT).toDate();
+  const displayDAte = dayjs(exactDate).format(DISPLAY_HOUR_FORMAT);
+  return displayDAte;
 };
 
 export const getActivityDuration = (durationInMinutes: number) => {

@@ -90,7 +90,7 @@
   "itinerary": "Itinerary",
   "required": "Required",
   "selectAnyOption": "Select Any Option",
-  "selectAnyHour": "Seleccione Any Hour",
+  "selectAnyHour": "Select Any Hour",
   "close": "Close",
   "doYouWishToCancelYourOrder": "Do You Wish To Cancel Your Order?",
   "doYouWishToCancelYourReservation": "Do You Wish To Cancel Your Reservation?",
@@ -172,5 +172,6 @@
   "offeredIn": "Offered In",
   "addToItinerary": "Add to itinerary",
   "book": "Book",
-  "details": "Details"
+  "details": "Details",
+  "noReviews": "No reviews yet"
 }

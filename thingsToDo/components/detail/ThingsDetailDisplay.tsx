@@ -1,6 +1,7 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState, ReactElement, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 // components
 import Rating from 'components/global/Rating/Rating';
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
@@ -20,12 +21,8 @@ import Check from 'public/icons/assets/check-ok.svg';
 import Close from 'public/icons/assets/close.svg';
 import PoliciesIcon from '../../../public/icons/assets/policies.svg';
 import TicketIcon from 'public/icons/categories/ticket.svg';
-
 // types
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
-import { ReactElement } from 'react';
-// mock
-import { thingToDoDetail } from '../../mocks/thingToDoDetailMock';
 // utilities
 import { injectProps } from '../../../helpers/reactUtils';
 import {
@@ -50,8 +47,7 @@ import {
   ThingsAvailabilityScheduleResponse,
   ThingsScheduleDetail,
 } from 'thingsToDo/types/response/ThingsAvailabilityScheduleResponse';
-import dayjs from 'dayjs';
-import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
+import TabsSection from './TabSection';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -81,6 +77,11 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   );
   const seeLess = tg('seeLess', 'See Less');
   const seeMore = tg('seeMore', 'See More');
+
+  const ticketsRef = useRef<HTMLDivElement>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const policiesRef = useRef<HTMLDivElement>(null);
+  const locationRef = useRef<HTMLDivElement>(null);
 
   const { isDesktop } = useMediaViewport();
   const [thingsItem, setThingsItem] = useState<ThingsDetailItem>();
@@ -288,7 +289,10 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     };
 
     return (
-      <div className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12 lg:py-12">
+      <div
+        ref={policiesRef}
+        className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12 lg:py-12"
+      >
         <SectionTitle title={policiesLabel} icon={<PoliciesIcon />} />
         <h5 className="mt-3 h5 lg:mt-5">{cancellationLabel}</h5>
         <IconAndText
@@ -310,7 +314,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           />
         )}
 
-        <Divider className="py-3 lg:py-5" />
+        <Divider className="py-3 lg:py-4" />
         <h5 className="h5">{additionalInformationLabel}</h5>
         <List list={extraData.amenities} limit={8} />
       </div>
@@ -324,12 +328,12 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     const activityScore = thingsItem?.extra_data?.avg_rating;
     const totalScore = '5';
     return (
-      <section className="border border-dark-300 bg-dark-100">
+      <section className="border border-dark-300 bg-dark-100 lg:bg-white">
         <div className="mx-auto max-w-7xl">
           {images && name && (
             <ImageCarousel images={images} title={name} showDots={false} />
           )}
-          <div className="flex flex-col gap-2 px-5 py-4 lg:px-0">
+          <div className="flex flex-col gap-2 px-5 py-6 lg:px-0">
             <h1 className="h3">{name}</h1>
             <div className="flex items-center gap-2">
               {activityScore && (
@@ -376,7 +380,6 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const TicketsList = () => {
-    const startTicketsNumber = isDesktop ? 3 : 2;
     const displayTickets = isLoadMoreTickets
       ? tickets
       : tickets?.slice(0, startTicketsNumber);
@@ -403,6 +406,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
+  const startTicketsNumber = isDesktop ? 3 : 2;
   const TicketsSection = () => {
     if (!scheduleLoaded) {
       return <Loader />;
@@ -416,7 +420,10 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
 
     return (
       <>
-        <section className="px-5 mx-auto mt-5 max-w-7xl lg:px-0 lg:py-12">
+        <section
+          ref={ticketsRef}
+          className="px-5 py-5 mx-auto max-w-7xl lg:px-0 lg:py-12"
+        >
           <SectionTitle icon={<TicketIcon />} title="Tickets" />
           <section className="p-4 mt-4 rounded bg-dark-100 lg:mt-8 lg:mb-8">
             <section>
@@ -436,7 +443,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           >
             {tickets.length > 0 ? <TicketsList /> : <EmptyTickets />}
           </section>
-          {!isLoadMoreTickets && tickets.length > 0 && (
+          {!isLoadMoreTickets && tickets.length > startTicketsNumber && (
             <section className="flex justify-center mt-4">
               <Button width="w-full lg:w-auto" onClick={loadMoreTickets}>
                 <section className="px-4">{loadMoreText}</section>
@@ -449,16 +456,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const DetailDisplay = () => {
-    const bookingQuestions = thingsItem?.extra_data?.booking_questions;
-    const hasMeeting = bookingQuestions?.find(
-      (question) => question.id === MEETING_POINT_ID,
-    );
-    const hasPickup = bookingQuestions?.find(
-      (question) => question.id === PICKUP_POINT_ID,
-    );
-    const meetingPoints = hasMeeting && thingsItem?.extra_data.start_locations;
-    const pickupPoints = hasPickup && thingsItem?.extra_data.pickup;
-    const hasPoints = meetingPoints || pickupPoints;
+    const meetingPoints = thingsItem?.extra_data.start_locations;
+    const pickupPoints = thingsItem?.extra_data.pickup;
 
     return (
       <>
@@ -470,16 +469,23 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           thingsItem && (
             <>
               <HeaderSection />
-              {/* <TabsSection /> */}
+              <TabsSection
+                ticketsRef={ticketsRef}
+                detailsRef={detailsRef}
+                policiesRef={policiesRef}
+                locationRef={locationRef}
+              />
               <TicketsSection />
               <Divider className="mt-6" />
-              <section className="mx-auto lg:gap-12 lg:grid lg:grid-cols-2 lg:divide-y-2 max-w-7xl">
-                <DetailsSection thingsItem={thingsItem} />
+              <section className="mx-auto divide-dark-300 lg:gap-12 lg:grid lg:grid-cols-2 lg:divide-x max-w-7xl">
+                <section ref={detailsRef}>
+                  <DetailsSection thingsItem={thingsItem} />
+                </section>
                 <Divider className="lg:hidden" />
                 <PoliciesSection />
               </section>
               <Divider />
-              {hasPoints && (
+              <section ref={locationRef}>
                 <LocationSection
                   meetingPoints={meetingPoints}
                   selectedMeeting={selectedMeeting}
@@ -488,7 +494,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                   selectedPickup={selectedPickup}
                   setSelectedPickup={setSelectedPickup}
                 />
-              )}
+              </section>
             </>
           )
         )}

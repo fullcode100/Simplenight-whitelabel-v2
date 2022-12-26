@@ -16,7 +16,7 @@ import Divider from 'components/global/Divider/Divider';
 import Button from 'components/global/Button/Button';
 import { deepCopy } from 'helpers/objectUtils';
 
-const additionalRequest = '';
+let additionalRequest: string;
 
 const ClientCartItem = ({
   index,
@@ -31,7 +31,6 @@ const ClientCartItem = ({
   const [usePrimaryContact, setUsePrimaryContact] = useState(true);
   const itemCustomer = item?.customer;
 
-  let additionalRequest = '';
   const handleChangeAdditionalRequest = (e: any) => {
     additionalRequest = e.target.value;
     onChange(e.target.value, item.cart_item_id, true);

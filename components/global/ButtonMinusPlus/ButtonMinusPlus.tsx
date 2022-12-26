@@ -28,6 +28,7 @@ const ButtonMinusPlus = ({
           },
         )}
         onClick={onClickMinus}
+        disabled={disabledMinus}
       >
         <MinusIcon />
       </button>
@@ -40,6 +41,7 @@ const ButtonMinusPlus = ({
           },
         )}
         onClick={onClickPlus}
+        disabled={disabledPlus}
       >
         <PlusIcon />
       </button>
