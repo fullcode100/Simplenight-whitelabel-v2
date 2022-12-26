@@ -13,6 +13,8 @@ import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getItemQuestionSchemas } from 'thingsToDo/helpers/questions';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import Divider from 'components/global/Divider/Divider';
+import Button from 'components/global/Button/Button';
+import { deepCopy } from 'helpers/objectUtils';
 
 const additionalRequest = '';
 
@@ -103,16 +105,21 @@ const ClientCartItem = ({
     bookingSchema: bookingQuestionSchema,
   } = getItemQuestionSchemas(item);
 
-  const getTicketsCuantity = () => {
-    let ticketsCuantity = 0;
-    const itemTravelers = [];
+  const getTicketsQuantity = () => {
+    const itemTravelers: any = [];
+    let travelerNum = 1;
     item?.booking_data?.ticket_types?.forEach((ticket: any) => {
-      ticketsCuantity += ticket.quantity;
+      for (let i = 0; i < ticket.quantity; i++) {
+        itemTravelers.push({
+          travelerNum,
+          ticket,
+        });
+        travelerNum++;
+      }
     });
-    for (let i = 0; i < ticketsCuantity; i++) itemTravelers.push(i + 1);
-    return { ticketsCuantity, itemTravelers };
+    return itemTravelers;
   };
-  const { itemTravelers } = getTicketsCuantity();
+  const itemTravelers = getTicketsQuantity();
 
   /*   const {
     check_in_instructions: checkInInstructions,
@@ -161,24 +168,30 @@ const ClientCartItem = ({
         </section>
       )}
       {travelerQuestionSchema &&
-        itemTravelers?.map((traveler: any) => (
-          <section key={traveler}>
-            <p>
-              {travelerText} {traveler}
-            </p>
+        itemTravelers?.map(
+          ({ travelerNum, ticket }: { travelerNum: any; ticket: any }) => (
+            <section key={travelerNum}>
+              <p>
+                {travelerText} {travelerNum} - {ticket.age_band_label}
+              </p>
 
-            <Divider className="py-1" />
-            <section className="mt-1.5">
-              <FormSchema
-                schema={travelerQuestionSchema.schema}
-                uiSchema={travelerQuestionSchema.uiSchema}
-                onChange={(data) => handleChangeAnswers(data, traveler)}
-              >
-                <></>
-              </FormSchema>
+              <Divider className="py-1" />
+              <section className="mt-1.5">
+                <FormSchema
+                  schema={travelerQuestionSchema.schema}
+                  uiSchema={travelerQuestionSchema.uiSchema}
+                  onChange={(data) => {
+                    const copyData = deepCopy(data);
+                    copyData.formData['AGEBAND'] = ticket.ticket_type_id;
+                    handleChangeAnswers(copyData, travelerNum);
+                  }}
+                >
+                  <></>
+                </FormSchema>
+              </section>
             </section>
-          </section>
-        ))}
+          ),
+        )}
       <section>
         <Label
           value="Additional Requests"

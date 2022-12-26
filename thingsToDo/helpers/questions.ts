@@ -90,7 +90,9 @@ export const getQuestionSchemaByGrouping = (item: any, grouping?: string) => {
   const productCode = item?.booking_data?.product_code;
   const questionsByGrouping = questions?.filter(
     (question: any) =>
-      question?.grouping === grouping && question?.id !== 'LANG_GUIDE',
+      question?.grouping === grouping &&
+      question?.id !== 'LANG_GUIDE' &&
+      question?.id !== 'AGEBAND',
   );
   const itemQuestionLanguage = questions?.find(
     (question: any) =>
