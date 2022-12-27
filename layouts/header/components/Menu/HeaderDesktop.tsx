@@ -65,7 +65,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
     >
       <section className="items-center justify-between w-full mx-auto max-w-7xl lg:flex">
         <section className="flex items-center gap-5">
-          <div>
+          <div className="flex flex-col items-center gap-2">
             <Link href={'/'}>
               <a>
                 <img
