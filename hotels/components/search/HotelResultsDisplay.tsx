@@ -25,11 +25,12 @@ import HotelCancellable from './HotelCancellable';
 import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/HorizontalSkeletonCard';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
-import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import { hotelsSetInitialState } from 'hotels/redux/actions';
 import { useFilterHotels } from '../../hooks/useFilterHotels';
 import { ViewActions } from './ViewActions';
 import { DropdownRadio } from 'components/global/DropdownRadio';
+import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/ListMapMobileBottomTabs';
+import { useWindowSize } from 'hotels/hooks/useWinoowsResize';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -62,7 +63,7 @@ const priceLowerFirst = 'Price (Lowest First)';
 const priceHihgerFirst = 'Price (Highest First)';
 const ratingHighestFirst = 'Rating (Highest First)';
 const ratingLoweFirst = 'Rating (Lowest First)';
-
+const LG_SCREEN_SIZE = 1024;
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [counter, setCounter] = useState(0);
   const [t, i18next] = useTranslation('hotels');
@@ -101,6 +102,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   );
   const { handleFilterHotels } = useFilterHotels(hotels);
   const [view, setview] = useState('list');
+  const windowSize = useWindowSize();
   const isListView = view === 'list';
 
   // It could be useful
@@ -209,6 +211,15 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   };
   const hasNoHotels = hotels.length === 0;
 
+  const checkIfShouldBeShown = () => {
+    if (
+      (windowSize.width >= LG_SCREEN_SIZE && isListView) ||
+      windowSize.width < LG_SCREEN_SIZE
+    )
+      return true;
+    else if (!isListView && windowSize.width >= LG_SCREEN_SIZE) return false;
+  };
+
   const HotelList = () => (
     <ul role="list" className="space-y-4">
       {loading ? (
@@ -277,7 +288,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             />
           ) : (
             <>
-              <section className=" w-full lg:block absolute z-[1] right-0 -top-20 lg:top-2 px-5 lg:px-0 ">
+              <section className=" w-full lg:block lg:absolute z-[1] right-0 -top-20 lg:top-2 px-5 lg:px-0 ">
                 <div
                   className={`flex bg-white  rounded justify-between py-4 ${
                     !isListView ? 'px-4 shadow-container' : ''
@@ -298,7 +309,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                     )}
                   </section>
                   <section className="flex gap-4 items-center">
-                    {isListView && (
+                    {checkIfShouldBeShown() && (
                       <DropdownRadio
                         translation="hotels"
                         sortByVal={sortByVal}
@@ -317,7 +328,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 </div>
               </section>
               {isListView && (
-                <section className="w-full h-full px-5 pb-6 lg:px-0 mt-24">
+                <section className="w-full h-full px-5 pb-6 lg:px-0 lg:mt-24 ">
                   <HotelList />
                 </section>
               )}
@@ -340,7 +351,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
           )}
         </section>
       </section>
-      <SearchViewSelectorFixed />
+      <ListMapMobileBottomTabs view={view} setview={setview} />
     </>
   );
 };

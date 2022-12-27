@@ -13,6 +13,9 @@ const CancelledItem = ({ item }: CancelledItemProps) => {
   if (sectorName === 'food-beverage') {
     sectorName = 'dining';
   }
+  if (sectorName === 'accommodations' || categoryName === 'hotels') {
+    sectorName = 'hotels';
+  }
   const sector = useCategory(sectorName || '');
 
   return (

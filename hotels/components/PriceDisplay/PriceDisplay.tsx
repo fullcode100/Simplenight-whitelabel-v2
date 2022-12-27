@@ -71,8 +71,8 @@ const PriceDisplay = ({
       </p>
       {isStartingTotal && startingRoomTotal && (
         <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
-          <span>{startingRoomTotal.formatted}</span>{' '}
           <span>{startingRoomTotalLabel}</span>
+          <span>{startingRoomTotal.formatted}</span>
         </p>
       )}
       <section className="flex flex-row gap-1 justify-end">
