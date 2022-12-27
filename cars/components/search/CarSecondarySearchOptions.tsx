@@ -157,7 +157,6 @@ const CarSecondarySearchOptions = () => {
       setCompaniesOptions(carsCompaniesSorted);
       // companies images
       const carsCompaniesUrls: string[] = [];
-      console.log('carsCompaniesSorted', carsCompaniesSorted);
       if (carsCompaniesSorted && carsCompaniesSorted.length) {
         carsCompaniesSorted.forEach((item) => {
           carsCompaniesUrls.push(getCarCompanyUrl(cars, item));
@@ -305,10 +304,10 @@ const CarSecondarySearchOptions = () => {
 
   const FilterHeader = () => (
     <FilterContainer>
-      <section className="flex justify-between items-center">
+      <section className="flex items-center justify-between">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
         <button
-          className="font-semibold text-base text-primary-1000 capitalize underline"
+          className="text-base font-semibold underline capitalize text-primary-1000"
           onClick={handleClearFilters}
         >
           {clearFiltersText}
@@ -343,11 +342,11 @@ const CarSecondarySearchOptions = () => {
   }) => <label className={`mb-2 ${className}`}>{label}</label>;
 
   const FilterContainer = ({ children }: { children?: any }) => (
-    <section className="px-4 mt-4 mb-6 flex flex-col">{children}</section>
+    <section className="flex flex-col px-4 mt-4 mb-6">{children}</section>
   );
 
   const FilterForm = (
-    <section className="py-4 h-full overflow-y-scroll">
+    <section className="h-full py-4 overflow-y-scroll">
       {/*
       <SortByFilter />
 
@@ -386,7 +385,7 @@ const CarSecondarySearchOptions = () => {
 
   const ClearFilterButton = () => (
     <button
-      className="text-base text-primary-1000 font-semibold underline"
+      className="text-base font-semibold underline text-primary-1000"
       onClick={handleClearFilters}
     >
       {clearFiltersText}
@@ -427,7 +426,7 @@ const CarSecondarySearchOptions = () => {
         <span className="text-primary-1000">
           <FilterIcon />
         </span>
-        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+        <span className="flex-1 text-xs font-semibold text-left text-dark-1000">
           {t('filter', 'Filter')}
         </span>
       </button>

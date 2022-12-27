@@ -18,7 +18,7 @@ const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 const FilterContainer = ({ children }: { children?: any }) => (
-  <section className="pr-6 mt-4 mb-6 flex flex-col">{children}</section>
+  <section className="flex flex-col pr-6 mt-4 mb-6">{children}</section>
 );
 
 interface CarFilterFormDesktopProps {
@@ -220,10 +220,10 @@ const CarFilterFormDesktop = ({ cars }: CarFilterFormDesktopProps) => {
 
   const FilterHeader = () => (
     <FilterContainer>
-      <section className="flex justify-between items-center">
+      <section className="flex items-center justify-between">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
         <button
-          className="font-semibold text-base text-primary-1000 capitalize underline"
+          className="text-base font-semibold underline capitalize text-primary-1000"
           onClick={handleClearFilters}
         >
           {clearFiltersText}
@@ -312,7 +312,6 @@ const CarFilterFormDesktop = ({ cars }: CarFilterFormDesktopProps) => {
       setCompaniesOptions(carsCompaniesSorted);
       // companies images
       const carsCompaniesUrls: string[] = [];
-      // console.log('carsCompaniesSorted', carsCompaniesSorted);
       if (carsCompaniesSorted && carsCompaniesSorted.length) {
         carsCompaniesSorted.forEach((item) => {
           carsCompaniesUrls.push(getCarCompanyUrl(cars, item));
@@ -323,7 +322,7 @@ const CarFilterFormDesktop = ({ cars }: CarFilterFormDesktopProps) => {
   }, [cars]);
 
   return (
-    <section className="py-4 h-full overflow-y-scroll">
+    <section className="h-full py-4 overflow-y-scroll">
       <FilterHeader />
       <Divider className="my-4 opacity-0" />
       {/*

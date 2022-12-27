@@ -52,7 +52,6 @@ export default async function handler(
         },
       },
     };
-    console.log('postData', JSON.stringify(postData));
 
     const url = 'https://dev-api.simplenight.com/api/v1/multi/search'; // SN API v1
     const { data } = await axios.post(
@@ -85,19 +84,16 @@ export default async function handler(
       currency: currency,
       // lang: lang,
     };
-    console.log('getData', JSON.stringify(getData));
 
     const url = `https://dev-api.simplenight.com/v2/categories/car-rental/items/details?${new URLSearchParams(
       getData,
     )}`; // SN API v2
-    console.log('url', url);
 
     const { data } = await axios.get(url, {
       headers: {
         'X-API-KEY': '4I8FoZk7.Vtj5lDdPzv1vharxEzwp5gooD6nl1TXo',
       },
     });
-    console.log('responseData', data);
 
     if (
       data &&
@@ -142,10 +138,8 @@ export default async function handler(
     */
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // console.log('error message: ', error.message);
       res.status(400).json({ cars: [] });
     } else {
-      // console.log('unexpected error: ', error);
       res.status(400).json({ cars: [] });
     }
   }

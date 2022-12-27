@@ -14,9 +14,6 @@ const SearchCategoryForm = ({ activeTab }: { activeTab: Tab }) => {
     slug: activeTab?.slug,
   });
 
-  console.log('search form ', searchForm);
-  console.log('search option ', searchOption);
-
   return searchForm ?? null;
 };
 

@@ -80,7 +80,6 @@ const SingleSelectDropdown = ({
               <section className="grid gap-[1px] p-3">
                 <RadioGroup
                   onChange={(e) => {
-                    console.log(e);
                     setSelectedValue(e);
                   }}
                   value={selectedValue}

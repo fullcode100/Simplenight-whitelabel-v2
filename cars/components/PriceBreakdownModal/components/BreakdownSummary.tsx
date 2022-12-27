@@ -22,7 +22,6 @@ const BreakdownSummary = ({
   nights = 0,
   roomsQty = 0,
 }: BreakdownSummaryProps) => {
-  console.log(rate);
   const [tg] = useTranslation('global');
   const [t] = useTranslation('flights');
   const includesTaxesAndFeesText = t(
@@ -39,7 +38,7 @@ const BreakdownSummary = ({
       <section className="text-right">
         {/* <PriceDisplay rate={rate} /> */}
         {rate?.total?.prepaid?.amount} {rate?.total?.prepaid?.currency}
-        <p className="text-dark-800 text-xs">{includesTaxesAndFeesText}</p>
+        <p className="text-xs text-dark-800">{includesTaxesAndFeesText}</p>
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>
     </section>

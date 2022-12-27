@@ -97,10 +97,6 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
   }, [storeCurrency]);
 
   useEffect(() => {
-    console.log(detailsLabel);
-  }, [detailsLabel]);
-
-  useEffect(() => {
     const occupancy: Occupancy = {
       adults: parseQueryNumber(adults ?? '1') + '',
       children: parseQueryNumber(children ?? '0') + '',
@@ -146,8 +142,8 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
   };
 
   const RatingSection = () => (
-    <section className="flex mt-4 w-full justify-between items-center lg:justify-start lg:gap-2 lg:mt-0">
-      <span className="text-sm lg:text-base text-primary-1000 font-semibold">
+    <section className="flex items-center justify-between w-full mt-4 lg:justify-start lg:gap-2 lg:mt-0">
+      <span className="text-sm font-semibold lg:text-base text-primary-1000">
         <span className="">{starRating}-</span>
         {starFlightLabel}
       </span>
@@ -177,9 +173,9 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
     };
 
     return (
-      <section className="text-dark-1000 bg-dark-100 w-screen rounded-t-12 pt-4 ">
-        <section className=" px-4">
-          <p className="h4 text-center">{name}</p>
+      <section className="w-screen pt-4 text-dark-1000 bg-dark-100 rounded-t-12 ">
+        <section className="px-4 ">
+          <p className="text-center h4">{name}</p>
           <RatingSection />
         </section>
         <BlockDivider className="mt-5" />
@@ -191,7 +187,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
   };
 
   const DetailsSection = () => (
-    <section className="pt-6 pb-3 px-5 lg:pt-0 lg:pb-0 lg:px-0">
+    <section className="px-5 pt-6 pb-3 lg:pt-0 lg:pb-0 lg:px-0">
       <section className="mb-5 lg:mb-8">
         <p className="flex items-center gap-3 mb-6">
           <IconRoundedContainer className="bg-primary-1000">
@@ -215,7 +211,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
               setDescriptionHeight(0);
             }
           }}
-          className="text-base text-dark-1000 mt-3"
+          className="mt-3 text-base text-dark-1000"
         >
           {description}
         </p>
@@ -234,7 +230,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
       <span>
         {adults ?? '-'} {ADULT_TEXT}, {children ?? '-'} {CHILDREN_TEXT}
       </span>
-      <span className="text-dark-200 mx-4">|</span>
+      <span className="mx-4 text-dark-200">|</span>
       <span>
         {rooms ?? '-'} {ROOMS_TEXT}
       </span>
@@ -273,15 +269,15 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
   );
 
   const OccupancyAndDatesSection = () => (
-    <section className="grid gap-2 font-lato text-sm text-dark-1000">
+    <section className="grid gap-2 text-sm font-lato text-dark-1000">
       <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
+        <section className="grid w-6 place-items-center">
           <CalendarIcon className="text-primary-1000" />
         </section>
         <DatesSection />
       </section>
       <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
+        <section className="grid w-6 place-items-center">
           <MultiplePersonsIcon className="text-primary-1000" />
         </section>
         <OccupancySection />
@@ -293,14 +289,14 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
       <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
-        <section className="h-12 flex justify-between items-center">
+        <section className="flex items-center justify-between h-12">
           <OccupancyAndDatesSection />
           <section>
             <Button
               value="Edit"
               translationKey="edit"
               type="contained"
-              className="h-9 text-sm w-20 font-normal"
+              className="w-20 text-sm font-normal h-9"
               size="full"
               onClick={handleOpenCheckRoom}
             />
@@ -309,9 +305,9 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
       </header>
       {loaded && emptyState && (
         <>
-          <section className="px-20 hidden lg:block pt-12">
+          <section className="hidden px-20 pt-12 lg:block">
             <RoomSectionTitle />
-            <section className=" bg-dark-100 p-4 rounded-md my-8">
+            <section className="p-4 my-8 rounded-md  bg-dark-100">
               <FlightRoomAvailabilityForm />
             </section>
           </section>
@@ -327,13 +323,13 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
           <section className="lg:hidden">
             <ImageCarousel images={flightImages} title={name} />
           </section>
-          <section className="hidden lg:block w-full pt-16 bg-dark-100">
+          <section className="hidden w-full pt-16 lg:block bg-dark-100">
             <ImageCarouselLargeScreen images={flightImages} title={name} />
           </section>
           <section className="lg:hidden">
             {/* <GeneralInformationSection /> */}
           </section>
-          <section className="hidden lg:block px-20 text-left bg-dark-100 py-6">
+          <section className="hidden px-20 py-6 text-left lg:block bg-dark-100">
             <p className="text-[2rem]">{name}</p>
             <RatingSection />
           </section>
@@ -355,7 +351,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
               }
             </SeeMore>
           </section>
-          <section className="hidden lg:block px-20">
+          <section className="hidden px-20 lg:block">
             <RoomsSection
               rooms={flightRooms}
               flightId={flight.id}
@@ -365,7 +361,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
             />
           </section>
           <Divider />
-          <section className="divide-dark-300 divide-y lg:divide-y-0 lg:divide-x lg:flex lg:px-20 lg:py-12">
+          <section className="divide-y divide-dark-300 lg:divide-y-0 lg:divide-x lg:flex lg:px-20 lg:py-12">
             <section className="lg:w-[50%] lg:pr-12">
               <DetailsSection />
             </section>

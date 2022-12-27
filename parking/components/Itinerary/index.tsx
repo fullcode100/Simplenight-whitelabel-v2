@@ -42,7 +42,6 @@ export const ParkingBreakdownDisplay: FC<ParkingItineraryDisplayProps> = ({
   setReload,
   Category,
 }) => {
-  console.log({ item, reload, setReload });
   return (
     <CollapseUnbordered
       title={<ParkingItineraryHeader item={item} icon={Category.icon} />}

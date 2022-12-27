@@ -14,13 +14,12 @@ export const ParkingItineraryHeader: FC<ParkingItineraryFooterProps> = ({
   icon,
 }) => {
   const [t] = useTranslation('parking');
-  console.log({ item });
   const parking: Parking = item.booking_data?.parking;
   const title = parking.properties.static.address.street.formatted;
   const street = parking.properties.static.type === 'ON_STREET';
   return (
     <header className="flex flex-row gap-3">
-      <IconRoundedContainer className="bg-primary-1000 text-white">
+      <IconRoundedContainer className="text-white bg-primary-1000">
         {icon}
       </IconRoundedContainer>
       <section className="grid gap-1">

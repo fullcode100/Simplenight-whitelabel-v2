@@ -105,17 +105,12 @@ export default async function handler(
     // 'https://dev.jarnetsolutions.com/sn-booking-service/airsearch', // Amadeus
     // 'https://dev.jarnetsolutions.com/sn-booking-service/findbargain', // SABRE
 
-    console.log('URL', url);
-    console.log('REQUEST', JSON.stringify(postData));
-
     const { data } = await axios.post(url, postData, {
       headers: {
         Accept: 'application/json',
         'X-API-KEY': '4I8FoZk7.Vtj5lDdPzv1vharxEzwp5gooD6nl1TXo',
       },
     });
-
-    console.log('RESPONSE', data);
 
     // if (data?.pricedItineraries?.pricedItinerary) // SABRE
     if (
@@ -142,10 +137,8 @@ export default async function handler(
     } else res.status(400).json({ flights: [], offers: [] });
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // console.log('error message: ', error.message);
       res.status(400).json({ flights: [], offers: [] });
     } else {
-      // console.log('unexpected error: ', error);
       res.status(400).json({ flights: [], offers: [] });
     }
   }

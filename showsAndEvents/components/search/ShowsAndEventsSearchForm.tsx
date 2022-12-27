@@ -150,10 +150,6 @@ const ShowsAndEvents = ({
     >
       <section className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
         {/* <SingleSelectDropdown
-          options={DATES_OPTIONS}
-          onChange={() => {
-            console.log('wfwf');
-          }}
           translation="hotels"
         />
         <SingleSelectDropdown options={TIME_OPTIONS} translation="hotels" /> */}
@@ -161,7 +157,7 @@ const ShowsAndEvents = ({
 
       <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
         <IconInput
-          icon={<SearchIcon className="h-5 w-5 text-dark-700 " />}
+          icon={<SearchIcon className="w-5 h-5 text-dark-700 " />}
           label="Search"
           name="search"
           placeholder="Search Shows & Events"
@@ -183,7 +179,7 @@ const ShowsAndEvents = ({
           restricted={false}
         />
         <LocationInput
-          icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+          icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
           name="location"
           label={'City'}
           placeholder={'Where are you going?'}
@@ -199,7 +195,7 @@ const ShowsAndEvents = ({
             placeholder={startDateText}
             className="lg:mt-0"
             orientation="left"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
             onChange={(event) => handleStartDateChange(event.target.value)}
             onClick={() => {
@@ -214,7 +210,7 @@ const ShowsAndEvents = ({
             placeholder={endDateText}
             orientation="left"
             className="lg:mt-0"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
+            icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
             onChange={(event) => handleEndDateChange(event.target.value)}
             onClick={() => {

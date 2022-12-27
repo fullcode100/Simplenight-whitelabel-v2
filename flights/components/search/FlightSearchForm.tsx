@@ -206,7 +206,6 @@ const FlightSearchForm = ({
     const addrs: string[] = Object.assign([], addresses);
     addrs[index] = addr;
     setAddresses(addrs);
-    console.log(addrs);
   };
 
   const handleSelectLocation2 = (
@@ -222,7 +221,6 @@ const FlightSearchForm = ({
     const addrs: string[] = Object.assign([], addresses2);
     addrs[index] = addr;
     setAddresses2(addrs);
-    console.log(addrs);
   };
 
   const handleStartDateChange = (value: string, index: number) => {
@@ -232,7 +230,6 @@ const FlightSearchForm = ({
     const dates: string[] = Object.assign([], startDates);
     dates[index] = value;
     setStartDates(dates);
-    console.log(value, index, dates);
   };
 
   const handleEndDateChange = (value: string) => {
@@ -492,10 +489,10 @@ const FlightSearchForm = ({
       {flights.map((item: string, flightIndex: number) => (
         <section key={flightIndex} className="flex flex-col">
           {direction === 'multi_city' && (
-            <section className="mt-5 w-full">
+            <section className="w-full mt-5">
               <Label
                 value={`${flightLabel} #${flightIndex + 1}`}
-                className="block font-normal text-sm text-dark-500"
+                className="block text-sm font-normal text-dark-500"
               />
             </section>
           )}
@@ -507,7 +504,7 @@ const FlightSearchForm = ({
             <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
               <LocationInput
                 icon={
-                  <LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />
+                  <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
                 }
                 label={locationInputLabel}
                 name="location"
@@ -525,7 +522,7 @@ const FlightSearchForm = ({
               />
               <LocationInput
                 icon={
-                  <LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />
+                  <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
                 }
                 label={location2InputLabel}
                 name="location2"
@@ -569,7 +566,7 @@ const FlightSearchForm = ({
                   placeholder={checkInText}
                   className="lg:mt-0"
                   orientation="left"
-                  icon={<Calendar className="h-5 w-5 text-dark-700" />}
+                  icon={<Calendar className="w-5 h-5 text-dark-700" />}
                   value={fromLowerCaseToCapitilize(
                     formatAsDisplayDate(
                       direction === 'multi_city'
@@ -593,7 +590,7 @@ const FlightSearchForm = ({
                     placeholder={checkOutText}
                     orientation="left"
                     className="lg:mt-0"
-                    icon={<Calendar className="h-5 w-5 text-dark-700" />}
+                    icon={<Calendar className="w-5 h-5 text-dark-700" />}
                     value={fromLowerCaseToCapitilize(
                       formatAsDisplayDate(endDate),
                     )}
@@ -642,7 +639,7 @@ const FlightSearchForm = ({
             <Button
               key="flights.addBtn"
               size="full"
-              className="min-w-full bg-dark-200 text-sm text-primary-1000 self-end"
+              className="self-end min-w-full text-sm bg-dark-200 text-primary-1000"
               value={addFlightLabel}
               onClick={() => handleFlightsAdd()}
             />

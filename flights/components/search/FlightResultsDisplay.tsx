@@ -156,7 +156,6 @@ const FlightResultsDisplay = ({
       // latitude,
       // longitude,
     ]);
-    // console.log('Search Flights', hasEmptyValues);
     if (hasEmptyValues) return;
 
     if (direction === 'multi_city') {
@@ -458,15 +457,23 @@ const FlightResultsDisplay = ({
     // sort by price
     if (sortBy && sortBy === 'sortByPriceDesc')
       _flightsFiltered.sort((a, b) =>
-        parseFloat(a?.offers[0]?.totalAmound) > parseFloat(b?.offers[0]?.totalAmound)
+        parseFloat(a?.offers[0]?.totalAmound) >
+        parseFloat(b?.offers[0]?.totalAmound)
           ? -1
-          : Number(parseFloat(a?.offers[0]?.totalAmound) < parseFloat(b?.offers[0]?.totalAmound)),
+          : Number(
+              parseFloat(a?.offers[0]?.totalAmound) <
+                parseFloat(b?.offers[0]?.totalAmound),
+            ),
       );
     else
       _flightsFiltered.sort((a, b) =>
-        parseFloat(a?.offers[0]?.totalAmound) < parseFloat(b?.offers[0]?.totalAmound)
+        parseFloat(a?.offers[0]?.totalAmound) <
+        parseFloat(b?.offers[0]?.totalAmound)
           ? -1
-          : Number(parseFloat(a?.offers[0]?.totalAmound) > parseFloat(b?.offers[0]?.totalAmound)),
+          : Number(
+              parseFloat(a?.offers[0]?.totalAmound) >
+                parseFloat(b?.offers[0]?.totalAmound),
+            ),
       );
 
     setFlightsFiltered(_flightsFiltered);
@@ -477,7 +484,7 @@ const FlightResultsDisplay = ({
   };
 
   const getFlightsByIds = (_flights: Flight[], ids: string[]) => {
-    let results:Flight[] = [];
+    let results: Flight[] = [];
     _flights.forEach((item: Flight, index: number) => {
       const id = item.legId;
       const found = ids.indexOf(id);
@@ -489,11 +496,11 @@ const FlightResultsDisplay = ({
   const FlightList = () => (
     <ul role="list" className="space-y-4">
       {flightsFiltered.map((flight: Flight, index: number) => {
-        const cartItem:Item = {
+        const cartItem: Item = {
           category: 'FLIGHTS',
           sector: 'other',
           booking_data: {
-            inventory_id: "7e6cfd32:7264P3",
+            inventory_id: '7e6cfd32:7264P3',
             search: {
               direction: direction as string,
 
@@ -537,7 +544,7 @@ const FlightResultsDisplay = ({
           );
       })}
       {flightsFiltered.length > page * pageItems && (
-        <section className="flex w-full justify-center">
+        <section className="flex justify-center w-full">
           <Button
             value={loadMoreLabel}
             color="outlined"
@@ -601,7 +608,6 @@ const FlightResultsDisplay = ({
               {isListView && (
                 <section className="w-full h-full px-5 pb-6">
                   <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
-
                     <section className="py-4">
                       {flightsFiltered.length}
                       <span className="lg:hidden"> {flightsFoundLabel}</span>
@@ -611,7 +617,7 @@ const FlightResultsDisplay = ({
                       </span>
                     </section>
 
-                    <section className="flex flex-row mb-3 lg:mb-0 hidden lg:block">
+                    <section className="flex flex-row hidden mb-3 lg:mb-0 lg:block">
                       {direction === 'round_trip' && (
                         <>
                           <span
@@ -623,14 +629,18 @@ const FlightResultsDisplay = ({
                             onClick={() =>
                               flightIndex > 0 && onChangeFlightIndex(0)
                             }
-                          >{departingFlightsLabel}</span>
+                          >
+                            {departingFlightsLabel}
+                          </span>
                           <span
                             className={
                               flightIndex === 1
                                 ? 'px-4 py-2 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
                                 : 'px-4 py-2 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
                             }
-                          >{returningFlightsLabel}</span>
+                          >
+                            {returningFlightsLabel}
+                          </span>
                         </>
                       )}
                       {direction === 'multi_city' && (
@@ -644,38 +654,40 @@ const FlightResultsDisplay = ({
                                 color="outlined"
                                 className={
                                   flightIndex === index
-                                ? 'px-4 py-2 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                                : 'px-4 py-2 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
+                                    ? 'px-4 py-2 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
+                                    : 'px-4 py-2 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
                                 }
                                 onClick={() =>
                                   index < flightIndex &&
                                   onChangeFlightIndex(index)
                                 }
                               >{`${
-                                  startAirports?.toString().split('|')[index]
-                                } - ${
-                                  endAirports?.toString().split('|')[index]
-                                }`}</span>
+                                startAirports?.toString().split('|')[index]
+                              } - ${
+                                endAirports?.toString().split('|')[index]
+                              }`}</span>
                             ))}
                         </>
                       )}
                     </section>
 
-                    <section className="relative flex gap-1 bg-primary-100 lg:bg-transparent py-1 px-3 lg:px-0 rounded lg:mr-0">
-                      <section
-                        className="w-auto flex justify-start items-center"
-                      >
+                    <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
+                      <section className="flex items-center justify-start w-auto">
                         <button
-                          className="flex items-center gap-2 h-6 mr-2"
+                          className="flex items-center h-6 gap-2 mr-2"
                           onClick={() => setShowSortingDropdown((p) => !p)}
                           onBlur={() => setShowSortingDropdown(false)}
                         >
                           <span className="text-primary-1000">
                             <Sort />
                           </span>
-                          <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
-                            <span className="hidden lg:inline whitespace-nowrap">{t(sortBy)}</span>
-                            <span className="inline lg:hidden">{t('sort')}</span>
+                          <span className="flex-1 text-xs font-semibold text-left text-dark-1000">
+                            <span className="hidden lg:inline whitespace-nowrap">
+                              {t(sortBy)}
+                            </span>
+                            <span className="inline lg:hidden">
+                              {t('sort')}
+                            </span>
                           </span>
                           <span className="text-dark-800">
                             <Chevron />
@@ -687,7 +699,11 @@ const FlightResultsDisplay = ({
                             !showSortingDropdown && 'opacity-0 invisible'
                           }`}
                         >
-                          <RadioGroup onChange={onSortByChange} value={sortBy} gap="gap-0">
+                          <RadioGroup
+                            onChange={onSortByChange}
+                            value={sortBy}
+                            gap="gap-0"
+                          >
                             <Radio
                               value="sortByPriceAsc"
                               containerClass="px-3 py-2 border-b border-dark-200"
@@ -706,7 +722,6 @@ const FlightResultsDisplay = ({
 
                       <FlightSecondarySearchOptions />
                     </section>
-
                   </section>
                   <FlightList />
                 </section>

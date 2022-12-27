@@ -123,7 +123,6 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       latitude2,
       longitude2,
     ]);
-    // console.log('Search Cars', hasEmptyValues);
     if (hasEmptyValues) return;
 
     const geolocation = `${latitude},${longitude}`;
@@ -371,7 +370,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
           );
       })}
       {carsFiltered.length > page * pageItems && (
-        <section className="flex w-full justify-center">
+        <section className="flex justify-center w-full">
           <Button
             value={loadMoreLabel}
             color="outlined"
@@ -476,17 +475,17 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
                     <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
                   )}
                 </section>
-                <section className="relative flex gap-1 bg-primary-100 lg:bg-transparent py-1 px-3 lg:px-0 rounded lg:mr-0">
-                  <section className="relative w-auto flex justify-start items-center">
+                <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
+                  <section className="relative flex items-center justify-start w-auto">
                     <button
-                      className="flex items-center gap-2 h-6 lg:h-10 mr-2"
+                      className="flex items-center h-6 gap-2 mr-2 lg:h-10"
                       onClick={() => setShowSortingDropdown((p) => !p)}
                       onBlur={() => setShowSortingDropdown(false)}
                     >
                       <span className="text-primary-1000">
                         <Sort />
                       </span>
-                      <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+                      <span className="flex-1 text-xs font-semibold text-left text-dark-1000">
                         <span className="hidden lg:inline whitespace-nowrap">
                           {t(sortBy)}
                         </span>
@@ -525,7 +524,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
 
                   <section
                     style={{ width: 110, height: 32 }}
-                    className="hidden lg:block w-auto flex justify-start items-center"
+                    className="flex items-center justify-start hidden w-auto lg:block"
                   >
                     <AltRadioButtonGroup
                       items={viewTypeFilterItems}

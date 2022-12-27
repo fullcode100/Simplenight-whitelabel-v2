@@ -27,7 +27,7 @@ const ClientCartItem = ({
   onChangeAnswers,
 }: any) => {
   const [t, i18n] = useTranslation('global');
-  const travelerText = t('traveler', 'Traveler');
+  const guestText = t('guest', 'Guest');
   const [usePrimaryContact, setUsePrimaryContact] = useState(true);
   const itemCustomer = item?.customer;
 
@@ -171,7 +171,7 @@ const ClientCartItem = ({
           ({ travelerNum, ticket }: { travelerNum: any; ticket: any }) => (
             <section key={travelerNum}>
               <p>
-                {travelerText} {travelerNum} - {ticket.age_band_label}
+                {guestText} {travelerNum} - {ticket.age_band_label}
               </p>
 
               <Divider className="py-1" />

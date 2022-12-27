@@ -50,7 +50,6 @@ const FlightCheckoutDisplay = ({
     travelerText,
     travelersText,
   )}`;
-  console.log(item?.booking_data?.search);
 
   return (
     <section className="flex flex-row gap-3">
@@ -62,21 +61,21 @@ const FlightCheckoutDisplay = ({
           {direction === 'one_way' && (
             <section className="flex flex-row">
               {item?.booking_data?.search?.start_airport}
-              <IconOneWay className="text-dark-1000 mx-2" />
+              <IconOneWay className="mx-2 text-dark-1000" />
               {item?.booking_data?.search?.end_airport}
             </section>
           )}
           {direction === 'round_trip' && (
             <section className="flex flex-row">
               {item?.booking_data?.search?.start_airport}
-              <IconRoundTrip className="text-dark-1000 mx-2" />
+              <IconRoundTrip className="mx-2 text-dark-1000" />
               {item?.booking_data?.search?.end_airport}
             </section>
           )}
           {direction === 'multi_city' && (
             <section className="flex flex-row">
               {startAirports[0]}
-              <IconMultiCity className="text-dark-1000 mx-2" />
+              <IconMultiCity className="mx-2 text-dark-1000" />
               {endAirports[endAirports.length - 1]}
             </section>
           )}
