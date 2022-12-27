@@ -174,7 +174,7 @@ const PriceBreakdownModal = ({
                     <p className="font-semibold text-xs leading-5 text-green-1000">
                       <span className="line-through text-dark-800 mr-1">
                         {
-                          rateBreakdown.discounts.total_amount_before_apply
+                          rateBreakdown.discounts.base_amount_before_apply
                             ?.formatted
                         }
                       </span>
