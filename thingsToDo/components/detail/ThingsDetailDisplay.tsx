@@ -48,6 +48,7 @@ import {
   ThingsScheduleDetail,
 } from 'thingsToDo/types/response/ThingsAvailabilityScheduleResponse';
 import TabsSection from './TabSection';
+import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -328,10 +329,17 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     const activityScore = thingsItem?.extra_data?.avg_rating;
     const totalScore = '5';
     return (
-      <section className="border border-dark-300 bg-dark-100 lg:bg-white">
+      <section className="border border-dark-300 bg-dark-100">
         <div className="mx-auto max-w-7xl">
           {images && name && (
-            <ImageCarousel images={images} title={name} showDots={false} />
+            <section className="lg:hidden">
+              <ImageCarousel images={images} title={name} />
+            </section>
+          )}
+          {images && name && (
+            <section className="hidden w-full pt-8 lg:block bg-dark-100">
+              <ImageCarouselLargeScreen images={images} title={name} />
+            </section>
           )}
           <div className="flex flex-col gap-2 px-5 py-6 lg:px-0">
             <h1 className="h3">{name}</h1>
