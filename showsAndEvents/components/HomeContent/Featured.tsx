@@ -53,20 +53,20 @@ const FeaturedCarousel = ({ Category }: FeaturedCarouselProps) => {
       <h5 className="text-dark-800">{title}</h5>
       <section className="flex flex-col">
         <CustomCarousel>
-          {loading && [...Array(4)].map((i, e) => <CardShowSkeleton key={e} />)}
-          {!loading &&
-            items.map((item: ShowsSearchResponse, index) => (
-              <CardShow
-                key={item.id}
-                imageSrc={
-                  index > 2
-                    ? `/images/mocks/trending/t${getRandomInt(3)}.png`
-                    : `/images/mocks/trending/t${index}.png`
-                }
-                name={item.name}
-                price={`${item.rate.total.net.formatted}`}
-              />
-            ))}
+          {loading
+            ? [...Array(4)].map((i, e) => <CardShowSkeleton key={e} />)
+            : items.map((item: ShowsSearchResponse, index) => (
+                <CardShow
+                  key={item.id}
+                  imageSrc={
+                    index > 2
+                      ? `/images/mocks/trending/t${getRandomInt(3)}.png`
+                      : `/images/mocks/trending/t${index}.png`
+                  }
+                  name={item.name}
+                  price={`${item.rate.total.net.formatted}`}
+                />
+              ))}
         </CustomCarousel>
       </section>
     </section>

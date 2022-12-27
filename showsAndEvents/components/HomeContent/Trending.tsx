@@ -54,43 +54,43 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
       <h5 className="text-dark-800">{title}</h5>
       <section className={'flex flex-col'}>
         <CustomCarousel>
-          {loading && [...Array(4)].map((i, e) => <CardShowSkeleton key={e} />)}
-          {!loading &&
-            items.map((item: ShowsSearchResponse, index) => {
-              const urlDetail = ({
-                id,
-                extra_data: { starts_at: startsAt },
-              }: iShowAndEventsResult) => {
-                return `/detail/shows-events/${id}?fromDate=${startsAt}`;
-              };
-              const url = urlDetail(item);
-              const {
-                id,
-                name,
-                address,
-                rate: {
-                  total: {
-                    net: { currency, formatted },
+          {loading
+            ? [...Array(4)].map((i, e) => <CardShowSkeleton key={e} />)
+            : items.map((item: ShowsSearchResponse, index) => {
+                const urlDetail = ({
+                  id,
+                  extra_data: { starts_at: startsAt },
+                }: iShowAndEventsResult) => {
+                  return `/detail/shows-events/${id}?fromDate=${startsAt}`;
+                };
+                const url = urlDetail(item);
+                const {
+                  id,
+                  name,
+                  address,
+                  rate: {
+                    total: {
+                      net: { currency, formatted },
+                    },
                   },
-                },
-                thumbnail,
-              } = item;
-              const {
-                address1,
-                city,
-                state,
-                country_code: countryCode,
-              } = address ?? {};
-              return (
-                <CardShow
-                  key={id}
-                  imageSrc={thumbnail}
-                  name={name}
-                  url={url}
-                  price={`${formatted}`}
-                />
-              );
-            })}
+                  thumbnail,
+                } = item;
+                const {
+                  address1,
+                  city,
+                  state,
+                  country_code: countryCode,
+                } = address ?? {};
+                return (
+                  <CardShow
+                    key={id}
+                    imageSrc={thumbnail}
+                    name={name}
+                    url={url}
+                    price={`${formatted}`}
+                  />
+                );
+              })}
         </CustomCarousel>
       </section>
     </section>

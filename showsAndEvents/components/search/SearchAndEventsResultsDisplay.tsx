@@ -236,15 +236,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
             isMobile={showMobileFilters}
           />
         </section>
-        <section
-          className={classnames(
-            'lg:block relative lg:flex-1 lg:w-[75%] h-full lg:mt-0',
-            {
-              hidden: showMobileFilters,
-              block: !showMobileFilters,
-            },
-          )}
-        >
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           {loaded && sortedShowsEvents.length ? (
             <>
               <section className="block">

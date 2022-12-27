@@ -268,23 +268,38 @@ const ShowAndEventsDetailDisplay = ({
       return `/detail/${slug}/${id}?fromDate=${fromDate}&toDate=${toDate}`;
     };
     const responsive = {
-      superLargeDesktop: {
-        breakpoint: { max: 4000, min: 3000 },
+      '3xl': {
+        breakpoint: { max: 4000, min: 2350 },
+        items: 5,
+        partialVisibilityGutter: 80,
+      },
+      '2xl': {
+        breakpoint: { max: 2350, min: 1820 },
+        items: 4,
+        partialVisibilityGutter: 80,
+      },
+      xl: {
+        breakpoint: { max: 1820, min: 1380 },
         items: 3,
         partialVisibilityGutter: 80,
       },
-      desktop: {
-        breakpoint: { max: 3000, min: 1450 },
+      lg: {
+        breakpoint: { max: 1380, min: 1024 },
         items: 3,
-        partialVisibilityGutter: 80,
+        partialVisibilityGutter: 10,
       },
-      tablet: {
-        breakpoint: { max: 1450, min: 870 },
+      md: {
+        breakpoint: { max: 1024, min: 768 },
         items: 2,
         partialVisibilityGutter: 30,
       },
-      mobile: {
-        breakpoint: { max: 870, min: 0 },
+      sm: {
+        breakpoint: { max: 768, min: 670 },
+        items: 1,
+        partialVisibilityGutter: 250,
+      },
+      xs: {
+        breakpoint: { max: 670, min: 0 },
         items: 1,
         partialVisibilityGutter: 0,
       },
@@ -334,7 +349,7 @@ const ShowAndEventsDetailDisplay = ({
             const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
 
             return (
-              <div key={id} className="w-[325px] lg:w-[391px] mb-8">
+              <div key={id} className="w-full mb-8 pr-[10px]">
                 <ResultCard
                   url={url}
                   icon={ThingsCategory.icon}

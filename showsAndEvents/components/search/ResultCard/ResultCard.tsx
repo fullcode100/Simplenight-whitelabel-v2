@@ -173,7 +173,7 @@ function ResultCard<T extends WithId>({
             </section>
             <Divider className="lg:hidden" />
             {!isHorizontal && (
-              <section className="flex flex-row lg:flex-col lg:ml-auto justify-between items-center lg:items-start py-3 lg:py-5 px-4 lg:px-5">
+              <section className="flex flex-row lg:flex-col lg:ml-auto justify-between items-center lg:items-end py-3 lg:py-5 px-4 lg:px-5">
                 <section>{cancellable}</section>
                 <section className="ml-auto">{priceDisplay}</section>
               </section>
@@ -188,10 +188,6 @@ function ResultCard<T extends WithId>({
               </div>
               <div>
                 <section>{priceDisplay}</section>
-                <p className="flex">
-                  Includes Taxes and Fees
-                  <InfoCircle className="self-center h-4 w-4 ml-2" />
-                </p>
               </div>
             </section>
           )}

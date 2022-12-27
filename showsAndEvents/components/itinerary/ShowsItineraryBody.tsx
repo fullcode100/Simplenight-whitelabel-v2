@@ -117,10 +117,10 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
           label={'Cancellation Policy'}
         />
         <ExternalLink
-          className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight pt-2"
-          href={'#'}
+          className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight pt-2 underline hover:underline underline-offset-4 decoration-1"
+          href={'https://www.ticketnetwork.com/policies'}
         >
-          [SUPPLIER] Terms Of Services
+          TicketNetwork Terms Of Service
         </ExternalLink>
       </section>
     </>

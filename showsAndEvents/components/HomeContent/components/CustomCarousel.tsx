@@ -48,6 +48,10 @@ const CustomCarousel = ({ children }: CustomCarouselProps) => {
     );
   };
 
+  const count = React.Children.count(children);
+
+  if (!count) return null;
+
   return (
     <section className="relative">
       <Carousel
