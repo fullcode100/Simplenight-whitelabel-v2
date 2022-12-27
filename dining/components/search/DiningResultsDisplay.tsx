@@ -66,19 +66,19 @@ const DiningResultsDisplay = () => {
   const setSortState = (value: unknown) => {
     switch (value) {
       case 'best_match':
-        setSortByVal('Best Match');
+        setSortByVal(sortByBestMatch);
         break;
       case 'rating':
-        setSortByVal('Rating');
+        setSortByVal(sortByRating);
         break;
       case 'review_count':
-        setSortByVal('Review Count');
+        setSortByVal(sortByReviewCount);
         break;
       case 'distance':
-        setSortByVal('Distance');
+        setSortByVal(sortByDistance);
         break;
       default:
-        setSortByVal('Best Match');
+        setSortByVal(sortByBestMatch);
         break;
     }
   };
@@ -129,16 +129,16 @@ const DiningResultsDisplay = () => {
     setSortByVal(value);
     const typedValue: sortByFilters = value as sortByFilters;
     switch (typedValue) {
-      case 'Best Match':
+      case sortByBestMatch:
         setQueryParams({ sort_by: 'best_match' });
         break;
-      case 'Rating':
+      case sortByRating:
         setQueryParams({ sort_by: 'rating' });
         break;
-      case 'Review Count':
+      case sortByReviewCount:
         setQueryParams({ sort_by: 'review_count' });
         break;
-      case 'Distance':
+      case sortByDistance:
         setQueryParams({ sort_by: 'distance' });
         break;
       default:
