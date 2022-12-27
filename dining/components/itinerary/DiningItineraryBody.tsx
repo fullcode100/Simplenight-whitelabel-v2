@@ -4,6 +4,7 @@ import DiningGeneralInfo from './DiningGeneralInfo';
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import DiningConfirmationBuyerInfo from '../confirmation/DiningConfirmationBuyerInfo';
 import { CustomerType } from 'dining/types/diningCustom';
+import { Address } from 'dining/types/response/SearchResponse';
 
 interface DiningItineraryBodyProps {
   item?: Item;
@@ -30,7 +31,11 @@ const DiningItineraryBody = ({
 
   return (
     <>
-      <DiningGeneralInfo date={date} time={time} />
+      <DiningGeneralInfo
+        date={date}
+        time={time}
+        address={item?.item_data?.location as Address}
+      />
       {customer ? <DiningConfirmationBuyerInfo customer={customer} /> : null}
       <section className="flex flex-col gap-2 px-4 py-4 border-t border-dark-300">
         <p className="text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-800 font-semibold">
@@ -48,7 +53,7 @@ const DiningItineraryBody = ({
             </div>
           </section>
         ) : null}
-        <section className="flex justify-between pb-2">
+        <section className="flex justify-between py-2">
           <section className="flex flex-row gap-1">
             <section className="flex flex-row items-baseline gap-1 lg:gap-3">
               <PlusIcon className="h-3.5 lg:h-4 lg:w-4 ml-0.5 mr-1 mt-1 text-primary-1000" />

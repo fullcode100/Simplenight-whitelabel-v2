@@ -55,5 +55,10 @@
     "day5": "Sat",
     "day6": "Sun",
     "supplierReference": "Supplier Reference ID",
-    "confirmationNumber": "Confirmation Number"
+    "confirmationNumber": "Confirmation Number",
+    "openingTimes": "Opening times",
+    "unavailableTimeError": "Unavailable time",
+    "unavailableTimeErrorDesc": "The selected time is not available, please select another.",
+    "updatedCart": "Updated Cart",
+    "removedDiningItemFromCart": "Reservation for {restaurant} was removed"
 }

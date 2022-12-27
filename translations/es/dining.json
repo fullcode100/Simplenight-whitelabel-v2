@@ -56,5 +56,10 @@
     "day5": "Sab",
     "day6": "Dom",
     "supplierReference": "ID de referencia del proveedor",
-    "confirmationNumber": "Número de confirmación"
+    "confirmationNumber": "Número de confirmación",
+    "openingTimes": "Horarios de apertura",
+    "unavailableTimeError": "Hora no disponible",
+    "unavailableTimeErrorDesc": "La hora seleccionada no está disponible, por favor seleccione otra.",
+    "updatedCart": "Carrito actualizado",
+    "removedDiningItemFromCart": "La reservación para {restaurant} fue removido."
 }

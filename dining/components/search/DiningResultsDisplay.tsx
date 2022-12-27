@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import { useQuerySetterNotReload } from 'hooks/pageInteraction/useQuerySetter';
 import { DiningCategory } from '../../index';
 import { DiningSearchRequest } from 'dining/types/request/DiningSearchRequest';
 import {
@@ -43,14 +42,12 @@ type sortByFilters = 'Best Match' | 'Rating' | 'Review Count' | 'Distance';
 const DiningResultsDisplay = () => {
   const [loaded, setLoaded] = useState(false);
   const [t, i18next] = useTranslation('dining');
-  const restaurantsFoundLabel = t('restaurantsFoundLabel');
   const noResultsLabel = t('noResultsSearch');
   const sortByBestMatch = t('sortByBestMatch', 'Best Match');
   const sortByRating = t('sortByRating', 'Rating');
   const sortByReviewCount = t('sortByReviewCount', 'Review Count');
   const sortByDistance = t('sortByDistance', 'Distance');
   const setQueryParams = useQuerySetter();
-  // const setQueryParamsNoReload = useQuerySetterNotReload();
 
   const {
     lang,
@@ -99,7 +96,7 @@ const DiningResultsDisplay = () => {
       end_date: formatAsSearchDate(endDate as unknown as string),
       dst_geolocation: geolocation as unknown as StringGeolocation,
       rsp_fields_set: 'basic',
-      limit: 20,
+      limit: 50,
       sort_by: sort_by as sortByFilters,
       price: price as string,
       cancellation_type: '',
@@ -212,19 +209,6 @@ const DiningResultsDisplay = () => {
     );
   };
 
-  const ViewActions = () => {
-    return (
-      <section className="flex rounded-4 overflow-hidden w-[5.5rem] border border-primary-1000">
-        <ViewButton viewParam="list">
-          <ListIcon className="w-[1.3rem] h-[1.3rem]" />
-        </ViewButton>
-        <ViewButton viewParam="map">
-          <MapIcon className="w-[1.3rem] h-[1.3rem]" />
-        </ViewButton>
-      </section>
-    );
-  };
-
   const viewTypeFilterItems: RadioItemType[] = [
     {
       value: 'list',
@@ -244,7 +228,7 @@ const DiningResultsDisplay = () => {
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <DiningFilterFormDesktop />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-6">
           {loaded && hasNoRestaurants ? (
             <EmptyState
               text={noResultsLabel}
@@ -273,8 +257,8 @@ const DiningResultsDisplay = () => {
                     <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
                   )}
                 </section>
-                <section className="relative flex gap-1 bg-primary-100 lg:bg-transparent py-1 px-3 lg:px-0 rounded lg:mr-0">
-                  <section className="flex gap-4 items-center">
+                <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
+                  <section className="flex items-center gap-4">
                     {isListView && (
                       <DropdownRadio
                         translation="dining"
@@ -290,10 +274,7 @@ const DiningResultsDisplay = () => {
                         ]}
                       />
                     )}
-                    <section
-                      style={{ width: 110, height: 32 }}
-                      className="hidden lg:block w-auto flex justify-start items-center"
-                    >
+                    <section className="items-center justify-start hidden lg:flex w-[110px] h-[32px]">
                       <AltRadioButtonGroup
                         items={viewTypeFilterItems}
                         value={view as string}

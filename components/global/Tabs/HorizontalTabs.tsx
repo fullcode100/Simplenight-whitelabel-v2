@@ -4,6 +4,7 @@ import Plus from '../../../public/icons/assets/Plus.svg';
 import { useState } from 'react';
 import { Modal } from 'antd';
 import CommingSoon from '../ComingSoon';
+import { useTranslation } from 'react-i18next';
 
 const HorizontalTabs = ({
   tabs,
@@ -13,6 +14,7 @@ const HorizontalTabs = ({
   primary = false,
   hideMore,
 }: TabsProps) => {
+  const [t] = useTranslation('global');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -55,7 +57,7 @@ const HorizontalTabs = ({
               {tab.name}
             </button>
           ))}
-          {hideMore && (
+          {!hideMore && (
             <button
               key={'more'}
               onClick={() => setIsModalOpen(true)}
@@ -68,7 +70,7 @@ const HorizontalTabs = ({
               <div className="flex items-center justify-center w-6 h-6">
                 <Plus />
               </div>
-              Coming Soon
+              {t('commingSoon')}
             </button>
           )}
         </nav>

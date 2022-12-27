@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import i18next from 'i18next';
@@ -21,13 +22,17 @@ import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { useTranslation } from 'react-i18next';
 import DiningItineraryDetail from './DiningItineraryDetail';
 import DiningItineraryActions from './DiningItineraryActions';
-import { addToCart } from 'core/client/services/CartClientService';
+import {
+  addToCart,
+  removeFromCart,
+} from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import DiningCustomerReviews from './DiningCustomerReviews';
 import DiningRatingDetail from './DiningRatingDetail';
 import DiningLocationDetail from './DiningLocationDetail';
 import DiningAboutDetail from './DiningAboutDetail';
 import DiningSummaryDetail from './DiningSummaryDetail';
+import { notification } from 'components/global/Notification/Notification';
 
 type DiningDetailDisplayProps = CategoryPageComponentProps;
 
@@ -55,7 +60,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   );
   const router = useRouter();
   const data = restaurant;
-  const [t] = useTranslation('dining');
+  const [t, i18n] = useTranslation('dining');
   const overviewLabel = t('overview');
   const locationLabel = t('location');
   const reviewsLabel = t('reviews');
@@ -151,17 +156,36 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
       return;
     }
 
+    const inventoryId = `817e6010:${id}`;
     const itemToBook = {
       category: 'DINING',
       booking_data: {
-        inventory_id: `817e6010:${id}`,
+        inventory_id: inventoryId,
         date: formatAsSearchDate(selectedDate),
         time,
         covers: covers.toString(),
       },
     };
-    await addToCart(itemToBook, i18next, store);
-    router.replace(url);
+    const result = await addToCart(itemToBook, i18next, store);
+    const addedItem = result?.cart?.items.find(
+      (item) => item.booking_data?.inventory_id === inventoryId,
+    );
+
+    if (addedItem?.status === 'active') {
+      router.replace(url);
+    } else {
+      notification(
+        t('unavailableTimeError'),
+        t('unavailableTimeErrorDesc'),
+        'error',
+      );
+      const itemToRemove = {
+        cartId: addedItem?.cart_id,
+        itemId: addedItem?.cart_item_id,
+      };
+
+      removeFromCart(i18n, itemToRemove, dispatch);
+    }
   };
 
   const GeneralInformationSection = ({
@@ -217,6 +241,14 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
     );
   };
 
+  const onChangeTime = (newTime: string) => {
+    if (newTime === time) {
+      setTime('');
+    } else {
+      setTime(newTime);
+    }
+  };
+
   if (loading) {
     return (
       <section className="lg:pt-14">
@@ -235,8 +267,13 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   }
 
   return (
-    <div className="flex">
-      <main className="relative flex-1 h-full max-h-[calc(100vh-129px)] overflow-y-scroll">
+    <div
+      className={classnames('relative grid', {
+        'lg:grid-cols-4 grid-cols-3': time,
+        'grid-cols-3': !time,
+      })}
+    >
+      <main className="h-full col-span-3">
         <DiningSummaryDetail
           className="hidden w-full lg:block"
           name={data.name}
@@ -271,7 +308,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
               hours={availableHours}
               onSelectDate={onSelectDate}
               isOpen={!data.is_closed}
-              onChange={(newTime) => setTime(newTime)}
+              onChange={onChangeTime}
               defaultTime={time}
               onChangeCovers={(newCovers) => setCovers(newCovers)}
               defaultCovers={covers}
@@ -299,10 +336,14 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
           </section>
         </section>
       </main>
-      <DiningItineraryDetail name={data.name} handleAction={handleAction} />
-      <div className="fixed bottom-0 w-full px-3 py-5 bg-white lg:hidden drop-shadow">
-        <DiningItineraryActions handleAction={handleAction} />
-      </div>
+      {!!time && (
+        <DiningItineraryDetail name={data.name} handleAction={handleAction} />
+      )}
+      {!!time && (
+        <div className="fixed bottom-0 w-full px-3 py-5 bg-white lg:hidden drop-shadow">
+          <DiningItineraryActions handleAction={handleAction} />
+        </div>
+      )}
     </div>
   );
 };

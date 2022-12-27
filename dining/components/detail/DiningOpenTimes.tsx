@@ -12,7 +12,7 @@ const DiningOpenTimes = ({
 
   return (
     <>
-      <h5 className="pb-6 text-lg pt-9 text-dark-800">{t('reservation')}</h5>
+      <h5 className="pb-6 text-lg pt-9 text-dark-800">{t('openingTimes')}</h5>
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-y-9 gap-x-11">
         {hoursByDay?.map((day, index) =>
           day ? (

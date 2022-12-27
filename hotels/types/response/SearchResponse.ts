@@ -85,6 +85,10 @@ export interface Address {
   address1: string;
   address2: string;
   postal_code: string;
+  address3?: string;
+  cross_streets?: string;
+  zip_code?: string;
+  display_address?: string[];
 }
 
 export interface Coordinates {

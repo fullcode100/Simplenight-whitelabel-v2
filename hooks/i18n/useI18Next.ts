@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import Backend from 'i18next-locize-backend';
 import { initReactI18next } from 'react-i18next';
+import ICU from 'i18next-icu';
 
 import globalEn from 'translations/en/global.json';
 import globalEs from 'translations/es/global.json';
@@ -25,6 +26,7 @@ const locizeOptions = {
 
 const withLocize = () => {
   i18next
+    .use(ICU)
     .use(Backend)
     .use(initReactI18next)
     .init({
@@ -51,7 +53,7 @@ export const initializeI18Next = () => {
     return withLocize();
   }
 
-  i18next.init({
+  i18next.use(ICU).init({
     ns: ['global'],
     defaultNS: 'global',
     interpolation: {
