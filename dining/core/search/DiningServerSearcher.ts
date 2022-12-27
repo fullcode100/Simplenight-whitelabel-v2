@@ -34,11 +34,6 @@ export class DiningServerSearcher extends ServerSearcher<DiningSearchResponse> {
     const endpoint = categoryUrls?.search.server || '';
     const url = applyApiBaseUrlV2(endpoint, request);
 
-    params.rsp_fields_set = 'basic';
-    params.lang = 'en';
-    params.covers = '2';
-    params.limit = '20';
-
     delete params.cancellation_type;
     delete params.supplier_ids;
 
