@@ -18,7 +18,10 @@ const SEOHoc = ({ children }: SEOHocProps) => {
     <>
       <Head>
         <title>{partnerName}</title>
-        <meta name="description" content="NextJs whitelabel proof of concept" />
+        <meta
+          name="description"
+          content="SIMPLENIGHT® is a Global Experience Platform™ providing cloud-based distribution, inventory management, merchandising, and technology solutions for the travel industry. SIMPLENIGHT®’s business-to-business (“B2B”) travel marketplace offers a unique distribution and merchandising solution that connects the global community of inventory suppliers with travel sellers."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href={favicon || defaultFavicon} />
       </Head>

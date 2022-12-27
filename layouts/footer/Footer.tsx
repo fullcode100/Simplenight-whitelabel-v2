@@ -14,7 +14,7 @@ const Footer = () => {
   const t = useGetTranslation();
   const { legalInformation, information, images } = useBrandConfig() || {};
   const { partnerName, corporateLink } = information || {};
-
+  const showPartner = partnerName?.toLowerCase() !== 'simplenight';
   const {
     simplenightTermsOfService,
     simplenightPrivacyPolicy,
@@ -22,7 +22,7 @@ const Footer = () => {
     partnerPrivacyPolicy,
   } = legalInformation || {};
   const { logo } = images || {};
-  const showPartnerLinks = partnerName?.toLowerCase() !== 'simplenight';
+
   const simplenightCorporateLink = 'https://simplenight.com';
 
   const termsOfServiceText = t({ translationKey: 'termsOfService' });
@@ -47,15 +47,25 @@ const Footer = () => {
             height="60px"
             className="mx-auto lg:mx-0 object-fit"
           />
-          <p className="font-semibold pt-3 text-[12px] lg:mt-2">
-            {' '}
+          <p className="font-semibold pt-3 text-[12px] lg:mt-2 uppercase">
             {poweredByText}{' '}
+            {showPartner && (
+              <>
+                <ExternalLink
+                  href={corporateLink}
+                  className=" uppercase font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000 "
+                >
+                  {partnerName}
+                </ExternalLink>{' '}
+                &{' '}
+              </>
+            )}
             <ExternalLink
               href={simplenightCorporateLink}
-              className="font-semibold underline uppercase focus:text-white focus:underline hover:text-white hover:underline"
+              className=" uppercase font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000 "
             >
               Simplenight
-            </ExternalLink>
+            </ExternalLink>{' '}
           </p>
           <p className="hidden pt-[30px] font-normal capitalize lg:mt-8 lg:block lg:text-xs">
             {' '}
@@ -64,33 +74,16 @@ const Footer = () => {
         </section>
         <div className="h-[1px] bg-dark-300 my-6 lg:hidden" />
         <section className="flex flex-col gap-3 text-xs underline capitalize lg:flex-row lg:gap-8 lg:text-right">
-          {showPartnerLinks && (
-            <section className="flex flex-col gap-3 lg:gap-2">
-              <ExternalLink
-                className="font-semibold"
-                href={partnerTermsOfService}
-              >
-                {partnerName} {termsOfServiceText}
-              </ExternalLink>
-              <ExternalLink
-                className="font-semibold"
-                href={partnerPrivacyPolicy}
-              >
-                {partnerName} {privacyPolicyText}
-              </ExternalLink>
-            </section>
-          )}
-
           <section className="flex flex-col gap-3 lg:gap-2">
             <ExternalLink
               href={simplenightTermsOfService}
-              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underlin"
+              className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
             >
               Simplenight {termsOfServiceText}
             </ExternalLink>
             <ExternalLink
               href={simplenightPrivacyPolicy}
-              className="font-semibold underline focus:text-white focus:underline hover:text-white hover:underline"
+              className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
             >
               Simplenight {privacyPolicyText}
             </ExternalLink>

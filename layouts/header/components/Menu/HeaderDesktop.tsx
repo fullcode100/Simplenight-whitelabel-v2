@@ -12,6 +12,7 @@ import { getCurrency } from 'store/selectors/core';
 import ChevronDown from 'public/icons/assets/chevron-down.svg';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 
 interface HeaderDesktopProps {
   color?: string;
@@ -27,6 +28,7 @@ interface CustomLinkProps {
 const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   const [tg, i18n] = useTranslation('global');
   const currentCurrency = getCurrency();
+
   const poweredByText = tg('poweredBy', 'Powered by');
   const orderLookupText = tg('orderLookup', 'Order Lookup');
   const categoriesText = tg('categories', 'Categories');
@@ -43,8 +45,11 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
     }
   };
   const currentLanguage = getFriendlyLanguage(language);
-  const { images } = useBrandConfig() || {};
+  const { images, information } = useBrandConfig() || {};
   const { logo } = images || {};
+  const { partnerName, corporateLink } = information || {};
+  const showPartner = partnerName?.toLowerCase() !== 'simplenight';
+  const simplenightCorporateLink = 'https://simplenight.com';
   const languageText = tg('language', 'Language');
   const currencyText = tg('currency', 'Currency');
   const CustomLink = ({ href = '', children }: CustomLinkProps) => (
@@ -60,20 +65,39 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
     >
       <section className="items-center justify-between w-full mx-auto max-w-7xl lg:flex">
         <section className="flex items-center gap-5">
-          <Link href={'/'}>
-            <a>
-              <img
-                src={logo}
-                alt="Branch Logo"
-                width="156px"
-                height="60px"
-                className="object-fit"
-              />
-              <span className="text-[12px] text-dark-800">
-                {poweredByText} SIMPLENIGHT
-              </span>
-            </a>
-          </Link>
+          <div>
+            <Link href={'/'}>
+              <a>
+                <img
+                  src={logo}
+                  alt="Branch Logo"
+                  width="156px"
+                  height="60px"
+                  className="object-fit"
+                />
+              </a>
+            </Link>
+            <span className="text-[12px] text-dark-800 font-semibold uppercase">
+              {poweredByText}{' '}
+              {showPartner && (
+                <>
+                  <ExternalLink
+                    href={corporateLink}
+                    className=" uppercase font-semibold underline hover:underline focus:underline "
+                  >
+                    {partnerName}
+                  </ExternalLink>{' '}
+                  &{' '}
+                </>
+              )}
+              <ExternalLink
+                href={simplenightCorporateLink}
+                className=" underline uppercase  focus:underline hover:underline"
+              >
+                Simplenight
+              </ExternalLink>{' '}
+            </span>
+          </div>
         </section>
         <section className="flex gap-5">
           <CustomLink href={'/lookup'}>{orderLookupText}</CustomLink>
