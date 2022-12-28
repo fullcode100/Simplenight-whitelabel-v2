@@ -105,5 +105,8 @@
   "unspecifiedMilesLimit": "Límite de millas no especificado",
   "limit": "Límite",
   "rentalCarCompany": "Empresa de alquiler de coches",
-  "carType": "Tipo de carro"
+  "carType": "Tipo de carro",
+  "priceRange": "Rango de precios",
+  "ac": "Aire acondicionado",
+  "noAc": "Sin aire acondicionado"
 }

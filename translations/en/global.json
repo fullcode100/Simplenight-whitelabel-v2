@@ -149,6 +149,8 @@
   "payNow": "Pay now",
   "adult": "Adult",
   "child": "Child",
+  "childrenAges": "Children's Ages",
+  "infantsAges": "Infants' Ages",
   "errorTermsLabel": "Please accept terms and conditions",
   "checkAvailabilityForYourSearch": "Check Availability For Your Selected Guests And Dates.",
   "checkAvailability": "Check Availability",
@@ -174,5 +176,6 @@
   "book": "Book",
   "details": "Details",
   "noReviews": "No reviews yet",
-  "commingSoon": "Coming Soon"
+  "commingSoon": "Coming Soon",
+  "priceRange": "Price Range"
 }

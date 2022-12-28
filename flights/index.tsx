@@ -28,7 +28,7 @@ const Category: CategoryOption = {
   id: 2,
   name: FLIGHT_CATEGORY,
   value: FLIGHT_CATEGORY,
-  icon: <FlightsIcon />,
+  icon: <FlightsIcon categoryName={FLIGHT_CATEGORY} className={'h-5 w-5'} />,
   store: {
     reducer: flightReducer,
     actions: flightActions,

@@ -20,7 +20,7 @@ const InfantsAges = ({
 }: InfantsAgesProps) => {
   const [t, i18next] = useTranslation('global');
   // eslint-disable-next-line quotes
-  const infantsAgesLabel = t('infantsAges', "Infants's Ages");
+  const infantsAgesLabel = t('infantsAges', "Infants' Ages");
 
   const newInfantsAmount = room.infants;
   room.infantsAges =

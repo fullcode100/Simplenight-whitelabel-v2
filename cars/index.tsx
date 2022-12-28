@@ -28,7 +28,7 @@ const Category: CategoryOption = {
   id: 2,
   name: CAR_CATEGORY,
   value: CAR_CATEGORY,
-  icon: <CarIcon />,
+  icon: <CarIcon categoryName={CAR_CATEGORY} className={'h-5 w-5'} />,
   store: {
     reducer: carReducer,
     actions: carActions,

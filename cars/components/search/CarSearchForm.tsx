@@ -229,7 +229,7 @@ const CarSearchForm = ({
             />
             <Select
               options={timeOptions}
-              value="07:00 AM"
+              value={startTime}
               onChange={(value) => setStartTime(value)}
             />
           </section>
@@ -286,7 +286,7 @@ const CarSearchForm = ({
             />
             <Select
               options={timeOptions}
-              value="07:00 AM"
+              value={endTime}
               onChange={(value) => setEndTime(value)}
             />
           </section>

@@ -89,7 +89,7 @@ const LocationInput = ({
             <div className=" relative lg:w-full">
               {address && (
                 <section
-                  className=" absolute right-3 top-8 z-10"
+                  className=" absolute right-3 top-8 z-10 rounded bg-white w-[30px] flex justify-end"
                   onClick={() => setAddress('')}
                 >
                   <CloseIcon className="text-dark-700" />

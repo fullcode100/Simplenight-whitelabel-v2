@@ -35,6 +35,7 @@
   "rooms": "Habitaciones",
   "addRoom": "Añadir Habitación",
   "childrenAges": "Edades de los niños",
+  "infantsAges": "Edades de los bebés",
   "room": "Habitación",
   "childrenRange": "0 a 17 años",
   "infantsRange": "1 a 9 años",
@@ -187,5 +188,6 @@
   "book": "Reservar",
   "details": "Detalles",
   "noReviews": "Aún no hay reseñas",
-  "commingSoon": "Muy Pronto"
+  "commingSoon": "Muy Pronto",
+  "priceRange": "Rango de precios"
 }

@@ -51,9 +51,9 @@ const CarItineraryFooter = ({
   };
 
   const handleEdit = () => {
-    removeAllCars();
+    // removeAllCars();
     // router.push(`/detail/car-rental/${item.extended_data?.id}`);
-    router.push('/}');
+    router.push('/search/car-rental');
   };
 
   return (

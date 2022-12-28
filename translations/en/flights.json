@@ -100,5 +100,7 @@
   "upgrade": "Upgrade",
   "removeFlight": "Remove Flight",
   "select": "Select",
-  "layover": "Layover"
+  "layover": "Layover",
+  "infantsAges": "Infants' Ages",
+  "priceRange": "Price Range"
 }

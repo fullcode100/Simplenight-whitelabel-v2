@@ -105,5 +105,8 @@
   "unspecifiedMilesLimit": "Unspecified Miles Limit",
   "limit": "Limit",
   "rentalCarCompany": "Rental Car Company",
-  "carType": "Car Type"
+  "carType": "Car Type",
+  "priceRange": "Price Range",
+  "ac": "Air Conditioning",
+  "noAc": "No Air Conditioning"
 }

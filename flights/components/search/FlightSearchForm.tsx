@@ -49,6 +49,7 @@ const FlightSearchForm = ({
   const roomsLabel = t('rooms', 'Rooms');
   const roomLabel = t('room', 'Room');
   const addFlightLabel = t('addFlight', 'Add Flight');
+  const removeFlightLabel = t('removeFlight', 'Remove Flight');
   const flightLabel = t('flight', 'Flight');
 
   const params = useQuery();
@@ -608,12 +609,12 @@ const FlightSearchForm = ({
             </section>
 
             {flightIndex < flights.length - 1 ? (
-              <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+              <section className="w-full flex items-center justify-center mt-0 lg:mt-6 lg:w-[10%]">
                 <Button
                   key="flights.removeBtn"
                   size="full"
-                  className="min-w-full bg-dark-200 text-dark-1000"
-                  value="X"
+                  className="min-w-full bg-white text-sm text-dark-1000 underline text-right lg:text-center"
+                  value={removeFlightLabel}
                   onClick={() => handleFlightsDelete(flightIndex)}
                 />
               </section>
@@ -635,11 +636,11 @@ const FlightSearchForm = ({
       {direction === 'multi_city' && flights.length < 5 && (
         <section className={'flex justify-between items-end'}>
           <section className="w-full lg:w-[10%] hidden lg:inline" />
-          <section className="w-full flex items-center justify-center mt-6 lg:w-[10%] mb-[100px] lg:mb-0">
+          <section className="w-full flex items-center justify-center lg:w-[10%] mb-[100px] lg:mb-0">
             <Button
               key="flights.addBtn"
               size="full"
-              className="self-end min-w-full text-sm bg-dark-200 text-primary-1000"
+              className="self-end min-w-full text-sm bg-white text-dark-1000 underline text-right lg:text-center"
               value={addFlightLabel}
               onClick={() => handleFlightsAdd()}
             />

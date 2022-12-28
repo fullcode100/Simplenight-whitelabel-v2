@@ -57,9 +57,9 @@ const FlightItineraryFooter = ({
   };
 
   const handleEdit = () => {
-    removeAllFlights();
+    // removeAllFlights();
     // router.push(`/detail/flights/${item.extended_data?.id}`);
-    router.push('/flights}');
+    router.push('/search/flights');
   };
 
   return (

@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 import RoomPriceBreakdown from '../RoomPriceBreakdown/RoomPriceBreakdown';
 import RoomTitle from '../RoomTitle/RoomTitle';
@@ -20,6 +21,7 @@ interface CarRoomInfoProps {
 
 const CarRoomInfo = ({ item, reload, setReload }: CarRoomInfoProps) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
@@ -35,7 +37,10 @@ const CarRoomInfo = ({ item, reload, setReload }: CarRoomInfoProps) => {
         itemId: item.cart_item_id,
       };
       removeFromCart(i18next, roomToRemove, dispatch)
-        .then(() => setReload?.(!reload))
+        .then(() => {
+          setReload?.(!reload);
+          router.reload();
+        })
         .catch((error) => console.error(error));
     }
   };

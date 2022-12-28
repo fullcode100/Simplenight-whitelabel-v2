@@ -33,7 +33,9 @@ export const getCategoryIcon = (key: string) => {
   const iconsMapping: IconsMap = {
     bed: <BedIcon />,
     plane: <PlaneIcon />,
-    'car-sideview': <TransportIcon />,
+    car: <CarSideviewIcon />,
+    'car-sideview': <CarSideviewIcon />,
+    transport: <TransportIcon />,
     'plane-fly': <PlaneSideviewIcon />,
     estate: <RentalsIcon />,
     backpack: <BackpackIcon />,
