@@ -106,7 +106,7 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
   };
 
   return (
-    <section className="lg:flex lg:w-full">
+    <section className="mt-16 lg:flex lg:w-full">
       <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
         <TransportationFilterFormDesktop
           filterValuesChanged={onFilterValuesChanged}

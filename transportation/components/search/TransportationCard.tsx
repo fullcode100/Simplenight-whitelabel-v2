@@ -10,6 +10,8 @@ import Users from 'public/icons/assets/users.svg';
 import TransportIcon from 'public/icons/categories/Category-Transport.svg';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
 import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstChar';
+import CategoryTags from 'components/global/CategoryTags/CategoryTags';
+
 
 
 interface TransportationCardProps {
@@ -43,6 +45,7 @@ export const TransportationCard: FC<TransportationCardProps> = ({ transportation
       item={Item}
       title={useCapitalizeFirstChar(transportationItem?.service_info?.vehicle_type)}
       image={transportationItem?.service_info?.photo_url}
+      imageBackgroundSize={'contain'}
       url={transportationDetailsPageUrl}
       priceDisplay={<TransportaionDisplay transportaion={transportationItem} />}
       address={<TransportationCardDetails transportation={transportationItem} />}

@@ -22,6 +22,7 @@ interface CardProps<T extends WithId> {
   cancellable?: ReactNode;
   url?: string;
   categoryTags?: string[];
+  imageBackgroundSize?: string;
 }
 
 function HorizontalItemCard<T extends WithId>({
@@ -40,6 +41,7 @@ function HorizontalItemCard<T extends WithId>({
   fallback,
   url = '/',
   categoryTags = [],
+  imageBackgroundSize,
 }: CardProps<T>) {
   const [t, i18next] = useTranslation('global');
   const [invalidImage, setInvalidImage] = useState(false);
@@ -99,7 +101,9 @@ function HorizontalItemCard<T extends WithId>({
                 className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] "
                 style={{
                   backgroundImage: `url(${image})`,
-                  backgroundSize: 'cover',
+                  backgroundSize: imageBackgroundSize
+                    ? imageBackgroundSize
+                    : 'cover',
                   backgroundPosition: 'center center',
                   backgroundRepeat: 'no-repeat',
                 }}
