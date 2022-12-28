@@ -1,12 +1,12 @@
 import { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import RangesliderLegacy from 'components/global/Filters/RangesliderLegacy';
+import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 import FilterContainer from './FilterContainer';
 import FilterTitle from './FilterTitle';
 
 interface SeatsFilterProps {
-  value: string;
+  value: number;
   onChangeSeats:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
@@ -16,8 +16,10 @@ interface SeatsFilterProps {
   onChangeMaxSeats?:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
-  minValue?: string;
-  maxValue?: string;
+  setMaxValue: React.Dispatch<React.SetStateAction<number>>;
+  setMinValue?: React.Dispatch<React.SetStateAction<number>>;
+  minValue?: number;
+  maxValue?: number;
 }
 
 const SeatsFilter = ({
@@ -27,6 +29,8 @@ const SeatsFilter = ({
   onChangeMaxSeats,
   minValue,
   maxValue,
+  setMinValue,
+  setMaxValue,
 }: SeatsFilterProps) => {
   const [t, i18n] = useTranslation('events');
   const starRatingLabel = t('seatsAvailable', 'Seat Available');
@@ -34,9 +38,9 @@ const SeatsFilter = ({
   return (
     <FilterContainer>
       <FilterTitle label={starRatingLabel} />
-      <RangesliderLegacy
-        initialMin={minValue ? parseInt(minValue) : 1}
-        initialMax={maxValue ? parseInt(maxValue) : value ? parseInt(value) : 6}
+      <RangeSlider
+        minValue={minValue ? minValue : 1}
+        maxValue={maxValue ? maxValue : value ? value : 6}
         min={1}
         max={6}
         step={1}
@@ -45,6 +49,8 @@ const SeatsFilter = ({
         type="number"
         setMinState={onChangeMinSeats}
         setMaxState={onChangeMaxSeats || onChangeSeats}
+        setMaxValue={setMaxValue}
+        setMinValue={setMinValue}
       />
     </FilterContainer>
   );

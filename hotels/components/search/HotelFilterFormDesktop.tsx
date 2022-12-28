@@ -83,6 +83,7 @@ const HotelFilterFormDesktop = ({
     setMaxStarRating(MAX_STAR_RATING_INITIAL_VALUE);
     setHotels(HOTELS_INITIAL_VALUE);
     setVacationRentals(VACATION_RENTALS_INITIAL_VALUE);
+    setName('');
   };
 
   const onChangeMinPrice = (value: string) => {
@@ -104,6 +105,11 @@ const HotelFilterFormDesktop = ({
   const onChangeHotelName = (value: string) => {
     setName(value);
     handleFilterHotels('hotelName', value);
+  };
+
+  const onClearName = () => {
+    setName('');
+    handleFilterHotels('showAll');
   };
 
   const onChangeFreeCancellation = (value: boolean) => {
@@ -220,7 +226,11 @@ const HotelFilterFormDesktop = ({
     >
       <FilterHeader />
       {/* <KeywordSearchFilter /> */}
-      <NameFilter name={name} onChangeHotels={onChangeHotelName} />
+      <NameFilter
+        name={name}
+        onChangeHotels={onChangeHotelName}
+        handleClearName={onClearName}
+      />
       <Divider className="my-6" />
       <PropertyFilter
         hotels={hotels}

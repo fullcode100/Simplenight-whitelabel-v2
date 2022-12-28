@@ -24,7 +24,7 @@ const CollapseHeader = ({ title, show, setShow }: CollapseBorderedProps) => {
         })}
         onClick={onClick}
       >
-        <ChevronDownIcon />
+        <ChevronDownIcon style={{ cursor: 'pointer' }} />
       </section>
     </section>
   );

@@ -17,7 +17,7 @@ export const changeArraySize = (
   const oldArrayLength = array.length;
 
   if (oldArrayLength < newLength) {
-    const newItems = Array(newLength - oldArrayLength).fill(0);
+    const newItems = Array(newLength - oldArrayLength).fill(1);
     return array.concat(newItems);
   }
 

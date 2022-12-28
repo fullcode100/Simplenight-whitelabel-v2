@@ -29,12 +29,14 @@ const IconInput = ({
     orientation === 'right' ? getRightSideIconClass() : getLeftSideIconClass();
 
   const orientationRight = orientation === 'right';
-  const inputClassName = classnames({
-    'px-10': clearable,
-    'pr-10': !clearable && orientationRight,
-    'pl-10': !clearable && !orientationRight,
+  const inputClassName = classnames(
+    {
+      'px-10': clearable,
+      'pr-10': !clearable && orientationRight,
+      'pl-10': !clearable && !orientationRight,
+    },
     customInputClassName,
-  });
+  );
 
   const dynamicProps = {
     [orientationBaseProp]: (

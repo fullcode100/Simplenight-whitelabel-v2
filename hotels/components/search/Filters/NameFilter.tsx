@@ -10,9 +10,14 @@ interface PropertyFilterProps {
   onChangeHotels:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
+  handleClearName: () => void;
 }
 
-const NameFilter = ({ name, onChangeHotels }: PropertyFilterProps) => {
+const NameFilter = ({
+  name,
+  onChangeHotels,
+  handleClearName,
+}: PropertyFilterProps) => {
   const [t, i18n] = useTranslation('hotels');
   const propertyTypesLabel = t('searchHotel', 'Search Hotel');
 
@@ -23,6 +28,8 @@ const NameFilter = ({ name, onChangeHotels }: PropertyFilterProps) => {
         <BaseInput
           value={name}
           onChange={(e) => onChangeHotels(e.target.value)}
+          clearable={true}
+          onClear={handleClearName}
         />
       </section>
     </FilterContainer>

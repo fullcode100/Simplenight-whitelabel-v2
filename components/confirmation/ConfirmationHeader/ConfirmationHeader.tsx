@@ -34,7 +34,7 @@ const ConfirmationHeader = ({
     return (
       <section className="flex flex-row gap-2 py-3.5 px-5 lg:px-20 border-y-[1px] border-dark-300 lg:border-t-0">
         <p
-          className="text-primary-1000 text-sm leading-[22px] underline underline-offset-4 decoration-1"
+          className="text-primary-1000 text-sm leading-[22px] underline underline-offset-4 decoration-1 cursor-pointer"
           onClick={() => router.push('/lookup')}
         >
           {orderLookup}

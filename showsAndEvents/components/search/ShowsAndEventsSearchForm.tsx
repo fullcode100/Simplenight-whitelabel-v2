@@ -65,12 +65,12 @@ const ShowsAndEvents = ({
   const [startDate, setStartDate] = useState<string>(
     params.startDate
       ? params.startDate.toString()
-      : formatAsSearchDate(dayjs()),
+      : formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const [endDate, setEndDate] = useState<string>(
     params.endDate
       ? params.endDate.toString()
-      : formatAsSearchDate(dayjs().add(1, 'day')),
+      : formatAsSearchDate(dayjs().add(2, 'day')),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
@@ -194,6 +194,7 @@ const ShowsAndEvents = ({
             name="Check-in"
             placeholder={startDateText}
             className="lg:mt-0"
+            customInputClassName="cursor-pointer"
             orientation="left"
             icon={<Calendar className="w-5 h-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
@@ -210,7 +211,8 @@ const ShowsAndEvents = ({
             placeholder={endDateText}
             orientation="left"
             className="lg:mt-0"
-            icon={<Calendar className="w-5 h-5 text-dark-700" />}
+            customInputClassName="cursor-pointer"
+            icon={<Calendar className="h-5 w-5 text-dark-700" />}
             value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
             onChange={(event) => handleEndDateChange(event.target.value)}
             onClick={() => {

@@ -28,15 +28,15 @@ const FilterFormMobile = ({
     max: max ?? '3000',
   };
   const initialSeats = '1';
-  const [minPrice, setMinPrice] = useState<string>(initialPriceRange.min);
-  const [maxPrice, setMaxPrice] = useState<string>(initialPriceRange.max);
-  const [seats, setSeats] = useState<string>(initialSeats);
+  const [minPrice, setMinPrice] = useState<number>(+initialPriceRange.min);
+  const [maxPrice, setMaxPrice] = useState<number>(+initialPriceRange.max);
+  const [seats, setSeats] = useState<number>(+initialSeats);
 
   const applyFilters = () => {
     onChange({
-      minPrice,
-      maxPrice,
-      seats,
+      minPrice: `${minPrice}`,
+      maxPrice: `${maxPrice}`,
+      seats: `${seats}`,
     });
   };
 
@@ -46,21 +46,13 @@ const FilterFormMobile = ({
       maxPrice: initialPriceRange.max,
       seats: initialSeats,
     };
-    setMinPrice(initObj.minPrice);
-    setMaxPrice(initObj.maxPrice);
-    setSeats(initObj.seats);
-  };
-
-  const onChangeMinPrice = (value: string) => {
-    setMinPrice(value);
-  };
-
-  const onChangeMaxPrice = (value: string) => {
-    setMaxPrice(value);
+    setMinPrice(+initObj.minPrice);
+    setMaxPrice(+initObj.maxPrice);
+    setSeats(+initObj.seats);
   };
 
   const onChangeSeats = (value: string) => {
-    setSeats(value);
+    setSeats(+value);
   };
 
   const FilterHeader = () => (
@@ -80,16 +72,24 @@ const FilterFormMobile = ({
       <FilterHeader />
       <section className="grid grid-cols-1">
         <PriceRangeFilter
-          minPrice={minPrice}
-          maxPrice={maxPrice}
+          minValue={minPrice}
+          maxValue={maxPrice}
           max={parseInt(initialPriceRange.max)}
-          onChangeMinPrice={onChangeMinPrice}
-          onChangeMaxPrice={onChangeMaxPrice}
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onChangeMinPrice={() => {}}
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onChangeMaxPrice={() => {}}
+          setMinValue={setMinPrice}
+          setMaxValue={setMaxPrice}
           step={1}
           minDifference={1}
         />
         <Divider className="my-1" />
-        <SeatsFilter value={seats} onChangeSeats={onChangeSeats} />
+        <SeatsFilter
+          value={seats}
+          onChangeSeats={onChangeSeats}
+          setMaxValue={setSeats}
+        />
         <Button
           value={applyFiltersLabel}
           size="full"

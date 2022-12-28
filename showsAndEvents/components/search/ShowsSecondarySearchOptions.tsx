@@ -29,14 +29,14 @@ const ShowsSecondarySearchOptions = () => {
     min: '0',
     max: '5000',
   };
-  const [minPrice, setMinPrice] = useState<string>(
-    (queryFilter?.minPrice as string) || initialPriceRange.min,
+  const [minPrice, setMinPrice] = useState<number>(
+    parseInt((queryFilter?.minPrice as string) || initialPriceRange.min),
   );
-  const [maxPrice, setMaxPrice] = useState<string>(
-    (queryFilter?.maxPrice as string) || initialPriceRange.max,
+  const [maxPrice, setMaxPrice] = useState<number>(
+    parseInt((queryFilter?.maxPrice as string) || initialPriceRange.max),
   );
-  const [seats, setSeats] = useState<string>(
-    (queryFilter.seats as string) || '6',
+  const [seats, setSeats] = useState<number>(
+    parseInt((queryFilter.seats as string) || '6'),
   );
   const [distance, setDistance] = useState<string>(
     (queryFilter.distance as string) || '3000',
@@ -65,10 +65,10 @@ const ShowsSecondarySearchOptions = () => {
     setFilterModalOpen(false);
     setQueryParams({
       ...queryFilter,
-      ...(minPrice && { minPrice }),
-      ...(maxPrice && { maxPrice }),
+      ...(minPrice && { minPrice: `${minPrice}` }),
+      ...(maxPrice && { maxPrice: `${maxPrice}` }),
       ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
-      seats,
+      seats: `${seats}`,
       distance,
     });
   };
@@ -76,15 +76,24 @@ const ShowsSecondarySearchOptions = () => {
   const FilterForm = (
     <section className="h-full px-5 py-4 overflow-y-scroll">
       <PriceRangeFilter
-        minPrice={minPrice}
-        maxPrice={maxPrice}
-        onChangeMinPrice={setMinPrice}
-        onChangeMaxPrice={setMaxPrice}
+        minValue={minPrice}
+        maxValue={maxPrice}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onChangeMinPrice={() => {}}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onChangeMaxPrice={() => {}}
+        setMinValue={setMinPrice}
+        setMaxValue={setMaxPrice}
       />
       <Divider className="my-6" />
       <DistanceFilter value={distance} onChangeDistance={setDistance} />
       <Divider className="my-6" />
-      <SeatsFilter value={seats} onChangeSeats={setSeats} />
+      <SeatsFilter
+        value={seats}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onChangeSeats={() => {}}
+        setMaxValue={setSeats}
+      />
     </section>
   );
 

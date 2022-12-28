@@ -13,7 +13,7 @@ interface RangeSliderProps {
   setMaxState: (value: string) => void;
   minValue: number;
   maxValue: number;
-  setMinValue: React.Dispatch<React.SetStateAction<number>>;
+  setMinValue?: React.Dispatch<React.SetStateAction<number>>;
   setMaxValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -28,7 +28,8 @@ const RangeSlider = ({
   type,
   setMinState,
   setMaxState,
-  setMinValue,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setMinValue = () => {},
   setMaxValue,
 }: RangeSliderProps) => {
   const progressRef: any = useRef(null);

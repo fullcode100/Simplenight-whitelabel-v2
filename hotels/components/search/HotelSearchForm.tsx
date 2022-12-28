@@ -100,7 +100,9 @@ const HotelSearchForm = ({
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${
       geolocation?.split(',')[LONGITUDE_INDEX]
-    }&address=${address}&rooms=${rooms}&roomsData=${JSON.stringify(roomsData)}`;
+    }&address=${encodeURIComponent(
+      address || '',
+    )}&rooms=${rooms}&roomsData=${JSON.stringify(roomsData)}`;
     handleSaveLastSearch(route);
     router.push(route);
   };
@@ -119,6 +121,7 @@ const HotelSearchForm = ({
       rerouteToSearchPage();
       return;
     }
+    const encodedAddress = encodeURIComponent(address || '');
     const roomsDataFormatted = JSON.stringify(roomsData);
     setQueryParam({
       startDate,
@@ -127,7 +130,7 @@ const HotelSearchForm = ({
       adults,
       children,
       childrenAges,
-      address: address as string,
+      address: encodedAddress,
       geolocation: geolocation ?? '',
       latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
       longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',

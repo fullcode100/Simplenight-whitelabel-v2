@@ -13,7 +13,7 @@ const SupplierReference = ({
       <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-700">
         {supplierIdLabel}
       </p>
-      <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-primary-1000">
+      <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-primary-1000 cursor-pointer">
         {supplierReferenceID}
       </p>
     </section>

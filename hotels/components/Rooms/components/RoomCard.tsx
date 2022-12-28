@@ -6,7 +6,6 @@ import RoomCardActions from './RoomCard/RoomCardActions';
 import AmenitiesItem from '../../Amenities/components/AmenitiesItem';
 import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
-import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import { useState } from 'react';
@@ -15,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import RoomPriceBreakdownModal from 'hotels/components/PriceBreakdownModal/RoomPriceBreakdownModal';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import PartialRefund from 'components/global/PartialRefund/PartialRefund';
+import Image from 'next/image';
 
 interface RoomsProps {
   room: Room;
@@ -28,6 +28,7 @@ interface RoomsProps {
 const cancellableType = 'FREE_CANCELLATION';
 const nonRefundableType = 'NON_REFUNDABLE';
 const partialRefund = 'PARTIAL_REFUND';
+const FALLBACK_HOTEL_RESULT = '/images/hotels/fallbackRoomDetail.jpg';
 
 const RoomCard = ({
   room,
@@ -56,6 +57,19 @@ const RoomCard = ({
   const [isOpen, onOpen, onClose] = useModal();
 
   const priceBreakdownText = t('Price Breakdown', 'Price Breakdown');
+
+  const FallbackImage = () => (
+    <Image
+      width="375px"
+      height="200px"
+      layout="responsive"
+      loading="lazy"
+      src={FALLBACK_HOTEL_RESULT}
+      alt=""
+      objectFit="cover"
+    />
+  );
+
   const PriceBreakDown = () => (
     <>
       <RoomPriceBreakdownModal
@@ -81,7 +95,7 @@ const RoomCard = ({
           showIndexDot={false}
         />
       ) : (
-        <EmptyImage />
+        <FallbackImage />
       )}
       <RoomCardHeader
         roomDescription={roomName}

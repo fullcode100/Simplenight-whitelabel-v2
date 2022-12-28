@@ -26,6 +26,11 @@ const PhoneNumberInput = ({
   defaultCode,
   defaultValue,
 }: PhoneNumberInputProps) => {
+  allCountries.sort(function (a, b) {
+    const textA = a.iso2.toUpperCase();
+    const textB = b.iso2.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
   const [countryDialCode, setCountryDialCode] = useState(
     getDefaultDialCode(defaultCode),
   );

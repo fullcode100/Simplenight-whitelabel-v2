@@ -37,11 +37,13 @@ const ConfirmationBuyerInfo = ({
       </section>
       <section className="flex items-center gap-2">
         <Email className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000 h-4" />
-        <p className="font-semibold underline text-dark-1000">{email}</p>
+        <p className="font-semibold underline text-dark-1000 cursor-pointer">
+          {email}
+        </p>
       </section>
-      <section className="flex items-center gap-2">
+      <section className="flex gap-2 items-center">
         <Phone className="mt-0.5 lg:h-5 lg:w-5 text-primary-1000 h-4" />
-        <p className="font-semibold underline text-dark-1000">
+        <p className="font-semibold underline text-dark-1000 cursor-pointer">
           +{phonePrefix} {phoneNumber}
         </p>
       </section>

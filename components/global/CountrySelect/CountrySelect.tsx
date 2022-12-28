@@ -17,7 +17,12 @@ const CountrySelect = ({
   ...others
 }: CountrySelectProps) => {
   const [t] = useTranslation('global');
-  const countries = countryList.getCodeList();
+  const countries = countryList.getData();
+  countries.sort(function (a, b) {
+    const textA = a.name.toUpperCase();
+    const textB = b.name.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
   const countryText = t('country', 'Country');
 
   return (
@@ -37,10 +42,10 @@ const CountrySelect = ({
       <option value={''} className="text-dark-600" disabled>
         {countryText}
       </option>
-      {Object.entries(countries).map(([value, label]) => {
+      {Object.values(countries).map((label) => {
         return (
-          <option key={value} value={value}>
-            {label}
+          <option key={label.code} value={label.code}>
+            {label.name}
           </option>
         );
       })}

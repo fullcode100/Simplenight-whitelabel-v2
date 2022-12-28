@@ -29,15 +29,15 @@ const FilterFormDesktop = ({
     max: max ?? '3000',
   };
   const initialSeats = '1';
-  const [minPrice, setMinPrice] = useState<string>(initialPriceRange.min);
-  const [maxPrice, setMaxPrice] = useState<string>(initialPriceRange.max);
-  const [seats, setSeats] = useState<string>(initialSeats);
+  const [minPrice, setMinPrice] = useState<number>(+initialPriceRange.min);
+  const [maxPrice, setMaxPrice] = useState<number>(+initialPriceRange.max);
+  const [seats, setSeats] = useState<number>(+initialSeats);
 
   const onChangeUpdate = (data: Partial<filters>) => {
     onChange({
-      minPrice,
-      maxPrice,
-      seats,
+      minPrice: `${minPrice}`,
+      maxPrice: `${maxPrice}`,
+      seats: `${seats}`,
       ...data,
     });
   };
@@ -48,28 +48,28 @@ const FilterFormDesktop = ({
       maxPrice: initialPriceRange.max,
       seats: initialSeats,
     };
-    setMinPrice(initObj.minPrice);
-    setMaxPrice(initObj.maxPrice);
-    setSeats(initObj.seats);
+    setMinPrice(+initObj.minPrice);
+    setMaxPrice(+initObj.maxPrice);
+    setSeats(+initObj.seats);
     onChange(initObj);
   };
 
   const onChangeMinPrice = (value: string) => {
-    setMinPrice(value);
+    setMinPrice(+value);
     onChangeUpdate({
       minPrice: value,
     });
   };
 
   const onChangeMaxPrice = (value: string) => {
-    setMaxPrice(value);
+    setMaxPrice(+value);
     onChangeUpdate({
       maxPrice: value,
     });
   };
 
   const onChangeSeats = (value: string) => {
-    setSeats(value);
+    setSeats(+value);
     onChangeUpdate({
       seats: value,
     });
@@ -95,19 +95,25 @@ const FilterFormDesktop = ({
         <section>
           <FilterCollapseTitle title={priceText}>
             <PriceRangeFilter
-              minPrice={minPrice}
-              maxPrice={maxPrice}
+              minValue={minPrice}
+              maxValue={maxPrice}
               max={parseInt(initialPriceRange.max)}
               onChangeMinPrice={onChangeMinPrice}
               onChangeMaxPrice={onChangeMaxPrice}
               step={1}
               minDifference={1}
+              setMinValue={setMinPrice}
+              setMaxValue={setMaxPrice}
             />
           </FilterCollapseTitle>
         </section>
         <section>
           <FilterCollapseTitle title={seatsText}>
-            <SeatsFilter value={seats} onChangeSeats={onChangeSeats} />
+            <SeatsFilter
+              value={seats}
+              onChangeSeats={onChangeSeats}
+              setMaxValue={setSeats}
+            />
           </FilterCollapseTitle>
         </section>
       </section>

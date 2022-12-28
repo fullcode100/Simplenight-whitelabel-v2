@@ -13,6 +13,7 @@ interface CardProps<T extends WithId> {
   address?: ReactNode;
   title?: string;
   image?: ReactNode;
+  fallback?: ReactNode;
   price?: ReactNode;
   className?: string;
   rating?: number;
@@ -36,6 +37,7 @@ function HorizontalItemCard<T extends WithId>({
   ratingCount = undefined,
   priceDisplay,
   cancellable,
+  fallback,
   url = '/',
   categoryTags = [],
 }: CardProps<T>) {
@@ -103,7 +105,13 @@ function HorizontalItemCard<T extends WithId>({
                 }}
               >
                 <CategoryTag />
-                {displayEmpty && <EmptyImage />}
+                {displayEmpty ? (
+                  fallback ? (
+                    <>{fallback}</>
+                  ) : (
+                    <EmptyImage />
+                  )
+                ) : null}
               </section>
             )}
             <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">

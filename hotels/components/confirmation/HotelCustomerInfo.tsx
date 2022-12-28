@@ -35,13 +35,13 @@ const HotelCustomerInfo = ({ item }: HotelCustomerInfoProps) => {
         <section className="flex flex-col gap-0.5 lg:gap-2.5">
           <section className="flex items-center gap-2">
             <Email className="text-primary-1000 h-2.5 lg:h-5 lg:w-5" />
-            <h6 className="text-dark-1000 font-semibold text-xs leading-lg lg:text-sm leading-[22px] underline">
+            <h6 className="text-dark-1000 font-semibold text-xs leading-lg lg:text-sm leading-[22px] underline cursor-pointer">
               {email}
             </h6>
           </section>
           <section className="flex items-center gap-2">
             <Phone className="h-3 text-primary-1000 lg:h-5 lg:w-5" />
-            <h6 className="text-dark-1000 font-semibold text-xs leading-lg lg:text-sm leading-[22px] underline">
+            <h6 className="text-dark-1000 font-semibold text-xs leading-lg lg:text-sm leading-[22px] underline cursor-pointer">
               +{phonePrefix} {phoneNumber}
             </h6>
           </section>

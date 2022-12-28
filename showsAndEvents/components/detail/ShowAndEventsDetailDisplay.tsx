@@ -241,7 +241,7 @@ const ShowAndEventsDetailDisplay = ({
     if (extraDataSeats) {
       const finalData = extraDataSeats.filter((item: any) => {
         return (
-          item.available_seats >= filter.seats &&
+          item.purchasable_quantities.includes(+filter.seats) &&
           item.rate.total.net.amount >= filter.minPrice &&
           item.rate.total.net.amount <= filter.maxPrice
         );

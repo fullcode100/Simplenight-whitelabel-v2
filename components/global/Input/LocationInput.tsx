@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { useTranslation } from 'react-i18next';
 import IconInput from './IconInput';
+import CloseIcon from 'public/icons/assets/close.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
@@ -28,9 +29,9 @@ const LocationInput = ({
   ...others
 }: LocationInputProps & BaseInputProps) => {
   const params = useQuery();
-  const routeParam = routeParams && routeParams[0];
-  const defaultAddress = params?.[routeParam || 'address']?.toString() || '';
-  const [address, setAddress] = useState(defaultAddress);
+  const [address, setAddress] = useState<string | undefined>(
+    params.address ? decodeURIComponent(params.address as string) : '',
+  );
   const isMapLoaded = getIsMapLoaded();
 
   const [t, i18next] = useTranslation('global');
@@ -79,22 +80,23 @@ const LocationInput = ({
             loading,
           }) => (
             <div className="relative lg:w-full">
+              {address && (
+                <section
+                  className="absolute z-10 right-3 top-8"
+                  onClick={() => setAddress('')}
+                >
+                  <CloseIcon className="text-dark-700 cursor-pointer" />
+                </section>
+              )}
               <section className="relative lg:w-full">
                 <IconInput
-                  icon={
-                    icon ? (
-                      icon
-                    ) : (
-                      <LocationPin className="w-5 h-5 text-dark-700" />
-                    )
-                  }
+                  icon={<LocationPin className="w-5 h-5 text-dark-700" />}
+                  customInputClassName="pr-9 truncate"
                   {...getInputProps({
                     placeholder: locationPlaceholder,
                     className: 'location-search-input',
                   })}
                   {...others}
-                  clearable={!!address}
-                  onClear={() => setAddress('')}
                 />
                 <section
                   className={classnames(

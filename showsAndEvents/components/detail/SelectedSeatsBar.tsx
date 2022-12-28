@@ -187,7 +187,7 @@ const SelectedSeatsBar = ({
         <section className="hidden lg:grid grid-cols-7 border-b-2 py-6 pl-5 row-start-1 row-span-1">
           <div className="col-span-1 items-center flex">
             <IconRoundedContainer className="bg-primary-1000 inline-flex">
-              <TicketIcon className="-rotate-30 text-white h-5 w-5 lg:h-[40px] lg:w-[40px]" />
+              <TicketIcon className="text-white h-5 w-5 lg:h-[40px] lg:w-[40px]" />
             </IconRoundedContainer>
           </div>
           <div className="col-span-6 pr-2">
