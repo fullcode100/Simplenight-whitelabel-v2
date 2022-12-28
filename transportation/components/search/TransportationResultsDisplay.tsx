@@ -14,10 +14,9 @@ import HorizontalSkeletonList from 'components/global/HorizontalItemCard/Horizon
 import EmptyState from 'components/global/EmptyState/EmptyState';
 import EmptyStateIcon from '@/icons/assets/empty-state.svg';
 import { Quote, TransportationSearchResponseItemResult } from '../../types/response/TransportationSearchResponse';
-import { useSortList } from 'transportation/hooks/useSortList';
 import { useFilter } from 'transportation/hooks/useFilter';
 import { getMetadata } from 'transportation/helpers/getMetadata';
-
+import { TransportationListMetaData } from 'transportation/types/TransportationFilter';
 
 interface TransportationResultsDisplayProps {
   TransportationCategory: CategoryOption;
@@ -36,18 +35,18 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
   const filterLabel = tg('filter', 'Filter');
   const [loaded, setLoaded] = useState(false);
   const [quoteRequestId, setQuoteRequestId] = useState<string>('')
-  const [metadata, setMetadata] = useState<any>({
+  const [metadata, setMetadata] = useState<TransportationListMetaData>({
     minPrice: 0,
     maxPrice: 0,
     minPassengers: 0,
     maxPassengers: 0,
-    carTypeMetaData: [],
+    carType: [],
+    minRating: 0,
+    maxRating: 0
   });
 
-  const { sortedTransportationList, sortBy, setSortBy } =
-    useSortList(transportationList);
-
-  const { onFilterValuesChanged, filteredList, filter } = useFilter(sortedTransportationList, metadata)
+  const { onFilterValuesChanged, filteredList, filter } = useFilter(transportationList, metadata)
+  const [sortBy, setSortBy] = useState(filter.sortBy);
 
   const { latitude, longitude, startDate, endDate, startTime, endTime, latitude2, longitude2, address, address2, returnTrip, passengers } =
     useQuery();
@@ -82,7 +81,9 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
           maxPrice: metadata.maxPrice,
           minPassengers: metadata.minPassengers,
           maxPassengers: metadata.maxPassengers,
-          carType: metadata.carTypeMetaData
+          carType: metadata.carType,
+          minRating: metadata.minRating,
+          maxRating: metadata.maxRating
         });
         setLoaded(true);
       })
@@ -99,8 +100,13 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
     );
   };
 
+  const onSortByChange = (sortBy: string) => {
+    setSortBy(sortBy);
+    onFilterValuesChanged({ sortBy });
+  };
+
   return (
-    <section className="lg:flex lg:w-full mt-10">
+    <section className="lg:flex lg:w-full">
       <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
         <TransportationFilterFormDesktop
           filterValuesChanged={onFilterValuesChanged}
@@ -110,10 +116,10 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
       </section>
       <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
         <section
-          className={`absolute z-10 border border-dark-300 rounded shadow-container top-12 bg-white w-[335px] right-5 lg:right-20 transition-all duration-500 text-dark-1000 ${!showSortModal && 'opacity-0 invisible'
+          className={`absolute z-10 border border-dark-300 rounded shadow-container top-16 bg-white right-4 w-[256px] transition-all duration-500 text-dark-1000 ${!showSortModal && 'opacity-0 invisible'
             }`}
         >
-          <RadioGroup onChange={setSortBy} value={sortBy} gap="gap-0">
+          <RadioGroup onChange={onSortByChange} value={sortBy} gap="gap-0">
             {SORT_BY_OPTIONS.map((option, i) => (
               <Radio
                 key={i}
@@ -121,7 +127,7 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
                 containerClass={`px-3 py-2 ${i < SORT_BY_OPTIONS.length - 1 && 'border-b border-dark-200'
                   }`}
               >
-                {tg(option.label)}
+                <p className={`hover:cursor-pointer`}>{tg(option.label)}</p>
               </Radio>
             ))}
           </RadioGroup>
@@ -175,13 +181,11 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
             ) : (
               <section>
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
-                  <section className="w-full h-full px-5 pb-6 lg:px-0">
-                    {!loaded ? (
-                      <HorizontalSkeletonList />
-                    ) : (
-                      <TransportationList transportationList={filteredList} />
-                    )}
-                  </section>
+                  {!loaded ? (
+                    <HorizontalSkeletonList />
+                  ) : (
+                    <TransportationList transportationList={filteredList} />
+                  )}
                 </section>
               </section>
             )}

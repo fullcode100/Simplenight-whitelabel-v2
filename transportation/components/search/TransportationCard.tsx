@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import HorizontalItemCard from '../../../components/global/HorizontalItemCard/HorizontalItemCard';
 import { useTranslation } from 'react-i18next';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
 import { Quote } from 'transportation/types/response/TransportationSearchResponse';
@@ -8,11 +7,13 @@ import ReadMore from './ReadMoreDescription';
 import { TransportationCancellable } from './TransportationCancellable';
 import Suitcase from 'public/icons/assets/suitcase.svg';
 import Users from 'public/icons/assets/users.svg';
-import Ticket from 'public/icons/assets/ticket.svg';
+import TransportIcon from 'public/icons/categories/Category-Transport.svg';
+import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstChar';
 
 
 interface TransportationCardProps {
-  transportationItem: any;
+  transportationItem: Quote;
   quoteRequestId: string
 }
 
@@ -36,16 +37,19 @@ export const TransportationCard: FC<TransportationCardProps> = ({ transportation
   }
   return (
     <HorizontalItemCard
+      className=" flex-0-0-auto"
       key={transportationItem?.quote_id}
       categoryName={t('Transportation')}
       item={Item}
-      title={capitalizeFirst(transportationItem?.service_info?.vehicle_type)}
+      title={useCapitalizeFirstChar(transportationItem?.service_info?.vehicle_type)}
       image={transportationItem?.service_info?.photo_url}
       url={transportationDetailsPageUrl}
       priceDisplay={<TransportaionDisplay transportaion={transportationItem} />}
       address={<TransportationCardDetails transportation={transportationItem} />}
       cancellable={<TransportationCancellable cancellable={true} description={transportationItem?.fare?.refund_cancellation_policy} />}
-      icon={<Ticket />}
+      icon={<TransportIcon />}
+      rating={transportationItem?.service_info?.passenger_reviews?.average_rating}
+      ratingCount={transportationItem?.service_info?.passenger_reviews?.count}
     />
   );
 };
@@ -55,7 +59,7 @@ const TransportationCardDetails: FC<{ transportation: Quote }> = ({ transportati
   return (
     <section className="flex flex-col justify-between gap-2">
       <section>
-        <section className="text-dark-1000">{capitalizeFirst(transportation?.service_info?.service_class)}</section>
+        <section className="text-dark-1000">{useCapitalizeFirstChar(transportation?.service_info?.service_class)}</section>
       </section>
       <section className='flex flex-col gap-1 items-start justify-start lg:flex lg:flex-row lg:justify-around lg:items-start lg:flex-1'>
         <section className='flex flex-row items-center justify-start gap-1 lg:flex lg:flex-row lg:gap-1 lg:items-center lg:justify-start'>
@@ -79,8 +83,4 @@ const TransportationCardDetails: FC<{ transportation: Quote }> = ({ transportati
       </section>
     </section>
   );
-};
-
-const capitalizeFirst = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 };

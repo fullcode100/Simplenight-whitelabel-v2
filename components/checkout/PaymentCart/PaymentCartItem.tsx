@@ -22,6 +22,13 @@ const PaymentCartItem = ({ item, customer }: any) => {
     if (sectorName === 'accommodations') {
       sectorName = 'hotels';
     }
+    if (
+      sectorName === 'ground-transportation' ||
+      categoryName === 'ground-transportation'
+    ) {
+      sectorName = 'ground-transportation';
+    }
+
     const sector = useCategory(sectorName || '');
     return injectProps(sector?.checkoutItemDisplay, {
       item: item,

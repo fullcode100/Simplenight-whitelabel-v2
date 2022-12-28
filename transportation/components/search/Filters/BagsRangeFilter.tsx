@@ -26,7 +26,7 @@ const BagsRangeFilter = ({
     setMinValue
 }: BagsRangeFilterProps) => {
     const [t] = useTranslation('ground-transportation');
-    const bagsRangeLabel = t('bagsRange', 'Bags');
+    const bagsRangeLabel = t('bagsRange', 'Bags Range');
 
     return (
         <FilterContainer>

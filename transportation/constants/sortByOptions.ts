@@ -1,5 +1,6 @@
 export const SORT_BY_OPTIONS = [
-  { value: 'recommended', label: 'recommended' },
-  { value: 'sortByPriceAsc', label: 'sortByPriceAsc' },
-  { value: 'sortByPriceDesc', label: 'sortByPriceDesc' },
+  { value: 'sortByPriceAsc', label: 'Price (Lowest First)' },
+  { value: 'sortByPriceDesc', label: 'Price (Highest First)' },
+  { value: 'sortByRatingAsc', label: 'Rating (Lowest First)' },
+  { value: 'sortByRatingDesc', label: 'Rating (Highest First)' },
 ];

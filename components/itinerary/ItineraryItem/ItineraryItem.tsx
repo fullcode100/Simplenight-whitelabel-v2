@@ -30,6 +30,12 @@ const ItineraryItem = ({ item, reload, setReload }: ItineraryItemProps) => {
   if (sectorName === 'parking' || categoryName === 'parking') {
     sectorName = 'parking';
   }
+  if (
+    sectorName === 'ground-transportation' ||
+    categoryName === 'ground-transportation'
+  ) {
+    sectorName = 'ground-transportation';
+  }
 
   const sector = useCategory(sectorName || '');
 

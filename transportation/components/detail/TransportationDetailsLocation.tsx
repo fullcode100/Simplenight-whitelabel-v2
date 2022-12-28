@@ -43,41 +43,41 @@ export const TransportationDetailsLocation: FC<TransportationDetailProps> = ({
     const endDate = formatAsDisplayDatetime(`${searchDetails?.dropOffDate} ${searchDetails?.dropOffTime}`);
 
     return (
-        <section className="px-12 py-10 lg:flex-1 lg:flex lg:flex-col lg:gap-4">
+        <section className="px-5 py-6 lg:px-12 flex flex-col gap-6 lg:py-8 lg:flex-1 lg:flex lg:flex-col lg:gap-4">
             <SectionTitle title={locationLabel} icon={<LocationPin />} />
             <LocationMap
                 height={200}
                 center={checked.pickUp ? searchDetails?.pickUpCoordinates : searchDetails?.dropOffCoordinates}
                 coords={[checked.pickUp ? searchDetails?.pickUpCoordinates : searchDetails?.dropOffCoordinates]}
             />
-            <section className='lg:flex lg:flex-row lg:w-full'>
-                <section className='lg:flex-1 lg:flex lg:flex-col lg:gap-3'>
-                    <section className="lg:flex lg:flex-row lg:gap-2 lg:items-center">
+            <section className='flex flex-row w-full'>
+                <section className='flex-1 flex flex-col gap-3'>
+                    <section className="flex flex-row gap-2 items-center">
                         <input type='radio' checked={checked.pickUp} onChange={() => setChecked({ pickUp: !checked.pickUp, dropOff: !checked.dropOff })} />
                         <p className="lg:text-sm lg:font-normal lg:leading-6 lg:text-dark-1000">{locationPickUp}</p>
                     </section>
-                    <hr className={`lg:border-t-2 lg:border-primary-1000 lg:w-full ${checked.pickUp ? 'lg:visible' : 'lg:invisible'}`} />
-                    <section className="lg:flex lg:flex-row lg:gap-2 lg:justify-start lg:items-start">
+                    <hr className={`border-t-2 border-primary-1000 w-full ${checked.pickUp ? 'visible' : 'invisible'}`} />
+                    <section className="flex flex-row gap-2 justify-start items-start">
                         <Calendar className="w-4 h-4 text-primary-1000" />
                         <span>{fromLowerCaseToCapitilize(startDate)}</span>
                     </section>
-                    <section className="lg:flex lg:flex-row lg:gap-2 lg:justify-start lg:items-start">
+                    <section className="flex flex-row gap-2 justify-start items-start">
                         <LocationPin className="text-primary-1000" />
                         <span>{searchDetails.pickUpAddress?.toString().split(', ')[0]}</span>
                     </section>
                 </section>
 
-                <section className='lg:flex-1 lg:flex lg:flex-col lg:gap-3'>
-                    <section className="lg:flex lg:flex-row lg:gap-2 lg:items-center">
+                <section className='flex-1 flex flex-col gap-3'>
+                    <section className="flex flex-row gap-2 items-center">
                         <input type='radio' checked={checked.dropOff} onChange={() => setChecked({ pickUp: !checked.pickUp, dropOff: !checked.dropOff })} />
                         <p className="lg:text-sm lg:font-normal lg:leading-6 lg:text-dark-1000">{locationDropOff}</p>
                     </section>
-                    <hr className={`lg:border-t-2 lg:border-primary-1000 lg:w-full ${checked.dropOff ? 'lg:visible' : 'lg:invisible'}`} />
-                    <section className="lg:flex lg:flex-row lg:gap-2 lg:justify-start lg:items-start">
+                    <hr className={`border-t-2 border-primary-1000 w-full ${checked.dropOff ? 'visible' : 'invisible'}`} />
+                    <section className="flex flex-row gap-2 justify-start items-start">
                         <Calendar className="w-4 h-4 text-primary-1000" />
                         <span>{fromLowerCaseToCapitilize(endDate)}</span>
                     </section>
-                    <section className="lg:flex lg:flex-row lg:gap-2 lg:justify-start lg:items-start">
+                    <section className="flex flex-row gap-2 justify-start items-start">
                         <LocationPin className="text-primary-1000" />
                         <span>{searchDetails.dropOffAddress?.toString().split(', ')[0]}</span>
                     </section>

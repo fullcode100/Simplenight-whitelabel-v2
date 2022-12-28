@@ -8,6 +8,11 @@ import { TransportationSearchFormReadState } from './components/search/Transport
 import { TransportationDetailsDisplay } from './components/detail/TransportationDetailsDisplay';
 import { TransportationClientDetailer } from './core/detail/TransportationClientDetailer';
 import { TransportationServerDetailer } from './core/detail/TransportationServerDetailer';
+import { TransportationItineraryDisplay } from './components/itinerary';
+import { TransportationBreakdownDisplay } from './components/itinerary';
+import TransportationCheckoutDisplay from './components/checkout/TransportationCheckoutDisplay';
+import TransportationCheckoutItemDisplay from './components/checkout/TransportationCheckoutItemDisplay';
+import TransportationConfirmationDisplay from './components/confirmation/TransportationConfirmationDisplay';
 
 export const TRANPORTATION_CATEGORY = 'ground-transportation';
 
@@ -47,6 +52,14 @@ const Category: CategoryOption = {
 
 Category.resultsDisplay = <TransportationResultsDisplay TransportationCategory={Category} />;
 Category.detailDisplay = <TransportationDetailsDisplay Category={Category} />;
+
+Category.itineraryDisplay = <TransportationItineraryDisplay Category={Category} />;
+Category.breakdownDisplay = <TransportationBreakdownDisplay Category={Category} />;
+Category.checkoutDisplay = <TransportationCheckoutDisplay Category={Category} />;
+Category.checkoutItemDisplay = (
+    <TransportationCheckoutItemDisplay Category={Category} />
+);
+Category.confirmationDisplay = <TransportationConfirmationDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new TransportationClientSearcher(Category);
 Category.core.ServerSearcher = new TransportationServerSearcher(Category);

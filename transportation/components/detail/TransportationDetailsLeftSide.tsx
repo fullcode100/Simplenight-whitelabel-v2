@@ -16,7 +16,7 @@ type SearchDetails = {
     pickUpAddress: string
     pickUpCoordinates: Coordinates
     dropOffDate: string
-    dropOffTime: string 
+    dropOffTime: string
     dropOffAddress: string
     dropOffCoordinates: Coordinates
 }
@@ -31,14 +31,14 @@ export const TransportationDetailsLeftSide: FC<TransportationDetailProps> = ({
 }) => {
 
     return (
-        <section className="lg:flex lg:flex-col lg:w-[75%] lg:h-full">
+        <section className="flex flex-col w-full lg:flex lg:flex-col lg:w-[75%]">
             <TransportationDetailsInformation transportation={transportation} />
             <hr className='lg:border-t-2' />
             <TransportationDetailsDescription transportation={transportation} />
             <hr className='lg:border-t-2' />
-            <section className="lg:flex lg:flex-row lg:gap-1 lg:flex-1 lg:h-full">
+            <section className="lg:flex lg:flex-row">
                 <TransportationDetailsPolicies transportation={transportation} />
-                <hr className='lg:border-l-2 lg:h-full' />
+                <hr className='lg:border-l-2 h-full' />
                 <TransportationDetailsLocation transportation={transportation} searchDetails={searchDetails} />
             </section>
         </section>

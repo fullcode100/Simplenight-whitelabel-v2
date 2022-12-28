@@ -81,7 +81,13 @@ const LocationInput = ({
             <div className="relative lg:w-full">
               <section className="relative lg:w-full">
                 <IconInput
-                  icon={<LocationPin className="w-5 h-5 text-dark-700" />}
+                  icon={
+                    icon ? (
+                      icon
+                    ) : (
+                      <LocationPin className="w-5 h-5 text-dark-700" />
+                    )
+                  }
                   {...getInputProps({
                     placeholder: locationPlaceholder,
                     className: 'location-search-input',

@@ -58,7 +58,7 @@ export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({ C
       />
       {loaded && qoute &&
         <main>
-          <section className="lg:px-0 lg:flex lg:flex-row lg:w-full">
+          <section className="flex flex-col w-full lg:px-0 lg:flex lg:flex-row lg:w-full">
             <TransportationDetailsLeftSide transportation={qoute} searchDetails={searchDetails} />
             <TransportationDetailsRightSide transportation={qoute} />
           </section>

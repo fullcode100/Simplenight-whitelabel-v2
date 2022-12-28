@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState, useMemo, FC } from 'react';
+import { useState, useMemo, FC, useEffect } from 'react';
 import DatePicker from '../../../components/global/Calendar/Calendar';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
@@ -20,13 +20,11 @@ import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import { Select } from '../../../components/global/SelectNew/Select';
 import Clock from '../../../public/icons/assets/clock.svg';
-import TransportPin from 'public/icons/assets/transport.svg';
+import Transport from 'public/icons/assets/transport.svg';
 import NumberInput from 'components/global/Input/NumberInput';
 import Checkbox from 'components/global/Checkbox/Checkbox';
 import Label from 'components/global/Label/Label';
-import {
-  formatAsSearchDate,
-} from '../../../helpers/dajjsUtils';
+import { formatAsSearchDate } from '../../../helpers/dajjsUtils';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import TravelersInput from './TravelersInput/TravelersInput';
 import LocationPin from 'public/icons/assets/location-pin.svg';
@@ -41,7 +39,12 @@ const ceilToNextHalfHour = (date: dayjs.Dayjs): dayjs.Dayjs => {
   }
 };
 
-export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, className = '', hasReRoute = false, slug = '', }) => {
+export const TransportationSearchForm: FC<SearchFormProps> = ({
+  setIsSearching,
+  className = '',
+  hasReRoute = false,
+  slug = '',
+}) => {
   const router = useRouter();
 
   const thirtyMinutesFromNow = dayjs().add(30, 'minutes').startOf('minutes');
@@ -50,8 +53,8 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, 
   const end = ceilToNextHalfHour(twoHoursAndThirtyMinutes).format('hhmm');
 
   const [t] = useTranslation('ground-transportation');
-  const pickUpLocationPlaceholder = t('pickUpLocationPlaceholder', 'Location');
-  const dropOffLocationPlaceholder = t('dropOffLocationPlaceholder', 'Location');
+  const locationPlaceholder = t('locationPlaceholder', 'Location');
+  const airportPlaceholder = t('airportPlaceholder', 'Airport',);
   const pickUpInputLabel = t('locationInputLabel', 'Pick-Up');
   const dropOffInputLabel = t('locationInputLabel', 'Drop-Off');
   const textSearch = t('search', 'Search');
@@ -81,11 +84,21 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, 
     )}`,
   );
 
+  const [airportIcon, setAirportIcon] = useState({
+    pickUp: params.pickUp ? (params.pickUp == 'true' ? true : false) : false,
+    dropOff: params.dropOff ? (params.dropOff == 'true' ? true : false) : false,
+  });
+
   const [startDate, setStartDate] = useState<string>(
-    params.startDate ? params.startDate.toString() : formatAsSearchDate(thirtyMinutesFromNow),
+    params.startDate
+      ? params.startDate.toString()
+      : formatAsSearchDate(thirtyMinutesFromNow),
   );
   const [endDate, setEndDate] = useState<string>(
-    params.endDate ? params.endDate.toString() : formatAsSearchDate(twoHoursAndThirtyMinutes));
+    params.endDate
+      ? params.endDate.toString()
+      : formatAsSearchDate(twoHoursAndThirtyMinutes),
+  );
 
   const timeList = useMemo(() => {
     const today = dayjs().startOf('day');
@@ -111,16 +124,22 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, 
       : timeList.find((item) => item.value === end)?.value || '',
   );
   const [passengers, setPassengers] = useState(
-    params.passengers ? Number(params.passengers) : 1
+    params.passengers ? Number(params.passengers) : 1,
   );
-  const passengersLabel = t('passengers', passengers >= 2 ? 'Passengers' : 'Passenger');
+  const passengersLabel = t(
+    'passengers',
+    passengers >= 2 ? 'Passengers' : 'Passenger',
+  );
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
   const [pickUpShowLocationError, setPickUpShowLocationError] = useState(false);
-  const [dropOffShowLocationError, setDropOffShowLocationError] = useState(false);
+  const [dropOffShowLocationError, setDropOffShowLocationError] =
+    useState(false);
   const [showTravelersInput, setShowTravelersInput] = useState(false);
-  const [checked, setChecked] = useState(params.returnTrip ? (params.returnTrip == 'true' ? true : false) : false);
+  const [checked, setChecked] = useState(
+    params.returnTrip ? (params.returnTrip == 'true' ? true : false) : false,
+  );
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -137,11 +156,11 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, 
   };
 
   const rerouteToSearchPage = () => {
-    const route = `/search/${slug
-      }?startDate=${startDate}&startTime=${startTime}&endDate=${endDate}&endTime=${endTime
-      }&latitude=${pickUpGeolocation?.split(',')[LATITUDE_INDEX]}&longitude=${pickUpGeolocation?.split(',')[LONGITUDE_INDEX]}&address=${pickUpAddress
-      }&latitude2=${dropOffGeolocation?.split(',')[LATITUDE_INDEX]}&longitude2=${dropOffGeolocation?.split(',')[LONGITUDE_INDEX]}&address2=${dropOffAddress
-      }&returnTrip=${checked}&passengers=${passengers}`;
+    const route = `/search/${slug}?startDate=${startDate}&startTime=${startTime}&endDate=${endDate}&endTime=${endTime}&latitude=${pickUpGeolocation?.split(',')[LATITUDE_INDEX]
+      }&longitude=${pickUpGeolocation?.split(',')[LONGITUDE_INDEX]
+      }&address=${pickUpAddress}&latitude2=${dropOffGeolocation?.split(',')[LATITUDE_INDEX]
+      }&longitude2=${dropOffGeolocation?.split(',')[LONGITUDE_INDEX]
+      }&address2=${dropOffAddress}&returnTrip=${checked}&passengers=${passengers}&pickUp=${airportIcon.pickUp}&dropOff=${airportIcon.dropOff}`;
 
     handleSaveLastSearch(route);
     router.push(route);
@@ -185,52 +204,58 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, 
       latitude2: dropOffGeolocation?.split(',')[LATITUDE_INDEX] ?? '',
       longitude2: dropOffGeolocation?.split(',')[LONGITUDE_INDEX] ?? '',
       returnTrip: `${checked}`,
-      passengers: `${passengers}`
+      passengers: `${passengers}`,
+      pickUp: `${airportIcon.pickUp}`,
+      dropOff: `${airportIcon.dropOff}`,
     });
     if (setIsSearching) setIsSearching(false);
   };
+
 
   const handleSelectPickUpLocation = (latLng: latLngProp, address: string) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     setPickUpGeolocation(newGeolocation);
     setPickUpAddress(address);
+    if (address.includes('Airport') || address.includes('airport')) {
+      setAirportIcon({ pickUp: true, dropOff: false });
+    } else {
+      setAirportIcon({ pickUp: false, dropOff: true });
+    }
   };
-  const handleSelectDropOffLocation = (latLng: latLngProp, address2: string) => {
+  const handleSelectDropOffLocation = (latLng: latLngProp, address: string) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     setDropOffGeolocation(newGeolocation);
-    setDropOffAddress(address2);
+    setDropOffAddress(address);
+    if (address.includes('Airport') || address.includes('airport')) {
+      setAirportIcon({ pickUp: false, dropOff: true });
+    } else {
+      setAirportIcon({ pickUp: true, dropOff: false });
+    }
   };
-
-  const handleClearPickUpLocation = () => {
-    setPickUpGeolocation(`${NaN},${NaN}`);
-    setPickUpAddress('');
-  };
-
-  const handleClearDropOffLocation = () => {
-    setDropOffGeolocation(`${NaN},${NaN}`);
-    setDropOffAddress('');
-  };
-
 
   return (
     <section className={`flex flex-col justify-between ${className} lg:flex-row lg:justify-start lg:items-start lg:pb-0 lg:px-0 lg:gap-2 lg:w-full`}>
       <section className='flex flex-col gap-4 lg:flex lg:flex-col lg:justify-start lg:pb-0 lg:px-0 lg:gap-1 lg:w-[90%]'>
         <section className="flex flex-col lg:flex lg:flex-row lg:items-end lg:w-full">
-          <section className="flex flex-col gap-2 lg:flex-row lg:w-full">
+          <section className="relative flex flex-col gap-2 lg:flex-row lg:w-full">
             <section className="w-full lg:flex lg:flex-row lg:items-end lg:w-1/2 lg:gap-2">
               <section className="w-full lg:w-[40%]">
                 <LocationInput
                   label={pickUpInputLabel}
-                  icon={<LocationPin />}
+                  icon={
+                    airportIcon.pickUp ? (
+                      <Transport className="w-5 h-5 text-dark-700" />
+                    ) : (
+                      <LocationPin className="w-5 h-5 text-dark-700" />
+                    )
+                  }
                   name="location"
-                  placeholder={pickUpLocationPlaceholder}
+                  placeholder={airportIcon.pickUp ? airportPlaceholder : locationPlaceholder}
                   routeParams={['address']}
                   defaultValue={pickUpAddress}
                   onSelect={handleSelectPickUpLocation}
                   error={pickUpShowLocationError}
                   onChange={handleChangePickUpLocation}
-                  clearable={true}
-                  onClear={handleClearPickUpLocation}
                 />
               </section>
               <section className="relative flex gap-2 lg:mt-0 lg:w-[60%]">
@@ -260,19 +285,25 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, 
               </section>
             </section>
             <section className="w-full lg:flex lg:flex-row lg:items-end lg:w-1/2 lg:gap-2">
-              <section className={`w-full ${checked ? 'lg:w-[40%]' : 'lg:w-full'}`}>
+              <section
+                className={`w-full ${checked ? 'lg:w-[40%]' : 'lg:w-full'}`}
+              >
                 <LocationInput
-                  icon={<TransportPin className="w-5 h-5 text-dark-700 lg:w-full" />}
+                  icon={
+                    airportIcon.dropOff ? (
+                      <Transport className="w-5 h-5 text-dark-700" />
+                    ) : (
+                      <LocationPin className="w-5 h-5 text-dark-700" />
+                    )
+                  }
                   label={dropOffInputLabel}
                   name="location2"
                   routeParams={['address2']}
                   defaultValue={dropOffAddress}
-                  placeholder={dropOffLocationPlaceholder}
+                  placeholder={airportIcon.dropOff ? airportPlaceholder : locationPlaceholder}
                   onSelect={handleSelectDropOffLocation}
                   error={dropOffShowLocationError}
                   onChange={handleChangeDropOffLocation}
-                  clearable={true}
-                  onClear={handleClearDropOffLocation}
                 />
               </section>
               {checked &&
@@ -328,7 +359,7 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({ setIsSearching, 
                 value={passengers}
                 onChange={setPassengers}
                 min={1}
-                max={9}
+                max={20}
                 disabled
               />
             }

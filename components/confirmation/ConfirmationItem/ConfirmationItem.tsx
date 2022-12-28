@@ -39,6 +39,14 @@ const ConfirmationItem = ({
   if (sectorName === 'accommodations' || categoryName === 'hotels') {
     sectorName = 'hotels';
   }
+
+  if (
+    sectorName === 'ground-transportation' ||
+    categoryName === 'ground-transportation'
+  ) {
+    sectorName = 'ground-transportation';
+  }
+
   const sector = useCategory(sectorName || '');
 
   return (

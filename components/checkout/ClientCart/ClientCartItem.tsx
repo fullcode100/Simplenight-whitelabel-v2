@@ -93,6 +93,12 @@ const ClientCartItem = ({
     if (sectorName === 'food-beverage') {
       sectorName = 'dining';
     }
+    if (
+      sectorName === 'ground-transportation' ||
+      categoryName === 'ground-transportation'
+    ) {
+      sectorName = 'ground-transportation';
+    }
     const sector = useCategory(sectorName || '');
     return injectProps(sector?.checkoutItemDisplay, {
       item: item,

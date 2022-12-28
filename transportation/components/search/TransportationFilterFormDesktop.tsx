@@ -7,25 +7,19 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import Heading from 'components/global/Typography/Heading';
 import PassengersRangeFilter from './Filters/PassengersRangeFilter';
-import BagsRangeFilter from './Filters/BagsRangeFilter';
 import { FilterHeader } from '@/components/search';
+import { TransportationFilter, TransportationListMetaData } from 'transportation/types/TransportationFilter';
+import RatingRangeFilter from './Filters/RatingRangeFilter';
+import BagsRangeFilter from './Filters/BagsRangeFilter';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 
-type filter = {
-  minPrice: number
-  maxPrice: number
-  minPassengers: number
-  maxPassengers: number
-  carType: any[]
-}
-
 interface TransportationFilterFormDesktopProps {
-  filterValuesChanged: (filterValues: filter) => void;
-  transportationMetaData: any
-  filter: filter;
+  filterValuesChanged: (filterValues: Partial<TransportationFilter>) => void;
+  transportationMetaData: TransportationListMetaData
+  filter: TransportationFilter;
 }
 
 export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktopProps> = ({
@@ -37,15 +31,6 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
   const router = useRouter();
   const setQueryParams = useQuerySetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
-
-  const [freeCancellation, setFreeCancellation] = useState<boolean>(
-    queryFilter?.paymentTypes?.includes('freeCancellation') || false,
-  );
-
-  const [payAtProperty, setPayAtProperty] = useState<boolean>(
-    queryFilter?.paymentTypes?.includes('payAtProperty') || false,
-  );
-
 
   const initialPriceRange = {
     min: transportationMetaData?.minPrice,
@@ -71,16 +56,25 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
   const [maxBags, setMaxBags] = useState<string>(
     (queryFilter?.maxBags as string) || initialBagsRange.max,
   );
+  const [carType, setCarType] = useState(filter.carType);
+
+  const initialRatingRange = {
+    min: transportationMetaData?.minRating,
+    max: transportationMetaData?.maxRating,
+  };
+  const [minRating, setMinRating] = useState<number>(filter.minRating);
+  const [maxRating, setMaxRating] = useState<number>(filter.minRating);
 
   const [t, i18n] = useTranslation('ground-transportation');
   const carTypeLabel = t('carType', 'Car Type');
   const priceTypeLabel = t('price', 'Price');
   const passengersTypeLabel = t('passengers', 'Passengers');
-  const bagsTypeLabel = t('bags', 'Bags');
-
+  const bagsLabel = t('bags', 'Bags');
+  const ratingLabel = t('rating', 'Rating');
+  const featuresLabel = t('VehicleFeaturesOrSpaces', 'Vehicle Features Or Spaces');
 
   const handleClearFilters = () => {
-    setQueryParams({
+    /*setQueryParams({
       propertyTypes: '',
       paymentTypes: '',
       amenities: '',
@@ -93,7 +87,24 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
       maxPassengers: '',
       minBags: '',
       maxBags: ''
-    });
+    });*/
+    setCarType([]);
+    setMinPrice(initialPriceRange.min);
+    setMaxPrice(initialPriceRange.max);
+    setMinPassengers(initialPassengersRange.min);
+    setMaxPassengers(initialPassengersRange.max);
+    setMinRating(initialRatingRange.min)
+    setMaxRating(initialRatingRange.max)
+
+    filterValuesChanged({
+      minPrice: transportationMetaData.minPrice,
+      maxPrice: transportationMetaData.maxPrice,
+      minPassengers: transportationMetaData.minPassengers,
+      maxPassengers: transportationMetaData.maxPassengers,
+      carType: transportationMetaData.carType,
+      minRating: transportationMetaData.minRating,
+      maxRating: transportationMetaData.maxRating
+    })
   };
 
   const onChangeMinPassengers = (value: string) => {
@@ -102,7 +113,7 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
       minPrice: value,
       ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
     });*/
-    filterValuesChanged({ ...filter, minPassengers: parseInt(value) })
+    filterValuesChanged({ minPassengers: parseInt(value) })
   };
 
   const onChangeMaxPassengers = (value: string) => {
@@ -111,7 +122,7 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
       maxPrice: value,
       ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
     });*/
-    filterValuesChanged({ ...filter, maxPassengers: parseInt(value) })
+    filterValuesChanged({ maxPassengers: parseInt(value) })
 
   };
 
@@ -121,7 +132,7 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
       minPassengers: value,
       ...((minPassengers || maxPassengers) && { isTotalPrice: 'false' }),
     });*/
-    filterValuesChanged({ ...filter, minPrice: parseInt(value) })
+    filterValuesChanged({ minPrice: parseInt(value) })
   };
 
   const onChangeMaxPrice = (value: string) => {
@@ -130,7 +141,7 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
       maxPassengers: value,
       ...((minPassengers || maxPassengers) && { isTotalPrice: 'false' }),
     });*/
-    filterValuesChanged({ ...filter, maxPrice: parseInt(value) })
+    filterValuesChanged({ maxPrice: parseInt(value) })
   };
 
   const onChangeMinBags = (value: string) => {
@@ -149,14 +160,22 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
     });*/
   };
 
-  const onChangeFreeCancellation = (value: boolean) => {
-    const paymentTypes = [];
-    if (value) paymentTypes.push('freeCancellation');
-    if (payAtProperty) paymentTypes.push('payAtProperty');
-    setFreeCancellation(value);
-    setQueryParams({
-      paymentTypes: paymentTypes.join('-'),
-    });
+  const onCarTypeChange = (carType: string[]) => {
+    setCarType(carType);
+    filterValuesChanged({ carType: carType });
+    /*setQueryParams({
+  paymentTypes: paymentTypes.join('-'),
+});*/
+  };
+
+  const onChangeMinRating = (value: string) => {
+    setMinRating(parseInt(value));
+    filterValuesChanged({ minRating: parseInt(value) })
+  };
+
+  const onChangeMaxRating = (value: string) => {
+    setMaxRating(parseInt(value))
+    filterValuesChanged({ maxRating: parseInt(value) })
   };
 
   useEffect(() => {
@@ -165,8 +184,11 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
       setMaxPrice(transportationMetaData.maxPrice)
       setMinPassengers(transportationMetaData.minPassengers)
       setMaxPassengers(transportationMetaData.maxPassengers)
+      setMinRating(transportationMetaData.minRating)
+      setMaxRating(transportationMetaData.maxRating)
     }
   }, [transportationMetaData])
+
 
   return (
     <section className="h-full py-4">
@@ -175,8 +197,9 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
         title={<Heading tag="h5">{carTypeLabel}</Heading>}
         body={
           <CarTypeFilter
-            carType={transportationMetaData.carTypeMetaData}
-            onChangeFreeCancellation={onChangeFreeCancellation}
+            value={carType}
+            items={transportationMetaData.carType}
+            onChange={onCarTypeChange}
           />
         }
         initialState
@@ -217,7 +240,7 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
       />
       <Divider className="my-6" />
       <CollapseUnbordered
-        title={<Heading tag="h5">{bagsTypeLabel}</Heading>}
+        title={<Heading tag="h5">{bagsLabel}</Heading>}
         body={
           <BagsRangeFilter
             minBags={minBags}
@@ -227,6 +250,30 @@ export const TransportationFilterFormDesktop: FC<TransportationFilterFormDesktop
             setMaxValue={setMaxBags}
             setMinValue={setMinBags}
           />
+        }
+        initialState
+      />
+      <Divider className="my-6" />
+      <CollapseUnbordered
+        title={<Heading tag="h5">{ratingLabel}</Heading>}
+        body={
+          <RatingRangeFilter
+            minRating={minRating?.toString()}
+            maxRating={maxRating?.toString()}
+            onChangeMinRating={onChangeMinRating}
+            onChangeMaxRating={onChangeMaxRating}
+            setMinValue={setMinRating}
+            setMaxValue={setMaxRating}
+            min={initialRatingRange?.min}
+            max={initialRatingRange?.max}
+          />}
+        initialState
+      />
+      <Divider className="my-6" />
+      <CollapseUnbordered
+        title={<Heading tag="h5">{featuresLabel}</Heading>}
+        body={
+          <></>
         }
         initialState
       />

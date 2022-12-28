@@ -30,15 +30,15 @@ const PassengersRangeFilter = ({
     max
 }: PassengersRangeFilterProps) => {
     const [t] = useTranslation('ground-transportation');
-    const passengersRangeLabel = t('passengersRange', 'Passengers');
+    const passengersRangeLabel = t('passengersRange', 'Passengers Range');
 
     return (
         <FilterContainer>
             <FilterTitle label={passengersRangeLabel} />
             <RangeSlider
-                minValue={minPassengers ? parseInt(minPassengers) : 1}
+                minValue={minPassengers ? parseInt(minPassengers) : 0}
                 maxValue={maxPassengers ? parseInt(maxPassengers) : 6}
-                min={min ? min : 1}
+                min={min ? min : 0}
                 max={max ? max : 6}
                 step={1}
                 minDifference={1}
