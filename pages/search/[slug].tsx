@@ -78,10 +78,14 @@ const Search: NextPage = () => {
       <main>
         <section
           className={classnames('lg:w-full lg:px-20 pt-[90px]', {
-            ['lg:pt-[280px]']: slug === 'car-rental',
-            ['lg:pt-[310px]']: slug === 'flights',
-            ['lg:pt-[204px]']: multipleCategories,
-            ['lg:pt-[142px]']: !multipleCategories,
+            ['lg:pt-[204px]']:
+              slug !== 'car-rental' && slug !== 'flights' && multipleCategories,
+            ['lg:pt-[142px]']:
+              slug !== 'car-rental' &&
+              slug !== 'flights' &&
+              !multipleCategories,
+            ['pt-[170px] lg:pt-[280px]']: slug === 'car-rental',
+            ['pt-[170px] lg:pt-[310px]']: slug === 'flights',
           })}
         >
           <section className="mx-auto max-w-7xl ">
