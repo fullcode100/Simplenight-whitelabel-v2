@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './radio.module.scss';
+import classNames from 'classnames';
 
 interface IRadioGroup {
   children?: React.ReactNode[];
@@ -20,21 +21,22 @@ export const Radio = ({
   ...others
 }: IRadio) => {
   return (
-    <section className={`flex items-center ${containerClass}`}>
+    <label
+      className={classNames(
+        'flex items-center cursor-pointer hover:bg-dark-100',
+        containerClass,
+      )}
+    >
       <input
-        id={value}
         type="radio"
         value={value}
         className={styles.inputRadio}
         {...others}
       />
-      <label
-        htmlFor={value}
-        className="block ml-3 text-sm font-normal leading-[22px] text-dark-1000"
-      >
+      <span className="block ml-3 text-sm font-normal leading-[22px] text-dark-1000">
         {children}
-      </label>
-    </section>
+      </span>
+    </label>
   );
 };
 
