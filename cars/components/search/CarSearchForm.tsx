@@ -225,7 +225,6 @@ const CarSearchForm = ({
                 setClickOnStart(true);
                 setShowDatePicker(true);
               }}
-              disabled
             />
             <Select
               options={timeOptions}
@@ -282,7 +281,6 @@ const CarSearchForm = ({
                 setClickOnStart(false);
                 setShowDatePicker(true);
               }}
-              disabled
             />
             <Select
               options={timeOptions}

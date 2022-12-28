@@ -78,8 +78,8 @@ const Search: NextPage = () => {
       <main>
         <section
           className={classnames('lg:w-full lg:px-20 pt-[90px]', {
-            ['lg:pt-[270px]']: slug === 'car-rental',
-            ['lg:pt-[300px]']: slug === 'flights',
+            ['lg:pt-[280px]']: slug === 'car-rental',
+            ['lg:pt-[310px]']: slug === 'flights',
             ['lg:pt-[204px]']: multipleCategories,
             ['lg:pt-[142px]']: !multipleCategories,
           })}

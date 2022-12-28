@@ -582,7 +582,6 @@ const FlightSearchForm = ({
                     setClickOnStart(true);
                     setShowDatePicker(true);
                   }}
-                  disabled
                 />
                 {direction === 'round_trip' && (
                   <IconInput
@@ -602,7 +601,6 @@ const FlightSearchForm = ({
                       setClickOnStart(false);
                       setShowDatePicker(true);
                     }}
-                    disabled
                   />
                 )}
               </section>
