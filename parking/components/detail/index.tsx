@@ -31,8 +31,8 @@ export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
     const params = {
       start_date: startDate,
       end_date: endDate,
-      start_time: startTime,
-      end_time: endTime,
+      start_time: (startTime as string).split(':').join(''),
+      end_time: (endTime as string).split(':').join(''),
       apiUrl: '/categories/parking/items/details',
     };
 

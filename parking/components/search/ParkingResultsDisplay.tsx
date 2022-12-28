@@ -170,16 +170,17 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     ]);
 
     if (!startTime || !endTime) {
-      const TIME_SELECTION_FORMAT = 'HHmm';
-      const thirtyMinutesFromNow = dayjs().add(30, 'minutes').startOf('minute');
-      const twoHoursAndThirtyMinutes = thirtyMinutesFromNow.add(2, 'hours');
-      const start = ceilToNextHalfHour(thirtyMinutesFromNow).format(
-        TIME_SELECTION_FORMAT,
+      const TIME_SELECTION_FORMAT = 'HH:mm';
+      const thirtyMinutesFromNow = ceilToNextHalfHour(
+        dayjs().add(30, 'minutes'),
       );
-      const end = ceilToNextHalfHour(twoHoursAndThirtyMinutes).format(
-        TIME_SELECTION_FORMAT,
-      );
-      setQueryParam({ startTime: start, endTime: end });
+      const anotherThirtyMinutes = thirtyMinutesFromNow.add(30, 'minutes');
+      const start = thirtyMinutesFromNow.format(TIME_SELECTION_FORMAT);
+      const end = anotherThirtyMinutes.format(TIME_SELECTION_FORMAT);
+      setQueryParam({
+        startTime: (startTime as string) || start,
+        endTime: (endTime as string) || end,
+      });
     }
 
     if (hasEmptyValues) return;
@@ -187,8 +188,8 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     const params: any = {
       start_date: startDate,
       end_date: endDate,
-      start_time: startTime,
-      end_time: endTime,
+      start_time: (startTime as string).split(':').join(''),
+      end_time: (endTime as string).split(':').join(''),
       latitude,
       longitude,
       rsp_fields_set: 'extended',

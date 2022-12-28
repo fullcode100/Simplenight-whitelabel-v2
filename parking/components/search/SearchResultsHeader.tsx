@@ -107,7 +107,7 @@ const ParkingTypeFilter: FC<{
   return (
     <section
       className={classNames(
-        'absolute w-full lg:static top-[100%] left-0 flex justify-center p-4',
+        'absolute w-full lg:w-auto lg:static top-[100%] left-0 flex justify-center p-4',
         { 'lg:p-0': isMapView },
       )}
     >
@@ -149,18 +149,15 @@ const ParkingSortingAndViewType: FC<{
       <section className="w-auto flex justify-start items-center gap-4 rounded px-2 lg:px-0 bg-primary-100 lg:bg-transparent">
         <section className="relative">
           <button
-            className="flex items-center gap-2 lg:w-[100px] h-6"
+            className="flex items-center gap-2 h-6"
             onClick={() => setShowSortingDropdown((p) => !p)}
             onBlur={() => setShowSortingDropdown(false)}
           >
             <span className="text-primary-1000">
               {sortBy.includes('ASC') ? <SortAsc /> : <SortDesc />}
             </span>
-            <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
-              <span className="hidden lg:inline">
-                {t(sortBy.includes('distance') ? 'distance' : 'price')}
-              </span>
-              <span className="inline lg:hidden">{t('sort')}</span>
+            <span className="text-xs font-semibold text-left text-dark-1000">
+              <span>{t(sortBy)}</span>
             </span>
             <span className="text-dark-800">
               <Chevron />

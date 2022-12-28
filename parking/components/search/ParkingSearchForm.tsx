@@ -30,15 +30,12 @@ import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
 
 export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const router = useRouter();
-  const TIME_SELECTION_FORMAT = 'HHmm';
-  const thirtyMinutesFromNow = dayjs().add(30, 'minutes').startOf('minute');
-  const twoHoursAndThirtyMinutes = thirtyMinutesFromNow.add(2, 'hours');
-  const start = ceilToNextHalfHour(thirtyMinutesFromNow).format(
-    TIME_SELECTION_FORMAT,
-  );
-  const end = ceilToNextHalfHour(twoHoursAndThirtyMinutes).format(
-    TIME_SELECTION_FORMAT,
-  );
+  const TIME_SELECTION_FORMAT = 'HH:mm';
+  const thirtyMinutesFromNow = ceilToNextHalfHour(dayjs().add(30, 'minutes'));
+  const anotherThirtyMinutes = thirtyMinutesFromNow.add(30, 'minutes');
+
+  const start = thirtyMinutesFromNow.format(TIME_SELECTION_FORMAT);
+  const end = anotherThirtyMinutes.format(TIME_SELECTION_FORMAT);
 
   const [t] = useTranslation('parking');
   const locationInputLabel = t('locationInputLabel', 'Destination');
@@ -65,7 +62,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const [endDate, setEndDate] = useState<string>(
     params.endDate
       ? params.endDate.toString()
-      : formatAsSearchDate(twoHoursAndThirtyMinutes),
+      : formatAsSearchDate(anotherThirtyMinutes),
   );
 
   const timeList = useMemo(() => {
