@@ -61,7 +61,7 @@ const Category: CategoryOption = {
   },
 };
 
-Category.resultsDisplay = <DiningResultsDisplay />;
+Category.resultsDisplay = <DiningResultsDisplay Category={Category} />;
 Category.detailDisplay = <DiningDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <DiningItineraryDisplay Category={Category} />;
 Category.checkoutItemDisplay = (

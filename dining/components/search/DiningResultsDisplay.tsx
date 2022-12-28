@@ -21,7 +21,6 @@ import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
-import { DiningClientSearcher } from 'dining/core/search/DiningClientSearcher';
 import EmptyState from 'components/global/EmptyState/EmptyState';
 import { useTranslation } from 'react-i18next';
 import DiningSecondarySearchOptions from './DiningSecondarySearchOptions';
@@ -31,6 +30,7 @@ import {
   AltRadioButtonGroup,
   RadioItemType,
 } from 'components/global/AltRadioButton/AltRadioButton';
+import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 interface ViewButtonProps {
   children: ReactNode;
@@ -39,7 +39,11 @@ interface ViewButtonProps {
 
 type sortByFilters = 'Best Match' | 'Rating' | 'Review Count' | 'Distance';
 
-const DiningResultsDisplay = () => {
+interface DiningResultsDisplayProps {
+  Category: CategoryOption;
+}
+
+const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   const [loaded, setLoaded] = useState(false);
   const [t, i18next] = useTranslation('dining');
   const noResultsLabel = t('noResultsSearch');
@@ -62,6 +66,7 @@ const DiningResultsDisplay = () => {
   } = useQuery();
   const [sortByVal, setSortByVal] = useState(sortByBestMatch);
   const [restaurants, setRestaurants] = useState<Dining[]>([]);
+  const { ClientSearcher: Searcher } = Category.core;
 
   const setSortState = (value: unknown) => {
     switch (value) {
@@ -104,8 +109,7 @@ const DiningResultsDisplay = () => {
     };
 
     setLoaded(false);
-    const ClientSearcher = new DiningClientSearcher(DiningCategory);
-    ClientSearcher?.request(params, i18next)
+    Searcher?.request(params, i18next)
       .then(({ items: searchedRestaurants }: DiningSearchResponse) =>
         setRestaurants(searchedRestaurants),
       )

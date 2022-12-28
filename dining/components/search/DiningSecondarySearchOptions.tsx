@@ -131,18 +131,16 @@ const DiningSecondarySearchOptions = () => {
   );
 
   const Modals = (
-    <div className="relative">
-      <FullScreenModal
-        open={isFilterModalOpen}
-        closeModal={() => setFilterModalOpen(false)}
-        title={filtersLabel}
-        primaryButtonText={applyFiltersLabel}
-        primaryButtonAction={() => handleDispatchFilters()}
-        headerAction={<ClearFilterButton />}
-      >
-        {FilterForm}
-      </FullScreenModal>
-    </div>
+    <FullScreenModal
+      open={isFilterModalOpen}
+      closeModal={() => setFilterModalOpen(false)}
+      title={filtersLabel}
+      primaryButtonText={applyFiltersLabel}
+      primaryButtonAction={() => handleDispatchFilters()}
+      headerAction={<ClearFilterButton />}
+    >
+      {FilterForm}
+    </FullScreenModal>
   );
 
   const { view = 'list' } = useQuery();
@@ -166,7 +164,7 @@ const DiningSecondarySearchOptions = () => {
         <span className="text-primary-1000">
           <FilterIcon />
         </span>
-        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
+        <span className="flex-1 text-xs font-semibold text-left text-dark-1000">
           {t('filter', 'Filter')}
         </span>
       </button>

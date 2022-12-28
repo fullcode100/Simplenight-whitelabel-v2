@@ -7,9 +7,6 @@ interface SearchResultDisplayProps {
 
 const SearchResultDisplay = ({ searchType }: SearchResultDisplayProps) => {
   const category = useCategory(searchType);
-  if (!category) {
-    return <DiningResultsDisplay />;
-  }
 
   return category?.resultsDisplay ?? null;
 };
