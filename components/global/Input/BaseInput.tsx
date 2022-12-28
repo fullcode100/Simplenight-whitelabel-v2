@@ -2,7 +2,7 @@ import { FC, useRef } from 'react';
 import I18nHOC from '../I18nHOC/I18nHOC';
 import Label from '../Label/Label';
 import classnames from 'classnames';
-import ClearIcon from '../../../public/icons/assets/clear.svg';
+import ClearIcon from 'public/icons/assets/clear.svg';
 
 export interface BaseInputProps {
   children?: any;
@@ -137,7 +137,7 @@ const ClearButton: FC<ClearButtonProps> = (props) => (
       className="w-8 h-8 flex justify-center items-center  rounded-2xl hover:bg-primary-100"
       onClick={props.onClick}
     >
-      <ClearIcon />
+      <ClearIcon className="text-dark-700" />
     </button>
   </section>
 );
