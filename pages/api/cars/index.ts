@@ -85,13 +85,37 @@ export default async function handler(
       // lang: lang,
     };
 
-    const url = `https://dev-api.simplenight.com/v2/categories/car-rental/items/details?${new URLSearchParams(
+    let isDev = false;
+    if (
+      req.headers.host &&
+      (req.headers.host.toUpperCase().indexOf('DEV') > -1 ||
+        req.headers.host.toUpperCase().indexOf('LOCALHOST') > -1)
+    )
+      isDev = true;
+    let apiUrl = isDev
+      ? 'https://dev-api.simplenight.com/v2'
+      : 'https://api-v2.simplenight.com/v22';
+    let xApiKey = isDev
+      ? '4I8FoZk7.Vtj5lDdPzv1vharxEzwp5gooD6nl1TXo'
+      : 'oJjegV30.4zCz2IS6fXuYWToZ8yKZzjHUWuHJJLa6';
+
+    if (process.env.X_API_KEY) {
+      xApiKey = process.env.X_API_KEY;
+    }
+    if (req.headers['x-session'] && req.headers['x-session'] !== 'undefined') {
+      const session = JSON.parse(req.headers['x-session'] as string);
+      if (session.api_url) apiUrl = session.api_url;
+    }
+
+    const url = `${apiUrl}/categories/car-rental/items/details?${new URLSearchParams(
       getData,
-    )}`; // SN API v2
+    )}`;
+
+    console.log('Cars URL', url);
 
     const { data } = await axios.get(url, {
       headers: {
-        'X-API-KEY': '4I8FoZk7.Vtj5lDdPzv1vharxEzwp5gooD6nl1TXo',
+        'X-API-KEY': xApiKey,
       },
     });
 
@@ -138,8 +162,10 @@ export default async function handler(
     */
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      // console.log('error message: ', error.message);
       res.status(400).json({ cars: [] });
     } else {
+      // console.log('unexpected error: ', error);
       res.status(400).json({ cars: [] });
     }
   }

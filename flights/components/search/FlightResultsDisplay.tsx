@@ -654,8 +654,8 @@ const FlightResultsDisplay = ({
                                 color="outlined"
                                 className={
                                   flightIndex === index
-                                    ? 'px-4 py-2 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                                    : 'px-4 py-2 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
+                                    ? 'px-4 py-2 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
+                                    : 'px-4 py-2 mr-3 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
                                 }
                                 onClick={() =>
                                   index < flightIndex &&

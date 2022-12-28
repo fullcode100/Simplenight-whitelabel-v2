@@ -211,7 +211,7 @@ const CarSearchForm = ({
             onSelect={handleSelectLocation}
             error={showLocationError}
             onChange={handleChangeLocation}
-            autoFocus
+            autoFocus={!address ? true : false}
           />
           <section className="block w-full flex flex-row gap-2 items-end">
             <IconInput

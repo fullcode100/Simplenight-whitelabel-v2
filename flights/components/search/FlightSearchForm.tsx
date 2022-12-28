@@ -87,7 +87,9 @@ const FlightSearchForm = ({
   );
 
   const [address2, setAddress2] = useState<string>(
-    params.address2 ? (params.address2 as string) : '',
+    params.address2 && params.address !== params.address2
+      ? (params.address2 as string)
+      : '',
   );
   const [geolocation2, setGeolocation2] = useState<StringGeolocation>(
     `${parseFloat(params.latitude2 as string)},${parseFloat(
@@ -98,12 +100,12 @@ const FlightSearchForm = ({
   const [startDate, setStartDate] = useState<string>(
     params.startDate
       ? params.startDate.toString()
-      : formatAsSearchDate(dayjs()),
+      : formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const [endDate, setEndDate] = useState<string>(
     params.endDate
       ? params.endDate.toString()
-      : formatAsSearchDate(dayjs().add(7, 'day')),
+      : formatAsSearchDate(dayjs().add(8, 'day')),
   );
 
   // multi city
@@ -519,7 +521,7 @@ const FlightSearchForm = ({
                 }
                 error={showLocationError}
                 onChange={() => setShowLocationError(false)}
-                autoFocus
+                autoFocus={!address ? true : false}
               />
               <LocationInput
                 icon={
@@ -539,6 +541,7 @@ const FlightSearchForm = ({
                 }
                 error={showLocationError}
                 onChange={() => setShowLocationError(false)}
+                autoFocus={address && !address2 ? true : false}
               />
 
               <DatePicker
@@ -611,7 +614,7 @@ const FlightSearchForm = ({
                 <Button
                   key="flights.removeBtn"
                   size="full"
-                  className="min-w-full bg-white text-sm text-dark-1000 underline text-right lg:text-center"
+                  className="min-w-full bg-transparent text-sm text-dark-1000 underline text-right lg:text-center"
                   value={removeFlightLabel}
                   onClick={() => handleFlightsDelete(flightIndex)}
                 />
@@ -638,7 +641,7 @@ const FlightSearchForm = ({
             <Button
               key="flights.addBtn"
               size="full"
-              className="self-end min-w-full text-sm bg-white text-dark-1000 underline text-right lg:text-center"
+              className="self-end min-w-full text-sm bg-transparent text-dark-1000 underline text-right lg:text-center"
               value={addFlightLabel}
               onClick={() => handleFlightsAdd()}
             />
