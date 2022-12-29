@@ -94,6 +94,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const [clickOnStart, setClickOnStart] = useState(false);
   const [showLocationError, setShowLocationError] = useState(false);
   const [showEndTimeError, setShowEndTimeError] = useState(false);
+  const [showStartTimeError, setShowStartTimeError] = useState(false);
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -106,6 +107,11 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const handleEndTimeChange = (endTime: string) => {
     setEndTime(endTime);
     setShowEndTimeError(false);
+  };
+
+  const handleStartTimeChange = (endTime: string) => {
+    setStartTime(endTime);
+    setShowStartTimeError(false);
   };
 
   const handleSaveLastSearch = (value: string): void => {
@@ -134,23 +140,36 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
     const endDateTime = dayjs(`${endDate} ${endTime}`, 'YYYY-MM-DD HHmm');
     return endDateTime.isAfter(startDateTime);
   };
+
+  const validateStartTime = () => {
+    const now = dayjs();
+    const startDateTime = dayjs(`${startDate} ${startTime}`, 'YYYY-MM-DD HHmm');
+    return startDateTime.isAfter(now);
+  };
+
   const geolocationIsNull = geolocation === `${NaN},${NaN}`;
 
   const handleSearchClick = () => {
+    if (geolocationIsNull) {
+      setShowLocationError(true);
+    }
+
+    const isEndTimeInvalid = !validateEndTime();
+    const isStartTimeInvalid = !validateStartTime();
+
+    if (isEndTimeInvalid) {
+      setShowEndTimeError(isEndTimeInvalid);
+    }
+
+    if (isStartTimeInvalid) {
+      setShowStartTimeError(isStartTimeInvalid);
+    }
+
+    if (geolocationIsNull || isEndTimeInvalid || isStartTimeInvalid) {
+      return;
+    }
+
     if (props.hasReRoute) {
-      if (geolocationIsNull) {
-        setShowLocationError(true);
-      }
-
-      const isEndTimeInvalid = !validateEndTime();
-      if (isEndTimeInvalid) {
-        setShowEndTimeError(isEndTimeInvalid);
-      }
-
-      if (geolocationIsNull || isEndTimeInvalid) {
-        return;
-      }
-
       rerouteToSearchPage();
       return;
     }
@@ -230,9 +249,10 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
             <Select
               name="Check-in-time"
               value={startTime}
-              onChange={setStartTime}
+              onChange={handleStartTimeChange}
               items={timeList}
               icon={<Clock />}
+              error={showStartTimeError}
             />
           </section>
 
