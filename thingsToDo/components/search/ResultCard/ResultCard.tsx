@@ -1,12 +1,12 @@
-import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import Rating from 'components/global/Rating/Rating';
 import React, { ReactNode } from 'react';
 import { WithId } from 'types/global/WithId';
 import Divider from '../../../../components/global/Divider/Divider';
-import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
+import PriceDisplay from './PriceDisplay';
 import Link from 'next/link';
 import ReadMore from './ReadMoreDescription';
 import { useTranslation } from 'react-i18next';
+import { Rates } from 'thingsToDo/types/response/ThingsSearchResponse';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -18,7 +18,7 @@ interface CardProps<T extends WithId> {
   rating?: number;
   reviewsAmount?: number;
   cancellable?: ReactNode;
-  priceDisplay?: ReactNode;
+  rate: Rates;
   url?: string;
   description?: string;
 }
@@ -29,7 +29,7 @@ function ResultCard<T extends WithId>({
   reviewsAmount,
   image,
   cancellable,
-  priceDisplay,
+  rate,
   icon,
   categoryName,
   url = '/',
@@ -96,7 +96,7 @@ function ResultCard<T extends WithId>({
               } pr-4 w-[24rem] text-right`}
             >
               {cancellable}
-              {priceDisplay}
+              <PriceDisplay rate={rate} />
             </section>
 
             <CancelationAndPricingSection />
@@ -104,10 +104,10 @@ function ResultCard<T extends WithId>({
           <section
             className={`flex ${
               cancellable ? 'justify-between' : 'justify-end'
-            } px-4 py-3 lg:hidden`}
+            } px-4 py-3 lg:hidden items-center`}
           >
             {cancellable}
-            {priceDisplay}
+            <PriceDisplay rate={rate} />
           </section>
         </a>
       </Link>

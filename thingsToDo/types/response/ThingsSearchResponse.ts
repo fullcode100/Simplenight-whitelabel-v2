@@ -1,3 +1,5 @@
+import { Discounts } from './ThingsDetailResponse';
+
 export interface ThingsSearchResponse {
   items: ThingsSearchItem[];
 }
@@ -36,6 +38,7 @@ export interface Total {
 }
 
 export interface Rates {
+  discounts: Discounts;
   total: Total;
 }
 

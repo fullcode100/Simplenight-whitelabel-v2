@@ -196,11 +196,7 @@ const ThingsResultsDisplay = ({
                 reviewsAmount={extraData.review_amount}
                 title={name}
                 image={thumbnail}
-                priceDisplay={
-                  <p className="text-base font-semibold text-dark-1000">
-                    {rate.total.full.formatted}
-                  </p>
-                }
+                rate={rate}
                 className=" flex-0-0-auto"
                 cancellable={
                   cancellationPolicy.cancellation_type ==
