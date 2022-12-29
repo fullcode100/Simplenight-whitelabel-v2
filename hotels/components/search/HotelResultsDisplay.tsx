@@ -31,6 +31,7 @@ import { ViewActions } from './ViewActions';
 import { DropdownRadio } from 'components/global/DropdownRadio';
 import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/ListMapMobileBottomTabs';
 import { useWindowSize } from 'hotels/hooks/useWinoowsResize';
+import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImage';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -64,7 +65,7 @@ const priceHihgerFirst = 'Price (Highest First)';
 const ratingHighestFirst = 'Rating (Highest First)';
 const ratingLoweFirst = 'Rating (Lowest First)';
 const LG_SCREEN_SIZE = 1024;
-const FALLBACK_HOTEL_RESULT = '/images/hotels/fallbackHotelResult.jpg';
+
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [counter, setCounter] = useState(0);
   const [t, i18next] = useTranslation('hotels');
@@ -206,18 +207,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     }
   };
 
-  const FallbackImage = () => (
-    <section
-      className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] "
-      style={{
-        backgroundImage: `url(${FALLBACK_HOTEL_RESULT})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    />
-  );
-
   const urlDetail = (hotel: Hotel) => {
     const { id } = hotel;
     return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
@@ -258,7 +247,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 item={hotel}
                 title={name}
                 image={thumbnail}
-                fallback={<FallbackImage />}
+                fallback={<HotelResultFallbackImage />}
                 price={<HotelItemRateInfo minRate={minRate} />}
                 address={formattedLocation}
                 className=" flex-0-0-auto"

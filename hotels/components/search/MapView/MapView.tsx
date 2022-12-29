@@ -1,15 +1,16 @@
+import { useState } from 'react';
+import classnames from 'classnames';
 import Carousel from 'react-multi-carousel';
 import { useTranslation } from 'react-i18next';
 
 import CustomArrow from '../../../../components/global/CarouselNew/components/CustomArrow';
 import HorizontalItemCard from '../../../../components/global/HorizontalItemCard/HorizontalItemCard';
 import LocationMap from '../../../../components/global/LocationMap/LocationMap';
-import { useState } from 'react';
-import classnames from 'classnames';
 import { MapViewProps } from './MapViewTypes';
 import HotelItemRateInfo from 'hotels/components/search/HotelItemRateInfo';
 import PriceDisplay from '../../PriceDisplay/PriceDisplay';
 import HotelCancellable from 'hotels/components/search/HotelCancellable';
+import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImage';
 
 const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
   const [t, i18next] = useTranslation('hotels');
@@ -115,6 +116,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
                     address={formattedLocation}
                     className={cardClassName}
                     rating={parseInt(starRating)}
+                    fallback={<HotelResultFallbackImage />}
                     url={url}
                     priceDisplay={
                       <PriceDisplay
