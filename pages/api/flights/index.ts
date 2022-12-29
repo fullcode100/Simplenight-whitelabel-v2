@@ -106,20 +106,29 @@ export default async function handler(
         req.headers.host.toUpperCase().indexOf('LOCALHOST') > -1)
     )
       isDev = true;
+
     let apiUrl = isDev
       ? 'https://dev-api.simplenight.com/v2'
-      : 'https://api-v2.simplenight.com/v22';
+      : 'https://api-v2.simplenight.com/v2';
     let xApiKey = isDev
       ? '4I8FoZk7.Vtj5lDdPzv1vharxEzwp5gooD6nl1TXo'
       : 'oJjegV30.4zCz2IS6fXuYWToZ8yKZzjHUWuHJJLa6';
 
+    // overide from  .env
+    if (process.env.API_URL) {
+      apiUrl = process.env.API_URL;
+    }
     if (process.env.X_API_KEY) {
       xApiKey = process.env.X_API_KEY;
     }
+
+    /*
+    // overide from  x-session
     if (req.headers['x-session'] && req.headers['x-session'] !== 'undefined') {
       const session = JSON.parse(req.headers['x-session'] as string);
       if (session.api_url) apiUrl = session.api_url;
     }
+    */
 
     const url = `${apiUrl}/categories/flights/items/details?${new URLSearchParams(
       getData,
