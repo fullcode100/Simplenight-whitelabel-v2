@@ -28,6 +28,10 @@ import { formatAsSearchDate } from '../../../helpers/dajjsUtils';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import TravelersInput from './TravelersInput/TravelersInput';
 import LocationPin from 'public/icons/assets/location-pin.svg';
+import { SORT_BY_OPTIONS } from 'transportation/constants/sortByOptions';
+import { RadioGroup, Radio } from 'components/global/Radio/Radio';
+import { TRIP_OPTIONS } from 'transportation/constants/tripOptions';
+import Chevron from 'public/icons/assets/chevron-down-small.svg';
 
 const ceilToNextHalfHour = (date: dayjs.Dayjs): dayjs.Dayjs => {
   const minutes = date.get('minutes');
@@ -53,8 +57,10 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
   const end = ceilToNextHalfHour(twoHoursAndThirtyMinutes).format('hhmm');
 
   const [t] = useTranslation('ground-transportation');
+  const [tg] = useTranslation('global');
+  const [showSortModal, setShowSortModal] = useState(false);
   const locationPlaceholder = t('locationPlaceholder', 'Location');
-  const airportPlaceholder = t('airportPlaceholder', 'Airport',);
+  const airportPlaceholder = t('airportPlaceholder', 'Airport');
   const pickUpInputLabel = t('locationInputLabel', 'Pick-Up');
   const dropOffInputLabel = t('locationInputLabel', 'Drop-Off');
   const textSearch = t('search', 'Search');
@@ -78,11 +84,12 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
       params.longitude as string,
     )}`,
   );
-  const [dropOffGeolocation, setDropOffGeolocation] = useState<StringGeolocation>(
-    `${parseFloat(params.latitude2 as string)},${parseFloat(
-      params.longitude2 as string,
-    )}`,
-  );
+  const [dropOffGeolocation, setDropOffGeolocation] =
+    useState<StringGeolocation>(
+      `${parseFloat(params.latitude2 as string)},${parseFloat(
+        params.longitude2 as string,
+      )}`,
+    );
 
   const [airportIcon, setAirportIcon] = useState({
     pickUp: params.pickUp ? (params.pickUp == 'true' ? true : false) : false,
@@ -98,6 +105,10 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
     params.endDate
       ? params.endDate.toString()
       : formatAsSearchDate(twoHoursAndThirtyMinutes),
+  );
+
+  const [trip, setTrip] = useState(
+    params.trip ? (params.trip as string) : 'oneWay',
   );
 
   const timeList = useMemo(() => {
@@ -116,7 +127,7 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
   const [startTime, setStartTime] = useState<string>(
     params.startTime
       ? params.startTime.toString()
-      : timeList.find((item) => item.value === start)?.value || ''
+      : timeList.find((item) => item.value === start)?.value || '',
   );
   const [endTime, setEndTime] = useState<string>(
     params.endTime
@@ -137,9 +148,6 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
   const [dropOffShowLocationError, setDropOffShowLocationError] =
     useState(false);
   const [showTravelersInput, setShowTravelersInput] = useState(false);
-  const [checked, setChecked] = useState(
-    params.returnTrip ? (params.returnTrip == 'true' ? true : false) : false,
-  );
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -156,11 +164,17 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
   };
 
   const rerouteToSearchPage = () => {
-    const route = `/search/${slug}?startDate=${startDate}&startTime=${startTime}&endDate=${endDate}&endTime=${endTime}&latitude=${pickUpGeolocation?.split(',')[LATITUDE_INDEX]
-      }&longitude=${pickUpGeolocation?.split(',')[LONGITUDE_INDEX]
-      }&address=${pickUpAddress}&latitude2=${dropOffGeolocation?.split(',')[LATITUDE_INDEX]
-      }&longitude2=${dropOffGeolocation?.split(',')[LONGITUDE_INDEX]
-      }&address2=${dropOffAddress}&returnTrip=${checked}&passengers=${passengers}&pickUp=${airportIcon.pickUp}&dropOff=${airportIcon.dropOff}`;
+    const route = `/search/${slug}?startDate=${startDate}&startTime=${startTime}&endDate=${endDate}&endTime=${endTime}&latitude=${
+      pickUpGeolocation?.split(',')[LATITUDE_INDEX]
+    }&longitude=${
+      pickUpGeolocation?.split(',')[LONGITUDE_INDEX]
+    }&address=${pickUpAddress}&latitude2=${
+      dropOffGeolocation?.split(',')[LATITUDE_INDEX]
+    }&longitude2=${
+      dropOffGeolocation?.split(',')[LONGITUDE_INDEX]
+    }&address2=${dropOffAddress}&trip=${trip}&passengers=${passengers}&pickUp=${
+      airportIcon.pickUp
+    }&dropOff=${airportIcon.dropOff}`;
 
     handleSaveLastSearch(route);
     router.push(route);
@@ -203,14 +217,13 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
       geolocation2: dropOffGeolocation ?? '',
       latitude2: dropOffGeolocation?.split(',')[LATITUDE_INDEX] ?? '',
       longitude2: dropOffGeolocation?.split(',')[LONGITUDE_INDEX] ?? '',
-      returnTrip: `${checked}`,
+      trip: trip,
       passengers: `${passengers}`,
       pickUp: `${airportIcon.pickUp}`,
       dropOff: `${airportIcon.dropOff}`,
     });
     if (setIsSearching) setIsSearching(false);
   };
-
 
   const handleSelectPickUpLocation = (latLng: latLngProp, address: string) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
@@ -233,9 +246,15 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
     }
   };
 
+  const onChangeTrip = (value: string) => {
+    setTrip(value);
+  };
+
   return (
-    <section className={`flex flex-col justify-between ${className} lg:flex-row lg:justify-start lg:items-start lg:pb-0 lg:px-0 lg:gap-2 lg:w-full`}>
-      <section className='flex flex-col gap-4 lg:flex lg:flex-col lg:justify-start lg:pb-0 lg:px-0 lg:gap-1 lg:w-[90%]'>
+    <section
+      className={`flex flex-col justify-between ${className} lg:flex-row lg:justify-start lg:items-start lg:pb-0 lg:px-0 lg:gap-2 lg:w-full`}
+    >
+      <section className="flex flex-col gap-4 lg:flex lg:flex-col lg:justify-start lg:pb-0 lg:px-0 lg:gap-1 lg:w-[90%]">
         <section className="flex flex-col lg:flex lg:flex-row lg:items-end lg:w-full">
           <section className="relative flex flex-col gap-2 lg:flex-row lg:w-full">
             <section className="w-full lg:flex lg:flex-row lg:items-end lg:w-1/2 lg:gap-2">
@@ -250,7 +269,11 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                     )
                   }
                   name="location"
-                  placeholder={airportIcon.pickUp ? airportPlaceholder : locationPlaceholder}
+                  placeholder={
+                    airportIcon.pickUp
+                      ? airportPlaceholder
+                      : locationPlaceholder
+                  }
                   routeParams={['address']}
                   defaultValue={pickUpAddress}
                   onSelect={handleSelectPickUpLocation}
@@ -261,13 +284,17 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
               <section className="relative flex gap-2 lg:mt-0 lg:w-[60%]">
                 <IconInput
                   name="Check-in"
-                  className='w-full lg:w-full'
+                  className="w-full lg:w-full"
                   placeholder={startDateText}
                   orientation="left"
-                  icon={<Calendar className="w-5 h-5 text-dark-700 lg:w-full" />}
-                  value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
+                  icon={
+                    <Calendar className="w-5 h-5 text-dark-700 lg:w-full" />
+                  }
+                  value={fromLowerCaseToCapitilize(
+                    formatAsDisplayDate(startDate),
+                  )}
                   onChange={(event) => {
-                    handleStartDateChange(event.target.value)
+                    handleStartDateChange(event.target.value);
                   }}
                   onClick={() => {
                     setClickOnStart(true);
@@ -286,7 +313,9 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
             </section>
             <section className="w-full lg:flex lg:flex-row lg:items-end lg:w-1/2 lg:gap-2">
               <section
-                className={`w-full ${checked ? 'lg:w-[40%]' : 'lg:w-full'}`}
+                className={`w-full ${
+                  trip === 'roundTrip' ? 'lg:w-[40%]' : 'lg:w-full'
+                }`}
               >
                 <LocationInput
                   icon={
@@ -300,22 +329,32 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                   name="location2"
                   routeParams={['address2']}
                   defaultValue={dropOffAddress}
-                  placeholder={airportIcon.dropOff ? airportPlaceholder : locationPlaceholder}
+                  placeholder={
+                    airportIcon.dropOff
+                      ? airportPlaceholder
+                      : locationPlaceholder
+                  }
                   onSelect={handleSelectDropOffLocation}
                   error={dropOffShowLocationError}
                   onChange={handleChangeDropOffLocation}
                 />
               </section>
-              {checked &&
+              {trip === 'roundTrip' && (
                 <section className="relative flex gap-2 lg:mt-0 lg:w-[60%]">
                   <IconInput
                     name="Check-in"
                     placeholder={endDateText}
-                    className='w-full lg:w-full'
+                    className="w-full lg:w-full"
                     orientation="left"
-                    icon={<Calendar className="w-5 h-5 text-dark-700 lg:w-full" />}
-                    value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
-                    onChange={(event) => handleStartDateChange(event.target.value)}
+                    icon={
+                      <Calendar className="w-5 h-5 text-dark-700 lg:w-full" />
+                    }
+                    value={fromLowerCaseToCapitilize(
+                      formatAsDisplayDate(endDate),
+                    )}
+                    onChange={(event) =>
+                      handleStartDateChange(event.target.value)
+                    }
                     onClick={() => {
                       setClickOnStart(true);
                       setShowDatePicker(true);
@@ -330,7 +369,7 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                     icon={<Clock className="w-5 h-5 text-dark-700 lg:w-full" />}
                   />
                 </section>
-              }
+              )}
             </section>
             <DatePicker
               showDatePicker={showDatePicker}
@@ -344,15 +383,49 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
               openOnStart={clickOnStart ? true : false}
             />
           </section>
-        </section >
+        </section>
         <section className="flex flex-col-reverse justify-start items-start gap-2 lg:flex lg:flex-row lg:w-[90%] lg:justify-start lg:items-center lg:gap-2">
-          <section className='flex flex-row items-center lg:flex lg:flex-row lg:items-center'>
-            <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
-            <Label value={'Return Trip'} />
+          <section className="relative w-[110px]">
+            <section
+              className={`absolute z-10 border border-dark-300 rounded shadow-container bg-white top-12 w-[256px] transition-all duration-500 text-dark-1000 ${
+                !showSortModal && 'opacity-0 invisible'
+              }`}
+            >
+              <RadioGroup onChange={onChangeTrip} value={trip} gap="gap-0">
+                {TRIP_OPTIONS.map((option, i) => (
+                  <Radio
+                    key={i}
+                    value={option?.value}
+                    containerClass={`px-3 py-2 ${
+                      i < SORT_BY_OPTIONS.length - 1 &&
+                      'border-b border-dark-200'
+                    }`}
+                  >
+                    <p className={'hover:cursor-pointer'}>{tg(option.label)}</p>
+                  </Radio>
+                ))}
+              </RadioGroup>
+            </section>
+            <section className="relative flex items-center gap-2 px-[12px] py-[14px] rounded bg-dark-100 h-[44px] w-full">
+              <button
+                className="flex justify-between items-center gap-2 w-full"
+                onClick={() => setShowSortModal(!showSortModal)}
+                onBlur={() => setShowSortModal(false)}
+              >
+                <span className="text-xs font-semibold text-dark-1000 lg:flex">
+                  {tg(
+                    TRIP_OPTIONS.find((option) => option.value == trip)
+                      ?.label ?? '',
+                  )}
+                </span>
+                <Chevron />
+              </button>
+            </section>
           </section>
           <TravelersInput
             showTravelersInput={showTravelersInput}
             onClose={() => setShowTravelersInput(false)}
+            // eslint-disable-next-line react/no-children-prop
             children={
               <NumberInput
                 label={passengersLabel}
@@ -370,7 +443,7 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
               className="flex flex-row justify-start items-center gap-2 bg-white rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default lg:w-full lg:flex lg:flex-row lg:justify-start lg:items-center lg:gap-2"
             >
               <MultiplePersons className="text-dark-700" />
-              {passengers} {' '} {passengersLabel}
+              {passengers} {passengersLabel}
             </button>
           </section>
         </section>
@@ -385,6 +458,6 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
           onClick={handleSearchClick}
         />
       </section>
-    </section >
+    </section>
   );
 };

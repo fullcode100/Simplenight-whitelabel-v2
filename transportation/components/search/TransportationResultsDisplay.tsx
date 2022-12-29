@@ -13,7 +13,10 @@ import { TransportationCard } from './TransportationCard';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import EmptyState from 'components/global/EmptyState/EmptyState';
 import EmptyStateIcon from '@/icons/assets/empty-state.svg';
-import { Quote, TransportationSearchResponseItemResult } from '../../types/response/TransportationSearchResponse';
+import {
+  Quote,
+  TransportationSearchResponseItemResult,
+} from '../../types/response/TransportationSearchResponse';
 import { useFilter } from 'transportation/hooks/useFilter';
 import { getMetadata } from 'transportation/helpers/getMetadata';
 import { TransportationListMetaData } from 'transportation/types/TransportationFilter';
@@ -22,8 +25,9 @@ interface TransportationResultsDisplayProps {
   TransportationCategory: CategoryOption;
 }
 
-const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ TransportationCategory }) => {
-
+const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
+  TransportationCategory,
+}) => {
   const { ClientSearcher: Searcher } = TransportationCategory.core;
   const [t, i18next] = useTranslation('ground-transportation');
   const [tg] = useTranslation('global');
@@ -34,7 +38,7 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
   const sortLabel = tg('sort', 'Sort');
   const filterLabel = tg('filter', 'Filter');
   const [loaded, setLoaded] = useState(false);
-  const [quoteRequestId, setQuoteRequestId] = useState<string>('')
+  const [quoteRequestId, setQuoteRequestId] = useState<string>('');
   const [metadata, setMetadata] = useState<TransportationListMetaData>({
     minPrice: 0,
     maxPrice: 0,
@@ -42,25 +46,44 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
     maxPassengers: 0,
     carType: [],
     minRating: 0,
-    maxRating: 0
+    maxRating: 0,
   });
 
-  const { onFilterValuesChanged, filteredList, filter } = useFilter(transportationList, metadata)
+  const { onFilterValuesChanged, filteredList, filter } = useFilter(
+    transportationList,
+    metadata,
+  );
   const [sortBy, setSortBy] = useState(filter.sortBy);
 
-  const { latitude, longitude, startDate, endDate, startTime, endTime, latitude2, longitude2, address, address2, returnTrip, passengers } =
-    useQuery();
+  const {
+    latitude,
+    longitude,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    latitude2,
+    longitude2,
+    address,
+    address2,
+    trip,
+    passengers,
+  } = useQuery();
 
   useEffect(() => {
     const params: any = {
       pickup_datetime: `${startDate}T${startTime}`,
       return_datetime: `${endDate}T${endTime}`,
-      pickup_context: address?.includes('Airport') ? 'airport-terminal' : 'Address',
+      pickup_context: address?.includes('Airport')
+        ? 'airport-terminal'
+        : 'Address',
       pickup_location: `${latitude},${longitude}`,
-      return_context: address2?.includes('Airport') ? 'airport-terminal' : 'Address',
+      return_context: address2?.includes('Airport')
+        ? 'airport-terminal'
+        : 'Address',
       return_location: `${latitude2},${longitude2}`,
       currency: 'USD',
-      include_return_trip: returnTrip,
+      include_return_trip: trip == 'roundTrip' ? true : false,
       passenger_count: passengers,
       from_description: `${address}`,
       to_description: `${address2}`,
@@ -72,9 +95,11 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
     setLoaded(false);
     Searcher?.request(params, i18next)
       .then((results: TransportationSearchResponseItemResult) => {
-        const metadata = getMetadata(results?.items[0]?.response?.results?.quotes);
+        const metadata = getMetadata(
+          results?.items[0]?.response?.results?.quotes,
+        );
         setTransportationList(results?.items[0]?.response?.results?.quotes);
-        setQuoteRequestId(results.items[0].response.quote_request_id)
+        setQuoteRequestId(results.items[0].response.quote_request_id);
         setMetadata(metadata);
         onFilterValuesChanged({
           minPrice: metadata.minPrice,
@@ -83,18 +108,24 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
           maxPassengers: metadata.maxPassengers,
           carType: metadata.carType,
           minRating: metadata.minRating,
-          maxRating: metadata.maxRating
+          maxRating: metadata.maxRating,
         });
         setLoaded(true);
       })
       .catch((error) => console.error(error));
   }, [latitude, longitude]);
 
-  const TransportationList: FC<{ transportationList: Quote[] }> = ({ transportationList }) => {
+  const TransportationList: FC<{ transportationList: Quote[] }> = ({
+    transportationList,
+  }) => {
     return (
       <section className="flex flex-col gap-4">
         {transportationList?.map((transportationItem) => (
-          <TransportationCard key={transportationItem?.quote_id} transportationItem={transportationItem} quoteRequestId={quoteRequestId} />
+          <TransportationCard
+            key={transportationItem?.quote_id}
+            transportationItem={transportationItem}
+            quoteRequestId={quoteRequestId}
+          />
         ))}
       </section>
     );
@@ -116,18 +147,20 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({ T
       </section>
       <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
         <section
-          className={`absolute z-10 border border-dark-300 rounded shadow-container top-16 bg-white right-4 w-[256px] transition-all duration-500 text-dark-1000 ${!showSortModal && 'opacity-0 invisible'
-            }`}
+          className={`absolute z-10 border border-dark-300 rounded shadow-container top-16 bg-white right-4 w-[256px] transition-all duration-500 text-dark-1000 ${
+            !showSortModal && 'opacity-0 invisible'
+          }`}
         >
           <RadioGroup onChange={onSortByChange} value={sortBy} gap="gap-0">
             {SORT_BY_OPTIONS.map((option, i) => (
               <Radio
                 key={i}
                 value={option?.value}
-                containerClass={`px-3 py-2 ${i < SORT_BY_OPTIONS.length - 1 && 'border-b border-dark-200'
-                  }`}
+                containerClass={`px-3 py-2 ${
+                  i < SORT_BY_OPTIONS.length - 1 && 'border-b border-dark-200'
+                }`}
               >
-                <p className={`hover:cursor-pointer`}>{tg(option.label)}</p>
+                <p className={'hover:cursor-pointer'}>{tg(option.label)}</p>
               </Radio>
             ))}
           </RadioGroup>

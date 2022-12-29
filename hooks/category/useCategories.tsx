@@ -35,7 +35,7 @@ export const getCategoryIcon = (key: string) => {
     plane: <PlaneIcon />,
     car: <CarSideviewIcon />,
     'car-sideview': <CarSideviewIcon />,
-    transport: <TransportIcon />,
+    'ground-transport': <TransportIcon />,
     'plane-fly': <PlaneSideviewIcon />,
     estate: <RentalsIcon />,
     backpack: <BackpackIcon />,
