@@ -49,6 +49,7 @@ import {
 } from 'thingsToDo/types/response/ThingsAvailabilityScheduleResponse';
 import TabsSection from './TabSection';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
+import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -387,11 +388,18 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
+  const hasQuestion = (questionId: string) =>
+    thingsItem?.extra_data?.booking_questions?.find(
+      (bookingQuestion) => bookingQuestion.id === questionId,
+    );
+
   const TicketsList = () => {
     const displayTickets = isLoadMoreTickets
       ? tickets
       : tickets?.slice(0, startTicketsNumber);
     const mainCategoryId = thingsItem?.main_category as string;
+    const hasMeetingQuestion = hasQuestion(MEETING_POINT_ID);
+    const hasPickupQuestion = hasQuestion(PICKUP_POINT_ID);
     return (
       <>
         {displayTickets?.map((ticket, index) => (
@@ -404,8 +412,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
               id={thingsItem?.id as string}
               category={mainCategoryId}
               ticket={ticket}
-              pickup={selectedPickup}
-              meeting={selectedMeeting}
+              pickup={hasPickupQuestion && selectedPickup}
+              meeting={hasMeetingQuestion && selectedMeeting}
               selected={selectedTicket === index}
             />
           </button>
