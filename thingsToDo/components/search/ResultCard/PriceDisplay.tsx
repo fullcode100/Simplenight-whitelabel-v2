@@ -12,7 +12,7 @@ const PriceDisplay = ({ rate }: Props) => {
 
   return (
     <section className="text-right">
-      {totalBeforeDiscount && (
+      {totalBeforeDiscount && percentageToApply !== '0%' && (
         <p className="text-xs">
           <span className="font-normal line-through text-dark-700">
             {totalBeforeDiscount}
