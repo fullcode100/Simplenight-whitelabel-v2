@@ -17,12 +17,13 @@ const BillingAddressForm = ({
   setBillingAddress,
 }: BillingFormProps) => {
   const [g] = useTranslation('global');
-  const billingAddressLabel = g('billingAddress', 'Billing Adrres');
+  const billingAddressLabel = g('billingAddress', 'Billing Address');
   const requiredText = g('required', 'Required');
   const countryLabel = g('country', 'Country');
   const stateProvinceLabel = g('stateProvince', 'State / Province');
   const cityLabel = g('city', 'City');
   const zipCodeLabel = g('zipCode', 'Postal / Zip Code');
+  const address = g('address', 'Address');
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name as keyof BillingAddress;
@@ -42,13 +43,13 @@ const BillingAddressForm = ({
         <InputWrapper label={'Street Address'} labelKey="streetAddress">
           <BaseInput
             name={'address1'}
-            placeholder={'Address'}
+            placeholder={address}
             onChange={(e) => handleAddressChange(e)}
           />
         </InputWrapper>
         <InputWrapper label={'Street Address Line 2'} labelKey="streetAddress2">
           <BaseInput
-            placeholder={'Address'}
+            placeholder={address}
             name={'address2'}
             onChange={(e) => handleAddressChange(e)}
           />

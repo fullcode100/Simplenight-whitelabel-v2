@@ -39,14 +39,16 @@ export const DropdownRadio = ({
       <section className="relative">
         <button
           className="flex items-center gap-2 lg:w-[160px] h-6 whitespace-nowrap"
-          onClick={() => setShowSortingDropdown((p) => !p)}
-          onBlur={() => setShowSortingDropdown(false)}
+          onClick={() => setShowSortingDropdown(true)}
+          onBlur={() => setShowSortingDropdown(true)}
         >
           <span className="text-primary-1000">
             <Sort />
           </span>
           <span className="text-xs font-semibold text-left text-dark-1000 flex-1 ">
-            <span className="hidden lg:inline">{t(sortByVal)}</span>
+            <span className="hidden lg:inline">
+              {t('priceLower', sortByVal)}
+            </span>
             <span className="inline lg:hidden">{t('sort')}</span>
           </span>
           <span className="text-dark-800">
@@ -79,7 +81,7 @@ export const DropdownRadio = ({
       {showFilter && (
         <button
           className="flex items-center gap-2 lg:w-[100px] h-6 lg:hidden "
-          onClick={() => setShowSortingDropdown((p) => !p)}
+          onClick={() => setShowSortingDropdown(false)}
           onBlur={() => setShowSortingDropdown(false)}
         >
           <span className="text-primary-1000">

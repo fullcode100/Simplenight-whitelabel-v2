@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Dining from 'public/icons/categories/Category-Dining.svg';
 import BlockDivider from 'components/global/Divider/BlockDivider';
-import DiningItineraryActions from './DiningItineraryActions';
+import DiningDetailActions from './DiningDetailActions';
 
 const DiningIconCircle = () => {
   return (
@@ -61,7 +61,7 @@ const DiningItineraryDetail = ({
             {t('termsOfService')}
           </a>
         </div>
-        <DiningItineraryActions handleAction={handleAction} />
+        <DiningDetailActions handleAction={handleAction} />
       </div>
     </div>
   );

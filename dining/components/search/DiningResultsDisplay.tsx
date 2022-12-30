@@ -31,6 +31,7 @@ import {
   RadioItemType,
 } from 'components/global/AltRadioButton/AltRadioButton';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
+import { useCategorySlug } from 'hooks/category/useCategory';
 
 interface ViewButtonProps {
   children: ReactNode;
@@ -52,7 +53,6 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   const sortByReviewCount = t('sortByReviewCount', 'Review Count');
   const sortByDistance = t('sortByDistance', 'Distance');
   const setQueryParams = useQuerySetter();
-
   const {
     lang,
     covers,
@@ -64,6 +64,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     sort_by,
     slug,
   } = useQuery();
+  const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
   const [sortByVal, setSortByVal] = useState(sortByBestMatch);
   const [restaurants, setRestaurants] = useState<Dining[]>([]);
   const { ClientSearcher: Searcher } = Category.core;
@@ -95,6 +96,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
 
     const geolocation = `${latitude},${longitude}`;
     setSortState(sort_by);
+
     const params: DiningSearchRequest = {
       covers: '2',
       start_date: formatAsSearchDate(startDate as unknown as string),
@@ -106,6 +108,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
       price: price as string,
       cancellation_type: '',
       supplier_ids: '',
+      apiUrl,
     };
 
     setLoaded(false);

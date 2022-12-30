@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
-
-import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import { Item } from 'types/cart/CartType';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import DiningItineraryHeader from '../itinerary/DiningItineraryHeader';
 import DiningItineraryBody from '../itinerary/DiningItineraryBody';
+import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
+import DiningItineraryFooter from '../itinerary/DiningItineraryFooter';
 
 interface DiningBreakdownDisplayProps {
   item?: Item;
@@ -24,7 +24,7 @@ const DiningBreakdownDisplay = ({
   return (
     <>
       {showCollapse ? (
-        <CollapseUnbordered
+        <CollapseBordered
           title={
             <DiningItineraryHeader
               item={item}
@@ -39,6 +39,16 @@ const DiningBreakdownDisplay = ({
               time={item?.booking_data?.time}
               date={item?.booking_data?.date}
               covers={item?.booking_data?.covers}
+              reload={reload}
+              setReload={setReload}
+            />
+          }
+          footer={
+            <DiningItineraryFooter
+              item={item}
+              setReload={setReload}
+              reload={reload}
+              fullWidth
             />
           }
         />

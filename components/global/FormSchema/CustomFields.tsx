@@ -7,15 +7,24 @@ import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
 import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
 import SelectInput from '../SelectInput/SelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
+import { useTranslation } from 'react-i18next';
 
 export const CustomText = (props: any) => {
   const { value, onChange, placeholder, required, id, schema } = props;
+  let currentPlaceHolder = placeholder;
+  const [t] = useTranslation('hotels');
+  if (placeholder == 'Name') {
+    currentPlaceHolder = t('name', placeholder);
+  }
+  if (placeholder == 'Email') {
+    currentPlaceHolder = t('email', placeholder);
+  }
   return (
     <BaseInput
       type="text"
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      placeholder={placeholder}
+      placeholder={currentPlaceHolder}
       defaultValue={schema.default}
       {...{
         required,
@@ -28,10 +37,13 @@ export const CustomText = (props: any) => {
 
 export const CustomPhoneNumber = (props: any) => {
   const { onChange, placeholder, required, schema } = props;
+  const [t] = useTranslation('hotels');
+  const PhoneNumber = t('phone_number', placeholder);
+
   return (
     <PhoneNumberInput
       onChange={onChange}
-      placeholder={placeholder}
+      placeholder={PhoneNumber}
       required={required}
       defaultCode={schema.defaultCode}
       defaultValue={schema.default}

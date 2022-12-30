@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Item } from 'types/cart/CartType';
 import DiningGeneralInfo from './DiningGeneralInfo';
@@ -14,6 +15,8 @@ interface DiningItineraryBodyProps {
   customer?: CustomerType;
   bookingId?: string;
   supplierId?: string;
+  reload?: boolean;
+  setReload?: Dispatch<SetStateAction<boolean>>;
 }
 
 const DiningItineraryBody = ({
@@ -24,10 +27,15 @@ const DiningItineraryBody = ({
   customer,
   bookingId,
   supplierId,
+  reload,
+  setReload,
 }: DiningItineraryBodyProps) => {
   const [t] = useTranslation('dining');
   const basePriceLabel = t('basePrice', 'Base Price');
   const tableForLabel = t('tableFor', 'Table For');
+  const onReload = () => {
+    setReload?.(!reload);
+  };
 
   return (
     <>

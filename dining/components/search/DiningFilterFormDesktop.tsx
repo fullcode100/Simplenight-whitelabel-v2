@@ -28,7 +28,7 @@ function DiningFilterFormDesktop() {
     </FilterContainer>
   );
   return (
-    <section className="h-full py-4 overflow-y-scroll">
+    <section className="h-full py-4">
       <section className="pr-4">
         <FilterHeader />
         <Divider className="my-6" />

@@ -21,7 +21,7 @@ import EmptyState from 'components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { useTranslation } from 'react-i18next';
 import DiningItineraryDetail from './DiningItineraryDetail';
-import DiningItineraryActions from './DiningItineraryActions';
+import DiningDetailActions from './DiningDetailActions';
 import {
   addToCart,
   removeFromCart,
@@ -33,6 +33,8 @@ import DiningLocationDetail from './DiningLocationDetail';
 import DiningAboutDetail from './DiningAboutDetail';
 import DiningSummaryDetail from './DiningSummaryDetail';
 import { notification } from 'components/global/Notification/Notification';
+import { Item } from 'types/cart/CartType';
+import { createCart, updateCart } from 'store/actions/cartActions';
 
 type DiningDetailDisplayProps = CategoryPageComponentProps;
 
@@ -43,6 +45,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
     state,
     dispatch,
   };
+  const cartId = (state as any)?.cartStore?.cart ?? null;
   const { language } = i18next;
   const params = useQuery();
   const { startDate, endDate } = useSearchQueries();
@@ -108,6 +111,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
 
   useEffect(() => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storeCurrency]);
 
   useEffect(() => {
@@ -127,6 +131,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
       .finally(() => {
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currency, language]);
 
   const onSelectDate = (date: string) => {
@@ -166,12 +171,25 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
         covers: covers.toString(),
       },
     };
-    const result = await addToCart(itemToBook, i18next, store);
-    const addedItem = result?.cart?.items.find(
-      (item) => item.booking_data?.inventory_id === inventoryId,
-    );
 
-    if (addedItem?.status === 'active') {
+    const result = await addToCart(itemToBook, i18next, store, true);
+    let addedItem;
+    if (result?.cart) {
+      addedItem = result?.cart?.items.find(
+        (item) => item.booking_data?.inventory_id === inventoryId,
+      );
+    } else {
+      addedItem = result;
+    }
+
+    const item = addedItem as Item;
+
+    if (item?.status === 'active') {
+      if (result?.cart && item?.cart_id) {
+        dispatch(createCart(item?.cart_id));
+      } else {
+        dispatch(updateCart());
+      }
       router.replace(url);
     } else {
       notification(
@@ -180,8 +198,8 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
         'error',
       );
       const itemToRemove = {
-        cartId: addedItem?.cart_id,
-        itemId: addedItem?.cart_item_id,
+        cartId: item?.cart_id,
+        itemId: item?.cart_item_id,
       };
 
       removeFromCart(i18n, itemToRemove, dispatch);
@@ -341,7 +359,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
       )}
       {!!time && (
         <div className="fixed bottom-0 w-full px-3 py-5 bg-white lg:hidden drop-shadow">
-          <DiningItineraryActions handleAction={handleAction} />
+          <DiningDetailActions handleAction={handleAction} />
         </div>
       )}
     </div>

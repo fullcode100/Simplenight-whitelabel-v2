@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import classnames from 'classnames';
 import LabelSlider from '../RangeSlider/components/LabelSlider';
+import { RangeTypes } from 'types/global/Filters';
 
 interface RangeSliderProps {
   initialMin?: number;
@@ -10,7 +11,7 @@ interface RangeSliderProps {
   step: number;
   minDifference: number;
   marks?: boolean;
-  type: 'price' | 'star' | 'number' | 'distance';
+  type: RangeTypes;
   setMinState?: (value: string) => void;
   setMaxState: (value: string) => void;
 }

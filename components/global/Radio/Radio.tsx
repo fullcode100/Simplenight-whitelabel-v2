@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './radio.module.scss';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface IRadioGroup {
   children?: React.ReactNode[];
@@ -20,6 +21,20 @@ export const Radio = ({
   containerClass,
   ...others
 }: IRadio) => {
+  const [t] = useTranslation('hotels');
+  if (children == 'Price (Lowest First)') {
+    children = t('priceLower', 'Price (Lowest First)');
+  }
+  if (children == 'Price (Highest First)') {
+    children = t('priceHihger', 'Price (Lowest First)');
+  }
+  if (children == 'Rating (Highest First)') {
+    children = t('ratingHighest', 'Price (Lowest First)');
+  }
+  if (children == 'Rating (Lowest First)') {
+    children = t('ratingLowe', 'Price (Lowest First)');
+  }
+
   return (
     <label
       className={classNames(

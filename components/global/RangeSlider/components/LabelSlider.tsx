@@ -1,7 +1,8 @@
 import Star from 'public/icons/assets/star-filter.svg';
+import { RangeTypes } from 'types/global/Filters';
 
 interface LabelProps {
-  type: 'price' | 'star' | 'number' | 'distance';
+  type: RangeTypes;
   value: number;
   isMaxLabel?: boolean;
 }
@@ -9,6 +10,8 @@ interface LabelProps {
 const LabelSlider = ({ type, value, isMaxLabel = false }: LabelProps) => {
   const renderSwitch = (param: string) => {
     switch (param) {
+      case 'priceRange':
+        return <span>{'$'.repeat(value)}</span>;
       case 'price':
         return (
           <span>

@@ -38,7 +38,7 @@ const PriceRangeFilter = ({
         step={1}
         minDifference={1}
         marks={true}
-        type="price"
+        type="priceRange"
         setMinState={onChangeMinPrice}
         setMaxState={onChangeMaxPrice}
       />

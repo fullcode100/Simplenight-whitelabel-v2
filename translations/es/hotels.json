@@ -106,5 +106,22 @@
     "optional": "Opcional",
     "mandatory": "Obligatorio",
     "estimationTax": "Estimación basada en el tipo de cambio actual, puede cambiar antes de su estadía.",
-    "approx": "Aprox"
+    "approx": "Aprox",
+    "clearFilters": "Borrar filtros",
+    "priceRange": "Rango de precios",
+    "results": "Resultados",
+    "from": "Desde",
+    "priceLower": "Precio (la más baja primero)",
+    "priceHihger": "Precio: más caros primero)",
+    "ratingHighest": "Calificación (más alta primero)",
+    "ratingLowe": "Calificación (más baja primero)",
+    "first_name": "Primer nombre",
+    "last_name": "Apellido",
+    "country": "País",
+    "phone_number": "Número de teléfono",
+    "email_address": "Dirección de correo electrónico",
+    "name": "Nombre",
+    "required": "Requerido",
+    "email": "Correo electrónico",
+    "searchHotel": "Buscar hotel"
 }

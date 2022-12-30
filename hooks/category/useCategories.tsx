@@ -120,6 +120,10 @@ const getCategoryApiUrl = (category: Category) => {
     apiType = 'categories';
   }
 
+  if (apiTypeSettings === 'categories') {
+    apiType = 'categories';
+  }
+
   const apiUrl = `/${apiType}/${category.slug}`;
   return apiUrl;
 };

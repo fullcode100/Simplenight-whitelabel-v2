@@ -24,6 +24,7 @@ const Description = ({ description }: DescriptionProps) => {
 
 export const CheckBoxTemplate = (props: any) => {
   const { id, label, children, description } = props;
+
   return (
     <>
       <section className="flex items-center">
@@ -41,10 +42,26 @@ export const TextTemplate = (props: any) => {
   const { id, label, required, children, description } = props;
   const [t] = useTranslation('global');
   const requiredText = t('required', 'Required');
+  let currentLabel = label;
+  if (label == 'First Name') {
+    currentLabel = t('first_name', label);
+  }
+  if (label == 'Last Name') {
+    currentLabel = t('last_name', label);
+  }
+  if (label == 'Phone Number') {
+    currentLabel = t('phone_number', label);
+  }
+  if (label == 'Country') {
+    currentLabel = t('country', label);
+  }
+  if (label == 'Email Address') {
+    currentLabel = t('email_address', label);
+  }
   return (
     <>
       <section className="flex justify-between mb-[4px]">
-        <Label value={label} />
+        <Label value={currentLabel} />
         {required && <span className="text-primary-1000">{requiredText}</span>}
       </section>
       {children}

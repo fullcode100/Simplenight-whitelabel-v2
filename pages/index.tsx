@@ -16,6 +16,7 @@ import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
 import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useCategories from 'hooks/category/useCategories';
 import HomeCategoryContent from 'components/global/HomeCategoryContent/HomeCategoryContent';
+import homePageText from 'translations/en/global.json';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => {
   const { homepage } = useBrandConfig() || {};
@@ -52,7 +53,7 @@ const Home: NextPageWithLayout = () => {
   const categoriesTabs = useCategories();
   const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);
 
-  const homePageText = useBrandHeroTitle();
+  const homePageTextLabel = t('homePageText', homePageText);
 
   const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
@@ -120,7 +121,7 @@ const Home: NextPageWithLayout = () => {
           <UpperSectionBackground>
             <section className="relative w-full mx-auto max-w-7xl">
               <p className="font-lato leading-[38px] text-[32px] font-semibold text-white text-center mb-9 lg:text-6xl lg:pb-5 lg:mt-5">
-                {homePageText}{' '}
+                {homePageTextLabel}{' '}
                 <span className="font-normal ml-[-6px] align-super text-sm ">
                   ®
                 </span>

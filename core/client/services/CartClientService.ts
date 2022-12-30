@@ -27,7 +27,12 @@ const cartOption = {
   value: 'cart',
 };
 
-export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
+export const addToCart = async (
+  itemToAdd: Item,
+  i18next: i18n,
+  store: any,
+  dontDispatch?: boolean,
+) => {
   const { state, dispatch } = store;
   const cartId = state.cartStore.cart ?? null;
   const cartItemAdder = new ClientCartItemAdder(cartOption);
@@ -51,14 +56,14 @@ export const addToCart = async (itemToAdd: Item, i18next: i18n, store: any) => {
         i18next,
         cartUrl,
       );
-      if (item) {
+      if (item && !dontDispatch) {
         dispatch(updateCartAction());
       }
       return item;
     }
     const item = await cartItemAdder.request(newCartRequest, i18next, cartUrl);
     const { cart } = item;
-    if (cart) {
+    if (cart && !dontDispatch) {
       dispatch(createCart(cart.cart_id));
     }
     return item;

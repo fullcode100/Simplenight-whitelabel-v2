@@ -14,13 +14,4 @@ export class DiningClientDetailer extends ClientDetailer<
   public constructor(category: CategoryOption) {
     super(category);
   }
-
-  protected override preRequest(
-    request: DiningDetailPreRequest,
-    ...args: any
-  ): DiningDetailRequest {
-    const newRequest = Object.assign({}, request as any);
-
-    return newRequest;
-  }
 }

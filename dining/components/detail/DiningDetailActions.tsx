@@ -3,7 +3,7 @@ import Button from 'components/global/Button/Button';
 import BreakdownTotal from 'components/checkout/BreakdownTotal/BreakdownTotal';
 import { useTranslation } from 'react-i18next';
 
-const DiningItineraryActions = ({
+const DiningDetailActions = ({
   handleAction,
 }: {
   handleAction: (path: string) => void;
@@ -29,4 +29,4 @@ const DiningItineraryActions = ({
   );
 };
 
-export default DiningItineraryActions;
+export default DiningDetailActions;
