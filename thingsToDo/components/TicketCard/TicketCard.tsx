@@ -143,7 +143,7 @@ const TicketCard = ({
       <TicketHeader title={title} description={description} />
       <section
         className={classnames('', {
-          hidden: !selected || !showDuration,
+          hidden: !selected || !ticket.times.length,
         })}
       >
         <Divider />
