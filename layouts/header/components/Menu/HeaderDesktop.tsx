@@ -61,7 +61,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   );
   return (
     <header
-      className={`hidden px-4 py-6 z-20 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
+      className={`hidden px-4 py-6 z-30 ${color} fixed w-full lg:flex lg:px-20 shadow-container`}
     >
       <section className="items-center justify-between w-full mx-auto max-w-7xl lg:flex">
         <section className="flex items-center gap-5">
@@ -71,9 +71,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
                 <img
                   src={logo}
                   alt="Branch Logo"
-                  width="156px"
-                  height="60px"
-                  className="object-fit"
+                  className="h-[60px] object-contain"
                 />
               </a>
             </Link>
@@ -83,7 +81,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
                 <>
                   <ExternalLink
                     href={corporateLink}
-                    className=" uppercase font-semibold underline hover:underline focus:underline "
+                    className="font-semibold underline uppercase hover:underline focus:underline"
                   >
                     {partnerName}
                   </ExternalLink>{' '}
@@ -92,7 +90,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
               )}
               <ExternalLink
                 href={simplenightCorporateLink}
-                className=" underline uppercase  focus:underline hover:underline"
+                className="underline uppercase focus:underline hover:underline"
               >
                 Simplenight
               </ExternalLink>{' '}

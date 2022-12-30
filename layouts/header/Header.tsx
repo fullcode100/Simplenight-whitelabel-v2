@@ -91,9 +91,7 @@ const Header = ({ color }: HeaderProps) => {
               <img
                 src={logo}
                 alt="Branch Logo"
-                width="94px"
-                height="36px"
-                className="object-fit"
+                className="object-contain h-9"
               />
             </a>
           </Link>
