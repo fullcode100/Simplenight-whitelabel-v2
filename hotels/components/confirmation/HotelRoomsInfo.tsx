@@ -43,8 +43,8 @@ const HotelRoomsInfo = ({
     'Vendor Confirmation Number',
   );
   const customer = item?.customer;
-  const selectedRoom = item?.extra_data?.rooms?.find(
-    (roomA) => roomA.code == item?.extra_data?.selected_room_code,
+  const selectedRoom = item?.item_data?.rooms?.find(
+    (roomA: any) => roomA.code == item?.item_data?.min_rate_room?.code,
   );
   const roomName = selectedRoom?.name;
   const amenities = selectedRoom?.amenities.join(', ');
@@ -60,7 +60,7 @@ const HotelRoomsInfo = ({
 
   const startDate = item?.extra_data?.start_date;
   const endDate = item?.extra_data?.end_date;
-  const nights = startDate && endDate ? diffDays(startDate, endDate) : 0;
+  const nights = item?.booking_data?.nights ? item?.booking_data?.nights : 0;
 
   const bookingItemsList = item ? [item] : [];
 
