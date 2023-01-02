@@ -220,7 +220,7 @@ const HotelFilterFormDesktop = ({
 
   return (
     <section
-      className={`h-full py-4 overflow-y-scroll ${
+      className={`h-full py-4  ${
         loading ? 'opacity-50 pointer-events-none' : ''
       }`}
     >

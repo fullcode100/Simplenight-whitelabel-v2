@@ -11,9 +11,6 @@ import SearchCategoryForm from 'components/global/SearchCategoryForm/SearchCateg
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import useCategories from 'hooks/category/useCategories';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
-import HotelSecondarySearchOptions from 'hotels/components/search/HotelSecondarySearchOptions';
-import { useFilterHotels } from 'hotels/hooks/useFilterHotels';
-import { useSelector } from 'react-redux';
 
 const Search: NextPage = () => {
   const { slug } = useQuery();
@@ -34,8 +31,6 @@ const Search: NextPage = () => {
       slug: tab.slug ?? '',
     });
   };
-  const { loading, hotels } = useSelector((state: any) => state.hotels);
-  const { handleFilterHotels } = useFilterHotels(hotels);
 
   useEffect(() => {
     setActiveTab(categoriesTabs[activeTabIndex]);
@@ -62,12 +57,6 @@ const Search: NextPage = () => {
 
         <section className="pt-3 lg:hidden">
           <ExtendedSearchCategoryForm searchType={searchType} />
-          {/*
-          <HotelSecondarySearchOptions
-            handleFilterHotels={handleFilterHotels}
-            loading={loading}
-          />
-          */}
         </section>
         <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
           <section className="mx-auto max-w-7xl">

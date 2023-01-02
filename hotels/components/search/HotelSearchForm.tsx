@@ -147,7 +147,7 @@ const HotelSearchForm = ({
 
   const locationPlaceholder = t(
     'locationInputPlaceholder',
-    'Where do you like to go?',
+    'Where would you like to go?',
   );
 
   useEffect(() => {

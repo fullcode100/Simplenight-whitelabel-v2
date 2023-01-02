@@ -32,6 +32,7 @@ import { DropdownRadio } from 'components/global/DropdownRadio';
 import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/ListMapMobileBottomTabs';
 import { useWindowSize } from 'hotels/hooks/useWinoowsResize';
 import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImage';
+import HotelMobileFilters from './HotelMobileFilters';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -68,6 +69,7 @@ const LG_SCREEN_SIZE = 1024;
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [counter, setCounter] = useState(0);
+  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
   const hotelsFoundLabelDesktop = t('results', 'Results');
@@ -317,6 +319,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                         sortByVal={sortByVal}
                         setSortByVal={setSortByVal}
                         onClickOption={onChangeSortBy}
+                        onFilterClick={setFilterModalOpen}
                         options={[
                           priceLowerFirst,
                           priceHihgerFirst,
@@ -354,6 +357,11 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         </section>
       </section>
       <ListMapMobileBottomTabs view={view} setview={setview} />
+      <HotelMobileFilters
+        handleFilterHotels={handleFilterHotels}
+        setFilterModalOpen={setFilterModalOpen}
+        isFilterModalOpen={isFilterModalOpen}
+      />
     </>
   );
 };

@@ -1,8 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Radio, RadioGroup } from '../../../components/global/Radio/Radio';
-
-import { useTranslation } from 'react-i18next';
 
 import Sort from '@/icons/assets/sort.svg';
 import Filter from '@/icons/assets/filter.svg';
@@ -17,6 +16,8 @@ interface DropdownRadioProps {
     | ((value: string) => void);
   options: string[];
   onClickOption: (value: string) => void;
+  onFilterClick?: React.Dispatch<React.SetStateAction<boolean>>;
+  // onFilterClick should not be optional but for now i'm leaving this way because other developers don't know about it
 }
 
 export const DropdownRadio = ({
@@ -26,6 +27,7 @@ export const DropdownRadio = ({
   setSortByVal,
   options,
   onClickOption,
+  onFilterClick,
 }: DropdownRadioProps) => {
   const [showSortingDropdown, setShowSortingDropdown] = useState(false);
   const handleClickOption = (value: string) => {
@@ -81,7 +83,9 @@ export const DropdownRadio = ({
       {showFilter && (
         <button
           className="flex items-center gap-2 lg:w-[100px] h-6 lg:hidden "
-          onClick={() => setShowSortingDropdown(false)}
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onClick={() => (onFilterClick ? onFilterClick(true) : () => {})}
+          // the empty function must be removed once other developers have added the right implementation for this component
           onBlur={() => setShowSortingDropdown(false)}
         >
           <span className="text-primary-1000">
