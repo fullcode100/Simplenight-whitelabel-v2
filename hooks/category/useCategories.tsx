@@ -107,27 +107,6 @@ const getSectorWhitelabelId = (key: string) => {
   return '';
 };
 
-const getCategoryApiUrl = (category: Category) => {
-  const itemTypePattern = '/(.*?)/';
-  const apiTypeSettings = category.apiUrl?.match(itemTypePattern)?.[1];
-
-  let apiType;
-  if (apiTypeSettings === 'sector') {
-    apiType = 'sectors';
-  }
-
-  if (apiTypeSettings === 'category') {
-    apiType = 'categories';
-  }
-
-  if (apiTypeSettings === 'categories') {
-    apiType = 'categories';
-  }
-
-  const apiUrl = `/${apiType}/${category.slug}`;
-  return apiUrl;
-};
-
 export interface CategoryInfo {
   name: string;
   type: string;
@@ -140,13 +119,12 @@ const useCategories = () => {
   const categories = useSelector(getCategories);
 
   const categoriesTabs = categories?.map((category) => {
-    const apiUrl = getCategoryApiUrl(category);
     return {
       name: category.alias,
       type: getSectorWhitelabelId(category.whitelabelId),
       slug: category.slug,
       icon: getCategoryIcon(category.icon),
-      apiUrl,
+      apiUrl: category.apiUrl,
     };
   });
 
