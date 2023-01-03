@@ -17,6 +17,7 @@ import TrashIcon from '@/icons/assets/small-trash.svg';
 import Button from '../../../components/global/Button/Button';
 import { removeFromCart } from '../../../core/client/services/CartClientService';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 dayjs.extend(localeData);
 dayjs.extend(utc);
@@ -38,6 +39,7 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
   const [tg, i18g] = useTranslation('global');
   const [t] = useTranslation('parking');
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const bookingData = item.booking_data;
   const parking: Parking = bookingData?.parking;
@@ -65,7 +67,10 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
       itemId: item.cart_item_id,
     };
     removeFromCart(i18g, flightToRemove, dispatch)
-      .then(() => setReload?.(!reload))
+      .then(() => {
+        setReload?.(!reload);
+        router.reload();
+      })
       .catch((error) => console.error(error));
   };
 

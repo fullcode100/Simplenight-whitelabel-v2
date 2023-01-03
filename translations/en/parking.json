@@ -60,6 +60,8 @@
   "CUSTOMERS_ONLY": "Customers Only",
   "VISITORS_ONLY": "Visitors Only",
   "DISABLED_ONLY": "Disabled Only",
+  "VALET_ONLY": "Valet Only",
+  "NO_RESTR_OUT_HOURS": "No Restrictions Out Hours",
   "toDestination": "To Destination",
   "priceUpTo": "Price Up To"
 }

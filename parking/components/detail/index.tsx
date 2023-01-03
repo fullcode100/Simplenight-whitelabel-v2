@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Item } from 'types/cart/CartType';
 import { CategoryOption } from '../../../types/search/SearchTypeOptions';
+import dayjs from 'dayjs';
 
 export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
   Category,
@@ -31,8 +32,8 @@ export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
     const params = {
       start_date: startDate,
       end_date: endDate,
-      start_time: (startTime as string).split(':').join(''),
-      end_time: (endTime as string).split(':').join(''),
+      start_time: dayjs(startTime as string, 'hh:mm A').format('HHmm'),
+      end_time: dayjs(endTime as string, 'hh:mm A').format('HHmm'),
       apiUrl: '/categories/parking/items/details',
     };
 
@@ -84,9 +85,9 @@ const ParkingDetails: FC<ParkingDetailsProps> = ({ parking, category }) => {
     booking_data: {
       inventory_id: `${PROVIDER_CODE}:${parking.id}`,
       start_date: params.startDate,
-      start_time: params.startTime,
+      start_time: dayjs(params.startTime as string, 'hh:mm A').format('HHmm'),
       end_date: params.endDate,
-      end_time: params.endTime,
+      end_time: dayjs(params.endTime as string, 'hh:mm A').format('HHmm'),
       parking,
     },
   };

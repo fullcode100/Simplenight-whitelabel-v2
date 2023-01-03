@@ -25,4 +25,11 @@ export class ParkingServerSearcher extends ServerSearcher<ParkingSearchResponse>
       sendSuccess(response, { features: result.items[0].result.features });
     }
   }
+
+  protected override onError(
+    err: any,
+    res: NextApiResponse<ParkingSearchResponse>,
+  ) {
+    res.status(400).json({ items: [] });
+  }
 }

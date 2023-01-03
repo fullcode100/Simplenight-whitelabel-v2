@@ -153,9 +153,24 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
 
   const { latitude, longitude, startDate, endDate, startTime, endTime } =
     useQuery();
+
   const setQueryParam = useQuerySetter();
 
   const isListView = view !== 'map';
+
+  const getCachedParkingResponse = (): Parking[] | null => {
+    const parkingList = localStorage.getItem('parking');
+    if (parkingList) {
+      try {
+        return JSON.parse(parkingList);
+      } catch (err) {
+        console.error(err);
+        return null;
+      }
+    }
+
+    return null;
+  };
 
   useEffect(() => {
     if (counter !== 0) return;
@@ -169,8 +184,8 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
       endTime,
     ]);
 
+    const TIME_SELECTION_FORMAT = 'hh:mm A';
     if (!startTime || !endTime) {
-      const TIME_SELECTION_FORMAT = 'HH:mm';
       const thirtyMinutesFromNow = ceilToNextHalfHour(
         dayjs().add(30, 'minutes'),
       );
@@ -188,8 +203,10 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     const params: any = {
       start_date: startDate,
       end_date: endDate,
-      start_time: (startTime as string).split(':').join(''),
-      end_time: (endTime as string).split(':').join(''),
+      start_time: dayjs(startTime as string, TIME_SELECTION_FORMAT).format(
+        'HHmm',
+      ),
+      end_time: dayjs(endTime as string, TIME_SELECTION_FORMAT).format('HHmm'),
       latitude,
       longitude,
       rsp_fields_set: 'extended',
@@ -197,9 +214,34 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
       apiUrl: '/categories/parking/items/details',
     };
 
+    const cachedParkingList = getCachedParkingResponse();
+
+    if (cachedParkingList) {
+      const metadata = getParkingMetadata(cachedParkingList);
+      setParkingList(cachedParkingList);
+      setMetadata(metadata);
+
+      const maxHeight =
+        metadata.heightRestrictionsList[
+          metadata.heightRestrictionsList.length - 1
+        ];
+
+      updateFilter({
+        maxHeight,
+        minPrice: metadata.minPrice,
+        maxPrice: metadata.maxPrice,
+      });
+      setMinPrice(metadata.minPrice);
+      setMaxPrice(metadata.maxPrice);
+      setMaxHeight(maxHeight);
+      setLoaded(true);
+      return;
+    }
+
     setLoaded(false);
     Searcher?.request(params, i18next)
       .then((results: ParkingSearchResponseItemResult) => {
+        localStorage.setItem('parking', JSON.stringify(results.features));
         const metadata = getParkingMetadata(results.features);
         setParkingList(results.features);
         setMetadata(metadata);
@@ -219,7 +261,8 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
         setMaxHeight(maxHeight);
         setLoaded(true);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => setLoaded(true));
   }, [latitude, longitude]);
 
   return (

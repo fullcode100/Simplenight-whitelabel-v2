@@ -30,7 +30,7 @@ import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
 
 export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const router = useRouter();
-  const TIME_SELECTION_FORMAT = 'HH:mm';
+  const TIME_SELECTION_FORMAT = 'hh:mm A';
   const nextHalf = ceilToNextHalfHour(dayjs());
   const afterTwoHours = nextHalf.add(2, 'hours');
 
@@ -44,6 +44,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const endDateText = t('leaving', 'End Date');
 
   const params = useQuery();
+  console.log({ params });
   const setQueryParam = useQuerySetter();
   const [address, setAddress] = useState<string | undefined>(
     params.address ? decodeURIComponent(params.address as string) : '',
@@ -72,7 +73,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
       .map((_, index) => {
         const thirtyMinutesMore = today.add(30 * index, 'minutes');
         return {
-          label: thirtyMinutesMore.format('hh:mm a'),
+          label: thirtyMinutesMore.format(TIME_SELECTION_FORMAT),
           value: thirtyMinutesMore.format(TIME_SELECTION_FORMAT),
         };
       });
@@ -136,20 +137,28 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   };
 
   const validateEndTime = () => {
-    const startDateTime = dayjs(`${startDate} ${startTime}`, 'YYYY-MM-DD HHmm');
-    const endDateTime = dayjs(`${endDate} ${endTime}`, 'YYYY-MM-DD HHmm');
+    const startDateTime = dayjs(
+      `${startDate} ${startTime}`,
+      'YYYY-MM-DD hh:mm A',
+    );
+    const endDateTime = dayjs(`${endDate} ${endTime}`, 'YYYY-MM-DD hh:mm A');
     return endDateTime.isAfter(startDateTime);
   };
 
   const validateStartTime = () => {
     const now = dayjs();
-    const startDateTime = dayjs(`${startDate} ${startTime}`, 'YYYY-MM-DD HHmm');
+    const startDateTime = dayjs(
+      `${startDate} ${startTime}`,
+      'YYYY-MM-DD hh:mm A',
+    );
     return startDateTime.isAfter(now);
   };
 
   const geolocationIsNull = geolocation === `${NaN},${NaN}`;
 
   const handleSearchClick = () => {
+    localStorage.removeItem('parking');
+
     if (geolocationIsNull) {
       setShowLocationError(true);
     }
@@ -219,7 +228,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
             label={locationInputLabel}
             name="location"
             placeholder={locationPlaceholder}
-            routeParams={['type']}
+            routeParams={['address']}
             onSelect={handleSelectLocation}
             error={showLocationError}
             onChange={handleChangeLocation}

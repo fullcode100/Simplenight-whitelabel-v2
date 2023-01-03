@@ -60,8 +60,8 @@ const ParkingDetailOpeningHours: FC<ParkingDetailProps> = ({ parking }) => {
       .set('hours', parseInt(list.to.substring(0, 2)))
       .set('minutes', parseInt(list.to.substring(2, 4)));
 
-    const openTimeFormatted = openTime.format('hh:mm a');
-    const closeTimeFormatted = closeTime.format('hh:mm a');
+    const openTimeFormatted = openTime.format('hh:mm A');
+    const closeTimeFormatted = closeTime.format('hh:mm A');
 
     const isSame = openTimeFormatted === closeTimeFormatted;
 
