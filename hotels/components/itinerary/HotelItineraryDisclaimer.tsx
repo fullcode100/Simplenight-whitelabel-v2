@@ -1,4 +1,4 @@
-import { Item } from 'types/cart/CartType';
+import { Item } from '../../types/response/CartHotels';
 import ExclamationIcon from 'public/icons/assets/exclamation.svg';
 
 interface HotelItineraryDisclaimerProps {

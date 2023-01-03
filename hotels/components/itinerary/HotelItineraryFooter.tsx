@@ -5,13 +5,14 @@ import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
 import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary';
-import { Item } from 'types/cart/CartType';
+import { Item } from '../../types/response/CartHotels';
 
 import TrashIcon from 'public/icons/assets/small-trash.svg';
 import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { useCategoryType } from 'hooks/category/useCategory';
+import { Rates } from '../../types/response/SearchResponse';
 
 interface HotelItineraryFooterProps {
   item: Item;
@@ -30,7 +31,7 @@ const HotelItineraryFooter = ({
   const [th, i18h] = useTranslation('hotels');
 
   const removeLabel = tg('remove', 'Remove');
-  const roomsAmount = item.room_qty ?? 1;
+  const roomsAmount = item.booking_data.room_qty ?? 1;
   const roomText = th('room', 'Room');
   const roomsText = th('rooms', 'Rooms');
   const removeRoomsFormatted = `${removeLabel} ${roomsAmount} ${usePlural(
@@ -41,11 +42,13 @@ const HotelItineraryFooter = ({
 
   const editLabel = tg('edit', 'Edit');
 
-  const selectedRoom = item.extended_data?.rooms?.find(
+  /* const selectedRoom = item.extended_data?.rooms?.find(
     (roomA) => roomA.code == item.extended_data?.selected_room_code,
   );
   const totalRate = selectedRoom?.rates?.min_rate?.rate;
-
+ */
+  const totalRate =
+    item.item_data.min_rate_room.rates.min_rate.rate.total_amount;
   const slug = useCategoryType('hotels')?.slug;
 
   const removeAllRooms = () => {
@@ -63,17 +66,17 @@ const HotelItineraryFooter = ({
   };
 
   const handleEdit = () => {
-    const adults = item.adults;
-    const children = item.children;
-    const startDate = item.extended_data?.start_date;
-    const endDate = item.extended_data?.end_date;
-    const coordinates = item.extended_data?.details?.address.coordinates;
+    const adults = item.booking_data.adults;
+    const children = item.booking_data.children;
+    const startDate = item.item_data.start_date;
+    const endDate = item.item_data.end_date;
+    const coordinates = item.item_data.details.address.coordinates;
     const geolocation = `${coordinates?.latitude},${coordinates?.longitude}`;
-    const rooms = item.room_qty;
+    const rooms = roomsAmount;
 
     removeAllRooms();
     router.push(
-      `/detail/${slug}/${item.extended_data?.id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}&rooms=${rooms}`,
+      `/detail/${slug}/${item.item_data.id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${geolocation}&rooms=${rooms}`,
     );
   };
 
@@ -81,9 +84,9 @@ const HotelItineraryFooter = ({
     <section className="flex flex-col gap-3">
       {totalRate && (
         <BreakdownSummary
-          rate={selectedRoom.rates}
-          nights={item.nights}
-          guests={item.guests}
+          rate={item.item_data.min_rate_room.rates as unknown as Rates}
+          nights={item.booking_data.nights}
+          guests={item.booking_data.guests}
           showTotal={true}
         />
       )}

@@ -36,7 +36,9 @@ const ItineraryItem = ({ item, reload, setReload }: ItineraryItemProps) => {
   ) {
     sectorName = 'ground-transportation';
   }
-
+  if (sectorName === 'accommodations') {
+    sectorName = 'hotels';
+  }
   const sector = useCategory(sectorName || '');
 
   return (

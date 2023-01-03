@@ -25,7 +25,7 @@ const HotelBreakdownDisplay = ({
     <>
       {showCollapse ? (
         <CollapseUnbordered
-          title={<HotelBreakdownHeader item={item.item} icon={Category.icon} />}
+          title={<HotelBreakdownHeader item={item} icon={Category.icon} />}
           body={
             <HotelBreakdownBody
               item={item}

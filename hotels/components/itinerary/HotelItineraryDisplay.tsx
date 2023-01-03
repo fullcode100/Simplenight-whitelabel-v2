@@ -5,7 +5,7 @@ import CollapseBordered from 'components/global/CollapseBordered/CollapseBordere
 import HotelItineraryHeader from './HotelItineraryHeader';
 import HotelItineraryBody from './HotelItineraryBody';
 import HotelItineraryFooter from './HotelItineraryFooter';
-import { Item } from 'types/cart/CartType';
+import { Item } from '../../types/response/CartHotels';
 import HotelItineraryDisclaimer from './HotelItineraryDisclaimer';
 
 interface HotelItineraryDisplayProps {
@@ -16,24 +16,28 @@ interface HotelItineraryDisplayProps {
 }
 
 const HotelItineraryDisplay = ({
-  item = {},
+  item,
   reload,
   setReload,
   Category,
 }: HotelItineraryDisplayProps) => {
   return (
-    <CollapseBordered
-      disclaimer={<HotelItineraryDisclaimer item={item} />}
-      title={<HotelItineraryHeader item={item} icon={Category.icon} />}
-      body={<HotelItineraryBody item={item} />}
-      footer={
-        <HotelItineraryFooter
-          item={item}
-          reload={reload}
-          setReload={setReload}
+    <>
+      {item && (
+        <CollapseBordered
+          disclaimer={<HotelItineraryDisclaimer item={item} />}
+          title={<HotelItineraryHeader item={item} icon={Category.icon} />}
+          body={<HotelItineraryBody item={item} />}
+          footer={
+            <HotelItineraryFooter
+              item={item}
+              reload={reload}
+              setReload={setReload}
+            />
+          }
         />
-      }
-    />
+      )}
+    </>
   );
 };
 

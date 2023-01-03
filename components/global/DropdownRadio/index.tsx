@@ -36,6 +36,7 @@ export const DropdownRadio = ({
     onClickOption(value);
   };
   const [t] = useTranslation(translation);
+
   return (
     <section className="w-auto flex justify-start items-center gap-4 rounded px-2 lg:px-0 bg-primary-100 lg:bg-transparent">
       <section className="relative">
@@ -43,6 +44,7 @@ export const DropdownRadio = ({
           className="flex items-center gap-2 lg:w-[160px] h-6 whitespace-nowrap"
           onClick={() => setShowSortingDropdown(true)}
           onBlur={() => setShowSortingDropdown(true)}
+          style={{ width: 'auto' }}
         >
           <span className="text-primary-1000">
             <Sort />

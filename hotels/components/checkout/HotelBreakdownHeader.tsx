@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
-import { Item } from 'types/cart/CartType';
+import { Item } from '../../types/response/CartHotels';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface HotelBreakdownHeaderProps {
@@ -12,9 +12,8 @@ interface HotelBreakdownHeaderProps {
 
 const HotelBreakdownHeader = ({ item, icon }: HotelBreakdownHeaderProps) => {
   const [t, i18next] = useTranslation('hotels');
-
-  const hotelName = item?.extended_data?.details?.name;
-  const roomsAmount = item?.room_qty ?? 1;
+  const hotelName = item?.item_data.details.name;
+  const roomsAmount = item?.booking_data.room_qty ?? 1;
   const roomText = t('room', 'Room');
   const roomsText = t('rooms', 'Rooms');
   const roomsFormatted = `${roomsAmount} ${usePlural(

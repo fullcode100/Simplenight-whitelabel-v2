@@ -22,17 +22,19 @@ export const Radio = ({
   ...others
 }: IRadio) => {
   const [t] = useTranslation('hotels');
-  if (children == 'Price (Lowest First)') {
-    children = t('priceLower', 'Price (Lowest First)');
-  }
-  if (children == 'Price (Highest First)') {
-    children = t('priceHihger', 'Price (Lowest First)');
-  }
-  if (children == 'Rating (Highest First)') {
-    children = t('ratingHighest', 'Price (Lowest First)');
-  }
-  if (children == 'Rating (Lowest First)') {
-    children = t('ratingLowe', 'Price (Lowest First)');
+  switch (children) {
+    case 'Price (Lowest First)':
+      children = t('priceLower', 'Price (Lowest First)');
+      break;
+    case 'Price (Highest First)':
+      children = t('priceHihger', 'Price (Highest First)');
+      break;
+    case 'Rating (Highest First)':
+      children = t('ratingHighest', 'Rating (Highest First)');
+      break;
+    case 'Rating (Lowest First)':
+      children = t('ratingLowe', 'Rating (Lowest First)');
+      break;
   }
 
   return (

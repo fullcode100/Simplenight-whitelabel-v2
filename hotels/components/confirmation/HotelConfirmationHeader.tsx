@@ -22,9 +22,9 @@ const HotelConfirmationHeader = ({
   const roomsLabel = item?.room_qty == 1 ? room : rooms;
   const roomsFormatted = `${roomsAmount} ${roomsLabel}`;
 
-  const hotelId = item?.extra_data?.id;
-  const startDate = item?.extra_data?.start_date;
-  const endDate = item?.extra_data?.end_date;
+  const hotelId = item?.item_data?.id;
+  const startDate = item?.item_data?.start_date;
+  const endDate = item?.item_data?.end_date;
   const slug = useCategoryType('hotels')?.slug;
 
   const detailHref = `/detail/${slug}/${hotelId}?startDate=${startDate}&endDate=${endDate}&rooms=${roomsAmount}`;
