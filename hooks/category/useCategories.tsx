@@ -23,6 +23,7 @@ import BedDoubleIcon from 'public/icons/categories/bed-double.svg';
 import CoffeeIcon from 'public/icons/categories/coffee.svg';
 import ParkingIcon from 'public/icons/categories/parking-square.svg';
 import TransportIcon from 'public/icons/categories/Category-Transport.svg';
+import Balloon from 'public/icons/categories/ToursActivities.svg';
 import { Category } from 'types/settings/BrandConfig';
 
 interface IconsMap {
@@ -35,7 +36,7 @@ export const getCategoryIcon = (key: string) => {
     plane: <PlaneIcon />,
     car: <CarSideviewIcon />,
     'car-sideview': <CarSideviewIcon />,
-    'ground-transport': <TransportIcon />,
+    'ground-transportation': <TransportIcon />,
     'plane-fly': <PlaneSideviewIcon />,
     estate: <RentalsIcon />,
     backpack: <BackpackIcon />,
@@ -51,6 +52,7 @@ export const getCategoryIcon = (key: string) => {
     ticket: <TicketIcon />,
     'bed-double': <BedDoubleIcon />,
     coffee: <CoffeeIcon />,
+    balloon: <Balloon />,
     'parking-square': <ParkingIcon />,
   };
 
