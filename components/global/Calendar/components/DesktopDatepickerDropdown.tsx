@@ -128,7 +128,7 @@ const DesktopDatepickerDropdown = ({
     <section
       ref={ref}
       className={classnames(
-        'flex flex-col  bg-white  w-[610px] absolute right-0 top-[74px] shadow-container rounded-4 overflow-hidden border border-dark-300 z-10',
+        'flex flex-col  bg-white  w-[610px] absolute right-0 top-[74px] shadow-container rounded-4 overflow-hidden border border-dark-300 z-20',
         {
           ['hidden']: !open,
         },

@@ -51,9 +51,13 @@ import {
   ShowDetailItem,
   Rate,
 } from 'showsAndEvents/types/response/ShowsDetailResponse';
-import { formatAsSearchDate } from 'helpers/dajjsUtils';
+import {
+  formatAsDisplayDatetime,
+  formatAsSearchDate,
+} from 'helpers/dajjsUtils';
 import IconInput from 'components/global/Input/IconInput';
 import { SearchRequest } from 'types/search/SearchRequest';
+import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -73,7 +77,6 @@ interface selectedSeatsProp {
   taxes: number;
   cancellationPolicy: CancelationPolicy;
   currency: string;
-  deliveryMethods: string[];
   bookingCodeSupplier: string;
 }
 interface iTicketCard {
@@ -82,7 +85,6 @@ interface iTicketCard {
   rate: Rate;
   currency: string;
   sectorTitle: string;
-  delivery_methods: string[];
   booking_code_supplier: string;
   cancellation_policy: CancelationPolicy;
   quantity: number;
@@ -124,6 +126,7 @@ const ShowAndEventsDetailDisplay = ({
     country: '',
     postal_code: '',
     coordinates: { latitude: 0, longitude: 0 },
+    state: '',
   });
   const [extraDataObject, setExtraDataObject] = useState({
     venue_name: '',
@@ -147,6 +150,7 @@ const ShowAndEventsDetailDisplay = ({
     country,
     postal_code: postalCode,
     coordinates,
+    state,
   } = addresObject;
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
@@ -346,7 +350,17 @@ const ShowAndEventsDetailDisplay = ({
               rate,
               thumbnail,
             } = thingToDo;
-            const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
+            const {
+              address1,
+              city,
+              state,
+              country_code: countryCode,
+            } = address ?? {};
+            const formattedLocation = `${[address1, city]
+              .filter((item) => item)
+              .join(' - ')}${
+              [state, countryCode].some((item) => item) ? ',' : ''
+            } ${[state, countryCode].filter((item) => item).join(', ')}`;
 
             return (
               <div key={id} className="w-full mb-8 pr-[10px]">
@@ -420,7 +434,6 @@ const ShowAndEventsDetailDisplay = ({
     currency,
     sectorTitle,
     rate,
-    delivery_methods: deliveryMethods,
     availableSeats,
     booking_code_supplier: bookingCodeSupplier,
     quantity,
@@ -437,7 +450,6 @@ const ShowAndEventsDetailDisplay = ({
       discountAmount: rate.discounts.amount_to_apply.amount,
       taxes: rate.taxes.full.amount || 0,
       quantity: quantity,
-      deliveryMethods,
       bookingCodeSupplier,
     };
 
@@ -621,7 +633,9 @@ const ShowAndEventsDetailDisplay = ({
         <>
           <span className="block text-right">{address1}</span>
           <span className="block text-right">
-            {[city, countryCode, postalCode].filter((item) => item).join(', ')}
+            {[city, state, countryCode, postalCode]
+              .filter((item) => item)
+              .join(', ')}
           </span>
         </>
       );
@@ -645,18 +659,28 @@ const ShowAndEventsDetailDisplay = ({
   };
 
   const getHeader = () => {
+    const formattedLocation = `${[address1, city]
+      .filter((item) => item)
+      .join(' - ')}${[state, countryCode].some((item) => item) ? ',' : ''} ${[
+      state,
+      countryCode,
+      postalCode,
+    ]
+      .filter((item) => item)
+      .join(', ')}`;
+    const formattedCheckoutDateTime = formatAsDisplayDatetime(
+      showEventItem?.extra_data.starts_at as string,
+    );
     return (
       <section className="pb-6 border-b-2 mb-6">
         {getSectionTitle(showEventItem?.name || '', undefined, undefined)}
         <label className="align-middle flex mb-2">
           <Calendar className="text-primary-1000 h-4 w-4 mr-2.5" />
-          {dayjs(showEventItem?.extra_data.starts_at as string).format(
-            'MMM D, YYYY HH:mm',
-          )}
+          {fromLowerCaseToCapitilize(formattedCheckoutDateTime)}
         </label>
         <label className="align-bottom flex">
           <LocationPin className="text-primary-1000 h-4 w-4 mr-2.5" />
-          {[city, countryCode, postalCode].filter((item) => item).join(', ')}
+          {formattedLocation}
         </label>
       </section>
     );
@@ -744,7 +768,6 @@ const ShowAndEventsDetailDisplay = ({
                     name={showEventItem?.name || ''}
                     selectedSeats={selectedSeats}
                     removeItem={removeSelectedSeastsInfo}
-                    deliveryMethods={[]}
                   />
                 </section>
               </section>

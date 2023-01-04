@@ -184,7 +184,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                 .filter((item) => item)
                 .join(' - ')}${
                 [state, countryCode].some((item) => item) ? ',' : ''
-              } ${[state, countryCode].filter((item) => item).join(' - ')}`;
+              } ${[state, countryCode].filter((item) => item).join(', ')}`;
               return (
                 <li key={id}>
                   <ResultCard

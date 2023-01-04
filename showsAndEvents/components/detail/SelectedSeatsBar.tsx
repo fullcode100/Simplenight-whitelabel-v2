@@ -29,7 +29,6 @@ interface selectedSeatsProp {
   discountAmount: number;
   taxes: number;
   currency: string;
-  deliveryMethods: string[];
   bookingCodeSupplier: string;
   cancellationPolicy: CancelationPolicy;
 }
@@ -38,7 +37,6 @@ interface SelectedSeatsBarProps {
   selectedSeats: selectedSeatsProp[];
   removeItem: (bookingCodeSupplier: string) => void;
   name: string;
-  deliveryMethods: string[];
   category: string;
   id: string;
   startDate: string;
@@ -49,7 +47,6 @@ const SelectedSeatsBar = ({
   selectedSeats,
   removeItem,
   name,
-  deliveryMethods,
   category,
   id,
   startDate,
@@ -97,7 +94,6 @@ const SelectedSeatsBar = ({
         start_date: startDate,
         end_date: endDate,
         seats: ticket.quantity,
-        delivery_method: ticket.deliveryMethods[0],
       },
       category: category,
     };
@@ -126,7 +122,6 @@ const SelectedSeatsBar = ({
     router.replace(url);
   };
   const [isFreeCacellationPolicy, setIsFreeCacellationPolicy] = useState(false);
-  const [showDeliveryMethodMenu, setShowDeliveryMethodMenu] = useState(false);
 
   const cancellableType = 'FREE_CANCELLATION';
   const nonRefundableType = 'NON_REFUNDABLE';
@@ -138,48 +133,6 @@ const SelectedSeatsBar = ({
     defaultItem?.cancellationPolicy?.cancellation_type === cancellableType;
   const nonRefundable =
     defaultItem?.cancellationPolicy?.cancellation_type === nonRefundableType;
-
-  const deliveryMethodMenu = (
-    <section className="w-full relative col-span-8 pr-5">
-      <section
-        className={`absolute left-2 z-[15] border border-dark-300 rounded shadow-container top-10 bg-white w-[256px] lg:w-[300px] right-0 transition-all duration-500 text-dark-1000 ${
-          !showDeliveryMethodMenu && 'opacity-0 invisible'
-        }`}
-      >
-        {/* TODO: needs implemt */}
-        {/* <RadioGroup gap="gap-0"> */}
-        {deliveryMethods?.map((option, i) => (
-          <div
-            key={i}
-            // value={option}
-            className={`px-3 py-2 cursor-pointer ${
-              i < deliveryMethods.length - 1 && 'border-b border-dark-200'
-            }`}
-          >
-            {option}
-          </div>
-        ))}
-        {/* </RadioGroup> */}
-      </section>
-
-      <section className="w-full items-center justify-end pt-3 pb-3 ">
-        <section className="flex relative justify-end items-center gap-2 px-2 pb-1 rounded bg-primary-100 lg:px-0 lg:bg-gray-100">
-          <button
-            className="flex items-center gap-1 justify-between w-full py-1 px-2"
-            onClick={() => setShowDeliveryMethodMenu(!showDeliveryMethodMenu)}
-            onBlur={() => setShowDeliveryMethodMenu(false)}
-          >
-            <span className="text-xs font-semibold text-dark-1000">
-              Delivery Method
-            </span>
-            <span className="text-dark-800">
-              <Chevron />
-            </span>
-          </button>
-        </section>
-      </section>
-    </section>
-  );
 
   return (
     <section className="h-full flex flex-col justify-between">

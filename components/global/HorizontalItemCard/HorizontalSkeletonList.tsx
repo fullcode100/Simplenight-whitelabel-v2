@@ -3,7 +3,7 @@ import HorizontalSkeletonCard from './HorizontalSkeletonCard';
 
 const HorizontalSkeletonList = () => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 lg:mt-9">
       <HorizontalSkeletonCard />
       <HorizontalSkeletonCard />
       <HorizontalSkeletonCard />

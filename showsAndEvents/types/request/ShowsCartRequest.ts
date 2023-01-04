@@ -4,5 +4,4 @@ export interface ShowsCartRequestDetail {
   start_date: string;
   end_date: string;
   seats: number;
-  delivery_method: string;
 }

@@ -240,7 +240,17 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             const url = urlDetail(hotel);
             const itemKey = hotel.id;
             const minRate = minRateRoom.rates;
-            const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
+            const {
+              address1,
+              city,
+              state,
+              country_code: countryCode,
+            } = address ?? {};
+            const formattedLocation = `${[address1, city]
+              .filter((item) => item)
+              .join(' - ')}${
+              [state, countryCode].some((item) => item) ? ',' : ''
+            } ${[state, countryCode].filter((item) => item).join(' - ')}`;
             return (
               <HorizontalItemCard
                 key={itemKey}

@@ -5,5 +5,4 @@ export interface ShowsCartItemData {
   section: string;
   row: string;
   available_seats: number;
-  delivery_methods: DeliveryMethod[];
 }

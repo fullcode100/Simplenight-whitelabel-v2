@@ -220,6 +220,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             tabs={tabs}
             activeTab={activeTab}
             onClick={handleTabClick}
+            hideMore
           />
         </section>
       </section>

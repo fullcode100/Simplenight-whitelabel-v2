@@ -1,5 +1,4 @@
 import { useCategory } from 'hooks/categoryInjection/useCategory';
-import DiningResultsDisplay from 'dining/components/search/DiningResultsDisplay';
 
 interface SearchResultDisplayProps {
   searchType: string;

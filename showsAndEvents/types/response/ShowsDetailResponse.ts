@@ -27,7 +27,6 @@ export interface Row {
   section: string;
   row: string;
   available_seats: number;
-  delivery_methods: DeliveryMethod[];
   rate: Rate;
   purchasable_quantities: number[];
   cancellation_policy: CancelationPolicy;

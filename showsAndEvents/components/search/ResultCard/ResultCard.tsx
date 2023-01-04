@@ -10,6 +10,8 @@ import dayjs from 'dayjs';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
+import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
+import { formatAsDisplayDatetime } from 'helpers/dajjsUtils';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -73,15 +75,13 @@ function ResultCard<T extends WithId>({
   );
 
   const TitleSection = () => (
-    <section
+    <h6
       className={`font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg truncate ${
-        isHorizontal
-          ? 'max-w-[200px] lg:max-w-[250px]'
-          : 'max-w-[250px] lg:max-w-[350px]'
+        isHorizontal ? '' : 'max-w-[250px] lg:max-w-[350px]'
       }`}
     >
       {title}
-    </section>
+    </h6>
   );
 
   const RatingSection = () => (
@@ -120,26 +120,28 @@ function ResultCard<T extends WithId>({
             }`}
           >
             {!displayEmpty && (
-              <section
-                className={` ${
-                  isHorizontal
-                    ? 'w-[108px] h-[108px]'
-                    : 'min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem]'
-                }`}
-                style={{
-                  backgroundImage: `url(${thumbnail ?? '/images/Slide.png'})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center center',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              />
+              <section>
+                <section
+                  className={` ${
+                    isHorizontal
+                      ? 'min-w-[108px] max-w-[108px] h-full'
+                      : 'min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem]'
+                  }`}
+                  style={{
+                    backgroundImage: `url(${thumbnail ?? '/images/Slide.png'})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
+              </section>
             )}
             <CategoryTag />
             {displayEmpty && (
               <section
                 className={` ${
                   isHorizontal
-                    ? 'w-[108px] h-[108px]'
+                    ? 'min-w-[108px] max-w-[108px] h-[108px]'
                     : 'min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem]'
                 }`}
               >
@@ -148,7 +150,9 @@ function ResultCard<T extends WithId>({
             )}
             <section
               className={`flex flex-col justify-between ${
-                isHorizontal ? 'gap-1 p-3' : 'gap-2 p-5 pb-0 lg:pb-5'
+                isHorizontal
+                  ? 'gap-1 p-3 max-w-[calc(100%-108px)]'
+                  : 'gap-2 p-5 pb-0 lg:pb-5 lg:pr-0'
               } lg:justify-start `}
             >
               <TitleSection />
@@ -161,7 +165,10 @@ function ResultCard<T extends WithId>({
               <section className="flex flex-row gap-2">
                 <CalendarIcon className="h-3.5 lg:h-4 lg:w-4 mt-1 lg:mt-0 text-primary-1000" />
                 <p className="font-semibold">
-                  From {dayjs(fromDate as string).format('MMM D, YYYY')}
+                  From{' '}
+                  {fromLowerCaseToCapitilize(
+                    formatAsDisplayDatetime(fromDate as string),
+                  )}
                 </p>
               </section>
 

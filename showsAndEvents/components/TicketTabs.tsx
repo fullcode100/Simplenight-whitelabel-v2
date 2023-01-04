@@ -26,7 +26,7 @@ const TicketTabs = ({
     return (
       <button onClick={() => setSelectedTab(children)}>
         <section
-          className={classnames('font-semibold py-2 mt-2 px-2', {
+          className={classnames('font-semibold py-2 mt-2 px-2 w-max', {
             'border-b-2 border-primary-1000 text-dark-1000': isActive,
           })}
         >

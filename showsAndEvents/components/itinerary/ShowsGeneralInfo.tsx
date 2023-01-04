@@ -16,6 +16,7 @@ const ShowsGeneralInfo = ({ item }: ShowsGeneralInfoProps) => {
           address1: item.item_data?.address.address1,
           country_code: item.item_data?.address.country_code,
           postal_code: item.item_data?.address.postal_code,
+          state: item.item_data?.address.state,
         }}
       />
     </section>
