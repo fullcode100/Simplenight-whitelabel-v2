@@ -4,9 +4,7 @@ import { TransportationDetailsResponse } from '../../types/response/Transportati
 import { NextApiResponse } from 'next';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { ApiResponse } from '../../../types/global/Request';
-import {
-  applyApiBaseUrlV2,
-} from '../../../apiCalls/config/responseHelpers';
+import { applyApiBaseUrlV2 } from '../../../apiCalls/config/responseHelpers';
 import { NextApiRequestWithSession } from '../../../types/core/server';
 
 export class TransportationServerDetailer extends ServerDetailer<TransportationDetailsResponse> {
@@ -18,7 +16,9 @@ export class TransportationServerDetailer extends ServerDetailer<TransportationD
     request: NextApiRequestWithSession,
     response: NextApiResponse<TransportationDetailsResponse>,
     axios: AxiosInstance,
-  ): Promise<AxiosResponse<ApiResponse<any, TransportationDetailsResponse>, any>> {
+  ): Promise<
+    AxiosResponse<ApiResponse<any, TransportationDetailsResponse>, any>
+  > {
     const params = request.query;
 
     let categoryUrls;
@@ -28,6 +28,8 @@ export class TransportationServerDetailer extends ServerDetailer<TransportationD
     const endpoint = categoryUrls?.detail.server;
     const url = applyApiBaseUrlV2(`${endpoint}`, request);
     delete params.id;
-    return axios.get<ApiResponse<any, TransportationDetailsResponse>>(url, { params });
+    return axios.get<ApiResponse<any, TransportationDetailsResponse>>(url, {
+      params,
+    });
   }
 }

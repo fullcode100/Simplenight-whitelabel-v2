@@ -22,7 +22,9 @@ const SectionTransportTitle = ({
         {title}
       </h2>
       {subTitle && (
-        <p className="lg:text-sm lg:font-normal lg:leading-6 lg:text-dark-800">{subTitle}</p>
+        <p className="lg:text-sm lg:font-normal lg:leading-6 lg:text-dark-800">
+          {subTitle}
+        </p>
       )}
     </section>
   </section>

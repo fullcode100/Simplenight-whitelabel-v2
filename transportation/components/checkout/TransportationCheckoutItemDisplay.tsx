@@ -14,7 +14,6 @@ const TransportationCheckoutItemDisplay = ({ item }: any) => {
     });
   };
 
-  console.log(item.category?.toLowerCase())
   const CartItemBreakdown = () => {
     const category = useCategory(item.category.toLowerCase());
     return injectProps(category?.breakdownDisplay, {
@@ -34,7 +33,7 @@ const TransportationCheckoutItemDisplay = ({ item }: any) => {
   return (
     <CollapseBordered
       title={<CartItemHeader />}
-      body={<CartItemBody />}
+      body={<TransportationItineraryBody item={item} />}
       footer={<TransportationItineraryFooter item={item} checkout={true} />}
     />
   );

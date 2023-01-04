@@ -13,53 +13,68 @@ import { TransportationBreakdownDisplay } from './components/itinerary';
 import TransportationCheckoutDisplay from './components/checkout/TransportationCheckoutDisplay';
 import TransportationCheckoutItemDisplay from './components/checkout/TransportationCheckoutItemDisplay';
 import TransportationConfirmationDisplay from './components/confirmation/TransportationConfirmationDisplay';
+import TransportationCancelledDisplay from './components/confirmation/TransportationCancelledDisplay';
 
 export const TRANPORTATION_CATEGORY = 'ground-transportation';
 
 const Category: CategoryOption = {
-    id: 3,
-    name: TRANPORTATION_CATEGORY,
-    value: TRANPORTATION_CATEGORY,
-    icon: <CategoryIcon categoryName={TRANPORTATION_CATEGORY} className={'h-5 w-5'} />,
-    selectedIcon: <></>,
-    searchForm: <TransportationSearchForm />,
-    secondarySearchOptions: <></>,
-    readStateSearchForm: <TransportationSearchFormReadState />,
-    resultsDisplay: <></>,
-    detailDisplay: <></>,
-    itineraryDisplay: <></>,
-    breakdownDisplay: <></>,
-    checkoutDisplay: <></>,
-    confirmationDisplay: <></>,
-    cancelledDisplay: <></>,
-    core: {
-        urls: {
-            search: {
-                client: '/transportation',
-                server: '/categories/ground-transportation/items/details',
-            },
-            detail: {
-                client: '/transportation',
-                server: '/categories/ground-transportation/items/details',
-            },
-        },
-        ClientSearcher: null,
-        ServerSearcher: null,
-        ClientDetailer: null,
-        ServerDetailer: null,
+  id: 3,
+  name: TRANPORTATION_CATEGORY,
+  value: TRANPORTATION_CATEGORY,
+  icon: (
+    <CategoryIcon categoryName={TRANPORTATION_CATEGORY} className={'h-5 w-5'} />
+  ),
+  selectedIcon: <></>,
+  searchForm: <TransportationSearchForm />,
+  secondarySearchOptions: <></>,
+  readStateSearchForm: <TransportationSearchFormReadState />,
+  resultsDisplay: <></>,
+  detailDisplay: <></>,
+  itineraryDisplay: <></>,
+  breakdownDisplay: <></>,
+  checkoutDisplay: <></>,
+  confirmationDisplay: <></>,
+  cancelledDisplay: <></>,
+  core: {
+    urls: {
+      search: {
+        client: '/transportation',
+        server: '/categories/ground-transportation/items/details',
+      },
+      detail: {
+        client: '/transportation',
+        server: '/categories/ground-transportation/items/details',
+      },
     },
+    ClientSearcher: null,
+    ServerSearcher: null,
+    ClientDetailer: null,
+    ServerDetailer: null,
+  },
 };
 
-Category.resultsDisplay = <TransportationResultsDisplay TransportationCategory={Category} />;
-Category.detailDisplay = <TransportationDetailsDisplay Category={Category} />;
-
-Category.itineraryDisplay = <TransportationItineraryDisplay Category={Category} />;
-Category.breakdownDisplay = <TransportationBreakdownDisplay Category={Category} />;
-Category.checkoutDisplay = <TransportationCheckoutDisplay Category={Category} />;
-Category.checkoutItemDisplay = (
-    <TransportationCheckoutItemDisplay Category={Category} />
+Category.resultsDisplay = (
+  <TransportationResultsDisplay TransportationCategory={Category} />
 );
-Category.confirmationDisplay = <TransportationConfirmationDisplay Category={Category} />;
+Category.detailDisplay = <TransportationDetailsDisplay Category={Category} />;
+Category.itineraryDisplay = (
+  <TransportationItineraryDisplay Category={Category} />
+);
+Category.breakdownDisplay = (
+  <TransportationBreakdownDisplay Category={Category} />
+);
+Category.checkoutDisplay = (
+  <TransportationCheckoutDisplay Category={Category} />
+);
+Category.checkoutItemDisplay = (
+  <TransportationCheckoutItemDisplay Category={Category} />
+);
+Category.confirmationDisplay = (
+  <TransportationConfirmationDisplay Category={Category} />
+);
+Category.cancelledDisplay = (
+  <TransportationCancelledDisplay Category={Category} />
+);
 
 Category.core.ClientSearcher = new TransportationClientSearcher(Category);
 Category.core.ServerSearcher = new TransportationServerSearcher(Category);

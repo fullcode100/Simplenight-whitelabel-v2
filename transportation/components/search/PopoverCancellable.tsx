@@ -6,11 +6,10 @@ interface TransportationPopoverCancellableProps {
   description?: string;
 }
 
-export const PopoverCancellable: FC<TransportationPopoverCancellableProps> = ({ description }) => {
-
-  const PopoverContent = () => (
-    <p className="break-normal">{description}</p>
-  );
+export const PopoverCancellable: FC<TransportationPopoverCancellableProps> = ({
+  description,
+}) => {
+  const PopoverContent = () => <p className="break-normal">{description}</p>;
 
   return (
     <Popover placement="top" content={<PopoverContent />} trigger="click">

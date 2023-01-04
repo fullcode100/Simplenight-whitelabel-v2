@@ -4,8 +4,8 @@ import { TransportationSearchRequest } from '../../types/request/TransportationS
 import { Quote } from '../../types/response/TransportationSearchResponse';
 
 export class TransportationClientSearcher extends ClientSearcher<
-TransportationSearchRequest,
-Quote[],
+  TransportationSearchRequest,
+  Quote[],
   TransportationSearchRequest
 > {
   public constructor(category: CategoryOption) {

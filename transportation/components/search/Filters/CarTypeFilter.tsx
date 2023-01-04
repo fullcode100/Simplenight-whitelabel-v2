@@ -5,15 +5,11 @@ import FilterContainer from './FilterContainer';
 
 export interface CarTypeFilterProps {
   value: string[];
-  items: string[]
+  items: string[];
   onChange: (items: string[]) => void;
 }
 
-const CarTypeFilter = ({
-  value,
-  onChange,
-  items
-}: CarTypeFilterProps) => {
+const CarTypeFilter = ({ value, onChange, items }: CarTypeFilterProps) => {
   const [t] = useTranslation('ground-transportation');
 
   return (
@@ -22,7 +18,11 @@ const CarTypeFilter = ({
         <CheckboxList
           value={value}
           onChange={onChange}
-          items={items?.map((e) => ({ value: e, label: t(useCapitalizeFirstChar(e)) }))}
+          items={items?.map((e) => ({
+            value: e,
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            label: t(useCapitalizeFirstChar(e)),
+          }))}
         />
       </section>
     </FilterContainer>

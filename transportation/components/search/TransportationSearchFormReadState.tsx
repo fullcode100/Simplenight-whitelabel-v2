@@ -11,9 +11,9 @@ interface TransportationSearchFormReadStateProps {
   setIsSearching?: (isReading: boolean) => void;
 }
 
-export const TransportationSearchFormReadState: FC<TransportationSearchFormReadStateProps> = (
-  props,
-) => {
+export const TransportationSearchFormReadState: FC<
+  TransportationSearchFormReadStateProps
+> = (props) => {
   const [tg] = useTranslation('global');
 
   const handleEditMode = () => {
@@ -26,7 +26,7 @@ export const TransportationSearchFormReadState: FC<TransportationSearchFormReadS
     endDate: endDateQuery,
     endTime: endTimeQuery,
     address,
-    address2
+    address2,
   } = useQuery();
   const startDate = formatAsDisplayDatetime(
     `${startDateQuery} ${startTimeQuery}`,
@@ -40,14 +40,20 @@ export const TransportationSearchFormReadState: FC<TransportationSearchFormReadS
           <section className="grid w-6 place-items-center">
             <LocationPin className="text-primary-1000" />
           </section>
-          <span>{address?.toString().split(', ')[0]} - {address2?.toString().split(', ')[0]}</span>
+          <span>
+            {address?.toString().split(', ')[0]} -{' '}
+            {address2?.toString().split(', ')[0]}
+          </span>
         </section>
         <section className="flex gap-2">
           <section className="grid w-6 place-items-center">
             <Calendar className="text-primary-1000" />
           </section>
           <section>
-            <span>{fromLowerCaseToCapitilize(startDate)} to {fromLowerCaseToCapitilize(endDate)}</span>
+            <span>
+              {fromLowerCaseToCapitilize(startDate)} to{' '}
+              {fromLowerCaseToCapitilize(endDate)}
+            </span>
           </section>
         </section>
       </section>

@@ -9,11 +9,11 @@ interface RatingRangeFilterProps {
   minRating: string;
   maxRating: string;
   onChangeMaxRating:
-  | Dispatch<React.SetStateAction<string>>
-  | ((value: string) => void);
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   onChangeMinRating:
-  | Dispatch<React.SetStateAction<string>>
-  | ((value: string) => void);
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   setMaxValue: any;
   setMinValue: any;
   min?: number;
@@ -28,7 +28,7 @@ const RatingRangeFilter = ({
   setMaxValue,
   setMinValue,
   min,
-  max
+  max,
 }: RatingRangeFilterProps) => {
   const [t] = useTranslation('ground-transportation');
   const ratingLabel = t('rating', 'Rating Range');

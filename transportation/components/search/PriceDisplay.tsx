@@ -7,7 +7,9 @@ interface PriceDisplayProps {
   transportaion: Quote;
 }
 
-export const TransportaionDisplay: FC<PriceDisplayProps> = ({ transportaion }) => {
+export const TransportaionDisplay: FC<PriceDisplayProps> = ({
+  transportaion,
+}) => {
   const { t } = useTranslation('ground-transportation');
 
   const currencyCode = transportaion.fare.currency_code;

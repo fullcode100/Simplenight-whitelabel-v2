@@ -12,22 +12,31 @@ import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalI
 import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstChar';
 import CategoryTags from 'components/global/CategoryTags/CategoryTags';
 
-
-
 interface TransportationCardProps {
   transportationItem: Quote;
-  quoteRequestId: string
+  quoteRequestId: string;
 }
 
-export const TransportationCard: FC<TransportationCardProps> = ({ transportationItem, quoteRequestId }) => {
-  const { slug, startDate, endDate, startTime, endTime, address, address2, latitude, longitude, latitude2, longitude2 } = useQuery();
+export const TransportationCard: FC<TransportationCardProps> = ({
+  transportationItem,
+  quoteRequestId,
+}) => {
+  const {
+    slug,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    address,
+    address2,
+    latitude,
+    longitude,
+    latitude2,
+    longitude2,
+  } = useQuery();
   const urlDetail = (transportation: Quote) => {
     const { quote_id: id } = transportation;
-    return `/detail/${slug
-      }/${quoteRequestId}:${id
-      }?startDate=${startDate}&startTime=${startTime}&endDate=${endDate}&endTime=${endTime
-      }&address=${address}&latitude=${latitude}&longitude=${longitude
-      }&address2=${address2}&latitude2=${latitude2}&longitude2=${longitude2}`;
+    return `/detail/${slug}/${quoteRequestId}:${id}?startDate=${startDate}&startTime=${startTime}&endDate=${endDate}&endTime=${endTime}&address=${address}&latitude=${latitude}&longitude=${longitude}&address2=${address2}&latitude2=${latitude2}&longitude2=${longitude2}`;
   };
 
   const [t] = useTranslation('ground-transportation');
@@ -35,43 +44,61 @@ export const TransportationCard: FC<TransportationCardProps> = ({ transportation
   const transportationDetailsPageUrl = urlDetail(transportationItem);
 
   const Item = {
-    id: transportationItem?.quote_id
-  }
+    id: transportationItem?.quote_id,
+  };
   return (
     <HorizontalItemCard
       className=" flex-0-0-auto"
       key={transportationItem?.quote_id}
       categoryName={t('Transportation')}
       item={Item}
-      title={useCapitalizeFirstChar(transportationItem?.service_info?.vehicle_type)}
+      title={useCapitalizeFirstChar(
+        transportationItem?.service_info?.vehicle_type,
+      )}
       image={transportationItem?.service_info?.photo_url}
       imageBackgroundSize={'contain'}
       url={transportationDetailsPageUrl}
       priceDisplay={<TransportaionDisplay transportaion={transportationItem} />}
-      address={<TransportationCardDetails transportation={transportationItem} />}
-      cancellable={<TransportationCancellable cancellable={true} description={transportationItem?.fare?.refund_cancellation_policy} />}
+      address={
+        <TransportationCardDetails transportation={transportationItem} />
+      }
+      cancellable={
+        <TransportationCancellable
+          cancellable={true}
+          description={transportationItem?.fare?.refund_cancellation_policy}
+        />
+      }
       icon={<TransportIcon />}
-      rating={transportationItem?.service_info?.passenger_reviews?.average_rating}
+      rating={
+        transportationItem?.service_info?.passenger_reviews?.average_rating
+      }
       ratingCount={transportationItem?.service_info?.passenger_reviews?.count}
     />
   );
 };
 
-const TransportationCardDetails: FC<{ transportation: Quote }> = ({ transportation }) => {
-
+const TransportationCardDetails: FC<{ transportation: Quote }> = ({
+  transportation,
+}) => {
   return (
     <section className="flex flex-col justify-between gap-2">
       <section>
-        <section className="text-dark-1000">{useCapitalizeFirstChar(transportation?.service_info?.service_class)}</section>
-      </section>
-      <section className='flex flex-col gap-1 items-start justify-start lg:flex lg:flex-row lg:justify-around lg:items-start lg:flex-1'>
-        <section className='flex flex-row items-center justify-start gap-1 lg:flex lg:flex-row lg:gap-1 lg:items-center lg:justify-start'>
-          <Users className=" w-4 h-4 text-primary-1000" />
-          <section className="text-dark-1000">{transportation?.service_info?.max_pax} Passengers</section>
+        <section className="text-dark-1000">
+          {useCapitalizeFirstChar(transportation?.service_info?.service_class)}
         </section>
-        <section className='flex flex-row gap-1 items-center justify-start lg:flex lg:flex-row lg:gap-1 lg:items-center lg:justify-start'>
+      </section>
+      <section className="flex flex-col gap-1 items-start justify-start lg:flex lg:flex-row lg:justify-around lg:items-start lg:flex-1">
+        <section className="flex flex-row items-center justify-start gap-1 lg:flex lg:flex-row lg:gap-1 lg:items-center lg:justify-start">
+          <Users className=" w-4 h-4 text-primary-1000" />
+          <section className="text-dark-1000">
+            {transportation?.service_info?.max_pax} Passengers
+          </section>
+        </section>
+        <section className="flex flex-row gap-1 items-center justify-start lg:flex lg:flex-row lg:gap-1 lg:items-center lg:justify-start">
           <Suitcase className="w-4 h-4 text-primary-1000" />
-          <section className="text-dark-1000">{transportation?.luggage?.inclusive_allowance}</section>
+          <section className="text-dark-1000">
+            {transportation?.luggage?.inclusive_allowance}
+          </section>
         </section>
       </section>
       <section>
@@ -81,8 +108,7 @@ const TransportationCardDetails: FC<{ transportation: Quote }> = ({ transportati
             text={transportation?.service_info?.supplier?.description}
           />
         )}
-        <section>
-        </section>
+        <section></section>
       </section>
     </section>
   );

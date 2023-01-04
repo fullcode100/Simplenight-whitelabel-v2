@@ -10,11 +10,10 @@ interface TransportationItineraryFooterProps {
   icon: ReactElement;
 }
 
-export const TransportationItineraryHeader: FC<TransportationItineraryFooterProps> = ({
-  item,
-  icon,
-}) => {
-    const [t] = useTranslation('ground-transportation');
+export const TransportationItineraryHeader: FC<
+  TransportationItineraryFooterProps
+> = ({ item, icon }) => {
+  const [t] = useTranslation('ground-transportation');
 
   const quote: Quote = item.booking_data?.transportation;
   const title = useCapitalizeFirstChar(quote?.service_info?.vehicle_type);

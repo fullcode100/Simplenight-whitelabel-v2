@@ -1,19 +1,17 @@
-import {
-  MouseEvent,
-} from 'react';
+import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 
 interface TravelersInputProps {
   showTravelersInput: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
-  children: JSX.Element
+  children: JSX.Element;
 }
 
 const TravelersInput = ({
   showTravelersInput,
   onClose,
-  children
+  children,
 }: TravelersInputProps) => {
   const [t] = useTranslation('global');
   const applyLabel = t('apply', 'Apply');

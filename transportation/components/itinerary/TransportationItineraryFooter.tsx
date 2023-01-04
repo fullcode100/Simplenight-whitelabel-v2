@@ -15,15 +15,12 @@ interface TransportationItineraryFooterProps {
   item: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
-  checkout?: boolean
+  checkout?: boolean;
 }
 
-export const TransportationItineraryFooter: FC<TransportationItineraryFooterProps> = ({
-  item,
-  reload,
-  setReload,
-  checkout = false
-}) => {
+export const TransportationItineraryFooter: FC<
+  TransportationItineraryFooterProps
+> = ({ item, reload, setReload, checkout = false }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
@@ -55,7 +52,9 @@ export const TransportationItineraryFooter: FC<TransportationItineraryFooterProp
   return (
     <section className="flex items-center gap-6">
       <section className="flex items-center grow">
-        <section className="font-normal text-[16px] leading-[22px] text-dark-1000">{tg('total')}</section>
+        <section className="font-normal text-[16px] leading-[22px] text-dark-1000">
+          {tg('total')}
+        </section>
         <section className="flex flex-col items-end grow">
           <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
             {currencyCode + ' ' + price.toFixed(2)}
@@ -86,7 +85,8 @@ export const TransportationItineraryFooter: FC<TransportationItineraryFooterProp
             onClick={handleEdit}
             className="lg:w-[170px] h-8"
           />
-        </section>) : (
+        </section>
+      ) : (
         <></>
       )}
     </section>

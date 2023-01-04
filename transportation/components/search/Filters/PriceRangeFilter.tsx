@@ -8,15 +8,15 @@ interface PriceRangeFilterProps {
   minPrice: string;
   maxPrice: string;
   onChangeMaxPrice:
-  | Dispatch<React.SetStateAction<string>>
-  | ((value: string) => void);
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   onChangeMinPrice:
-  | Dispatch<React.SetStateAction<string>>
-  | ((value: string) => void);
+    | Dispatch<React.SetStateAction<string>>
+    | ((value: string) => void);
   setMaxValue: any;
-  setMinValue: any
-  min?: number
-  max?: number
+  setMinValue: any;
+  min?: number;
+  max?: number;
 }
 
 const PriceRangeFilter = ({
@@ -27,7 +27,7 @@ const PriceRangeFilter = ({
   setMaxValue,
   setMinValue,
   min,
-  max
+  max,
 }: PriceRangeFilterProps) => {
   const [t] = useTranslation('ground-transportation');
   const priceRangeLabel = t('priceRange', 'Price Range');

@@ -54,6 +54,7 @@ export const getCategoryIcon = (key: string) => {
     coffee: <CoffeeIcon />,
     balloon: <Balloon />,
     'parking-square': <ParkingIcon />,
+    transport: <TransportIcon />,
   };
 
   return iconsMapping[key];

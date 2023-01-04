@@ -275,12 +275,12 @@ export const TransportationFilterFormDesktop: FC<
         }
         initialState
       />
-      <Divider className="my-6" />
+      {/* <Divider className="my-6" />
       <CollapseUnbordered
         title={<Heading tag="h5">{featuresLabel}</Heading>}
         body={<></>}
         initialState
-      />
+      />*/}
     </section>
   );
 };

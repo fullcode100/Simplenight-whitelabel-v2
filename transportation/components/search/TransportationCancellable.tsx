@@ -7,8 +7,10 @@ interface TransportationCancellableProps {
   description?: string;
 }
 
-export const TransportationCancellable: FC<TransportationCancellableProps> = ({ cancellable, description }) => {
-
+export const TransportationCancellable: FC<TransportationCancellableProps> = ({
+  cancellable,
+  description,
+}) => {
   return (
     <section className="flex justify-end lg:flex lg:flex-col lg:w-full lg:items-end">
       <FreeCancellation wfull cancellable={cancellable} />

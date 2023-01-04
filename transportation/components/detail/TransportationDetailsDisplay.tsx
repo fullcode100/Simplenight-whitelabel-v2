@@ -8,10 +8,22 @@ import Loader from '../../../components/global/Loader/Loader';
 import Script from 'next/script';
 import { Quote } from 'transportation/types/response/TransportationSearchResponse';
 
-
-export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({ Category }) => {
-
-  const { id, startDate, endDate, startTime, endTime, latitude, longitude, latitude2, longitude2, address, address2 } = useQuery();
+export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({
+  Category,
+}) => {
+  const {
+    id,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    latitude,
+    longitude,
+    latitude2,
+    longitude2,
+    address,
+    address2,
+  } = useQuery();
 
   const [t, i18next] = useTranslation('ground-transportation');
 
@@ -19,8 +31,14 @@ export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({ C
   const [loaded, setLoaded] = useState<boolean>(false);
   const [tg] = useTranslation('global');
 
-  const satartCoordinates = { latitude: parseFloat(latitude as string), longitude: parseFloat(longitude as string) }
-  const endCoordinates = { latitude: parseFloat(latitude2 as string), longitude: parseFloat(longitude2 as string) }
+  const satartCoordinates = {
+    latitude: parseFloat(latitude as string),
+    longitude: parseFloat(longitude as string),
+  };
+  const endCoordinates = {
+    latitude: parseFloat(latitude2 as string),
+    longitude: parseFloat(longitude2 as string),
+  };
 
   const searchDetails = {
     pickUpDate: startDate as string,
@@ -30,8 +48,8 @@ export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({ C
     dropOffDate: endDate as string,
     dropOffTime: endTime as string,
     dropOffAddress: address2 as string,
-    dropOffCoordinates: endCoordinates
-  }
+    dropOffCoordinates: endCoordinates,
+  };
   useEffect(() => {
     const params: any = {
       inventory_ids: id,
@@ -56,14 +74,17 @@ export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({ C
       <Script
         src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
       />
-      {loaded && qoute &&
+      {loaded && qoute && (
         <main>
           <section className="flex flex-col w-full lg:px-0 lg:flex lg:flex-row lg:w-full">
-            <TransportationDetailsLeftSide transportation={qoute} searchDetails={searchDetails} />
+            <TransportationDetailsLeftSide
+              transportation={qoute}
+              searchDetails={searchDetails}
+            />
             <TransportationDetailsRightSide transportation={qoute} />
           </section>
         </main>
-      }
+      )}
       {!loaded && (
         <section className="lg:pt-14">
           <Loader />
