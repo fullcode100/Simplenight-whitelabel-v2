@@ -1,4 +1,5 @@
 import React from 'react';
+import PageError500 from '../Error500/PageError500';
 
 class ErrorBoundary extends React.Component<any, any> {
   constructor(props: any) {
@@ -22,13 +23,7 @@ class ErrorBoundary extends React.Component<any, any> {
       // You can render any custom fallback UI
       return (
         <div>
-          <h2>Oops, there is an error!</h2>
-          <button
-            type="button"
-            onClick={() => this.setState({ hasError: false })}
-          >
-            Try again?
-          </button>
+          <PageError500 />
         </div>
       );
     }
