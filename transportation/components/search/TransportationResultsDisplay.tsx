@@ -22,6 +22,7 @@ import {
 import { useFilter } from 'transportation/hooks/useFilter';
 import { getMetadata } from 'transportation/helpers/getMetadata';
 import { TransportationListMetaData } from 'transportation/types/TransportationFilter';
+import { TransportationFilterMobileView } from './TransportationFilterMobileView';
 
 interface TransportationResultsDisplayProps {
   TransportationCategory: CategoryOption;
@@ -51,6 +52,8 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
     maxRating: 0,
   });
 
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
   const { onFilterValuesChanged, filteredList, filter } = useFilter(
     transportationList,
     metadata,
@@ -70,6 +73,8 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
     address2,
     trip,
     passengers,
+    pickUp,
+    dropOff,
   } = useQuery();
 
   useEffect(() => {
@@ -80,13 +85,9 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
     const params = {
       pickup_datetime: `${startDate}T${startTime}`,
       ...(trip === 'roundTrip' && { return_datetime: `${endDate}T${endTime}` }),
-      pickup_context: address?.includes('Airport' || 'Terminal')
-        ? 'airport-terminal'
-        : 'Address',
+      pickup_context: pickUp,
       pickup_location: `${latitude},${longitude}`,
-      return_context: address2?.includes('Airport' || 'Terminal')
-        ? 'airport-terminal'
-        : 'Address',
+      return_context: dropOff,
       return_location: `${latitude2},${longitude2}`,
       currency: 'USD',
       include_return_trip: trip === 'roundTrip' ? true : false,
@@ -199,7 +200,7 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
               </span>
             </button>
             <button
-              onClick={onOpen}
+              onClick={() => setMobileFilterOpen(true)}
               className="flex items-center gap-1 lg:hidden"
             >
               <span className="text-primary-1000">
@@ -209,6 +210,14 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
                 {filterLabel}
               </span>
             </button>
+            {mobileFilterOpen && (
+              <TransportationFilterMobileView
+                onClose={() => setMobileFilterOpen(false)}
+                filterValuesChanged={onFilterValuesChanged}
+                filter={filter}
+                transportationMetaData={metadata}
+              />
+            )}
           </section>
         </section>
         <section className="px-5 py-6">

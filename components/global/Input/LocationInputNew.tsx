@@ -18,7 +18,7 @@ interface LocationInputProps {
   icon: any;
   routeParams?: string[];
   onChange?: (value: string) => void;
-  onSelect?: (value: latLngProp, address: string) => void;
+  onSelect?: (value: latLngProp, address: string, types?: string[]) => void;
   types?: LocationType[];
   addressOnly?: boolean;
 }
@@ -62,7 +62,7 @@ export const LocationInput: FC<LocationInputProps & BaseInputProps> = ({
 
       setAddress(newAddress);
 
-      if (onSelect) onSelect(latLng, newAddress);
+      if (onSelect) onSelect(latLng, newAddress, results[0].types);
     } catch (error) {
       console.error(error);
     }
