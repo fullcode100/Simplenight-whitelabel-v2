@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 // Libraries
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 // Components
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Button from 'components/global/Button/Button';
@@ -19,7 +19,7 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import { deepCopy } from 'helpers/objectUtils';
-import Form, { IChangeEvent } from '@rjsf/core';
+import { IChangeEvent } from '@rjsf/core';
 import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
 import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
@@ -46,7 +46,6 @@ const Client = () => {
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
   const [travelersUiSchema, setTravelersUiSchema] = useState();
   const [isRemoved, setIsRemoved] = useState(false);
-  const formRef = useRef<any>(null);
 
   const currency = getCurrency();
 
@@ -78,12 +77,28 @@ const Client = () => {
   let cartId: string | null = null;
 
   const checkFormValidate = () => {
-    const hasFormChild = formRef.current?.formElement?.[0];
-    if (hasFormChild) {
-      const validate = document.forms[0].checkValidity();
-      return validate;
+    const forms = document?.forms;
+    if (forms) {
+      for (let i = 0; i < forms.length; i++) {
+        const form = forms[i];
+        if (!form?.checkValidity()) return setIsDisabled(true);
+      }
+      return setIsDisabled(false);
     }
-    return true;
+  };
+
+  const checkFormsBeforeContinue = () => {
+    const forms = document?.forms;
+    if (forms) {
+      for (let i = 0; i < forms.length; i++) {
+        const form = forms[i];
+        if (!form?.checkValidity()) {
+          form?.reportValidity();
+          return false;
+        }
+      }
+      return true;
+    }
   };
 
   const handleAdditionalRequestChange = (
@@ -259,6 +274,7 @@ const Client = () => {
   };
 
   const continueToPayment = async (values: any) => {
+    if (!checkFormsBeforeContinue()) return;
     if (!cart || cart.total_item_qty <= 0 || !primaryContactData) return;
 
     const customerUpdater = new ClientCartCustomerUpdater();
@@ -300,12 +316,6 @@ const Client = () => {
     <p className="px-5 mt-3 mb-2 text-lg lg:mt-0 lg:text-2xl text-dark-800 lg:bg-dark-100 lg:py-6 lg:border-b lg:font-semibold">
       {children}
     </p>
-  );
-
-  const Card = ({ children }: LayoutProps) => (
-    <section className="lg:border lg:rounded-md lg:shadow-sm">
-      {children}
-    </section>
   );
 
   const continueShopping = () => {
@@ -372,46 +382,39 @@ const Client = () => {
               <Card>
                 <Title>{primaryContactText}</Title>
                 <section>
-                  <Form
-                    schema={{}}
-                    uiSchema={{}}
+                  <ClientForm
+                    schema={travelersFormSchemaWithClass}
+                    uiSchema={travelersUiSchema}
+                    onChange={handlePrimaryContactFormChange}
                     onSubmit={continueToPayment}
-                    ref={formRef}
                   >
-                    <ClientForm
-                      schema={travelersFormSchemaWithClass}
+                    <ClientCart
+                      items={cart?.items}
+                      schema={travelersFormSchema}
                       uiSchema={travelersUiSchema}
-                      onChange={handlePrimaryContactFormChange}
-                    >
-                      <ClientCart
-                        items={cart?.items}
-                        schema={travelersFormSchema}
-                        uiSchema={travelersUiSchema}
-                        onChange={handleAdditionalRequestChange}
-                        onChangeAnswers={handleTravelerAnswerChange}
+                      onChange={handleAdditionalRequestChange}
+                      onChangeAnswers={handleTravelerAnswerChange}
+                    />
+                    <CheckoutFooter type="client">
+                      <CheckoutSummary
+                        cart={cart}
+                        reload={reload}
+                        setReload={setReload}
                       />
-                      <CheckoutFooter type="client">
-                        <CheckoutSummary
-                          cart={cart}
-                          reload={reload}
-                          setReload={setReload}
-                        />
-                        <Button
-                          value={cancelButton}
-                          size={'full'}
-                          onClick={redirectToItinerary}
-                          color="outlined"
-                          className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                        />
-                        <Button
-                          value={continueButton}
-                          size={'full'}
-                          disabled={false}
-                          className="lg:w-[35%] text-[18px] font-normal"
-                        />
-                      </CheckoutFooter>
-                    </ClientForm>
-                  </Form>
+                      <Button
+                        value={cancelButton}
+                        size={'full'}
+                        onClick={redirectToItinerary}
+                        color="outlined"
+                        className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+                      />
+                      <Button
+                        value={continueButton}
+                        size={'full'}
+                        className="lg:w-[35%] text-[18px] font-normal"
+                      />
+                    </CheckoutFooter>
+                  </ClientForm>
                 </section>
               </Card>
             </section>
@@ -426,5 +429,9 @@ const Client = () => {
     </>
   );
 };
+
+const Card = ({ children }: LayoutProps) => (
+  <section className="lg:border lg:rounded-md lg:shadow-sm">{children}</section>
+);
 
 export default Client;
