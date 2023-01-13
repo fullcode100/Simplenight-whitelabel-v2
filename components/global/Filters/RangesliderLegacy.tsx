@@ -32,6 +32,11 @@ const RangesliderLegacy = ({
   const [minValue, setMinValue] = useState(initialMin ?? min);
   const [maxValue, setMaxValue] = useState(initialMax);
 
+  useEffect(() => {
+    setMinValue(initialMin as number);
+    setMaxValue(initialMax);
+  }, [initialMax, initialMin]);
+
   const setMin = (value: number) => {
     setMinValue(value);
   };

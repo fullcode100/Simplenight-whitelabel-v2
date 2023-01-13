@@ -16,7 +16,7 @@ import Calendar from 'public/icons/assets/calendar.svg';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { icons } from 'antd/lib/image/PreviewGroup';
 import LocationMap from 'components/global/LocationMap/LocationMap';
-import FilterFormDesktop, { filters } from './Filters/FilterFormDesktop';
+import FilterFormDesktop from './Filters/FilterFormDesktop';
 import ResultsOptionsBar from '../ResultsOptionsBar/ResultsOptionsBar';
 import FilterFormMobile from './Filters/FilterFormMobile';
 import CollapseElement from 'components/global/CollapseElement/CollapseElement';
@@ -58,6 +58,7 @@ import {
 import IconInput from 'components/global/Input/IconInput';
 import { SearchRequest } from 'types/search/SearchRequest';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
+import { filters } from './Filters/types';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -108,7 +109,6 @@ const ShowAndEventsDetailDisplay = ({
     useState<ShowDetailItem[]>();
 
   const [loaded, setLoaded] = useState(false);
-  const [similarEventsLoaded, setSimilarEventsLoaded] = useState(false);
   const [showMobileFilters, setShowMobileFilter] = useState(false);
   const [sectors, setSectors] = useState<Sector[]>();
 
@@ -116,7 +116,9 @@ const ShowAndEventsDetailDisplay = ({
 
   const [selectedSeats, setSelectedSeats] = useState<any[]>([]);
   const [extraDataSeats, setExtraDataSeats] = useState<any>();
+  const [extraDataSeatsCache, setExtraDataSeatsCache] = useState<any>();
   const [maxSectorPrice, setMaxSectorPrice] = useState(0);
+  const [maxAvailableSeats, setMaxAvailableSeats] = useState(0);
   const [showSelectedSeatsBar, setShowSelectedSeatsBar] =
     useState<boolean>(false);
   const [addresObject, setAddressObject] = useState({
@@ -176,15 +178,20 @@ const ShowAndEventsDetailDisplay = ({
     return groups;
   };
 
-  const getMaxSectorPrice = (sectorSeats: any) => {
+  const getMaxSectorValues = (sectorSeats: any) => {
     let maxSectorPrice = 0;
+    let maxAvailableSeats = 0;
     sectorSeats.forEach((item: any) => {
       const amount = item.rate.total.net.amount;
+      const seats = item.available_seats;
+      if (seats > maxAvailableSeats) {
+        maxAvailableSeats = seats;
+      }
       if (amount > maxSectorPrice) {
         maxSectorPrice = amount;
       }
     });
-    return maxSectorPrice;
+    return { maxSectorPrice, maxAvailableSeats };
   };
 
   useEffect(() => {
@@ -230,6 +237,7 @@ const ShowAndEventsDetailDisplay = ({
 
           setExtraDataObject(items[0].extra_data);
           setExtraDataSeats(items[0].extra_data.seats);
+          setExtraDataSeatsCache(items[0].extra_data.seats);
 
           setLoaded(true);
         })
@@ -245,9 +253,13 @@ const ShowAndEventsDetailDisplay = ({
     if (extraDataSeats) {
       const finalData = extraDataSeats.filter((item: any) => {
         return (
-          item.purchasable_quantities.includes(+filter.seats) &&
-          item.rate.total.net.amount >= filter.minPrice &&
-          item.rate.total.net.amount <= filter.maxPrice
+          Number(item.available_seats) >= Number(filter.minSeats) &&
+          Number(item.available_seats) <=
+            (Number(filter.maxSeats) < 6
+              ? Number(filter.maxSeats)
+              : Number(maxAvailableSeats)) &&
+          Number(item.rate.total.net.amount) >= Number(filter.minPrice) &&
+          Number(item.rate.total.net.amount) <= Number(filter.maxPrice)
         );
       });
       setSectors(groupBySectors(finalData));
@@ -257,9 +269,16 @@ const ShowAndEventsDetailDisplay = ({
   useEffect(() => {
     if (extraDataSeats) {
       setSectors(groupBySectors(extraDataSeats));
-      setMaxSectorPrice(getMaxSectorPrice(extraDataSeats));
     }
   }, [extraDataSeats]);
+
+  useEffect(() => {
+    if (extraDataSeatsCache) {
+      const maxSectorValues = getMaxSectorValues(extraDataSeatsCache);
+      setMaxSectorPrice(maxSectorValues.maxSectorPrice);
+      setMaxAvailableSeats(maxSectorValues.maxAvailableSeats);
+    }
+  }, [extraDataSeatsCache]);
 
   const { description } = extraDataObject;
   const showAndEventsList = () => {
@@ -538,7 +557,8 @@ const ShowAndEventsDetailDisplay = ({
         <CollapseElement show={showMobileFilters}>
           <FilterFormMobile
             onChange={filterSectors}
-            max={`${maxSectorPrice}`}
+            maxPrice={`${maxSectorPrice}`}
+            maxSeats={`${maxAvailableSeats}`}
           />
         </CollapseElement>
         {/* <section className="flex items-center justify-between  pt-3 pb-3 lg:mt-4 lg:pb-0">
@@ -735,7 +755,8 @@ const ShowAndEventsDetailDisplay = ({
                     <section className="hidden lg:block">
                       <FilterFormDesktop
                         onChange={filterSectors}
-                        max={`${maxSectorPrice}`}
+                        maxPrice={`${maxSectorPrice}`}
+                        maxSeats={`${maxAvailableSeats}`}
                       />
                     </section>
                   </section>

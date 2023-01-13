@@ -1,12 +1,16 @@
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
-import { FlightSearchRequest } from 'flights/types/request/FlightSearchRequest';
-import { CarSearchRequest } from 'cars/types/request/CarSearchRequest';
+import { ShowsSearchRequest } from 'showsAndEvents/types/request/ShowsSearchRequest';
 import { i18n } from 'i18next';
 import { AppThunk } from 'store';
 
 export interface CategoryStoreActions {
   hotelsSetInitialState?: (
     searchParams: HotelSearchRequest,
+    i18next: i18n,
+  ) => AppThunk;
+
+  showsAndEventsSetInitialState?: (
+    searchParams: ShowsSearchRequest,
     i18next: i18n,
   ) => AppThunk;
 

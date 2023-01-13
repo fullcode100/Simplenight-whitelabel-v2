@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Sort from 'public/icons/assets/sort.svg';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
@@ -10,6 +10,7 @@ interface ResultsOptionsBarProps {
   onClickFilter?: (event?: MouseEvent<HTMLElement>) => void;
   onClickSort?: (event?: MouseEvent<HTMLElement> | string) => void;
   sortByOptions?: Array<{ value: string; label: string }>;
+  defaultOption?: string;
 }
 
 const ResultsOptionsBar = ({
@@ -17,14 +18,23 @@ const ResultsOptionsBar = ({
   onClickFilter,
   onClickSort,
   sortByOptions,
+  defaultOption,
 }: ResultsOptionsBarProps) => {
-  const [sortBy, setSortBy] = useState<string>(sortByOptions?.[0].value || '');
+  const [sortBy, setSortBy] = useState<string>(
+    defaultOption || sortByOptions?.[0].value || '',
+  );
   const [showSortModal, setShowSortModal] = useState(false);
 
   const [tg] = useTranslation('global');
   const resultsLabel = tg('results', 'Results');
   const sortLabel = tg('sort', 'Sort');
   const filterLabel = tg('filter', 'Filter');
+
+  useEffect(() => {
+    if (defaultOption) {
+      setSortBy(defaultOption);
+    }
+  }, [defaultOption]);
 
   const handleSortBy = (value: string) => {
     setSortBy(value);

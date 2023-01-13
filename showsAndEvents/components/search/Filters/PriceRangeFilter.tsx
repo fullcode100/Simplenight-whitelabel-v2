@@ -22,7 +22,7 @@ interface PriceRangeFilterProps {
 }
 
 const PriceRangeFilter = ({
-  step = 100,
+  step = 5,
   minDifference = 100,
   max = 5000,
   minValue,

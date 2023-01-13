@@ -20,6 +20,7 @@ export interface ShowsSearchResponse {
     };
   };
   extra_data: {
+    ticket_count: number;
     venue_name: string;
     seats: [];
     starts_at: string;

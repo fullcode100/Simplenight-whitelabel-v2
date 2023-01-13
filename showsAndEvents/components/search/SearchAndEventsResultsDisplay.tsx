@@ -6,15 +6,12 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 // components
 import ResultCard from './ResultCard/ResultCard';
 // mocks
-import { thingToDo } from '../../mocks/showsAndEventsMock';
 import ThingsCancellable from './ShowsCancellable/ShowsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
-import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import ShowAndEventsFilterFormDesktop from './ShowAndEventsFilterFormDesktop';
 import { ShowsSearchResponse as iShowAndEventsResult } from '../../types/response/ShowsSearchResponse';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import classnames from 'classnames';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 
 import LocationMap from 'components/global/LocationMap/LocationMap';
@@ -24,11 +21,12 @@ import Button from 'components/global/Button/Button';
 import { ShowsSearchRequest } from 'showsAndEvents/types/request/ShowsSearchRequest';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
-import axios from 'axios';
 const RESULTS_PER_PAGE = 10;
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { useCategorySlug } from 'hooks/category/useCategory';
+import { useDispatch, useSelector } from 'react-redux';
+import { showsAndEventsSetInitialState } from 'showsAndEvents/redux/actions';
 
 interface ShowsResultsDisplayProps {
   ShowsCategory: CategoryOption;
@@ -37,14 +35,12 @@ interface ShowsResultsDisplayProps {
 const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   const [t, i18next] = useTranslation('events');
   const thingsToDoLabel = t('events', 'Shows & events');
-  const { ClientSearcher: Searcher } = ShowsCategory.core;
 
   const { slug } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
-  const resultsMock = thingToDo;
   const {
     startDate,
     endDate,
@@ -57,8 +53,8 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     query,
   } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
-  const [showsEvents, setShowsEventsItems] = useState<iShowAndEventsResult[]>(
-    [],
+  const { loading, filteredShowsAndEvents } = useSelector(
+    ({ showsAndEvents }: any) => showsAndEvents,
   );
   const [sortedShowsEvents, setSortedShowsEvents] = useState<
     iShowAndEventsResult[]
@@ -68,6 +64,8 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
 
   const [gt] = useTranslation('global');
   const noResultsLabel = gt('noResultsSearch', 'No Results Match Your Search.');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const params: ShowsSearchRequest = {
@@ -82,20 +80,11 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
       query: query as string,
       apiUrl,
     };
-    setLoaded(false);
-    Searcher?.request?.(params, i18next)
-      .then((data) => {
-        setShowsEventsItems(data.items);
-        setLoaded(true);
-      })
-      .catch((error) => {
-        setLoaded(true);
-      })
-      .then(() => setLoaded(true));
+    dispatch(showsAndEventsSetInitialState(params, i18next));
   }, [startDate, endDate, dstGeolocation, distance, seats, maxPrice, minPrice]);
 
   const lowestPriceItems = useMemo(() => {
-    return [...showsEvents].sort(
+    return [...filteredShowsAndEvents].sort(
       (
         { rate: rate1 }: iShowAndEventsResult,
         { rate: rate2 }: iShowAndEventsResult,
@@ -103,10 +92,10 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
         return rate1.total.net.amount - rate2.total.net.amount;
       },
     );
-  }, [showsEvents]);
+  }, [filteredShowsAndEvents]);
 
   const HighestPriceItems = useMemo(() => {
-    return [...showsEvents].sort(
+    return [...filteredShowsAndEvents].sort(
       (
         { rate: rate1 }: iShowAndEventsResult,
         { rate: rate2 }: iShowAndEventsResult,
@@ -114,17 +103,19 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
         return rate2.total.net.amount - rate1.total.net.amount;
       },
     );
-  }, [showsEvents]);
+  }, [filteredShowsAndEvents]);
 
   useEffect(() => {
-    if (showsEvents.length) {
+    if (filteredShowsAndEvents.length) {
       if (sortBy === SORT_BY_OPTIONS[0].value) {
         setSortedShowsEvents(lowestPriceItems);
       } else if (sortBy === SORT_BY_OPTIONS[1].value) {
         setSortedShowsEvents(HighestPriceItems);
       }
+    } else {
+      setSortedShowsEvents([]);
     }
-  }, [showsEvents, sortBy]);
+  }, [filteredShowsAndEvents, sortBy]);
 
   const [addresObject, setAddressObject] = useState({
     address1: '',
@@ -139,8 +130,6 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     postal_code: postalCode,
     coordinates,
   } = addresObject;
-  const setQueryParams = useQuerySetter();
-  const [loaded, setLoaded] = useState(true);
   const [next, setNext] = useState(RESULTS_PER_PAGE);
 
   const loadMoreResults = () => {
@@ -237,7 +226,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
           />
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
-          {loaded && sortedShowsEvents.length ? (
+          {!loading && sortedShowsEvents.length ? (
             <>
               <section className="block">
                 <>
@@ -246,13 +235,14 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                     sortByOptions={SORT_BY_OPTIONS}
                     onClickSort={setSortBy}
                     onClickFilter={() => setShowMobileFilters(true)}
+                    defaultOption={sortBy}
                   />{' '}
                 </>
               </section>
               <ThingsToDoList />
               {!isListView && (
                 <section className="relative w-full h-full">
-                  {loaded ? (
+                  {!loading ? (
                     <LocationMap center={coordinates} />
                   ) : (
                     <HorizontalSkeletonList />
@@ -272,7 +262,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
             </>
           ) : (
             <>
-              {loaded ? (
+              {!loading ? (
                 <section className="flex w-full justify-center items-center">
                   <EmptyState
                     text={noResultsLabel}
