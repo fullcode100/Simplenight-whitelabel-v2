@@ -23,7 +23,7 @@ const getRandomInt = (max: number) => {
 
 const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
   const [t, i18next] = useTranslation('events');
-  const title = t('trendingArtists', 'Trending Artists');
+  const title = t('trendingArtists', 'Trending Events');
   const { ClientSearcher: Searcher } = Category.core;
 
   const [loading, setLoading] = useState(true);
@@ -33,8 +33,8 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
 
   useEffect(() => {
     const params: ShowsSearchRequest = {
-      start_date: formatAsSearchDate(dayjs()),
-      end_date: formatAsSearchDate(dayjs().add(30, 'day')),
+      start_date: formatAsSearchDate(dayjs.utc()),
+      end_date: formatAsSearchDate(dayjs.utc().add(30, 'day')),
       dst_geolocation: '0,0',
       rsp_fields_set: 'basic',
       is_trending_req: true,

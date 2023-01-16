@@ -32,8 +32,8 @@ const FeaturedCarousel = ({ Category }: FeaturedCarouselProps) => {
 
   useEffect(() => {
     const params: ShowsSearchRequest = {
-      start_date: formatAsSearchDate(dayjs()),
-      end_date: formatAsSearchDate(dayjs().add(30, 'day')),
+      start_date: formatAsSearchDate(dayjs.utc()),
+      end_date: formatAsSearchDate(dayjs.utc().add(30, 'day')),
       dst_geolocation: '0,0',
       rsp_fields_set: 'basic',
       is_trending_req: false,

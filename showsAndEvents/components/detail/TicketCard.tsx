@@ -69,18 +69,10 @@ const TicketCard: React.FC<TicketCard> = ({
   };
 
   return (
-    <section
-      className="border border-dark-300 mt-2 rounded cursor-pointer"
-      onClick={increaseSelectedSeats}
-    >
+    <section className="border border-dark-300 mt-2 rounded cursor-pointer">
       <div className="py-4 w-full border-solid border-l-0 border-r-0 border-t-0 border-b gap-2.5 flex flex-col items-start self-stretch border-[rgba(212,212,212,1)]">
         <div className="px-4 w-full gap-2 flex flex-col items-start self-stretch">
           <div className="gap-2 flex items-start w-full">
-            {/* <div className="text-[rgba(69,69,69,1)]">
-              <p className="text-xl leading-6 capitalize m-0 text-">
-                {`${rowLabel} ${row}`}
-              </p>
-            </div> */}
             <div className="text-[rgba(122,122,122,1)] w-full">
               <p className="text-xl leading-6 capitalize m-0 truncate">
                 <span className="text-[rgba(69,69,69,1)]">{`${rowLabel} ${row} `}</span>

@@ -275,7 +275,10 @@ const SelectedSeatsBar = ({
       <section className="py-[12px] px-5 border-t-0 lg:border-t-2">
         <div className="flex justify-between">
           <div className="flex items-center">
-            <p className="text-sm">{totalText}</p>
+            <p className="text-sm hidden lg:block">{totalText}</p>
+            <p className="text-sm lg:hidden">
+              {totalTickets} {totalTickets > 1 ? ticketsLabel : ticketLabel}
+            </p>
           </div>
           <div className="items-center">
             <p className="text-base text-end">
