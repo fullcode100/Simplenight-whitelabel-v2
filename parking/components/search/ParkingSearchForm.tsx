@@ -302,6 +302,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
             onEndDateChange={handleEndDateChange}
             openOnStart={clickOnStart}
             minRange={0}
+            maxRange={Infinity}
           />
         </section>
       </section>

@@ -37,7 +37,7 @@ export const CheckboxList: FC<CheckboxListProps> = ({
         <Checkbox
           key={item.value + index}
           value={item.value}
-          checked={itemsList[item.value]}
+          checked={Boolean(itemsList[item.value])}
           onChange={(checked: boolean) => {
             const checkedItems = {
               ...itemsList,

@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
 import Button from '../../../components/global/Button/Button';
-import { formatAsDisplayDatetime } from '../../../helpers/dajjsUtils';
 import { useTranslation } from 'react-i18next';
 
 import LocationPin from '@/icons/assets/location-pin.svg';
 import CarLeft from '@/icons/assets/car-left.svg';
 import CarRight from '@/icons/assets/car-right.svg';
+import dayjs from 'dayjs';
 
 interface ParkingSearchFormReadStateProps {
   setIsSearching?: (isReading: boolean) => void;
@@ -29,10 +29,15 @@ export const ParkingSearchFormReadState: FC<ParkingSearchFormReadStateProps> = (
     endTime: endTimeQuery,
     address,
   } = useQuery();
-  const startDate = formatAsDisplayDatetime(
+
+  const startDate = dayjs(
     `${startDateQuery} ${startTimeQuery}`,
+    'YYYY-MM-DD hh:mm A',
   );
-  const endDate = formatAsDisplayDatetime(`${endDateQuery} ${endTimeQuery}`);
+  const endDate = dayjs(
+    `${endDateQuery} ${endTimeQuery}`,
+    'YYYY-MM-DD hh:mm A',
+  );
 
   const Summary: FC = () => {
     return (
@@ -50,7 +55,11 @@ export const ParkingSearchFormReadState: FC<ParkingSearchFormReadStateProps> = (
             <CarRight className="text-primary-1000" />
           </section>
           <section>
-            <span>{fromLowerCaseToCapitilize(startDate)}</span>
+            <span>
+              {fromLowerCaseToCapitilize(
+                startDate.format('MMM DD YYYY, h:mm A'),
+              )}
+            </span>
           </section>
         </section>
         <section className="flex gap-2">
@@ -58,7 +67,9 @@ export const ParkingSearchFormReadState: FC<ParkingSearchFormReadStateProps> = (
             <CarLeft className="text-primary-1000" />
           </section>
           <section>
-            <span>{fromLowerCaseToCapitilize(endDate)}</span>
+            <span>
+              {fromLowerCaseToCapitilize(endDate.format('MMM DD YYYY, h:mm A'))}
+            </span>
           </section>
         </section>
       </section>

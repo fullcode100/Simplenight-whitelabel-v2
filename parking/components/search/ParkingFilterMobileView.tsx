@@ -1,9 +1,14 @@
 import React, { FC, useState } from 'react';
 import FullScreenModal from '../../../components/global/NewModal/FullScreenModal';
 import { useTranslation } from 'react-i18next';
-import { ParkingFilterForm, ParkingFilterFormProps } from './ParkingFilterForm';
+import { ParkingFilterForm } from './ParkingFilterForm';
+import { ParkingFilter, ParkingListMetaData } from '../../types/ParkingFilter';
 
-interface ParkingFilterMobileView extends ParkingFilterFormProps {
+interface ParkingFilterMobileView {
+  filter: ParkingFilter;
+  handleReset: () => void;
+  parkingMetaData: ParkingListMetaData;
+  onChange: (input: ParkingFilter) => void;
   onClose: () => void;
 }
 
@@ -11,7 +16,7 @@ export const ParkingFilterMobileView: FC<ParkingFilterMobileView> = ({
   onClose,
   filter,
   parkingMetaData,
-  ...filterFormProps
+  onChange,
 }) => {
   const [tg] = useTranslation('global');
 
@@ -49,23 +54,17 @@ export const ParkingFilterMobileView: FC<ParkingFilterMobileView> = ({
   };
 
   const applyFiltersHandler = () => {
-    const {
-      onHighAvailabilityChange,
-      onMinMaxPriceChange,
-      onMinMaxHeightAfterChange,
-      onFeaturesChange,
-      onMinMaxHeightChange,
-      onMinMaxPriceAfterChange,
-      onSurfaceTypeChange,
-    } = filterFormProps;
-
-    onHighAvailabilityChange(highAvailability);
-    onMinMaxPriceChange([minPrice, maxPrice]);
-    onMinMaxPriceAfterChange([minPrice, maxPrice]);
-    onMinMaxHeightAfterChange([minHeight, maxHeight]);
-    onMinMaxHeightChange([minHeight, maxHeight]);
-    onFeaturesChange(features);
-    onSurfaceTypeChange(surfaceType);
+    onChange({
+      highAvailability,
+      surfaceType,
+      features,
+      minPrice,
+      maxPrice,
+      minHeight,
+      maxHeight,
+      parkingType: filter.parkingType,
+      sortBy: filter.sortBy,
+    });
     onClose();
   };
 

@@ -50,7 +50,7 @@ export const ParkingItineraryFooter: FC<ParkingItineraryFooterProps> = ({
 
   const handleEdit = () => {
     removeParkingFromShoppingCart();
-    router.push(lastSearch.toString());
+    router.push(localStorage.getItem('parkingLastSearch') || '/');
   };
 
   return (

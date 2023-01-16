@@ -7,7 +7,14 @@
 
   .ant-slider-track, .ant-slider-rail {
     height: 2px;
+  }
+
+  .ant-slider-track {
     background-color: var(--primary-color-1000) !important;
+  }
+
+  .ant-slider-rail {
+    background-color: rgb(230, 230, 230) !important;
   }
 
   &:hover .ant-slider-track {
@@ -28,6 +35,7 @@
     width: 32px;
     height: 32px;
     margin-top: -15px;
+    border-width: 1px;
     border-color: var(--primary-color-600) !important;
     background-color: var(--primary-color-100);
 
@@ -44,7 +52,7 @@
   &::after {
     content: '';
     height: 2px;
-    background-color: var(--primary-color-1000);
+    background-color: rgb(230, 230, 230) !important;
     position: absolute;
     top: 4px;
     left: -16px;

@@ -157,7 +157,8 @@ const ParkingSortingAndViewType: FC<{
               {sortBy.includes('ASC') ? <SortAsc /> : <SortDesc />}
             </span>
             <span className="text-xs font-semibold text-left text-dark-1000">
-              <span>{t(sortBy)}</span>
+              <span className="hidden lg:inline">{t(sortBy)}</span>
+              <span className="inline lg:hidden">{t('sort')}</span>
             </span>
             <span className="text-dark-800">
               <Chevron />

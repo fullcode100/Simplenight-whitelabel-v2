@@ -17,12 +17,17 @@ import {
 import { ParkingMapView } from './MapView';
 import { ParkingCard } from './ParkingCard';
 import { useFilter } from '../../hooks/useFilter';
-import { ParkingListMetaData, ParkingSortBy } from '../../types/ParkingFilter';
+import {
+  ParkingFilter,
+  ParkingListMetaData,
+  ParkingSortBy,
+} from '../../types/ParkingFilter';
 import { getParkingMetadata } from '../../helpers/getParkingMetadata';
 import useQuerySetter from '../../../hooks/pageInteraction/useQuerySetter';
 import dayjs from 'dayjs';
 import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
 import { ParkingFilterMobileView } from './ParkingFilterMobileView';
+import { useRouter } from 'next/router';
 
 interface ParkingResultsDisplayProps {
   parkingCategory: CategoryOption;
@@ -31,6 +36,7 @@ interface ParkingResultsDisplayProps {
 export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
   parkingCategory,
 }) => {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [counter, setCounter] = useState(0);
   const [parkingList, setParkingList] = useState<Parking[]>([]);
@@ -117,6 +123,17 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     updateFilter({ sortBy });
   };
 
+  const onFilterChangeHandler = (value: ParkingFilter) => {
+    updateFilter(value);
+    setFeatures(value.features);
+    setHighAvailability(value.highAvailability);
+    setMinHeight(value.minHeight);
+    setMaxHeight(value.maxHeight);
+    setMinPrice(value.minPrice);
+    setMaxPrice(value.maxPrice);
+    setSurfaceType(value.surfaceType);
+  };
+
   const onReset = () => {
     setHighAvailability(false);
     setSurfaceType([]);
@@ -151,8 +168,15 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
   const [t, i18next] = useTranslation('parking');
   const { ClientSearcher: Searcher } = parkingCategory.core;
 
-  const { latitude, longitude, startDate, endDate, startTime, endTime } =
-    useQuery();
+  const {
+    latitude,
+    longitude,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    view: viewParam,
+  } = useQuery();
 
   const setQueryParam = useQuerySetter();
 
@@ -263,7 +287,15 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
       })
       .catch((error) => console.error(error))
       .finally(() => setLoaded(true));
+
+    localStorage.setItem('parkingLastSearch', router.asPath || '/');
   }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (typeof viewParam === 'string' && ['map', 'list'].includes(viewParam)) {
+      viewChangeHandler(viewParam);
+    }
+  }, [viewParam]);
 
   return (
     <>
@@ -353,13 +385,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
             sortBy: filter.sortBy,
           }}
           parkingMetaData={metadata}
-          onFeaturesChange={onFeaturesChange}
-          onHighAvailabilityChange={onHighAvailabilityChange}
-          onMinMaxHeightAfterChange={onMinMaxHeightAfterChange}
-          onMinMaxHeightChange={onMinMaxHeightChange}
-          onMinMaxPriceAfterChange={onMinMaxPriceAfterChange}
-          onMinMaxPriceChange={onMinMaxPriceChange}
-          onSurfaceTypeChange={onSurfaceTypeChange}
+          onChange={onFilterChangeHandler}
         />
       )}
       <SearchViewSelectorFixed />
