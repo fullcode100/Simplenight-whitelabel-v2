@@ -7,26 +7,22 @@ import StarRatingFilter from './Filters/StarRatingFilter';
 import PriceRangeFilter from './Filters/PriceRangeFilter';
 import PropertyFilter from './Filters/PropertyFilter';
 
-import { availableFilters } from './HotelResultsDisplay';
+import {
+  FREE_CANCELATION_INITIAL_VALUE,
+  HOTELS_INITIAL_VALUE,
+  initialPriceRange,
+  MAX_STAR_RATING_INITIAL_VALUE,
+  MIN_STAR_RATING_INITIAL_VALUE,
+  VACATION_RENTALS_INITIAL_VALUE,
+} from './HotelResultsDisplay';
+import { HotelsFilterFormDesktopProps } from './HotelFilterFormDesktop';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
-const initialPriceRange = {
-  min: 0,
-  max: 5000,
-};
-const FREE_CANCELATION_INITIAL_VALUE = false;
-const MIN_STAR_RATING_INITIAL_VALUE = 1;
-const MAX_STAR_RATING_INITIAL_VALUE = 5;
-const HOTELS_INITIAL_VALUE = false;
-const VACATION_RENTALS_INITIAL_VALUE = false;
 
-interface HotelSecondarySearchOptionsProps {
-  handleFilterHotels: (
-    filterToApply: availableFilters,
-    valueToFilter?: string | boolean,
-  ) => void;
+interface HotelSecondarySearchOptionsProps
+  extends Omit<HotelsFilterFormDesktopProps, 'loading'> {
   isFilterModalOpen: boolean;
   setFilterModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -35,24 +31,24 @@ const HotelMobileFilters = ({
   handleFilterHotels,
   setFilterModalOpen,
   isFilterModalOpen,
+  resetFilters,
+  criteria,
+  freeCancellation,
+  setFreeCancellation,
+  vacationRentals,
+  setVacationRentals,
+  minPrice,
+  setMinPrice,
+  maxPrice,
+  setMaxPrice,
+  minStarRating,
+  setMinStarRating,
+  maxStarRating,
+  setMaxStarRating,
 }: HotelSecondarySearchOptionsProps) => {
-  const [freeCancellation, setFreeCancellation] = useState<boolean>(
-    FREE_CANCELATION_INITIAL_VALUE,
-  );
+  const payAtProperty = false;
   const [propertyHotels, setPropertyHotels] =
     useState<boolean>(HOTELS_INITIAL_VALUE);
-  const [vacationRentals, setVacationRentals] = useState<boolean>(
-    VACATION_RENTALS_INITIAL_VALUE,
-  );
-  const [minPrice, setMinPrice] = useState<number>(initialPriceRange.min);
-  const [maxPrice, setMaxPrice] = useState<number>(initialPriceRange.max);
-  const [minStarRating, setMinStarRating] = useState<number>(
-    MIN_STAR_RATING_INITIAL_VALUE,
-  );
-  const [maxStarRating, setMaxStarRating] = useState<number>(
-    MAX_STAR_RATING_INITIAL_VALUE,
-  );
-
   const [t] = useTranslation('hotels');
   const filtersLabel = t('filters', 'Filters');
   const applyFiltersLabel = t('applyFilters', 'Apply Filters');
@@ -60,7 +56,7 @@ const HotelMobileFilters = ({
   const clearFiltersText = t('clearFilters', 'Clear filters');
 
   const handleClearFilters = () => {
-    handleFilterHotels('showAll');
+    resetFilters();
     setMinPrice(initialPriceRange.min);
     setMaxPrice(initialPriceRange.max);
     setFreeCancellation(FREE_CANCELATION_INITIAL_VALUE);
@@ -75,39 +71,47 @@ const HotelMobileFilters = ({
   };
 
   const onChangeMinPrice = (value: string) => {
-    handleFilterHotels('minPrice', value);
+    handleFilterHotels({ ...criteria, MinPrice: value });
   };
 
   const onChangeMaxPrice = (value: string) => {
-    handleFilterHotels('maxPrice', value);
+    handleFilterHotels({ ...criteria, MaxPrice: value });
   };
 
   const onChangeMinRating = (value: string) => {
-    handleFilterHotels('minRating', value);
+    handleFilterHotels({ ...criteria, MinRange: value });
   };
 
   const onChangeMaxRating = (value: string) => {
-    handleFilterHotels('maxRating', value);
+    handleFilterHotels({ ...criteria, MaxRange: value });
   };
 
   const specialCasesProperties = (propertyOptions: string[]) => {
     if (propertyOptions.length === 2) {
-      handleFilterHotels('propertyHotel&Rental');
+      handleFilterHotels({ ...criteria, property: 'propertyHotel&Rental' });
     }
     if (propertyOptions.length === 0) {
-      handleFilterHotels('propertyAll');
+      handleFilterHotels({ ...criteria, property: 'propertyAll' });
     }
+  };
+
+  const onChangeFreeCancellation = (value: boolean) => {
+    const paymentTypes = [];
+    if (value) paymentTypes.push('freeCancellation');
+    if (payAtProperty) paymentTypes.push('payAtProperty');
+    setFreeCancellation(value);
+    handleFilterHotels({ ...criteria, freeCancelation: value });
   };
 
   const onChangeHotels = (value: boolean) => {
     const propertyTypes = [];
     if (value) {
       propertyTypes.push('hotels');
-      handleFilterHotels('propertyHotel');
+      handleFilterHotels({ ...criteria, property: 'propertyHotel' });
     }
     if (vacationRentals) {
       propertyTypes.push('vacationRentals');
-      handleFilterHotels('propertyRental');
+      handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
     setPropertyHotels(value);
     specialCasesProperties(propertyTypes);
@@ -117,11 +121,11 @@ const HotelMobileFilters = ({
     const propertyTypes = [];
     if (value) {
       propertyTypes.push('vacationRentals');
-      handleFilterHotels('propertyRental');
+      handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
     if (propertyHotels) {
       propertyTypes.push('hotels');
-      handleFilterHotels('propertyHotel');
+      handleFilterHotels({ ...criteria, property: 'propertyHotel' });
     }
     setVacationRentals(value);
     specialCasesProperties(propertyTypes);
@@ -157,7 +161,7 @@ const HotelMobileFilters = ({
       <Divider className="my-6" />
       <PaymentFilter
         freeCancellation={freeCancellation}
-        onChangeFreeCancellation={setFreeCancellation}
+        onChangeFreeCancellation={onChangeFreeCancellation}
       />
       <Divider className="my-6" />
       {/* <AmenitiesFilter

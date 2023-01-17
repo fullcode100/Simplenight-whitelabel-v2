@@ -26,7 +26,7 @@ import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/Horizon
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
 import { hotelsSetInitialState } from 'hotels/redux/actions';
-import { useFilterHotels } from '../../hooks/useFilterHotels';
+import { useFilterHotels, FilterCriteria } from '../../hooks/useFilterHotels';
 import { ViewActions } from './ViewActions';
 import { DropdownRadio } from 'components/global/DropdownRadio';
 import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/ListMapMobileBottomTabs';
@@ -37,23 +37,6 @@ import HotelMobileFilters from './HotelMobileFilters';
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
 }
-
-export type availableFilters =
-  | 'minPrice'
-  | 'maxPrice'
-  | 'minRating'
-  | 'maxRating'
-  | 'freeCancelation'
-  | 'ratingLowFirst'
-  | 'ratingHighFirst'
-  | 'priceLowFirst'
-  | 'priceHighFirst'
-  | 'showAll'
-  | 'propertyHotel'
-  | 'propertyRental'
-  | 'propertyHotel&Rental'
-  | 'propertyAll'
-  | 'hotelName';
 
 export type sortByFilters =
   | 'Price (Lowest First)'
@@ -67,9 +50,22 @@ const ratingHighestFirst = 'Rating (Highest First)';
 const ratingLoweFirst = 'Rating (Lowest First)';
 const LG_SCREEN_SIZE = 1024;
 
+export const FREE_CANCELATION_INITIAL_VALUE = false;
+export const MIN_STAR_RATING_INITIAL_VALUE = 1;
+export const MAX_STAR_RATING_INITIAL_VALUE = 5;
+export const HOTELS_INITIAL_VALUE = false;
+export const VACATION_RENTALS_INITIAL_VALUE = false;
+export const initialPriceRange = {
+  min: 0,
+  max: 5000,
+};
+
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [counter, setCounter] = useState(0);
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+  const [criteria, setCriteria] = useState<FilterCriteria>(
+    {} as unknown as FilterCriteria,
+  );
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
   const hotelsFoundLabelDesktop = t('results', 'Results');
@@ -101,16 +97,26 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [sortByVal, setSortByVal] = useState(priceLowerFirst);
   const [currency, setCurrency] = useState<string>('');
   const storeCurrency = useSelector((state: any) => state.core.currency);
-  const { loading, hotels, filteredHotels } = useSelector(
-    (state: any) => state.hotels,
-  );
-  const { handleFilterHotels } = useFilterHotels(hotels);
+  const { loading, hotels } = useSelector((state: any) => state.hotels);
+  const filteredHotels = useFilterHotels(hotels, criteria);
   const [view, setview] = useState('list');
   const windowSize = useWindowSize();
   const isListView = view === 'list';
+  const [freeCancellation, setFreeCancellation] = useState<boolean>(
+    FREE_CANCELATION_INITIAL_VALUE,
+  );
 
-  // It could be useful
-  // const { memoizedFilterHotels } = useFilter(hotels, keywordSearch as string);
+  const [vacationRentals, setVacationRentals] = useState<boolean>(
+    VACATION_RENTALS_INITIAL_VALUE,
+  );
+  const [minPriceFilter, setMinPrice] = useState<number>(initialPriceRange.min);
+  const [maxPriceFilter, setMaxPrice] = useState<number>(initialPriceRange.max);
+  const [minStarRating, setMinStarRating] = useState<number>(
+    MIN_STAR_RATING_INITIAL_VALUE,
+  );
+  const [maxStarRating, setMaxStarRating] = useState<number>(
+    MAX_STAR_RATING_INITIAL_VALUE,
+  );
 
   useEffect(() => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
@@ -190,21 +196,25 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     i18next,
   ]);
 
+  const resetCriteria = () => {
+    setCriteria({} as unknown as FilterCriteria);
+  };
+
   const onChangeSortBy = (value: string) => {
     const typedValue: sortByFilters = value as sortByFilters;
     setSortByVal(value);
     switch (typedValue) {
       case 'Rating (Lowest First)':
-        handleFilterHotels('ratingLowFirst');
+        setCriteria({ ...criteria, sortCriteria: 'ratingLowFirst' });
         break;
       case 'Rating (Highest First)':
-        handleFilterHotels('ratingHighFirst');
+        setCriteria({ ...criteria, sortCriteria: 'ratingHighFirst' });
         break;
       case 'Price (Lowest First)':
-        handleFilterHotels('priceLowFirst');
+        setCriteria({ ...criteria, sortCriteria: 'priceLowFirst' });
         break;
       case 'Price (Highest First)':
-        handleFilterHotels('priceHighFirst');
+        setCriteria({ ...criteria, sortCriteria: 'priceHighFirst' });
         break;
     }
   };
@@ -291,7 +301,21 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <HotelFilterFormDesktop
             loading={loading}
-            handleFilterHotels={handleFilterHotels}
+            handleFilterHotels={setCriteria}
+            resetFilters={resetCriteria}
+            criteria={criteria}
+            freeCancellation={freeCancellation}
+            setFreeCancellation={setFreeCancellation}
+            vacationRentals={vacationRentals}
+            setVacationRentals={setVacationRentals}
+            minPrice={minPriceFilter}
+            setMinPrice={setMinPrice}
+            maxPrice={maxPriceFilter}
+            setMaxPrice={setMaxPrice}
+            minStarRating={minStarRating}
+            setMinStarRating={setMinStarRating}
+            maxStarRating={maxStarRating}
+            setMaxStarRating={setMaxStarRating}
           />
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
@@ -368,9 +392,23 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       </section>
       <ListMapMobileBottomTabs view={view} setview={setview} />
       <HotelMobileFilters
-        handleFilterHotels={handleFilterHotels}
+        handleFilterHotels={setCriteria}
         setFilterModalOpen={setFilterModalOpen}
         isFilterModalOpen={isFilterModalOpen}
+        criteria={criteria}
+        resetFilters={resetCriteria}
+        freeCancellation={freeCancellation}
+        setFreeCancellation={setFreeCancellation}
+        vacationRentals={vacationRentals}
+        setVacationRentals={setVacationRentals}
+        minPrice={minPriceFilter}
+        setMinPrice={setMinPrice}
+        maxPrice={maxPriceFilter}
+        setMaxPrice={setMaxPrice}
+        minStarRating={minStarRating}
+        setMinStarRating={setMinStarRating}
+        maxStarRating={maxStarRating}
+        setMaxStarRating={setMaxStarRating}
       />
     </>
   );

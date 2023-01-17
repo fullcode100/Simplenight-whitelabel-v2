@@ -46,8 +46,6 @@ const HotelSearchFormReadState = ({
     address,
   } = useQuery();
 
-  const location = address?.toString().split(',')[0];
-
   const adults = parseInt((adultsQuery && adultsQuery[0]) || '0');
   const children = parseInt((childrenQuery && childrenQuery[0]) || '0');
   const guests = adults + children;
@@ -76,7 +74,15 @@ const HotelSearchFormReadState = ({
     : '-';
   const formattedEndDate = endDateQuery ? formatAsDisplayDate(endDate) : '-';
 
-  const LocationSection = () => <span>{location}</span>;
+  const LocationSection = () => (
+    <span>
+      {address
+        ?.toString()
+        .split(', ')
+        .map((item) => decodeURIComponent(item))
+        .join(', ') || ''}
+    </span>
+  );
 
   const OccupancySection = () => (
     <section className="flex flex-row gap-1">

@@ -4,60 +4,70 @@ import { useTranslation } from 'react-i18next';
 import { Option } from 'components/global/MultipleSelect/MultipleSelect';
 import PaymentFilter from './Filters/PaymentFilter';
 import StarRatingFilter from './Filters/StarRatingFilter';
-import SortByFilter from './Filters/SortByFilter';
 import PriceRangeFilter from './Filters/PriceRangeFilter';
 import FilterContainer from './Filters/FilterContainer';
 import PropertyFilter from './Filters/PropertyFilter';
 
 import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import { availableFilters } from './HotelResultsDisplay';
 import NameFilter from './Filters/NameFilter';
+import { FilterCriteria } from 'hotels/hooks/useFilterHotels';
+import {
+  FREE_CANCELATION_INITIAL_VALUE,
+  HOTELS_INITIAL_VALUE,
+  initialPriceRange,
+  MAX_STAR_RATING_INITIAL_VALUE,
+  MIN_STAR_RATING_INITIAL_VALUE,
+  VACATION_RENTALS_INITIAL_VALUE,
+} from './HotelResultsDisplay';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 
-interface HotelsFilterFormDesktopProps {
-  handleFilterHotels: (
-    filterToApply: availableFilters,
-    valueToFilter?: string | boolean,
-  ) => void;
+const HOTEL_AND_RENTAL_OPTIONS_SIZE = 2;
+const ALL_PROPERTY_TYPES_OPTIONS_SIZE = 0;
+
+export interface HotelsFilterFormDesktopProps {
+  handleFilterHotels: React.Dispatch<React.SetStateAction<FilterCriteria>>;
   loading: boolean;
+  resetFilters: () => void;
+  criteria: FilterCriteria;
+  freeCancellation: boolean;
+  setFreeCancellation: React.Dispatch<React.SetStateAction<boolean>>;
+  vacationRentals: boolean;
+  setVacationRentals: React.Dispatch<React.SetStateAction<boolean>>;
+  minPrice: number;
+  setMinPrice: React.Dispatch<React.SetStateAction<number>>;
+  maxPrice: number;
+  setMaxPrice: React.Dispatch<React.SetStateAction<number>>;
+  minStarRating: number;
+  setMinStarRating: React.Dispatch<React.SetStateAction<number>>;
+  maxStarRating: number;
+  setMaxStarRating: React.Dispatch<React.SetStateAction<number>>;
 }
-
-const initialPriceRange = {
-  min: 0,
-  max: 5000,
-};
-
-const FREE_CANCELATION_INITIAL_VALUE = false;
-const MIN_STAR_RATING_INITIAL_VALUE = 1;
-const MAX_STAR_RATING_INITIAL_VALUE = 5;
-const HOTELS_INITIAL_VALUE = false;
-const VACATION_RENTALS_INITIAL_VALUE = false;
 
 const HotelFilterFormDesktop = ({
   handleFilterHotels,
   loading,
+  resetFilters,
+  criteria,
+  freeCancellation,
+  setFreeCancellation,
+  vacationRentals,
+  setVacationRentals,
+  minPrice,
+  setMinPrice,
+  maxPrice,
+  setMaxPrice,
+  minStarRating,
+  setMinStarRating,
+  maxStarRating,
+  setMaxStarRating,
 }: HotelsFilterFormDesktopProps) => {
   const setQueryParams = useQuerySetter();
   const payAtProperty = false;
-  const [freeCancellation, setFreeCancellation] = useState<boolean>(
-    FREE_CANCELATION_INITIAL_VALUE,
-  );
   const [hotels, setHotels] = useState<boolean>(HOTELS_INITIAL_VALUE);
-  const [vacationRentals, setVacationRentals] = useState<boolean>(
-    VACATION_RENTALS_INITIAL_VALUE,
-  );
-  const [minPrice, setMinPrice] = useState<number>(initialPriceRange.min);
-  const [maxPrice, setMaxPrice] = useState<number>(initialPriceRange.max);
-  const [minStarRating, setMinStarRating] = useState<number>(
-    MIN_STAR_RATING_INITIAL_VALUE,
-  );
-  const [maxStarRating, setMaxStarRating] = useState<number>(
-    MAX_STAR_RATING_INITIAL_VALUE,
-  );
 
   const [name, setName] = useState<string>('');
 
@@ -70,12 +80,11 @@ const HotelFilterFormDesktop = ({
   const [selectedAmenities, setSelectedAmenities] = useState<Option[]>(
     getAmenities(),
   );
-  // let starRating = queryFilter?.starRating as string;
   const [t] = useTranslation('hotels');
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
   const handleClearFilters = () => {
-    handleFilterHotels('showAll');
+    resetFilters();
     setMinPrice(initialPriceRange.min);
     setMaxPrice(initialPriceRange.max);
     setFreeCancellation(FREE_CANCELATION_INITIAL_VALUE);
@@ -87,29 +96,29 @@ const HotelFilterFormDesktop = ({
   };
 
   const onChangeMinPrice = (value: string) => {
-    handleFilterHotels('minPrice', value);
+    handleFilterHotels({ ...criteria, MinPrice: value });
   };
 
   const onChangeMaxPrice = (value: string) => {
-    handleFilterHotels('maxPrice', value);
+    handleFilterHotels({ ...criteria, MaxPrice: value });
   };
 
   const onChangeMinRating = (value: string) => {
-    handleFilterHotels('minRating', value);
+    handleFilterHotels({ ...criteria, MinRange: value });
   };
 
   const onChangeMaxRating = (value: string) => {
-    handleFilterHotels('maxRating', value);
+    handleFilterHotels({ ...criteria, MaxRange: value });
   };
 
   const onChangeHotelName = (value: string) => {
     setName(value);
-    handleFilterHotels('hotelName', value);
+    handleFilterHotels({ ...criteria, hotelName: value });
   };
 
   const onClearName = () => {
     setName('');
-    handleFilterHotels('showAll');
+    resetFilters();
   };
 
   const onChangeFreeCancellation = (value: boolean) => {
@@ -117,27 +126,35 @@ const HotelFilterFormDesktop = ({
     if (value) paymentTypes.push('freeCancellation');
     if (payAtProperty) paymentTypes.push('payAtProperty');
     setFreeCancellation(value);
-    handleFilterHotels('freeCancelation', value);
+    handleFilterHotels({ ...criteria, freeCancelation: value });
   };
 
   const specialCasesProperties = (propertyOptions: string[]) => {
-    if (propertyOptions.length === 2) {
-      handleFilterHotels('propertyHotel&Rental');
+    if (hasHotelAndRental(propertyOptions)) {
+      handleFilterHotels({ ...criteria, property: 'propertyHotel&Rental' });
     }
-    if (propertyOptions.length === 0) {
-      handleFilterHotels('propertyAll');
+    if (hasAllPropertyTypes(propertyOptions)) {
+      handleFilterHotels({ ...criteria, property: 'propertyAll' });
     }
+  };
+
+  const hasHotelAndRental = (options: string[]): boolean => {
+    return options.length === HOTEL_AND_RENTAL_OPTIONS_SIZE;
+  };
+
+  const hasAllPropertyTypes = (options: string[]): boolean => {
+    return options.length === ALL_PROPERTY_TYPES_OPTIONS_SIZE;
   };
 
   const onChangeHotels = (value: boolean) => {
     const propertyTypes = [];
     if (value) {
       propertyTypes.push('hotels');
-      handleFilterHotels('propertyHotel');
+      handleFilterHotels({ ...criteria, property: 'propertyHotel' });
     }
     if (vacationRentals) {
       propertyTypes.push('vacationRentals');
-      handleFilterHotels('propertyRental');
+      handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
     setHotels(value);
     specialCasesProperties(propertyTypes);
@@ -147,11 +164,11 @@ const HotelFilterFormDesktop = ({
     const propertyTypes = [];
     if (value) {
       propertyTypes.push('vacationRentals');
-      handleFilterHotels('propertyRental');
+      handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
     if (hotels) {
       propertyTypes.push('hotels');
-      handleFilterHotels('propertyHotel');
+      handleFilterHotels({ ...criteria, property: 'propertyHotel' });
     }
     setVacationRentals(value);
     specialCasesProperties(propertyTypes);
