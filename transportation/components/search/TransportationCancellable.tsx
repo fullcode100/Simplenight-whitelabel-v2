@@ -12,7 +12,7 @@ export const TransportationCancellable: FC<TransportationCancellableProps> = ({
   description,
 }) => {
   return (
-    <section className="flex justify-end lg:flex lg:flex-col lg:w-full lg:items-end">
+    <section className="flex flex-col items-end lg:w-full">
       <FreeCancellation wfull cancellable={cancellable} />
       <section className="flex flex-row gap-1 justify-end">
         <p className="text-[12px] leading-[15px] text-dark-800">

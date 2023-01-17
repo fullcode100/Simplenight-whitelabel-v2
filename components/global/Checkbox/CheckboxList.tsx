@@ -51,7 +51,9 @@ export const CheckboxList: FC<CheckboxListProps> = ({
             );
           }}
         >
-          {item.label}
+          <p className="font-semibold text-sm leading-5 text-dark-1000">
+            {item.label}
+          </p>
         </Checkbox>
       ))}
     </div>

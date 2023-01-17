@@ -73,6 +73,18 @@ export const TransportationCard: FC<TransportationCardProps> = ({
         transportationItem?.service_info?.passenger_reviews?.average_rating
       }
       ratingCount={transportationItem?.service_info?.passenger_reviews?.count}
+      price={
+        <section className="flex flex-col">
+          <hr />
+          <section className="flex flex-row items-end justify-between gap-2 py-4 px-1">
+            <TransportationCancellable
+              cancellable={true}
+              description={transportationItem?.fare?.refund_cancellation_policy}
+            />
+            <TransportaionDisplay transportaion={transportationItem} />
+          </section>
+        </section>
+      }
     />
   );
 };
@@ -83,20 +95,20 @@ const TransportationCardDetails: FC<{ transportation: Quote }> = ({
   return (
     <section className="flex flex-col justify-between gap-2">
       <section>
-        <section className="text-dark-1000">
+        <section className="text-dark-800 font-semibold text-xs leading-5">
           {useCapitalizeFirstChar(transportation?.service_info?.service_class)}
         </section>
       </section>
-      <section className="flex flex-col gap-1 items-start justify-start lg:flex lg:flex-row lg:justify-around lg:items-start lg:flex-1">
-        <section className="flex flex-row items-center justify-start gap-1 lg:flex lg:flex-row lg:gap-1 lg:items-center lg:justify-start">
+      <section className="flex flex-col gap-1 items-start justify-start">
+        <section className="flex flex-row items-center justify-start gap-1">
           <Users className=" w-4 h-4 text-primary-1000" />
-          <section className="text-dark-1000">
+          <section className="font-semibold text-xs leading-5 text-dark-1000">
             {transportation?.service_info?.max_pax} Passengers
           </section>
         </section>
-        <section className="flex flex-row gap-1 items-center justify-start lg:flex lg:flex-row lg:gap-1 lg:items-center lg:justify-start">
+        <section className="flex flex-row gap-1 items-center justify-start">
           <Suitcase className="w-4 h-4 text-primary-1000" />
-          <section className="text-dark-1000">
+          <section className="font-semibold text-xs leading-5 text-dark-1000">
             {transportation?.luggage?.inclusive_allowance}
           </section>
         </section>
@@ -104,7 +116,7 @@ const TransportationCardDetails: FC<{ transportation: Quote }> = ({
       <section>
         {transportation?.service_info.supplier?.description && (
           <ReadMore
-            className="w-full text-xs leading-5 text-dark-1000"
+            className="w-full font-semibold text-xs leading-5 text-dark-1000"
             text={transportation?.service_info?.supplier?.description}
           />
         )}

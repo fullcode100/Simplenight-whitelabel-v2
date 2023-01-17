@@ -23,6 +23,8 @@ import { useFilter } from 'transportation/hooks/useFilter';
 import { getMetadata } from 'transportation/helpers/getMetadata';
 import { TransportationListMetaData } from 'transportation/types/TransportationFilter';
 import { TransportationFilterMobileView } from './TransportationFilterMobileView';
+import { checkIfAnyNull } from 'helpers/arrayUtils';
+import dayjs from 'dayjs';
 
 interface TransportationResultsDisplayProps {
   TransportationCategory: CategoryOption;
@@ -78,13 +80,41 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
   } = useQuery();
 
   useEffect(() => {
-    if (!address2) {
+    const hasEmptyValues = checkIfAnyNull([
+      latitude,
+      longitude,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      latitude2,
+      longitude2,
+      address,
+      address2,
+      trip,
+      passengers,
+      pickUp,
+      dropOff,
+    ]);
+
+    const TIME_SELECTION_FORMAT = 'hh:mm A';
+
+    if (hasEmptyValues) {
       setLoaded(true);
       return;
     }
+
     const params = {
-      pickup_datetime: `${startDate}T${startTime}`,
-      ...(trip === 'roundTrip' && { return_datetime: `${endDate}T${endTime}` }),
+      pickup_datetime: `${startDate}T${dayjs(
+        startTime as string,
+        TIME_SELECTION_FORMAT,
+      ).format('HH:mm')}`,
+      ...(trip === 'roundTrip' && {
+        return_datetime: `${endDate}T${dayjs(
+          endTime as string,
+          TIME_SELECTION_FORMAT,
+        ).format('HH:mm')}`,
+      }),
       pickup_context: pickUp,
       pickup_location: `${latitude},${longitude}`,
       return_context: dropOff,

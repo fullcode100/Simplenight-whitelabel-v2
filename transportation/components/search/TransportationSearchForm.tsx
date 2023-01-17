@@ -50,8 +50,8 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
 }) => {
   const router = useRouter();
 
-  const thirtyMinutesFromNow = dayjs().add(30, 'minutes').startOf('minutes');
-  const twoHoursAndThirtyMinutes = thirtyMinutesFromNow.add(2, 'hours');
+  const thirtyMinutesFromNow = dayjs().startOf('day').add(1, 'day');
+  const twoHoursAndThirtyMinutes = thirtyMinutesFromNow.add(1, 'day');
 
   const TIME_SELECTION_FORMAT = 'hh:mm A';
   const nextHalf = ceilToNextHalfHour(dayjs());
@@ -418,8 +418,8 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
             <DatePicker
               showDatePicker={showDatePicker}
               onClose={() => setShowDatePicker(false)}
-              startDateLabel={'Check-In'}
-              endDateLabel={'Check-Out'}
+              startDateLabel={pickUpInputLabel}
+              endDateLabel={dropOffInputLabel}
               initialStartDate={startDate}
               initialEndDate={endDate}
               onStartDateChange={handleStartDateChange}
