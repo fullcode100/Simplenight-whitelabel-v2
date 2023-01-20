@@ -14,6 +14,7 @@ interface RatingProps {
   color?: string;
   reviews?: number;
   onChange?: (newRating: number) => void;
+  isHotelRating?: boolean;
 }
 
 const Rating = ({
@@ -23,6 +24,7 @@ const Rating = ({
   count = value,
   sizeClass = 'w-5 h-5',
   reviews = undefined,
+  isHotelRating = false,
   onChange,
 }: RatingProps) => {
   const [t, i18next] = useTranslation('global');
@@ -43,7 +45,13 @@ const Rating = ({
       />
       {count && (
         <p className=" text-dark-800 font-semibold text-[14px]">
-          {reviews} {reviewsLabel}
+          {isHotelRating ? (
+            <>{`${value}-Stars Hotel`}</>
+          ) : (
+            <>
+              {reviews} {reviewsLabel}
+            </>
+          )}
         </p>
       )}
     </section>

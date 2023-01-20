@@ -175,11 +175,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   const RatingSection = () => (
     <section className="flex items-center justify-between w-full mt-4 lg:justify-start lg:gap-2 lg:mt-0">
-      <span className="text-sm font-semibold lg:text-base text-primary-1000">
-        <span className="">{starRating}-</span>
-        {starHotelLabel}
-      </span>
-      <Rating value={parseInt(starRating)} size={50} />
+      <Rating value={parseInt(starRating)} size={50} isHotelRating />
     </section>
   );
 
@@ -211,7 +207,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     return (
       <section className="w-screen pt-4 text-dark-1000 bg-dark-100 rounded-t-12 ">
         <section className="px-4 ">
-          <p className="text-center h4">{name}</p>
+          <p className="h4">{name}</p>
           <RatingSection />
         </section>
         <BlockDivider className="mt-5" />

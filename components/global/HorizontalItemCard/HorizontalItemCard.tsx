@@ -121,7 +121,9 @@ function HorizontalItemCard<T extends WithId>({
             <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
               <TitleSection />
               <section className="mt-4">
-                {rating && <Rating value={rating} reviews={ratingCount} />}
+                {rating && (
+                  <Rating value={rating} reviews={ratingCount} isHotelRating />
+                )}
               </section>
               <section className="mt-4">
                 <AddressSection />

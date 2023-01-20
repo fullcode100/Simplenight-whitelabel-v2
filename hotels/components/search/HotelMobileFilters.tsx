@@ -6,7 +6,6 @@ import PaymentFilter from './Filters/PaymentFilter';
 import StarRatingFilter from './Filters/StarRatingFilter';
 import PriceRangeFilter from './Filters/PriceRangeFilter';
 import PropertyFilter from './Filters/PropertyFilter';
-
 import {
   FREE_CANCELATION_INITIAL_VALUE,
   HOTELS_INITIAL_VALUE,
