@@ -124,7 +124,11 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   useEffect(() => {
     if (counter === 0) {
-      setCounter((pre) => pre + 1);
+      const paramRoomsData = roomsData
+        ? JSON.parse(roomsData as string)
+        : [createRoom()];
+      const geolocation = `${latitude},${longitude}`;
+
       const hasEmptyValues = checkIfAnyNull([
         rooms,
         adults,
@@ -135,12 +139,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         longitude,
       ]);
       if (hasEmptyValues) return;
-
-      const paramRoomsData = roomsData
-        ? JSON.parse(roomsData as string)
-        : [createRoom()];
-
-      const geolocation = `${latitude},${longitude}`;
 
       const params: HotelSearchRequest = {
         rooms: parseQueryNumber(rooms ?? ''),

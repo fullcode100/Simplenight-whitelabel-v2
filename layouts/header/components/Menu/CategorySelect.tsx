@@ -1,33 +1,45 @@
 import classnames from 'classnames';
 import useCategories, { CategoryInfo } from 'hooks/category/useCategories';
 import { useRouter } from 'next/router';
-import { getCurrenDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useCategorySlug } from 'hooks/category/useCategory';
-
-const DEFAULT_LATITUDE = '40.7127753';
-const DEFAULT_LONGITUDE = '-74.0059728';
-const DEFAULT_ADDRESS = 'Nueva York, EE. UU.';
+import useLocalStorage from 'hooks/localStorage/useLocalStorage';
 
 const CategorySelect = () => {
   const router = useRouter();
+  const [storedValue] = useLocalStorage('lastSearch', '/');
+  const storedParams = new URLSearchParams(storedValue.toString());
+  const roomsData = storedParams.get('roomsData') || '[]';
+  const totalAdults = JSON.parse(roomsData).reduce(
+    (acc: unknown, obj: { adults: any }) => acc + obj.adults,
+    0,
+  );
+
+  const totalchildren = JSON.parse(roomsData).reduce(
+    (acc: unknown, obj: { children: any }) => acc + obj.children,
+    0,
+  );
+
   const { slug, startDate, endDate, latitude, longitude, address } = useQuery();
 
   const categories = useCategories();
   const currentCategory = useCategorySlug(slug as string) || categories?.[0];
 
   const handleSelectCategory = (category: CategoryInfo) => {
-    const currentDate = getCurrenDate();
+    const startDateSearch = startDate || storedParams.get('startDate');
+    const endDateSearch = endDate || storedParams.get('endDate');
+    const latitudeSearch = latitude || storedParams.get('latitude');
+    const longitudeSearch = longitude || storedParams.get('longitude');
+    const addressSearch = address || storedParams.get('address');
 
-    const startDateSearch = startDate || currentDate;
-    const endDateSearch = endDate || currentDate;
-    const latitudeSearch = latitude || DEFAULT_LATITUDE;
-    const longitudeSearch = longitude || DEFAULT_LONGITUDE;
-    const addressSearch = address || DEFAULT_ADDRESS;
+    const roomDataasString = storedParams.get('roomsData') || '[]';
+    const roomsDataArray = JSON.parse(roomDataasString);
 
     const route = `/search/${
       category.slug || slug
-    }?startDate=${startDateSearch}&endDate=${endDateSearch}&latitude=${latitudeSearch}&longitude=${longitudeSearch}&address=${addressSearch}`;
+    }?adults=${totalAdults}&children=${totalchildren}&startDate=${startDateSearch}&endDate=${endDateSearch}&latitude=${latitudeSearch}&longitude=${longitudeSearch}&address=${addressSearch}&rooms=${
+      roomsDataArray?.length
+    }&roomsData=${roomDataasString}`;
 
     router.push(route);
   };
