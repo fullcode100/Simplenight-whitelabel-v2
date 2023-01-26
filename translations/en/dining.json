@@ -60,5 +60,9 @@
     "unavailableTimeError": "Unavailable time",
     "unavailableTimeErrorDesc": "The selected time is not available, please select another.",
     "updatedCart": "Updated Cart",
-    "removedDiningItemFromCart": "Reservation for {restaurant} was removed"
+    "removedDiningItemFromCart": "Reservation for {restaurant} was removed",
+    "price": "Price",
+    "open": "Open",
+    "closed": "Closed",
+    "diningItineraryDisclaimer": "Check Out Now to avoid rate changes"
 }

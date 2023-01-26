@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'components/global/Select/Select';
 
@@ -22,6 +22,9 @@ const DiningCoverSelect = ({
     `9 ${t('people')}`,
     `10 ${t('people')}`,
   ];
+  const [defaultValue, setDefaultValue] = useState<string>(
+    people[defaultCovers - 1],
+  );
 
   const onSelect = (value: string) => {
     const covers = people.findIndex((p) => p === value);
@@ -35,7 +38,7 @@ const DiningCoverSelect = ({
       label={t('tableFor')}
       options={people}
       onChange={onSelect}
-      defaultValue={people[defaultCovers - 1]}
+      defaultValue={defaultValue}
     />
   );
 };

@@ -61,5 +61,9 @@
     "unavailableTimeError": "Hora no disponible",
     "unavailableTimeErrorDesc": "La hora seleccionada no está disponible, por favor seleccione otra.",
     "updatedCart": "Carrito actualizado",
-    "removedDiningItemFromCart": "La reservación para {restaurant} fue removido."
+    "removedDiningItemFromCart": "La reservación para {restaurant} fue removido.",
+    "price": "Precio",
+    "open": "Abierto",
+    "closed": "Cerrado",
+    "diningItineraryDisclaimer": "Finalizar Pedido Ahora para evitar cambios de tarifa"
 }

@@ -39,13 +39,12 @@ const DayList = ({
         const isRangeDate = isRange
           ? dayjs(day.date).isBetween(dayjs(startDate), dayjs(endDate))
           : false;
-        const isDisabledRange = isRange
-          ? dayjs(day.date).isBefore(dayjs().subtract(1, 'day')) ||
-            dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
-            (!isStartDateTurn &&
-              restricted &&
-              dayjs(day.date).isAfter(dayjs(startDate).add(maxRange, 'day')))
-          : false;
+        const isDisabledRange =
+          dayjs(day.date).isBefore(dayjs().subtract(1, 'day')) ||
+          dayjs(day.date).isAfter(dayjs().add(16, 'month')) ||
+          (!isStartDateTurn &&
+            restricted &&
+            dayjs(day.date).isAfter(dayjs(startDate).add(maxRange, 'day')));
         const isDisabledDay = disabledDays
           ? !disabledDays?.includes(day.date)
           : false;
