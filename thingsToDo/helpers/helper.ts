@@ -93,16 +93,19 @@ export const getActivityDuration = (durationInMinutes: number) => {
 
 export const getDefaultGuests = (
   ticketTypes: PricingTicketType[],
-  params: any,
+  params: { [key: string]: string },
+  minTravelers: number,
 ) => {
-  const numberTravelers = 2;
-  const numberDefault = 0;
-  const defaultGuestData: any = {};
+  const DEFAULT_ADULTS_OR_TRAVELERS = minTravelers > 2 ? minTravelers : 2;
+  const DEFAULT_OTHER_TICKET_TYPES = 0;
+  const defaultGuestData: { [key: string]: number } = {};
   ticketTypes?.forEach((ticketType) => {
     const type = ticketType?.ticket_type_id;
     const isAdultOrTraveler = type === 'ADULT' || type === 'TRAVELER';
-    const valueTicket = isAdultOrTraveler ? numberTravelers : numberDefault;
-    defaultGuestData[type] = parseInt(params[type]) || valueTicket;
+    const defaultTicketAmount = isAdultOrTraveler
+      ? DEFAULT_ADULTS_OR_TRAVELERS
+      : DEFAULT_OTHER_TICKET_TYPES;
+    defaultGuestData[type] = parseInt(params[type]) || defaultTicketAmount;
   });
   return defaultGuestData;
 };

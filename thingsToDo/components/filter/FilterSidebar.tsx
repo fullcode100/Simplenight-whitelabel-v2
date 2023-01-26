@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import FilterContainer from 'components/global/Filters/FilterContainer';
 import { useTranslation } from 'react-i18next';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 const FilterSidebar = () => {
   const [t] = useTranslation('global');
@@ -14,6 +15,7 @@ const FilterSidebar = () => {
   const starRatingLabel = t('customerRating', 'Customer Rating');
   const keywordSearchLabel = t('keywordSearch', 'Keyword Search');
   const searchKeywordPlaceholder = t('searchKeywordPlaceholder', 'Venue Name');
+  const filtersLabel = t('filters', 'Filters');
 
   const [minPrice, setMinPrice] = useState(
     (queryFilter?.minPrice as string) || '0',
@@ -85,6 +87,13 @@ const FilterSidebar = () => {
     });
   };
 
+  const onChangeKeywordSearch = (value: string) => {
+    setKeywordSearch(value);
+    setQueryParams({
+      keywordSearch: value,
+    });
+  };
+
   const priceRangeFilter = {
     minPrice,
     maxPrice,
@@ -100,12 +109,12 @@ const FilterSidebar = () => {
     maxStarRating,
     onChangeMinRating,
     onChangeMaxRating,
-    starRatingLabel: starRatingLabel,
+    starRatingLabel,
   };
   const keywordSearchFilter = {
     keywordSearchLabel: keywordSearchLabel,
     keywordSearch,
-    setKeywordSearch,
+    onChangeKeywordSearch,
     keywordSearchPlaceholder: searchKeywordPlaceholder,
   };
 
@@ -113,7 +122,9 @@ const FilterSidebar = () => {
     <section className="mt-3">
       <FilterContainer>
         <section className="flex items-center justify-between">
-          <p className="text-lg font-semibold text-dark-1000">Filters</p>
+          <Paragraph size="large" fontWeight="semibold">
+            {filtersLabel}
+          </Paragraph>
           <ClearFilterButton handleClearFilters={handleClearFilters} />
         </section>
       </FilterContainer>
@@ -122,7 +133,6 @@ const FilterSidebar = () => {
         paymentFilter={paymentFilter}
         starRangeFilter={starRangeFilter}
         keywordSearchFilter={keywordSearchFilter}
-        className="py-6"
       />
     </section>
   );

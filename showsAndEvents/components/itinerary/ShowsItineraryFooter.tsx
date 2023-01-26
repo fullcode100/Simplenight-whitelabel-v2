@@ -64,9 +64,7 @@ const ShowsItineraryFooter = ({
     <section className="flex flex-col gap-3">
       <section className="flex flex-col lg:flex-row items-center justify-between">
         <section className="flex justify-between w-full pb-4 lg:pb-0">
-          <Paragraph size="small" fontWeight="normal">
-            Total
-          </Paragraph>
+          <Paragraph size="small">Total</Paragraph>
           <section className="text-right ml-auto">
             <section className="flex flex-col gap-1 justify-end">
               <p className="font-semibold text-[18px] leading-[18px] text-dark-1000">

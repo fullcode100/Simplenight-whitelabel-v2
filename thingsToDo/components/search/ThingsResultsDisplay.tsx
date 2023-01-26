@@ -27,6 +27,8 @@ import { sortByAdapter } from 'thingsToDo/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'thingsToDo/adapters/cancellation-type.adapter';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import useKeywordFilter from 'thingsToDo/hooks/useKeywordFilter';
+import Paragraph from 'components/global/Typography/Paragraph';
+import { SearchItem } from 'thingsToDo/types/adapters/SearchItem';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -40,11 +42,11 @@ const ThingsResultsDisplay = ({
   const [tg] = useTranslation('global');
   const [loaded, setLoaded] = useState(false);
 
-  const [entertainmentItems, setEntertainmentItems] = useState<
-    ThingsSearchItem[]
-  >([]);
+  const [entertainmentItems, setEntertainmentItems] = useState<SearchItem[]>(
+    [],
+  );
   const [unfilteredEntertainmentItems, setUnfilteredEntertainmentItems] =
-    useState<ThingsSearchItem[]>([]);
+    useState<SearchItem[]>([]);
 
   const [showSortModal, setShowSortModal] = useState(false);
   const [sortBy, setSortBy] = useState<string>('recommended');
@@ -62,7 +64,6 @@ const ThingsResultsDisplay = ({
     string[]
   >([]);
 
-  const resultsMock = [thingToDo];
   const {
     startDate,
     endDate,
@@ -79,7 +80,7 @@ const ThingsResultsDisplay = ({
   const dstGeolocation = `${latitude},${longitude}`;
 
   const getAllCategories = (
-    items: ThingsSearchItem[],
+    items: SearchItem[],
     mappedCategories: Category[],
   ) => {
     items.forEach((item) =>
@@ -101,7 +102,7 @@ const ThingsResultsDisplay = ({
     });
   };
 
-  const mapCategoryFilters = (items: ThingsSearchItem[]) => {
+  const mapCategoryFilters = (items: SearchItem[]) => {
     const mappedCategories: Category[] = [];
     getAllCategories(items, mappedCategories);
     orderFiltersAlphabetically(mappedCategories);
@@ -109,8 +110,8 @@ const ThingsResultsDisplay = ({
   };
 
   const filterResultsByCategory = () => {
-    const items: ThingsSearchItem[] = [];
-    unfilteredEntertainmentItems.forEach((item: ThingsSearchItem) => {
+    const items: SearchItem[] = [];
+    unfilteredEntertainmentItems.forEach((item: SearchItem) => {
       if (
         item.categories.some((category) =>
           appliedCategoryFilters.some(
@@ -155,16 +156,16 @@ const ThingsResultsDisplay = ({
     };
     setLoaded(false);
     Searcher?.request?.(params, i18next)
-      .then(({ items: entertaimentResults }) => {
-        setEntertainmentItems(entertaimentResults);
-        setUnfilteredEntertainmentItems(entertaimentResults);
-        mapCategoryFilters(entertaimentResults);
+      .then((items: SearchItem[]) => {
+        setEntertainmentItems(items);
+        setUnfilteredEntertainmentItems(items);
+        mapCategoryFilters(items);
       })
       .catch((error) => console.error(error))
       .then(() => setLoaded(true));
   }, [startDate, endDate, dstGeolocation, sortBy]);
 
-  const urlDetail = (thingsItem: ThingsSearchItem) => {
+  const urlDetail = (thingsItem: SearchItem) => {
     const { id } = thingsItem;
     return `/detail/${slug}/${id}?startDate=${startDate}&endDate=${endDate}`;
   };
@@ -172,15 +173,17 @@ const ThingsResultsDisplay = ({
   const ThingsToDoList = () => {
     return (
       <ul className="flex flex-col gap-3">
-        {memoizedEntertainmentItems?.map((thingToDo: ThingsSearchItem) => {
+        {memoizedEntertainmentItems?.map((thingToDo: SearchItem) => {
           const {
             id,
             name,
-            address,
-            cancellation_policy: cancellationPolicy,
-            rate,
+            cancellationPolicy,
             thumbnail,
-            extra_data: extraData,
+            description,
+            rating,
+            rate,
+            reviewAmount,
+            totalAmount,
           } = thingToDo;
 
           const url = urlDetail(thingToDo);
@@ -191,9 +194,9 @@ const ThingsResultsDisplay = ({
                 icon={ThingsCategory.icon}
                 categoryName={thingsToDoLabel}
                 item={thingToDo}
-                rating={extraData.avg_rating}
-                description={extraData.description}
-                reviewsAmount={extraData.review_amount}
+                rating={rating}
+                description={description}
+                reviewsAmount={reviewAmount}
                 title={name}
                 image={thumbnail}
                 rate={rate}
@@ -241,9 +244,10 @@ const ThingsResultsDisplay = ({
           </RadioGroup>
         </section>
         <section className="flex items-center justify-between px-5 pt-3 pb-3 lg:mt-12 lg:pb-0">
-          <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
-            {entertainmentItems?.length} {resultsLabel}
-          </p>
+          <Paragraph
+            size="sm-lg"
+            fontWeight="semibold"
+          >{`${memoizedEntertainmentItems?.length} ${resultsLabel}`}</Paragraph>
           <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
             <button
               className="flex items-center gap-1"

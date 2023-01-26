@@ -1,3 +1,4 @@
+import Paragraph from 'components/global/Typography/Paragraph';
 import React from 'react';
 
 interface ItineraryPriceBreakdownProps {
@@ -12,16 +13,18 @@ const ThingItineraryPriceBreakdown = ({
   amountBeforeDiscount,
 }: ItineraryPriceBreakdownProps) => {
   return (
-    <section className="text-right text-xs">
+    <section className="text-xs text-right">
       {discount && (
         <p>
-          <span className="text-dark-700 line-through font-normal">
+          <span className="font-normal line-through text-dark-700">
             {amountBeforeDiscount}
           </span>{' '}
-          <span className="text-green-1000 font-semibold">{discount} Off</span>
+          <span className="font-semibold text-green-1000">{discount} Off</span>
         </p>
       )}
-      <p className=" text-dark-1000text-sm font-semibold">{totalAmount}</p>
+      <Paragraph size="small" fontWeight="semibold">
+        {totalAmount}
+      </Paragraph>
     </section>
   );
 };

@@ -36,7 +36,6 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
 import { ThingsAvailabilityRequest } from 'thingsToDo/types/request/ThingsAvailabilityRequest';
 import { getCurrency } from 'store/selectors/core';
-import { Ticket } from '../../types/response/ThingsDetailResponse';
 import EmptyCheckAvailability from 'public/icons/assets/empty-check-availability.svg';
 import EmptyNoAvailability from 'public/icons/assets/empty-no-availability.svg';
 import CheckThingsAvailability from '../CheckAvailability/CheckAvailability';
@@ -50,6 +49,9 @@ import {
 import TabsSection from './TabSection';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
 import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
+import Paragraph from 'components/global/Typography/Paragraph';
+import Heading from 'components/global/Typography/Heading';
+import { TicketAvailability } from 'thingsToDo/types/adapters/TicketAvailability';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -99,7 +101,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     undefined,
   );
   const [selectedTicket, setSelectedTicket] = useState<number>();
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<TicketAvailability[]>([]);
   const [schedule, setSchedule] = useState<ThingsScheduleDetail[]>([]);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   const currentCurrency = getCurrency();
@@ -110,6 +112,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const pricing = extraData?.pricing;
   const isAdultRequired = extraData?.is_adult_required;
   const activityMaxTravelers = extraData?.max_travelers;
+  const activityMinTravelers = extraData?.min_travelers;
   const loadMoreTickets = () => {
     setIsLoadMoreTickets(true);
   };
@@ -125,8 +128,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     };
     if (id) {
       Detailer?.request?.(params, i18next, id)
-        .then(({ items }) => {
-          const item: ThingsDetailItem = items[0];
+        .then((items: ThingsDetailItem) => {
+          const item = items;
           setThingsItem(item);
           setLoaded(true);
         })
@@ -184,7 +187,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     if (id) {
       setLoading((prev) => !prev);
       Availability?.request?.(params, i18next, id)
-        .then(({ tickets }: any) => {
+        .then((tickets: TicketAvailability[]) => {
           setTickets(tickets);
           setLoading((prev) => !prev);
         })
@@ -280,10 +283,17 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           }`}
         >
           {styledIcon}
-          <div className="w-full text-base">
-            <p>{text}</p>
+          <div className="w-full">
+            <Paragraph
+              size="medium"
+              textColor={
+                SUCCESS_STYLE ? 'text-green-1000' : 'text-primary-1000'
+              }
+            >
+              {text}
+            </Paragraph>
             {additionalText && (
-              <p className="text-xs text-dark-700">{additionalText}</p>
+              <Paragraph textColor="text-dark-700">{additionalText}</Paragraph>
             )}
           </div>
         </section>
@@ -296,7 +306,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
         className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12 lg:py-12"
       >
         <SectionTitle title={policiesLabel} icon={<PoliciesIcon />} />
-        <h5 className="mt-3 h5 lg:mt-5">{cancellationLabel}</h5>
+        <Heading tag="h5" className="mt-3 lg:mt-5">
+          {cancellationLabel}
+        </Heading>
         <IconAndText
           icon={cancellable || partialRefund ? <Check /> : <Close />}
           text={description}
@@ -317,7 +329,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
         )}
 
         <Divider className="py-3 lg:py-4" />
-        <h5 className="h5">{additionalInformationLabel}</h5>
+        <Heading tag="h5">{additionalInformationLabel}</Heading>
         <List list={extraData.amenities} limit={8} />
       </div>
     );
@@ -343,7 +355,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             </section>
           )}
           <div className="flex flex-col gap-2 px-5 py-6 lg:px-0">
-            <h1 className="h3">{name}</h1>
+            {name && <Heading tag="h3">{name}</Heading>}
             <div className="flex items-center gap-2">
               {activityScore && (
                 <Rating
@@ -370,7 +382,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
 
     return (
       <section className="w-full mx-auto">
-        <section className="flex justify-center w-[143px] h-[143px]">
+        <section className="mx-auto w-[143px] h-[143px]">
           {isCheckingAvailability ? (
             <EmptyNoAvailability />
           ) : (
@@ -378,11 +390,16 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           )}
         </section>
         <section className="mt-10">
-          <p className="text-center text-dark-800 font-semibold text-[20px] leading-[24px]">
+          <Paragraph
+            size="large"
+            fontWeight="semibold"
+            textColor="text-dark-800"
+            className="text-center"
+          >
             {isCheckingAvailability
               ? noResultsLabel
               : checkAvailabilityForYourSearchLabel}
-          </p>
+          </Paragraph>
         </section>
       </section>
     );
@@ -448,6 +465,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
                 pricing={pricing}
                 onApply={handleAvailability}
                 activityMaxTravelers={activityMaxTravelers}
+                activityMinTravelers={activityMinTravelers}
                 disabledDays={disabledDays}
               />
             </section>
@@ -504,8 +522,6 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
               <section ref={locationRef}>
                 <LocationSection
                   meetingPoints={meetingPoints}
-                  selectedMeeting={selectedMeeting}
-                  setSelectedMeeting={setSelectedMeeting}
                   pickupPoints={pickupPoints}
                   selectedPickup={selectedPickup}
                   setSelectedPickup={setSelectedPickup}

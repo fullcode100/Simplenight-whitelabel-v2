@@ -32,9 +32,7 @@ const BreakdownSummary = ({
 
   return (
     <section className="flex items-center justify-between">
-      <Paragraph size="small" fontWeight="normal">
-        {totalLabel}
-      </Paragraph>
+      <Paragraph size="small">{totalLabel}</Paragraph>
       <section className="text-right">
         {/* <PriceDisplay rate={rate} /> */}
         {rate?.total?.prepaid?.amount} {rate?.total?.prepaid?.currency}

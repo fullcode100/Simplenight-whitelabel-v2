@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import classnames from 'classnames';
+import Paragraph from '../Typography/Paragraph';
 
 interface NonRefundableProps {
   nonCancellable?: boolean;
@@ -26,7 +27,7 @@ const NonRefundable = ({
       <section className="flex gap-1.5 px-2 py-1.5">
         <label className="text-dark-1000 text-[14px] leading-[20px] font-semibold">
           {nonRefundableLabel}
-          {description && <p className="font-normal">{description}</p>}
+          {description && <Paragraph>{description}</Paragraph>}
         </label>
       </section>
     </section>

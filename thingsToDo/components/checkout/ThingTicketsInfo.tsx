@@ -10,6 +10,7 @@ import {
 } from 'thingsToDo/types/request/ThingsCartRequest';
 import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse';
 import { formatObjectToString } from 'helpers/objectUtils';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface Props {
   item: Item;
@@ -29,8 +30,8 @@ const ThingTicketsInfo = ({ item }: Props) => {
 
   const FeesRow = ({ priceBreakdown, label }: any) => {
     return (
-      <section className="flex justify-between items-start">
-        <section className="text-sm flex items-center gap-2 capitalize">
+      <section className="flex items-start justify-between">
+        <section className="flex items-center gap-2 text-sm capitalize">
           <PlusIcon className={'text-primary-1000 h-4 w-4 '} />
           {label}
         </section>
@@ -67,11 +68,13 @@ const ThingTicketsInfo = ({ item }: Props) => {
           }
         />
         <Divider />
-        <div className="flex justify-between text-dark-1000">
-          <p className="text-sm capitalize ">{payNowLabel}</p>
-          <p className=" text-dark-1000text-sm font-semibold">
+        <div className="flex justify-between">
+          <Paragraph size="small" className="capitalize">
+            {payNowLabel}
+          </Paragraph>
+          <Paragraph size="small" fontWeight="semibold">
             {formattedTotalAmount}
-          </p>
+          </Paragraph>
         </div>
       </>
     );
@@ -98,17 +101,23 @@ const ThingTicketsInfo = ({ item }: Props) => {
     );
 
     return (
-      <div className="text-sm ">
-        <h4 className="text-sm  text-dark-700 font-normal">
+      <div>
+        <Paragraph size="small" textColor="text-dark-700">
           {cancellationPolicyLabel}
-        </h4>
-        <p>{cancellationPolicy?.description}</p>
+        </Paragraph>
+        <Paragraph size="small">{cancellationPolicy?.description}</Paragraph>
         {cutoffFlag && (
-          <p className="text-sm  text-dark-700">{cutoffFlag.description}</p>
+          <Paragraph size="small" textColor="text-dark-700">
+            {cutoffFlag.description}
+          </Paragraph>
         )}
-        {weatherFlag && <p className="text-sm ">{weatherFlag.description}</p>}
+        {weatherFlag && (
+          <Paragraph size="small">{weatherFlag.description}</Paragraph>
+        )}
         {insufficientTravelersFlag && (
-          <p className="text-sm ">{insufficientTravelersFlag.description}</p>
+          <Paragraph size="small">
+            {insufficientTravelersFlag.description}
+          </Paragraph>
         )}
       </div>
     );
@@ -117,11 +126,15 @@ const ThingTicketsInfo = ({ item }: Props) => {
   const AdditionalRequestsSection = () => {
     const additionalResquestsLabel = 'Additional Requests';
     return (
-      <div className="text-sm ">
-        <h4 className="text-sm  text-dark-700 font-normal">
+      <div>
+        <Paragraph size="small" textColor="text-dark-700">
           {additionalResquestsLabel}
-        </h4>
-        <p>{item.customer_additional_requests}</p>
+        </Paragraph>
+        {item.customer_additional_requests && (
+          <Paragraph size="small">
+            {item.customer_additional_requests}
+          </Paragraph>
+        )}
       </div>
     );
   };
@@ -173,11 +186,13 @@ const ThingTicketsInfo = ({ item }: Props) => {
       <div className="text-sm ">
         {transformedAnswers?.map((answer) => {
           return (
-            <div key={`${answer?.id}-${answer?.traveler}`} className="text-sm ">
-              <h4 className="text-sm  text-dark-700 font-normal">
-                {answer?.label}
-              </h4>
-              <p>{answer?.value}</p>
+            <div key={`${answer?.id}-${answer?.traveler}`}>
+              {answer?.label && (
+                <Paragraph size="small" textColor="text-dark-700">
+                  {answer?.label}
+                </Paragraph>
+              )}
+              <Paragraph size="small">{answer?.value}</Paragraph>
             </div>
           );
         })}
@@ -190,10 +205,12 @@ const ThingTicketsInfo = ({ item }: Props) => {
   return (
     <>
       <Divider />
-      <section className="flex flex-col gap-3 py-4 px-4 text-dark-1000">
-        <h3 className="text-base capitalize">
-          {quantity}x {ticketName}
-        </h3>
+      <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
+        <Paragraph
+          size="medium"
+          className="capitalize"
+          fontWeight="semibold"
+        >{`${quantity}x ${ticketName}`}</Paragraph>
         <FeesSection />
         <PoliciesSection />
         {item.customer_additional_requests && <AdditionalRequestsSection />}

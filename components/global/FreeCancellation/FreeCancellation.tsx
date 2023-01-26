@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import Check from 'public/icons/assets/check.svg';
 import classnames from 'classnames';
+import Paragraph from '../Typography/Paragraph';
 
 interface FreeCancellationProps {
   cancellable?: boolean;
@@ -25,10 +26,12 @@ const FreeCancellation = ({
       })}
     >
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-        <Check className=" w-6 mt-1 text-green-1000 flex-shrink-0" />
+        <Check className="flex-shrink-0 w-6 mt-1 text-green-1000" />
         <label className="text-green-1000 text-[14px] leading-[20px] font-semibold">
           {freeCancellationLabel}
-          {description && <p className="font-normal">{description}</p>}
+          {description && (
+            <Paragraph textColor="text-green-1000">{description}</Paragraph>
+          )}
         </label>
       </section>
     </section>

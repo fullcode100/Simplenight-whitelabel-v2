@@ -7,6 +7,7 @@ import Link from 'next/link';
 import ReadMore from './ReadMoreDescription';
 import { useTranslation } from 'react-i18next';
 import { Rates } from 'thingsToDo/types/response/ThingsSearchResponse';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -60,13 +61,11 @@ function ResultCard<T extends WithId>({
     <section className="flex gap-2 ">
       {rating && <Rating value={parseInt(rating.toFixed(0))} />}
       {reviewsAmount ? (
-        <p className="text-xs text-dark-700">
-          {`${
-            Number.isInteger(rating) ? rating : rating?.toFixed(2)
-          }/5 (${reviewsAmount} ${reviewsLabel})`}
-        </p>
+        <Paragraph textColor="text-dark-700">{`${
+          Number.isInteger(rating) ? rating : rating?.toFixed(2)
+        }/5 (${reviewsAmount} ${reviewsLabel})`}</Paragraph>
       ) : (
-        <p className="text-xs text-dark-700">{noReviewsLabel}</p>
+        <Paragraph textColor="text-dark-700">{noReviewsLabel}</Paragraph>
       )}
     </section>
   );

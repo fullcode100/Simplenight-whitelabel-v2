@@ -9,6 +9,9 @@ import { useTranslation } from 'react-i18next';
 import DurationLabel from '../DurationLabel/DurationLabel';
 import { Customer, Item } from 'types/cart/CartType';
 import LocationAndMapIcon from 'public/icons/assets/LocationAndMap.svg';
+import Paragraph from 'components/global/Typography/Paragraph';
+import { BookingAnswer } from '../../types/request/ThingsCartRequest';
+import MeetingPickupPoint from '../MeetingPickupPoint/MeetingPickupPoint';
 
 interface ThingGeneralInfoProps {
   item: Item;
@@ -49,12 +52,12 @@ const ThingGeneralInfo = ({ item }: ThingGeneralInfoProps) => {
 
   const PICKUP_POINT_ID = 'PICKUP_POINT';
   const pickupPoint = item.booking_data?.booking_answers?.find(
-    (bookingAnswer: any) => bookingAnswer.question_id === PICKUP_POINT_ID,
+    (bookingAnswer: BookingAnswer) =>
+      bookingAnswer.question_id === PICKUP_POINT_ID,
   )?.value;
-  const startingPoint = item.item_data?.extra_data.start_locations?.map(
-    (location: any) => location.name || location.description,
-  );
-  const hasPickupOrMeetingPoint = pickupPoint || startingPoint;
+  const startLocations = item.item_data?.extra_data.start_locations;
+  const hasPickupOrSingleMeetingPoint =
+    pickupPoint || startLocations?.length === 1;
 
   const IconAndText = ({ icon, content }: IconAndTextProps) => {
     const iconWithClasses = injectProps(icon, {
@@ -63,48 +66,18 @@ const ThingGeneralInfo = ({ item }: ThingGeneralInfoProps) => {
     return (
       <div className="flex gap-2 ">
         <div className="w-5"> {iconWithClasses}</div>
-        <p>{content}</p>
+        {content}
       </div>
     );
   };
 
-  const MeetingPickupPoint = () => {
-    const pickupPointLabel = t('pickupPoint', 'Pickup Point');
-    const meetingPointLabel = t('meetingPoint', 'Meeting Point');
-
-    const pickupLocations = item.item_data?.extra_data.pickup.locations;
-    const selectedPickupLocation = pickupLocations?.find(
-      (locationObject: any) => locationObject.location.ref == pickupPoint,
-    )?.location;
-    const pickupAddress = selectedPickupLocation?.address;
-    const pickupName = selectedPickupLocation?.name;
-    const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
-
-    return (
-      <div>
-        {hasPickupOrMeetingPoint && (
-          <>
-            <p className="text-dark-700">
-              {pickupPoint ? pickupPointLabel : meetingPointLabel}
-            </p>
-            {pickupPoint && (
-              <p>{pickupAddress ? pickupAddressFormatted : pickupName}</p>
-            )}
-            {!pickupPoint && (
-              <p> {startingPoint ? startingPoint : addressLabel}</p>
-            )}
-          </>
-        )}
-      </div>
-    );
-  };
   return (
-    <section className="flex flex-col gap-3 py-4 px-4 text-dark-1000">
+    <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
       <IconAndText icon={<LocationPinIcon />} content={addressLabel} />
-      {hasPickupOrMeetingPoint && (
+      {hasPickupOrSingleMeetingPoint && (
         <IconAndText
           icon={<LocationAndMapIcon />}
-          content={<MeetingPickupPoint />}
+          content={<MeetingPickupPoint item={item} />}
         />
       )}
 

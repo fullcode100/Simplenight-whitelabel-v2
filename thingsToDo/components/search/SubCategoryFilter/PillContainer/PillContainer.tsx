@@ -119,7 +119,7 @@ const PillContainer = ({
 
   const FilterModalButton = () => (
     <button
-      className=" text-dark-800 leading-none inline border bg-white border-dark-300 text-dark-900 rounded-4 px-3 py-2 capitalize text-xs font-semibold shrink-0 hover:bg-dark-100  "
+      className="inline px-3 py-2 text-xs font-semibold leading-none capitalize bg-white border text-dark-800 border-dark-300 rounded-4 shrink-0 hover:bg-dark-100"
       onClick={() => setIsFilterModalOpen(true)}
     >
       {modalFilters.length} +
@@ -135,8 +135,8 @@ const PillContainer = ({
         'lg:max-w-[842px] lg:max-h-[660px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-4 overflow-hidden shadow-full'
       }
     >
-      <div className="h-full overflow-y-scroll p-4 md:p-6 ">
-        <section className="  grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 text-center w-full">
+      <div className="h-full p-4 overflow-y-scroll md:p-6 ">
+        <section className="grid w-full grid-cols-1 gap-2 text-center  lg:grid-cols-2 lg:gap-4">
           {modalFilters.map((filter) => (
             <Pill
               key={filter.id}

@@ -11,6 +11,7 @@ import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { useCategorySlug } from 'hooks/category/useCategory';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface ThingItineraryFooterProps {
   item: any;
@@ -87,10 +88,12 @@ const ThingItineraryFooter = ({
   );
 
   return (
-    <section className="flex flex-col lg:flex-row gap-3 items center">
-      <div className="flex w-full items-center">
-        <p className="w-full text-sm">Total</p>
-        <p className="text-base">{formatedTotalAmount}</p>
+    <section className="flex flex-col gap-3 lg:flex-row items center">
+      <div className="flex items-center w-full">
+        <Paragraph size="small" className="w-full">
+          Total
+        </Paragraph>
+        <Paragraph size="medium">{formatedTotalAmount}</Paragraph>
       </div>
       {showActions && (
         <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">

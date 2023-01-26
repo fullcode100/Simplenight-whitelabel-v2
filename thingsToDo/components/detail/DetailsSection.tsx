@@ -13,6 +13,7 @@ import SectionSubtitle from 'components/global/SectionSubtitle/SectionSubtitle';
 import { useTranslation } from 'react-i18next';
 import { ThingsDetailItem } from 'thingsToDo/types/response/ThingsDetailResponse';
 import DurationLabel from '../DurationLabel/DurationLabel';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface DetailsSectionProps {
   thingsItem: ThingsDetailItem;
@@ -70,6 +71,9 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const DescriptionSection = () => (
     <>
       <SectionSubtitle>{descriptionText}</SectionSubtitle>
+      <Paragraph size="medium" className="pt-3">
+        {thingsItem?.extra_data?.description}
+      </Paragraph>
       <p className="pt-3 text-base text-dark-1000">
         {thingsItem?.extra_data?.description}
       </p>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import GuestsThingsModal from './GuestsThingsModal';
 import { PricingTicketType } from 'thingsToDo/types/response/ThingsDetailResponse';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface GuestsThingsInputProps {
   guestsData: any;
@@ -45,7 +46,9 @@ const GuestsThingsInput = ({
         activityMaxTravelers={activityMaxTravelers}
         setIsEditing={setIsEditing}
       />
-      <p className="text-sm font-semibold text-dark-800">{guests}</p>
+      <Paragraph size="small" fontWeight="semibold" textColor="text-dark-800">
+        {guests}
+      </Paragraph>
       <button
         onClick={() => setShowGuestsModal(true)}
         className="mt-1 bg-white rounded border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"

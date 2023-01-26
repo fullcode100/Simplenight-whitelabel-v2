@@ -33,9 +33,7 @@ const DiningItineraryFooter = ({
         })}
       >
         <section className="flex justify-between w-full pb-4 lg:pb-0">
-          <Paragraph size="small" fontWeight="normal">
-            {t('total')}
-          </Paragraph>
+          <Paragraph size="small">{t('total')}</Paragraph>
           <section className="ml-auto text-right">
             <section className="flex flex-col justify-end gap-1">
               <p className="font-semibold text-[18px] leading-[18px] text-dark-1000">

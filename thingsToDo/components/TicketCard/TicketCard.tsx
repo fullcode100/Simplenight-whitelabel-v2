@@ -3,7 +3,6 @@ import { useState } from 'react';
 import TimeSelectorPill from '../TimeSelector/TimeSelectorPill';
 import TicketHeader from './TicketHeader';
 import TimeSelectorDrop from '../TimeSelector/TimeSelectorDrop';
-import { Ticket } from 'thingsToDo/types/response/ThingsDetailResponse';
 import ClockIcon from 'public/icons/assets/clock.svg';
 import { useTranslation } from 'react-i18next';
 import classnames from 'classnames';
@@ -13,6 +12,7 @@ import { formatAsExactHour } from 'helpers/dajjsUtils';
 import { getCurrency } from 'store/selectors/core';
 import { Location } from 'thingsToDo/types/response/ThingsDetailResponse';
 import DurationLabel from '../DurationLabel/DurationLabel';
+import { TicketAvailability } from 'thingsToDo/types/adapters/TicketAvailability';
 
 const PICKUP_QUESTION_ID = 'PICKUP_POINT';
 const MEETING_QUESTION_ID = 'MEETING_POINT';
@@ -21,7 +21,7 @@ const LOCATION_UNIT = 'LOCATION_REFERENCE';
 interface TicketCardProps {
   id: string;
   category: string;
-  ticket: Ticket;
+  ticket: TicketAvailability;
   pickup?: Location;
   meeting?: Location;
   selected?: boolean;
@@ -39,13 +39,9 @@ const TicketCard = ({
   const [selectedTime, setSelectedTime] = useState('');
   const title = ticket?.name;
   const description = ticket?.description;
-  const isFullDay = ticket?.full_day;
+  const isFullDay = ticket?.fullDay;
   const hasNoStartTime = ticket.times.length === 0;
-  const {
-    duration: actiyvityDuration,
-    min_duration: minDuration,
-    max_duration: maxDuration,
-  } = ticket;
+  const { duration: actiyvityDuration, minDuration, maxDuration } = ticket;
   const rangeDuration = minDuration &&
     maxDuration && { minDuration, maxDuration };
   const fixedDuration = actiyvityDuration ? actiyvityDuration : 0;
@@ -57,15 +53,6 @@ const TicketCard = ({
   const fullDayOrDuration = isFullDay ? fulldayText : duration;
 
   const showDuration = actiyvityDuration !== undefined && actiyvityDuration > 0;
-
-  let totalGuests = 0;
-  const ticketTypes = ticket.ticket_types.map((ticket) => {
-    totalGuests += ticket.quantity;
-    return {
-      ticket_type_id: ticket.id,
-      quantity: ticket.quantity,
-    };
-  });
 
   const timeNotSelected = selectedTime == '' ? true : false;
   /* selected */
@@ -95,19 +82,18 @@ const TicketCard = ({
 
     const hasBookingAnswers = bookingAnswers.length > 0;
 
-    const bookinData = {
+    const bookingData = {
       inventory_id: id,
-      booking_code_supplier: ticket.booking_code_supplier,
-      start_date: ticket.start_date,
+      start_date: ticket.startDate,
       time,
       currency,
       product_code: ticket.code,
-      ticket_types: ticketTypes,
+      ticket_types: ticket.ticketTypes,
       ...(hasBookingAnswers && { booking_answers: bookingAnswers }),
     };
 
     return {
-      booking_data: bookinData,
+      booking_data: bookingData,
       category,
     };
   };
@@ -160,12 +146,10 @@ const TicketCard = ({
       <Divider />
       <section className="p-4">
         <PriceBreakdown
-          numberTickets={totalGuests}
-          totalBeforeDiscount={
-            ticket.rate.discounts.total_amount_before_apply.formatted
-          }
-          percentageToApply={ticket.rate.discounts.percentage_to_apply}
-          totalAmount={ticket.rate.total.full.formatted}
+          numberTickets={ticket.totalGuests}
+          totalBeforeDiscount={ticket.totalBeforeDiscount}
+          percentageToApply={ticket.percentageToApply}
+          totalAmount={ticket.totalAmount}
         />
       </section>
       <Divider />
@@ -173,7 +157,7 @@ const TicketCard = ({
         <TicketActions
           itemToBook={addToCartRequest()}
           timeNotSelected={actionsAreDisabled}
-          numberTickets={totalGuests}
+          numberTickets={ticket.totalGuests}
         />
       </section>
     </section>

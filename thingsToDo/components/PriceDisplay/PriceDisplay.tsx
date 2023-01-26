@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface ThingsRates {
   total: {
@@ -36,10 +37,10 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
     <section className="text-right">
       {totalBeforeDiscount && (
         <p className="text-xs">
-          <span className="text-dark-700 line-through font-normal">
+          <span className="font-normal line-through text-dark-700">
             {totalBeforeDiscount}
           </span>{' '}
-          <span className="text-green-1000 font-semibold">
+          <span className="font-semibold text-green-1000">
             {percentageToApply} Off
           </span>
         </p>
@@ -52,10 +53,10 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
         <span className="text-xs">{totalLabel}</span>
       </p>
 
-      <section className="flex flex-row gap-1 justify-end">
-        <p className="text-[12px] leading-[15px] text-dark-800">
+      <section className="flex flex-row justify-end gap-1">
+        <Paragraph size="xxsmall" textColor="text-dark-800">
           {taxesAndFeesLabel}
-        </p>
+        </Paragraph>
         <TaxesAndFeesPopover />
       </section>
     </section>

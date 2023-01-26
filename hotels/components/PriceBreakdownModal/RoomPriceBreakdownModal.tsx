@@ -90,7 +90,7 @@ const RoomPriceBreakdownModal = ({
           <section className="space-y-2">
             <section className="flex justify-between items-center">
               <p className="font-semibold text-sm leading-[22px] text-dark-800">
-                <Paragraph size="small" fontWeight="normal">
+                <Paragraph size="small">
                   {`${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}
                 </Paragraph>
               </p>

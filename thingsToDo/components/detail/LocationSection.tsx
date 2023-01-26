@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
@@ -8,11 +8,11 @@ import {
   Location,
   LocationPoints,
 } from 'thingsToDo/types/response/ThingsDetailResponse';
+import Paragraph from 'components/global/Typography/Paragraph';
+import { geocodeByPlaceId } from 'react-places-autocomplete';
 
 interface LocationSectionProps {
   meetingPoints?: Location[];
-  selectedMeeting?: Location;
-  setSelectedMeeting: Dispatch<SetStateAction<Location | undefined>>;
   pickupPoints?: LocationPoints;
   selectedPickup?: Location;
   setSelectedPickup: Dispatch<SetStateAction<Location | undefined>>;
@@ -20,8 +20,6 @@ interface LocationSectionProps {
 
 const LocationSection = ({
   meetingPoints,
-  selectedMeeting,
-  setSelectedMeeting,
   pickupPoints,
   selectedPickup,
   setSelectedPickup,
@@ -57,8 +55,27 @@ const LocationSection = ({
 
   const PointDetail = ({ point }: { point?: Location }) => {
     const { latitude, longitude } = point?.coordinates || {};
-    const { address, name, description } = point || {};
-    const formattedAddress = `${address?.address1}, ${address?.city} - ${address?.state} - ${address?.country}, ${address?.postal_code}`;
+    const { name, description } = point || {};
+    const [formattedAddress, setFormattedAddress] = useState('');
+
+    useEffect(() => {
+      const getAddress = async (point: Location) => {
+        const { address, provider } = point || {};
+        let pointFormattedAddress = '';
+        if (address) {
+          pointFormattedAddress = `${address?.address1}, ${address?.city} - ${address?.state} - ${address?.country}, ${address?.postal_code}`;
+        }
+        if (!address && provider === 'GOOGLE') {
+          const geocode = await geocodeByPlaceId(point.provider_ref);
+          pointFormattedAddress = geocode[0].formatted_address;
+        }
+        setFormattedAddress(pointFormattedAddress);
+      };
+      if (point) getAddress(point);
+      return () => {
+        setFormattedAddress('');
+      };
+    }, [point]);
 
     return (
       <>
@@ -69,9 +86,9 @@ const LocationSection = ({
         {description && (
           <div className="text-base text-dark-1000">{description}</div>
         )}
-        {address && (
+        {point && (
           <div className="flex flex-row gap-3 text-base text-dark-1000">
-            <LocationIcon className="w-5 h-5 mt-1 text-primary-1000" />{' '}
+            <LocationIcon className="w-5 h-5 mt-1 text-primary-1000" />
             {formattedAddress}
           </div>
         )}
@@ -80,34 +97,30 @@ const LocationSection = ({
   };
 
   const MeetingPoint = () => {
-    const meetingPoint = t('meetingPoint', 'Meeting Point');
-    const meetingPlaceholder = t(
-      'meetingPlaceholder',
-      'Choose A Meeting Point',
-    );
-
-    useEffect(() => {
-      if (meetingPoints?.length == 1) {
-        setSelectedMeeting(meetingPoints[0]);
-      }
-    }, [meetingPoints]);
-
+    const meetingPointLabel = t('meetingPoint', 'Meeting Point');
     return (
       <section className="grid gap-3">
-        <p className="text-base leading-[22px] text-dark-800 font-semibold">
-          {meetingPoint}
-        </p>
-        {meetingPoints && meetingPoints?.length > 1 && (
-          <section className="lg:w-[405px]">
-            <LocationSelector
-              placeholder={meetingPlaceholder}
-              locations={meetingPoints}
-              selectedPoint={selectedMeeting}
-              setSelectedPoint={setSelectedMeeting}
-            />
-          </section>
-        )}
-        <PointDetail point={selectedMeeting} />
+        <Paragraph
+          size="medium"
+          fontWeight="semibold"
+          textColor="text-dark-800"
+        >
+          {meetingPointLabel}
+        </Paragraph>
+
+        {meetingPoints?.map((meetingPoint) => {
+          const hasMultipleMeetingPoints = meetingPoints.length > 1;
+          const listStyles =
+            'before:content-["•"] flex before:mt-1 before:mr-1';
+          return (
+            <div
+              key={meetingPoint.ref}
+              className={`${hasMultipleMeetingPoints ? listStyles : ''}`}
+            >
+              <PointDetail point={meetingPoint} />
+            </div>
+          );
+        })}
       </section>
     );
   };
@@ -135,9 +148,13 @@ const LocationSection = ({
 
     return (
       <section className="grid gap-3">
-        <p className="text-base leading-[22px] text-dark-800 font-semibold">
+        <Paragraph
+          size="medium"
+          fontWeight="semibold"
+          textColor="text-dark-800"
+        >
           {pickupPoint}
-        </p>
+        </Paragraph>
         {locations && locations.length > 1 && (
           <section className="lg:w-[405px]">
             <LocationSelector

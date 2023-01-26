@@ -4,6 +4,7 @@ import Combobox from '../Combobox/Combobox';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
 import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
+import NewPhoneNumberInput from '../PhoneNumberInput/NewPhoneNumberInput';
 import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
 import SelectInput from '../SelectInput/SelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
@@ -41,12 +42,12 @@ export const CustomPhoneNumber = (props: any) => {
   const PhoneNumber = t('phone_number', placeholder);
 
   return (
-    <PhoneNumberInput
+    <NewPhoneNumberInput
       onChange={onChange}
       placeholder={PhoneNumber}
       required={required}
       defaultCode={schema.defaultCode}
-      defaultValue={schema.default}
+      defaultPhoneNumber={schema.default}
     />
   );
 };

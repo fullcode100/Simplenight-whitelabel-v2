@@ -1,21 +1,19 @@
 import React, { useMemo } from 'react';
-import { ThingsSearchItem } from 'thingsToDo/types/response/ThingsSearchResponse';
+import { SearchItem } from 'thingsToDo/types/adapters/SearchItem';
 
 const useKeywordFilter = (
-  entertainmentItems: ThingsSearchItem[],
+  entertainmentItems: SearchItem[],
   keywordSearch = '',
 ) => {
-  const filterEntertainment = (
-    array: ThingsSearchItem[],
-  ): ThingsSearchItem[] => {
+  const filterEntertainment = (array: SearchItem[]): SearchItem[] => {
     let filteredEntertainment = array;
     if (keywordSearch !== '') {
       filteredEntertainment = filteredEntertainment.filter(
-        (entertainment: ThingsSearchItem) =>
+        (entertainment: SearchItem) =>
           entertainment.name
             .toLowerCase()
             .includes((keywordSearch as string).toLowerCase()) ||
-          entertainment.extra_data.description
+          entertainment.description
             .toLowerCase()
             .includes((keywordSearch as string).toLowerCase()) ||
           entertainment.address.city

@@ -3,6 +3,7 @@ import Divider from 'components/global/Divider/Divider';
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import { useTranslation } from 'react-i18next';
 import ThingItineraryPriceBreakdown from './ThingItineraryPriceBreakdown';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 const ThingTicketsInfo = ({ item }: any) => {
   const {
@@ -28,8 +29,8 @@ const ThingTicketsInfo = ({ item }: any) => {
   }
   const FeesRow = ({ priceBreakdown, label }: any) => {
     return (
-      <section className="flex justify-between items-start">
-        <section className="text-sm flex items-center gap-2 capitalize">
+      <section className="flex items-start justify-between">
+        <section className="flex items-center gap-2 text-sm capitalize">
           <PlusIcon className={'text-primary-1000 h-4 w-4 '} />
           {label}
         </section>
@@ -68,10 +69,12 @@ const ThingTicketsInfo = ({ item }: any) => {
         />
         <Divider />
         <div className="flex justify-between text-dark-1000">
-          <p className="text-sm capitalize ">{payNowLabel}</p>
-          <p className=" text-dark-1000text-sm font-semibold">
+          <Paragraph size="small" className="capitalize">
+            {payNowLabel}
+          </Paragraph>
+          <Paragraph size="small" fontWeight="semibold">
             {formattedTotalAmount}
-          </p>
+          </Paragraph>
         </div>
       </>
     );
@@ -99,17 +102,23 @@ const ThingTicketsInfo = ({ item }: any) => {
     );
 
     return (
-      <div className="text-sm ">
-        <h4 className="text-sm  text-dark-700 font-normal">
+      <div>
+        <Paragraph size="small" textColor="text-dark-700">
           {cancellationPolicyLabel}
-        </h4>
-        <p>{cancellationPolicy.description}</p>
+        </Paragraph>
+        <Paragraph size="small">{cancellationPolicy?.description}</Paragraph>
         {cutoffFlag && (
-          <p className="text-sm  text-dark-700">{cutoffFlag.description}</p>
+          <Paragraph size="small" textColor="text-dark-700">
+            {cutoffFlag.description}
+          </Paragraph>
         )}
-        {weatherFlag && <p className="text-sm ">{weatherFlag.description}</p>}
+        {weatherFlag && (
+          <Paragraph size="small">{weatherFlag.description}</Paragraph>
+        )}
         {insufficientTravelersFlag && (
-          <p className="text-sm ">{insufficientTravelersFlag.description}</p>
+          <Paragraph size="small">
+            {insufficientTravelersFlag.description}
+          </Paragraph>
         )}
       </div>
     );
@@ -117,10 +126,12 @@ const ThingTicketsInfo = ({ item }: any) => {
   return (
     <>
       <Divider />
-      <section className="flex flex-col gap-3 py-4 px-4 text-dark-1000">
-        <h3 className="text-base capitalize">
-          {quantity}x {ticketName}
-        </h3>
+      <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
+        <Paragraph
+          size="medium"
+          className="capitalize"
+          fontWeight="semibold"
+        >{`${quantity}x ${ticketName}`}</Paragraph>
         <FeesSection />
         <PoliciesSection />
       </section>

@@ -40,8 +40,8 @@ export interface Total {
 
 export interface RateDetail {
   discounts: Discounts;
-  fees: AmountDetail;
-  taxes: AmountDetail;
+  fees?: AmountDetail;
+  taxes?: AmountDetail;
   total: AmountDetail;
 }
 
@@ -160,6 +160,7 @@ export interface AddressExtended {
 export interface Location {
   ref: string;
   provider: string;
+  provider_ref: string;
   name?: string;
   description?: string;
   address?: AddressExtended;

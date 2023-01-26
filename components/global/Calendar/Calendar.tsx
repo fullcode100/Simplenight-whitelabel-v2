@@ -147,47 +147,43 @@ const DatePicker = ({
   const [calendarFirstMonth, setCalendarFirstMonth] = useState(0);
   const [calendarSecondMonth, setCalendarSecondMonth] = useState(1);
 
-  const DesktopDatePicker = () => {
-    return (
-      <DesktopDatepickerDropdown
-        open={showDatePicker}
-        closeModal={onClose}
-        rangeDate={
-          <RangeDate
-            isStartDateTurn={isStartTurnValue}
-            onDateTurn={() => setIsStartDateTurn(!isStartTurnValue)}
-            startDateLabel={startDateLabel}
-            endDateLabel={endDateLabel}
-            startDate={formatAsRangeDate(startDate)}
-            endDate={formatAsRangeDate(endDate)}
-            isRange={isRange}
-          />
-        }
-        calendar={calendar}
-        setDate={setDate}
-        startDate={startDate}
-        endDate={endDate}
-        isStartDateTurn={isStartDateTurn}
-        onStartDateChange={onStartDateChange}
-        onEndDateChange={onEndDateChange}
-        calendarFirstMonth={calendarFirstMonth}
-        setCalendarFirstMonth={setCalendarFirstMonth}
-        calendarSecondMonth={calendarSecondMonth}
-        setCalendarSecondMonth={setCalendarSecondMonth}
-        maxRange={maxRange}
-        restricted={restricted}
-        isRange={isRange}
-        disabledDays={disabledDays}
-      />
-    );
-  };
+  const DesktopDatePicker = (
+    <DesktopDatepickerDropdown
+      open={showDatePicker}
+      closeModal={onClose}
+      rangeDate={
+        <RangeDate
+          isStartDateTurn={isStartTurnValue}
+          onDateTurn={() => setIsStartDateTurn(!isStartTurnValue)}
+          startDateLabel={startDateLabel}
+          endDateLabel={endDateLabel}
+          startDate={formatAsRangeDate(startDate)}
+          endDate={formatAsRangeDate(endDate)}
+          isRange={isRange}
+        />
+      }
+      calendar={calendar}
+      setDate={setDate}
+      startDate={startDate}
+      endDate={endDate}
+      isStartDateTurn={isStartDateTurn}
+      onStartDateChange={onStartDateChange}
+      onEndDateChange={onEndDateChange}
+      calendarFirstMonth={calendarFirstMonth}
+      setCalendarFirstMonth={setCalendarFirstMonth}
+      calendarSecondMonth={calendarSecondMonth}
+      setCalendarSecondMonth={setCalendarSecondMonth}
+      maxRange={maxRange}
+      restricted={restricted}
+      isRange={isRange}
+      disabledDays={disabledDays}
+    />
+  );
 
   return (
     <>
       {isDesktop ? (
-        <section>
-          <DesktopDatePicker />
-        </section>
+        <section>{DesktopDatePicker}</section>
       ) : (
         <FullScreenModal
           open={showDatePicker}

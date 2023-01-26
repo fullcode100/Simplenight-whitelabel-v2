@@ -1,4 +1,5 @@
 import SeeMoreText from 'components/global/SeeMoreText/SeeMoreText';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface TicketHeaderProps {
   title: string;
@@ -8,7 +9,9 @@ interface TicketHeaderProps {
 const TicketHeader = ({ title, description }: TicketHeaderProps) => {
   return (
     <section className="p-4 text-dark-1000">
-      <h3 className="text-lg font-semibold">{title}</h3>
+      <Paragraph size="large" fontWeight="semibold">
+        {title}
+      </Paragraph>
       <p className="text-xs font-normal">
         <SeeMoreText text={description} length={72} />
       </p>

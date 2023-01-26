@@ -11,6 +11,9 @@ import LocationAndMapIcon from 'public/icons/assets/LocationAndMap.svg';
 import PhoneIcon from 'public/icons/assets/Phone.svg';
 import EnvelopeIcon from 'public/icons/assets/Envelope.svg';
 import UserIcon from 'public/icons/assets/buyer-user.svg';
+import Paragraph from 'components/global/Typography/Paragraph';
+import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';
+import MeetingPickupPoint from '../MeetingPickupPoint/MeetingPickupPoint';
 
 interface ThingGeneralInfoProps {
   item: Item;
@@ -53,37 +56,12 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
 
   const PICKUP_POINT_ID = 'PICKUP_POINT';
   const pickupPoint = item.booking_data?.booking_answers?.find(
-    (bookingAnswer: any) => bookingAnswer.question_id === PICKUP_POINT_ID,
+    (bookingAnswer: BookingAnswer) =>
+      bookingAnswer.question_id === PICKUP_POINT_ID,
   )?.value;
-  const startingPoint = item.item_data?.extra_data.start_locations?.map(
-    (location: any) => location.description || location.name,
-  );
-  const hasPickupOrMeetingPoint = pickupPoint || startingPoint;
-
-  const MeetingPickupPoint = () => {
-    const pickupPointLabel = t('pickupPoint', 'Pickup Point');
-    const meetingPointLabel = t('meetingPoint', 'Meeting Point');
-
-    const pickupLocations = item.item_data?.extra_data.pickup.locations;
-    const selectedPickupLocation = pickupLocations?.find(
-      (locationObject: any) => locationObject.location.ref == pickupPoint,
-    )?.location;
-    const pickupAddress = selectedPickupLocation?.address;
-    const pickupName = selectedPickupLocation?.name;
-    const pickupAddressFormatted = `${pickupAddress?.address1}${pickupAddress?.city}, ${pickupAddress?.country_code}, ${pickupAddress?.postal_code}`;
-
-    return (
-      <div>
-        <p className="text-dark-700">
-          {pickupPoint ? pickupPointLabel : meetingPointLabel}
-        </p>
-        {pickupPoint && (
-          <p>{pickupAddress ? pickupAddressFormatted : pickupName}</p>
-        )}
-        {!pickupPoint && <p> {startingPoint ? startingPoint : addressLabel}</p>}
-      </div>
-    );
-  };
+  const startLocations = item.item_data?.extra_data.start_locations;
+  const hasPickupOrSingleMeetingPoint =
+    pickupPoint || startLocations?.length === 1;
 
   const IconAndText = ({ icon, content }: IconAndTextProps) => {
     const iconWithClasses = injectProps(icon, {
@@ -105,7 +83,7 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
       return (
         <div className="flex items-center gap-2 ">
           {iconWithClasses}
-          <p className="underline">{content}</p>
+          <Paragraph className="underline">{content as string}</Paragraph>
         </div>
       );
     };
@@ -119,10 +97,10 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
         {userIconWithClasses}
         <div className="grid w-full gap-2 lg:grid-cols-2">
           <div>
-            <p className="text-dark-700">{orderNameLabel}</p>
-            <p>
-              {customer?.first_name} {customer?.last_name}
-            </p>
+            <Paragraph textColor="text-dark-700">{orderNameLabel}</Paragraph>
+            <Paragraph>
+              {`${customer?.first_name} ${customer?.last_name}`}
+            </Paragraph>
           </div>
           <div>
             <Sublabel icon={<EnvelopeIcon />} content={`${customer?.email}`} />
@@ -138,10 +116,10 @@ const ThingGeneralInfo = ({ item, customer }: ThingGeneralInfoProps) => {
   return (
     <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
       <IconAndText icon={<LocationPinIcon />} content={<p>{addressLabel}</p>} />
-      {hasPickupOrMeetingPoint && (
+      {hasPickupOrSingleMeetingPoint && (
         <IconAndText
           icon={<LocationAndMapIcon />}
-          content={<MeetingPickupPoint />}
+          content={<MeetingPickupPoint item={item} />}
         />
       )}
       {showDuration && (

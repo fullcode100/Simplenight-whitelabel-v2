@@ -26,25 +26,35 @@ export interface HeadingProps {
 }
 
 export const headingClasses = {
-  h1: 'text-[40px] leading-[46px] lg:text-[60px] lg:leading-[68px]',
-  h2: 'text-[32px] leading-tight lg:text-[44px] lg:leading-[50px]',
-  h3: 'text-[24px] leading-7 lg:text-[32px] lg:leading-[38px]',
-  h4: 'text-lg leading-6 lg:text-[24px] lg:leading-[29px]',
-  h5: 'text-[18px] leading-[22px] lg:text-lg lg:leading-6',
-  h6: 'text-sm leading-5 lg:text-[18px] lg:leading-[22px]',
+  h1: 'text-h1 lg:text-h1-lg font-semibold',
+  h2: 'text-h2 lg:text-h2-lg font-semibold',
+  h3: 'text-h3 lg:text-h3-lg font-semibold',
+  h4: 'text-h4 lg:text-h4-lg font-semibold',
+  h5: 'text-h5 lg:text-h5-lg font-semibold',
+  h6: 'text-h6 lg:text-h6-lg font-semibold',
 };
 
 export interface ParagraphProps {
-  fontWeight: 'normal' | 'medium' | 'semibold';
-  size: 'large' | 'medium' | 'small' | 'xsmall';
+  fontWeight?: 'normal' | 'medium' | 'semibold';
+  size?:
+    | 'large'
+    | 'medium'
+    | 'small'
+    | 'xsmall'
+    | 'xxsmall'
+    | 'sm-lg'
+    | 'xs-sm';
   children: string;
   className?: string;
   textColor?: TextColor;
 }
 
 export const paragraphClasses = {
-  large: 'text-lg leading-[28px]',
-  medium: 'text-base leading-6',
-  small: 'text-sm leading-[22px]',
-  xsmall: 'text-[14px] leading-4',
+  large: 'text-p-lg',
+  medium: 'text-p-md',
+  small: 'text-p-sm',
+  xsmall: 'text-p-xs',
+  xxsmall: 'text-p-xxs',
+  'sm-lg': 'text-p-sm lg:text-p-lg',
+  'xs-sm': 'text-p-xs lg:text-p-sm',
 };

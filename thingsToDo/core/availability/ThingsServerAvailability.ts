@@ -1,13 +1,17 @@
-import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
+import {
+  applyApiBaseUrlV2,
+  sendSuccess,
+} from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
 import { ServerRequester } from 'core/server/ServerRequester';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Ticket } from 'thingsToDo/types/response/ThingsDetailResponse';
+import { ticketAvailabilityAdapter } from 'thingsToDo/adapters/availability.adapter';
+import { ThingsAvailabilityResponse } from 'thingsToDo/types/response/ThingsAvailabilityResponse';
 import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
-export class ThingsServerAvailability extends ServerRequester<Ticket[]> {
+export class ThingsServerAvailability extends ServerRequester<ThingsAvailabilityResponse> {
   public constructor(category: CategoryOption) {
     super(category);
   }
@@ -25,8 +29,20 @@ export class ThingsServerAvailability extends ServerRequester<Ticket[]> {
 
     delete params.apiUrl;
 
-    return axios.post<ApiResponse<any, Ticket[]>>(url, {
+    return axios.post<ApiResponse<any, ThingsAvailabilityResponse>>(url, {
       ...params,
     });
+  }
+
+  protected override postRequestResult(
+    request: NextApiRequestWithSession,
+    response: NextApiResponse<ThingsAvailabilityResponse>,
+    result: ThingsAvailabilityResponse,
+  ): void {
+    if (result) {
+      const adaptedResult = ticketAvailabilityAdapter(result.tickets);
+      sendSuccess(response, adaptedResult);
+      return;
+    }
   }
 }

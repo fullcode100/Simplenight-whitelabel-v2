@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import { ClientRequester } from 'core/client/ClientRequester';
 import { ThingsAvailabilityRequest } from 'thingsToDo/types/request/ThingsAvailabilityRequest';
 import { ThingsDetailPreRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
-import { Ticket } from 'thingsToDo/types/response/ThingsDetailResponse';
+import { Ticket } from 'thingsToDo/types/response/ThingsAvailabilityResponse';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 export class ThingsClientAvailability extends ClientRequester<

@@ -1,6 +1,8 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import SectionIcon from '../SectionIcon/SectionIcon';
+import Heading from '../Typography/Heading';
+import Paragraph from '../Typography/Paragraph';
 
 interface SectionTitleProps {
   icon?: React.ReactElement;
@@ -20,11 +22,15 @@ const SectionTitle = ({
   <section className={`flex items-center gap-3 lg:gap-5 ${className}`}>
     {displayIcon && <SectionIcon icon={icon} />}
     <section>
-      <h2 className="text-lg font-bold leading-6 text-dark-800 lg:text-[32px] lg:leading-[38px]">
-        {title}
-      </h2>
+      {title && (
+        <Heading tag="h3" textColor="text-dark-800">
+          {title}
+        </Heading>
+      )}
       {subTitle && (
-        <p className="text-lg leading-6 text-dark-800">{subTitle}</p>
+        <Paragraph size="large" textColor="text-dark-800">
+          {subTitle}
+        </Paragraph>
       )}
     </section>
   </section>

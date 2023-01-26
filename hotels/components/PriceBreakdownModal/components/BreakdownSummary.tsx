@@ -36,7 +36,7 @@ const BreakdownSummary = ({
 
   return (
     <section className="flex items-center justify-between">
-      <Paragraph size="small" fontWeight="normal">
+      <Paragraph size="small">
         {showTotal
           ? totalLabel
           : `${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}

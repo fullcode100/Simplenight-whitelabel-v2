@@ -2,6 +2,7 @@ import Heading from 'components/global/Typography/Heading';
 import React from 'react';
 import Checkmark from 'public/icons/assets/checkmark.svg';
 import Cross from 'public/icons/assets/cross-current.svg';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface FeaturesListProps {
   type: 'included' | 'notIncluded';
@@ -13,7 +14,7 @@ const FeaturesList = ({ type, list, label }: FeaturesListProps) => {
   return (
     <section>
       <Heading tag="h5">{label}</Heading>
-      <div className="flex items-center w-full flex-wrap">
+      <div className="flex flex-wrap items-center w-full">
         {list.map((item, index) => (
           <div
             key={index}
@@ -22,7 +23,7 @@ const FeaturesList = ({ type, list, label }: FeaturesListProps) => {
             }`}
           >
             {type == 'included' ? <Checkmark /> : <Cross />}
-            <p className="font-semibold text-xs">{item}</p>
+            <Paragraph fontWeight="semibold">{item}</Paragraph>
           </div>
         ))}
       </div>

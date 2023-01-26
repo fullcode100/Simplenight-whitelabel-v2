@@ -37,7 +37,7 @@ const HotelCheckoutDisplay = ({
         <section className="font-semibold text-dark-800 text-lg leading-6 ">
           {name}
         </section>
-        <Paragraph size="small" fontWeight="normal" textColor="text-dark-800">
+        <Paragraph size="small" textColor="text-dark-800">
           {roomsFormatted}
         </Paragraph>
       </section>

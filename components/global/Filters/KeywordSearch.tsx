@@ -8,7 +8,7 @@ export interface KeywordSearchFilterProps {
   keywordSearchLabel: string;
   keywordSearch: string;
   keywordSearchPlaceholder: string;
-  setKeywordSearch:
+  onChangeKeywordSearch:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
 }
@@ -17,7 +17,7 @@ const KeywordSearchFilter = ({
   keywordSearchLabel,
   keywordSearch,
   keywordSearchPlaceholder,
-  setKeywordSearch,
+  onChangeKeywordSearch,
 }: KeywordSearchFilterProps) => (
   <FilterContainer>
     <FilterTitle label={keywordSearchLabel} />
@@ -25,7 +25,8 @@ const KeywordSearchFilter = ({
       value={keywordSearch}
       placeholder={keywordSearchPlaceholder}
       icon={<SearchIcon className="text-dark-700" />}
-      onChange={(e) => setKeywordSearch(e.target.value)}
+      onChange={(e) => onChangeKeywordSearch(e.target.value)}
+      autoFocus
     />
   </FilterContainer>
 );

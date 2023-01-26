@@ -49,7 +49,6 @@ const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
         {showProductsAmount && (
           <section className="lg:hidden">
             <Paragraph
-              size="xsmall"
               textColor="text-dark-800"
               fontWeight="semibold"
             >{`${productsAmount} ${itemsLabel}`}</Paragraph>

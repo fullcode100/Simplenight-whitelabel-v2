@@ -16,6 +16,7 @@ interface CheckAvailabilityProps {
   onApply: (date: string, ticketTypes: any[]) => any;
   isAdultRequired: boolean;
   activityMaxTravelers: number;
+  activityMinTravelers: number;
   disabledDays: string[];
 }
 
@@ -24,13 +25,18 @@ const CheckThingsAvailability = ({
   onApply,
   isAdultRequired,
   activityMaxTravelers,
+  activityMinTravelers,
   disabledDays,
 }: CheckAvailabilityProps) => {
   const [t] = useTranslation('global');
   const textCheckAvailability = t('checkAvailability', 'Check Availability');
   const [checkInOutProps, startDate, endDate] = useCheckInOutInput();
   const params = useQueryParams();
-  const defaultGuestData: any = getDefaultGuests(pricing?.ticket_types, params);
+  const defaultGuestData: any = getDefaultGuests(
+    pricing?.ticket_types,
+    params,
+    activityMinTravelers,
+  );
   const [guestsData, setGuestsData] = useState(defaultGuestData);
   const [isEditing, setIsEditing] = useState(false);
   const ticketTypes: any[] = [];

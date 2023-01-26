@@ -1,11 +1,18 @@
-import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
+import {
+  applyApiBaseUrlV2,
+  sendSuccess,
+} from 'apiCalls/config/responseHelpers';
 import { AxiosInstance } from 'axios';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import { NextApiResponse } from 'next';
-import { ThingsDetailResponse } from 'thingsToDo/types/response/ThingsDetailResponse';
+import {
+  ThingsDetailResponse,
+  ThingsDetailItem,
+} from 'thingsToDo/types/response/ThingsDetailResponse';
 import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
+import { detailAdapter } from '../../adapters/detail.adapter';
 
 export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
   public constructor(category: CategoryOption) {
@@ -30,5 +37,17 @@ export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
     return axios.get<ApiResponse<any, ThingsDetailResponse>>(url, {
       params,
     });
+  }
+
+  protected override postRequestResult(
+    request: NextApiRequestWithSession,
+    response: NextApiResponse<ThingsDetailResponse>,
+    result: ThingsDetailResponse,
+  ): void {
+    if (result) {
+      const adaptedResult = detailAdapter(result);
+      sendSuccess(response, adaptedResult);
+      return;
+    }
   }
 }

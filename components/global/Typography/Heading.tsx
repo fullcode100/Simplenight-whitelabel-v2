@@ -12,12 +12,7 @@ const Heading = ({
 
   return (
     <Tag
-      className={classnames(
-        headingClass,
-        textColor,
-        className,
-        'font-semibold font-lato',
-      )}
+      className={classnames(headingClass, textColor, className, 'font-lato')}
     >
       {children}
     </Tag>

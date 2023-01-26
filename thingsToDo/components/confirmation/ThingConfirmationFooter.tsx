@@ -18,6 +18,7 @@ import CollapseBordered from 'components/global/CollapseBordered/CollapseBordere
 import { Item, Payment } from 'types/booking/bookingType';
 import CardLogo from 'components/confirmation/CardLogo/CardLogo';
 import Disclaimer from 'components/global/Disclaimer/Disclaimer';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface ThingConfirmationFooterProps {
   item: Item;
@@ -84,7 +85,7 @@ const ThingConfirmationFooter = ({
         secondaryButtonAction={onClose}
       >
         <section className="px-5 py-6 space-y-6 overflow-scroll lg:px-6">
-          <p className="text-lg text-dark-1000">{questionReservation}</p>
+          <Paragraph size="large">{questionReservation}</Paragraph>
           <CollapseBordered
             title={<ThingBreakdownHeader icon={Category.icon} item={item} />}
             body={
@@ -97,26 +98,38 @@ const ThingConfirmationFooter = ({
             }
             footer={
               <div className="flex items-center w-full">
-                <p className="w-full text-sm">{totalLabel}</p>
-                <p className="text-base">{item.rate.total.full.formatted}</p>
+                <Paragraph size="small">{totalLabel}</Paragraph>
+                <Paragraph size="medium">
+                  {item.rate.total.full.formatted}
+                </Paragraph>
               </div>
             }
           />
           {payment && (
             <section className="">
-              <h4 className="text-sm font-semibold text-dark-700">
+              <Paragraph
+                size="small"
+                fontWeight="semibold"
+                textColor="text-dark-700"
+              >
                 {refundTitle}
-              </h4>
+              </Paragraph>
               <section className="flex justify-between mt-3">
                 <section className="flex p-2 border rounded bg-dark-100 border-dark-300">
-                  <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold mr-3">
-                    ···· ···· ···· {payment.last_four}
-                  </h4>
+                  <Paragraph
+                    size="small"
+                    fontWeight="semibold"
+                    className="mr-3"
+                  >{`···· ···· ···· ${payment.last_four}`}</Paragraph>
                   <CardLogo cardBrand={payment.card_brand} />
                 </section>
-                <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold self-center">
+                <Paragraph
+                  size="small"
+                  fontWeight="semibold"
+                  className="self-center"
+                >
                   {item.refund_amount_estimate?.formatted}
-                </h4>
+                </Paragraph>
               </section>
             </section>
           )}
@@ -125,8 +138,8 @@ const ThingConfirmationFooter = ({
       </FullScreenModal>
       <section className="flex flex-col gap-3 lg:flex-row items center">
         <div className="flex items-center w-full">
-          <p className="w-full text-sm">{totalLabel}</p>
-          <p className="text-base">{item.rate.total.full.formatted}</p>
+          <Paragraph size="small">{totalLabel}</Paragraph>
+          <Paragraph size="medium">{item.rate.total.full.formatted}</Paragraph>
         </div>
         <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
           <Button

@@ -24,9 +24,7 @@ const BreakdownSummary = ({
   const totalLabel = tg('total', 'Total');
   return (
     <section className="flex justify-between items-center">
-      <Paragraph size="small" fontWeight="normal">
-        {totalLabel}
-      </Paragraph>
+      <Paragraph size="small">{totalLabel}</Paragraph>
       <section className="text-right">
         {/* <PriceDisplay rate={rate} /> */}
         {rate?.total?.prepaid?.amount} {rate?.total?.prepaid?.currency}

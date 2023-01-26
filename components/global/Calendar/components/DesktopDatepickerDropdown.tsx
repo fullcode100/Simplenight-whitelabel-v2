@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, MouseEvent } from 'react';
+import React, { useEffect, useRef, MouseEvent, useState } from 'react';
 
 import LeftArrow from 'public/icons/assets/carousel-left-arrow.svg';
 import RightArrow from 'public/icons/assets/carousel-right-arrow.svg';
@@ -51,6 +51,8 @@ const DesktopDatepickerDropdown = ({
 }: Props) => {
   const ref = useRef<HTMLElement>(null);
   useOnOutsideClick(ref, () => closeModal());
+  const defaultTop = 74;
+  const [top, setTop] = useState(defaultTop);
 
   useEffect(() => {
     onStartDateChange(startDate);
@@ -58,6 +60,34 @@ const DesktopDatepickerDropdown = ({
       onEndDateChange(endDate);
     }
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (element) {
+      const { bottom } = element.getBoundingClientRect();
+      const innerHeight = window.innerHeight;
+      const isOutOf = innerHeight < bottom;
+      const distanceMissing = bottom - innerHeight;
+      const margin = 10;
+      const newTop = top - distanceMissing - margin;
+      if (isOutOf) setTop(newTop);
+      else setTop(defaultTop);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (element) {
+      const { bottom } = element.getBoundingClientRect();
+      const innerHeight = window.innerHeight;
+      const isOutOf = innerHeight < bottom;
+      const distanceMissing = bottom - innerHeight;
+      const margin = 10;
+      const newTop = top - distanceMissing - margin;
+      if (isOutOf) setTop(newTop);
+      else setTop(defaultTop);
+    }
+  }, [open]);
 
   interface ArrowButtonProps {
     icon: JSX.Element;
@@ -124,6 +154,7 @@ const DesktopDatepickerDropdown = ({
       </section>
     </section>
   );
+
   return (
     <section
       ref={ref}
@@ -133,6 +164,9 @@ const DesktopDatepickerDropdown = ({
           ['hidden']: !open,
         },
       )}
+      style={{
+        top: `${top}px`,
+      }}
     >
       {rangeDate}
       <ArrowSection />

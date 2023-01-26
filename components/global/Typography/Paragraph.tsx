@@ -3,10 +3,10 @@ import classnames from 'classnames';
 import { ParagraphProps, paragraphClasses } from './TypographyTypes';
 
 const Paragraph = ({
-  fontWeight,
+  fontWeight = 'normal',
   className,
   children,
-  size,
+  size = 'xsmall',
   textColor = 'text-dark-1000',
 }: ParagraphProps) => {
   const paragraphClass = paragraphClasses[size];

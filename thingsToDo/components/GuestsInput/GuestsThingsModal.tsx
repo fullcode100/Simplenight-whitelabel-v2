@@ -8,6 +8,7 @@ import {
   GuestsData,
   PricingTicketType,
 } from 'thingsToDo/types/response/ThingsDetailResponse';
+import Paragraph from 'components/global/Typography/Paragraph';
 
 interface GuestsThingsModalProps {
   showGuestsThingsModal: boolean;
@@ -110,15 +111,19 @@ const GuestsThingsModal = ({
       className={`lg:rounded-4 lg:overflow-hidden
       lg:max-w-[842px] lg:h-[660px]  lg:top-1/2 lg:left-1/2 lg:-translate-y-1/2 lg:-translate-x-1/2
       lg:shadow-full
-      
+
       `}
     >
       <section className="h-full px-5 py-[22px] overflow-y-scroll">
         <section className="flex flex-col mb-6 gap-y-6">
-          <p className="text-sm capitalize text-dark-800">
-            {maxLabel}. {activityMaxTravelers} {guestsForThisActivityLabel}
-            {isAdultRequired && oneAdultOrSeniorForThisActivityLabel}
-          </p>
+          <Paragraph
+            className="capitalize"
+            size="small"
+            textColor="text-dark-800"
+          >{`${maxLabel}. ${activityMaxTravelers} ${guestsForThisActivityLabel}
+            ${
+              isAdultRequired && oneAdultOrSeniorForThisActivityLabel
+            }`}</Paragraph>
           {isAdultRequired && (
             <p className="text-sm capitalize text-dark-800"></p>
           )}

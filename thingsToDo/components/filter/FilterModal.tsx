@@ -67,12 +67,12 @@ const FilterModal = ({ isOpen, onClose }: Props) => {
     maxStarRating,
     onChangeMinRating: setMinStarRating,
     onChangeMaxRating: setMaxStarRating,
-    starRatingLabel: starRatingLabel,
+    starRatingLabel,
   };
   const keywordSearchFilter = {
     keywordSearchLabel: keywordSearchLabel,
     keywordSearch,
-    setKeywordSearch,
+    onChangeKeywordSearch: setKeywordSearch,
     keywordSearchPlaceholder: searchKeywordPlaceholder,
   };
 
