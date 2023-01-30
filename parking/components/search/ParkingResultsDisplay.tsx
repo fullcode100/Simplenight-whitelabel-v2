@@ -55,15 +55,6 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     metadata,
   );
 
-  const cachedViewType = localStorage.getItem('view') || '';
-  const [view, setView] = useState(
-    ['list', 'map'].includes(cachedViewType) ? cachedViewType : 'list',
-  );
-  const viewChangeHandler = (view: string) => {
-    setView(view);
-    localStorage.setItem('view', view);
-  };
-
   const [highAvailability, setHighAvailability] = useState(
     filter.highAvailability,
   );
@@ -168,19 +159,16 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
   const [t, i18next] = useTranslation('parking');
   const { ClientSearcher: Searcher } = parkingCategory.core;
 
-  const {
-    latitude,
-    longitude,
-    startDate,
-    endDate,
-    startTime,
-    endTime,
-    view: viewParam,
-  } = useQuery();
+  const { latitude, longitude, startDate, endDate, startTime, endTime, view } =
+    useQuery();
 
   const setQueryParam = useQuerySetter();
 
   const isListView = view !== 'map';
+
+  const viewChangeHandler = (view: string) => {
+    setQueryParam({ view });
+  };
 
   const getCachedParkingResponse = (): Parking[] | null => {
     const parkingList = localStorage.getItem('parking');
@@ -291,12 +279,6 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
     localStorage.setItem('parkingLastSearch', router.asPath || '/');
   }, [latitude, longitude]);
 
-  useEffect(() => {
-    if (typeof viewParam === 'string' && ['map', 'list'].includes(viewParam)) {
-      viewChangeHandler(viewParam);
-    }
-  }, [viewParam]);
-
   return (
     <>
       <section className="lg:flex lg:w-full pt-4">
@@ -333,7 +315,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
               parkingType={parkingType}
               onParkingTypeChange={onParkingTypeChange}
               onSortByChange={onSortByChange}
-              view={view}
+              view={view as string}
               onViewChange={viewChangeHandler}
               setMobileFilterOpen={setMobileFilterOpen}
             />

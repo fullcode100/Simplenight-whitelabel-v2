@@ -15,8 +15,12 @@ export const ParkingItineraryHeader: FC<ParkingItineraryFooterProps> = ({
 }) => {
   const [t] = useTranslation('parking');
   const parking: Parking = item.booking_data?.parking;
-  const title = parking.properties.static.address.street.formatted;
-  const street = parking.properties.static.type === 'ON_STREET';
+  const info = parking.properties.static;
+  const { street, postcode, city, country } = info.address;
+
+  const formatted = `${street.formatted}, ${city}, ${country}, ${postcode}`;
+
+  const type = parking.properties.static.type === 'ON_STREET';
   return (
     <header className="flex flex-row gap-3">
       <IconRoundedContainer className="text-white bg-primary-1000">
@@ -24,10 +28,10 @@ export const ParkingItineraryHeader: FC<ParkingItineraryFooterProps> = ({
       </IconRoundedContainer>
       <section className="grid gap-1">
         <section className="font-semibold text-dark-1000 text-[20px] leading-[20px]">
-          {title}
+          {formatted}
         </section>
         <section className="font-normal text-dark-700 text-[14px] leading-[17px]">
-          {t(street ? 'street' : 'garages')}
+          {t(type ? 'street' : 'garages')}
         </section>
       </section>
     </header>

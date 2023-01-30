@@ -10,6 +10,7 @@ import { ParkingFeatures } from '../shared/Facts';
 import { TimeDistance } from '../shared/TimeDistance';
 import { Restrictions } from '../shared/Restrictions';
 import ParkingGenericImage from 'public/icons/assets/generic-parking-image.svg';
+import HotelCancellable from '../../../hotels/components/search/HotelCancellable';
 
 interface ParkingCardProps {
   parkingItem: Parking;
@@ -48,6 +49,7 @@ export const ParkingCard: FC<ParkingCardProps> = memo(({ parkingItem }) => {
       image={thumbnail?.url || <ParkingGenericImage />}
       url={parkingDetailsPageUrl}
       priceDisplay={rateTable && <PriceDisplay parking={parkingItem} />}
+      price={<ParkingCardFooterMobileView parking={parkingItem} />}
       address={<ParkingCardDetails parking={parkingItem} />}
       cancellable={<Restrictions parking={parkingItem} />}
     />
@@ -76,6 +78,16 @@ const ParkingCardDetails: FC<{ parking: Parking }> = ({ parking }) => {
         <TimeDistance distance={distance} />
         <ParkingFeatures parking={parking} />
       </section>
+    </section>
+  );
+};
+
+const ParkingCardFooterMobileView: FC<{ parking: Parking }> = ({ parking }) => {
+  const capacity = parking.properties.static.capacity;
+  return (
+    <section className="flex justify-between items-center border-t border-dark-300 py-2 px-4">
+      <Capacity capacity={capacity} />
+      <PriceDisplay parking={parking} />
     </section>
   );
 };
