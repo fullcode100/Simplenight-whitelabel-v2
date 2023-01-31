@@ -7,8 +7,7 @@ import {
   RelativePosition,
   Services,
 } from 'hotels/types/response/SearchResponse';
-import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
-import { CarCartRequestDetail } from 'cars/types/request/CarCartRequest';
+
 import {
   ExtraData,
   Address,
@@ -48,13 +47,11 @@ export interface Booking {
 }
 
 export interface Item {
-  adults: number;
   booking_id: string;
   booking_item_id: string;
   cancellation_policy: CancellationPolicy;
   category: string;
-  children: number;
-  children_ages: string[];
+
   customer: PrimaryContact;
   item_data: CartItemData;
   extra_data?: ItemExtraData;

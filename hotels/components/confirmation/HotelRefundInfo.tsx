@@ -21,7 +21,10 @@ const HotelRefundInfo = ({ item }: HotelRefundInfoProps) => {
         <SupplierReference supplierReferenceID={supplierReferenceID} />
       )}
 
-      <AdultChildrenAmount adults={item?.adults} child={item?.children} />
+      <AdultChildrenAmount
+        adults={item?.booking_data?.adults}
+        child={item?.booking_data?.children}
+      />
 
       <div className="border-t border-dark-200"></div>
 

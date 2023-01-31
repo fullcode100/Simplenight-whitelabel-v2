@@ -5,15 +5,11 @@ import Label from 'components/global/Label/Label';
 import Textarea from 'components/global/Textarea/Textarea';
 import FormSchema from 'components/global/FormSchema/FormSchema';
 import { useTranslation } from 'react-i18next';
-import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import { injectProps } from 'helpers/reactUtils';
 
-import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getItemQuestionSchemas } from 'thingsToDo/helpers/questions';
-import { useCategorySlug } from 'hooks/category/useCategory';
 import Divider from 'components/global/Divider/Divider';
-import Button from 'components/global/Button/Button';
 import { deepCopy } from 'helpers/objectUtils';
 
 let additionalRequest: string;
@@ -26,7 +22,7 @@ const ClientCartItem = ({
   onChange,
   onChangeAnswers,
 }: any) => {
-  const [t, i18n] = useTranslation('global');
+  const [t] = useTranslation('global');
   const guestText = t('guest', 'Guest');
   const [usePrimaryContact, setUsePrimaryContact] = useState(true);
   const itemCustomer = item?.customer;
@@ -147,19 +143,18 @@ const ClientCartItem = ({
           htmlFor={`${item.cart_id}-${index}`}
         />
       </section>
-      {!usePrimaryContact && (
+      {!usePrimaryContact ? (
         <section className="mt-1.5">
           {formSchema && formUiSchema && (
             <FormSchema
-              schema={formSchema}
-              uiSchema={formUiSchema}
-              onChange={handleChangeCustomer}
-            >
-              {<></>}
-            </FormSchema>
+              schema={!usePrimaryContact ? formSchema : null}
+              uiSchema={!usePrimaryContact ? formUiSchema : null}
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              onChange={!usePrimaryContact ? handleChangeCustomer : () => {}}
+            />
           )}
         </section>
-      )}
+      ) : null}
 
       {bookingQuestionSchema && (
         <section className="mt-1.5">
@@ -167,9 +162,7 @@ const ClientCartItem = ({
             schema={bookingQuestionSchema.schema}
             uiSchema={bookingQuestionSchema.uiSchema}
             onChange={(data) => handleChangeAnswers(data, null)}
-          >
-            <></>
-          </FormSchema>
+          />
         </section>
       )}
       {travelerQuestionSchema &&

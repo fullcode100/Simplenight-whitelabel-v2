@@ -115,7 +115,7 @@ const Client = () => {
               ...(isAddingSpecialRequest && {
                 customer_additional_requests: data,
               }),
-              ...(!isAddingSpecialRequest && {
+              ...(isAddingSpecialRequest && {
                 customer: data.formData,
               }),
             };

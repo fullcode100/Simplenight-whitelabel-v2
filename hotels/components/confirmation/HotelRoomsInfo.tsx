@@ -11,8 +11,7 @@ import CancelModal from 'components/confirmation/CancelModal/CancelModal';
 import { ClientBookingItemRemover } from 'core/client/ClientBookingItemRemover';
 import { DeleteBookingItemRequest } from 'types/confirmation/DeleteBookingRequest';
 import useModal from 'hooks/layoutAndUITooling/useModal';
-import { diffDays } from 'helpers/dajjsUtils';
-import { Item, Payment, PrimaryContact } from 'types/booking/bookingType';
+import { Item, Payment } from 'types/booking/bookingType';
 
 interface HotelRoomsInfoProps {
   item?: Item;
@@ -42,13 +41,12 @@ const HotelRoomsInfo = ({
     'vendorConfirmation',
     'Vendor Confirmation Number',
   );
-  const customer = item?.customer;
+
   const selectedRoom = item?.item_data?.rooms?.find(
     (roomA: any) => roomA.code == item?.item_data?.min_rate_room?.code,
   );
   const roomName = selectedRoom?.name;
   const amenities = selectedRoom?.amenities.join(', ');
-
   const roomMinRate = selectedRoom?.rates.min_rate;
   const roomRate = roomMinRate?.rate;
   const cancellationPolicy = roomMinRate?.cancellation_policy?.description;
@@ -58,8 +56,6 @@ const HotelRoomsInfo = ({
   const resortFees = roomRateDetail?.post_paid_rate?.total_taxes.formatted;
   const termsOfService = item?.extra_data?.terms_and_conditions;
 
-  const startDate = item?.extra_data?.start_date;
-  const endDate = item?.extra_data?.end_date;
   const nights = item?.booking_data?.nights ? item?.booking_data?.nights : 0;
 
   const bookingItemsList = item ? [item] : [];
@@ -106,9 +102,9 @@ const HotelRoomsInfo = ({
         resortFees={resortFees}
         cancellationPolicy={cancellationPolicy}
         amenities={amenities}
-        adultsCount={item?.adults}
-        childrenCount={item?.children}
-        childrenAges={item?.children_ages}
+        adultsCount={item?.booking_data?.adults}
+        childrenCount={item?.booking_data?.children}
+        childrenAges={item?.booking_data?.children_ages}
         rate={roomRate}
         termsOfService={termsOfService}
         isPriceBase
