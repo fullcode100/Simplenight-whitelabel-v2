@@ -10,7 +10,8 @@ import TrashIcon from 'public/icons/assets/small-trash.svg';
 import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
-import { useCategorySlug } from 'hooks/category/useCategory';
+import { useCategoryType } from 'hooks/category/useCategory';
+import useCategories from 'hooks/category/useCategories';
 import Paragraph from 'components/global/Typography/Paragraph';
 
 interface ThingItineraryFooterProps {
@@ -28,6 +29,7 @@ const ThingItineraryFooter = ({
   const pathName = router.pathname;
   const dispatch = useDispatch();
   const [g, i18g] = useTranslation('global');
+  const categories = useCategories();
 
   const {
     sector,
@@ -62,6 +64,7 @@ const ThingItineraryFooter = ({
     removeAllTickets();
   };
 
+  const slug = useCategoryType(sector)?.slug;
   const handleEdit = () => {
     const {
       booking_data: { start_date: startDate, ticket_types: paxes },
@@ -79,7 +82,7 @@ const ThingItineraryFooter = ({
         }`),
     );
 
-    const urlDetail = `/detail/${sector}/${id}?startDate=${startDate}&endDate=${endDateFormatted}&${paxesAndQuantity}`;
+    const urlDetail = `/detail/${slug}/${id}?startDate=${startDate}&endDate=${endDateFormatted}&${paxesAndQuantity}`;
     router.push(urlDetail);
   };
 
