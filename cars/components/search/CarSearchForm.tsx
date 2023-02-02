@@ -191,7 +191,7 @@ const CarSearchForm = ({
       !params?.address
     ) {
       // got here by switching tabs --> perform an auto-search
-      handleSearchClick();
+      // handleSearchClick();
     }
   }, []);
 
@@ -209,7 +209,6 @@ const CarSearchForm = ({
             routeParams={['address']}
             defaultAddress={address}
             onSelect={handleSelectLocation}
-            error={showLocationError}
             onChange={handleChangeLocation}
             autoFocus={!address ? true : false}
           />

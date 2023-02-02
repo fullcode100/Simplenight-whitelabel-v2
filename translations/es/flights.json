@@ -101,5 +101,7 @@
   "removeFlight": "Eliminar vuelo",
   "select": "Seleccione",
   "layover": "Escala",
-  "priceRange": "Rango de precios"
+  "priceRange": "Rango de precios",
+  "clearFilters": "Limpiar filtros",
+  "results": "Resultados"
 }

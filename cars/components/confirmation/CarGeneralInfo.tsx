@@ -29,7 +29,7 @@ const CarGeneralInfo = ({ item }: CarGeneralInfoProps) => {
             {pickupLabel}
           </section>
           <section className="flex flex-row font-normal text-dark-700 text-[14px] leading-[17px]">
-            {formatAsDisplayDate(item?.booking_data?.search?.start_date as string)}
+            {formatAsDisplayDate(item?.booking_data?.search?.start_date as string)} ({item?.booking_data?.search?.start_time})
           </section>
         </section>
       </section>
@@ -41,7 +41,7 @@ const CarGeneralInfo = ({ item }: CarGeneralInfoProps) => {
             {dropoffLabel}
           </section>
           <section className="flex flex-row font-normal text-dark-700 text-[14px] leading-[17px]">
-            {formatAsDisplayDate(item?.booking_data?.search?.end_date as string)}
+            {formatAsDisplayDate(item?.booking_data?.search?.end_date as string)} ({item?.booking_data?.search?.end_time})
           </section>
         </section>
       </section>

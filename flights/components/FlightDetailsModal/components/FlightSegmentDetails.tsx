@@ -18,6 +18,43 @@ const FlightSegmentDetails = ({ key, segment }: FlightSegmentDetailsProps) => {
     ? segment?.flightDurationInMinutes
     : 0;
 
+  const getAirlineIconUrl = (airlineCode: string) => {
+    let url = ''; // `http://pics.avs.io/200/200/${airlineCode}.png`;
+    const icons: string[] = [
+      'AA',
+      'AC',
+      'AF',
+      'AM',
+      'AS',
+      'B6',
+      'BA',
+      'DL',
+      'EK',
+      'EY',
+      'FZ',
+      'GF',
+      'IB',
+      'KU',
+      'LH',
+      'LO',
+      'LX',
+      'MA',
+      'MS',
+      'OS',
+      'QF',
+      'QR',
+      'RJ',
+      'SV',
+      'TK',
+      'UA',
+      'XY',
+    ];
+    if (icons.indexOf(airlineCode) > -1)
+      url = `/icons/airlines/${airlineCode}.png`;
+    else url = '/icons/airlines/MA.png';
+    return url;
+  };
+
   return (
     <li
       key={'${key}'}
@@ -28,9 +65,9 @@ const FlightSegmentDetails = ({ key, segment }: FlightSegmentDetailsProps) => {
       </section>
 
       <section className="flex flex-row items-center px-3 pt-2">
-        <IconRoundedContainer className="border border-dark-300 bg-white-1000 lg:w-[3rem] lg:h-[3rem] mr-3">
+        <IconRoundedContainer className="border border-dark-300 bg-white lg:w-[3rem] lg:h-[3rem] mr-3">
           <img
-            src={`http://pics.avs.io/200/200/${segment?.marketingCarrier}.png`}
+            src={getAirlineIconUrl(segment?.marketingCarrier.toUpperCase())}
             alt={segment?.marketingCarrierName}
           />
         </IconRoundedContainer>

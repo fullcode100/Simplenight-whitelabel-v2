@@ -426,7 +426,7 @@ const CarSecondarySearchOptions = () => {
         <span className="text-primary-1000">
           <FilterIcon />
         </span>
-        <span className="flex-1 text-xs font-semibold text-left text-dark-1000">
+        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
           {t('filter', 'Filter')}
         </span>
       </button>

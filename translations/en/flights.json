@@ -102,5 +102,7 @@
   "select": "Select",
   "layover": "Layover",
   "infantsAges": "Infants' Ages",
-  "priceRange": "Price Range"
+  "priceRange": "Price Range",
+  "clearFilters": "Clear Filters",
+  "results": "Results"
 }

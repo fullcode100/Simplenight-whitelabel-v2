@@ -440,7 +440,7 @@ const FlightSearchForm = ({
   useEffect(() => {
     if (!params?.direction && address && address2) {
       // got here by switching tabs --> perform an auto-search
-      handleSearchClick();
+      // handleSearchClick();
     }
   }, []);
 
@@ -519,7 +519,6 @@ const FlightSearchForm = ({
                 onSelect={(latLng: latLngProp, address: string) =>
                   handleSelectLocation(latLng, address, flightIndex)
                 }
-                error={showLocationError}
                 onChange={() => setShowLocationError(false)}
                 autoFocus={!address ? true : false}
               />
@@ -539,7 +538,6 @@ const FlightSearchForm = ({
                 onSelect={(latLng: latLngProp, address: string) =>
                   handleSelectLocation2(latLng, address, flightIndex)
                 }
-                error={showLocationError}
                 onChange={() => setShowLocationError(false)}
                 autoFocus={address && !address2 ? true : false}
               />

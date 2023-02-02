@@ -102,85 +102,85 @@ function HorizontalItemCard<T extends WithId>({
       key={item.id}
       className={`bg-white flex flex-col border border-dark-300 rounded ${className}`}
     >
-      {/* <Link href={url} passHref>
-        {/* <a target={target} rel="noopener noreferrer"> */}
-      <CategoryTag />
-      <section className="flex flex-col justify-center lg:flex-row">
-        <section
-          className="min-w-[55%] max-w-[80%] min-h-[150px] self-center lg:max-w-[100%] lg:min-w-[15rem] lg:min-h-[11.3rem] "
-          style={{
-            backgroundImage: `url(${image})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: '80% auto',
-            backgroundPosition: 'center center',
-          }}
-        >
-          {displayEmpty && <EmptyImage />}
-        </section>
-        <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
-          <TitleSection />
-          <SubtitleSection />
-          {rating && (
-            <section className="mt-2">
-              <Rating value={rating} />
+      <Link href={url} passHref>
+        <a target={target} rel="noopener noreferrer">
+          <CategoryTag />
+          <section className="flex flex-col justify-center lg:flex-row">
+            <section
+              className="min-w-[55%] max-w-[80%] min-h-[150px] self-center lg:max-w-[100%] lg:min-w-[15rem] lg:min-h-[11.3rem] "
+              style={{
+                backgroundImage: `url(${image})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '80% auto',
+                backgroundPosition: 'center center',
+              }}
+            >
+              {displayEmpty && <EmptyImage />}
             </section>
-          )}
-          {address && (
-            <section className="mt-2 flex flex-wrap">
-              <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-                <LocationIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
-                <label className="text-dark-700 text-[14px] font-normal">
-                  {address}
-                </label>
+            <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
+              <TitleSection />
+              <SubtitleSection />
+              {rating && (
+                <section className="mt-2">
+                  <Rating value={rating} />
+                </section>
+              )}
+              {address && (
+                <section className="mt-2 flex flex-wrap">
+                  <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
+                    <LocationIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
+                    <label className="text-dark-700 text-[14px] font-normal">
+                      {address}
+                    </label>
+                  </section>
+                </section>
+              )}
+              {features && <section className="mt-2">{features}</section>}
+            </section>
+            <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
+              {/* <section className="text-left">{cancellable}</section> */}
+              {priceDisplay}
+
+              <section className="flex flex-col pt-1">
+                <Button
+                  value={addToItineraryText}
+                  size="full"
+                  type="outlined"
+                  textColor="primary"
+                  onClick={() => handleAction('/itinerary')}
+                  className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mr-2 mt-1"
+                />
+                <Button
+                  value={bookNowText}
+                  size="full"
+                  onClick={() => handleAction('/checkout/client')}
+                  className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mt-1"
+                />
               </section>
             </section>
-          )}
-          {features && <section className="mt-2">{features}</section>}
-        </section>
-        <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
-          {/* <section className="text-left">{cancellable}</section> */}
-          {priceDisplay}
-
-          <section className="flex flex-col pt-1">
-            <Button
-              value={addToItineraryText}
-              size="full"
-              type="outlined"
-              textColor="primary"
-              onClick={() => handleAction('/itinerary')}
-              className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mr-2 mt-1"
-            />
-            <Button
-              value={bookNowText}
-              size="full"
-              onClick={() => handleAction('/checkout/client')}
-              className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mt-1"
-            />
           </section>
-        </section>
-      </section>
-      <section className="flex-col lg:hidden">
-        {price}
+          <section className="flex-col lg:hidden">
+            {price}
 
-        <section className="flex flex-row px-3 py-3">
-          <Button
-            value={addToItineraryText}
-            size="full"
-            type="outlined"
-            textColor="primary"
-            onClick={() => handleAction('/itinerary')}
-            className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mr-2 mt-1"
-          />
-          <Button
-            value={bookNowText}
-            size="full"
-            onClick={() => handleAction('/checkout/client')}
-            className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mt-1"
-          />
-        </section>
-      </section>
-      {/* </a> */}
-      {/* </Link> */}
+            <section className="flex flex-row px-3 py-3">
+              <Button
+                value={addToItineraryText}
+                size="full"
+                type="outlined"
+                textColor="primary"
+                onClick={() => handleAction('/itinerary')}
+                className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mr-2 mt-1"
+              />
+              <Button
+                value={bookNowText}
+                size="full"
+                onClick={() => handleAction('/checkout/client')}
+                className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mt-1"
+              />
+            </section>
+          </section>
+        </a>
+      </Link>
     </li>
   );
 }

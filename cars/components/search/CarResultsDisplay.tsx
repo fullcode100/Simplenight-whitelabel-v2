@@ -88,6 +88,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     longitude,
     latitude2,
     longitude2,
+    address,
+    address2,
+
     keywordSearch,
     // sortBy,
     types,
@@ -287,8 +290,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   };
 
   const urlDetail = (car: Car) => {
-    const { id } = car;
-    return `/detail/car-rental/${id}?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&geolocation=${latitude},${longitude}&geolocation2=${latitude2},${longitude2}`;
+    const id = car?.id;
+    const route = `/detail/car-rental/${id}?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
+    return route;
   };
 
   const CarList = () => (
@@ -453,7 +457,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
             <>
               <div
                 className={classNames(
-                  'flex justify-between items-center lg:mb-0 bg-white relative z-[9]',
+                  'flex justify-between items-center lg:mb-0 bg-white relative lg:z-[9]',
                   {
                     'mb-0 px-5 lg:px-0 w-[100%]': isListView,
                     'lg:absolute lg:m-4 lg:rounded] px-5 lg:px-4 w-[100%] lg:w-[96%]':

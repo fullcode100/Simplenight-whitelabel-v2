@@ -108,5 +108,7 @@
   "carType": "Car Type",
   "priceRange": "Price Range",
   "ac": "Air Conditioning",
-  "noAc": "No Air Conditioning"
+  "noAc": "No Air Conditioning",
+  "clearFilters": "Clear Filters",
+  "results": "Results"
 }

@@ -108,5 +108,7 @@
   "carType": "Tipo de carro",
   "priceRange": "Rango de precios",
   "ac": "Aire acondicionado",
-  "noAc": "Sin aire acondicionado"
+  "noAc": "Sin aire acondicionado",
+  "clearFilters": "Limpiar filtros",
+  "results": "Resultados"
 }

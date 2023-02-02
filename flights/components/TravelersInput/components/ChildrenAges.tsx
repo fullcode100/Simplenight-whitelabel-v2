@@ -28,6 +28,13 @@ const ChildrenAges = ({
       ? room.childrenAges
       : changeArraySize(room.childrenAges, newChildrenAmount);
 
+  const validateAge = (age: number) => {
+    let _age = age;
+    if (_age > 11) _age = 11;
+    if (_age < 2) _age = 2;
+    return _age;
+  };
+
   return (
     <section className="flex flex-col gap-2 mb-6">
       <section className="text-dark-800 text-[16px] leading-[16px]">
@@ -38,17 +45,16 @@ const ChildrenAges = ({
           <section key={indexAge}>
             <BaseInput
               type="number"
-              value={age}
+              value={validateAge(age)}
               onChange={(e) =>
                 handleChildrenAgesChange(
-                  parseInt(e.target.value) >= 11
-                    ? 11
-                    : parseInt(e.target.value),
+                  validateAge(parseInt(e.target.value)),
                   indexAge,
                   roomNumber,
                 )
               }
-              max={17}
+              min={2}
+              max={11}
             />
           </section>
         ))}
