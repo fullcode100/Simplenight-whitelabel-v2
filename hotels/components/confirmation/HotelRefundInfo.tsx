@@ -28,7 +28,7 @@ const HotelRefundInfo = ({ item }: HotelRefundInfoProps) => {
 
       <div className="border-t border-dark-200"></div>
 
-      <RefundTotal />
+      <RefundTotal refund={item?.refund} />
     </section>
   );
 };

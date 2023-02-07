@@ -1,6 +1,11 @@
 import { useTranslation } from 'react-i18next';
+import { Refund } from 'types/booking/bookingType';
 
-const RefundTotal = () => {
+interface RefundTotalProps {
+  refund?: Refund;
+}
+
+const RefundTotal = ({ refund }: RefundTotalProps) => {
   const [t, i18next] = useTranslation('global');
   const totalRefundLabel = t('totalRefund', 'Total Refund');
 
@@ -10,7 +15,7 @@ const RefundTotal = () => {
         {totalRefundLabel}
       </p>
       <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
-        {'$0.00'}
+        {refund?.formatted}
       </p>
     </section>
   );

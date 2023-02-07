@@ -51,7 +51,6 @@ export interface Item {
   booking_item_id: string;
   cancellation_policy: CancellationPolicy;
   category: string;
-
   customer: PrimaryContact;
   item_data: CartItemData;
   extra_data?: ItemExtraData;
@@ -76,6 +75,7 @@ export interface Item {
   booking_data?: CartBookingData;
   voucher?: Voucher;
   customer_additional_requests?: string;
+  refund: Refund;
 }
 
 export interface Voucher {
@@ -268,4 +268,8 @@ export interface PrimaryContact {
 export interface ExtraFields {
   extra_1: number;
   extra_2: number;
+}
+
+export interface Refund extends Money {
+  formatted: string;
 }
