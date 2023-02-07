@@ -9,6 +9,7 @@ import {
   CustomPickupPoint,
   CustomSelect,
   CustomText,
+  CustomEmail,
   CustomTextArea,
   CustomToggle,
 } from './CustomFields';
@@ -40,6 +41,7 @@ const FormSchema = ({
   const widgets = {
     CheckboxWidget: CustomCheckbox,
     TextWidget: CustomText,
+    EmailWidget: CustomEmail,
     TextareaWidget: CustomTextArea,
     SelectWidget: CustomSelect,
     ToggleWidget: CustomToggle,
@@ -73,6 +75,13 @@ const FormSchema = ({
     );
   };
 
+  const CustomValidate = (formData: any, errors: any) => {
+    if (formData.phone === '') {
+      errors.phone.addError('Invalid phone number.');
+    }
+    return errors;
+  };
+
   return (
     <Form
       id={id}
@@ -83,6 +92,7 @@ const FormSchema = ({
       onChange={onChange}
       FieldTemplate={CustomFieldTemplate}
       ObjectFieldTemplate={ObjectFieldTemplate}
+      validate={CustomValidate}
     >
       {children}
     </Form>

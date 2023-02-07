@@ -44,15 +44,24 @@ const ClientCartItem = ({
     Object.entries(itemCustomer)
       .filter(
         ([prop]) =>
-          prop != 'id' && prop != 'extra_fields' && prop != 'phone_prefix',
+          prop != 'id' &&
+          prop != 'extra_fields' &&
+          prop != 'phone_prefix' &&
+          prop != 'country',
       )
       .map(([prop, value]) => {
-        const propKey = prop == 'phone_number' ? 'phone' : prop;
-        newTravelersFormSchema.properties[propKey] = {
-          ...newTravelersFormSchema.properties[propKey],
-          default: value,
-          prefix: itemCustomer.phone_prefix,
-        };
+        if (prop == 'phone_number') {
+          newTravelersFormSchema.properties['phone'] = {
+            ...newTravelersFormSchema.properties['phone'],
+            defaultCode: itemCustomer.country,
+            default: value,
+          };
+        } else {
+          newTravelersFormSchema.properties[prop] = {
+            ...newTravelersFormSchema.properties[prop],
+            default: value,
+          };
+        }
       });
     formSchema = newTravelersFormSchema;
   }

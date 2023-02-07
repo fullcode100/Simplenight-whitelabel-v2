@@ -48,6 +48,7 @@ export const updateShowsAndEventsFilters = (filters: any): iActionReturnShowsAnd
 export const showsAndEventsSetInitialState = (searchParams: ShowsSearchRequest, i18next:i18n):AppThunk => 
   async (dispatch) => {
     dispatch(requestShowsAndEvents());
+    dispatch(updateShowsAndEventsFilters({}));
     try {
       const { ClientSearcher: Searcher } = ShowsAndEventsCategory.core;
       if (Searcher) {

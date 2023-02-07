@@ -47,6 +47,9 @@ const TicketCard: React.FC<TicketCard> = ({
   }, [purchasableQuantities]);
 
   const [seatTogether, setSeatTogether] = useState(false);
+  const [seatSplitQuantity, setSeatSplitQuantity] = useState(
+    [...purchasableQuantitiesList].shift(),
+  );
   const ticketsCountLabel = selectedSeats > 1 ? ticketsLabel : ticketLabel;
   const availableSeatsLabel = availableSeats > 1 ? ticketsLabel : ticketLabel;
 
@@ -92,15 +95,27 @@ const TicketCard: React.FC<TicketCard> = ({
       </div>
       <div className="py-4 w-full border-solid border-l-0 border-r-0 border-t-0 border-b gap-2.5 flex flex-col items-end  self-stretch border-[rgba(212,212,212,1)]">
         <div className="px-4 w-full gap-2.5 flex items-center  self-stretch">
-          <div
-            className={classnames('px-1 rounded', {
-              'bg-green-100 text-green-1000': availableSeats > 10,
-              'bg-warning-100 text-warning-1000':
-                availableSeats > 5 && availableSeats <= 10,
-              'bg-red-100 text-red-900': availableSeats <= 5,
-            })}
-          >
-            {`${availableSeats} ${availableSeatsLabel} left`}
+          <div>
+            <div>
+              <div
+                className={classnames('px-1 rounded w-auto inline', {
+                  'bg-green-100 text-green-1000': availableSeats > 10,
+                  'bg-warning-100 text-warning-1000':
+                    availableSeats > 5 && availableSeats <= 10,
+                  'bg-red-100 text-red-900': availableSeats <= 5,
+                })}
+              >
+                {`${availableSeats} ${availableSeatsLabel} left`}
+              </div>
+            </div>
+            <div className="gap-1">
+              {seatSplitQuantity && seatSplitQuantity > 1 && (
+                <InlineFeature
+                  icon={<InfoCircle className="text-dark-800 h-4 w-4" />}
+                  text={`this is selectable in ${seatSplitQuantity} by ${seatSplitQuantity}`}
+                />
+              )}
+            </div>
           </div>
           <div className="w-36 gap-3 flex items-end ml-auto">
             <SquareInputLarge value={selectedSeats} />

@@ -26,7 +26,7 @@ export interface BaseInputProps {
   defaultValue?: string;
 }
 
-type InputType = 'text' | 'number' | 'date' | 'select';
+type InputType = 'text' | 'number' | 'date' | 'select' | 'email';
 
 interface BaseInputHiddenProps {
   type?: InputType;

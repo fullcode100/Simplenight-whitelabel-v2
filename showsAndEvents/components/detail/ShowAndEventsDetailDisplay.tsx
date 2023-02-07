@@ -558,7 +558,6 @@ const ShowAndEventsDetailDisplay = ({
           <FilterFormMobile
             onChange={filterSectors}
             maxPrice={`${maxSectorPrice}`}
-            maxSeats={`${maxAvailableSeats}`}
           />
         </CollapseElement>
         {/* <section className="flex items-center justify-between  pt-3 pb-3 lg:mt-4 lg:pb-0">
@@ -756,7 +755,6 @@ const ShowAndEventsDetailDisplay = ({
                       <FilterFormDesktop
                         onChange={filterSectors}
                         maxPrice={`${maxSectorPrice}`}
-                        maxSeats={`${maxAvailableSeats}`}
                       />
                     </section>
                   </section>

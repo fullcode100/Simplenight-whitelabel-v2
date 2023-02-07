@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { useCategoryType } from 'hooks/category/useCategory';
 
 import Button from 'components/global/Button/Button';
 import { Item } from 'types/cart/CartType';
@@ -25,9 +27,12 @@ const ShowsItineraryFooter = ({
   setReload,
   isItineraryView,
 }: ShowsItineraryFooterProps) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
   const [th, i18h] = useTranslation('events');
+
+  const slug = useCategoryType('shows-events')?.slug;
 
   const removeLabel = tg('remove', 'Remove');
   const ticketText = th('ticket', 'Ticket');
@@ -58,6 +63,15 @@ const ShowsItineraryFooter = ({
 
   const handleRemoveAllTickets = () => {
     removeAllTickes();
+  };
+
+  const handleEdit = () => {
+    const id = item?.item_data?.id;
+    const fromDate = item?.booking_data?.start_date;
+    const toDate = item?.booking_data?.end_date;
+
+    removeAllTickes();
+    router.push(`/detail/${slug}/${id}?fromDate=${fromDate}&toDate=${toDate}`);
   };
 
   return (
@@ -95,6 +109,7 @@ const ShowsItineraryFooter = ({
               size=""
               leftIcon={<EdtiIcon />}
               className="lg:w-[170px] h-8"
+              onClick={handleEdit}
             ></Button>
           </section>
         )}

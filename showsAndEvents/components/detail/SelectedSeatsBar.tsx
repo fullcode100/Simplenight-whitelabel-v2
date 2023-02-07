@@ -18,6 +18,7 @@ import { CartClientResponse } from 'types/cart/CartType';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import { CancelationPolicy } from 'showsAndEvents/types/response/ShowsDetailResponse';
+import TaxesAndFeesPopover from '../TaxesAndFeesPopover/TaxesAndFeesPopover';
 
 interface selectedSeatsProp {
   sector: string;
@@ -290,8 +291,9 @@ const SelectedSeatsBar = ({
                 }, 0)
                 .toFixed(2)}
             </p>
-            <p className="text-sm text-end text-gray-400">
+            <p className="text-sm text-end text-gray-400 flex gap-1">
               {includesTaxesAndFeesText}
+              <TaxesAndFeesPopover />
             </p>
           </div>
         </div>

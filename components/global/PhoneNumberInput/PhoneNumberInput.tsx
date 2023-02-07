@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import { allCountries, iso2Lookup } from 'country-telephone-data';
 import classnames from 'classnames';
+
+import 'react-phone-number-input/style.css';
+import PhoneInput, {
+  Country,
+  parsePhoneNumber,
+  getCountryCallingCode,
+} from 'react-phone-number-input';
 
 interface PhoneNumberInputProps {
   onChange: (value: string) => void;
@@ -10,15 +16,6 @@ interface PhoneNumberInputProps {
   defaultValue?: string;
 }
 
-const getDefaultDialCode = (value = 'us') => {
-  const countryIndex = iso2Lookup[value];
-  const dialCode = countryIndex
-    ? allCountries[countryIndex as any as number].dialCode
-    : value;
-
-  return dialCode || '1';
-};
-
 const PhoneNumberInput = ({
   onChange,
   placeholder,
@@ -26,28 +23,28 @@ const PhoneNumberInput = ({
   defaultCode,
   defaultValue,
 }: PhoneNumberInputProps) => {
-  allCountries.sort(function (a, b) {
-    const textA = a.iso2.toUpperCase();
-    const textB = b.iso2.toUpperCase();
-    return textA < textB ? -1 : textA > textB ? 1 : 0;
-  });
-  const [countryDialCode, setCountryDialCode] = useState(
-    getDefaultDialCode(defaultCode),
+  const defaultCountryCode = defaultCode
+    ? (defaultCode.toUpperCase() as Country)
+    : 'US';
+  const [phoneNumber, setPhoneNumber] = useState(
+    `+${getCountryCallingCode(defaultCountryCode)}${defaultValue}`,
   );
-  const [phoneNumber, setPhoneNumber] = useState(defaultValue || '');
   const [focus, setFocus] = useState(false);
 
-  const handleChange = (value: string) => {
+  const handleChange = (value = '') => {
     setPhoneNumber(value);
-    onChange(
-      JSON.stringify({ phone_prefix: countryDialCode, phone_number: value }),
-    );
-  };
-
-  const handleChangeCode = (e: any) => {
-    const code = e.target.value;
-    setCountryDialCode(code);
-    onChange(JSON.stringify({ phone_prefix: code, phone_number: phoneNumber }));
+    const phoneNumber = parsePhoneNumber(value);
+    if (phoneNumber) {
+      onChange(
+        JSON.stringify({
+          country: phoneNumber.country || defaultCountryCode,
+          phone_prefix: phoneNumber.countryCallingCode,
+          phone_number: phoneNumber.formatNational(),
+        }),
+      );
+    } else {
+      onChange('');
+    }
   };
 
   const onFocus = (focus: any) => {
@@ -58,34 +55,26 @@ const PhoneNumberInput = ({
   return (
     <section
       className={classnames(
-        'flex border-[1px] shadow-sm  w-full sm:text-sm border-gray-300 rounded-md resize-none items-center',
+        'flex border-[1px] shadow-sm  w-full sm:text-sm border-gray-300 rounded resize-none items-center pl-3 h-11 mt-2',
         {
           'ring-primary-500 border-primary-500': focus,
         },
       )}
     >
-      <select
-        value={countryDialCode}
-        onChange={handleChangeCode}
-        className="border-0 rounded-md focus:ring-0"
-      >
-        {allCountries.map((option: any, i: number) => (
-          <option key={`${option.dialCode}${i}`} value={option.dialCode}>
-            {option.iso2.toUpperCase()}
-          </option>
-        ))}
-      </select>
-      <span className="text-sm">{`+${countryDialCode}`}</span>
-      <input
-        type="number"
-        value={phoneNumber}
-        onChange={(event) => handleChange(event.target.value)}
+      <PhoneInput
+        international
+        countryCallingCodeEditable={false}
+        defaultCountry={defaultCountryCode}
         placeholder={placeholder}
-        required={required}
-        className="w-full border-0 rounded-md focus:ring-0"
+        value={phoneNumber}
+        onChange={handleChange}
         onFocus={onFocus}
         onBlur={onFocus}
-        defaultValue={defaultValue}
+        className={'w-full'}
+        numberInputProps={{
+          className: 'w-full border-0 rounded-md focus:ring-0',
+          required: required,
+        }}
       />
     </section>
   );

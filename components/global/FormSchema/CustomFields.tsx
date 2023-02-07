@@ -4,7 +4,6 @@ import Combobox from '../Combobox/Combobox';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
 import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
-import NewPhoneNumberInput from '../PhoneNumberInput/NewPhoneNumberInput';
 import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
 import SelectInput from '../SelectInput/SelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
@@ -36,18 +35,44 @@ export const CustomText = (props: any) => {
   );
 };
 
+export const CustomEmail = (props: any) => {
+  const { value, onChange, placeholder, required, id, schema } = props;
+  let currentPlaceHolder = placeholder;
+  const [t] = useTranslation('hotels');
+  if (placeholder == 'Name') {
+    currentPlaceHolder = t('name', placeholder);
+  }
+  if (placeholder == 'Email') {
+    currentPlaceHolder = t('email', placeholder);
+  }
+  return (
+    <BaseInput
+      type="email"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      placeholder={currentPlaceHolder}
+      defaultValue={schema.default}
+      {...{
+        required,
+        id,
+        maxlength: schema?.maxLength,
+      }}
+    />
+  );
+};
+
 export const CustomPhoneNumber = (props: any) => {
   const { onChange, placeholder, required, schema } = props;
   const [t] = useTranslation('hotels');
   const PhoneNumber = t('phone_number', placeholder);
 
   return (
-    <NewPhoneNumberInput
+    <PhoneNumberInput
       onChange={onChange}
       placeholder={PhoneNumber}
       required={required}
       defaultCode={schema.defaultCode}
-      defaultPhoneNumber={schema.default}
+      defaultValue={schema.default}
     />
   );
 };

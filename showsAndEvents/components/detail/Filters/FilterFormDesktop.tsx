@@ -6,11 +6,7 @@ import SeatsFilter from 'showsAndEvents/components/search/Filters/SeatsFilter';
 import { useTranslation } from 'react-i18next';
 import { filters, iDetailFilterFormProps } from './types';
 
-const FilterFormDesktop = ({
-  onChange,
-  maxPrice,
-  maxSeats,
-}: iDetailFilterFormProps) => {
+const FilterFormDesktop = ({ onChange, maxPrice }: iDetailFilterFormProps) => {
   const [t, i18next] = useTranslation('shows');
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
@@ -23,7 +19,7 @@ const FilterFormDesktop = ({
   };
   const initialSeats = {
     min: '1',
-    max: Number(maxSeats) < 6 && maxSeats ? maxSeats : '6',
+    max: '6',
   };
   const [minPriceState, setMinPrice] = useState<number>(+initialPriceRange.min);
   const [maxPriceState, setMaxPrice] = useState<number>(+initialPriceRange.max);

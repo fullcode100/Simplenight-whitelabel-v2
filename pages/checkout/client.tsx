@@ -44,7 +44,7 @@ const Client = () => {
   const [t, i18n] = useTranslation('global');
 
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
-  const [travelersUiSchema, setTravelersUiSchema] = useState();
+  const [travelersUiSchema, setTravelersUiSchema] = useState<any>();
   const [isRemoved, setIsRemoved] = useState(false);
 
   const currency = getCurrency();
@@ -58,7 +58,11 @@ const Client = () => {
     const { cart_item_id, customer, customer_additional_requests } = item;
     if (customer) {
       const phone = customer?.phone && JSON?.parse?.(customer?.phone);
-      customer.phone_number = phone?.phone_number;
+
+      customer.phone_number = phone?.phone_number || '';
+      customer.phone_prefix = phone?.phone_prefix || '';
+      customer.country = phone?.country || '';
+
       delete customer.phone;
     }
 
@@ -141,9 +145,54 @@ const Client = () => {
     try {
       if (!cartId) throw new Error('Cart ID is not defined');
 
-      const schemas = await getCartSchema(i18n, cartId);
-      setTravelersFormSchema(schemas?.travelers_form_schema);
-      setTravelersUiSchema(schemas?.travel_form_ui_schema);
+      // const schemas = await getCartSchema(i18n, cartId);
+      // TODO: Move this static schema to backend if it is necessary
+      const mockSchema = {
+        travelers_form_schema: {
+          type: 'object',
+          required: ['first_name', 'last_name', 'phone', 'email'],
+          properties: {
+            first_name: {
+              type: 'string',
+              title: 'First Name',
+              default: '',
+            },
+            last_name: {
+              type: 'string',
+              title: 'Last Name',
+              default: '',
+            },
+            phone: {
+              type: 'string',
+              title: 'Phone Number',
+              default: '',
+            },
+            email: {
+              type: 'string',
+              format: 'email',
+              title: 'Email Address',
+              default: '',
+            },
+          },
+        },
+        travel_form_ui_schema: {
+          first_name: {
+            'ui:placeholder': 'Name',
+          },
+          last_name: {
+            'ui:placeholder': 'Name',
+          },
+          email: {
+            'ui:placeholder': 'Email',
+          },
+          phone: {
+            'ui:widget': 'PhoneWidget',
+            'ui:placeholder': 'Phone Number',
+          },
+        },
+      };
+      setTravelersFormSchema(mockSchema?.travelers_form_schema);
+      setTravelersUiSchema(mockSchema?.travel_form_ui_schema);
     } catch (error) {
       return error;
     }
@@ -261,11 +310,10 @@ const Client = () => {
     const request: any = hasAdditionalRequests
       ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
-    const phone = JSON?.parse?.(primaryContactCopy.phone);
-    if (phone && phone.phone_number && phone.phone_prefix) {
-      request.customer.phone_number = phone.phone_number;
-      request.customer.phone_prefix = phone.phone_prefix;
-    }
+    const phone = JSON?.parse?.(primaryContactCopy.phone || '{}');
+    request.customer.phone_number = phone?.phone_number || '';
+    request.customer.phone_prefix = phone?.phone_prefix || '';
+    request.customer.country = phone?.country || '';
 
     delete request.customer.phone;
     delete request.customer.primary_contact;
@@ -344,13 +392,16 @@ const Client = () => {
       Object.entries(cart.customer)
         .filter(
           ([prop]) =>
-            prop != 'id' && prop != 'extra_fields' && prop != 'phone_prefix',
+            prop != 'id' &&
+            prop != 'extra_fields' &&
+            prop != 'phone_prefix' &&
+            prop != 'country',
         )
         .map(([prop, value]) => {
           if (prop == 'phone_number') {
             newTravelersFormSchema.properties['phone'] = {
               ...newTravelersFormSchema.properties['phone'],
-              defaultCode: cart.customer.phone_prefix,
+              defaultCode: cart.customer.country,
               default: value,
             };
           } else {

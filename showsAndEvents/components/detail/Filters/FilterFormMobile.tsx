@@ -7,11 +7,7 @@ import { useTranslation } from 'react-i18next';
 import Divider from 'components/global/Divider/Divider';
 import { filters, iDetailFilterFormProps } from './types';
 
-const FilterFormMobile = ({
-  onChange,
-  maxPrice,
-  maxSeats,
-}: iDetailFilterFormProps) => {
+const FilterFormMobile = ({ onChange, maxPrice }: iDetailFilterFormProps) => {
   const [t, i18next] = useTranslation('shows');
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const applyFiltersLabel = t('applyFilters', 'Apply Filters');
@@ -22,7 +18,7 @@ const FilterFormMobile = ({
   };
   const initialSeats = {
     min: '1',
-    max: Number(maxSeats) < 6 && maxSeats ? maxSeats : '6',
+    max: '6',
   };
   const [minPriceState, setMinPrice] = useState<number>(+initialPriceRange.min);
   const [maxPriceState, setMaxPrice] = useState<number>(+initialPriceRange.max);
