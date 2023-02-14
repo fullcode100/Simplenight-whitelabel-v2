@@ -121,6 +121,19 @@ module.exports = {
         up: '0 0 12px rgba(0, 0, 0, 0.16)',
         full: '0 0 0 10000px rgba(0, 0, 0, 0.85)',
       },
+      keyframes: {
+        skeleton: {
+          '0%': {
+            transform: 'translateX(-50%)',
+          },
+          '50%': {
+            transform: 'translateX(50%)',
+          },
+          '100%': {
+            transform: 'translateX(-50%)',
+          },
+        },
+      },
     },
     fontFamily: {
       sans: ['Lato', 'sans-serif'],
