@@ -315,7 +315,7 @@ const ThingsResultsDisplay = ({
         </section>
       )}
       {isLoading && (
-        <section className="px-5 py-6">
+        <section className="w-full px-5 py-6">
           <HorizontalSkeletonList />
         </section>
       )}
