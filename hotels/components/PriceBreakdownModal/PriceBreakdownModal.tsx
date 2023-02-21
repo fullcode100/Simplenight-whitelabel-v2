@@ -141,6 +141,9 @@ const PriceBreakdownModal = ({
       hasMultipleActions={true}
       noHeader={true}
       containerButtonsClassName="grid-cols-1"
+      className={
+        'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-4 shadow-full lg:max-h-[660px] lg:max-w-[842px]'
+      }
     >
       <ModalHeader
         title={roomDetailsText}
@@ -148,7 +151,7 @@ const PriceBreakdownModal = ({
         headerClassName="bg-white"
         titleClassName="font-normal"
       />
-      <section className="flex flex-col justify-between h-full px-5 overflow-y-scroll">
+      <section className="flex h-full flex-col justify-between overflow-y-scroll px-5">
         <BreakdownRoomDescription value={description} />
         <Divider className="mt-2" />
         <BreakdownSubtitle
@@ -168,7 +171,7 @@ const PriceBreakdownModal = ({
           className="pt-6 text-lg font-semibold text-dark-800"
           value={priceBreakdownText}
         />
-        <section className="flex flex-col h-full gap-6 py-6 text-start">
+        <section className="flex h-full flex-col gap-6 py-6 text-start">
           <section className="space-y-4">
             <BreakdownSubtitle
               className="mt-6 text-base font-semibold text-dark-800"
@@ -176,14 +179,14 @@ const PriceBreakdownModal = ({
             />
             <section className="space-y-2">
               <section className="flex items-center justify-between">
-                <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                <p className="text-sm font-semibold leading-[22px] text-dark-800">
                   {basePriceLabel}
                 </p>
 
                 <section className="text-right">
                   {rateBreakdown.discounts && (
                     <p className="text-xs font-semibold leading-5 text-green-1000">
-                      <span className="mr-1 line-through text-dark-800">
+                      <span className="mr-1 text-dark-800 line-through">
                         {
                           rateBreakdown.discounts.base_amount_before_apply
                             ?.formatted
@@ -192,7 +195,7 @@ const PriceBreakdownModal = ({
                       {rateBreakdown?.discounts.percentage_to_apply}
                     </p>
                   )}
-                  <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                  <p className="text-sm font-semibold leading-[22px] text-dark-800">
                     {totalBaseAmount.formatted}
                   </p>
                 </section>
@@ -205,21 +208,21 @@ const PriceBreakdownModal = ({
                     className="flex items-center justify-between"
                     key={tax.type + index}
                   >
-                    <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                    <p className="text-sm font-semibold leading-[22px] text-dark-800">
                       {taxLabel}
                     </p>
-                    <p className="font-semibold text-sm leading-[22px] text-dark-800">
+                    <p className="text-sm font-semibold leading-[22px] text-dark-800">
                       {tax.tax_amount.formatted}
                     </p>
                   </section>
                 );
               })}
-              <div className="w-full h-px bg-dark-300"></div>
+              <div className="h-px w-full bg-dark-300"></div>
               <section className="flex justify-between">
-                <p className="font-semibold text-sm leading-[22px] text-dark-1000">
+                <p className="text-sm font-semibold leading-[22px] text-dark-1000">
                   {payNowLabel}
                 </p>
-                <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
+                <p className="text-[18px] font-bold leading-[24px] text-dark-1000">
                   {totalAmount.formatted}
                 </p>
               </section>
@@ -241,7 +244,7 @@ const PriceBreakdownModal = ({
                   >
                     <section className="flex flex-row gap-1">
                       <section className="flex flex-row gap-1 lg:gap-3">
-                        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+                        <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
                           {taxLabel}
                         </p>
                       </section>
@@ -250,11 +253,11 @@ const PriceBreakdownModal = ({
                     <section className="text-right">
                       <section className="flex items-center text-dark-1000">
                         {showLocalCurrency && (
-                          <p className="text-[12px] leading-[15px] pr-1">
+                          <p className="pr-1 text-[12px] leading-[15px]">
                             {approxLabel}
                           </p>
                         )}
-                        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
+                        <p className="leading-lg text-xs font-semibold lg:text-sm lg:leading-[22px]">
                           {`${tax.tax_amount?.formatted}${
                             showLocalCurrency ? '*' : ''
                           }`}
@@ -270,16 +273,16 @@ const PriceBreakdownModal = ({
                 );
               })}
               {showLocalCurrency && (
-                <p className="text-[12px] leading-[15px] font-semibold text-dark-700">
+                <p className="text-[12px] font-semibold leading-[15px] text-dark-700">
                   {`* ${estimationLabel}`}
                 </p>
               )}
-              <div className="w-full h-px bg-dark-300"></div>
+              <div className="h-px w-full bg-dark-300"></div>
               <section className="flex justify-between">
-                <p className="font-semibold text-sm leading-[22px] text-dark-1000">
+                <p className="text-sm font-semibold leading-[22px] text-dark-1000">
                   {payAtPropertyLabel}
                 </p>
-                <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
+                <p className="text-[18px] font-bold leading-[24px] text-dark-1000">
                   {postPaidRate?.total_taxes.formatted}
                 </p>
               </section>
@@ -288,10 +291,10 @@ const PriceBreakdownModal = ({
           <section className="space-y-4">
             <section className="space-y-2">
               <section className="flex justify-between">
-                <p className="font-semibold text-sm leading-[22px] text-dark-1000">
+                <p className="text-sm font-semibold leading-[22px] text-dark-1000">
                   {totalLabel}
                 </p>
-                <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
+                <p className="text-[18px] font-bold leading-[24px] text-dark-1000">
                   {rates?.min_rate?.rate.starting_room_total?.formatted}
                 </p>
               </section>

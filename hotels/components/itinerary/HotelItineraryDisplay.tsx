@@ -34,6 +34,7 @@ const HotelItineraryDisplay = ({
               setReload={setReload}
             />
           }
+          isOpen={true}
         />
       )}
     </>

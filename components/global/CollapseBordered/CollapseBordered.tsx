@@ -10,6 +10,7 @@ interface CollapseBorderedProps {
   title: ReactNode;
   body: ReactNode;
   footer: ReactNode;
+  isOpen?: boolean;
 }
 
 const CollapseBordered = ({
@@ -17,11 +18,12 @@ const CollapseBordered = ({
   title,
   body,
   footer,
+  isOpen = false,
 }: CollapseBorderedProps) => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(isOpen);
 
   return (
-    <section className="border border-dark-300 rounded overflow-hidden">
+    <section className="overflow-hidden rounded border border-dark-300">
       {disclaimer}
       <CollapseHeader title={title} show={show} setShow={setShow} />
       <Collapse isOpened={show}>

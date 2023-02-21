@@ -20,8 +20,11 @@ const AmenitiesModal = ({
       closeModal={onClose}
       primaryButtonAction={onClose}
       noFooter={true}
+      className={
+        'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-4 shadow-full lg:max-h-[660px] lg:max-w-[842px]'
+      }
     >
-      <section className="p-5 overflow-y-scroll">
+      <section className="overflow-y-scroll p-5">
         <AmenitiesList amenities={amenities} />
       </section>
     </FullScreenModal>

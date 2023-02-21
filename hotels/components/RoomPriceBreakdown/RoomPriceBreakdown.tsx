@@ -72,8 +72,8 @@ const RoomPriceBreakdown = ({
     <section className="flex justify-between">
       <section className="flex flex-row gap-1">
         <section className="flex flex-row gap-1 lg:gap-3">
-          <PlusIcon className="h-3.5 lg:h-4 lg:w-4 ml-0.5 mr-1 mt-1 text-primary-1000" />
-          <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+          <PlusIcon className="ml-0.5 mr-1 mt-1 h-3.5 text-primary-1000 lg:h-4 lg:w-4" />
+          <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
             {basePriceLabel}
           </p>
         </section>
@@ -81,8 +81,8 @@ const RoomPriceBreakdown = ({
 
       <section className="text-right">
         {rate?.rate_breakdown.discounts && (
-          <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-green-1000">
-            <span className="line-through text-dark-800 mr-1">
+          <p className="leading-lg text-xs font-semibold text-green-1000 lg:text-sm lg:leading-[22px]">
+            <span className="mr-1 text-dark-800 line-through">
               {isPriceBase && baseBeforeApply
                 ? baseBeforeApply.formatted
                 : totalBeforeApply?.formatted}
@@ -90,7 +90,7 @@ const RoomPriceBreakdown = ({
             {rate?.rate_breakdown.discounts.percentage_to_apply}
           </p>
         )}
-        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+        <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
           {rate?.rate_breakdown.total_base_amount.formatted}
         </p>
       </section>
@@ -118,11 +118,11 @@ const RoomPriceBreakdown = ({
         );
       })}
       <div className="border-t border-dark-200"></div>
-      <section className="flex justify-between mb-5">
-        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+      <section className="mb-5 flex justify-between">
+        <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
           {payNowLabel}
         </p>
-        <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
+        <p className="text-[18px] font-semibold leading-[24px] text-dark-1000">
           {total}
         </p>
       </section>
@@ -134,8 +134,8 @@ const RoomPriceBreakdown = ({
           <section className="flex justify-between" key={tax.type + index}>
             <section className="flex flex-row gap-1">
               <section className="flex flex-row gap-1 lg:gap-3">
-                <PlusIcon className="h-3.5 lg:h-4 lg:w-4 ml-0.5 mr-1 mt-1 text-primary-1000" />
-                <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+                <PlusIcon className="ml-0.5 mr-1 mt-1 h-3.5 text-primary-1000 lg:h-4 lg:w-4" />
+                <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
                   {taxLabel}
                 </p>
               </section>
@@ -144,11 +144,11 @@ const RoomPriceBreakdown = ({
             <section className="text-right">
               <section className="flex items-center text-dark-1000">
                 {showLocalCurrency && (
-                  <p className="text-[12px] leading-[15px] pr-1">
+                  <p className="pr-1 text-[12px] leading-[15px]">
                     {approxLabel}
                   </p>
                 )}
-                <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
+                <p className="leading-lg text-xs font-semibold lg:text-sm lg:leading-[22px]">
                   {`${tax.tax_amount.formatted}${showLocalCurrency ? '*' : ''}`}
                 </p>
               </section>
@@ -162,16 +162,16 @@ const RoomPriceBreakdown = ({
         );
       })}
       {showLocalCurrency && (
-        <p className="text-[12px] leading-[15px] font-semibold text-dark-700">
+        <p className="text-[12px] font-semibold leading-[15px] text-dark-700">
           {`* ${estimationLabel}`}
         </p>
       )}
       <div className="border-t border-dark-200"></div>
-      <section className="flex justify-between mb-5">
-        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+      <section className="mb-5 flex justify-between">
+        <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
           {payAtPropertyLabel}
         </p>
-        <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
+        <p className="text-[18px] font-semibold leading-[24px] text-dark-1000">
           {resortFees}
         </p>
       </section>
@@ -184,7 +184,7 @@ const RoomPriceBreakdown = ({
       />
       {termsOfService && (
         <ExternalLink
-          className="text-primary-1000 hover:text-primary-1000 font-semibold text-[14px] leading-tight"
+          className="text-[14px] font-semibold leading-tight text-primary-1000 underline hover:text-primary-1000"
           href={termsOfService}
         >
           Supplier Terms and Conditions
