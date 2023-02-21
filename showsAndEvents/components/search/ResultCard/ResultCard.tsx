@@ -1,55 +1,42 @@
-import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
-import Rating from 'components/global/Rating/Rating';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { WithId } from 'types/global/WithId';
 import Divider from '../../../../components/global/Divider/Divider';
-import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import Link from 'next/link';
-import InfoCircle from 'public/icons/assets/info-circle.svg';
-import dayjs from 'dayjs';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import EmptyImage from 'components/global/EmptyImage/EmptyImage';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 import { formatAsDisplayDatetime } from 'helpers/dajjsUtils';
 
+import FreeCancellation from 'components/global/FreeCancellation/FreeCancellation';
+import NonRefundable from 'components/global/NonRefundable/NonRefundable';
+import PartialRefund from 'components/global/PartialRefund/PartialRefund';
+
+const FREE_CANCELLATION = 'FREE_CANCELLATION';
+const NON_REFUNDABLE = 'NON_REFUNDABLE';
+const PARTIAL_REFUND = 'PARTIAL_REFUND';
 interface CardProps<T extends WithId> {
   item: T;
   title: string;
   icon?: ReactNode;
   categoryName?: string;
   fromDate: string;
-  toDate: string;
   address?: ReactNode;
-  images?: string[];
-  className?: string;
-  rating?: number;
-  reviewsAmount?: number;
-  phoneNumber?: string;
-  tags?: string;
-  cancellable?: ReactNode;
+  cancellationType: string;
   priceDisplay?: ReactNode;
   url?: string;
   isHorizontal?: boolean;
-  index?: number;
   thumbnail?: string;
 }
 
 function ResultCard<T extends WithId>({
   title,
   address,
-  rating,
-  reviewsAmount,
-  phoneNumber,
-  tags,
-  images,
   fromDate,
-  toDate,
-  cancellable,
+  cancellationType,
   priceDisplay,
   icon,
   categoryName,
-  index = 0,
   url = '/',
   isHorizontal,
   thumbnail,
@@ -68,12 +55,6 @@ function ResultCard<T extends WithId>({
     </section>
   );
 
-  const CarouselAndTagSection = () => (
-    <section className="relative">
-      {images && <ImageCarousel images={images} title={title} />}
-    </section>
-  );
-
   const TitleSection = () => (
     <h6
       className={`font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg truncate ${
@@ -84,20 +65,6 @@ function ResultCard<T extends WithId>({
     </h6>
   );
 
-  const RatingSection = () => (
-    <section className="flex gap-2 ">
-      {rating && <Rating value={rating} />}
-      {reviewsAmount && (
-        <p className="text-xs text-dark-700">
-          {reviewsAmount} {reviewsLabel}
-        </p>
-      )}
-    </section>
-  );
-
-  const CancelationAndPricingSection = () => <section></section>;
-  const reviewsLabel = 'reviews';
-
   const checkValidImage = () => {
     const img = new Image();
     img.src = thumbnail as string;
@@ -106,8 +73,12 @@ function ResultCard<T extends WithId>({
 
   const displayEmpty = invalidImage || !thumbnail;
 
+  const cancellable = cancellationType === FREE_CANCELLATION;
+  const nonCancellable = cancellationType === NON_REFUNDABLE;
+  const partialRefundable = cancellationType === PARTIAL_REFUND;
+
   return (
-    <div className="w-full bg-white rounded-4 border border-dark-300 mt-3 overflow-hidden">
+    <div className="w-full mt-3 overflow-hidden bg-white border rounded-4 border-dark-300">
       <Link href={url} passHref>
         <a
           target={target}
@@ -172,16 +143,18 @@ function ResultCard<T extends WithId>({
                 </p>
               </section>
 
-              {/* {tags && <TagsSection />} */}
-
               {!isHorizontal && (
-                <section className="flex justify-between items-center py-2 px-4"></section>
+                <section className="flex items-center justify-between px-4 py-2"></section>
               )}
             </section>
             <Divider className="lg:hidden" />
             {!isHorizontal && (
-              <section className="flex flex-row lg:flex-col lg:ml-auto justify-between items-center lg:items-end py-3 lg:py-5 px-4 lg:px-5">
-                <section>{cancellable}</section>
+              <section className="flex flex-row items-center justify-between px-4 py-3 lg:flex-col lg:ml-auto lg:items-end lg:py-5 lg:px-5">
+                <section className="flex justify-end">
+                  <FreeCancellation cancellable={cancellable} />
+                  <NonRefundable nonCancellable={nonCancellable} />
+                  <PartialRefund nonCancellable={partialRefundable} />
+                </section>
                 <section className="ml-auto">{priceDisplay}</section>
               </section>
             )}
@@ -191,15 +164,17 @@ function ResultCard<T extends WithId>({
           {isHorizontal && (
             <section className="flex justify-between px-2 py-1 border-t-2">
               <div className="self-center">
-                <section>{cancellable}</section>
+                <section className="flex justify-end">
+                  <FreeCancellation cancellable={cancellable} />
+                  <NonRefundable nonCancellable={nonCancellable} />
+                  <PartialRefund nonCancellable={partialRefundable} />
+                </section>
               </div>
               <div>
                 <section>{priceDisplay}</section>
               </div>
             </section>
           )}
-
-          <CancelationAndPricingSection />
         </a>
       </Link>
     </div>

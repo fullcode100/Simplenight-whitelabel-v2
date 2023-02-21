@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect, useState, ReactElement, useRef } from 'react';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 // components
@@ -51,7 +53,11 @@ import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouse
 import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
 import Paragraph from 'components/global/Typography/Paragraph';
 import Heading from 'components/global/Typography/Heading';
-import { TicketAvailability } from 'thingsToDo/types/adapters/TicketAvailability';
+import {
+  TicketAvailability,
+  TicketType,
+} from 'thingsToDo/types/adapters/TicketAvailability';
+
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -88,9 +94,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const locationRef = useRef<HTMLDivElement>(null);
 
   const { isDesktop } = useMediaViewport();
-  const [thingsItem, setThingsItem] = useState<ThingsDetailItem>();
   const [isLoadMoreTickets, setIsLoadMoreTickets] = useState(false);
-  const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [scheduleLoaded, setScheduleLoaded] = useState(false);
   const [emptyState, setEmptyState] = useState<boolean>(false);
@@ -107,8 +111,40 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const currentCurrency = getCurrency();
   const setQueryParam = useQuerySetterNotReload();
 
-  const extraData: ExtraData = thingsItem?.extra_data as ExtraData;
-  const images = extraData?.images;
+  const { id, startDate, endDate, slug } = useQuery();
+  const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
+
+  const params: ThingsDetailRequest = {
+    start_date: formatAsSearchDate(startDate as string),
+    end_date: formatAsSearchDate(endDate as string),
+    rsp_fields_set: 'extended',
+    apiUrl,
+  };
+
+  const fetchThingsToDo = async () => {
+    try {
+      const data: ThingsDetailItem = await Detailer?.request?.(
+        params,
+        i18next,
+        id,
+      );
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data: item, isLoading } = useReactQuery(
+    ['thingstodo-detail', id, params],
+    fetchThingsToDo,
+    {
+      retry: false,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  const extraData: ExtraData = item?.extra_data as ExtraData;
   const pricing = extraData?.pricing;
   const isAdultRequired = extraData?.is_adult_required;
   const activityMaxTravelers = extraData?.max_travelers;
@@ -116,33 +152,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const loadMoreTickets = () => {
     setIsLoadMoreTickets(true);
   };
-  const { id, startDate, endDate, slug } = useQuery();
-  const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   useEffect(() => {
-    const params: ThingsDetailRequest = {
-      start_date: formatAsSearchDate(startDate as string),
-      end_date: formatAsSearchDate(endDate as string),
-      rsp_fields_set: 'extended',
-      apiUrl,
-    };
-    if (id) {
-      Detailer?.request?.(params, i18next, id)
-        .then((items: ThingsDetailItem) => {
-          const item = items;
-          setThingsItem(item);
-          setLoaded(true);
-        })
-        .catch((e) => {
-          console.error(e);
-          setLoaded(true);
-          setEmptyState(true);
-        });
-    }
-  }, [id]);
-
-  useEffect(() => {
-    const url = '/categories/' + thingsItem?.main_category ?? '';
+    const url = '/categories/' + item?.main_category ?? '';
     const startDate = formatAsSearchDate(dayjs());
     const endDate = formatAsSearchDate(dayjs().add(1, 'years'));
 
@@ -153,7 +165,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
       apiUrl: url,
     };
 
-    if (thingsItem) {
+    if (item) {
       Schedule.request(params, i18next, id)
         .then(({ tickets }: ThingsAvailabilityScheduleResponse) => {
           setSchedule(tickets);
@@ -164,9 +176,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           setScheduleLoaded(true);
         });
     }
-  }, [thingsItem]);
+  }, [item]);
 
-  const handleAvailability = (date: string, ticketTypes: any[]) => {
+  const handleAvailability = (date: string, ticketTypes: TicketType[]) => {
     const queryParams: any = {
       startDate: formatAsSearchDate(date as string),
     };
@@ -175,7 +187,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     });
     setQueryParam(queryParams);
     setIsCheckingAvailability(true);
-    const url = '/categories/' + thingsItem?.categories[0].id ?? '';
+    const url = '/categories/' + item?.categories[0].id ?? '';
     const params: ThingsAvailabilityRequest = {
       start_date: formatAsSearchDate(date as string),
       inventory_id: id as string,
@@ -336,10 +348,10 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const HeaderSection = () => {
-    const images = thingsItem?.extra_data?.images;
-    const name = thingsItem?.name;
-    const reviewsAmount = thingsItem?.extra_data?.review_amount;
-    const activityScore = thingsItem?.extra_data?.avg_rating;
+    const images = item?.extra_data?.images;
+    const name = item?.name;
+    const reviewsAmount = item?.extra_data?.review_amount;
+    const activityScore = item?.extra_data?.avg_rating;
     const totalScore = '5';
     return (
       <section className="border border-dark-300 bg-dark-100">
@@ -406,7 +418,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const hasQuestion = (questionId: string) =>
-    thingsItem?.extra_data?.booking_questions?.find(
+    item?.extra_data?.booking_questions?.find(
       (bookingQuestion) => bookingQuestion.id === questionId,
     );
 
@@ -414,7 +426,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     const displayTickets = isLoadMoreTickets
       ? tickets
       : tickets?.slice(0, startTicketsNumber);
-    const mainCategoryId = thingsItem?.main_category as string;
+    const mainCategoryId = item?.main_category as string;
     const hasMeetingQuestion = hasQuestion(MEETING_POINT_ID);
     const hasPickupQuestion = hasQuestion(PICKUP_POINT_ID);
     return (
@@ -426,7 +438,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             className="text-left"
           >
             <TicketCard
-              id={thingsItem?.id as string}
+              id={item?.id as string}
               category={mainCategoryId}
               ticket={ticket}
               pickup={hasPickupQuestion && selectedPickup}
@@ -490,8 +502,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const DetailDisplay = () => {
-    const meetingPoints = thingsItem?.extra_data.start_locations;
-    const pickupPoints = thingsItem?.extra_data.pickup;
+    const meetingPoints = item?.extra_data.start_locations;
+    const pickupPoints = item?.extra_data.pickup;
 
     return (
       <>
@@ -500,7 +512,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             empty state
           </section>
         ) : (
-          thingsItem && (
+          item && (
             <>
               <HeaderSection />
               <TabsSection
@@ -513,7 +525,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
               <Divider className="mt-6" />
               <section className="mx-auto divide-dark-300 lg:gap-12 lg:grid lg:grid-cols-2 lg:divide-x max-w-7xl">
                 <section ref={detailsRef}>
-                  <DetailsSection thingsItem={thingsItem} />
+                  <DetailsSection thingsItem={item} />
                 </section>
                 <Divider className="lg:hidden" />
                 <PoliciesSection />
@@ -534,7 +546,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     );
   };
 
-  return <section>{loaded ? <DetailDisplay /> : <Loader />}</section>;
+  return <section>{!isLoading ? <DetailDisplay /> : <Loader />}</section>;
 };
 
 export default ThingsDetailDisplay;

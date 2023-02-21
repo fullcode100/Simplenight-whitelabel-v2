@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { getCurrency } from 'store/selectors/core';
 import ChevronDown from 'public/icons/assets/chevron-down.svg';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
+import { useSettings } from 'hooks/services/useSettings';
 
 interface HeaderDesktopProps {
   color?: string;
@@ -45,7 +45,8 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
     }
   };
   const currentLanguage = getFriendlyLanguage(language);
-  const { images, information } = useBrandConfig() || {};
+  const { data: brandConfig } = useSettings();
+  const { images, information } = brandConfig;
   const { logo } = images || {};
   const { partnerName, corporateLink } = information || {};
   const showPartner = partnerName?.toLowerCase() !== 'simplenight';

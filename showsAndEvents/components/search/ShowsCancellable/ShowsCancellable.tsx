@@ -4,44 +4,26 @@ import FreeCancellation from 'components/global/FreeCancellation/FreeCancellatio
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import PartialRefund from 'components/global/PartialRefund/PartialRefund';
 
-interface CancelationPolicyDetails {
-  from_date: string;
-  to_date: string;
-  penalty_percentage: number;
-  penalty_amount: {
-    amount: number;
-    formatted: string;
-    currency: string;
-  };
-  cancellation_type: string;
-}
-interface CancelationPolicy {
-  description: string;
-  details: any;
-  cancellation_type: string;
-}
-interface ThingsCancellableProps {
-  cancellationPolicy: CancelationPolicy;
-}
-const ThingsCancellable = ({ cancellationPolicy }: ThingsCancellableProps) => {
-  const freeCancelation = 'FREE_CANCELLATION';
-  const nonRefundable = 'NON_REFUNDABLE';
-  const partialRefund = 'PARTIAL_REFUND';
+const FREE_CANCELLATION = 'FREE_CANCELLATION';
+const NON_REFUNDABLE = 'NON_REFUNDABLE';
+const PARTIAL_REFUND = 'PARTIAL_REFUND';
 
-  const cancellable = cancellationPolicy?.cancellation_type === freeCancelation;
-  const nonCancellable =
-    cancellationPolicy?.cancellation_type === nonRefundable;
-  const partialRefundable =
-    cancellationPolicy?.cancellation_type === partialRefund;
+const ShowsCancellable = ({
+  cancellationType,
+}: {
+  cancellationType: string;
+}) => {
+  const cancellable = cancellationType === FREE_CANCELLATION;
+  const nonCancellable = cancellationType === NON_REFUNDABLE;
+  const partialRefundable = cancellationType === PARTIAL_REFUND;
+
   return (
     <section className="flex justify-end">
-      {cancellable && <FreeCancellation cancellable={cancellable} />}
-      {nonCancellable && <NonRefundable nonCancellable={nonCancellable} />}
-      {partialRefundable && (
-        <PartialRefund nonCancellable={partialRefundable} />
-      )}
+      <FreeCancellation cancellable={cancellable} />
+      <NonRefundable nonCancellable={nonCancellable} />
+      <PartialRefund nonCancellable={partialRefundable} />
     </section>
   );
 };
 
-export default ThingsCancellable;
+export default ShowsCancellable;

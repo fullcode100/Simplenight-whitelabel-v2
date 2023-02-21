@@ -1,7 +1,6 @@
 import { getRGBFromHex } from 'helpers/stringUtils';
 import { useAppDispatch } from 'hooks/redux/useAppDispatch';
 import { useState } from 'react';
-import { setBrandColor } from 'store/actions/core';
 
 const PrimaryColorSelector = () => {
   const dispatch = useAppDispatch();
@@ -11,7 +10,6 @@ const PrimaryColorSelector = () => {
   ) => {
     const { value } = event.target;
     const rgb = getRGBFromHex(value);
-    dispatch(setBrandColor('--primary-color-rgb', rgb));
   };
 
   return (
@@ -41,7 +39,6 @@ export const BrandColorSelector = ({
     const rgb = getRGBFromHex(value);
 
     setColorValue(value);
-    dispatch(setBrandColor(cssVariable, rgb));
   };
 
   return (

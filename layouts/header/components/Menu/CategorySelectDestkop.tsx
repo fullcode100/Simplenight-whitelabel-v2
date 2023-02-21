@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getCategories } from '../../../../store/selectors/core';
 import classnames from 'classnames';
 import SingleBed from 'public/icons/assets/single-bed.svg';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
+import useCategories, { CategoryInfo } from 'hooks/category/useCategories';
 
 const CategorySelectDesktop = () => {
-  const categories = useSelector(getCategories);
-  const categoriesNames = categories.map((category) => category.alias);
+  const categories = useCategories();
+  const categoriesNames = categories.map(
+    (category: CategoryInfo) => category.type,
+  );
   const [currentCategory, setCurrentCategory] = useState('hotels');
   const displayCategories = useDisplayCategory();
 
@@ -16,7 +17,7 @@ const CategorySelectDesktop = () => {
   };
 
   const getCategoriesAsOptions = () =>
-    categoriesNames.map((category, i) => {
+    categoriesNames.map((category: string, i: number) => {
       const indexLast = categoriesNames.lastIndexOf(category);
       const isLast = i === indexLast;
       if (categories[i]) {

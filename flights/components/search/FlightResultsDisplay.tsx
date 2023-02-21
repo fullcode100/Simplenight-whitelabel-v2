@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { FlightSearchRequest } from 'flights/types/request/FlightSearchRequest';
 import {
   Flight,
@@ -141,147 +142,71 @@ const FlightResultsDisplay = ({
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
-  const doSearch = () => {
-    const hasEmptyValues = checkIfAnyNull([
-      direction,
-      startAirport,
-      endAirport,
-      startDate,
-      // endDate,
-      adults,
-      // children,
-      // infants,
-      // childrenAges,
-      // infantsAges,
-      // latitude,
-      // longitude,
-    ]);
-    if (hasEmptyValues) return;
+  const params: FlightSearchRequest = {
+    direction: direction as unknown as string,
 
-    if (direction === 'multi_city') {
-      const hasEmptyValuesMultiCity = checkIfAnyNull([
-        startAirports,
-        endAirports,
-        startDates,
-      ]);
-      if (hasEmptyValuesMultiCity) return;
-    }
+    start_airport: startAirport as unknown as string,
+    end_airport: endAirport as unknown as string,
+    start_date: formatAsSearchDate(startDate as unknown as string),
+    end_date: formatAsSearchDate(endDate as unknown as string),
 
-    const geolocation = `${latitude},${longitude}`;
+    adults: parseQueryNumber(adults ?? ''),
+    children: parseQueryNumber(children ?? ''),
+    infants: parseQueryNumber(infants ?? ''),
+    children_ages: childrenAges as unknown as string,
+    infants_ages: infantsAges as unknown as string,
 
-    const params: FlightSearchRequest = {
-      direction: direction as unknown as string,
+    start_airports: startAirports as unknown as string,
+    end_airports: endAirports as unknown as string,
+    start_dates: startDates as unknown as string,
 
-      start_airport: startAirport as unknown as string,
-      end_airport: endAirport as unknown as string,
-      start_date: formatAsSearchDate(startDate as unknown as string),
-      end_date: formatAsSearchDate(endDate as unknown as string),
-
-      adults: parseQueryNumber(adults ?? ''),
-      children: parseQueryNumber(children ?? ''),
-      infants: parseQueryNumber(infants ?? ''),
-      children_ages: childrenAges as unknown as string,
-      infants_ages: infantsAges as unknown as string,
-
-      start_airports: startAirports as unknown as string,
-      end_airports: endAirports as unknown as string,
-      start_dates: startDates as unknown as string,
-
-      currency: currency as unknown as string,
-    };
-
-    if (
-      selected ||
-      //sortBy ||
-      minPrice ||
-      maxPrice ||
-      departureTimes ||
-      arrivalTimes ||
-      stops ||
-      airlines ||
-      cities
-    ) {
-      // if (flight selected OR filters changed) use last cached API search response
-      const response = JSON.parse(
-        localStorage.getItem('FlightSearchResponse') as string,
-      );
-      if (response && response.flights && response.offers) {
-        setFlights(response.flights);
-        setOffers(response.offers);
-        filterFlights(
-          response.flights,
-          response.offers,
-          flightIndex,
-          flightsSelected,
-        );
-      }
-      setLoaded(true);
-    } else {
-      // new API search
-      Searcher?.request(params, i18next)
-        .then((response: FlightSearchResponse) => {
-          localStorage.setItem(
-            'FlightSearchResponse',
-            JSON.stringify(response),
-          );
-          if (response && response.flights && response.offers) {
-            setFlights(response.flights);
-            setOffers(response.offers);
-            filterFlights(
-              response.flights,
-              response.offers,
-              flightIndex,
-              flightsSelected,
-            );
-          }
-        })
-        .catch((error) => console.error(error))
-        .then(() => setLoaded(true));
-    }
+    currency: currency as unknown as string,
   };
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
-
-  useEffect(() => {
-    doSearch();
-  }, [
+  const hasEmptyValues = checkIfAnyNull([
     direction,
-
     startAirport,
     endAirport,
     startDate,
-    endDate,
-
     adults,
-    children,
-    infants,
-    childrenAges,
-    infantsAges,
+  ]);
 
-    latitude,
-    longitude,
-    language,
-    currency,
+  const isMultiCity = direction === 'multi_city';
 
-    sortBy,
-    minPrice,
-    maxPrice,
-    departureTimes,
-    arrivalTimes,
-    stops,
-    airlines,
-    cities,
-
+  const hasEmptyValuesMultiCity = checkIfAnyNull([
     startAirports,
     endAirports,
     startDates,
   ]);
 
+  const fetchFligths = async () => {
+    if (hasEmptyValues) return;
+    if (isMultiCity && hasEmptyValuesMultiCity) return;
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data, isLoading } = useReactQuery(
+    ['flights-search', params],
+    fetchFligths,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
+
   useEffect(() => {
-    // doSearch();
-  }, []);
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
+
+
+  useEffect(() => {
+    if (data) {
+      const { flights, offers } = data;
+      setFlights(flights);
+      setOffers(offers);
+      filterFlights(flights, offers, flightIndex, flightsSelected);
+    }
+  }, [data]);
 
   const onChangeFlightIndex = (value: number) => {
     const _flightsSelected: string[] = [];
@@ -599,7 +524,7 @@ const FlightResultsDisplay = ({
           <FlightFilterFormDesktop flights={flightsSearched} />
         </section>
         <section className="lg:flex-1 lg:w-[75%] h-full">
-          {!loaded ? (
+          {isLoading ? (
             <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
               <HorizontalSkeletonList />
             </section>

@@ -8,7 +8,7 @@ import Close from 'public/icons/assets/cross.svg';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import { useSettings } from 'hooks/services/useSettings';
 
 interface MenuProps {
   onCloseModal: (event?: MouseEvent<HTMLElement>) => void;
@@ -17,7 +17,8 @@ interface MenuProps {
 const Menu = ({ onCloseModal }: MenuProps) => {
   const [t] = useTranslation('global');
   const displayDropdown = useDisplayCategory();
-  const { images } = useBrandConfig() || {};
+  const { data: brandConfig } = useSettings();
+  const { images } = brandConfig;
   const { logo } = images || {};
   const languageText = t('language', 'Language');
   const currencyText = t('currency', 'Currency');

@@ -1,54 +1,35 @@
 import useQuery from 'hooks/pageInteraction/useQuery';
-import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
-import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
-import InformationIcon from 'public/icons/assets/information.svg';
-import PoliciesIcon from 'public/icons/assets/policies.svg';
-import { useSelector } from 'react-redux';
-import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
-import useCookies from 'hooks/localStorage/useCookies';
-import Script from 'next/script';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
-import { icons } from 'antd/lib/image/PreviewGroup';
 import LocationMap from 'components/global/LocationMap/LocationMap';
 import FilterFormDesktop from './Filters/FilterFormDesktop';
 import ResultsOptionsBar from '../ResultsOptionsBar/ResultsOptionsBar';
 import FilterFormMobile from './Filters/FilterFormMobile';
 import CollapseElement from 'components/global/CollapseElement/CollapseElement';
-import showsAndEventsMock from './utils/initialState';
-import ThingsCancellable from '../search/ShowsCancellable/ShowsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import ResultCard from '../search/ResultCard/ResultCard';
 import { ThingsCategory } from 'thingsToDo';
 import { ShowsSearchResponse as iShowAndEventsResult } from '../../types/response/ShowsSearchResponse';
 import Carousel from 'react-multi-carousel';
 import CustomArrow from 'components/global/CarouselNew/components/CustomArrow';
-import CustomDot from 'components/global/CarouselNew/components/CustomDot';
-import Chevron from 'public/icons/assets/chevron-down.svg';
-import SearchInput from 'components/global/Input/SearchInput';
 import SearchIcon from 'public/icons/assets/Search.svg';
-import Sort from 'public/icons/assets/sort.svg';
 import TicketTabs from '../TicketTabs';
 import TicketCard from './TicketCard';
-import { sectors } from '../../mocks/showsAndEventsMock';
 import Image from 'next/image';
 import { SORT_SECTOR_BY_OPTIONS } from 'showsAndEvents/constants/sortByOptions';
 import SelectedSeatsBar from './SelectedSeatsBar';
 import classnames from 'classnames';
-import {
-  DetailRequest,
-  SimilarEventRequest,
-} from 'showsAndEvents/types/request/ShowsSearchRequest';
+import { DetailRequest } from 'showsAndEvents/types/request/ShowsSearchRequest';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import {
   CancelationPolicy,
   Sector,
-  ShowDetailItem,
   Rate,
 } from 'showsAndEvents/types/response/ShowsDetailResponse';
 import {
@@ -59,6 +40,7 @@ import IconInput from 'components/global/Input/IconInput';
 import { SearchRequest } from 'types/search/SearchRequest';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 import { filters } from './Filters/types';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -94,73 +76,24 @@ interface iTicketCard {
 const ShowAndEventsDetailDisplay = ({
   Category,
 }: ShowAndEventsDetailDisplayProps) => {
-  const {
-    ClientDetailer: Detailer,
-    ClientAvailability: Availability,
-    ClientSearcher: Searcher,
-  } = Category.core;
+  const { ClientDetailer: Detailer, ClientSearcher: Searcher } = Category.core;
 
   const params = useQuery();
   const { id, fromDate, toDate, slug } = params;
   const [selectedTab, setSelectedTab] = useState<ReactNode>('All sectors');
 
-  const [showEventItem, setShowEventItem] = useState<ShowDetailItem>();
-  const [similarShowEventItems, setSimilarShowEventItems] =
-    useState<ShowDetailItem[]>();
-
-  const [loaded, setLoaded] = useState(false);
   const [showMobileFilters, setShowMobileFilter] = useState(false);
   const [sectors, setSectors] = useState<Sector[]>();
 
-  const [currentCancellation, setCurrentCancellation] = useState<string>('');
-
   const [selectedSeats, setSelectedSeats] = useState<any[]>([]);
-  const [extraDataSeats, setExtraDataSeats] = useState<any>();
-  const [extraDataSeatsCache, setExtraDataSeatsCache] = useState<any>();
   const [maxSectorPrice, setMaxSectorPrice] = useState(0);
   const [maxAvailableSeats, setMaxAvailableSeats] = useState(0);
   const [showSelectedSeatsBar, setShowSelectedSeatsBar] =
     useState<boolean>(false);
-  const [addresObject, setAddressObject] = useState({
-    address1: '',
-    country_code: '',
-    city: '',
-    country: '',
-    postal_code: '',
-    coordinates: { latitude: 0, longitude: 0 },
-    state: '',
-  });
-  const [extraDataObject, setExtraDataObject] = useState({
-    venue_name: '',
-    seats: null,
-    starts_at: '',
-    description: '',
-    seat_map: null,
-    images: [],
-    relation_id: '',
-  });
   const [t, i18next] = useTranslation('events');
   const sectorLabel = t('sector', 'Sector');
-  const [tg] = useTranslation('global');
-  const sortLabel = tg('sort', 'Sort');
   const thingsToDoLabel = t('shows', 'Shows');
-  const { language } = i18next;
-  const {
-    address1,
-    country_code: countryCode,
-    city,
-    country,
-    postal_code: postalCode,
-    coordinates,
-    state,
-  } = addresObject;
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
-
-  useEffect(() => {
-    if (id) {
-      setLoaded(true);
-    }
-  }, [id]);
 
   const groupBySectors = (sectorSeats: any) => {
     const groupToValues = sectorSeats.reduce(function (
@@ -194,64 +127,74 @@ const ShowAndEventsDetailDisplay = ({
     return { maxSectorPrice, maxAvailableSeats };
   };
 
-  useEffect(() => {
-    if (extraDataObject?.relation_id) {
-      const {
-        coordinates: { latitude, longitude },
-      } = addresObject;
-      const params: SearchRequest = {
-        start_date: formatAsSearchDate(fromDate as string),
-        end_date: formatAsSearchDate(toDate as string),
-        rsp_fields_set: 'basic',
-        relation_id: extraDataObject.relation_id,
-        dst_geolocation: `${latitude},${longitude}`,
-        apiUrl,
-      };
-      Searcher?.request?.(params as SearchRequest, i18next)
-        .then(({ items }) => {
-          setSimilarShowEventItems(items);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
+  const paramsDetail: DetailRequest = {
+    start_date: formatAsSearchDate(fromDate as string),
+    end_date: formatAsSearchDate(toDate as string),
+    rsp_fields_set: 'extended',
+    seats: '1' as string,
+    apiUrl,
+  };
+
+  const fetchDetailShowsAndEvents = async () => {
+    try {
+      return await Detailer?.request?.(paramsDetail, i18next, id);
+    } catch (e) {
+      console.error(e);
     }
-  }, [extraDataObject]);
+  };
+
+  const { data, isLoading } = useReactQuery(
+    ['showsandevents-detail', id, paramsDetail],
+    fetchDetailShowsAndEvents,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
 
   useEffect(() => {
-    const params: DetailRequest = {
-      start_date: formatAsSearchDate(fromDate as string),
-      end_date: formatAsSearchDate(toDate as string),
-      rsp_fields_set: 'extended',
-      seats: '1' as string,
-      apiUrl,
-    };
-    setLoaded(false);
-    if (id) {
-      Detailer?.request?.(params, i18next, id)
-        .then(({ items }) => {
-          setShowEventItem(items[0]);
-          setAddressObject(items[0].address);
-          setCurrentCancellation(
-            items[0].cancellation_policy.cancellation_type,
-          );
+    if (data) {
+      setSectors(groupBySectors(data.seats));
 
-          setExtraDataObject(items[0].extra_data);
-          setExtraDataSeats(items[0].extra_data.seats);
-          setExtraDataSeatsCache(items[0].extra_data.seats);
-
-          setLoaded(true);
-        })
-        .catch((e) => {
-          console.error(e);
-          setLoaded(true);
-          // setEmptyState(true);
-        });
+      const maxSectorValues = getMaxSectorValues(data.seats);
+      setMaxSectorPrice(maxSectorValues.maxSectorPrice);
+      setMaxAvailableSeats(maxSectorValues.maxAvailableSeats);
     }
-  }, [id, fromDate, toDate]);
+  }, [data]);
+
+  const {
+    address1,
+    country_code: countryCode,
+    city,
+    postal_code: postalCode,
+    coordinates,
+    state,
+  } = data?.address || {};
+
+  const { latitude, longitude } = coordinates || { latitude: 0, longitude: 0 };
+  const paramsSimilar: SearchRequest = {
+    start_date: formatAsSearchDate(fromDate as string),
+    end_date: formatAsSearchDate(toDate as string),
+    rsp_fields_set: 'basic',
+    relation_id: data?.relationId,
+    dst_geolocation: `${latitude},${longitude}`,
+    apiUrl,
+  };
+
+  const fetchSimilarShowsAndEvents = async () => {
+    try {
+      return await Searcher?.request?.(paramsSimilar, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data: similarShowEventItems } = useReactQuery(
+    ['showsandevents-similar', id, paramsSimilar],
+    fetchSimilarShowsAndEvents,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
 
   const filterSectors = (filter: filters) => {
-    if (extraDataSeats) {
-      const finalData = extraDataSeats.filter((item: any) => {
+    if (data?.seats) {
+      const finalData = data?.seats.filter((item: any) => {
         return (
           Number(item.available_seats) >= Number(filter.minSeats) &&
           Number(item.available_seats) <=
@@ -266,27 +209,12 @@ const ShowAndEventsDetailDisplay = ({
     }
   };
 
-  useEffect(() => {
-    if (extraDataSeats) {
-      setSectors(groupBySectors(extraDataSeats));
-    }
-  }, [extraDataSeats]);
-
-  useEffect(() => {
-    if (extraDataSeatsCache) {
-      const maxSectorValues = getMaxSectorValues(extraDataSeatsCache);
-      setMaxSectorPrice(maxSectorValues.maxSectorPrice);
-      setMaxAvailableSeats(maxSectorValues.maxAvailableSeats);
-    }
-  }, [extraDataSeatsCache]);
-
-  const { description } = extraDataObject;
   const showAndEventsList = () => {
     if (!similarShowEventItems) {
       return;
     }
-    const urlDetail = (thingToDo: iShowAndEventsResult) => {
-      const { id } = thingToDo;
+    const urlDetail = (showEvent: iShowAndEventsResult) => {
+      const { id } = showEvent;
 
       return `/detail/${slug}/${id}?fromDate=${fromDate}&toDate=${toDate}`;
     };
@@ -329,7 +257,6 @@ const ShowAndEventsDetailDisplay = ({
     };
 
     return (
-      // eslint-disable-next-line react/jsx-no-comment-textnodes
       <>
         <div className="px-0 lg:px-6">
           {getSectionTitle('You May Also Like', undefined, undefined)}
@@ -354,21 +281,17 @@ const ShowAndEventsDetailDisplay = ({
             />
           }
         >
-          {similarShowEventItems?.map((thingToDo: any) => {
-            const url = urlDetail(thingToDo);
+          {similarShowEventItems?.map((showEvent: any) => {
+            const url = urlDetail(showEvent);
             const {
               id,
               name,
               address,
-              phone_number: phoneNumber,
-              tags,
-              images,
               fromDate,
-              toDate,
-              cancellation_policy: cancellationPolicy,
+              cancellationType,
               rate,
               thumbnail,
-            } = thingToDo;
+            } = showEvent;
             const {
               address1,
               city,
@@ -387,22 +310,13 @@ const ShowAndEventsDetailDisplay = ({
                   url={url}
                   icon={ThingsCategory.icon}
                   categoryName={thingsToDoLabel}
-                  item={thingToDo}
+                  item={showEvent}
                   title={name}
-                  images={images}
                   address={formattedLocation}
-                  className=" flex-0-0-auto"
                   fromDate={fromDate}
-                  toDate={toDate}
-                  phoneNumber={phoneNumber}
-                  tags={tags}
                   isHorizontal
                   thumbnail={thumbnail}
-                  cancellable={
-                    <ThingsCancellable
-                      cancellationPolicy={cancellationPolicy}
-                    />
-                  }
+                  cancellationType={cancellationType}
                   priceDisplay={
                     <PriceDisplay
                       rate={rate}
@@ -424,10 +338,10 @@ const ShowAndEventsDetailDisplay = ({
     RightElement: React.ElementType | undefined,
   ) => {
     return (
-      <div className="align-middle flex mb-4 justify-between">
+      <div className="flex justify-between mb-4 align-middle">
         <div>
           {Icon && (
-            <IconRoundedContainer className="bg-primary-1000 inline-flex mr-2">
+            <IconRoundedContainer className="inline-flex mr-2 bg-primary-1000">
               <Icon className="text-white h-5 w-5 lg:h-[30px] lg:w-[30px]" />
             </IconRoundedContainer>
           )}
@@ -453,7 +367,6 @@ const ShowAndEventsDetailDisplay = ({
     currency,
     sectorTitle,
     rate,
-    availableSeats,
     booking_code_supplier: bookingCodeSupplier,
     quantity,
     cancellation_policy: cancellationPolicy,
@@ -511,21 +424,21 @@ const ShowAndEventsDetailDisplay = ({
   const filterSectorsSearch = (e: any) => {
     const { value } = e.target;
     if (value) {
-      const searchSectors = groupBySectors(extraDataSeats)?.filter(
-        ({ title }) => title.toLowerCase().includes(value.toLowerCase()),
+      const searchSectors = groupBySectors(data?.seats)?.filter(({ title }) =>
+        title.toLowerCase().includes(value.toLowerCase()),
       );
       setSectors(searchSectors);
     } else {
-      setSectors(groupBySectors(extraDataSeats));
+      setSectors(groupBySectors(data?.seats));
     }
   };
 
   const setSector = () => {
     return (
       <section className="lg:pb-6 lg:mb-6">
-        <label className="align-bottom flex">Sector</label>
+        <label className="flex align-bottom">Sector</label>
         <IconInput
-          icon={<SearchIcon className="h-5 w-5 text-dark-700 " />}
+          icon={<SearchIcon className="w-5 h-5 text-dark-700 " />}
           name="search"
           placeholder="Search Sector"
           autoFocus
@@ -560,25 +473,6 @@ const ShowAndEventsDetailDisplay = ({
             maxPrice={`${maxSectorPrice}`}
           />
         </CollapseElement>
-        {/* <section className="flex items-center justify-between  pt-3 pb-3 lg:mt-4 lg:pb-0">
-          <section
-            className={`absolute z-10 border border-dark-300 rounded shadow-container top-100 bg-white w-[335px]  transition-all duration-500 text-dark-1000 ${
-              !showSortModal && 'opacity-0 invisible'
-            }`}
-          >
-          </section>
-          <p className="text-md leading-5 lg:text-[18px] lg:leading-[18px] font-semibold">
-            {sectors
-              .filter(
-                ({ title }) =>
-                  selectedTab === 'All sectors' || selectedTab === title,
-              )
-              .reduce((count, { rows }) => {
-                return count + rows.length;
-              }, 0)}{' '}
-            Results
-          </p>
-        </section> */}
         {sectors &&
           sectors
             .filter(
@@ -640,8 +534,8 @@ const ShowAndEventsDetailDisplay = ({
     return (
       <section className="pb-6">
         {getSectionTitle('Details', InfoCircle, undefined)}
-        <label className="align-middle flex mb-2 text-xl">Description</label>
-        <span className="flex text-xl">{description}</span>
+        <label className="flex mb-2 text-xl align-middle">Description</label>
+        <span className="flex text-xl">{data?.description}</span>
       </section>
     );
   };
@@ -688,16 +582,16 @@ const ShowAndEventsDetailDisplay = ({
       .filter((item) => item)
       .join(', ')}`;
     const formattedCheckoutDateTime = formatAsDisplayDatetime(
-      showEventItem?.extra_data.starts_at as string,
+      data?.startsAt as string,
     );
     return (
-      <section className="pb-6 border-b-2 mb-6">
-        {getSectionTitle(showEventItem?.name || '', undefined, undefined)}
-        <label className="align-middle flex mb-2">
+      <section className="pb-6 mb-6 border-b-2">
+        {getSectionTitle(data?.name || '', undefined, undefined)}
+        <label className="flex mb-2 align-middle">
           <Calendar className="text-primary-1000 h-4 w-4 mr-2.5" />
           {fromLowerCaseToCapitilize(formattedCheckoutDateTime)}
         </label>
-        <label className="align-bottom flex">
+        <label className="flex align-bottom">
           <LocationPin className="text-primary-1000 h-4 w-4 mr-2.5" />
           {formattedLocation}
         </label>
@@ -719,7 +613,7 @@ const ShowAndEventsDetailDisplay = ({
 
   return (
     <>
-      {loaded && (
+      {!isLoading && (
         <main className="relative w-full">
           <section
             className={classnames('grid', {
@@ -739,16 +633,16 @@ const ShowAndEventsDetailDisplay = ({
                   'xl:px-20 lg:px-10': !showSelectedSeatsBar,
                 })}
               >
-                <section className="grid grid-cols-1 lg:grid-cols-5 w-full mx-auto max-w-7xl">
+                <section className="grid w-full grid-cols-1 mx-auto lg:grid-cols-5 max-w-7xl">
                   <section className="xl:mr-24 lg:pr-6 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto col-span-3">
-                    <section className="flex lg:hidden content-center justify-center">
+                    <section className="flex content-center justify-center lg:hidden">
                       {getSeatsMap()}
                     </section>
                     {getHeader()}
                     {setSector()}
                   </section>
                   <section className="col-span-2 lg:pr-6">
-                    <section className="hidden lg:flex content-center justify-center px-6 py-6">
+                    <section className="content-center justify-center hidden px-6 py-6 lg:flex">
                       {getSeatsMap()}
                     </section>
                     <section className="hidden lg:block">
@@ -766,11 +660,11 @@ const ShowAndEventsDetailDisplay = ({
                   'xl:px-20 lg:px-10': !showSelectedSeatsBar,
                 })}
               >
-                <section className="grid grid-cols-1 lg:grid-cols-2 w-full mx-auto max-w-7xl">
-                  <section className="hidden lg:block pr-6 py-12 lg:border-r-2">
+                <section className="grid w-full grid-cols-1 mx-auto lg:grid-cols-2 max-w-7xl">
+                  <section className="hidden py-12 pr-6 lg:block lg:border-r-2">
                     {getDescription()}
                   </section>
-                  <section className="pl-6 pr-6 lg:pr-0 py-12">
+                  <section className="py-12 pl-6 pr-6 lg:pr-0">
                     {getLocation()}
                   </section>
                 </section>
@@ -778,13 +672,13 @@ const ShowAndEventsDetailDisplay = ({
             </section>
             {showSelectedSeatsBar && (
               <section className="w-full col-span-3 border-l-0 lg:border-l-2 lg:sticky fixed bottom-0 pt-0 lg:top-32 lg:h-[82vh] h-[30vh] lg:col-span-1 bg-white col z-10 shadow-up lg:shadow-container rounded-t-lg lg:rounded-none overflow-hidden">
-                <section className="w-full bg-white h-full">
+                <section className="w-full h-full bg-white">
                   <SelectedSeatsBar
                     id={id as string}
                     startDate={fromDate as string}
                     endDate={toDate as string}
-                    category={showEventItem?.main_category || ''}
-                    name={showEventItem?.name || ''}
+                    category={data?.category || ''}
+                    name={data?.name || ''}
                     selectedSeats={selectedSeats}
                     removeItem={removeSelectedSeastsInfo}
                   />
@@ -794,14 +688,14 @@ const ShowAndEventsDetailDisplay = ({
           </section>
           <section className={'grid-cols-3'}>
             <section className={'col-span-3'}>
-              <section className="grid grid-cols-1 lg:pl-20 lg:pr-0 px-4 py-6 border-t-2 bg-dark-100">
+              <section className="grid grid-cols-1 px-4 py-6 border-t-2 lg:pl-20 lg:pr-0 bg-dark-100">
                 {showAndEventsList()}
               </section>
             </section>
           </section>
         </main>
       )}
-      {!loaded && (
+      {isLoading && (
         <section className="lg:pt-14">
           <Loader />
         </section>

@@ -2,8 +2,6 @@
 import { IntlMessages } from './IntlMessages';
 
 export interface CoreState {
-  brandConfigLoaded: boolean;
-  brandConfig: any;
   languages: CoreLanguages;
   theme: CoreTheme[];
   homepageScrollHandler?: Function;
@@ -18,13 +16,6 @@ export interface CoreTheme {
 
 export interface SimplenightFeatures {
   [key: string]: boolean;
-}
-
-export interface ClientConfigImages {
-  logo: string;
-  background: string;
-  favicon: string;
-  [key: string]: string;
 }
 
 export interface CoreLanguages {

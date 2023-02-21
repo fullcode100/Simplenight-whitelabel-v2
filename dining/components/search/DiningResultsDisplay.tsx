@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { DiningCategory } from '../../index';
 import { DiningSearchRequest } from 'dining/types/request/DiningSearchRequest';
 import {
@@ -89,37 +90,38 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     }
   };
 
+  const params: DiningSearchRequest = {
+    covers: '2',
+    start_date: formatAsSearchDate(startDate as unknown as string),
+    end_date: formatAsSearchDate(endDate as unknown as string),
+    dst_geolocation: `${latitude},${longitude}` as unknown as StringGeolocation,
+    rsp_fields_set: 'basic',
+    limit: 50,
+    sort_by: sort_by as sortByFilters,
+    price: price as string,
+    cancellation_type: '',
+    supplier_ids: '',
+    apiUrl,
+  };
+
+  const fetchDining = async () => {
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const { data, isLoading } = useReactQuery(
+    ['dining-search', params],
+    fetchDining,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
+
   useEffect(() => {
-    const hasEmptyValues = checkIfAnyNull([startDate, latitude, longitude]);
-
-    if (hasEmptyValues) return;
-
-    const geolocation = `${latitude},${longitude}`;
-    setSortState(sort_by);
-
-    const params: DiningSearchRequest = {
-      covers: '2',
-      start_date: formatAsSearchDate(startDate as unknown as string),
-      end_date: formatAsSearchDate(endDate as unknown as string),
-      dst_geolocation: geolocation as unknown as StringGeolocation,
-      rsp_fields_set: 'basic',
-      limit: 50,
-      sort_by: sort_by as sortByFilters,
-      price: price as string,
-      cancellation_type: '',
-      supplier_ids: '',
-      apiUrl,
-    };
-
-    setLoaded(false);
-    Searcher?.request(params, i18next)
-      .then(({ items: searchedRestaurants }: DiningSearchResponse) =>
-        setRestaurants(searchedRestaurants),
-      )
-      .catch((error) => console.error(error))
-      .then(() => setLoaded(true));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [covers, endDate, lang, latitude, longitude, startDate, sort_by]);
+    if (data) {
+      setRestaurants(data.items);
+    }
+  }, [data]);
 
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
@@ -204,7 +206,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
       <button
         onClick={onClick}
         className={classnames(
-          'h-[2.75rem] w-[2.75rem] grid place-content-center',
+          'grid h-[2.75rem] w-[2.75rem] place-content-center',
           {
             'bg-white text-primary-1000': !active,
             'bg-primary-1000 text-white': active,
@@ -232,11 +234,11 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   return (
     <>
       <section className="lg:flex lg:w-full">
-        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
+        <section className="lg:max-w[18rem] hidden lg:mr-8 lg:block lg:w-[25%] lg:min-w-[16rem]">
           <DiningFilterFormDesktop />
         </section>
-        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-6">
-          {loaded && hasNoRestaurants ? (
+        <section className="relative h-full lg:mt-6 lg:w-[75%] lg:flex-1">
+          {!isLoading && hasNoRestaurants ? (
             <EmptyState
               text={noResultsLabel}
               image={<EmptyStateIcon className="mx-auto" />}
@@ -245,26 +247,26 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
             <>
               <section
                 className={classnames(
-                  'flex justify-between items-center lg:mb-0 bg-white relative z-[9]',
+                  'relative z-[9] flex items-center justify-between bg-white lg:mb-0',
                   {
-                    'mb-0 px-5 lg:px-0 w-[100%]': isListView,
-                    'lg:absolute lg:m-4 lg:rounded] px-5 lg:px-4 w-[100%] lg:w-[96%]':
+                    'mb-0 w-[100%] px-5 lg:px-0': isListView,
+                    'lg:rounded] w-[100%] px-5 lg:absolute lg:m-4 lg:w-[96%] lg:px-4':
                       !isListView,
                   },
                 )}
               >
-                <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                  {loaded ? (
+                <section className="py-6 text-[20px] font-semibold leading-[24px] text-dark-1000 lg:flex lg:items-center lg:justify-between">
+                  {data ? (
                     <span>
                       {restaurants.length}{' '}
                       <span className="lg:hidden">{t('results')}</span>
                       <span className="hidden lg:inline"> {t('results')}</span>
                     </span>
                   ) : (
-                    <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
+                    <div className="w-40 h-8 rounded animate-pulse bg-dark-200"></div>
                   )}
                 </section>
-                <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
+                <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:mr-0 lg:bg-transparent lg:px-0">
                   <section className="flex items-center gap-4">
                     {isListView && (
                       <DropdownRadio
@@ -281,7 +283,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
                         ]}
                       />
                     )}
-                    <section className="items-center justify-start hidden lg:flex w-[110px] h-[32px]">
+                    <section className="hidden h-[32px] w-[110px] items-center justify-start lg:flex">
                       <AltRadioButtonGroup
                         items={viewTypeFilterItems}
                         value={view as string}
@@ -295,7 +297,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
               </section>
               {isListView && (
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
-                  {loaded ? <DiningData /> : <HorizontalSkeletonList />}
+                  {data ? <DiningData /> : <HorizontalSkeletonList />}
                 </section>
               )}
               {!isListView && (

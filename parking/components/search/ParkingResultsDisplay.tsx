@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { CategoryOption } from '../../../types/search/SearchTypeOptions';
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from '@/icons/assets/empty-state.svg';
@@ -166,73 +167,59 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
 
   const isListView = view !== 'map';
 
+  const TIME_SELECTION_FORMAT = 'hh:mm A';
+  /* if (!startTime || !endTime) { */
+  const thirtyMinutesFromNow = ceilToNextHalfHour(dayjs().add(30, 'minutes'));
+  const anotherThirtyMinutes = thirtyMinutesFromNow.add(30, 'minutes');
+  const start = thirtyMinutesFromNow.format(TIME_SELECTION_FORMAT);
+  const end = anotherThirtyMinutes.format(TIME_SELECTION_FORMAT);
+  /* setQueryParam({
+    startTime: (startTime as string) || start,
+    endTime: (endTime as string) || end,
+  }); */
+  /* } */
+
+  const params: any = {
+    start_date: startDate,
+    end_date: endDate,
+    start_time: dayjs(
+      startTime ? (startTime as string) : (start as string),
+      TIME_SELECTION_FORMAT,
+    ).format('HHmm'),
+    end_time: dayjs(
+      endTime ? (endTime as string) : (end as string),
+      TIME_SELECTION_FORMAT,
+    ).format('HHmm'),
+    latitude,
+    longitude,
+    rsp_fields_set: 'extended',
+    inventory_ids: ' ',
+    apiUrl: '/categories/parking/items/details',
+  };
+
+  const fetchParking = async () => {
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data, isLoading } = useReactQuery(
+    ['parking-search', params],
+    fetchParking,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
+
   const viewChangeHandler = (view: string) => {
     setQueryParam({ view });
   };
 
-  const getCachedParkingResponse = (): Parking[] | null => {
-    const parkingList = localStorage.getItem('parking');
-    if (parkingList) {
-      try {
-        return JSON.parse(parkingList);
-      } catch (err) {
-        console.error(err);
-        return null;
-      }
-    }
-
-    return null;
-  };
-
   useEffect(() => {
-    if (counter !== 0) return;
-    setCounter((p) => p + 1);
-    const hasEmptyValues = checkIfAnyNull([
-      latitude,
-      longitude,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-    ]);
-
-    const TIME_SELECTION_FORMAT = 'hh:mm A';
-    if (!startTime || !endTime) {
-      const thirtyMinutesFromNow = ceilToNextHalfHour(
-        dayjs().add(30, 'minutes'),
-      );
-      const anotherThirtyMinutes = thirtyMinutesFromNow.add(30, 'minutes');
-      const start = thirtyMinutesFromNow.format(TIME_SELECTION_FORMAT);
-      const end = anotherThirtyMinutes.format(TIME_SELECTION_FORMAT);
-      setQueryParam({
-        startTime: (startTime as string) || start,
-        endTime: (endTime as string) || end,
-      });
-    }
-
-    if (hasEmptyValues) return;
-
-    const params: any = {
-      start_date: startDate,
-      end_date: endDate,
-      start_time: dayjs(startTime as string, TIME_SELECTION_FORMAT).format(
-        'HHmm',
-      ),
-      end_time: dayjs(endTime as string, TIME_SELECTION_FORMAT).format('HHmm'),
-      latitude,
-      longitude,
-      rsp_fields_set: 'extended',
-      inventory_ids: ' ',
-      apiUrl: '/categories/parking/items/details',
-    };
-
-    const cachedParkingList = getCachedParkingResponse();
-
-    if (cachedParkingList) {
-      const metadata = getParkingMetadata(cachedParkingList);
-      setParkingList(cachedParkingList);
+    if (data) {
+      const metadata = getParkingMetadata(data.features);
+      setParkingList(data.features);
       setMetadata(metadata);
-
       const maxHeight =
         metadata.heightRestrictionsList[
           metadata.heightRestrictionsList.length - 1
@@ -246,38 +233,8 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
       setMinPrice(metadata.minPrice);
       setMaxPrice(metadata.maxPrice);
       setMaxHeight(maxHeight);
-      setLoaded(true);
-      return;
     }
-
-    setLoaded(false);
-    Searcher?.request(params, i18next)
-      .then((results: ParkingSearchResponseItemResult) => {
-        localStorage.setItem('parking', JSON.stringify(results.features));
-        const metadata = getParkingMetadata(results.features);
-        setParkingList(results.features);
-        setMetadata(metadata);
-
-        const maxHeight =
-          metadata.heightRestrictionsList[
-            metadata.heightRestrictionsList.length - 1
-          ];
-
-        updateFilter({
-          maxHeight,
-          minPrice: metadata.minPrice,
-          maxPrice: metadata.maxPrice,
-        });
-        setMinPrice(metadata.minPrice);
-        setMaxPrice(metadata.maxPrice);
-        setMaxHeight(maxHeight);
-        setLoaded(true);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => setLoaded(true));
-
-    localStorage.setItem('parkingLastSearch', router.asPath || '/');
-  }, [latitude, longitude]);
+  }, [data]);
 
   return (
     <>
@@ -310,7 +267,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
           <section>
             <SearchResultsHeader
               length={filteredList.length}
-              isLoading={!loaded}
+              isLoading={isLoading}
               sortBy={sortBy}
               parkingType={parkingType}
               onParkingTypeChange={onParkingTypeChange}
@@ -320,7 +277,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
               setMobileFilterOpen={setMobileFilterOpen}
             />
           </section>
-          {loaded && filteredList.length === 0 ? (
+          {!isLoading && filteredList.length === 0 ? (
             <EmptyState
               text={t('no parking spots')}
               image={<EmptyStateIcon className="mx-auto" />}
@@ -329,7 +286,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
             <section>
               {isListView && (
                 <section className="w-full h-full px-4 pb-6 lg:px-0">
-                  {!loaded ? (
+                  {isLoading ? (
                     <HorizontalSkeletonList />
                   ) : (
                     <ParkingList parkingList={filteredList} />
@@ -338,7 +295,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
               )}
               {!isListView && (
                 <section className="relative w-full h-full">
-                  {!loaded ? (
+                  {isLoading ? (
                     <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
                       <HorizontalSkeletonCard />
                     </div>

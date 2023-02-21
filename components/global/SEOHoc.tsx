@@ -1,13 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import { useSettings } from 'hooks/services/useSettings';
 
 interface SEOHocProps {
   children?: any;
 }
 
 const SEOHoc = ({ children }: SEOHocProps) => {
-  const { information, images } = useBrandConfig() || {};
+  const { data: brandConfig } = useSettings();
+  const { information, images } = brandConfig;
   const { favicon } = images || {};
   const { partnerName } = information || {};
 

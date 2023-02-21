@@ -1,11 +1,6 @@
 /* eslint-disable camelcase */
 import { i18n } from 'i18next';
-import {
-  CartClientResponse,
-  CartItemRequest,
-  Item,
-  UpdateCartRequest,
-} from 'types/cart/CartType';
+import { Item, UpdateCartRequest } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
 import {
   createCart,
@@ -16,7 +11,6 @@ import { ClientCartGetter } from '../ClientCartGetter';
 import { ClientCartRemover } from '../ClientCartItemRemover';
 import { ClientCartUpdate } from '../ClientCartUpdate';
 import { ClientCartSchema } from '../ClientCartSchema';
-import { getStoreCartId } from 'store/selectors/cart';
 import dayjs from 'dayjs';
 import { ClientCartItemUpdater } from '../ClientCartItemUpdater';
 import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';

@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
 
 import HamburgerMenuButton from 'public/icons/assets/hamburger-menu-button.svg';
@@ -17,6 +16,7 @@ import HeaderDesktop from './components/Menu/HeaderDesktop';
 import ItineraryOverlay from '../../components/itinerary/ItineraryOverlay/ItineraryOverlay';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import { CartObjectResponse } from '../../types/cart/CartType';
+import { useSettings } from 'hooks/services/useSettings';
 
 interface HeaderProps {
   color: string;
@@ -36,7 +36,8 @@ const Header = ({ color }: HeaderProps) => {
     dispatch,
   };
 
-  const { images } = useBrandConfig() || {};
+  const { data: brandConfig } = useSettings();
+  const { images } = brandConfig;
   const { logo } = images || {};
 
   const [cartQty, setCartQty] = useState(0);

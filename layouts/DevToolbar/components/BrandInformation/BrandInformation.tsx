@@ -1,11 +1,12 @@
 import Divider from 'components/global/Divider/Divider';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import { useSettings } from 'hooks/services/useSettings';
 import React from 'react';
 
 import styles from '../InfoSectionStyle.module.scss';
 
 const BrandInformation = () => {
-  const { partnerName, brandCode } = useBrandConfig();
+  const { data: brandConfig } = useSettings();
+  const { partnerName, brandCode } = brandConfig;
 
   return (
     <section className={styles.root}>

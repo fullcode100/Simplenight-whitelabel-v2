@@ -1,7 +1,9 @@
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { HotelSearchRequest } from 'hotels/types/request/HotelSearchRequest';
-import { Hotel, MinRate } from 'hotels/types/response/SearchResponse';
+import { MinRate } from 'hotels/types/response/SearchResponse';
+import { SearchItem } from 'hotels/types/adapters/SearchItem';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
@@ -10,10 +12,8 @@ import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalI
 import HotelMapView from './HotelResultsMapView';
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
-import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
-import { useSelector, useDispatch } from 'react-redux';
 import { createRoom } from 'hotels/helpers/room';
 import HotelItemRateInfo from './HotelItemRateInfo';
 import { sortByAdapter } from 'hotels/adapters/sort-by.adapter';
@@ -25,7 +25,6 @@ import HotelCancellable from './HotelCancellable';
 import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/HorizontalSkeletonCard';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
-import { hotelsSetInitialState } from 'hotels/redux/actions';
 import { useFilterHotels, FilterCriteria } from '../../hooks/useFilterHotels';
 import { ViewActions } from './ViewActions';
 import { DropdownRadio } from 'components/global/DropdownRadio';
@@ -37,6 +36,8 @@ import HotelMobileFilters from './HotelMobileFilters';
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
 }
+
+type FetchHotels = () => Promise<SearchItem[]>;
 
 export type sortByFilters =
   | 'Price (Lowest First)'
@@ -61,7 +62,7 @@ export const initialPriceRange = {
 };
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
-  const [counter, setCounter] = useState(0);
+  const { ClientSearcher: Searcher } = HotelCategory.core;
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
   const [criteria, setCriteria] = useState<FilterCriteria>(
     {} as unknown as FilterCriteria,
@@ -72,8 +73,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const hotelLabel = t('hotel', 'Hotel');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
   const fromLabel = t('from', 'From');
-  const { language } = i18next;
-  const dispatch = useDispatch();
   const {
     adults,
     children,
@@ -95,10 +94,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     slug,
   } = useQuery();
   const [sortByVal, setSortByVal] = useState(priceLowerFirst);
-  const [currency, setCurrency] = useState<string>('');
-  const storeCurrency = useSelector((state: any) => state.core.currency);
-  const { loading, hotels } = useSelector((state: any) => state.hotels);
-  const filteredHotels = useFilterHotels(hotels, criteria);
+  const [hotels, setHotels] = useState<SearchItem[]>([]);
   const [view, setview] = useState('list');
   const windowSize = useWindowSize();
   const isListView = view === 'list';
@@ -117,82 +113,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [maxStarRating, setMaxStarRating] = useState<number>(
     MAX_STAR_RATING_INITIAL_VALUE,
   );
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
-
-  useEffect(() => {
-    if (counter === 0) {
-      const paramRoomsData = roomsData
-        ? JSON.parse(roomsData as string)
-        : [createRoom()];
-      const geolocation = `${latitude},${longitude}`;
-
-      const hasEmptyValues = checkIfAnyNull([
-        rooms,
-        adults,
-        children,
-        startDate,
-        endDate,
-        latitude,
-        longitude,
-      ]);
-      if (hasEmptyValues) return;
-
-      const params: HotelSearchRequest = {
-        rooms: parseQueryNumber(rooms ?? ''),
-        adults: parseQueryNumber(adults ?? ''),
-        children: parseQueryNumber(children ?? ''),
-        start_date: formatAsSearchDate(startDate as unknown as string),
-        end_date: formatAsSearchDate(endDate as unknown as string),
-        dst_geolocation: geolocation as unknown as StringGeolocation,
-        rsp_fields_set: 'basic',
-        sort: sortByAdapter(sortBy as unknown as string),
-        cancellation_type: cancellationTypeAdapter(
-          paymentTypes as unknown as string,
-        ),
-        accommodation_type: propertyTypesAdapter(
-          propertyTypes as unknown as string,
-        ),
-        star_rating: starRating as string,
-        min_price: minPrice as string,
-        max_price: maxPrice as string,
-        is_total_price: isTotalPrice as string,
-        amenities: amenities as string,
-        supplier_ids: supplierIds as string,
-        apiUrl: '/hotels',
-      };
-
-      if (parseQueryNumber(children as string)) {
-        params.children_ages = getChildrenAges(paramRoomsData);
-      }
-      dispatch(hotelsSetInitialState(params, i18next));
-    }
-  }, [
-    adults,
-    children,
-    startDate,
-    endDate,
-    latitude,
-    longitude,
-    rooms,
-    language,
-    currency,
-    sortBy,
-    starRating,
-    minPrice,
-    maxPrice,
-    amenities,
-    counter,
-    roomsData,
-    paymentTypes,
-    propertyTypes,
-    isTotalPrice,
-    supplierIds,
-    dispatch,
-    i18next,
-  ]);
 
   const resetCriteria = () => {
     setCriteria({} as unknown as FilterCriteria);
@@ -217,11 +137,66 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     }
   };
 
-  const urlDetail = (hotel: Hotel) => {
+  const paramRoomsData = roomsData
+    ? JSON.parse(roomsData as string)
+    : [createRoom()];
+  const geolocation = `${latitude},${longitude}`;
+
+  const params: HotelSearchRequest = {
+    rooms: parseQueryNumber(rooms ?? ''),
+    adults: parseQueryNumber(adults ?? ''),
+    children: parseQueryNumber(children ?? ''),
+    start_date: formatAsSearchDate(startDate as unknown as string),
+    end_date: formatAsSearchDate(endDate as unknown as string),
+    dst_geolocation: geolocation as unknown as StringGeolocation,
+    rsp_fields_set: 'basic',
+    sort: sortByAdapter(sortBy as unknown as string),
+    cancellation_type: cancellationTypeAdapter(
+      paymentTypes as unknown as string,
+    ),
+    accommodation_type: propertyTypesAdapter(
+      propertyTypes as unknown as string,
+    ),
+    star_rating: starRating as string,
+    min_price: minPrice as string,
+    max_price: maxPrice as string,
+    is_total_price: isTotalPrice as string,
+    amenities: amenities as string,
+    supplier_ids: supplierIds as string,
+    apiUrl: '/hotels',
+  };
+
+  if (parseQueryNumber(children as string)) {
+    params.children_ages = getChildrenAges(paramRoomsData);
+  }
+
+  const fetchHotels: FetchHotels = async () => {
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data, isLoading } = useReactQuery(
+    ['hotels-search', params],
+    fetchHotels,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
+
+  const filteredHotels = useFilterHotels(hotels, criteria);
+
+  useEffect(() => {
+    if (data) {
+      setHotels(data);
+    }
+  }, [data]);
+
+  const urlDetail = (hotel: SearchItem) => {
     const { id } = hotel;
     return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
-  const hasNoHotels = hotels.length === 0;
+  const hasNoHotels = data?.length === 0;
 
   const checkIfShouldBeShown = () => {
     if (
@@ -234,27 +209,21 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const HotelList = () => (
     <ul role="list" className="space-y-4">
-      {loading ? (
+      {isLoading ? (
         <HorizontalSkeletonList />
       ) : (
         <>
-          {filteredHotels.map((hotel: Hotel) => {
+          {filteredHotels?.map((hotel) => {
             const {
-              details: { name, address, star_rating: starRating },
-              min_rate_room: minRateRoom,
+              details: { name, fullAddress, starRating },
+              minRate,
               thumbnail,
             } = hotel;
 
             const url = urlDetail(hotel);
             const itemKey = hotel.id;
-            const minRate = minRateRoom.rates;
-            const {
-              address1,
-              city,
-              state,
-              country_code: countryCode,
-            } = address ?? {};
-            const formattedLocation = `${[address1, city]
+            const { address, city, state, countryCode } = fullAddress ?? {};
+            const formattedLocation = `${[address, city]
               .filter((item) => item)
               .join(' - ')}${
               [state, countryCode].some((item) => item) ? ',' : ''
@@ -298,7 +267,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
       <section className="lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
           <HotelFilterFormDesktop
-            loading={loading}
+            loading={isLoading}
             handleFilterHotels={setCriteria}
             resetFilters={resetCriteria}
             criteria={criteria}
@@ -317,7 +286,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
           />
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
-          {!loading && hasNoHotels ? (
+          {!isLoading && hasNoHotels ? (
             <EmptyState
               text={noResultsLabel}
               image={<EmptyStateIcon className="mx-auto" />}
@@ -331,7 +300,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                   }`}
                 >
                   <section className=" text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                    {!loading ? (
+                    {!isLoading ? (
                       <span>
                         {filteredHotels.length}
                         <span className="lg:hidden"> {hotelsFoundLabel}</span>
@@ -344,7 +313,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                       <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
                     )}
                   </section>
-                  <section className="flex gap-4 items-center">
+                  <section className="flex items-center gap-4">
                     {checkIfShouldBeShown() && (
                       <DropdownRadio
                         translation="hotels"
@@ -371,7 +340,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
               )}
               {!isListView && (
                 <section className="w-full h-full">
-                  {!loading ? (
+                  {!isLoading ? (
                     <HotelMapView
                       HotelCategory={HotelCategory}
                       items={filteredHotels}

@@ -1,4 +1,4 @@
-import { Hotel } from 'hotels/types/response/SearchResponse';
+import { SearchItem } from 'hotels/types/adapters/SearchItem';
 import { Amount } from 'types/global/Amount';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 
@@ -27,6 +27,6 @@ export interface itemsProps {
 
 export interface MapViewProps {
   HotelCategory: CategoryOption;
-  items: Hotel[];
-  createUrl: (item: Hotel) => string;
+  items: SearchItem[];
+  createUrl: (item: SearchItem) => string;
 }

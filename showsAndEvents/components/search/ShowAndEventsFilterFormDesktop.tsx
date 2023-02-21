@@ -15,6 +15,7 @@ import { useFilterShowsAndEvents } from 'showsAndEvents/hooks/useFilterShowsAndE
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useDispatch } from 'react-redux';
 import { updateShowsAndEventsFilters } from 'showsAndEvents/redux/actions';
+import { ShowsSearchResponse } from '../../types/response/ShowsSearchResponse';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -23,11 +24,13 @@ const Divider = ({ className }: { className?: string }) => (
 interface iShowAndEventsFilterFormDesktop {
   handleHideFilters: () => void;
   isMobile?: boolean;
+  showsAndEvents: ShowsSearchResponse[];
 }
 
 const ShowAndEventsFilterFormDesktop = ({
   handleHideFilters,
   isMobile,
+  showsAndEvents,
 }: iShowAndEventsFilterFormDesktop) => {
   const router = useRouter();
   const setQueryParams = useQuerySetter();
@@ -39,6 +42,7 @@ const ShowAndEventsFilterFormDesktop = ({
   const { handleFilterShowsAndEvents } = useFilterShowsAndEvents(
     latitude as string,
     longitude as string,
+    showsAndEvents,
   );
 
   const initialPriceRange = {
@@ -130,9 +134,9 @@ const ShowAndEventsFilterFormDesktop = ({
     <FilterContainer>
       <section className="flex items-center justify-between">
         <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
-        <section className="items-center flex">
+        <section className="flex items-center">
           <button
-            className="text-base font-semibold capitalize text-primary-1000 underline"
+            className="text-base font-semibold underline capitalize text-primary-1000"
             onClick={handleClearFilters}
           >
             {clearFiltersText}

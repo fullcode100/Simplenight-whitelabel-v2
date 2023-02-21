@@ -1,5 +1,5 @@
+import { SearchItem } from 'hotels/types/adapters/SearchItem';
 import { HotelDetailResponse } from 'hotels/types/response/HotelDetailResponse';
-import { Hotel } from 'hotels/types/response/SearchResponse';
 
 export enum HotelsActionTypes {
   FETCH_REQUEST = '@@hotels/FETCH_REQUEST',
@@ -9,6 +9,6 @@ export enum HotelsActionTypes {
 
 export interface HotelState {
   loading: boolean;
-  hotels: Hotel[];
-  hotel: HotelDetailResponse | Hotel;
+  hotels: SearchItem[];
+  hotel: HotelDetailResponse | SearchItem;
 }

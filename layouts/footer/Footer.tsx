@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useGetTranslation from 'hooks/i18n/useGetTranslation';
 import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import { useSettings } from 'hooks/services/useSettings';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +12,9 @@ const Footer = () => {
   const pathname = router.pathname;
   const isSearchPage = pathname.includes('search');
   const t = useGetTranslation();
-  const { legalInformation, information, images } = useBrandConfig() || {};
+
+  const { data: brandConfig } = useSettings();
+  const { legalInformation, information, images } = brandConfig;
   const { partnerName, corporateLink } = information || {};
   const showPartner = partnerName?.toLowerCase() !== 'simplenight';
   const {
@@ -53,7 +55,7 @@ const Footer = () => {
               <>
                 <ExternalLink
                   href={corporateLink}
-                  className=" uppercase font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000 "
+                  className="font-semibold underline uppercase hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
                 >
                   {partnerName}
                 </ExternalLink>{' '}
@@ -62,7 +64,7 @@ const Footer = () => {
             )}
             <ExternalLink
               href={simplenightCorporateLink}
-              className=" uppercase font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000 "
+              className="font-semibold underline uppercase hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
             >
               Simplenight
             </ExternalLink>{' '}

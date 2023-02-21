@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 
 import PillContainer from './SubCategoryFilter/PillContainer/PillContainer';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import ResultCard from './ResultCard/ResultCard';
-import { thingToDo } from '../../mocks/thingToDoMock';
 import ThingsCancellable from './ThingsCancellable/ThingsCancellable';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchRequest';
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
-import {
-  ThingsSearchItem,
-  Category,
-} from 'thingsToDo/types/response/ThingsSearchResponse';
+import { Category } from 'thingsToDo/types/response/ThingsSearchResponse';
 import Sort from 'public/icons/assets/sort.svg';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import Filter from 'public/icons/assets/filter.svg';
@@ -27,6 +24,9 @@ import { sortByAdapter } from 'thingsToDo/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'thingsToDo/adapters/cancellation-type.adapter';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import useKeywordFilter from 'thingsToDo/hooks/useKeywordFilter';
+import EmptyState from 'components/global/EmptyState/EmptyState';
+import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+
 import Paragraph from 'components/global/Typography/Paragraph';
 import { SearchItem } from 'thingsToDo/types/adapters/SearchItem';
 
@@ -40,13 +40,10 @@ const ThingsResultsDisplay = ({
   const [isOpen, onOpen, onClose] = useModal();
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
-  const [loaded, setLoaded] = useState(false);
 
   const [entertainmentItems, setEntertainmentItems] = useState<SearchItem[]>(
     [],
   );
-  const [unfilteredEntertainmentItems, setUnfilteredEntertainmentItems] =
-    useState<SearchItem[]>([]);
 
   const [showSortModal, setShowSortModal] = useState(false);
   const [sortBy, setSortBy] = useState<string>('recommended');
@@ -58,8 +55,9 @@ const ThingsResultsDisplay = ({
   const sortLabel = tg('sort', 'Sort');
   const filterLabel = tg('filter', 'Filter');
   const resultsLabel = tg('results', 'Results');
+  const noResultsLabel = tg('noResultsSearch', 'No Results Match Your Search');
 
-  const [categoryFilters, setCategoryFilters] = useState<Category[]>([]);
+  const categoryFilters: Category[] = [];
   const [appliedCategoryFilters, setAppliedCategoryFilters] = useState<
     string[]
   >([]);
@@ -103,15 +101,15 @@ const ThingsResultsDisplay = ({
   };
 
   const mapCategoryFilters = (items: SearchItem[]) => {
-    const mappedCategories: Category[] = [];
-    getAllCategories(items, mappedCategories);
-    orderFiltersAlphabetically(mappedCategories);
-    setCategoryFilters(mappedCategories);
+    if (items) {
+      getAllCategories(items, categoryFilters);
+      orderFiltersAlphabetically(categoryFilters);
+    }
   };
 
   const filterResultsByCategory = () => {
     const items: SearchItem[] = [];
-    unfilteredEntertainmentItems.forEach((item: SearchItem) => {
+    data.forEach((item: SearchItem) => {
       if (
         item.categories.some((category) =>
           appliedCategoryFilters.some(
@@ -129,7 +127,7 @@ const ThingsResultsDisplay = ({
     if (appliedCategoryFilters.length > 0) {
       filterResultsByCategory();
     } else {
-      setEntertainmentItems(unfilteredEntertainmentItems);
+      setEntertainmentItems(data);
     }
   }, [appliedCategoryFilters]);
 
@@ -138,92 +136,54 @@ const ThingsResultsDisplay = ({
     keywordSearch as string,
   );
 
+  const params: ThingsSearchRequest = {
+    start_date: formatAsSearchDate(startDate as string),
+    end_date: formatAsSearchDate(endDate as string),
+    dst_geolocation: dstGeolocation as StringGeolocation,
+    rsp_fields_set: 'basic',
+    ...(sortBy != 'recommended' && { sort: sortByAdapter(sortBy) }),
+    ...(minPrice && { min_price: minPrice as string }),
+    ...(maxPrice && { max_price: maxPrice as string }),
+    ...(minRating && { min_rating: minRating as string }),
+    ...(maxRating && { max_rating: maxRating as string }),
+    ...(isTotalPrice && { is_total_price: maxRating as string }),
+    cancellation_type: cancellationTypeAdapter(paymentTypes as string),
+    supplier_ids: '',
+    apiUrl,
+  };
+
+  const fetchThingsToDo = async () => {
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data, isLoading } = useReactQuery(
+    ['thingstodo-search', params],
+    fetchThingsToDo,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
+
+  mapCategoryFilters(data);
+
   useEffect(() => {
-    const params: ThingsSearchRequest = {
-      start_date: formatAsSearchDate(startDate as string),
-      end_date: formatAsSearchDate(endDate as string),
-      dst_geolocation: dstGeolocation as StringGeolocation,
-      rsp_fields_set: 'basic',
-      ...(sortBy != 'recommended' && { sort: sortByAdapter(sortBy) }),
-      ...(minPrice && { min_price: minPrice as string }),
-      ...(maxPrice && { max_price: maxPrice as string }),
-      ...(minRating && { min_rating: minRating as string }),
-      ...(maxRating && { max_rating: maxRating as string }),
-      ...(isTotalPrice && { is_total_price: maxRating as string }),
-      cancellation_type: cancellationTypeAdapter(paymentTypes as string),
-      supplier_ids: '',
-      apiUrl,
-    };
-    setLoaded(false);
-    Searcher?.request?.(params, i18next)
-      .then((items: SearchItem[]) => {
-        setEntertainmentItems(items);
-        setUnfilteredEntertainmentItems(items);
-        mapCategoryFilters(items);
-      })
-      .catch((error) => console.error(error))
-      .then(() => setLoaded(true));
-  }, [startDate, endDate, dstGeolocation, sortBy]);
+    if (data) {
+      setEntertainmentItems(data);
+    }
+  }, [data]);
 
   const urlDetail = (thingsItem: SearchItem) => {
     const { id } = thingsItem;
     return `/detail/${slug}/${id}?startDate=${startDate}&endDate=${endDate}`;
   };
 
-  const ThingsToDoList = () => {
+  const noResults = memoizedEntertainmentItems?.length === 0;
+
+  const ResultsAmountSort = () => {
     return (
-      <ul className="flex flex-col gap-3">
-        {memoizedEntertainmentItems?.map((thingToDo: SearchItem) => {
-          const {
-            id,
-            name,
-            cancellationPolicy,
-            thumbnail,
-            description,
-            rating,
-            rate,
-            reviewAmount,
-            totalAmount,
-          } = thingToDo;
-
-          const url = urlDetail(thingToDo);
-          return (
-            <div key={id}>
-              <ResultCard
-                url={url}
-                icon={ThingsCategory.icon}
-                categoryName={thingsToDoLabel}
-                item={thingToDo}
-                rating={rating}
-                description={description}
-                reviewsAmount={reviewAmount}
-                title={name}
-                image={thumbnail}
-                rate={rate}
-                className=" flex-0-0-auto"
-                cancellable={
-                  cancellationPolicy.cancellation_type ==
-                    'FREE_CANCELLATION' && (
-                    <ThingsCancellable
-                      cancellationPolicy={cancellationPolicy as any}
-                    />
-                  )
-                }
-              />
-            </div>
-          );
-        })}
-      </ul>
-    );
-  };
-
-  return (
-    <div className="relative lg:flex lg:w-full">
-      <FilterModal isOpen={isOpen} onClose={onClose} />
-      <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12">
-        <FilterSidebar />
-      </section>
-      <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
+      <>
         <section
           className={`absolute z-10 border border-dark-300 rounded shadow-container top-12 bg-white w-[335px] right-5 lg:right-20 transition-all duration-500 text-dark-1000 ${
             !showSortModal && 'opacity-0 invisible'
@@ -283,20 +243,88 @@ const ThingsResultsDisplay = ({
             </button>
           </section>
         </section>
-        <div className="block w-full h-px lg:hidden bg-dark-300" />
-        {loaded && (
-          <PillContainer
-            options={categoryFilters}
-            appliedFilters={appliedCategoryFilters}
-            setAppliedFilters={setAppliedCategoryFilters}
-            limit={5}
-          />
-        )}
+      </>
+    );
+  };
 
-        <section className="px-5 py-6">
-          {loaded ? <ThingsToDoList /> : <HorizontalSkeletonList />}
-        </section>
+  const ThingsToDoList = () => {
+    return (
+      <ul className="flex flex-col gap-3 px-5 py-6">
+        {memoizedEntertainmentItems?.map((thingToDo: SearchItem) => {
+          const {
+            id,
+            name,
+            cancellationPolicy,
+            thumbnail,
+            description,
+            rating,
+            rate,
+            reviewAmount,
+          } = thingToDo;
+
+          const url = urlDetail(thingToDo);
+          return (
+            <div key={id}>
+              <ResultCard
+                url={url}
+                icon={ThingsCategory.icon}
+                categoryName={thingsToDoLabel}
+                item={thingToDo}
+                rating={rating}
+                description={description}
+                reviewsAmount={reviewAmount}
+                title={name}
+                image={thumbnail}
+                rate={rate}
+                className=" flex-0-0-auto"
+                cancellable={
+                  cancellationPolicy.cancellation_type ==
+                    'FREE_CANCELLATION' && (
+                    <ThingsCancellable
+                      cancellationPolicy={cancellationPolicy as any}
+                    />
+                  )
+                }
+              />
+            </div>
+          );
+        })}
+      </ul>
+    );
+  };
+
+  return (
+    <div className="relative lg:flex lg:w-full">
+      <FilterModal isOpen={isOpen} onClose={onClose} />
+      <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12">
+        <FilterSidebar />
       </section>
+      {!isLoading && !noResults && (
+        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
+          <ResultsAmountSort />
+          <div className="block w-full h-px lg:hidden bg-dark-300" />
+          {!isLoading && (
+            <PillContainer
+              options={categoryFilters}
+              appliedFilters={appliedCategoryFilters}
+              setAppliedFilters={setAppliedCategoryFilters}
+              limit={5}
+            />
+          )}
+          <ThingsToDoList />
+        </section>
+      )}
+      {isLoading && (
+        <section className="px-5 py-6">
+          <HorizontalSkeletonList />
+        </section>
+      )}
+      {!isLoading && noResults && (
+        <EmptyState
+          text={noResultsLabel}
+          image={<EmptyStateIcon className="mx-auto" />}
+        />
+      )}
       <div className="block w-full h-px lg:hidden bg-dark-300" />
     </div>
   );

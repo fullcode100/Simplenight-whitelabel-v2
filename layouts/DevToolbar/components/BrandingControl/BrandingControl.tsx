@@ -1,14 +1,13 @@
 import React from 'react';
 import Button from 'components/global/Button/Button';
 import Popover from 'components/global/Popover/Popover';
-import PrimaryColorSelector, {
-  BrandColorSelector,
-} from './components/PrimaryColorSelector';
-import { useBrandTheme } from 'hooks/branding/useBrandTheme';
+import { BrandColorSelector } from './components/PrimaryColorSelector';
 import { CoreTheme } from 'types/redux/CoreState';
+import { useSettings } from 'hooks/services/useSettings';
 
 const BrandingControl = () => {
-  const theme = useBrandTheme();
+  const { data: brandConfig } = useSettings();
+  const { theme } = brandConfig;
   const handleStopButtonPropagation = (event: Event) => {
     event.stopPropagation();
   };

@@ -1,7 +1,6 @@
 import useCategories from 'hooks/category/useCategories';
 import { createRef, Dispatch, SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useBrandConfig } from '../../../hooks/branding/useBrandConfig';
 import CategoryList from './components/CategoryList';
 
 const ContinueShopping = ({

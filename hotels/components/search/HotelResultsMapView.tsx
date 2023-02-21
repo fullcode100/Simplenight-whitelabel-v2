@@ -1,11 +1,11 @@
 import MapView from 'hotels/components/search/MapView/MapView';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import { Hotel } from 'hotels/types/response/SearchResponse';
+import { SearchItem } from 'hotels/types/adapters/SearchItem';
 
 interface HotelMapViewProps {
   HotelCategory: CategoryOption;
-  items: Hotel[];
-  createUrl: (item: Hotel) => string;
+  items: SearchItem[];
+  createUrl: (item: SearchItem) => string;
 }
 
 const HotelMapView = ({

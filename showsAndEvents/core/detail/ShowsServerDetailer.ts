@@ -4,8 +4,12 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { NextApiRequestWithSession } from 'types/core/server';
 import { NextApiResponse } from 'next';
 import { AxiosInstance } from 'axios';
-import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
+import {
+  applyApiBaseUrlV2,
+  sendSuccess,
+} from 'apiCalls/config/responseHelpers';
 import { ApiResponse } from 'types/global/Request';
+import { detailAdapter } from 'showsAndEvents/adapters/detail.adapter';
 
 export class ShowsServerDetailer extends ServerDetailer<ShowDetailResponse> {
   public constructor(category: CategoryOption) {
@@ -30,5 +34,17 @@ export class ShowsServerDetailer extends ServerDetailer<ShowDetailResponse> {
     return axios.get<ApiResponse<any, ShowDetailResponse>>(url, {
       params,
     });
+  }
+
+  protected override postRequestResult(
+    request: NextApiRequestWithSession,
+    response: NextApiResponse<ShowDetailResponse>,
+    result: ShowDetailResponse,
+  ): void {
+    if (result) {
+      const adaptedResult = detailAdapter(result);
+      sendSuccess(response, adaptedResult);
+      return;
+    }
   }
 }

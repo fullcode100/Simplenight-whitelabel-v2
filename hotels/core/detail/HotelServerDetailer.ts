@@ -1,3 +1,4 @@
+import { sendSuccess } from 'apiCalls/config/responseHelpers';
 import { applyApiBaseUrlV2 } from 'apiCalls/config/responseHelpers';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { ServerDetailer } from 'core/server/ServerDetailer';
@@ -6,6 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { ApiResponse } from 'types/global/Request';
 import { NextApiRequestWithSession } from 'types/core/server';
+import { detailAdapter } from '../../adapters/detail.adapter';
 
 export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
   public constructor(category: CategoryOption) {
@@ -43,5 +45,9 @@ export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
     result.data.data.hotels[0].nights = result.data.echo_request.nights;
     result.data.data.hotels[0].guests = result.data.echo_request.guests;
     result.data.data.hotels[0].roomsQty = result.data.echo_request.rooms;
+
+    const adaptedResult = detailAdapter(result.data.data.hotels);
+    sendSuccess(response, adaptedResult);
+    return;
   }
 }

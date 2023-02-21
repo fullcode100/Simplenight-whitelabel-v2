@@ -1,4 +1,3 @@
-import { useBrandConfigSetup } from 'hooks/branding/useBrandConfigSetup';
 import { useThemeUpdater } from 'hooks/branding/useThemeUpdater';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import SEOHoc from './SEOHoc';
@@ -14,7 +13,6 @@ const InitAppHOC = ({
   children: any;
   i18next: i18n;
 }) => {
-  useBrandConfigSetup();
   useThemeUpdater();
   useInitialCurrency();
 

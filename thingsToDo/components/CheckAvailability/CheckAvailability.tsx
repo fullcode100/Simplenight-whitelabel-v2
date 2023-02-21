@@ -38,7 +38,7 @@ const CheckThingsAvailability = ({
     activityMinTravelers,
   );
   const [guestsData, setGuestsData] = useState(defaultGuestData);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const ticketTypes: any[] = [];
 
   const {

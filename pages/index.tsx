@@ -12,14 +12,14 @@ import { Tab } from 'components/global/Tabs/types';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
-import { useBrandHeroTitle } from 'hooks/branding/useBrandHeroTitle';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
 import useCategories from 'hooks/category/useCategories';
 import HomeCategoryContent from 'components/global/HomeCategoryContent/HomeCategoryContent';
 import homePageText from 'translations/en/global.json';
+import { useSettings } from 'hooks/services/useSettings';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => {
-  const { homepage } = useBrandConfig() || {};
+  const { data: brandConfig } = useSettings();
+  const { homepage } = brandConfig;
   const { whiteLabelBackground } = homepage || {};
   return (
     <div

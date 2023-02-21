@@ -1,7 +1,4 @@
-import { useSelector } from 'react-redux';
 import { ReactElement } from 'react';
-
-import { getCategories } from 'store/selectors/core';
 
 import BedIcon from 'public/icons/assets/bed.svg';
 import BackpackIcon from 'public/icons/categories/Category-Things.svg';
@@ -25,6 +22,7 @@ import ParkingIcon from 'public/icons/categories/parking-square.svg';
 import TransportIcon from 'public/icons/categories/Category-Transport.svg';
 import Balloon from 'public/icons/categories/ToursActivities.svg';
 import { Category } from 'types/settings/BrandConfig';
+import { useSettings } from 'hooks/services/useSettings';
 
 interface IconsMap {
   [key: string]: ReactElement;
@@ -119,17 +117,20 @@ export interface CategoryInfo {
 }
 
 const useCategories = () => {
-  const categories = useSelector(getCategories);
+  const { data: brandConfig } = useSettings();
+  const categories = brandConfig?.categories;
 
-  const categoriesTabs = categories?.map((category) => {
-    return {
-      name: category.alias,
-      type: getSectorWhitelabelId(category.whitelabelId),
-      slug: category.slug,
-      icon: getCategoryIcon(category.icon),
-      apiUrl: category.apiUrl,
-    };
-  });
+  const categoriesTabs: CategoryInfo[] = categories?.map(
+    (category: Category) => {
+      return {
+        name: category.alias,
+        type: getSectorWhitelabelId(category.whitelabelId),
+        slug: category.slug,
+        icon: getCategoryIcon(category.icon),
+        apiUrl: category.apiUrl,
+      };
+    },
+  );
 
   return categoriesTabs;
 };

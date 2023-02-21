@@ -11,7 +11,6 @@ import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { useCategoryType } from 'hooks/category/useCategory';
-import useCategories from 'hooks/category/useCategories';
 import Paragraph from 'components/global/Typography/Paragraph';
 
 interface ThingItineraryFooterProps {
@@ -29,7 +28,6 @@ const ThingItineraryFooter = ({
   const pathName = router.pathname;
   const dispatch = useDispatch();
   const [g, i18g] = useTranslation('global');
-  const categories = useCategories();
 
   const {
     sector,

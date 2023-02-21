@@ -1,5 +1,9 @@
 import { Rate } from 'types/cart/CartType';
 
+export interface ShowsAndEventsSearchResponse {
+  items: ShowsSearchResponse[];
+}
+
 export interface ShowsSearchResponse {
   id: string;
   name: string;
@@ -27,6 +31,7 @@ export interface ShowsSearchResponse {
     description: string;
     seat_map: string;
     images: [];
+    relation_id: string;
   };
   phone_number: string;
   reviews: {

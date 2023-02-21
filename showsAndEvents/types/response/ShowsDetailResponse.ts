@@ -1,16 +1,18 @@
+import { Address, ExtraData } from '../adapters/SearchItem';
+
 export interface ShowDetailItem {
   id: string;
   name: string;
   main_category: string;
-  extra_data: {
-    starts_at: string;
-  };
+  extra_data: ExtraData;
+  address: Address;
+  cancellation_policy: CancelationPolicy;
+  rate: Rate;
+  thumbnail: string;
 }
 
 export interface ShowDetailResponse {
-  data: {
-    items: ShowDetailItem[];
-  };
+  items: ShowDetailItem[];
 }
 
 export interface Sector {

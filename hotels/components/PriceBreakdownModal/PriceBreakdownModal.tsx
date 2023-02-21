@@ -1,6 +1,7 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
 
 import FullScreenModal from '../../../components/global/NewModal/FullScreenModal';
 import Divider from '../../../components/global/Divider/Divider';
@@ -90,10 +91,17 @@ const PriceBreakdownModal = ({
   const partialRefundable =
     cancellationPolicy?.cancellation_type === partialRefund;
 
-  const handleAction = async (url: string) => {
+  let url = '/itinerary';
+
+  const handleAction = async () => {
     await addToCart(itemToBook, i18next, store);
-    router.replace(url);
   };
+
+  const { mutate } = useMutation(handleAction, {
+    onSuccess: () => {
+      router.push(url);
+    },
+  });
 
   const doubleBeds = services?.double_beds ?? 0;
   const queenBeds = services?.queen_beds ?? 0;
@@ -114,9 +122,12 @@ const PriceBreakdownModal = ({
       closeModal={onClose}
       title={roomDetailsText}
       primaryButtonText={bookNowText}
-      primaryButtonAction={() => handleAction('/checkout/client')}
+      primaryButtonAction={() => {
+        url = '/checkout/client';
+        mutate();
+      }}
       secondaryButtonText={addToItineraryText}
-      secondaryButtonAction={() => handleAction('/itinerary')}
+      secondaryButtonAction={() => mutate()}
       footerSummary={
         <BreakdownSummary
           rate={rates}
@@ -157,22 +168,22 @@ const PriceBreakdownModal = ({
           className="pt-6 text-lg font-semibold text-dark-800"
           value={priceBreakdownText}
         />
-        <section className="flex flex-col h-full py-6 text-start gap-6">
+        <section className="flex flex-col h-full gap-6 py-6 text-start">
           <section className="space-y-4">
             <BreakdownSubtitle
               className="mt-6 text-base font-semibold text-dark-800"
               value={roomLabel}
             />
             <section className="space-y-2">
-              <section className="flex justify-between items-center">
+              <section className="flex items-center justify-between">
                 <p className="font-semibold text-sm leading-[22px] text-dark-800">
                   {basePriceLabel}
                 </p>
 
                 <section className="text-right">
                   {rateBreakdown.discounts && (
-                    <p className="font-semibold text-xs leading-5 text-green-1000">
-                      <span className="line-through text-dark-800 mr-1">
+                    <p className="text-xs font-semibold leading-5 text-green-1000">
+                      <span className="mr-1 line-through text-dark-800">
                         {
                           rateBreakdown.discounts.base_amount_before_apply
                             ?.formatted
@@ -191,7 +202,7 @@ const PriceBreakdownModal = ({
 
                 return (
                   <section
-                    className="flex justify-between items-center"
+                    className="flex items-center justify-between"
                     key={tax.type + index}
                   >
                     <p className="font-semibold text-sm leading-[22px] text-dark-800">
@@ -203,7 +214,7 @@ const PriceBreakdownModal = ({
                   </section>
                 );
               })}
-              <div className="h-px bg-dark-300 w-full"></div>
+              <div className="w-full h-px bg-dark-300"></div>
               <section className="flex justify-between">
                 <p className="font-semibold text-sm leading-[22px] text-dark-1000">
                   {payNowLabel}
@@ -263,7 +274,7 @@ const PriceBreakdownModal = ({
                   {`* ${estimationLabel}`}
                 </p>
               )}
-              <div className="h-px bg-dark-300 w-full"></div>
+              <div className="w-full h-px bg-dark-300"></div>
               <section className="flex justify-between">
                 <p className="font-semibold text-sm leading-[22px] text-dark-1000">
                   {payAtPropertyLabel}

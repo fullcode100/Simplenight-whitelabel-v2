@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useSettings } from 'hooks/services/useSettings';
 import Loader from '../Loader/Loader';
 
 const ConfigLoader = () => {
-  const { brandConfigLoaded } = useSelector((state: any) => state.core);
+  const { isFetched: brandConfigLoaded } = useSettings();
 
   return <>{!brandConfigLoaded && <Loader />}</>;
 };

@@ -1,20 +1,14 @@
-import { useEffect } from 'react';
-import { useBrandTheme } from './useBrandTheme';
+import { useSettings } from 'hooks/services/useSettings';
 
 export const useThemeUpdater = () => {
-  const theme = useBrandTheme() || {};
+  const { data: brandConfig } = useSettings();
+  const { theme } = brandConfig;
   const { primaryColor } = theme || {};
 
-  const updateTheme = () => {
-    if (!primaryColor) return;
-    Object.entries(primaryColor).forEach(([key, value]) => {
-      const cssPropName = `--primary-color-${key}`;
-      const cssPropValue = value as string;
-      document.documentElement.style.setProperty(cssPropName, cssPropValue);
-    });
-  };
-
-  useEffect(() => {
-    updateTheme();
-  }, [theme]);
+  if (!primaryColor) return;
+  Object.entries(primaryColor).forEach(([key, value]) => {
+    const cssPropName = `--primary-color-${key}`;
+    const cssPropValue = value as string;
+    document.documentElement.style.setProperty(cssPropName, cssPropValue);
+  });
 };

@@ -1,12 +1,13 @@
 // Libraries
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 // models
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 // components
 import ResultCard from './ResultCard/ResultCard';
 // mocks
-import ThingsCancellable from './ShowsCancellable/ShowsCancellable';
+import ShowsCancellable from './ShowsCancellable/ShowsCancellable';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import ShowAndEventsFilterFormDesktop from './ShowAndEventsFilterFormDesktop';
 import { ShowsSearchResponse as iShowAndEventsResult } from '../../types/response/ShowsSearchResponse';
@@ -25,8 +26,8 @@ const RESULTS_PER_PAGE = 10;
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { useCategorySlug } from 'hooks/category/useCategory';
-import { useDispatch, useSelector } from 'react-redux';
-import { showsAndEventsSetInitialState } from 'showsAndEvents/redux/actions';
+import { useSelector } from 'react-redux';
+import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
 
 interface ShowsResultsDisplayProps {
   ShowsCategory: CategoryOption;
@@ -53,35 +54,44 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     query,
   } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
-  const { loading, filteredShowsAndEvents } = useSelector(
+  const { filteredShowsAndEvents } = useSelector(
     ({ showsAndEvents }: any) => showsAndEvents,
   );
-  const [sortedShowsEvents, setSortedShowsEvents] = useState<
-    iShowAndEventsResult[]
-  >([]);
+  const [sortedShowsEvents, setSortedShowsEvents] = useState<SearchItem[]>([]);
   const [sortBy, setSortBy] = useState<any>(SORT_BY_OPTIONS?.[0].value || '');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const [gt] = useTranslation('global');
   const noResultsLabel = gt('noResultsSearch', 'No Results Match Your Search.');
 
-  const dispatch = useDispatch();
+  const { ClientSearcher: Searcher } = ShowsCategory.core;
 
-  useEffect(() => {
-    const params: ShowsSearchRequest = {
-      start_date: formatAsSearchDate(startDate as string),
-      end_date: formatAsSearchDate(endDate as string),
-      dst_geolocation: dstGeolocation as StringGeolocation,
-      rsp_fields_set: 'basic',
-      min_price: minPrice as string,
-      max_price: maxPrice as string,
-      radius: distance as string,
-      seats: seats as string,
-      query: query as string,
-      apiUrl,
-    };
-    dispatch(showsAndEventsSetInitialState(params, i18next));
-  }, [startDate, endDate, dstGeolocation, distance, seats, maxPrice, minPrice]);
+  const params: ShowsSearchRequest = {
+    start_date: formatAsSearchDate(startDate as string),
+    end_date: formatAsSearchDate(endDate as string),
+    dst_geolocation: dstGeolocation as StringGeolocation,
+    rsp_fields_set: 'basic',
+    min_price: minPrice as string,
+    max_price: maxPrice as string,
+    radius: distance as string,
+    seats: seats as string,
+    query: query as string,
+    apiUrl,
+  };
+
+  const fetchShowsAndEvents = async () => {
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data, isLoading } = useReactQuery(
+    ['showsandevents-search', params],
+    fetchShowsAndEvents,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
 
   const lowestPriceItems = useMemo(() => {
     return [...filteredShowsAndEvents].sort(
@@ -137,79 +147,63 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   };
 
   const ThingsToDoList = () => {
-    const urlDetail = (thingToDo: iShowAndEventsResult) => {
-      const { id } = thingToDo;
+    const urlDetail = (showEvent: SearchItem) => {
+      const { id } = showEvent;
 
       return `/detail/${slug}/${id}?fromDate=${startDate}&toDate=${endDate}`;
     };
     return (
-      // eslint-disable-next-line react/jsx-no-comment-textnodes
       <ul>
-        {sortedShowsEvents &&
-          sortedShowsEvents
-            ?.slice(0, next)
-            .map((thingToDo: iShowAndEventsResult, index) => {
-              const url = urlDetail(thingToDo);
-              const {
-                id,
-                name,
-                address,
-                tags,
-                images,
-                fromDate,
-                toDate,
-                cancellation_policy: cancellationPolicy,
-                rate,
-                extra_data: extraData,
-                thumbnail,
-              } = thingToDo;
-              const {
-                address1,
-                city,
-                state,
-                country_code: countryCode,
-              } = address ?? {};
-              const formattedLocation = `${[address1, city]
-                .filter((item) => item)
-                .join(' - ')}${
-                [state, countryCode].some((item) => item) ? ',' : ''
-              } ${[state, countryCode].filter((item) => item).join(', ')}`;
-              return (
-                <li key={id}>
-                  <ResultCard
-                    url={url}
-                    icon={ShowsCategory.icon}
-                    categoryName={thingsToDoLabel}
-                    item={thingToDo}
-                    title={name}
-                    images={images}
-                    address={formattedLocation}
-                    className=" flex-0-0-auto"
-                    fromDate={extraData.starts_at}
-                    toDate={toDate}
-                    tags={tags}
-                    index={index}
-                    thumbnail={thumbnail}
-                    cancellable={
-                      <ThingsCancellable
-                        cancellationPolicy={cancellationPolicy}
-                      />
-                    }
-                    priceDisplay={
-                      <PriceDisplay
-                        rate={rate}
-                        totalLabel={`${rate.total.net.formatted}`}
-                      />
-                    }
+        {sortedShowsEvents?.slice(0, next).map((showEvent: SearchItem) => {
+          const url = urlDetail(showEvent);
+          const {
+            id,
+            name,
+            address,
+            cancellationType,
+            rate,
+            extraData,
+            thumbnail,
+          } = showEvent;
+          const {
+            address1,
+            city,
+            state,
+            country_code: countryCode,
+          } = address ?? {};
+          const formattedLocation = `${[address1, city]
+            .filter((item) => item)
+            .join(' - ')}${
+            [state, countryCode].some((item) => item) ? ',' : ''
+          } ${[state, countryCode].filter((item) => item).join(', ')}`;
+          return (
+            <li key={id}>
+              <ResultCard
+                url={url}
+                icon={ShowsCategory.icon}
+                categoryName={thingsToDoLabel}
+                item={showEvent}
+                title={name}
+                address={formattedLocation}
+                fromDate={extraData.starts_at}
+                thumbnail={thumbnail}
+                cancellationType={cancellationType}
+                priceDisplay={
+                  <PriceDisplay
+                    rate={rate}
+                    totalLabel={`${rate.total.net.formatted}`}
                   />
-                </li>
-              );
-            })}
+                }
+              />
+            </li>
+          );
+        })}
       </ul>
     );
   };
+
   return (
-    <div className="pt-2 lg:pt-6 px-4">
+    <div className="px-4 pt-2 lg:pt-6">
       <section className="lg:flex lg:w-full">
         <section
           className={classnames(
@@ -223,10 +217,11 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
           <ShowAndEventsFilterFormDesktop
             handleHideFilters={() => setShowMobileFilters(false)}
             isMobile={showMobileFilters}
+            showsAndEvents={data || []}
           />
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
-          {!loading && sortedShowsEvents.length ? (
+          {!isLoading && sortedShowsEvents.length ? (
             <>
               <section className="block">
                 <>
@@ -242,7 +237,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
               <ThingsToDoList />
               {!isListView && (
                 <section className="relative w-full h-full">
-                  {!loading ? (
+                  {!isLoading ? (
                     <LocationMap center={coordinates} />
                   ) : (
                     <HorizontalSkeletonList />
@@ -262,8 +257,8 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
             </>
           ) : (
             <>
-              {!loading ? (
-                <section className="flex w-full justify-center items-center">
+              {!isLoading ? (
+                <section className="flex items-center justify-center w-full">
                   <EmptyState
                     text={noResultsLabel}
                     image={<EmptyStateIcon className="mx-auto" />}

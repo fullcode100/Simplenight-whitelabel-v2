@@ -1,22 +1,23 @@
 /* eslint-disable camelcase */
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import LocationMap from 'components/global/LocationMap/LocationMap';
-import { Address } from 'hotels/types/response/SearchResponse';
+import { Address } from 'hotels/types/adapters/DetailItem';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { useTranslation } from 'react-i18next';
 
 interface LocationSectionProps {
-  address: Address;
+  fullAddress: Address;
 }
 
-const LocationSection = ({ address }: LocationSectionProps) => {
+const LocationSection = ({ fullAddress }: LocationSectionProps) => {
   const [t, i18n] = useTranslation('hotels');
   const locationLabel = t('location', 'Location');
-  const { coordinates, address1, country, country_code, postal_code } = address;
+  const { coordinates, address, country, countryCode, postalCode } =
+    fullAddress;
 
   return (
-    <section className="py-6 px-5 lg:px-0 lg:py-0">
-      <section className="flex justify-between place-items-center mb-5 lg:mb-8">
+    <section className="px-5 py-6 lg:px-0 lg:py-0">
+      <section className="flex justify-between mb-5 place-items-center lg:mb-8">
         <p className="flex items-center gap-3">
           <IconRoundedContainer isLarge className="bg-primary-1000">
             <LocationPin className="text-white h-5 w-5 lg:h-[30px] lg:w-[30px]" />
@@ -25,12 +26,12 @@ const LocationSection = ({ address }: LocationSectionProps) => {
             {locationLabel}
           </span>
         </p>
-        <p className="text-dark-1000 text-right">
-          <p>{address1}</p>
+        <p className="text-right text-dark-1000">
+          <p>{address}</p>
           <p>
             {country}
-            {country_code && `, ${country_code}`}
-            {postal_code && `, ${postal_code} `}
+            {countryCode && `, ${countryCode}`}
+            {postalCode && `, ${postalCode} `}
           </p>
         </p>
       </section>

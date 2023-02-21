@@ -11,6 +11,7 @@ import { ShowsSearchResponse } from 'showsAndEvents/types/response/ShowsSearchRe
 import { useCategorySlug } from 'hooks/category/useCategory';
 import CardShowSkeleton from './components/CardShowSkeleton';
 import { ShowsSearchResponse as iShowAndEventsResult } from '../../types/response/ShowsSearchResponse';
+import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
 
 interface TrendingCarouselProps {
   Category: CategoryOption;
@@ -42,7 +43,7 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
     };
     Searcher?.request?.(params, i18next)
       .then((data) => {
-        setItems(data.items);
+        setItems(data);
       })
       .finally(() => {
         setLoading(false);
@@ -50,24 +51,23 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
   }, []);
 
   return (
-    <section className="flex flex-col gap-4 lg:mx-auto max-w-xs lg:max-w-7xl lg:gap-4 lg:flex-col w-full">
+    <section className="flex flex-col w-full max-w-xs gap-4 lg:mx-auto lg:max-w-7xl lg:gap-4 lg:flex-col">
       <h5 className="text-dark-800">{title}</h5>
       <section className={'flex flex-col'}>
         <CustomCarousel>
           {loading
             ? [...Array(4)].map((i, e) => <CardShowSkeleton key={e} />)
-            : items.map((item: ShowsSearchResponse, index) => {
+            : items?.map((item: SearchItem, index) => {
                 const urlDetail = ({
                   id,
-                  extra_data: { starts_at: startsAt },
-                }: iShowAndEventsResult) => {
+                  extraData: { starts_at: startsAt },
+                }: SearchItem) => {
                   return `/detail/shows-events/${id}?fromDate=${startsAt}`;
                 };
                 const url = urlDetail(item);
                 const {
                   id,
                   name,
-                  address,
                   rate: {
                     total: {
                       net: { currency, formatted },
@@ -75,12 +75,6 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
                   },
                   thumbnail,
                 } = item;
-                const {
-                  address1,
-                  city,
-                  state,
-                  country_code: countryCode,
-                } = address ?? {};
                 return (
                   <CardShow
                     key={id}

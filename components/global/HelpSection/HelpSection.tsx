@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import { useSettings } from 'hooks/services/useSettings';
 
 import EmailIcon from 'public/icons/assets/email.svg';
 import PhoneCall from 'public/icons/assets/phone-call.svg';
@@ -21,7 +21,8 @@ const HelpSection = ({
   const helpTitle = t('needHelpTitle', 'Need Some Help?');
   const helpDescription = t('needHelpDescription', 'Contact Us For Support.');
 
-  const { information } = useBrandConfig() || {};
+  const { data: brandConfig } = useSettings();
+  const { information } = brandConfig;
   const { customerSupportEmail, customerSupportPhone } = information || {};
   const { prefix, number } = customerSupportPhone || {};
   const customerSupportPhoneNumber = `${prefix} ${number}`;

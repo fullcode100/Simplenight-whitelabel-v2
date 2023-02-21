@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { CategoryPageComponentProps } from '../../../types/global/CategoryPageComponent';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
 import { useTranslation } from 'react-i18next';
@@ -26,34 +27,52 @@ export const ParkingDetailDisplay: FC<CategoryPageComponentProps> = ({
   const [t, i18next] = useTranslation('hotels');
 
   const [parking, setParking] = useState<Parking | null>(null);
-  const [loaded, setLoaded] = useState<boolean>(false);
+
+  const params = {
+    start_date: startDate,
+    end_date: endDate,
+    start_time: dayjs(startTime as string, 'hh:mm A').format('HHmm'),
+    end_time: dayjs(endTime as string, 'hh:mm A').format('HHmm'),
+    apiUrl: '/categories/parking/items/details',
+  };
+
+  const fetchParking = async () => {
+    try {
+      const data = await Category.core.ClientDetailer?.request(
+        params,
+        i18next,
+        id,
+      );
+
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data: item, isLoading } = useReactQuery(
+    ['parking-detail', params, id],
+    fetchParking,
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    },
+  );
 
   useEffect(() => {
-    const params = {
-      start_date: startDate,
-      end_date: endDate,
-      start_time: dayjs(startTime as string, 'hh:mm A').format('HHmm'),
-      end_time: dayjs(endTime as string, 'hh:mm A').format('HHmm'),
-      apiUrl: '/categories/parking/items/details',
-    };
-
-    Category.core.ClientDetailer?.request(params, i18next, id).then(
-      (results) => {
-        if (results?.parking) {
-          setParking(results.parking);
-        }
-        setLoaded(true);
-      },
-    );
-  }, []);
+    if (item) {
+      setParking(item.parking);
+    }
+  }, [item]);
 
   return (
     <>
-      {loaded && parking && (
+      {!isLoading && parking && (
         <ParkingDetails parking={parking} category={Category} />
       )}
 
-      {!loaded && (
+      {isLoading && (
         <section className="lg:pt-14">
           <Loader />
         </section>

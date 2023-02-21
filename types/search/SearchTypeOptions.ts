@@ -38,7 +38,7 @@ export interface CategoryOption {
 }
 
 export interface CategoryStore {
-  actions: CategoryStoreActions;
+  actions?: CategoryStoreActions;
   reducer: any;
 }
 

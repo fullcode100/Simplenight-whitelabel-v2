@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
+import { useMutation } from '@tanstack/react-query';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface RoomProps {
@@ -15,7 +15,6 @@ interface RoomProps {
 
 const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   const router = useRouter();
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -34,11 +33,17 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   const tRooms = t('rooms', 'Rooms');
   const ROOM_TEXT = usePlural(rooms, tRoom, tRooms);
 
-  const handleAction = async (url: string) => {
-    setIsDisabled(true);
+  let url = '/itinerary';
+
+  const handleAction = async () => {
     await addToCart(itemToBook, i18next, store);
-    router.replace(url);
   };
+
+  const { mutate, isLoading } = useMutation(handleAction, {
+    onSuccess: () => {
+      router.push(url);
+    },
+  });
 
   return (
     <footer className="px-4 py-4">
@@ -48,16 +53,19 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
           size="full"
           type="outlined"
           textColor="primary"
-          onClick={() => handleAction('/itinerary')}
+          onClick={() => mutate()}
           className="text-base font-semibold leading-base"
-          disabled={isDisabled}
+          disabled={isLoading}
         />
         <Button
           value={`${bookText} ${rooms} ${ROOM_TEXT}`}
           size="full"
-          onClick={() => handleAction('/checkout/client')}
+          onClick={() => {
+            url = '/checkout/client';
+            mutate();
+          }}
           className="text-base font-semibold leading-base"
-          disabled={isDisabled}
+          disabled={isLoading}
         />
       </section>
     </footer>

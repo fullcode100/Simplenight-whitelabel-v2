@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { ShowsSearchResponse as iShowAndEventsResult } from 'showsAndEvents/types/response/ShowsSearchResponse';
 import {
   updateShowsAndEvents,
   updateShowsAndEventsFilters,
 } from 'showsAndEvents/redux/actions';
 import { useEffect } from 'react';
+import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
 
 export type availableFilters =
   | 'minPrice'
@@ -17,109 +17,111 @@ export type availableFilters =
 export const useFilterShowsAndEvents = (
   latitude: string,
   longitude: string,
+  showsAndEvents: any,
 ) => {
-  const { showsAndEvents, filters } = useSelector(
-    ({ showsAndEvents }: any) => showsAndEvents,
-  );
+  const { filters } = useSelector(({ showsAndEvents }: any) => showsAndEvents);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let filterResults = [...showsAndEvents];
-    for (const filterToApply in filters) {
-      if (filters[filterToApply]) {
-        switch (filterToApply) {
-          case 'minPrice':
-            {
-              filterResults = filterResults.filter(
-                ({ rate }: iShowAndEventsResult) =>
-                  rate.total.net.amount >= Number(filters[filterToApply]),
-              );
-            }
-            break;
-          case 'maxPrice':
-            {
-              filterResults = filterResults.filter(
-                ({ rate }: iShowAndEventsResult) =>
-                  rate.total.net.amount <= Number(filters[filterToApply]),
-              );
-            }
-            break;
-          case 'minSeats':
-            {
-              filterResults = filterResults.filter(
-                ({ extra_data: extraData }: iShowAndEventsResult) =>
-                  extraData.ticket_count >= Number(filters[filterToApply]),
-              );
-            }
-            break;
-          case 'maxSeats':
-            {
-              filterResults = filterResults.filter(
-                ({ extra_data: extraData }: iShowAndEventsResult) =>
-                  extraData.ticket_count <= Number(filters[filterToApply]),
-              );
-            }
-            break;
-          case 'minDistance':
-            {
-              filterResults = filterResults.map((filterResult) => {
-                const {
-                  address: {
-                    coordinates: {
-                      latitude: showAndEventLatitude,
-                      longitude: showAndEventLongitude,
-                    },
-                  },
-                } = filterResult;
-                const distance = getDistance(
-                  Number(latitude),
-                  Number(longitude),
-                  Number(showAndEventLatitude),
-                  Number(showAndEventLongitude),
+    if (showsAndEvents) {
+      let filterResults = [...showsAndEvents];
+      for (const filterToApply in filters) {
+        if (filters[filterToApply]) {
+          switch (filterToApply) {
+            case 'minPrice':
+              {
+                filterResults = filterResults.filter(
+                  ({ rate }: SearchItem) =>
+                    rate.total.net.amount >= Number(filters[filterToApply]),
                 );
-                return {
-                  ...filterResult,
-                  distance,
-                };
-              });
-              filterResults = filterResults.filter(
-                ({ distance }) => distance >= Number(filters[filterToApply]),
-              );
-            }
-            break;
-          case 'maxDistance':
-            {
-              filterResults = filterResults.map((filterResult) => {
-                const {
-                  address: {
-                    coordinates: {
-                      latitude: showAndEventLatitude,
-                      longitude: showAndEventLongitude,
-                    },
-                  },
-                } = filterResult;
-                const distance = getDistance(
-                  Number(latitude),
-                  Number(longitude),
-                  Number(showAndEventLatitude),
-                  Number(showAndEventLongitude),
+              }
+              break;
+            case 'maxPrice':
+              {
+                filterResults = filterResults.filter(
+                  ({ rate }: SearchItem) =>
+                    rate.total.net.amount <= Number(filters[filterToApply]),
                 );
-                return {
-                  ...filterResult,
-                  distance,
-                };
-              });
-              filterResults = filterResults.filter(({ distance }) => {
-                return distance <= Number(filters[filterToApply]);
-              });
-            }
-            break;
-          default:
-            break;
+              }
+              break;
+            case 'minSeats':
+              {
+                filterResults = filterResults.filter(
+                  ({ extraData }: SearchItem) =>
+                    extraData.ticket_count >= Number(filters[filterToApply]),
+                );
+              }
+              break;
+            case 'maxSeats':
+              {
+                filterResults = filterResults.filter(
+                  ({ extraData }: SearchItem) =>
+                    extraData.ticket_count <= Number(filters[filterToApply]),
+                );
+              }
+              break;
+            case 'minDistance':
+              {
+                filterResults = filterResults.map((filterResult) => {
+                  const {
+                    address: {
+                      coordinates: {
+                        latitude: showAndEventLatitude,
+                        longitude: showAndEventLongitude,
+                      },
+                    },
+                  } = filterResult;
+                  const distance = getDistance(
+                    Number(latitude),
+                    Number(longitude),
+                    Number(showAndEventLatitude),
+                    Number(showAndEventLongitude),
+                  );
+                  return {
+                    ...filterResult,
+                    distance,
+                  };
+                });
+                filterResults = filterResults.filter(
+                  ({ distance }) => distance >= Number(filters[filterToApply]),
+                );
+              }
+              break;
+            case 'maxDistance':
+              {
+                filterResults = filterResults.map((filterResult) => {
+                  const {
+                    address: {
+                      coordinates: {
+                        latitude: showAndEventLatitude,
+                        longitude: showAndEventLongitude,
+                      },
+                    },
+                  } = filterResult;
+                  const distance = getDistance(
+                    Number(latitude),
+                    Number(longitude),
+                    Number(showAndEventLatitude),
+                    Number(showAndEventLongitude),
+                  );
+                  return {
+                    ...filterResult,
+                    distance,
+                  };
+                });
+                filterResults = filterResults.filter(({ distance }) => {
+                  return distance <= Number(filters[filterToApply]);
+                });
+              }
+              break;
+            default:
+              break;
+          }
         }
       }
+      dispatch(updateShowsAndEvents(filterResults));
     }
-    dispatch(updateShowsAndEvents(filterResults));
   }, [filters, showsAndEvents]);
 
   const handleFilterShowsAndEvents = (

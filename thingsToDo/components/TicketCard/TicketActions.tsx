@@ -6,6 +6,7 @@ import Button from 'components/global/ButtonNew/Button';
 
 import { addToCart } from 'core/client/services/CartClientService';
 import { CartItemRequest } from 'types/cart/CartType';
+import { useMutation } from '@tanstack/react-query';
 
 interface TicketActionsProps {
   itemToBook: CartItemRequest;
@@ -34,25 +35,35 @@ const TicketActions = ({
     dispatch,
   };
 
-  const handleAction = async (url: string) => {
+  let url = '/itinerary';
+
+  const handleAction = async () => {
     await addToCart(itemToBook, i18next, store);
-    router.push(url);
   };
+
+  const { mutate, isLoading } = useMutation(handleAction, {
+    onSuccess: () => {
+      router.push(url);
+    },
+  });
 
   return (
     <section className="flex gap-3">
       <Button
         type="outlined"
         width="w-full"
-        disabled={timeNotSelected}
-        onClick={() => handleAction('/itinerary')}
+        disabled={timeNotSelected || isLoading}
+        onClick={() => mutate()}
       >
         {addToItineraryText}
       </Button>
       <Button
         width="w-full"
-        disabled={timeNotSelected}
-        onClick={() => handleAction('/checkout/client')}
+        disabled={timeNotSelected || isLoading}
+        onClick={() => {
+          url = '/checkout/client';
+          mutate();
+        }}
       >
         {bookText} {numberTickets} {ticketsText}
       </Button>

@@ -1,11 +1,11 @@
 import { Reducer } from 'redux';
-import { Hotel } from 'hotels/types/response/SearchResponse';
 import { HotelsActionTypes } from './types';
+import { SearchItem } from 'hotels/types/adapters/SearchItem';
 
 const initialState = {
   loading: false,
   hotels: [],
-  hotel: {} as Hotel,
+  hotel: {} as SearchItem,
 };
 
 const hotelReducer: Reducer<typeof initialState> = (
@@ -23,8 +23,8 @@ const hotelReducer: Reducer<typeof initialState> = (
       return {
         ...state,
         loading: action.loading,
-        hotels: action.hotels.hotels,
-        filteredHotels: action.hotels.hotels,
+        hotels: action.hotels,
+        filteredHotels: action.hotels,
       };
     case HotelsActionTypes.FETCH_ERROR:
       return {

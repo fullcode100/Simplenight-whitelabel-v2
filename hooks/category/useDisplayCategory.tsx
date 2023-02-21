@@ -1,8 +1,7 @@
-import { useSelector } from 'react-redux';
-import { getCategories } from 'store/selectors/core';
+import useCategories from './useCategories';
 
 const useDisplayCategory = () => {
-  const categories = useSelector(getCategories);
+  const categories = useCategories();
   const displayCategories = categories?.length > 1;
 
   return displayCategories;

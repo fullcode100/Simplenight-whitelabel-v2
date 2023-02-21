@@ -44,7 +44,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const endDateText = t('leaving', 'End Date');
 
   const params = useQuery();
-  console.log({ params });
+
   const setQueryParam = useQuerySetter();
   const [address, setAddress] = useState<string | undefined>(
     params.address ? decodeURIComponent(params.address as string) : '',

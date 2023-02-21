@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useState } from 'react';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { NextPage } from 'next';
 import { useTranslation } from 'react-i18next';
 
@@ -7,24 +9,36 @@ import ConfirmationHeader from 'components/confirmation/ConfirmationHeader/Confi
 import ConfirmationPayment from 'components/confirmation/ConfirmationPayment/ConfirmationPayment';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { getBookingId } from 'core/client/services/BookingService';
-import { Booking } from 'types/booking/bookingType';
 import Loader from 'components/global/Loader/Loader';
 import ConfirmationCancelled from 'components/confirmation/ConfirmationCancelled/ConfirmationCancelled';
 import ConfirmationBooked from 'components/confirmation/ConfirmationBooked/ConfirmationBooked';
-import { useBrandConfig } from 'hooks/branding/useBrandConfig';
+import { useSettings } from 'hooks/services/useSettings';
 
 import EmailIcon from 'public/icons/assets/email.svg';
 import PhoneCall from 'public/icons/assets/phone-call.svg';
 
 const Confirmation: NextPage = () => {
-  const [booking, setBooking] = useState<Booking | undefined>(undefined);
-  const [bookingId, setBookingId] = useState('');
+  // const [booking, setBooking] = useState<Booking | undefined>(undefined);
+  const { bookingId: bookingIdParams, lookup } = useQuery();
+  const bookingId = bookingIdParams?.toString() || '';
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [t, i18next] = useTranslation('global');
 
-  const { bookingId: bookingIdParams, lookup } = useQuery();
   const fromLookup = lookup == 'true';
+
+  const { data: booking, isLoading } = useReactQuery(
+    ['booking', bookingId],
+    async () => {
+      const data = await getBookingId(i18next, bookingId);
+      return data?.booking;
+    },
+    {
+      retry: false,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const flatBookingItems = booking?.items
     .map((item) => (item.item_data ? item : item))
@@ -38,24 +52,6 @@ const Confirmation: NextPage = () => {
 
   const itemsAmount = bookedItemsAmount + cancelledItemsAmount;
 
-  useEffect(() => {
-    setBookingId(bookingIdParams?.toString() || '');
-  }, [bookingIdParams]);
-
-  useEffect(() => {
-    if (bookingId) {
-      setLoading(true);
-      getBookingId(i18next, bookingId)
-        .then((response) => {
-          if (response?.booking) {
-            setBooking(response?.booking);
-          }
-          setLoading(false);
-        })
-        .catch((error) => console.error(error));
-    }
-  }, [bookingId, reload]);
-
   const HelpSection = () => {
     const [t, i18next] = useTranslation('global');
     const helpTitle = t('needHelpTitle', 'Need some help?');
@@ -64,7 +60,8 @@ const Confirmation: NextPage = () => {
       'Email or call us to get support from our team.',
     );
 
-    const { information } = useBrandConfig();
+    const { data: brandConfig } = useSettings();
+    const { information } = brandConfig;
     const { customerSupportEmail, customerSupportPhone } = information || {};
     const { prefix, number } = customerSupportPhone || {};
     const customerSupportPhoneNumber = `${prefix} ${number}`;
@@ -115,7 +112,7 @@ const Confirmation: NextPage = () => {
 
   return (
     <main>
-      {loading ? (
+      {isLoading ? (
         <section className="p-5">
           <Loader />
         </section>

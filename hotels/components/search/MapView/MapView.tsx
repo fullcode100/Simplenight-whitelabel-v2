@@ -24,7 +24,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
   };
 
   const currentItem = items?.[activeItem];
-  const coordinates = currentItem?.details?.address?.coordinates;
+  const coordinates = currentItem?.details?.fullAddress?.coordinates;
 
   const responsive = {
     superLargeDesktop: {
@@ -61,7 +61,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
           zoom={17}
           height={575}
         />
-        <section className="absolute w-full bottom-0">
+        <section className="absolute bottom-0 w-full">
           <Carousel
             partialVisible={false}
             responsive={responsive}
@@ -71,13 +71,13 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
             beforeChange={handleBeforeCarouselChange}
             customLeftArrow={
               <CustomArrow
-                className="z-10 absolute left-0 -translate-y-7"
+                className="absolute left-0 z-10 -translate-y-7"
                 position="left"
               />
             }
             customRightArrow={
               <CustomArrow
-                className="z-10 absolute right-0 -translate-y-7"
+                className="absolute right-0 z-10 -translate-y-7"
                 position="right"
               />
             }
@@ -85,16 +85,15 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
             {items.map((item, index) => {
               const {
                 id,
-                details: { name, address, star_rating: starRating },
-                min_rate_room: minRateRoom,
+                details: { name, fullAddress, starRating },
+                minRate,
                 thumbnail,
               } = item;
 
               const url = createUrl(item);
               const itemKey = id + index;
               const isNext = index === nextItem;
-              const minRate = minRateRoom.rates;
-              const formattedLocation = `${address?.address1}, ${address?.country_code}, ${address?.postal_code}`;
+              const formattedLocation = `${fullAddress?.address}, ${fullAddress?.countryCode}, ${fullAddress?.postalCode}`;
 
               const cardClassName = classnames(
                 'flex-0-0-auto transition-all duration-300',

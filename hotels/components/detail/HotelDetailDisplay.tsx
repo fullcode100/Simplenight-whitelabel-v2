@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import Button from 'components/global/Button/Button';
 import Rating from 'components/global/Rating/Rating';
 import {
@@ -10,7 +12,7 @@ import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
 import initialState from './utils/initialState';
 import { HotelDetailPreRequest } from 'hotels/types/request/HotelDetailRequest';
 import { Occupancy } from 'hotels/types/response/HotelDetailResponse';
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 
@@ -24,15 +26,9 @@ import LocationSection from '../location/LocationSection';
 import SeeMore from 'components/global/ReadMore/SeeMore';
 import RoomsSection from 'hotels/components/Rooms/RoomsSection';
 import Divider from '../../../components/global/Divider/Divider';
-import {
-  Hotel,
-  HotelSearchResponse,
-} from 'hotels/types/response/SearchResponse';
 import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import InformationIcon from 'public/icons/assets/information.svg';
-import { useSelector } from 'react-redux';
-import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
@@ -44,12 +40,12 @@ import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { createRoom } from 'hotels/helpers/room';
 import { getReferral } from '../../helpers/getReferral';
 import useCookies from 'hooks/localStorage/useCookies';
-import Script from 'next/script';
 import InstructionsSection from '../Instructions/InstructionsSection';
+import { detailAdapter } from '../../adapters/detail.adapter';
+import { DetailItem } from 'hotels/types/adapters/DetailItem';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
-
-declare let window: CustomWindow;
+type FetchHotel = () => Promise<DetailItem>;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const params = useQuery();
@@ -65,9 +61,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     searchStartDate,
     endDate,
     rooms,
-    ADULT_TEXT,
-    CHILDREN_TEXT,
-    ROOMS_TEXT,
   } = useSearchQueries();
 
   useEffect(() => {
@@ -82,78 +75,91 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     }
   }, [referralParam]);
 
+  const initialStateAdapted = detailAdapter(initialState);
+
   const roomRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
   const amenitiesRef = useRef<HTMLDivElement>(null);
   const [displaySeeMore, setDisplaySeeMore] = useState(true);
   const [descriptionHeight, setDescriptionHeight] = useState(232);
-  const [loaded, setLoaded] = useState(false);
-  const [hotel, setHotel] = useState<Hotel>(initialState[0]);
+  const [hotel, setHotel] = useState<DetailItem>(initialStateAdapted);
   const [emptyState, setEmptyState] = useState<boolean>(false);
 
   const {
-    details: { name, address, description, star_rating: starRating },
+    details: {
+      name,
+      fullAddress,
+      description,
+      starRating,
+      checkinTime,
+      checkoutTime,
+      checkInInstructions,
+      specialInstructions,
+      policies,
+      fees,
+    },
     rooms: hotelRooms,
     photos,
     nights,
-    check_in_instructions: checkInInstructions,
     roomsQty,
   } = hotel;
-  const hotelImages = photos?.map((photo) => photo.url);
   const [tg] = useTranslation('global');
   const [t, i18next] = useTranslation('hotels');
-  const { language } = i18next;
-  const starHotelLabel = t('starHotel', 'Star Hotel');
   const roomsLabel = t('rooms', 'Rooms');
   const locationLabel = t('location', 'Location');
   const detailsLabel = t('details', 'Details');
-  const policiesLabel = t('policies', 'Policies');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
-
-  const storeCurrency = useSelector((state: any) => state.core.currency);
-  const [currency, setCurrency] = useState<string>(storeCurrency);
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   useEffect(() => {}, [detailsLabel]);
 
-  useEffect(() => {
-    const paramRoomsData = roomsData
-      ? JSON.parse(roomsData as string)
-      : [createRoom()];
+  const paramRoomsData = roomsData
+    ? JSON.parse(roomsData as string)
+    : [createRoom()];
 
-    const occupancy: Occupancy = {
-      adults: parseQueryNumber(adults ?? '1') + '',
-      children: parseQueryNumber(children ?? '0') + '',
-      rooms: parseQueryNumber(rooms ?? '1') + '',
-    };
+  const occupancy: Occupancy = {
+    adults: parseQueryNumber(adults ?? '1') + '',
+    children: parseQueryNumber(children ?? '0') + '',
+    rooms: parseQueryNumber(rooms ?? '1') + '',
+  };
 
-    if (parseQueryNumber(occupancy.children) > 0) {
-      occupancy.children_ages = getChildrenAges(paramRoomsData);
+  if (parseQueryNumber(occupancy.children) > 0) {
+    occupancy.children_ages = getChildrenAges(paramRoomsData);
+  }
+
+  const detailParams: HotelDetailPreRequest = {
+    hotel_id: (id as unknown as string) ?? '', // id as string,
+    start_date: searchStartDate, // (startDate),
+    end_date: searchEndDate, // (endDate),
+    occupancy: occupancy,
+  };
+
+  const fetchHotel: FetchHotel = async () => {
+    try {
+      return await Category.core.ClientDetailer?.request?.(
+        detailParams,
+        i18next,
+        detailParams.hotel_id,
+      );
+    } catch (e) {
+      setEmptyState(true);
+      console.error(e);
     }
+  };
 
-    const params: HotelDetailPreRequest = {
-      hotel_id: (id as unknown as string) ?? '', // id as string,
-      start_date: searchStartDate, // (startDate),
-      end_date: searchEndDate, // (endDate),
-      occupancy: occupancy,
-    };
-    Category.core.ClientDetailer?.request(params, i18next, params.hotel_id)
-      .then(({ hotels }: HotelSearchResponse) => {
-        setHotel(hotels[0]);
-        setLoaded(true);
-        setEmptyState(false);
-      })
-      .catch((e) => {
-        console.error(e);
-        setLoaded(true);
-        setEmptyState(true);
-      });
-  }, [currency, language]);
+  const { data, isLoading } = useReactQuery(
+    ['hotel-detail', id, detailParams],
+    fetchHotel,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
+
+  useEffect(() => {
+    if (data) {
+      setHotel(data);
+      setEmptyState(false);
+    }
+  }, [data]);
 
   const scrollToRoom = () => {
     if (roomRef.current) {
@@ -267,18 +273,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     setOpenCheckRoom(true);
   };
 
-  const AdultsChildrenRooms = () => (
-    <>
-      <span>
-        {adults ?? '-'} {ADULT_TEXT}, {children ?? '-'} {CHILDREN_TEXT}
-      </span>
-      <span className="mx-4 text-dark-200">|</span>
-      <span>
-        {rooms ?? '-'} {ROOM_TEXT}
-      </span>
-    </>
-  );
-
   const adultsNumber = parseInt((adults && adults[0]) || '0');
   const childrenNumber = parseInt((children && children[0]) || '0');
   const guests = adultsNumber + childrenNumber;
@@ -352,7 +346,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           </section>
         </section>
       </header>
-      {loaded && emptyState && (
+      {!isLoading && emptyState && (
         <>
           <section className="hidden px-20 pt-12 lg:block">
             <RoomSectionTitle />
@@ -366,17 +360,17 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           />
         </>
       )}
-      {loaded && !emptyState && (
+      {!isLoading && !emptyState && (
         <main className="relative">
           {/* <ImagesSection /> */}
-          {hotelImages && (
+          {photos && (
             <section className="lg:hidden">
-              <ImageCarousel images={hotelImages} title={name} />
+              <ImageCarousel images={photos} title={name} />
             </section>
           )}
-          {hotelImages && (
+          {photos && (
             <section className="hidden w-full pt-8 lg:block bg-dark-100">
-              <ImageCarouselLargeScreen images={hotelImages} title={name} />
+              <ImageCarouselLargeScreen images={photos} title={name} />
             </section>
           )}
           <section className="lg:hidden">
@@ -428,19 +422,19 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                   <div className="w-full h-px bg-dark-300" />
                 </div>
                 <InstructionsSection
-                  checkInTime={hotel.details.checkin_time}
-                  checkOutTime={hotel.details.checkout_time}
-                  checkInInstructions={hotel.details.check_in_instructions}
-                  specialInstructions={hotel.details.special_instructions}
-                  fees={hotel.details.fees}
-                  policies={hotel.details.policies}
+                  checkInTime={checkinTime}
+                  checkOutTime={checkoutTime}
+                  checkInInstructions={checkInInstructions}
+                  specialInstructions={specialInstructions}
+                  fees={fees}
+                  policies={policies}
                 />
               </section>
               <section
                 ref={locationRef}
                 className="lg:w-[50%] lg:flex-1 lg:pl-12"
               >
-                <LocationSection address={address} />
+                <LocationSection fullAddress={fullAddress} />
               </section>
             </section>
           </section>
@@ -451,7 +445,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           </section> */}
         </main>
       )}
-      {!loaded && (
+      {isLoading && (
         <section className="lg:pt-14">
           <Loader />
         </section>
