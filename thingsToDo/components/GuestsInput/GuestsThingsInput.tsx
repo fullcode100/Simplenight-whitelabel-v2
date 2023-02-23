@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import GuestsThingsModal from './GuestsThingsModal';
 import { PricingTicketType } from 'thingsToDo/types/response/ThingsDetailResponse';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface GuestsThingsInputProps {
   guestsData: any;

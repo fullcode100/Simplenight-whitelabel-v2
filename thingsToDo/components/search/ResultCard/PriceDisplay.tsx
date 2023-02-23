@@ -1,5 +1,6 @@
 import React from 'react';
 import { Rates } from 'thingsToDo/types/response/ThingsSearchResponse';
+import { Paragraph } from '@simplenight/ui';
 
 interface Props {
   rate: Rates;
@@ -13,18 +14,18 @@ const PriceDisplay = ({ rate }: Props) => {
   return (
     <section className="text-right">
       {totalBeforeDiscount && percentageToApply !== '0%' && (
-        <p className="text-xs">
+        <Paragraph size="xsmall">
           <span className="font-normal line-through text-dark-700">
             {totalBeforeDiscount}
           </span>{' '}
           <span className="font-semibold text-green-1000">
             {percentageToApply} Off
           </span>
-        </p>
+        </Paragraph>
       )}
-      <p className="text-base font-semibold text-dark-1000">
+      <Paragraph size="medium" fontWeight="semibold">
         {rate.total.full.formatted}
-      </p>
+      </Paragraph>
     </section>
   );
 };

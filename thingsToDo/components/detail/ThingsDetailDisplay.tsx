@@ -51,13 +51,12 @@ import {
 import TabsSection from './TabSection';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
 import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import Heading from 'components/global/Typography/Heading';
 import {
   TicketAvailability,
   TicketType,
 } from 'thingsToDo/types/adapters/TicketAvailability';
-
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -298,9 +297,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           <div className="w-full">
             <Paragraph
               size="medium"
-              textColor={
-                SUCCESS_STYLE ? 'text-green-1000' : 'text-primary-1000'
-              }
+              textColor={SUCCESS_STYLE ? 'text-green-1000' : 'text-dark-1000'}
             >
               {text}
             </Paragraph>

@@ -2,7 +2,7 @@ import Heading from 'components/global/Typography/Heading';
 import React from 'react';
 import Checkmark from 'public/icons/assets/checkmark.svg';
 import Cross from 'public/icons/assets/cross-current.svg';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface FeaturesListProps {
   type: 'included' | 'notIncluded';

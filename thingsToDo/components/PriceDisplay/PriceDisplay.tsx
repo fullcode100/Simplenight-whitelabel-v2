@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface ThingsRates {
   total: {

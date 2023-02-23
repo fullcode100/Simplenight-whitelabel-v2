@@ -1,4 +1,4 @@
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';

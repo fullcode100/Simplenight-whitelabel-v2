@@ -3,7 +3,7 @@ import Divider from 'components/global/Divider/Divider';
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import { useTranslation } from 'react-i18next';
 import ThingItineraryPriceBreakdown from './ThingItineraryPriceBreakdown';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 const ThingTicketsInfo = ({ item }: any) => {
   const {

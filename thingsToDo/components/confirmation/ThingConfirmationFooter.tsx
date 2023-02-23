@@ -18,7 +18,7 @@ import CollapseBordered from 'components/global/CollapseBordered/CollapseBordere
 import { Item, Payment } from 'types/booking/bookingType';
 import CardLogo from 'components/confirmation/CardLogo/CardLogo';
 import Disclaimer from 'components/global/Disclaimer/Disclaimer';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface ThingConfirmationFooterProps {
   item: Item;

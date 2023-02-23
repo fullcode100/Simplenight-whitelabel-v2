@@ -11,7 +11,7 @@ import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { useCategoryType } from 'hooks/category/useCategory';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface ThingItineraryFooterProps {
   item: any;

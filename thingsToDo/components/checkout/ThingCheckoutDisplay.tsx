@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import Paragraph from 'components/global/Typography/Paragraph';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 

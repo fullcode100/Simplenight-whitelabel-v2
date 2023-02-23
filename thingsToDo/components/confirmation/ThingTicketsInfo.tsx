@@ -12,7 +12,7 @@ import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse'
 import Link from 'public/icons/assets/link.svg';
 import SupplierReference from 'hotels/components/SupplierReference/SupplierReference';
 import { formatObjectToString } from 'helpers/objectUtils';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface Props {
   item: Item;

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import FilterContainer from 'components/global/Filters/FilterContainer';
 import { useTranslation } from 'react-i18next';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 const FilterSidebar = () => {
   const [t] = useTranslation('global');

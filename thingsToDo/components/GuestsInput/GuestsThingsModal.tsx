@@ -8,7 +8,7 @@ import {
   GuestsData,
   PricingTicketType,
 } from 'thingsToDo/types/response/ThingsDetailResponse';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph, Button } from '@simplenight/ui';
 
 interface GuestsThingsModalProps {
   showGuestsThingsModal: boolean;
@@ -124,6 +124,7 @@ const GuestsThingsModal = ({
             ${
               isAdultRequired && oneAdultOrSeniorForThisActivityLabel
             }`}</Paragraph>
+
           {isAdultRequired && (
             <p className="text-sm capitalize text-dark-800"></p>
           )}

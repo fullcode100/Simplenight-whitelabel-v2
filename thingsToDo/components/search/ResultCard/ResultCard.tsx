@@ -7,7 +7,8 @@ import Link from 'next/link';
 import ReadMore from './ReadMoreDescription';
 import { useTranslation } from 'react-i18next';
 import { Rates } from 'thingsToDo/types/response/ThingsSearchResponse';
-import Paragraph from 'components/global/Typography/Paragraph';
+
+import { Paragraph } from '@simplenight/ui';
 
 interface CardProps<T extends WithId> {
   item: T;

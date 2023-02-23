@@ -8,7 +8,7 @@ import {
   Location,
   LocationPoints,
 } from 'thingsToDo/types/response/ThingsDetailResponse';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import { geocodeByPlaceId } from 'react-places-autocomplete';
 
 interface LocationSectionProps {

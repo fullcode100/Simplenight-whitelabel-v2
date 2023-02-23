@@ -27,7 +27,7 @@ import useKeywordFilter from 'thingsToDo/hooks/useKeywordFilter';
 import EmptyState from 'components/global/EmptyState/EmptyState';
 import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import { SearchItem } from 'thingsToDo/types/adapters/SearchItem';
 
 interface ThingsResultsDisplayProps {
@@ -302,6 +302,7 @@ const ThingsResultsDisplay = ({
       {!isLoading && !noResults && (
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           <ResultsAmountSort />
+
           <div className="block w-full h-px lg:hidden bg-dark-300" />
           {!isLoading && (
             <PillContainer

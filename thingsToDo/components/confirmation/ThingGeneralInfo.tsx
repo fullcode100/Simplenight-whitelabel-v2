@@ -11,7 +11,7 @@ import LocationAndMapIcon from 'public/icons/assets/LocationAndMap.svg';
 import PhoneIcon from 'public/icons/assets/Phone.svg';
 import EnvelopeIcon from 'public/icons/assets/Envelope.svg';
 import UserIcon from 'public/icons/assets/buyer-user.svg';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';
 import MeetingPickupPoint from '../MeetingPickupPoint/MeetingPickupPoint';
 

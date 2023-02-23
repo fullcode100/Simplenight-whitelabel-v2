@@ -1,4 +1,4 @@
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import React from 'react';
 
 interface ItineraryPriceBreakdownProps {

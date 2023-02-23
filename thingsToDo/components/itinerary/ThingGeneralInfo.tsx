@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import DurationLabel from '../DurationLabel/DurationLabel';
 import { Customer, Item } from 'types/cart/CartType';
 import LocationAndMapIcon from 'public/icons/assets/LocationAndMap.svg';
-import Paragraph from 'components/global/Typography/Paragraph';
+
 import { BookingAnswer } from '../../types/request/ThingsCartRequest';
 import MeetingPickupPoint from '../MeetingPickupPoint/MeetingPickupPoint';
 

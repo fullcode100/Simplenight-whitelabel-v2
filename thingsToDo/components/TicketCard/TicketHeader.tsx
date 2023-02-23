@@ -1,5 +1,5 @@
 import SeeMoreText from 'components/global/SeeMoreText/SeeMoreText';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface TicketHeaderProps {
   title: string;
@@ -12,9 +12,9 @@ const TicketHeader = ({ title, description }: TicketHeaderProps) => {
       <Paragraph size="large" fontWeight="semibold">
         {title}
       </Paragraph>
-      <p className="text-xs font-normal">
+      <Paragraph className="text-xs font-normal">
         <SeeMoreText text={description} length={72} />
-      </p>
+      </Paragraph>
     </section>
   );
 };
