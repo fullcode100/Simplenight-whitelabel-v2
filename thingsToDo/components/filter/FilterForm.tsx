@@ -11,7 +11,7 @@ import PriceRangeFilter, {
 import StarRangeFilter, {
   StarRangeFilterProps,
 } from 'components/global/Filters/StarRange';
-import Heading from 'components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

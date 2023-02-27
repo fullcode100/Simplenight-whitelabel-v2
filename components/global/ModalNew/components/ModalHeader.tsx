@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode } from 'react';
 import { Dialog } from '@headlessui/react';
 
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import Close from 'public/icons/assets/cross.svg';
 
 interface ModalHeaderPops {

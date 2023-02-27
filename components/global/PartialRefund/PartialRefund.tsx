@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import classnames from 'classnames';
-import Paragraph from '../Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface PartialRefundProps {
   nonCancellable?: boolean;

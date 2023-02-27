@@ -5,7 +5,7 @@ import CarTypeFilter from './Filters/CarTypeFilter';
 import PriceRangeFilter from './Filters/PriceRangeFilter';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
-import Heading from 'components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 import PassengersRangeFilter from './Filters/PassengersRangeFilter';
 import { FilterHeader } from '@/components/search';
 import {

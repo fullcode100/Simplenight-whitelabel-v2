@@ -1,5 +1,5 @@
 import Button from 'components/global/Button/Button';
-import Heading from 'components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

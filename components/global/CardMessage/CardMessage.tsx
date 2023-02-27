@@ -1,5 +1,5 @@
 import { useCardColor } from 'hooks/layoutAndUITooling/useCardColor';
-import Paragraph from '../Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface CardMessageProps {
   type?: string;

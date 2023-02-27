@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { FilterItem } from '@/components/search';
 import { useTranslation } from 'react-i18next';
 import { RangeSlider } from '../../../../components/global/RangeSliderNew/RangeSlider';
-import Heading from '../../../../components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 import CollapseUnbordered from '../../../../components/global/CollapseUnbordered/CollapseUnbordered';
 
 interface VehicleHeightFilterProps {

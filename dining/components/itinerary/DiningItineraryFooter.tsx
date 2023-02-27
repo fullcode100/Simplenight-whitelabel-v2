@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import classnames from 'classnames';
 import { Item } from 'types/cart/CartType';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import DiningItineraryActions from './DiningItineraryActions';
 

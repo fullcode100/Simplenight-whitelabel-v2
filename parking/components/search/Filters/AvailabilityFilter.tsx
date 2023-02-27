@@ -3,7 +3,7 @@ import { FilterItem } from '@/components/search';
 import Checkbox from '../../../../components/global/Checkbox/Checkbox';
 import { useTranslation } from 'react-i18next';
 import CollapseUnbordered from '../../../../components/global/CollapseUnbordered/CollapseUnbordered';
-import Heading from '../../../../components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 
 interface AvailabilityFilterProps {
   highAvailability: boolean;

@@ -1,4 +1,4 @@
-import Heading from 'components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 import React from 'react';
 import Checkmark from 'public/icons/assets/checkmark.svg';
 import Cross from 'public/icons/assets/cross-current.svg';

@@ -52,7 +52,7 @@ import TabsSection from './TabSection';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
 import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
 import { Paragraph } from '@simplenight/ui';
-import Heading from 'components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 import {
   TicketAvailability,
   TicketType,
@@ -314,7 +314,11 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
         ref={policiesRef}
         className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12 lg:py-12"
       >
-        <SectionTitle title={policiesLabel} icon={<PoliciesIcon />} />
+        <SectionTitle
+          title={policiesLabel}
+          icon={<PoliciesIcon />}
+          subTitle={'hola'}
+        />
         <Heading tag="h5" className="mt-3 lg:mt-5">
           {cancellationLabel}
         </Heading>

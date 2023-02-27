@@ -1,8 +1,8 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import SectionIcon from '../SectionIcon/SectionIcon';
-import Heading from '../Typography/Heading';
-import Paragraph from '../Typography/Paragraph';
+import { Heading } from '@simplenight/ui';
+import { Paragraph } from '@simplenight/ui';
 
 interface SectionTitleProps {
   icon?: React.ReactElement;

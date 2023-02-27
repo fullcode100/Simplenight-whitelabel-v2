@@ -2,7 +2,7 @@ import React from 'react';
 import PriceDisplay from 'cars/components/PriceDisplay/PriceDisplay';
 import { Rates } from '../../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
-import Paragraph from '../../../../components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import TaxesAndFeesPopover from 'cars/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 

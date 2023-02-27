@@ -1,4 +1,4 @@
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import React from 'react';
 import Close from 'public/icons/assets/cross.svg';
 import { useTranslation } from 'react-i18next';

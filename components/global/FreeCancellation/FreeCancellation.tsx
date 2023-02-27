@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 import Check from 'public/icons/assets/check.svg';
 import classnames from 'classnames';
-import Paragraph from '../Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 interface FreeCancellationProps {
   cancellable?: boolean;

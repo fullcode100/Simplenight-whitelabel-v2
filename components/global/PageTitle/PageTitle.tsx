@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import ContinueCheckoutButtons from 'components/itinerary/ContinueCheckoutButtons/ContinueCheckoutButtons';
 import { useTranslation } from 'react-i18next';
-import Heading from '../Typography/Heading';
-import Paragraph from '../Typography/Paragraph';
+import { Heading } from '@simplenight/ui';
+import { Paragraph } from '@simplenight/ui';
 
 interface PageTitleProps {
   title: string;
@@ -32,9 +32,6 @@ const PageTitle = ({ title, icon, productsAmount }: PageTitleProps) => {
           <Heading tag="h3" textColor="text-dark-800">
             {title}
           </Heading>
-          {/* <h1 className="font-semibold text-dark-800 text-[20px] leading-[24px]">
-          {title}
-        </h1> */}
         </section>
 
         <section className="lg:flex flex-col gap-4 items-end hidden">

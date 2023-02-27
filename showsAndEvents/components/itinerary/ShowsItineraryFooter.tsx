@@ -6,7 +6,7 @@ import { useCategoryType } from 'hooks/category/useCategory';
 
 import Button from 'components/global/Button/Button';
 import { Item } from 'types/cart/CartType';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 
 import TrashIcon from 'public/icons/assets/small-trash.svg';
 import EdtiIcon from 'public/icons/assets/edit.svg';

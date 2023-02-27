@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { FilterItem } from '@/components/search';
 import { useTranslation } from 'react-i18next';
 import { CheckboxList } from '../../../../components/global/Checkbox/CheckboxList';
-import Heading from '../../../../components/global/Typography/Heading';
+import { Heading } from '@simplenight/ui';
 import Checkbox from '../../../../components/global/Checkbox/Checkbox';
 import CollapseUnbordered from '../../../../components/global/CollapseUnbordered/CollapseUnbordered';
 

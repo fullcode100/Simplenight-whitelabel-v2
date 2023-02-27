@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import PartialRefund from 'components/global/PartialRefund/PartialRefund';
-import Paragraph from 'components/global/Typography/Paragraph';
+import { Paragraph } from '@simplenight/ui';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface Props {
