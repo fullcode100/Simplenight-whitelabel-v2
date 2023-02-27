@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 // Libraries
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 import valid from 'card-validator';
 
@@ -21,15 +21,12 @@ import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Summary from 'components/checkout/Summary/Summary';
 import Terms from 'components/checkout/Terms/Terms';
 import { useTranslation } from 'react-i18next';
-import CountrySelect from 'components/global/CountrySelect/CountrySelect';
 import { createBooking } from 'core/client/services/BookingService';
 import { getCart } from 'core/client/services/CartClientService';
-import { useDispatch, useSelector } from 'react-redux';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
-import { clearCart } from 'store/actions/cartActions';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
@@ -37,7 +34,6 @@ import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import { Card } from 'types/global/Card';
 import PaymentForm from 'components/global/PaymentForm/PaymentForm';
-import { thingToDoCartItem } from 'thingsToDo/mocks/thingToDoCartItem';
 import InputWrapper from 'components/checkout/Inputs/InputWrapper';
 import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
 import { BillingAddress } from '../../components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
@@ -49,7 +45,6 @@ const GOOGLE = 'google';
 
 const Payment = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const [t, i18next] = useTranslation('global');
   const iHaveReviewedLabel = t(
@@ -74,11 +69,6 @@ const Payment = () => {
 
   const currency = getCurrency();
 
-  const state = useSelector((state) => state);
-  const storeState = {
-    state,
-    dispatch,
-  };
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
   const { getCookie } = useCookies();
 
@@ -202,7 +192,6 @@ const Payment = () => {
       const data = await createBooking(bookingParameters, i18next);
       const bookingId = data?.booking.booking_id;
       triggerEventConversion(bookingId);
-      dispatch(clearCart());
       localStorage.removeItem('cart');
       setLoading(false);
       router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
@@ -217,7 +206,7 @@ const Payment = () => {
   };
 
   useEffect(() => {
-    getCart(i18next, storeState)
+    getCart(i18next)
       .then((returnedCart) => {
         if (!returnedCart) {
           redirectToItinerary();

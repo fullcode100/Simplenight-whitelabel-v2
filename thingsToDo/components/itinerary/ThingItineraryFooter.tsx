@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 
@@ -26,7 +25,6 @@ const ThingItineraryFooter = ({
 }: ThingItineraryFooterProps) => {
   const router = useRouter();
   const pathName = router.pathname;
-  const dispatch = useDispatch();
   const [g, i18g] = useTranslation('global');
 
   const {
@@ -53,7 +51,7 @@ const ThingItineraryFooter = ({
       itemId: item.cart_item_id,
     };
 
-    removeFromCart(i18g, ticketToRemove, dispatch)
+    removeFromCart(i18g, ticketToRemove)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
   };

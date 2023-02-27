@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import classnames from 'classnames';
 import { updateCart } from 'core/client/services/CartClientService';
 import { i18n } from 'i18next';
-import { getStoreCartId } from 'store/selectors/cart';
 
 const changeAllLanguages = (
   targetLanguage: string,
@@ -26,7 +25,13 @@ const LanguageSelect = ({ horizontal = false }: LanguageSelectProps) => {
   const languages = ['en', 'es'];
   const enText = t('en', 'English');
   const esText = t('es', 'Spanish');
-  const cartId = getStoreCartId() ?? null;
+  let cartId: string;
+
+  if (typeof window !== 'undefined') {
+    cartId = localStorage.getItem('cart')
+      ? JSON.parse(localStorage.getItem('cart') || '')
+      : null;
+  }
 
   const handleChangeLanguage = async (lang: string) => {
     changeAllLanguages(lang, [i18n, i18nHotels, i18nFlights]);

@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
@@ -20,7 +19,6 @@ interface FlightRoomInfoProps {
 }
 
 const FlightRoomInfo = ({ item, reload, setReload }: FlightRoomInfoProps) => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
@@ -36,7 +34,7 @@ const FlightRoomInfo = ({ item, reload, setReload }: FlightRoomInfoProps) => {
         cartId: item.cart_id,
         itemId: item.cart_item_id,
       };
-      removeFromCart(i18next, roomToRemove, dispatch)
+      removeFromCart(i18next, roomToRemove)
         .then(() => {
           setReload?.(!reload);
           router.reload();
@@ -46,7 +44,7 @@ const FlightRoomInfo = ({ item, reload, setReload }: FlightRoomInfoProps) => {
   };
 
   return (
-    <section className="flex flex-col gap-2 border-t border-dark-300 py-6">
+    <section className="flex flex-col gap-2 py-6 border-t border-dark-300">
       <RoomPriceBreakdown
         total={total}
         taxesAndFees={taxesAndFees}

@@ -4,14 +4,19 @@ import { updateCart } from 'core/client/services/CartClientService';
 import { getCurrency } from 'store/selectors/core';
 import { setCurrency } from 'store/actions/core';
 import classnames from 'classnames';
-import { getStoreCartId } from 'store/selectors/cart';
 
 const CurrencySelect = () => {
   const [t, i18n] = useTranslation();
   const currentCurrency = getCurrency();
   const dispatch = useDispatch();
   const currencies = ['USD', 'EUR'];
-  const cartId = getStoreCartId() ?? null;
+  let cartId: string;
+
+  if (typeof window !== 'undefined') {
+    cartId = localStorage.getItem('cart')
+      ? JSON.parse(localStorage.getItem('cart') || '')
+      : null;
+  }
 
   const handleChangeCurrency = async (currency: string) => {
     try {

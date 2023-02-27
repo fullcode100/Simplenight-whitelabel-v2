@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
@@ -26,7 +25,6 @@ const HotelItineraryFooter = ({
   setReload,
 }: HotelItineraryFooterProps) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
   const [th, i18h] = useTranslation('hotels');
 
@@ -56,7 +54,7 @@ const HotelItineraryFooter = ({
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, roomToRemove, dispatch)
+    removeFromCart(i18g, roomToRemove)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
   };

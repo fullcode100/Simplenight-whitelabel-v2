@@ -7,7 +7,6 @@ import Link from 'next/link';
 import LocationIcon from 'public/icons/assets/cars/location.svg';
 import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Item } from 'types/cart/CartType';
 
@@ -54,18 +53,12 @@ function HorizontalItemCard<T extends WithId>({
   // add to cart
   const router = useRouter();
 
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookNowText = t('bookNow', 'Book Now');
 
   const handleAction = async (url: string) => {
     const itemToBook = Object.assign({}, cartItem);
-    await addToCart(itemToBook, i18next, store); // add to cart
+    await addToCart(itemToBook, i18next); // add to cart
     router.replace(url); // redirect to: cart or checkout
   };
 
@@ -73,7 +66,7 @@ function HorizontalItemCard<T extends WithId>({
     checkValidImage();
   }, []);
   const SubtitleSection = () => (
-    <span className="font-normal text-dark-1000 text-sm py-2">{subtitle}</span>
+    <span className="py-2 text-sm font-normal text-dark-1000">{subtitle}</span>
   );
 
   const TitleSection = () => (
@@ -126,7 +119,7 @@ function HorizontalItemCard<T extends WithId>({
                 </section>
               )}
               {address && (
-                <section className="mt-2 flex flex-wrap">
+                <section className="flex flex-wrap mt-2">
                   <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
                     <LocationIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
                     <label className="text-dark-700 text-[14px] font-normal">
@@ -148,13 +141,13 @@ function HorizontalItemCard<T extends WithId>({
                   type="outlined"
                   textColor="primary"
                   onClick={() => handleAction('/itinerary')}
-                  className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mr-2 mt-1"
+                  className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
                 />
                 <Button
                   value={bookNowText}
                   size="full"
                   onClick={() => handleAction('/checkout/client')}
-                  className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mt-1"
+                  className="px-4 py-1 mt-1 text-base font-semibold leading-base whitespace-nowrap"
                 />
               </section>
             </section>
@@ -169,13 +162,13 @@ function HorizontalItemCard<T extends WithId>({
                 type="outlined"
                 textColor="primary"
                 onClick={() => handleAction('/itinerary')}
-                className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mr-2 mt-1"
+                className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
               />
               <Button
                 value={bookNowText}
                 size="full"
                 onClick={() => handleAction('/checkout/client')}
-                className="text-base font-semibold leading-base whitespace-nowrap px-4 py-1 mt-1"
+                className="px-4 py-1 mt-1 text-base font-semibold leading-base whitespace-nowrap"
               />
             </section>
           </section>

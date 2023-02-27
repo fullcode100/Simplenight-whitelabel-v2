@@ -17,7 +17,6 @@ import FreeCancellationExtended from '../../../components/global/FreeCancellatio
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import AmenitiesSection from '../Amenities/AmenitiesSection';
 import { addToCart } from 'core/client/services/CartClientService';
-import { useDispatch, useSelector } from 'react-redux';
 import { Item } from 'types/cart/CartType';
 import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
 import BedsAmount from '../BedsAmount/BedsAmount';
@@ -50,12 +49,6 @@ const PriceBreakdownModal = ({
   guests,
   services,
 }: DatePickerProps) => {
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
   const router = useRouter();
 
   const [t, i18next] = useTranslation('cars');
@@ -94,7 +87,7 @@ const PriceBreakdownModal = ({
     cancellationPolicy?.cancellation_type === nonRefundableType;
 
   const handleAction = async (url: string) => {
-    await addToCart(itemToBook, i18next, store);
+    await addToCart(itemToBook, i18next);
     router.replace(url);
   };
   const {

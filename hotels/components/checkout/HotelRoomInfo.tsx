@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
@@ -22,7 +21,6 @@ interface HotelRoomInfoProps {
 }
 
 const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
@@ -77,7 +75,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
       cartId: room.cart_id,
       itemId: room.cart_item_id,
     };
-    removeFromCart(i18next, roomToRemove, dispatch)
+    removeFromCart(i18next, roomToRemove)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
     router.reload();

@@ -9,7 +9,7 @@ import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { DiningDetailPreRequest } from 'dining/types/request/DiningDetailRequest';
 import {
   DiningSearchResponse,
@@ -34,18 +34,10 @@ import DiningAboutDetail from './DiningAboutDetail';
 import DiningSummaryDetail from './DiningSummaryDetail';
 import { notification } from 'components/global/Notification/Notification';
 import { Item } from 'types/cart/CartType';
-import { createCart, updateCart } from 'store/actions/cartActions';
 
 type DiningDetailDisplayProps = CategoryPageComponentProps;
 
 const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
-  const cartId = (state as any)?.cartStore?.cart ?? null;
   const { language } = i18next;
   const params = useQuery();
   const { startDate, endDate } = useSearchQueries();
@@ -172,7 +164,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
       },
     };
 
-    const result = await addToCart(itemToBook, i18next, store, true);
+    const result = await addToCart(itemToBook, i18next);
     let addedItem;
     if (result?.cart) {
       addedItem = result?.cart?.items.find(
@@ -186,9 +178,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
 
     if (item?.status === 'active') {
       if (result?.cart && item?.cart_id) {
-        dispatch(createCart(item?.cart_id));
-      } else {
-        dispatch(updateCart());
+        localStorage.setItem('cart', JSON.stringify(item?.cart_id));
       }
       router.replace(url);
     } else {
@@ -202,7 +192,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
         itemId: item?.cart_item_id,
       };
 
-      removeFromCart(i18n, itemToRemove, dispatch);
+      removeFromCart(i18n, itemToRemove);
     }
   };
 

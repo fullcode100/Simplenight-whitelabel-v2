@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
 import { useTranslation } from 'react-i18next';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 
-import useQuery from 'hooks/pageInteraction/useQuery';
-import { getStoreCartId } from 'store/selectors/cart';
 import { CartObjectResponse } from 'types/cart/CartType';
-import { getCartId } from 'core/client/services/CartClientService';
+import { getCart } from 'core/client/services/CartClientService';
 import ItineraryHeader from 'components/itinerary/ItineraryHeader/ItineraryHeader';
 import ItineraryEmpty from 'components/itinerary/ItineraryEmpty/ItineraryEmpty';
 import ItineraryItemList from 'components/itinerary/ItineraryItemList/ItineraryItemList';
@@ -19,31 +18,31 @@ import { getCurrency } from 'store/selectors/core';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
-  const [cartId, setCartId] = useState('');
+
   const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [t, i18next] = useTranslation('global');
   const footerContainerRef = useRef(null);
   const [staticFooter, setStaticFooter] = useState(false);
-  const cartIdParams = useQuery().cartId;
-  const cartIdStore = getStoreCartId();
   const currency = getCurrency();
 
-  useEffect(() => {
-    setCartId(cartIdParams || cartIdStore);
-  }, [cartIdParams, cartIdStore]);
+  const { refetch } = useReactQuery(['get-cart']);
 
   useEffect(() => {
+    const cartId = localStorage.getItem('cart')
+      ? JSON.parse(localStorage.getItem('cart') || '')
+      : null;
     if (cartId) {
       setLoading(true);
-      getCartId(i18next, cartId)
+      getCart(i18next)
         .then((response) => {
           setCart(response);
           setLoading(false);
         })
         .catch((error) => console.error(error));
+      refetch();
     }
-  }, [cartId, i18next, reload, currency]);
+  }, [i18next, reload, currency]);
 
   useEffect(() => {
     if (footerContainerRef.current) {

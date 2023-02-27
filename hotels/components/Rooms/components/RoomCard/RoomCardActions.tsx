@@ -3,7 +3,6 @@ import { useMutation } from '@tanstack/react-query';
 import { Room } from 'hotels/types/response/SearchResponse';
 import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
@@ -16,12 +15,6 @@ interface RoomProps {
 const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   const router = useRouter();
 
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
   const bookingCode = room.rates.min_rate.sn_booking_code;
   const itemToBook = {
     sn_booking_code: bookingCode,
@@ -36,7 +29,7 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   let url = '/itinerary';
 
   const handleAction = async () => {
-    await addToCart(itemToBook, i18next, store);
+    await addToCart(itemToBook, i18next);
   };
 
   const { mutate, isLoading } = useMutation(handleAction, {

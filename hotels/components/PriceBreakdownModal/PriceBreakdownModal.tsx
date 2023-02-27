@@ -17,7 +17,6 @@ import FreeCancellationExtended from '../../../components/global/FreeCancellatio
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import AmenitiesSection from '../Amenities/AmenitiesSection';
 import { addToCart } from 'core/client/services/CartClientService';
-import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../../../types/cart/CartType';
 import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
 import BedsAmount from '../BedsAmount/BedsAmount';
@@ -54,12 +53,6 @@ const PriceBreakdownModal = ({
   services,
   rooms,
 }: DatePickerProps) => {
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
   const router = useRouter();
 
   const [t, i18next] = useTranslation('hotels');
@@ -94,7 +87,7 @@ const PriceBreakdownModal = ({
   let url = '/itinerary';
 
   const handleAction = async () => {
-    await addToCart(itemToBook, i18next, store);
+    await addToCart(itemToBook, i18next);
   };
 
   const { mutate } = useMutation(handleAction, {
@@ -151,7 +144,7 @@ const PriceBreakdownModal = ({
         headerClassName="bg-white"
         titleClassName="font-normal"
       />
-      <section className="flex h-full flex-col justify-between overflow-y-scroll px-5">
+      <section className="flex flex-col justify-between h-full px-5 overflow-y-scroll">
         <BreakdownRoomDescription value={description} />
         <Divider className="mt-2" />
         <BreakdownSubtitle
@@ -171,7 +164,7 @@ const PriceBreakdownModal = ({
           className="pt-6 text-lg font-semibold text-dark-800"
           value={priceBreakdownText}
         />
-        <section className="flex h-full flex-col gap-6 py-6 text-start">
+        <section className="flex flex-col h-full gap-6 py-6 text-start">
           <section className="space-y-4">
             <BreakdownSubtitle
               className="mt-6 text-base font-semibold text-dark-800"
@@ -186,7 +179,7 @@ const PriceBreakdownModal = ({
                 <section className="text-right">
                   {rateBreakdown.discounts && (
                     <p className="text-xs font-semibold leading-5 text-green-1000">
-                      <span className="mr-1 text-dark-800 line-through">
+                      <span className="mr-1 line-through text-dark-800">
                         {
                           rateBreakdown.discounts.base_amount_before_apply
                             ?.formatted
@@ -217,7 +210,7 @@ const PriceBreakdownModal = ({
                   </section>
                 );
               })}
-              <div className="h-px w-full bg-dark-300"></div>
+              <div className="w-full h-px bg-dark-300"></div>
               <section className="flex justify-between">
                 <p className="text-sm font-semibold leading-[22px] text-dark-1000">
                   {payNowLabel}
@@ -277,7 +270,7 @@ const PriceBreakdownModal = ({
                   {`* ${estimationLabel}`}
                 </p>
               )}
-              <div className="h-px w-full bg-dark-300"></div>
+              <div className="w-full h-px bg-dark-300"></div>
               <section className="flex justify-between">
                 <p className="text-sm font-semibold leading-[22px] text-dark-1000">
                   {payAtPropertyLabel}

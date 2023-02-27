@@ -6,7 +6,6 @@ import EditIcon from '@/icons/assets/edit.svg';
 import { useTranslation } from 'react-i18next';
 import { removeFromCart } from '../../../core/client/services/CartClientService';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
 import TaxesAndFeesPopover from '../../../hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { Quote } from '../../types/response/TransportationSearchResponse';
 import useLocalStorage from '../../../hooks/localStorage/useLocalStorage';
@@ -22,7 +21,6 @@ export const TransportationItineraryFooter: FC<
   TransportationItineraryFooterProps
 > = ({ item, reload, setReload, checkout = false }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
   const quote: Quote = item.booking_data?.transportation;
 
@@ -35,7 +33,7 @@ export const TransportationItineraryFooter: FC<
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, transportationToRemove, dispatch)
+    removeFromCart(i18g, transportationToRemove)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
   };
@@ -59,7 +57,7 @@ export const TransportationItineraryFooter: FC<
           <p className="font-semibold text-[18px] leading-[24px] text-dark-1000">
             {currencyCode + ' ' + price.toFixed(2)}
           </p>
-          <section className="flex flex-row gap-1 justify-end">
+          <section className="flex flex-row justify-end gap-1">
             <p className="text-[12px] leading-[15px] text-dark-800">
               Includes Taxes and Fees
             </p>

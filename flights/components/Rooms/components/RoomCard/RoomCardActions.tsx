@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { Room } from 'flights/types/response/SearchResponse';
 import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 interface RoomProps {
@@ -13,12 +12,6 @@ interface RoomProps {
 const RoomCardActions = ({ room, flightId }: RoomProps) => {
   const router = useRouter();
 
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
   const bookingCode = room.rates.min_rate.sn_booking_code;
   const itemToBook = {
     sn_booking_code: bookingCode,
@@ -36,18 +29,18 @@ const RoomCardActions = ({ room, flightId }: RoomProps) => {
           type="outlined"
           textColor="primary"
           onClick={() => {
-            addToCart(itemToBook, i18next, store);
+            addToCart(itemToBook, i18next);
           }}
-          className="font-semibold text-base leading-base"
+          className="text-base font-semibold leading-base"
         />
         <Button
           value={bookNowText}
           size="full"
           onClick={() => {
-            addToCart(itemToBook, i18next, store);
+            addToCart(itemToBook, i18next);
             router.replace('/checkout/client');
           }}
-          className="font-semibold text-base leading-base"
+          className="text-base font-semibold leading-base"
         />
       </section>
     </footer>

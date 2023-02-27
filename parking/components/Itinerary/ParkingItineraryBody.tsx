@@ -16,7 +16,6 @@ import classNames from 'classnames';
 import TrashIcon from '@/icons/assets/small-trash.svg';
 import Button from '../../../components/global/Button/Button';
 import { removeFromCart } from '../../../core/client/services/CartClientService';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 dayjs.extend(localeData);
@@ -38,7 +37,6 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
 }) => {
   const [tg, i18g] = useTranslation('global');
   const [t] = useTranslation('parking');
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const bookingData = item.booking_data;
@@ -66,7 +64,7 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, flightToRemove, dispatch)
+    removeFromCart(i18g, flightToRemove)
       .then(() => {
         setReload?.(!reload);
         router.reload();
@@ -80,21 +78,21 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
 
   return (
     <section>
-      <section className="flex flex-col gap-3 py-4 px-4">
+      <section className="flex flex-col gap-3 px-4 py-4">
         <FeatureItem
-          icon={<CarRightIcon className="w-6 text-primary-1000 mx-2" />}
+          icon={<CarRightIcon className="w-6 mx-2 text-primary-1000" />}
           label={startDate.tz(timezone).toString()}
         />
         <FeatureItem
-          icon={<LocationPinIcon className="w-6 text-primary-1000 mx-2" />}
+          icon={<LocationPinIcon className="w-6 mx-2 text-primary-1000" />}
           label={location}
         />
         <FeatureItem
-          icon={<CarLeftIcon className="w-6 text-primary-1000 mx-2" />}
+          icon={<CarLeftIcon className="w-6 mx-2 text-primary-1000" />}
           label={endDate.tz(timezone).toString()}
         />
         <FeatureItem
-          icon={<ClockIcon className="w-6 text-primary-1000 mx-2" />}
+          icon={<ClockIcon className="w-6 mx-2 text-primary-1000" />}
           label={`${duration} ${t(duration === 1 ? 'hour' : 'hours')}`}
         />
       </section>
@@ -103,9 +101,9 @@ export const ParkingItineraryBody: FC<ParkingItineraryBodyProps> = ({
         <Divider />
       </section>
 
-      <section className="flex flex-col gap-6 py-4 px-4">
+      <section className="flex flex-col gap-6 px-4 py-4">
         <section className="flex flex-col gap-2">
-          <section className="flex justify-between items-center">
+          <section className="flex items-center justify-between">
             <section className="flex items-center gap-2">
               <section className="text-primary-1000">
                 <PlusIcon />

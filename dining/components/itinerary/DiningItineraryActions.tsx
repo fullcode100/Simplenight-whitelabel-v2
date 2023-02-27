@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import classnames from 'classnames';
 import Button from 'components/global/Button/Button';
 import TrashIcon from 'public/icons/assets/small-trash.svg';
@@ -23,7 +22,6 @@ const DiningItineraryActions = ({
   onReload,
 }: DiningItineraryFooterProps) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const slug = useCategoryType('dining')?.slug;
   const [t, i18n] = useTranslation(['global', 'dining']);
   const removeItem = () => {
@@ -31,7 +29,7 @@ const DiningItineraryActions = ({
       cartId: item?.cart_id,
       itemId: item?.cart_item_id,
     };
-    removeFromCart(i18n, itemToRemove, dispatch)
+    removeFromCart(i18n, itemToRemove)
       .then(() => {
         onReload();
         notification(

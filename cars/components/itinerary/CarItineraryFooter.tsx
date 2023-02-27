@@ -1,16 +1,13 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
-import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary';
 import { Item } from 'types/cart/CartType';
 
 import TrashIcon from 'public/icons/assets/small-trash.svg';
 import EdtiIcon from 'public/icons/assets/edit.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
-import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface CarItineraryFooterProps {
   item: Item;
@@ -24,7 +21,6 @@ const CarItineraryFooter = ({
   setReload,
 }: CarItineraryFooterProps) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
   const [th, i18h] = useTranslation('cars');
 
@@ -41,7 +37,7 @@ const CarItineraryFooter = ({
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, carToRemove, dispatch)
+    removeFromCart(i18g, carToRemove)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
   };

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Button from 'components/global/ButtonNew/Button';
 
@@ -27,18 +26,10 @@ const TicketActions = ({
 
   const router = useRouter();
 
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-
-  const store = {
-    state,
-    dispatch,
-  };
-
   let url = '/itinerary';
 
   const handleAction = async () => {
-    await addToCart(itemToBook, i18next, store);
+    await addToCart(itemToBook, i18next);
   };
 
   const { mutate, isLoading } = useMutation(handleAction, {

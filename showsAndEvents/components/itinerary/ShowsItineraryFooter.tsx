@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useCategoryType } from 'hooks/category/useCategory';
 
 import Button from 'components/global/Button/Button';
@@ -28,7 +27,6 @@ const ShowsItineraryFooter = ({
   isItineraryView,
 }: ShowsItineraryFooterProps) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [tg, i18g] = useTranslation('global');
   const [th, i18h] = useTranslation('events');
 
@@ -56,7 +54,7 @@ const ShowsItineraryFooter = ({
       cartId: item?.cart_id,
       itemId: item?.cart_item_id,
     };
-    removeFromCart(i18g, roomToRemove, dispatch)
+    removeFromCart(i18g, roomToRemove)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
   };
@@ -76,15 +74,15 @@ const ShowsItineraryFooter = ({
 
   return (
     <section className="flex flex-col gap-3">
-      <section className="flex flex-col lg:flex-row items-center justify-between">
+      <section className="flex flex-col items-center justify-between lg:flex-row">
         <section className="flex justify-between w-full pb-4 lg:pb-0">
           <Paragraph size="small">Total</Paragraph>
-          <section className="text-right ml-auto">
-            <section className="flex flex-col gap-1 justify-end">
+          <section className="ml-auto text-right">
+            <section className="flex flex-col justify-end gap-1">
               <p className="font-semibold text-[18px] leading-[18px] text-dark-1000">
                 {item?.rate?.total.net.formatted}
               </p>
-              <section className="flex flex-row gap-1 justify-end">
+              <section className="flex flex-row justify-end gap-1">
                 <p className="text-[12px] leading-[15px] text-dark-800">
                   {taxesAndFeesLabel}
                 </p>
@@ -94,7 +92,7 @@ const ShowsItineraryFooter = ({
           </section>
         </section>
         {isItineraryView && (
-          <section className="flex flex-col gap-3 lg:flex-row lg:justify-end w-full">
+          <section className="flex flex-col w-full gap-3 lg:flex-row lg:justify-end">
             <Button
               value={removeFormatted}
               size="full-sm"

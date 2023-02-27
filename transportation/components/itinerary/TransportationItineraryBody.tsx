@@ -14,7 +14,6 @@ import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstC
 import TrashIcon from '@/icons/assets/small-trash.svg';
 import Button from '../../../components/global/Button/Button';
 import { removeFromCart } from '../../../core/client/services/CartClientService';
-import { useDispatch } from 'react-redux';
 
 dayjs.extend(localeData);
 dayjs.extend(utc);
@@ -32,7 +31,6 @@ export const TransportationItineraryBody: FC<
 > = ({ item, reload, setReload, breakdown = false }) => {
   const [tg, i18g] = useTranslation('global');
   const [t] = useTranslation('ground-transportation');
-  const dispatch = useDispatch();
 
   const pickUpText = t('pickUpText', 'Pick-Up');
   const dropOffText = t('dropOffText', 'Drop-Off');
@@ -64,7 +62,7 @@ export const TransportationItineraryBody: FC<
       cartId: item.cart_id,
       itemId: item.cart_item_id,
     };
-    removeFromCart(i18g, transportationToRemove, dispatch)
+    removeFromCart(i18g, transportationToRemove)
       .then(() => setReload?.(!reload))
       .catch((error) => console.error(error));
   };
@@ -75,33 +73,33 @@ export const TransportationItineraryBody: FC<
 
   return (
     <section>
-      <section className="flex flex-col gap-3 py-4 px-4">
+      <section className="flex flex-col gap-3 px-4 py-4">
         <FeatureItem
-          icon={<Calendar className="w-6 text-primary-1000 mx-2" />}
+          icon={<Calendar className="w-6 mx-2 text-primary-1000" />}
           labelWithTitle={{ label: startDate.toString(), title: pickUpText }}
         />
         <FeatureItem
-          icon={<Calendar className="w-6 text-primary-1000 mx-2" />}
+          icon={<Calendar className="w-6 mx-2 text-primary-1000" />}
           labelWithTitle={{ label: endDate.toString(), title: dropOffText }}
         />
         <FeatureItem
-          icon={<LocationPinIcon className="w-6 text-primary-1000 mx-2" />}
+          icon={<LocationPinIcon className="w-6 mx-2 text-primary-1000" />}
           label={location1}
         />
         <FeatureItem
-          icon={<LocationPinIcon className="w-6 text-primary-1000 mx-2" />}
+          icon={<LocationPinIcon className="w-6 mx-2 text-primary-1000" />}
           label={location2}
         />
       </section>
 
       <Divider />
 
-      <section className="flex flex-col gap-6 py-4 px-4">
+      <section className="flex flex-col gap-6 px-4 py-4">
         <section className="flex flex-col gap-3">
           <section className="font-semibold text-dark-1000 text-[18px] leading-[24px]">
             {useCapitalizeFirstChar(quote?.service_info?.vehicle_type)}
           </section>
-          <section className="flex justify-between items-center">
+          <section className="flex items-center justify-between">
             <section className="flex items-center gap-2">
               <section className="text-primary-1000">
                 <PlusIcon />

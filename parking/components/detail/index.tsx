@@ -4,7 +4,6 @@ import { CategoryPageComponentProps } from '../../../types/global/CategoryPageCo
 import useQuery from '../../../hooks/pageInteraction/useQuery';
 import { useTranslation } from 'react-i18next';
 import { Parking } from '../../types/response/ParkingSearchResponse';
-import Script from 'next/script';
 import Loader from '../../../components/global/Loader/Loader';
 import { ParkingDetailHeader } from './ParkingDetailHeader';
 import { ParkingDetailImages } from './ParkingDetailImages';
@@ -15,7 +14,6 @@ import Button from '../../../components/global/Button/Button';
 import { Container } from './Container';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
 import { Item } from 'types/cart/CartType';
 import { CategoryOption } from '../../../types/search/SearchTypeOptions';
 import dayjs from 'dayjs';
@@ -90,13 +88,7 @@ const ParkingDetails: FC<ParkingDetailsProps> = ({ parking, category }) => {
   const [t, i18next] = useTranslation('parking');
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
-  const state = useSelector((state) => state);
   const params = useQuery();
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
   const PROVIDER_CODE = '7e6cfd32'; // TODO: Change provider code with to be dynamic
   const itemToBook: Item = {
     category: 'PARKING',
@@ -113,7 +105,7 @@ const ParkingDetails: FC<ParkingDetailsProps> = ({ parking, category }) => {
 
   const handleAction = async () => {
     setDisabled(true);
-    await addToCart(itemToBook, i18next, store);
+    await addToCart(itemToBook, i18next);
     router.replace('/itinerary');
   };
 

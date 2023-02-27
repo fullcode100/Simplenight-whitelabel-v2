@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { Room } from 'cars/types/response/SearchResponse';
 import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
@@ -17,12 +16,6 @@ const RoomCardActions = ({ room, carId, rooms = 1 }: RoomProps) => {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(false);
 
-  const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
   const bookingCode = room.rates.min_rate.sn_booking_code;
   const itemToBook = {
     sn_booking_code: bookingCode,
@@ -36,7 +29,7 @@ const RoomCardActions = ({ room, carId, rooms = 1 }: RoomProps) => {
 
   const handleAction = async (url: string) => {
     setIsDisabled(true);
-    await addToCart(itemToBook, i18next, store);
+    await addToCart(itemToBook, i18next);
     router.replace(url);
   };
 

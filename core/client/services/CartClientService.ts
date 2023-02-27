@@ -2,11 +2,6 @@
 import { i18n } from 'i18next';
 import { Item, UpdateCartRequest } from 'types/cart/CartType';
 import { ClientCartItemAdder } from '../ClientCartItemAdder';
-import {
-  createCart,
-  updateCart as updateCartAction,
-  clearCart,
-} from '../../../store/actions/cartActions';
 import { ClientCartGetter } from '../ClientCartGetter';
 import { ClientCartRemover } from '../ClientCartItemRemover';
 import { ClientCartUpdate } from '../ClientCartUpdate';
@@ -21,14 +16,10 @@ const cartOption = {
   value: 'cart',
 };
 
-export const addToCart = async (
-  itemToAdd: Item,
-  i18next: i18n,
-  store: any,
-  dontDispatch?: boolean,
-) => {
-  const { state, dispatch } = store;
-  const cartId = state.cartStore.cart ?? null;
+export const addToCart = async (itemToAdd: Item, i18next: i18n) => {
+  const cartId = localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart') || '')
+    : null;
   const cartItemAdder = new ClientCartItemAdder(cartOption);
   let cartUrl = '/carts';
   const newCartRequest = {
@@ -50,15 +41,12 @@ export const addToCart = async (
         i18next,
         cartUrl,
       );
-      if (item && !dontDispatch) {
-        dispatch(updateCartAction());
-      }
       return item;
     }
     const item = await cartItemAdder.request(newCartRequest, i18next, cartUrl);
     const { cart } = item;
-    if (cart && !dontDispatch) {
-      dispatch(createCart(cart.cart_id));
+    if (cart) {
+      localStorage.setItem('cart', JSON.stringify(cart.cart_id));
     }
     return item;
   } catch (error) {
@@ -66,9 +54,10 @@ export const addToCart = async (
   }
 };
 
-export const getCart = async (i18next: i18n, store: any) => {
-  const { state, dispatch } = store;
-  const cartId = state.cartStore.cart ?? null;
+export const getCart = async (i18next: i18n) => {
+  const cartId = localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart') || '')
+    : null;
 
   const cartGetter = new ClientCartGetter(cartOption);
   const cartUrl = `/carts/${cartId}`;
@@ -83,11 +72,9 @@ export const getCart = async (i18next: i18n, store: any) => {
       if (validCart) {
         return cart && cart;
       }
-      dispatch(clearCart());
       localStorage.removeItem('cart');
     }
   } catch (error) {
-    dispatch(clearCart());
     localStorage.removeItem('cart');
   }
 };
@@ -146,7 +133,6 @@ interface RemoveItemRequest {
 export const removeFromCart = async (
   i18next: i18n,
   itemToRemove: RemoveItemRequest,
-  dispatch: any,
 ) => {
   const { cartId, itemId } = itemToRemove;
   const cartRemover = new ClientCartRemover(cartOption);
@@ -158,7 +144,6 @@ export const removeFromCart = async (
 
   try {
     await cartRemover.request(cartRequest, i18next, cartUrl);
-    dispatch(updateCartAction());
   } catch (error) {
     console.error(error);
   }

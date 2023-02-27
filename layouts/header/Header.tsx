@@ -1,40 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 
 import HamburgerMenuButton from 'public/icons/assets/hamburger-menu-button.svg';
 import ShoppingCart from 'public/icons/assets/shopping-cart.svg';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store';
+import { useState, useEffect } from 'react';
 import { getCart } from 'core/client/services/CartClientService';
 import { useTranslation } from 'react-i18next';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import Menu from './components/Menu/Menu';
-import { clearCart } from 'store/actions/cartActions';
 import Link from 'next/link';
 import HeaderDesktop from './components/Menu/HeaderDesktop';
 import ItineraryOverlay from '../../components/itinerary/ItineraryOverlay/ItineraryOverlay';
 import useModal from 'hooks/layoutAndUITooling/useModal';
-import { CartObjectResponse } from '../../types/cart/CartType';
 import { useSettings } from 'hooks/services/useSettings';
+import { CartObjectResponse } from 'types/cart/CartType';
 
 interface HeaderProps {
   color: string;
 }
 
-interface HeaderButtonProps {
-  children?: any;
-  onClick?: () => void;
-}
-
 const Header = ({ color }: HeaderProps) => {
   const [isOpen, onOpen, onClose] = useModal();
-  const state = useSelector((state: RootState) => state);
-  const dispatch = useDispatch();
-  const store = {
-    state,
-    dispatch,
-  };
 
   const { data: brandConfig } = useSettings();
   const { images } = brandConfig;
@@ -47,22 +34,31 @@ const Header = ({ color }: HeaderProps) => {
   const handleOpenMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
 
-  useEffect(() => {
-    if (!state.cartStore) {
-      return;
+  const fetchCart = async () => {
+    try {
+      const data = await getCart(i18next);
+      if (data?.status === 'BOOKED' || !data) {
+        localStorage.removeItem('cart');
+        setCartQty(0);
+      } else if (data) {
+        setCartQty(data.total_item_qty);
+        setCart(data);
+      }
+      return data;
+    } catch (e) {
+      console.error(e);
     }
-    getCart(i18next, store)
-      .then((cart) => {
-        if (cart?.status === 'BOOKED') {
-          localStorage.removeItem('cart');
-          dispatch(clearCart());
-        } else if (cart) {
-          setCartQty(cart.total_item_qty);
-          setCart(cart);
-        }
-      })
-      .catch((error) => console.error(error));
-  }, [state.cartStore]);
+  };
+
+  const { data } = useReactQuery(['get-cart'], fetchCart, {
+    retry: false,
+    staleTime: Infinity,
+    refetchOnWindowFocus: true,
+  });
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
   return (
     <>
