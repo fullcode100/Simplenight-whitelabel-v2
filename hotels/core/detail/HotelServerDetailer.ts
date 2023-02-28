@@ -50,4 +50,8 @@ export class HotelServerDetailer extends ServerDetailer<HotelDetailResponse> {
     sendSuccess(response, adaptedResult);
     return;
   }
+
+  protected override postRequestResult(): void {
+    return;
+  }
 }
