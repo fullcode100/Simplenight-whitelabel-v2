@@ -44,26 +44,28 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <header className="fixed z-20 flex flex-col w-full pb-2 lg:pt-6 sm:pt-1 bg-dark-100 border-y border-dark-300">
-        <section className="hidden lg:block">
-          <HorizontalTabs
-            tabs={categoriesTabs}
-            activeTab={activeTab}
-            onClick={handleTabClick}
-            primary
-            className="px-4 mt-1"
-          />
-        </section>
-
-        <section className="pt-3 lg:hidden">
-          <ExtendedSearchCategoryForm searchType={searchType} />
-        </section>
-        <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
-          <section className="mx-auto max-w-7xl">
-            <SearchCategoryForm activeTab={activeTab} />
+      <div className="fixed z-40 w-full">
+        <header className="flex flex-col w-full pb-2 lg:pt-6 sm:pt-1 bg-dark-100 border-y border-dark-300">
+          <section className="hidden lg:block">
+            <HorizontalTabs
+              tabs={categoriesTabs}
+              activeTab={activeTab}
+              onClick={handleTabClick}
+              primary
+              className="px-4 mt-1"
+            />
           </section>
-        </section>
-      </header>
+
+          <section className="pt-3 lg:hidden">
+            <ExtendedSearchCategoryForm searchType={searchType} />
+          </section>
+          <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">
+            <section className="mx-auto max-w-7xl">
+              <SearchCategoryForm activeTab={activeTab} />
+            </section>
+          </section>
+        </header>
+      </div>
       <main>
         <section
           className={classnames('lg:w-full lg:px-20 pt-[90px]', {
