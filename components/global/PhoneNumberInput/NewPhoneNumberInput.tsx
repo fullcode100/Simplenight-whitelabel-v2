@@ -140,6 +140,7 @@ const PhoneNumberInput = ({
       JSON.stringify({
         phone_prefix: dialCode,
         phone_number: removeFormatFromPhoneNumber(phoneNumber),
+        country: countryCode.iso2,
       }),
     );
     setOpen(false);
@@ -153,13 +154,14 @@ const PhoneNumberInput = ({
       JSON.stringify({
         phone_prefix: countryCode.dialCode,
         phone_number: removeFormatFromPhoneNumber(phone),
+        country: countryCode.iso2,
       }),
     );
   };
   return (
     <section ref={inputRef} className="relative">
       <section
-        className={`flex items-center  w-full border px-3  
+        className={`flex items-center  w-full border px-3
         ${height} ${colors[state]} ${open ? 'rounded-t' : 'rounded'}`}
       >
         <section
@@ -207,7 +209,7 @@ const PhoneNumberInput = ({
           <div
             key={`${option.dialCode}-${option.iso2}`}
             onClick={() => handleChangeCode(option)}
-            className="cursor-pointer select-none p-2 border-solid border-b border-dark-200 hover:bg-dark-100 last:border-b-0 text-base"
+            className="p-2 text-base border-b border-solid cursor-pointer select-none border-dark-200 hover:bg-dark-100 last:border-b-0"
           >
             {option.iso2.toUpperCase()}
           </div>
