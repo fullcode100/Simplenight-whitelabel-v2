@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import { allCountries, iso2Lookup } from 'country-telephone-data';
 import InputMask from 'react-input-mask';
@@ -9,6 +9,7 @@ import ChevronDown from 'public/icons/assets/chevron-down-arrow.svg';
 import ChevronUp from 'public/icons/assets/chevron-up-arrow.svg';
 
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
+import { checkBog } from '../../../helpers/urlUtils';
 
 export interface CountryCodeOption {
   name: string;
@@ -52,6 +53,11 @@ const PhoneNumberInput = ({
   defaultPhoneNumber,
   placeholder,
 }: PhoneNumberInputProps) => {
+  const [isBog, setIsBog] = useState(false);
+  useEffect(() => {
+    setIsBog(checkBog(window.location.host));
+  }, []);
+
   const [open, setOpen] = useState(false);
   const [phoneInputIsFocused, setPhoneInputIsFocused] = useState(false);
 
@@ -104,7 +110,7 @@ const PhoneNumberInput = ({
     return allCountries[countryIndex as unknown as number];
   };
   const [countryCode, setCountryCode] = useState<CountryCodeOption>(
-    getDefaultCountryCode(defaultCode),
+    getDefaultCountryCode(defaultCode.toLowerCase()),
   );
   const [formattedDialCode, setFormattedDialCode] = useState<string>(
     countryCode.format ? formatDialCode(countryCode) : countryCode.dialCode,
@@ -134,13 +140,13 @@ const PhoneNumberInput = ({
   };
 
   const handleChangeCode = (option: CountryCodeOption) => {
-    const { dialCode } = option;
+    const { dialCode, iso2 } = option;
     setCountryCode(option);
     onChange(
       JSON.stringify({
-        phone_prefix: dialCode,
+        phone_prefix: isBog ? '1' : dialCode,
         phone_number: removeFormatFromPhoneNumber(phoneNumber),
-        country: countryCode.iso2,
+        country: isBog ? 'us' : iso2,
       }),
     );
     setOpen(false);
@@ -152,9 +158,9 @@ const PhoneNumberInput = ({
     setPhoneNumber(phone);
     onChange(
       JSON.stringify({
-        phone_prefix: countryCode.dialCode,
+        phone_prefix: isBog ? '1' : countryCode.dialCode,
         phone_number: removeFormatFromPhoneNumber(phone),
-        country: countryCode.iso2,
+        country: isBog ? 'us' : countryCode.iso2,
       }),
     );
   };
@@ -166,7 +172,7 @@ const PhoneNumberInput = ({
       >
         <section
           className="flex items-center "
-          onClick={() => (!isDisabled ? setOpen(!open) : undefined)}
+          onClick={() => (!isDisabled && !isBog ? setOpen(!open) : undefined)}
         >
           <input
             type="text"
@@ -174,13 +180,15 @@ const PhoneNumberInput = ({
             value={countryCode?.iso2.toUpperCase()}
             disabled
           />
-          <button type="button">
-            {open ? (
-              <ChevronUp className={`${iconSize} text-dark-700`} />
-            ) : (
-              <ChevronDown className={`${iconSize} text-dark-700`} />
-            )}
-          </button>
+          {!isBog && (
+            <button type="button">
+              {open ? (
+                <ChevronUp className={`${iconSize} text-dark-700`} />
+              ) : (
+                <ChevronDown className={`${iconSize} text-dark-700`} />
+              )}
+            </button>
+          )}
           <span className={textSize}>
             {countryCode?.dialCode && formattedDialCode}
           </span>

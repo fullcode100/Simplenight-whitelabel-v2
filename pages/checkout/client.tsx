@@ -311,8 +311,10 @@ const Client = () => {
       ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
     const phone = JSON?.parse?.(primaryContactCopy.phone || '{}');
-    request.customer.phone_number = phone?.phone_number || '';
-    request.customer.phone_prefix = phone?.phone_prefix || '';
+    request.customer.phone_number =
+      phone?.phone_number || cart.customer.phone_number;
+    request.customer.phone_prefix =
+      phone?.phone_prefix || cart.customer.phone_prefix;
     request.customer.country = phone?.country || '';
 
     delete request.customer.phone;

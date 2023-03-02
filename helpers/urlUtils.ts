@@ -6,3 +6,15 @@ export const checkUrl = async (url: string) => {
     return false;
   }
 };
+
+const bogDomains = [
+  'bog.simplenight',
+  'bog-dev.simplenight',
+  'bog-qa.simplenight',
+];
+
+export const checkBog = (url: string) => {
+  const isBog = bogDomains.some((i) => url.includes(i));
+
+  return isBog;
+};
