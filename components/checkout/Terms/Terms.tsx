@@ -1,4 +1,5 @@
-import React, { BaseSyntheticEvent, useState, useEffect } from 'react';
+import { useSettings } from 'hooks/services/useSettings';
+import React, { BaseSyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TermsProps = {
@@ -17,7 +18,12 @@ const Terms = ({
   setErrorTerms,
 }: TermsProps) => {
   const [t, i18next] = useTranslation('global');
-  const [width, setWidth] = useState<number>(0);
+
+  const { data: brandConfig } = useSettings();
+  const { legalInformation } = brandConfig;
+  const { simplenightTermsOfService, simplenightPrivacyPolicy } =
+    legalInformation || {};
+
   const iHaveReviewedLabel = t(
     'iHaveReviewed',
     'I have reviewed and agree to the ',
@@ -36,16 +42,6 @@ const Terms = ({
     'thePaymentWill',
     'The payment will be processed in the US.',
   );
-
-  const handleWindowResize = () => setWidth(window.innerWidth);
-
-  useEffect(() => {
-    handleWindowResize();
-    window.addEventListener('resize', handleWindowResize);
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, []);
 
   const errorTermsLabel = t(
     'errorTermsLabel',
@@ -77,15 +73,18 @@ const Terms = ({
         {iHaveReviewedLabel}&nbsp;
         <a
           className="underline text-primary-1000 hover:underline"
-          href="/terms"
-          target={width < 480 ? '_self' : '_blank'}
+          href={simplenightTermsOfService}
+          target="_blank"
+          rel="noreferrer"
         >
           {termsLabel}
         </a>
         {ofTheSimplenightLabel}
         <a
           className="underline text-primary-1000 hover:underline"
-          href="/privacy"
+          href={simplenightPrivacyPolicy}
+          target="_blank"
+          rel="noreferrer"
         >
           {privacyLabel}
         </a>
