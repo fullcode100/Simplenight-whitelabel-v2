@@ -11,6 +11,7 @@ const bogDomains = [
   'bog.simplenight',
   'bog-dev.simplenight',
   'bog-qa.simplenight',
+  'bog-stg.simplenight',
 ];
 
 export const checkBog = (url: string) => {

@@ -13,6 +13,7 @@ import ChevronDown from 'public/icons/assets/chevron-down.svg';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { useSettings } from 'hooks/services/useSettings';
+import useBog from 'hooks/bog/useBog';
 
 interface HeaderDesktopProps {
   color?: string;
@@ -28,6 +29,7 @@ interface CustomLinkProps {
 const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
   const [tg, i18n] = useTranslation('global');
   const currentCurrency = getCurrency();
+  const { isBog } = useBog();
 
   const poweredByText = tg('poweredBy', 'Powered by');
   const orderLookupText = tg('orderLookup', 'Order Lookup');
@@ -113,6 +115,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
             icon={<LanguageIcon />}
             value={currentLanguage}
             titleDropdown={languageText}
+            disabled={isBog}
           >
             <LanguageSelect horizontal={true} />
           </ButtonDropdown>
@@ -120,6 +123,7 @@ const HeaderDesktop = ({ color, cartQty, onOpen }: HeaderDesktopProps) => {
             icon={<CashIcon />}
             value={currentCurrency}
             titleDropdown={currencyText}
+            disabled={isBog}
           >
             <CurrencySelect />
           </ButtonDropdown>

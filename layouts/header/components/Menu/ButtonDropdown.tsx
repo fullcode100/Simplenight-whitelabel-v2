@@ -7,6 +7,7 @@ interface ButtonDropdownProps {
   icon?: React.ReactElement;
   value?: string;
   titleDropdown?: string;
+  disabled?: boolean;
 }
 
 const ButtonDropdown = ({
@@ -14,14 +15,15 @@ const ButtonDropdown = ({
   icon,
   value,
   titleDropdown,
+  disabled,
 }: ButtonDropdownProps) => {
   const [open, setOpen] = useState(false);
   return (
     <section className="relative">
       <button
         className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 h-8 rounded"
-        onClick={() => setOpen(!open)}
-        onBlur={() => setOpen(false)}
+        onClick={disabled ? undefined : () => setOpen(!open)}
+        onBlur={disabled ? undefined : () => setOpen(false)}
       >
         {icon} {value}
       </button>

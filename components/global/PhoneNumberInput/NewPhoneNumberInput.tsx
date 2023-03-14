@@ -10,6 +10,7 @@ import ChevronUp from 'public/icons/assets/chevron-up-arrow.svg';
 
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
 import { checkBog } from '../../../helpers/urlUtils';
+import useBog from 'hooks/bog/useBog';
 
 export interface CountryCodeOption {
   name: string;
@@ -53,10 +54,7 @@ const PhoneNumberInput = ({
   defaultPhoneNumber,
   placeholder,
 }: PhoneNumberInputProps) => {
-  const [isBog, setIsBog] = useState(false);
-  useEffect(() => {
-    setIsBog(checkBog(window.location.host));
-  }, []);
+  const { isBog } = useBog();
 
   const [open, setOpen] = useState(false);
   const [phoneInputIsFocused, setPhoneInputIsFocused] = useState(false);
