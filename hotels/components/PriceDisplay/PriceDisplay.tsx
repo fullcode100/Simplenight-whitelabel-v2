@@ -38,13 +38,17 @@ const PriceDisplay = ({
   const totalBeforeDiscount =
     rate?.min_rate.rate?.rate_breakdown.discounts?.total_amount_before_apply;
   let percentageToApply;
+  let amountToApply;
   if (discounts) {
-    ({ percentage_to_apply: percentageToApply } = discounts);
+    ({
+      percentage_to_apply: percentageToApply,
+      amount_to_apply: amountToApply,
+    } = discounts);
   }
   const showDiscount =
     pathName.startsWith('/checkout') || pathName.startsWith('/confirmation')
       ? false
-      : true;
+      : !!amountToApply?.amount;
 
   return (
     <section className="text-right">
