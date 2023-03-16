@@ -21,9 +21,8 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
   const roomMinRate = room.item_data.min_rate_room;
   const roomRate: MinRateRate = roomMinRate.rates.min_rate.rate;
 
-  const cancellationPolicy = room.item_data.rooms
-    .map((room) => room.rates.min_rate.cancellation_policy.description)
-    .join(', ');
+  const cancellationPolicy =
+    roomMinRate.rates.min_rate.cancellation_policy?.description;
   const total = roomRate?.total_amount.formatted;
   const roomRateDetail = roomRate?.rate_breakdown;
 
