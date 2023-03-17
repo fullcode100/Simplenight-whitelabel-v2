@@ -102,6 +102,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     cancellation_type: '',
     supplier_ids: '',
     apiUrl,
+    time: '23:00',
   };
 
   const fetchDining = async () => {

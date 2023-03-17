@@ -109,8 +109,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   useEffect(() => {
     const params: DiningDetailPreRequest = {
       id: (id as unknown as string) ?? '',
-      start_date: startDate,
-      end_date: endDate,
+      date: startDate,
     };
 
     Category.core.ClientDetailer?.request(params, i18next, params.id)

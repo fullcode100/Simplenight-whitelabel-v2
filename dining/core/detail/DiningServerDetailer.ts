@@ -30,18 +30,22 @@ export class DiningServerDetailer extends ServerDetailer<DiningDetailResponse> {
 
     params.rsp_fields_set = 'extended';
     params.inventory_ids = id;
-    if (typeof params.start_date === 'string') {
-      params.start_date = dayjs(params.start_date).format('YYYY-MM-DD');
+    if (typeof params.date === 'string') {
+      params.date = dayjs(params.date).format('YYYY-MM-DD');
     }
 
     if (typeof params.end_date === 'string') {
       params.end_date = dayjs(params.end_date).format('YYYY-MM-DD');
     }
 
+    params.time = '20:00'; // Default because we dont support it yet in client side
+
     delete params.id;
 
-    return axios.get<ApiResponse<unknown, DiningDetailResponse>>(url, {
+    const resp = axios.get<ApiResponse<unknown, DiningDetailResponse>>(url, {
       params,
     });
+
+    return resp;
   }
 }

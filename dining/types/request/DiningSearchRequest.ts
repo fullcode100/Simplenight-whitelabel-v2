@@ -6,6 +6,7 @@ export interface DiningSearchRequest extends SearchRequest {
   limit: number;
   price: string;
   sort_by: string;
+  time: string;
 }
 
 export interface DiningSearchPreRequest {
