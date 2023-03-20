@@ -15,14 +15,17 @@ interface HotelRoomInfoProps {
 const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
   const [t, i18next] = useTranslation('global');
 
-  const roomName = room.item_data.min_rate_room.name;
-  const amenities = room.item_data.min_rate_room.amenities.join(', ');
+  const selectedRoom = room.item_data?.rooms?.find(
+    (roomA) => roomA.code == room.item_data?.selected_room_code,
+  );
 
-  const roomMinRate = room.item_data.min_rate_room;
-  const roomRate: MinRateRate = roomMinRate.rates.min_rate.rate;
+  const roomName = selectedRoom?.name;
+  const amenities = selectedRoom?.amenities.join(', ');
+
+  const roomRate: MinRateRate | undefined = selectedRoom?.rates.min_rate.rate;
 
   const cancellationPolicy =
-    roomMinRate.rates.min_rate.cancellation_policy?.description;
+    selectedRoom?.rates.min_rate.cancellation_policy?.description;
   const total = roomRate?.total_amount.formatted;
   const roomRateDetail = roomRate?.rate_breakdown;
 

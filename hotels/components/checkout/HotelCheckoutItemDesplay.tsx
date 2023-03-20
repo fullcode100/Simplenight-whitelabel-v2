@@ -6,7 +6,10 @@ import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary
 import { Rates } from '../../types/response/SearchResponse';
 
 const HotelCheckoutItemDisplay = (item: any) => {
-  const breakDownInfo: Rates = item.item.item_data.min_rate_room.rates;
+  const selectedRoom = item.item?.item_data?.rooms?.find(
+    (roomA: any) => roomA.code == item.item?.item_data?.selected_room_code,
+  );
+  const breakDownInfo: Rates = selectedRoom.rates;
   const CartItemHeader = () => {
     const itemCategory = useCategorySlug(
       item.item.category?.toLowerCase() || '',

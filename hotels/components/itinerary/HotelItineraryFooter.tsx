@@ -40,13 +40,10 @@ const HotelItineraryFooter = ({
 
   const editLabel = tg('edit', 'Edit');
 
-  /* const selectedRoom = item.extended_data?.rooms?.find(
-    (roomA) => roomA.code == item.extended_data?.selected_room_code,
+  const selectedRoom = item.item_data?.rooms?.find(
+    (roomA) => roomA.code == item.item_data?.selected_room_code,
   );
   const totalRate = selectedRoom?.rates?.min_rate?.rate;
- */
-  const totalRate =
-    item.item_data.min_rate_room.rates.min_rate.rate.total_amount;
   const slug = useCategoryType('hotels')?.slug;
 
   const removeAllRooms = () => {
@@ -82,7 +79,7 @@ const HotelItineraryFooter = ({
     <section className="flex flex-col gap-3">
       {totalRate && (
         <BreakdownSummary
-          rate={item.item_data.min_rate_room.rates as unknown as Rates}
+          rate={selectedRoom.rates as unknown as Rates}
           nights={item.booking_data.nights}
           guests={item.booking_data.guests}
           showTotal={true}

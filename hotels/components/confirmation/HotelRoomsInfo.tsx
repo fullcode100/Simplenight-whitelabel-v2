@@ -43,7 +43,7 @@ const HotelRoomsInfo = ({
   );
 
   const selectedRoom = item?.item_data?.rooms?.find(
-    (roomA: any) => roomA.code == item?.item_data?.min_rate_room?.code,
+    (roomA: any) => roomA.code == item?.item_data?.selected_room_code,
   );
   const roomName = selectedRoom?.name;
   const amenities = selectedRoom?.amenities.join(', ');
