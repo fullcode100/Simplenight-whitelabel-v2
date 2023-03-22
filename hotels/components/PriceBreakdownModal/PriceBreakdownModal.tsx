@@ -78,6 +78,8 @@ const PriceBreakdownModal = ({
   const { total_base_amount: totalBaseAmount, post_paid_rate: postPaidRate } =
     rateBreakdown;
 
+  const { amount_to_apply: amountToApply } = rateBreakdown.discounts;
+
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
@@ -177,7 +179,7 @@ const PriceBreakdownModal = ({
                 </p>
 
                 <section className="text-right">
-                  {rateBreakdown.discounts && (
+                  {rateBreakdown.discounts && !!amountToApply.amount && (
                     <p className="text-xs font-semibold leading-5 text-green-1000">
                       <span className="mr-1 line-through text-dark-800">
                         {
