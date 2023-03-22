@@ -121,6 +121,9 @@ module.exports = {
         up: '0 0 12px rgba(0, 0, 0, 0.16)',
         full: '0 0 0 10000px rgba(0, 0, 0, 0.85)',
       },
+      animation: {
+        loader: 'load 5s linear forwards',
+      },
       keyframes: {
         skeleton: {
           '0%': {
@@ -132,6 +135,10 @@ module.exports = {
           '100%': {
             transform: 'translateX(-50%)',
           },
+        },
+        load: {
+          '0%': { width: '1%' },
+          '100%': { width: '98%' },
         },
       },
     },
