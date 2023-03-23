@@ -237,6 +237,7 @@ const HotelSearchForm = ({
             onStartDateChange={handleStartDateChange}
             onEndDateChange={handleEndDateChange}
             openOnStart={clickOnStart ? true : false}
+            maxRange={28}
           />
         </section>
       </section>

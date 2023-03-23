@@ -31,6 +31,7 @@ module.exports = withReactSvg({
       's3-media3.fl.yelpcdn.com',
       's3-media4.fl.yelpcdn.com',
       'cdn.parkopedia.com',
+      'hotelmedia.s3.amazonaws.com',
     ],
   },
   webpackDevMiddleware: (config) => {
