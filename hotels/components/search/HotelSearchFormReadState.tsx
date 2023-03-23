@@ -7,6 +7,7 @@ import { formatAsDisplayDate, SEARCH_DATE_FORMAT } from 'helpers/dajjsUtils';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
+import { decodeAddressQueryParam } from 'hotels/helpers/urlHelper';
 
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
@@ -79,7 +80,7 @@ const HotelSearchFormReadState = ({
       {address
         ?.toString()
         .split(', ')
-        .map((item) => decodeURIComponent(item))
+        .map((item) => decodeAddressQueryParam(item))
         .join(', ') || ''}
     </span>
   );
