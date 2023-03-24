@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 // Libraries
@@ -42,6 +43,8 @@ const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
 
 const GOOGLE = 'google';
+const MICROSOFT = 'microsoft';
+const WEGO = 'wego';
 
 const Payment = () => {
   const router = useRouter();
@@ -71,38 +74,123 @@ const Payment = () => {
 
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
   const { getCookie } = useCookies();
+  const GoogleScript = (
+    value: any,
+    bookingId: string,
+    referralItemId: string,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    currency: any,
+  ) => (
+    <Script id="GTM-2938402">
+      {`
+    window.gtag('event', 'conversion', {
+      send_to: 'AW-711765415/leb4CJfbwvwBEKfbstMC',
+      ${value},
+      ${currency},
+      transaction_id: ${bookingId},
+      items: [
+        {
+          id: ${referralItemId},
+          start_date: ${startDate},
+          end_date: ${endDate},
+        },
+      ],
+    });
+  `}
+    </Script>
+  );
 
-  const triggerGTagEvent = (bookingId: string, referralItemId: string) => {
+  const MicrosoftScript = (
+    value: any,
+    bookingId: string,
+    referralItemId: string,
+    startDate: string | undefined,
+    endDate: string | undefined,
+    currency: any,
+  ) => (
+    <Script id="microsoft-uet">
+      {`
+      window.uetq = window.uetq || [];
+      window.gtag('event', 'conversion', {
+        event_value:${value},
+        ${currency},
+        transaction_id: ${bookingId},
+        items: [
+          {
+            id: ${referralItemId},
+            start_date: ${startDate},
+            end_date: ${endDate},
+          },
+        ],
+    });
+  `}
+    </Script>
+  );
+
+  const WegoScript = (
+    referralItemId: string,
+    currency: any,
+    bookingId: string,
+    value: any,
+  ) => {
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      return (
+        <img
+          src={`https://srv.wegostaging.com/analytics/v2/conversions?conversion_id=c-wego-simplenight.com&click_id=${referralItemId}&comm_currency_code=${currency}&bv_currency_code=${currency}&transaction_id=${bookingId}&total_booking_value=${value}&status=confirmed`}
+          width="1"
+          height="1"
+          alt=""
+        />
+      );
+    } else {
+      return (
+        <img
+          src={`
+            https://srv.wego.com/analytics/v2/conversions?conversion_id=c-wego-simplenight.com&click_id=${referralItemId}&comm_currency_code=${currency}&bv_currency_code=${currency}&transaction_id=${bookingId}&total_booking_value=${value}&status=confirmed
+          `}
+          width="1"
+          height="1"
+          alt=""
+        />
+      );
+    }
+  };
+
+  const triggerGTagEvent = (
+    bookingId: string,
+    referralItemId: string,
+    referralCompany: string,
+  ) => {
     const referralItem = cart?.items.find(
       (item) => item.inventory_id === referralItemId,
     );
-
+    // be aware that referralItemId will contain wego's click ID
     const totalAmount = referralItem?.last_validated_rate.total_amount;
     const value = totalAmount?.amount;
     const currency = totalAmount?.currency;
-
     const startDate = referralItem?.extended_data?.start_date;
     const endDate = referralItem?.extended_data?.end_date;
-
-    return (
-      <Script id="GTM-2938402">
-        {`
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-711765415/leb4CJfbwvwBEKfbstMC',
-          ${value},
-          ${currency},
-          transaction_id: ${bookingId},
-          items: [
-            {
-              id: ${referralItemId},
-              start_date: ${startDate},
-              end_date: ${endDate},
-            },
-          ],
-        });
-      `}
-      </Script>
-    );
+    if (referralCompany === GOOGLE)
+      GoogleScript(
+        value,
+        bookingId,
+        referralItemId,
+        startDate,
+        endDate,
+        currency,
+      );
+    if (referralCompany === MICROSOFT)
+      MicrosoftScript(
+        value,
+        bookingId,
+        referralItemId,
+        startDate,
+        endDate,
+        currency,
+      );
+    if (referralCompany === WEGO)
+      WegoScript(referralItemId, currency, bookingId, value);
   };
 
   const triggerEventConversion = (bookingId?: string) => {
@@ -111,10 +199,8 @@ const Payment = () => {
     if (!referral || !bookingId) return;
 
     const referralCompany = referral[0];
-    if (referralCompany === GOOGLE) {
-      const referralItemId = referral[1];
-      triggerGTagEvent(bookingId, referralItemId);
-    }
+    const referralItemId = referral[1];
+    triggerGTagEvent(bookingId, referralItemId, referralCompany);
   };
   const dateIsInCorrectFormat = (val: string) => {
     const datePattern = /\d\d\/\d\d/;
