@@ -92,23 +92,30 @@ const BaseInput = ({
     },
   );
   const Input = (customInput && <CustomInput />) || (
-    <input
-      type={type}
-      name={name}
-      id={name}
-      ref={inputRef}
-      value={value}
-      disabled={disabled}
-      className={inputDynamicClass}
-      placeholder={placeholder}
-      onChange={onChange}
-      autoFocus={autoFocus}
-      max={type == 'number' ? max : ''}
-      min={type == 'number' ? min : ''}
-      onClick={onClick}
-      defaultValue={defaultValue}
-      {...others}
-    />
+    <>
+      <style jsx>{`
+        input[type='number'] {
+          -moz-appearance: textfield;
+        }
+      `}</style>
+      <input
+        type={type}
+        name={name}
+        id={name}
+        ref={inputRef}
+        value={value}
+        disabled={disabled}
+        className={inputDynamicClass}
+        placeholder={placeholder}
+        onChange={onChange}
+        autoFocus={autoFocus}
+        max={type == 'number' ? max : ''}
+        min={type == 'number' ? min : ''}
+        onClick={onClick}
+        defaultValue={defaultValue}
+        {...others}
+      />
+    </>
   );
 
   if (type === 'number') return <NumberInput />;
