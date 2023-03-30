@@ -2,10 +2,11 @@ import { useRouter } from 'next/router';
 import BreakdownItemList from 'components/checkout/BreakdownItemList/BreakdownItemList';
 import Button from 'components/global/Button/Button';
 import Divider from 'components/global/Divider/Divider';
-import ItineraryEmpty from 'components/itinerary/ItineraryEmpty/ItineraryEmpty';
+import { Itinerary } from '@simplenight/ui';
 import React, { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CartObjectResponse } from '../../../../types/cart/CartType';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 
 interface BodyProps {
   showCheckOut: boolean;
@@ -24,6 +25,10 @@ const ItineraryOverlayBody = ({
   const [t] = useTranslation('global');
   const checkOut = t('checkoutTitle', 'Check Out');
   const goToItinerary = t('goToItinerary', 'Go To Itinerary');
+  const emptyItineraryText = t(
+    'itineraryEmpty',
+    'Add Something To Your Itinerary!',
+  );
 
   return (
     <section className="h-full py-6 overflow-y-scroll">
@@ -52,7 +57,11 @@ const ItineraryOverlayBody = ({
       {cart ? (
         <BreakdownItemList cart={cart} reload={reload} setReload={setReload} />
       ) : (
-        <ItineraryEmpty />
+        <EmptyStateContainer
+          text={emptyItineraryText}
+          Icon={Itinerary}
+          width={160}
+        />
       )}
     </section>
   );

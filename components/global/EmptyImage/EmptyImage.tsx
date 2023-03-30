@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import ImageEmpty from 'public/icons/assets/image-empty.svg';
+import { ImageEmpty } from '@simplenight/ui';
 
 interface iEmptyImage {
   noPading?: boolean;
@@ -9,14 +9,12 @@ const EmptyImage = ({ noPading }: iEmptyImage) => {
   const [t] = useTranslation('global');
   const label = t('imageComingSoon', 'Image Coming Soon');
 
-  const Drawing = () => <ImageEmpty />;
-
   return (
     <section className="flex flex-col p-3">
       <section
         className={`grid place-content-center ${noPading ? '' : 'py-6'}`}
       >
-        <Drawing />
+        <ImageEmpty width={100} />
       </section>
       <p className="text-center text-primary-800">{label}</p>
     </section>

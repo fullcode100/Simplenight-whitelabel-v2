@@ -10,8 +10,7 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
 
 import HotelMapView from './HotelResultsMapView';
-import EmptyState from '../../../components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import { EmptyState } from '@simplenight/ui';
 import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { createRoom } from 'hotels/helpers/room';
@@ -32,6 +31,7 @@ import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/Li
 import { useWindowSize } from 'hotels/hooks/useWinoowsResize';
 import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImage';
 import HotelMobileFilters from './HotelMobileFilters';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -196,6 +196,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     const { id } = hotel;
     return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
+  console.log(data);
   const hasNoHotels = data?.length === 0;
 
   const checkIfShouldBeShown = () => {
@@ -287,9 +288,11 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           {!isLoading && hasNoHotels ? (
-            <EmptyState
+            <EmptyStateContainer
               text={noResultsLabel}
-              image={<EmptyStateIcon className="mx-auto" />}
+              Icon={EmptyState}
+              width={114}
+              desktopWidth={223}
             />
           ) : (
             <>

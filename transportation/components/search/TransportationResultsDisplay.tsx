@@ -11,8 +11,9 @@ import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
 import { TransportationCard } from './TransportationCard';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
-import EmptyState from 'components/global/EmptyState/EmptyState';
-import EmptyStateIcon from '@/icons/assets/empty-state.svg';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import { EmptyState } from '@simplenight/ui';
+
 import {
   Item,
   Quote,
@@ -253,9 +254,11 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
         <section className="px-5 py-6">
           <section className="relative w-full h-full">
             {loaded && filteredList?.length === 0 ? (
-              <EmptyState
+              <EmptyStateContainer
                 text={t('No Results Match Your Search.')}
-                image={<EmptyStateIcon className="mx-auto" />}
+                Icon={EmptyState}
+                width={114}
+                desktopWidth={223}
               />
             ) : (
               <section>

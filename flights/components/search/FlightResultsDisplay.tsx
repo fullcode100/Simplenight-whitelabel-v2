@@ -16,7 +16,10 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 import EmptyState from '../../../components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import {
+  EmptyState as EmptyStateIllustration,
+  Itinerary,
+} from '@simplenight/ui';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
@@ -43,6 +46,7 @@ import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
 import Sort from '@/icons/assets/sort.svg';
 import Chevron from '@/icons/assets/chevron-down-small.svg';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 
 declare let window: CustomWindow;
 
@@ -197,7 +201,6 @@ const FlightResultsDisplay = ({
   useEffect(() => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
   }, [storeCurrency]);
-
 
   useEffect(() => {
     if (data) {
@@ -653,9 +656,11 @@ const FlightResultsDisplay = ({
               )}
             </>
           ) : (
-            <EmptyState
+            <EmptyStateContainer
               text={noResultsLabel}
-              image={<EmptyStateIcon className="mx-auto" />}
+              Icon={EmptyStateIllustration}
+              width={114}
+              desktopWidth={223}
             />
           )}
         </section>

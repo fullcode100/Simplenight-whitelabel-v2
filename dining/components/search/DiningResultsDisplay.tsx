@@ -18,7 +18,7 @@ import classnames from 'classnames';
 import MapView from './MapView/MapView';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import { EmptyState as EmptyStateIllustration } from '@simplenight/ui';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
@@ -33,6 +33,7 @@ import {
 } from 'components/global/AltRadioButton/AltRadioButton';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { useCategorySlug } from 'hooks/category/useCategory';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 
 interface ViewButtonProps {
   children: ReactNode;
@@ -240,9 +241,11 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
         </section>
         <section className="relative h-full lg:mt-6 lg:w-[75%] lg:flex-1">
           {!isLoading && hasNoRestaurants ? (
-            <EmptyState
+            <EmptyStateContainer
               text={noResultsLabel}
-              image={<EmptyStateIcon className="mx-auto" />}
+              Icon={EmptyStateIllustration}
+              width={114}
+              desktopWidth={223}
             />
           ) : (
             <>

@@ -11,11 +11,12 @@ import { getHomepageScrollHandler } from '../store/selectors/core';
 import { Tab } from 'components/global/Tabs/types';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
-import OrderLookupIcon from 'public/icons/assets/order-lookup-icon.svg';
+import { OrderLookupIcon } from '@simplenight/ui';
 import useCategories from 'hooks/category/useCategories';
 import HomeCategoryContent from 'components/global/HomeCategoryContent/HomeCategoryContent';
 import homePageText from 'translations/en/global.json';
 import { useSettings } from 'hooks/services/useSettings';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => {
   const { data: brandConfig } = useSettings();
@@ -92,10 +93,13 @@ const Home: NextPageWithLayout = () => {
     router.push(LOOKUP_URI);
   };
 
+  const { isDesktop } = useMediaViewport();
+
   const OrderLookupCard = () => (
     <section className="text-dark-1000 lg:m-0 lg:flex lg:w-[50%] lg:flex-1">
       <section className="grid p-4 text-center border rounded font-lato shadow-container border-dark-300 place-items-center lg:flex lg:first-line lg:gap-8 lg:w-full lg:px-8 lg:py-10">
-        <OrderLookupIcon className="lg:w-[11rem] lg:h-[10rem]" />
+        <OrderLookupIcon width={isDesktop ? 161 : 100} />
+
         <section className="grid w-full place-items-center lg:place-items-start">
           <h3 className="mt-4 text-2xl font-semibold text-dark-1000 lg:text-3xl lg:mt-0">
             {lookupYourOrder}

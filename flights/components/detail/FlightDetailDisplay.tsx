@@ -37,8 +37,8 @@ import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
-import EmptyState from 'components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import { EmptyState } from '@simplenight/ui';
 import FlightRoomAvailabilityForm from '../search/FlightRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 
@@ -68,9 +68,9 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
 
   const [displaySeeMore, setDisplaySeeMore] = useState(true);
   const [descriptionHeight, setDescriptionHeight] = useState(232);
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(true);
   const [flight, setFlight] = useState<Flight2>(initialState[0]);
-  const [emptyState, setEmptyState] = useState<boolean>(false);
+  const [emptyState, setEmptyState] = useState<boolean>(true);
   const {
     details: { name, address, description, star_rating: starRating },
     rooms: flightRooms,
@@ -311,9 +311,10 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
               <FlightRoomAvailabilityForm />
             </section>
           </section>
-          <EmptyState
+          <EmptyStateContainer
             text={noResultsLabel}
-            image={<EmptyStateIcon className="mx-auto" />}
+            Icon={EmptyState}
+            forcedHeight={220}
           />
         </>
       )}

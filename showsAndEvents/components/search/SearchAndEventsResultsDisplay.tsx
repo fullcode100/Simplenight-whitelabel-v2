@@ -23,8 +23,8 @@ import { ShowsSearchRequest } from 'showsAndEvents/types/request/ShowsSearchRequ
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 const RESULTS_PER_PAGE = 10;
-import EmptyState from '../../../components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import { EmptyState } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { useSelector } from 'react-redux';
 import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
@@ -259,10 +259,11 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
             <>
               {!isLoading ? (
                 <section className="flex items-center justify-center w-full">
-                  <EmptyState
+                  <EmptyStateContainer
                     text={noResultsLabel}
-                    image={<EmptyStateIcon className="mx-auto" />}
-                    forcedHeight={400}
+                    Icon={EmptyState}
+                    width={114}
+                    desktopWidth={223}
                   />
                 </section>
               ) : (

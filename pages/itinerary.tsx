@@ -6,7 +6,6 @@ import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { CartObjectResponse } from 'types/cart/CartType';
 import { getCart } from 'core/client/services/CartClientService';
 import ItineraryHeader from 'components/itinerary/ItineraryHeader/ItineraryHeader';
-import ItineraryEmpty from 'components/itinerary/ItineraryEmpty/ItineraryEmpty';
 import ItineraryItemList from 'components/itinerary/ItineraryItemList/ItineraryItemList';
 import ListFooter from '../components/itinerary/ListFooter/ListFooter';
 import ListHeader from '../components/itinerary/ListHeader/ListHeader';
@@ -15,6 +14,9 @@ import classnames from 'classnames';
 import Loader from 'components/global/Loader/Loader';
 import HelpSection from '../components/global/HelpSection/HelpSection';
 import { getCurrency } from 'store/selectors/core';
+import { Itinerary as ItineraryIcon } from '@simplenight/ui';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import useMediaViewport from '../hooks/media/useMediaViewport';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
@@ -22,6 +24,7 @@ const Itinerary: NextPage = () => {
   const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [t, i18next] = useTranslation('global');
+  const itineraryText = t('itineraryEmpty', 'Add Something To Your Itinerary!');
   const footerContainerRef = useRef(null);
   const [staticFooter, setStaticFooter] = useState(false);
   const currency = getCurrency();
@@ -60,6 +63,7 @@ const Itinerary: NextPage = () => {
 
   const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
+  const { isDesktop } = useMediaViewport();
   return (
     <main>
       <header>
@@ -73,8 +77,14 @@ const Itinerary: NextPage = () => {
         )}
       >
         {!hasItems && !loading && (
-          <ItineraryEmpty continueHeight={continueHeight} />
+          <EmptyStateContainer
+            text={itineraryText}
+            Icon={ItineraryIcon}
+            forcedHeight={isDesktop ? continueHeight : undefined}
+            width={!isDesktop ? 335 : undefined}
+          />
         )}
+
         {hasItems && (
           <>
             <section className="lg:w-[843px] overflow-hidden lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">
