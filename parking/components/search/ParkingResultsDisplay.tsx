@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { CategoryOption } from '../../../types/search/SearchTypeOptions';
-import EmptyState from '../../../components/global/EmptyState/EmptyState';
-import EmptyStateIcon from '@/icons/assets/empty-state.svg';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import { EmptyState } from '@simplenight/ui';
 import HorizontalSkeletonList from '../../../components/global/HorizontalItemCard/HorizontalSkeletonList';
 import HorizontalSkeletonCard from '../../../components/global/HorizontalItemCard/HorizontalSkeletonCard';
 import SearchViewSelectorFixed from '../../../components/global/SearchViewSelector/SearchViewSelectorFixed';
@@ -278,9 +278,11 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
             />
           </section>
           {!isLoading && filteredList.length === 0 ? (
-            <EmptyState
+            <EmptyStateContainer
               text={t('no parking spots')}
-              image={<EmptyStateIcon className="mx-auto" />}
+              Icon={EmptyState}
+              width={114}
+              desktopWidth={223}
             />
           ) : (
             <section>

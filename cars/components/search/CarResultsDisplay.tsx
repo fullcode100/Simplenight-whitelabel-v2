@@ -13,8 +13,6 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 import CarMapView from './CarResultsMapView';
-import EmptyState from '../../../components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
@@ -50,6 +48,8 @@ import Sort from '@/icons/assets/sort.svg';
 import Chevron from '@/icons/assets/chevron-down-small.svg';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import classNames from 'classnames';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import { EmptyState } from '@simplenight/ui';
 
 declare let window: CustomWindow;
 
@@ -449,10 +449,14 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full">
           {loaded && hasNoCars ? (
-            <EmptyState
-              text={noResultsLabel}
-              image={<EmptyStateIcon className="mx-auto" />}
-            />
+            <div>
+              <EmptyStateContainer
+                text={noResultsLabel}
+                Icon={EmptyState}
+                width={114}
+                desktopWidth={223}
+              />
+            </div>
           ) : (
             <>
               <div

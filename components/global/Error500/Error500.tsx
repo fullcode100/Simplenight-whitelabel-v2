@@ -1,5 +1,5 @@
 import React from 'react';
-import Error500SVG from './Error500SVG';
+import { Error404 } from '@simplenight/ui';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,7 @@ const Error500 = () => {
 
   return (
     <section className="flex flex-col justify-center items-center min-h-[80vh] gap-4 text-dark-800">
-      <Error500SVG />
+      <Error404 />
       <p className="text-2xl">Oops</p>
       <p className="text-base">{wentWrongText}</p>
       <Button

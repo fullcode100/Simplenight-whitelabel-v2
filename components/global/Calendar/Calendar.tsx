@@ -43,6 +43,7 @@ interface DatePickerProps {
   restricted?: boolean;
   isRange?: boolean;
   disabledDays?: string[];
+  maxMonthsDisplayed?: number;
 }
 
 const DatePicker = ({
@@ -61,6 +62,7 @@ const DatePicker = ({
   restricted = true,
   isRange = true,
   disabledDays,
+  maxMonthsDisplayed,
 }: DatePickerProps) => {
   const [t, i18n] = useTranslation('global');
   dayjs.locale(i18n.resolvedLanguage);
@@ -79,7 +81,7 @@ const DatePicker = ({
   const { isDesktop } = useMediaViewport();
 
   useEffect(() => {
-    setCalendar(createCalendar(initialYear, initialMonth));
+    setCalendar(createCalendar(initialYear, initialMonth, maxMonthsDisplayed));
     setStartDate(initialStartDate ?? startDate);
     setEndDate(initialEndDate ?? endDate);
   }, []);

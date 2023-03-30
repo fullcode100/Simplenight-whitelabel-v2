@@ -17,8 +17,8 @@ import {
   WeekDaysAvailability,
 } from 'dining/types/response/SearchResponse';
 import Loader from 'components/global/Loader/Loader';
-import EmptyState from 'components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import { EmptyState } from '@simplenight/ui';
 import { useTranslation } from 'react-i18next';
 import DiningItineraryDetail from './DiningItineraryDetail';
 import DiningDetailActions from './DiningDetailActions';
@@ -266,9 +266,11 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
 
   if (!data) {
     return (
-      <EmptyState
+      <EmptyStateContainer
         text={noResultsLabel}
-        image={<EmptyStateIcon className="mx-auto" />}
+        Icon={EmptyState}
+        width={114}
+        desktopWidth={223}
       />
     );
   }

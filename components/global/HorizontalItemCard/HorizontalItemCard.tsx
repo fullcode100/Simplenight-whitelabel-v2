@@ -109,6 +109,7 @@ function HorizontalItemCard<T extends WithId>({
                 }}
               >
                 <CategoryTag />
+
                 {displayEmpty ? (
                   fallback ? (
                     <>{fallback}</>

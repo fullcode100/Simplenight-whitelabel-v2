@@ -24,8 +24,8 @@ import { sortByAdapter } from 'thingsToDo/adapters/sort-by.adapter';
 import { cancellationTypeAdapter } from 'thingsToDo/adapters/cancellation-type.adapter';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import useKeywordFilter from 'thingsToDo/hooks/useKeywordFilter';
-import EmptyState from 'components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import { EmptyState as EmptyStateIllustration } from '@simplenight/ui';
 
 import { Paragraph } from '@simplenight/ui';
 import { SearchItem } from 'thingsToDo/types/adapters/SearchItem';
@@ -321,9 +321,11 @@ const ThingsResultsDisplay = ({
         </section>
       )}
       {!isLoading && noResults && (
-        <EmptyState
+        <EmptyStateContainer
           text={noResultsLabel}
-          image={<EmptyStateIcon className="mx-auto" />}
+          Icon={EmptyStateIllustration}
+          width={114}
+          desktopWidth={223}
         />
       )}
       <div className="block w-full h-px lg:hidden bg-dark-300" />

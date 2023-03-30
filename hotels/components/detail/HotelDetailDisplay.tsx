@@ -32,8 +32,7 @@ import InformationIcon from 'public/icons/assets/information.svg';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
-import EmptyState from 'components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import { EmptyState } from '@simplenight/ui';
 import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
@@ -43,6 +42,8 @@ import useCookies from 'hooks/localStorage/useCookies';
 import InstructionsSection from '../Instructions/InstructionsSection';
 import { detailAdapter } from '../../adapters/detail.adapter';
 import { DetailItem } from 'hotels/types/adapters/DetailItem';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import useMediaViewport from '../../../hooks/media/useMediaViewport';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 type FetchHotel = () => Promise<DetailItem>;
@@ -328,6 +329,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     </section>
   );
 
+  const { isDesktop } = useMediaViewport();
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
@@ -354,9 +356,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
               <HotelRoomAvailabilityForm />
             </section>
           </section>
-          <EmptyState
+          <EmptyStateContainer
             text={noResultsLabel}
-            image={<EmptyStateIcon className="mx-auto" />}
+            Icon={EmptyState}
+            forcedHeight={220}
           />
         </>
       )}

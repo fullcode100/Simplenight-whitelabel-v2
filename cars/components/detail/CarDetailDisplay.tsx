@@ -40,8 +40,8 @@ import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
-import EmptyState from 'components/global/EmptyState/EmptyState';
-import EmptyStateIcon from 'public/icons/assets/empty-state.svg';
+import { EmptyState } from '@simplenight/ui';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import CarRoomAvailabilityForm from '../search/CarRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
@@ -451,9 +451,10 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
               <CarRoomAvailabilityForm />
             </section>
           </section>
-          <EmptyState
+          <EmptyStateContainer
             text={noResultsLabel}
-            image={<EmptyStateIcon className="mx-auto" />}
+            Icon={EmptyState}
+            forcedHeight={220}
           />
         </>
       )}

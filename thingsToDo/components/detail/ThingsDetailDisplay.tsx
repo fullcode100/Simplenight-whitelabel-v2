@@ -51,12 +51,14 @@ import {
 import TabsSection from './TabSection';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
 import { MEETING_POINT_ID, PICKUP_POINT_ID } from 'helpers/bookingQuestions';
-import { Paragraph } from '@simplenight/ui';
+import { EmptyState, NoContent, Paragraph } from '@simplenight/ui';
 import { Heading } from '@simplenight/ui';
+
 import {
   TicketAvailability,
   TicketType,
 } from 'thingsToDo/types/adapters/TicketAvailability';
+import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -314,11 +316,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
         ref={policiesRef}
         className="flex flex-col gap-3 px-5 py-6 lg:px-0 lg:pl-12 lg:py-12"
       >
-        <SectionTitle
-          title={policiesLabel}
-          icon={<PoliciesIcon />}
-          subTitle={'hola'}
-        />
+        <SectionTitle title={policiesLabel} icon={<PoliciesIcon />} />
         <Heading tag="h5" className="mt-3 lg:mt-5">
           {cancellationLabel}
         </Heading>
@@ -389,31 +387,21 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const EmptyTickets = () => {
+    const { isDesktop } = useMediaViewport();
     if (loading) {
       return <Loader />;
     }
-
     return (
-      <section className="w-full mx-auto">
-        <section className="mx-auto w-[143px] h-[143px]">
-          {isCheckingAvailability ? (
-            <EmptyNoAvailability />
-          ) : (
-            <EmptyCheckAvailability />
-          )}
-        </section>
-        <section className="mt-10">
-          <Paragraph
-            size="large"
-            fontWeight="semibold"
-            textColor="text-dark-800"
-            className="text-center"
-          >
-            {isCheckingAvailability
+      <section className="w-full mx-auto ">
+        <EmptyStateContainer
+          Icon={isCheckingAvailability ? EmptyState : NoContent}
+          text={
+            isCheckingAvailability
               ? noResultsLabel
-              : checkAvailabilityForYourSearchLabel}
-          </Paragraph>
-        </section>
+              : checkAvailabilityForYourSearchLabel
+          }
+          forcedHeight={isDesktop ? 240 : 220}
+        />
       </section>
     );
   };

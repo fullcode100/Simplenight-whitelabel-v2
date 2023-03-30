@@ -1427,10 +1427,10 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
-"@simplenight/ui@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.npmjs.org/@simplenight/ui/-/ui-0.0.5.tgz"
-  integrity sha512-NOJoRYPoJkzvg10pz+nMenVOz3rklKgc41d/7zIP0OU/P4prL+kKPYfG3Lk0pxVW3+BSuJXtCzM+UOG99bia9g==
+"@simplenight/ui@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@simplenight/ui/-/ui-0.1.25.tgz#0eee22823f4de39cc9420341c6a52aa6bc8b30a7"
+  integrity sha512-si8uQrySW9ndxgUHC1JsrdBwe7Di9ft5XN672F+iHn9YndzGkhNde5QBFoh+XWfeMpcx/uXC93vHO6mGUYnyOA==
   dependencies:
     "@headlessui/react" "^1.7.7"
     "@tailwindcss/forms" "^0.5.3"
