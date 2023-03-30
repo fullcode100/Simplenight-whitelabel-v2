@@ -44,7 +44,7 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <div className="fixed z-40 w-full">
+      <div className="fixed z-20 w-full">
         <header className="flex flex-col w-full pb-2 lg:pt-6 sm:pt-1 bg-dark-100 border-y border-dark-300">
           <section className="hidden lg:block">
             <HorizontalTabs
