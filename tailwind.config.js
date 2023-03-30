@@ -14,6 +14,13 @@ module.exports = {
     './ground-transportation/**/*.tsx',
     './thingsToDo/**/*.{js,ts,jsx,tsx}',
   ],
+  safelist: [
+    { pattern: /primary/, variants: ['hover', 'focus', 'active'] },
+    { pattern: /dark/, variants: ['hover', 'focus', 'active'] },
+    { pattern: /error/, variants: ['hover', 'focus', 'active'] },
+    { pattern: /fill/ },
+    'bg-transparent',
+  ],
   theme: {
     extend: {
       rotate: {
