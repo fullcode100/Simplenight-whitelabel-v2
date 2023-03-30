@@ -5,11 +5,9 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 // components
 import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
 // mock
-import { thingToDoCartItem } from '../../mocks/thingToDoCartItem';
 import ThingItineraryFooter from '../itinerary/ThingItineraryFooter';
 import { ThingBreakdownHeader } from './ThingBreakdownHeader';
 import ThingBreakdownBody from './ThingBreakdownBody';
-import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import ThingItineraryBody from '../itinerary/ThingItineraryBody';
 
 interface ThingBreakdownDisplayProps {
@@ -31,13 +29,21 @@ const ThingBreakdownDisplay = ({
   return (
     <>
       {showCollapse ? (
-        <CollapseUnbordered
+        <CollapseBordered
           title={<ThingBreakdownHeader icon={Category.icon} item={item} />}
           body={
             <ThingItineraryBody
               item={item}
               reload={reload}
               setReload={setReload}
+            />
+          }
+          footer={
+            <ThingItineraryFooter
+              item={item}
+              setReload={setReload}
+              reload={reload}
+              fullWidth
             />
           }
         />

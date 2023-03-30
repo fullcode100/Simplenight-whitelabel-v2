@@ -1,80 +1,52 @@
 import { Dispatch, SetStateAction } from 'react';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import { useCategoryType } from 'hooks/category/useCategory';
-
-import Button from 'components/global/Button/Button';
 import { Item } from 'types/cart/CartType';
 import { Paragraph } from '@simplenight/ui';
+import classnames from 'classnames';
 
-import TrashIcon from 'public/icons/assets/small-trash.svg';
-import EdtiIcon from 'public/icons/assets/edit.svg';
-import { usePlural } from 'hooks/stringBehavior/usePlural';
 import TaxesAndFeesPopover from '../TaxesAndFeesPopover/TaxesAndFeesPopover';
-import { removeFromCart } from 'core/client/services/CartClientService';
+import ShowsItineraryActions from './ShowsItineraryActions';
+import { useRouter } from 'next/router';
 
 interface ShowsItineraryFooterProps {
   item?: Item;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
   isItineraryView?: boolean;
+  fullWidth?: boolean;
 }
 
 const ShowsItineraryFooter = ({
   item,
   reload,
   setReload,
-  isItineraryView,
+  fullWidth,
 }: ShowsItineraryFooterProps) => {
-  const router = useRouter();
+  const onReload = () => {
+    setReload?.(!reload);
+  };
+
   const [tg, i18g] = useTranslation('global');
-  const [th, i18h] = useTranslation('events');
 
-  const slug = useCategoryType('shows-events')?.slug;
-
-  const removeLabel = tg('remove', 'Remove');
-  const ticketText = th('ticket', 'Ticket');
-  const ticketsText = th('tickets', 'Tickets');
   const taxesAndFeesLabel = tg(
     'includesTaxesAndFees',
     'Includes Taxes and Fees',
   );
 
-  const ticketsAmount = item?.quantity || 0;
-  const removeFormatted = `${removeLabel} ${ticketsAmount} ${usePlural(
-    ticketsAmount,
-    ticketText,
-    ticketsText,
-  )}`;
+  const router = useRouter();
+  const pathName = router.pathname;
 
-  const editLabel = tg('edit', 'Edit');
-
-  const removeAllTickes = () => {
-    const roomToRemove = {
-      cartId: item?.cart_id,
-      itemId: item?.cart_item_id,
-    };
-    removeFromCart(i18g, roomToRemove)
-      .then(() => setReload?.(!reload))
-      .catch((error) => console.error(error));
-  };
-
-  const handleRemoveAllTickets = () => {
-    removeAllTickes();
-  };
-
-  const handleEdit = () => {
-    const id = item?.item_data?.id;
-    const fromDate = item?.booking_data?.start_date;
-    const toDate = item?.booking_data?.end_date;
-
-    removeAllTickes();
-    router.push(`/detail/${slug}/${id}?fromDate=${fromDate}&toDate=${toDate}`);
-  };
+  const showActions = !(
+    pathName.startsWith('/checkout') || pathName.startsWith('/confirmation')
+  );
 
   return (
     <section className="flex flex-col gap-3">
-      <section className="flex flex-col items-center justify-between lg:flex-row">
+      <section
+        className={classnames('flex flex-col items-center justify-between', {
+          ['lg:flex-row']: !fullWidth,
+        })}
+      >
         <section className="flex justify-between w-full pb-4 lg:pb-0">
           <Paragraph size="small">Total</Paragraph>
           <section className="ml-auto text-right">
@@ -91,25 +63,12 @@ const ShowsItineraryFooter = ({
             </section>
           </section>
         </section>
-        {isItineraryView && (
-          <section className="flex flex-col w-full gap-3 lg:flex-row lg:justify-end">
-            <Button
-              value={removeFormatted}
-              size="full-sm"
-              type="outlined"
-              leftIcon={<TrashIcon />}
-              className="lg:w-[170px]"
-              onClick={handleRemoveAllTickets}
-            ></Button>
-            <Button
-              value={editLabel}
-              translationKey="edit"
-              size=""
-              leftIcon={<EdtiIcon />}
-              className="lg:w-[170px] h-8"
-              onClick={handleEdit}
-            ></Button>
-          </section>
+        {showActions && (
+          <ShowsItineraryActions
+            item={item}
+            onReload={onReload}
+            fullWidth={fullWidth}
+          />
         )}
       </section>
     </section>
