@@ -82,10 +82,11 @@ export const createNewMonth = (calendar: Array<MonthObject>): MonthObject => {
 export const createCalendar = (
   year: number,
   month: number,
+  maxMonthsDisplayed = 16,
 ): Array<MonthObject> => {
   let calendar: any = [];
 
-  for (let i = 1; i <= 16; i++) {
+  for (let i = 1; i <= maxMonthsDisplayed; i++) {
     calendar = [...calendar, createMonth(year, month)];
     month = month + 1;
     if (month > 12) {
