@@ -38,6 +38,7 @@ import PaymentForm from 'components/global/PaymentForm/PaymentForm';
 import InputWrapper from 'components/checkout/Inputs/InputWrapper';
 import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
 import { BillingAddress } from '../../components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
+import useBog from 'hooks/bog/useBog';
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
@@ -45,6 +46,14 @@ const CONFIRMATION_URI = '/confirmation';
 const GOOGLE = 'google';
 const MICROSOFT = 'microsoft';
 const WEGO = 'wego';
+type ScriptProps = {
+  value: number | undefined;
+  bookingId: string;
+  referralItemId: string;
+  startDate: string | undefined;
+  endDate: string | undefined;
+  currency: string | undefined;
+};
 
 const Payment = () => {
   const router = useRouter();
@@ -69,21 +78,16 @@ const Payment = () => {
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
   const [prodExpedia, setProdExpedia] = useState(false);
-
+  const { isBog } = useBog();
   const currency = getCurrency();
 
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
   const { getCookie } = useCookies();
-  const GoogleScript = (
-    value: any,
-    bookingId: string,
-    referralItemId: string,
-    startDate: string | undefined,
-    endDate: string | undefined,
-    currency: any,
-  ) => (
-    <Script id="GTM-2938402">
-      {`
+  const GoogleScript = (scriptData: ScriptProps) => {
+    const { value, bookingId, referralItemId, startDate, endDate } = scriptData;
+    return (
+      <Script id="GTM-2938402">
+        {`
     window.gtag('event', 'conversion', {
       send_to: 'AW-711765415/leb4CJfbwvwBEKfbstMC',
       ${value},
@@ -98,19 +102,15 @@ const Payment = () => {
       ],
     });
   `}
-    </Script>
-  );
+      </Script>
+    );
+  };
 
-  const MicrosoftScript = (
-    value: any,
-    bookingId: string,
-    referralItemId: string,
-    startDate: string | undefined,
-    endDate: string | undefined,
-    currency: any,
-  ) => (
-    <Script id="microsoft-uet">
-      {`
+  const MicrosoftScript = (scriptData: ScriptProps) => {
+    const { value, bookingId, referralItemId, startDate, endDate } = scriptData;
+    return (
+      <Script id="microsoft-uet">
+        {`
       window.uetq = window.uetq || [];
       window.gtag('event', 'conversion', {
         event_value:${value},
@@ -125,8 +125,9 @@ const Payment = () => {
         ],
     });
   `}
-    </Script>
-  );
+      </Script>
+    );
+  };
 
   const WegoScript = (
     referralItemId: string,
@@ -166,38 +167,29 @@ const Payment = () => {
       (item) => item.inventory_id === referralItemId,
     );
     // be aware that referralItemId will contain wego's click ID
-    const totalAmount = referralItem?.last_validated_rate.total_amount;
+    const totalAmount = cart?.total_amount;
+
     const value = totalAmount?.amount;
     const currency = totalAmount?.currency;
     const startDate = referralItem?.extended_data?.start_date;
     const endDate = referralItem?.extended_data?.end_date;
-    if (referralCompany === GOOGLE)
-      GoogleScript(
-        value,
-        bookingId,
-        referralItemId,
-        startDate,
-        endDate,
-        currency,
-      );
-    if (referralCompany === MICROSOFT)
-      MicrosoftScript(
-        value,
-        bookingId,
-        referralItemId,
-        startDate,
-        endDate,
-        currency,
-      );
+    const scriptData = {
+      value,
+      bookingId,
+      referralItemId,
+      startDate,
+      endDate,
+      currency,
+    };
+    if (referralCompany === GOOGLE) GoogleScript(scriptData);
+    if (referralCompany === MICROSOFT) MicrosoftScript(scriptData);
     if (referralCompany === WEGO)
       WegoScript(referralItemId, currency, bookingId, value);
   };
 
   const triggerEventConversion = (bookingId?: string) => {
     const referral = getCookie('referral')?.split('=');
-
     if (!referral || !bookingId) return;
-
     const referralCompany = referral[0];
     const referralItemId = referral[1];
     triggerGTagEvent(bookingId, referralItemId, referralCompany);
@@ -247,7 +239,8 @@ const Payment = () => {
   };
   const bookItem = async () => {
     const country = cart?.customer.country;
-
+    const referral = getCookie('referral')?.split('=') || 'no-refferal';
+    const referralCompany = referral[0];
     if (!country || !terms || !cart) {
       return;
     }
@@ -256,6 +249,7 @@ const Payment = () => {
       billingAddress;
     const bookingParameters = {
       cart_id: cart?.cart_id,
+      referral: referralCompany,
       payment_request: {
         payment_method: 'CARD',
         name_on_card: card.name,
@@ -277,7 +271,9 @@ const Payment = () => {
     try {
       const data = await createBooking(bookingParameters, i18next);
       const bookingId = data?.booking.booking_id;
-      triggerEventConversion(bookingId);
+      if (isBog) {
+        triggerEventConversion(bookingId);
+      }
       localStorage.removeItem('cart');
       setLoading(false);
       router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
