@@ -84,6 +84,7 @@ const ShowAndEventsDetailDisplay = ({
 
   const [showMobileFilters, setShowMobileFilter] = useState(false);
   const [sectors, setSectors] = useState<Sector[]>();
+  const [sortedSectors, setSortedSectors] = useState<Sector[]>();
 
   const [selectedSeats, setSelectedSeats] = useState<any[]>([]);
   const [maxSectorPrice, setMaxSectorPrice] = useState(0);
@@ -93,7 +94,27 @@ const ShowAndEventsDetailDisplay = ({
   const [t, i18next] = useTranslation('events');
   const sectorLabel = t('sector', 'Sector');
   const thingsToDoLabel = t('shows', 'Shows');
+  const resultsLabel = t('results', 'Results');
+
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
+
+  useEffect(() => {
+    if (sectors?.length) {
+      const newSortedSectors = [...sectors];
+      newSortedSectors.forEach(({ rows }) =>
+        rows.sort(
+          (rowA, rowB) =>
+            rowA.rate.total.full.amount - rowB.rate.total.full.amount,
+        ),
+      );
+      newSortedSectors.sort(
+        (sectorA, sectorB) =>
+          sectorA.rows[0]?.rate.total.full.amount -
+          sectorB.rows[0]?.rate.total.full.amount,
+      );
+      setSortedSectors(newSortedSectors);
+    }
+  }, [sectors]);
 
   const groupBySectors = (sectorSeats: any) => {
     const groupToValues = sectorSeats.reduce(function (
@@ -357,8 +378,8 @@ const ShowAndEventsDetailDisplay = ({
   };
 
   const getSectorsInfo: SectorInfoProp[] =
-    sectors! &&
-    sectors.map(({ title }) => {
+    sortedSectors! &&
+    sortedSectors.map(({ title }) => {
       return { title, isActive: false };
     });
 
@@ -433,6 +454,16 @@ const ShowAndEventsDetailDisplay = ({
     }
   };
 
+  const getResultsQuatity = () => {
+    return sortedSectors
+      ?.filter(
+        ({ title }) => selectedTab === 'All sectors' || selectedTab === title,
+      )
+      .reduce((count: any, { rows }: any) => {
+        return count + rows.length;
+      }, 0);
+  };
+
   const setSector = () => {
     return (
       <section className="lg:pb-6 lg:mb-6">
@@ -446,26 +477,21 @@ const ShowAndEventsDetailDisplay = ({
             filterSectorsSearch(e);
           }}
         />
-        {sectors && (
-          <TicketTabs
-            sectorsInfo={getSectorsInfo}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-          />
-        )}
-        {sectors && (
-          <ResultsOptionsBar
-            results={sectors
-              .filter(
-                ({ title }) =>
-                  selectedTab === 'All sectors' || selectedTab === title,
-              )
-              .reduce((count: any, { rows }: any) => {
-                return count + rows.length;
-              }, 0)}
-            sortByOptions={SORT_SECTOR_BY_OPTIONS}
-            onClickFilter={() => setShowMobileFilter(!showMobileFilters)}
-          />
+        {sortedSectors && (
+          <>
+            <TicketTabs
+              sectorsInfo={getSectorsInfo}
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
+            />
+            <section className="w-full relative">
+              <section className="flex items-center justify-between pt-3 pb-3 lg:mt-1 lg:pb-0">
+                <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
+                  {getResultsQuatity() || 0} {resultsLabel}
+                </p>
+              </section>
+            </section>
+          </>
         )}
         <CollapseElement show={showMobileFilters}>
           <FilterFormMobile
@@ -473,8 +499,8 @@ const ShowAndEventsDetailDisplay = ({
             maxPrice={`${maxSectorPrice}`}
           />
         </CollapseElement>
-        {sectors &&
-          sectors
+        {sortedSectors &&
+          sortedSectors
             .filter(
               ({ title }) =>
                 selectedTab === 'All sectors' || selectedTab === title,
