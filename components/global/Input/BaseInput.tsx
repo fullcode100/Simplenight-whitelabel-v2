@@ -113,6 +113,7 @@ const BaseInput = ({
         min={type == 'number' ? min : ''}
         onClick={onClick}
         defaultValue={defaultValue}
+        readOnly={label === 'Returning' || label === 'Departing'}
         {...others}
       />
     </>
