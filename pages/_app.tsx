@@ -12,7 +12,6 @@ import { useLayout } from 'hooks/layoutAndUITooling/useLayout';
 import { initializeI18Next } from 'hooks/i18n/useI18Next';
 import ConfigLoader from 'components/global/ConfigLoader/ConfigLoader';
 import { useEffect, useState } from 'react';
-import Loader from 'components/global/Loader/Loader';
 import { ConversionTracking } from 'components/conversion/ConversionTracking';
 
 const i18next = initializeI18Next();

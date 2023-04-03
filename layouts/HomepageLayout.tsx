@@ -4,7 +4,7 @@ import Footer from './footer/Footer';
 
 const HomepageLayout = ({ children }: any) => {
   return (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div className="flex flex-col justify-between min-h-screen">
       <section>
         <Header color="bg-dark-100" />
         {children}

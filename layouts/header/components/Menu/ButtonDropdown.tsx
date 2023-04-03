@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 
 interface ButtonDropdownProps {
-  children?: any;
+  children?: React.ReactNode | React.ReactNode[];
   icon?: React.ReactElement;
   value?: string;
   titleDropdown?: string;
@@ -21,7 +21,7 @@ const ButtonDropdown = ({
   return (
     <section className="relative">
       <button
-        className="flex justify-between items-center gap-2 border border-dark-300 bg-white px-2 py-1 h-8 rounded"
+        className="flex items-center justify-between h-8 gap-2 px-2 py-1 text-white"
         onClick={disabled ? undefined : () => setOpen(!open)}
         onBlur={disabled ? undefined : () => setOpen(false)}
       >
@@ -35,7 +35,7 @@ const ButtonDropdown = ({
           },
         )}
       >
-        <p className="text-sm font-semibold px-4 pb-4">{titleDropdown}</p>
+        <p className="px-4 pb-4 text-sm font-semibold">{titleDropdown}</p>
         <BlockDivider />
         <section className="px-4">{children}</section>
       </section>

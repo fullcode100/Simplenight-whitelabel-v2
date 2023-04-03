@@ -1,14 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
-import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import { getHomepageScrollHandler } from '../store/selectors/core';
-import { Tab } from 'components/global/Tabs/types';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import { OrderLookupIcon } from '@simplenight/ui';
@@ -16,6 +14,7 @@ import useCategories from 'hooks/category/useCategories';
 import HomeCategoryContent from 'components/global/HomeCategoryContent/HomeCategoryContent';
 import homePageText from 'translations/en/global.json';
 import { useSettings } from 'hooks/services/useSettings';
+import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import useMediaViewport from 'hooks/media/useMediaViewport';
 
 const UpperSectionBackground = ({ children }: { children?: any }) => {
@@ -39,6 +38,7 @@ const LOOKUP_URI = '/lookup';
 // Reopen
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
+  const tab = useTabStore((state) => state.tab);
 
   const [t, i18next] = useTranslation('global');
   const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
@@ -52,13 +52,13 @@ const Home: NextPageWithLayout = () => {
   const homepageScrollHandler = getHomepageScrollHandler();
 
   const categoriesTabs = useCategories();
-  const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);
+  // const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);
 
   const homePageTextLabel = t('homePageText', homePageText);
 
-  const handleTabClick = (tab: Tab) => {
-    setActiveTab(tab);
-  };
+  // const handleTabClick = (tab: Tab) => {
+  //   setActiveTab(tab);
+  // };
 
   const Panel = ({
     children,
@@ -84,10 +84,6 @@ const Home: NextPageWithLayout = () => {
       }
     };
   }, [homepageScrollHandler]);
-
-  useEffect(() => {
-    setActiveTab(categoriesTabs[0]);
-  }, [categoriesTabs.length > 0]);
 
   const redirectToLookup = () => {
     router.push(LOOKUP_URI);
@@ -131,21 +127,16 @@ const Home: NextPageWithLayout = () => {
                 </span>
               </p>
               <Panel className="z-50 grid-flow-col mt-6">
-                <HorizontalTabs
-                  tabs={categoriesTabs}
-                  activeTab={activeTab}
-                  onClick={handleTabClick}
-                  className="mb-2"
-                  primary
-                />
                 <section className="pt-3 lg:pt-6">
-                  <SearchCategoryForm activeTab={activeTab} />
+                  <SearchCategoryForm
+                    activeTab={tab ? tab : categoriesTabs?.[0]}
+                  />
                 </section>
               </Panel>
             </section>
           </UpperSectionBackground>
         </section>
-        <HomeCategoryContent activeTab={activeTab} />
+        <HomeCategoryContent activeTab={tab ? tab : categoriesTabs?.[0]} />
         <section className="px-5 py-6 lg:px-20 lg:py-12">
           <section className="flex flex-col gap-4 mx-auto max-w-7xl lg:gap-8 lg:flex-row">
             <OrderLookupCard />

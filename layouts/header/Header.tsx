@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
@@ -15,6 +16,14 @@ import ItineraryOverlay from '../../components/itinerary/ItineraryOverlay/Itiner
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import { useSettings } from 'hooks/services/useSettings';
 import { CartObjectResponse } from 'types/cart/CartType';
+import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
+import useScrollDirection from 'hooks/layoutAndUITooling/useScrollDirection';
+import { Tab } from 'components/global/Tabs/types';
+import useCategories from 'hooks/category/useCategories';
+import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+import useQuery from 'hooks/pageInteraction/useQuery';
+import { useRouter } from 'next/router';
+import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 
 interface HeaderProps {
   color: string;
@@ -33,6 +42,28 @@ const Header = ({ color }: HeaderProps) => {
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
+  const tab = useTabStore((state) => state.tab);
+  const setTab = useTabStore((state) => state.setTab);
+  const { pathname } = useRouter();
+  const { slug } = useQuery();
+  const setQueryParams = useQuerySetter();
+  const categoriesTabs = useCategories();
+  const activeTabIndex = categoriesTabs.findIndex((tab) => tab.slug === slug);
+  const handleTabClick = (tab: Tab) => {
+    if (pathname.startsWith('/search')) {
+      setQueryParams({
+        slug: tab.slug ?? '',
+      });
+    }
+    if (pathname === '/') {
+      setTab(tab);
+    }
+  };
+  const scrollDirection = useScrollDirection();
+
+  useEffect(() => {
+    setTab(categoriesTabs?.[activeTabIndex]);
+  }, [activeTabIndex]);
 
   const fetchCart = async () => {
     try {
@@ -76,10 +107,12 @@ const Header = ({ color }: HeaderProps) => {
         <Menu onCloseModal={handleCloseMenu} />
       </FullScreenModal>
       <header
-        className={`flex items-center justify-between p-3 z-20 ${color} fixed w-full lg:hidden`}
+        className={
+          'flex items-center justify-between p-3 z-40 bg-dark-1000 fixed w-full lg:hidden'
+        }
       >
         <HamburgerMenuButton
-          className="mr-2 cursor-pointer"
+          className="mr-2 text-white cursor-pointer"
           onClick={handleOpenMenu}
         />
         <section className="flex items-center gap-5">
@@ -93,16 +126,25 @@ const Header = ({ color }: HeaderProps) => {
             </a>
           </Link>
         </section>
-        <button onClick={onOpen}>
-          <section className="flex items-center justify-between gap-2 px-2 py-1 bg-white border rounded w-14 border-dark-300">
-            <span className="text-sm font-semibold text-dark-1000 font-lato">
-              {cartQty ?? 0}
-            </span>
-            <ShoppingCart className="text-primary-1000" />
-          </section>
+        <button onClick={onOpen} className="relative w-8 h-8 gap-2 px-2 py-1">
+          <span className="absolute w-4 h-4 font-semibold text-white rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
+            {cartQty ?? 0}
+          </span>
+          <ShoppingCart className="text-white" />
         </button>
       </header>
       <HeaderDesktop color={color} cartQty={cartQty} onOpen={onOpen} />
+      {(pathname === '/' || pathname.startsWith('/search')) && (
+        <HorizontalTabs
+          tabs={categoriesTabs}
+          activeTab={tab ? tab : categoriesTabs?.[0]}
+          onClick={handleTabClick}
+          className={`lg:pl-[320px] ${
+            scrollDirection === 'down' ? 'top-0' : 'top-[60px] lg:top-[76px]'
+          } transition-all duration-500`}
+          primary
+        />
+      )}
     </>
   );
 };

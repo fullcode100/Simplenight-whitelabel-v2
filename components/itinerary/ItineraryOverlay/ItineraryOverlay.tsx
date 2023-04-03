@@ -29,7 +29,7 @@ const ItineraryOverlay = ({ isOpen, onClose, cart }: ItineraryOverlayProps) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed h-screen w-screen overflow-y-hidden z-40 bg-black/25 flex justify-end">
+        <div className="fixed z-50 flex justify-end w-screen h-screen overflow-y-hidden bg-black/25">
           <section className="h-full w-[335px] lg:w-[485px] bg-white z-50 flex flex-col items-stretch">
             <ItineraryOverlayHeader
               totalAmount={totalAmount}
