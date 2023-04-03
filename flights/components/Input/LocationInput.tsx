@@ -10,7 +10,7 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { getIsMapLoaded } from 'store/selectors/core';
 
 interface LocationInputProps {
@@ -21,135 +21,153 @@ interface LocationInputProps {
   defaultAddress?: string;
 }
 
-const LocationInput = ({
-  icon,
-  routeParams,
-  onChange,
-  onSelect,
-  onClear,
-  defaultAddress,
-  ...others
-}: LocationInputProps & BaseInputProps) => {
-  const params = useQuery();
-  // let defaultAddress = params?.address?.toString() || '';
-  /*
-  if (!defaultAddress)
-    defaultAddress =
-      routeParams && routeParams[0] && params[routeParams[0]]
-        ? params[routeParams[0]]?.toString()
-        : '';
-  */
-  const [address, setAddress] = useState(defaultAddress);
-  const isMapLoaded = getIsMapLoaded();
+interface LocationInputRef {
+  getAddress: () => string | undefined;
+  setNewAddress: (address: string) => void;
+}
 
-  const [t, i18next] = useTranslation('global');
-  const loadingMessage = t('loading', 'Loading');
+const LocationInput = forwardRef<
+  LocationInputRef,
+  LocationInputProps & BaseInputProps
+>(
+  (
+    {
+      icon,
+      routeParams,
+      onChange,
+      onSelect,
+      onClear,
+      defaultAddress,
+      ...others
+    },
+    ref,
+  ) => {
+    const params = useQuery();
+    const [address, setAddress] = useState(defaultAddress);
+    const isMapLoaded = getIsMapLoaded();
 
-  const handleChange = (newAddress: string) => {
-    setAddress(newAddress);
-    if (onChange) onChange(newAddress);
-  };
+    const [t, i18next] = useTranslation('global');
+    const loadingMessage = t('loading', 'Loading');
 
-  const clearLocationHandler = () => {
-    setAddress('');
-    onClear?.();
-  };
+    const handleChange = (newAddress: string) => {
+      setAddress(newAddress);
+      if (onChange) onChange(newAddress);
+    };
 
-  const handleSelect = async (newAddress: string) => {
-    try {
-      const results = await geocodeByAddress(newAddress);
-      const latLng = await getLatLng(results[0]);
+    const clearLocationHandler = () => {
+      setAddress('');
+      onClear?.();
+    };
 
-      setAddress(results[0].formatted_address);
+    const handleSelect = async (newAddress: string) => {
+      try {
+        const results = await geocodeByAddress(newAddress);
+        const latLng = await getLatLng(results[0]);
 
-      if (onSelect) onSelect(latLng, results[0].formatted_address);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        setAddress(results[0].formatted_address);
 
-  const locationPlaceholder = t(
-    'locationInputPlaceholder',
-    'Pick your destination',
-  );
+        if (onSelect) onSelect(latLng, results[0].formatted_address);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  return (
-    <>
-      {isMapLoaded && (
-        <PlacesAutocomplete
-          value={address}
-          onChange={handleChange}
-          onSelect={handleSelect}
-          searchOptions={{ types: ['airport'] }}
-        >
-          {({
-            getInputProps,
-            suggestions,
-            getSuggestionItemProps,
-            loading,
-          }) => (
-            <div className=" relative lg:w-full">
-              {address && (
-                <section
-                  className=" absolute right-3 top-8 z-10 rounded bg-white w-[30px] flex justify-end"
-                  onClick={() => setAddress('')}
-                >
-                  <CloseIcon className="text-dark-700" />
-                </section>
-              )}
-              <section className="relative lg:w-full">
-                <IconInput
-                  icon={<LocationPin className="w-5 h-5 text-dark-700" />}
-                  {...getInputProps({
-                    placeholder: locationPlaceholder,
-                    className: 'location-search-input',
-                  })}
-                  {...others}
-                />
-                <section
-                  className={classnames(
-                    'autocomplete-dropdown-container rounded absolute z-10 w-full block',
-                    {
-                      'shadow-md': suggestions[0],
-                    },
-                  )}
-                >
-                  {loading && <section>{loadingMessage}...</section>}
-                  {suggestions.map((suggestion, index) => {
-                    const { active, description } = suggestion;
-                    const className = classnames(
-                      'py-2 px-4 flex justify-between suggestion-item',
+    const locationPlaceholder = t(
+      'locationInputPlaceholder',
+      'Pick your destination',
+    );
+
+    useImperativeHandle(ref, () => ({
+      getAddress: () => {
+        return address;
+      },
+      setNewAddress: (newAddress) => {
+        setAddress(newAddress);
+        if (onChange) onChange(newAddress);
+        handleSelect(newAddress);
+      },
+    }));
+
+    return (
+      <>
+        {isMapLoaded && (
+          <PlacesAutocomplete
+            value={address}
+            onChange={handleChange}
+            onSelect={handleSelect}
+            searchOptions={{ types: ['airport'] }}
+          >
+            {({
+              getInputProps,
+              suggestions,
+              getSuggestionItemProps,
+              loading,
+            }) => (
+              <div className=" relative lg:w-full">
+                {address && (
+                  <section
+                    className=" absolute right-3 top-8 z-10 rounded bg-white w-[30px] flex justify-end"
+                    onClick={() => setAddress('')}
+                  >
+                    <CloseIcon className="text-dark-700" />
+                  </section>
+                )}
+                <section className="relative lg:w-full">
+                  <IconInput
+                    icon={<LocationPin className="w-5 h-5 text-dark-700" />}
+                    {...getInputProps({
+                      placeholder: locationPlaceholder,
+                      className: 'location-search-input',
+                    })}
+                    {...others}
+                  />
+                  <section
+                    className={classnames(
+                      'autocomplete-dropdown-container rounded absolute z-10 w-full block',
                       {
-                        'suggestion-item--active': active,
+                        'shadow-md': suggestions[0],
                       },
-                    );
-                    // inline style for demonstration purpose
-                    const style = active
-                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                    )}
+                  >
+                    {loading && <section>{loadingMessage}...</section>}
+                    {suggestions.map((suggestion, index) => {
+                      const { active, description } = suggestion;
+                      const className = classnames(
+                        'py-2 px-4 flex justify-between suggestion-item',
+                        {
+                          'suggestion-item--active': active,
+                        },
+                      );
+                      // inline style for demonstration purpose
+                      const style = active
+                        ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                        : { backgroundColor: '#ffffff', cursor: 'pointer' };
 
-                    const suggestionKey = index + suggestion.placeId;
+                      const suggestionKey = index + suggestion.placeId;
 
-                    return (
-                      <section
-                        {...getSuggestionItemProps(suggestion, {
-                          className,
-                          style,
-                        })}
-                        key={suggestionKey}
-                      >
-                        <span>{description}</span>
-                      </section>
-                    );
-                  })}
+                      return (
+                        <section
+                          {...getSuggestionItemProps(suggestion, {
+                            className,
+                            style,
+                          })}
+                          key={suggestionKey}
+                        >
+                          <span>{description}</span>
+                        </section>
+                      );
+                    })}
+                  </section>
                 </section>
-              </section>
-            </div>
-          )}
-        </PlacesAutocomplete>
-      )}
-    </>
-  );
-};
+              </div>
+            )}
+          </PlacesAutocomplete>
+        )}
+      </>
+    );
+  },
+);
+
+LocationInput.displayName = 'LocationInput';
 
 export default LocationInput;

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 // import DatePicker from '../../../components/global/Calendar/Calendar';
@@ -30,6 +30,11 @@ import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Label from 'components/global/Label/Label';
 import FlightSelect from '../FlightSelect/FlightSelect';
+
+interface LocationInputRef {
+  getAddress: () => string | undefined;
+  setNewAddress: (address: string) => void;
+}
 
 const FlightSearchForm = ({
   setIsSearching,
@@ -310,108 +315,6 @@ const FlightSearchForm = ({
       return;
     }
     rerouteToSearchPage();
-    //  return;
-    // }
-    /*
-    const _address = address.toString().split('(').pop();
-    const startAirport = _address ? _address.toString().split(')')[0] : '';
-    if (!startAirport || startAirport.length !== 3)
-      return alert('Can not find leaving from Airport Code');
-    const _address2 = address2.toString().split('(').pop();
-    const endAirport = _address2 ? _address2.toString().split(')')[0] : '';
-    if (!endAirport || endAirport.length !== 3)
-      return alert('Can not find going to Airport Code');
-
-    // multi city
-    const startAirports: string[] = [];
-    const endAirports: string[] = [];
-    if (direction === 'multi_city') {
-      addresses.forEach((addr: string, index: number) => {
-        const _addr = addr.toString().split('(').pop();
-        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
-        if (!airportCode || airportCode.length !== 3)
-          return alert(
-            `Can not find leaving from Airport Code for flight #${index + 1}`,
-          );
-        startAirports.push(airportCode);
-      });
-      addresses2.forEach((addr: string, index: number) => {
-        const _addr = addr.toString().split('(').pop();
-        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
-        if (!airportCode || airportCode.length !== 3)
-          return alert(
-            `Can not find leaving from Airport Code for flight #${index + 1}`,
-          );
-        endAirports.push(airportCode);
-      });
-    }
-
-    const travelersDataFormatted = JSON.stringify(travelersData);
-
-    if (direction === 'multi_city') {
-      setQueryParam({
-        direction,
-
-        startAirport,
-        endAirport,
-        startDate,
-        endDate,
-
-        adults,
-        children,
-        infants,
-        childrenAges,
-        infantsAges,
-
-        address: address as string,
-        geolocation: geolocation ?? '',
-        latitude: geolocation?.toString().split(',')[LATITUDE_INDEX] ?? '',
-        longitude: geolocation?.toString().split(',')[LONGITUDE_INDEX] ?? '',
-
-        address2: address2 as string,
-        geolocation2: geolocation2 ?? '',
-        latitude2: geolocation2?.toString().split(',')[LATITUDE_INDEX] ?? '',
-        longitude2: geolocation2?.toString().split(',')[LONGITUDE_INDEX] ?? '',
-
-        travelersData: travelersDataFormatted,
-
-        // multi city
-        startAirports: startAirports.join('|'),
-        endAirports: endAirports.join('|'),
-        startDates: startDates.join('|'),
-        addresses: addresses.join('|'),
-        addresses2: addresses2.join('|'),
-      });
-    } else {
-      setQueryParam({
-        direction,
-
-        startAirport,
-        endAirport,
-        startDate,
-        endDate,
-
-        adults,
-        children,
-        infants,
-        childrenAges,
-        infantsAges,
-
-        address: address as string,
-        geolocation: geolocation ?? '',
-        latitude: geolocation?.toString().split(',')[LATITUDE_INDEX] ?? '',
-        longitude: geolocation?.toString().split(',')[LONGITUDE_INDEX] ?? '',
-
-        address2: address2 as string,
-        geolocation2: geolocation2 ?? '',
-        latitude2: geolocation2?.toString().split(',')[LATITUDE_INDEX] ?? '',
-        longitude2: geolocation2?.toString().split(',')[LONGITUDE_INDEX] ?? '',
-
-        travelersData: travelersDataFormatted,
-      });
-    }
-    if (setIsSearching) setIsSearching(false);
-    */
   };
 
   const locationPlaceholder = t('locationInputPlaceholder', 'Leaving From');
@@ -440,9 +343,22 @@ const FlightSearchForm = ({
   useEffect(() => {
     if (!params?.direction && address && address2) {
       // got here by switching tabs --> perform an auto-search
-      // handleSearchClick();
     }
   }, []);
+
+  const refLocationInputFrom = useRef<LocationInputRef>(null);
+  const refLocationInputTo = useRef<LocationInputRef>(null);
+
+  const swap = () => {
+    const locationInput1State = refLocationInputFrom?.current;
+    const locationInput2State = refLocationInputTo?.current;
+    const from = locationInput1State?.getAddress();
+    const to = locationInput2State?.getAddress();
+    if (from && to) {
+      locationInput1State?.setNewAddress(to);
+      locationInput2State?.setNewAddress(from);
+    }
+  };
 
   return (
     <section
@@ -480,12 +396,6 @@ const FlightSearchForm = ({
                 travelersLabel,
               )}
             </section>
-            {/*
-            <section className="flex items-center gap-2">
-              <Bed className="text-dark-700" />
-              {cabin}
-            </section>
-            */}
           </button>
         </section>
       </section>
@@ -505,43 +415,69 @@ const FlightSearchForm = ({
             }
           >
             <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-              <LocationInput
-                icon={
-                  <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
-                }
-                label={locationInputLabel}
-                name="location"
-                placeholder={locationPlaceholder}
-                routeParams={['address']}
-                defaultAddress={
-                  direction === 'multi_city' ? addresses[flightIndex] : address
-                }
-                onSelect={(latLng: latLngProp, address: string) =>
-                  handleSelectLocation(latLng, address, flightIndex)
-                }
-                onChange={() => setShowLocationError(false)}
-                autoFocus={!address ? true : false}
-              />
-              <LocationInput
-                icon={
-                  <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
-                }
-                label={location2InputLabel}
-                name="location2"
-                placeholder={location2Placeholder}
-                routeParams={['address2']}
-                defaultAddress={
-                  direction === 'multi_city'
-                    ? addresses2[flightIndex]
-                    : address2
-                }
-                onSelect={(latLng: latLngProp, address: string) =>
-                  handleSelectLocation2(latLng, address, flightIndex)
-                }
-                onChange={() => setShowLocationError(false)}
-                autoFocus={address && !address2 ? true : false}
-              />
-
+              <section className="w-full flex flex-col lg:flex-row lg:w-[90%] lg:justify-between lg:items-center justify-center">
+                <LocationInput
+                  icon={
+                    <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
+                  }
+                  label={locationInputLabel}
+                  name="location"
+                  placeholder={locationPlaceholder}
+                  routeParams={['address']}
+                  defaultAddress={
+                    direction === 'multi_city'
+                      ? addresses[flightIndex]
+                      : address
+                  }
+                  onSelect={(latLng: latLngProp, address: string) =>
+                    handleSelectLocation(latLng, address, flightIndex)
+                  }
+                  onChange={() => setShowLocationError(false)}
+                  autoFocus={!address ? true : false}
+                  ref={refLocationInputFrom}
+                />
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => swap()}
+                    className="w-10 h-10 p-1.5 mt-[-0.25rem] mb-[-1.75rem] lg:mt-6 lg:mb-0 lg:mx-[-0.75rem] rounded-full flex justify-center items-center border border-gray-300  hover:bg-gray-400 bg-white z-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 1.5rem 1.5rem"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <LocationInput
+                  icon={
+                    <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
+                  }
+                  label={location2InputLabel}
+                  name="location2"
+                  placeholder={location2Placeholder}
+                  routeParams={['address2']}
+                  defaultAddress={
+                    direction === 'multi_city'
+                      ? addresses2[flightIndex]
+                      : address2
+                  }
+                  onSelect={(latLng: latLngProp, address: string) =>
+                    handleSelectLocation2(latLng, address, flightIndex)
+                  }
+                  onChange={() => setShowLocationError(false)}
+                  autoFocus={address && !address2 ? true : false}
+                  ref={refLocationInputTo}
+                />
+              </section>
               <DatePicker
                 showDatePicker={showDatePicker}
                 onClose={() => setShowDatePicker(false)}
