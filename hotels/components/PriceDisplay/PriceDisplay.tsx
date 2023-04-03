@@ -28,6 +28,9 @@ const PriceDisplay = ({
   const avgAmount = rate?.avg_amount?.avg_amount?.formatted;
   const startingRoomTotal = rate?.min_rate?.rate.starting_room_total;
   const discounts = rate?.avg_amount?.discounts;
+  const allRoomsAmount =
+    rate?.min_rate.rate.rate_breakdown?.total_base_amount?.formatted;
+
   const [t] = useTranslation('global');
   const startingRoomTotalLabel = t('total', 'Total');
   const taxesAndFeesLabel = t(
@@ -70,7 +73,7 @@ const PriceDisplay = ({
       >
         <span className="text-xs">{totalLabel}</span>
         <span className="text-sm font-semibold">
-          {isAvgAmount ? avgAmount : totalAmount}
+          {allRoomsAmount ? allRoomsAmount : totalAmount}
         </span>
       </p>
       {isStartingTotal && startingRoomTotal && (
