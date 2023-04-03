@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-import { CustomWindow } from 'types/global/CustomWindow';
-
-declare let window: CustomWindow;
-
-const setInitialCurrency = (currency: string) => (window.currency = currency);
+import { useDispatch } from 'react-redux';
+import { setCurrency } from 'store/actions/core';
 
 export const useInitialCurrency = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    setInitialCurrency('USD');
+    const currentCurrency = localStorage.getItem('currency');
+    dispatch(setCurrency(currentCurrency || 'USD'));
   }, []);
 };

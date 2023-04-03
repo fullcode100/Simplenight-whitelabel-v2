@@ -28,6 +28,7 @@ export const setCurrency =
   (currency: string): AppThunk =>
   async (dispatch) => {
     window.currency = currency;
+    localStorage.setItem('currency', currency);
     dispatch({
       type: types.SET_CURRENCY,
       payload: currency,
