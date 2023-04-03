@@ -67,7 +67,10 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   const { ClientSearcher: Searcher } = ShowsCategory.core;
 
   const params: ShowsSearchRequest = {
-    start_date: formatAsSearchDate(startDate as string),
+    start_date:
+      startDate == 'null'
+        ? formatAsSearchDate(endDate as string)
+        : formatAsSearchDate(startDate as string),
     end_date: formatAsSearchDate(endDate as string),
     dst_geolocation: dstGeolocation as StringGeolocation,
     rsp_fields_set: 'basic',
