@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { Paragraph } from '@simplenight/ui';
 import ThingItineraryActions from './ThingItineraryActions';
 import classnames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface ThingItineraryFooterProps {
   item: any;
@@ -17,6 +18,7 @@ const ThingItineraryFooter = ({
   setReload,
   fullWidth,
 }: ThingItineraryFooterProps) => {
+  const [t] = useTranslation(['global']);
   const onReload = () => {
     setReload?.(!reload);
   };
@@ -43,7 +45,7 @@ const ThingItineraryFooter = ({
       >
         <section className="flex justify-between w-full pb-4 lg:pb-0">
           <Paragraph size="small" className="w-full">
-            Total
+            {t('total')}
           </Paragraph>
           <section className="ml-auto text-right">
             <Paragraph size="medium">{formatedTotalAmount}</Paragraph>

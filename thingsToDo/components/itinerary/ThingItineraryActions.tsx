@@ -28,8 +28,8 @@ const ThingItineraryActions = ({
 
   const { sector, quantity: ticketsAmount } = item;
 
-  const ticketText = 'Ticket';
-  const ticketsText = 'Tickets';
+  const ticketText = g('Ticket');
+  const ticketsText = g('Tickets');
   const ticketsFormatted = `${ticketsAmount} ${usePlural(
     ticketsAmount,
     ticketText,

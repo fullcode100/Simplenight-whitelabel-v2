@@ -49,9 +49,9 @@ const ShowsItineraryActions = ({
       .then(() => {
         onReload();
         notification(
-          tg('show:updatedCart'),
-          tg('show:removedShowItemFromCart', {
-            show: item?.item_data?.name,
+          tg('events:updatedCart'),
+          tg('events:removedShowItemFromCart', {
+            event: item?.item_data?.name,
           }),
           'success',
         );

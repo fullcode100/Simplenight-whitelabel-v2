@@ -33,5 +33,7 @@
   "tickets": "Tickets",
   "details": "Detalles",
   "policies": "Políticas",
-  "locaions": "Ubicaciones"
+  "locaions": "Ubicaciones",
+  "updatedCart": "Carrito actualizado",
+  "removedThingItemFromCart": "La reservación para {thing} fue removida."
 }
