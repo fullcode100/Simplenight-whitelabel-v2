@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
@@ -17,19 +17,21 @@ import { useSettings } from 'hooks/services/useSettings';
 import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import useMediaViewport from 'hooks/media/useMediaViewport';
 
-const UpperSectionBackground = ({ children }: { children?: any }) => {
+const UpperSectionBackground = ({ children }: { children?: ReactNode }) => {
   const { data: brandConfig } = useSettings();
   const { homepage } = brandConfig;
   const { whiteLabelBackground } = homepage || {};
   return (
-    <div
-      className="bg-no-repeat bg-cover bg-center min-h-[50vh] px-4 pt-[96px] pb-[26px] grid grid-cols-1 place-content-center lg:min-h-[90vh] lg:px-20"
+    <section
+      className="bg-no-repeat bg-cover bg-center"
       style={{
         backgroundImage: `url(${whiteLabelBackground})`,
       }}
     >
-      {children}
-    </div>
+      <div className="grid grid-cols-1 place-content-center px-4 pb-20 lg:px-20 min-h-[50vh] lg:min-h-[90vh]">
+        {children}
+      </div>
+    </section>
   );
 };
 
