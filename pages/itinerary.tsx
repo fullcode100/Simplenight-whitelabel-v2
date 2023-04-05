@@ -100,7 +100,7 @@ const Itinerary: NextPage = () => {
                 <>
                   <section className="lg:hidden" ref={footerContainerRef}>
                     <ListFooter
-                      totalAmount={cart?.total_amount}
+                      totalAmount={cart?.rate.total.full}
                       className={classnames({
                         'fixed bottom-0 z-30': !staticFooter,
                       })}
@@ -108,7 +108,7 @@ const Itinerary: NextPage = () => {
                   </section>
                   <section className="hidden space-y-8 lg:block">
                     <ListFooter
-                      totalAmount={cart?.total_amount}
+                      totalAmount={cart?.rate.total.full}
                       className="lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container"
                     />
                     <HelpSection inItinerary={true} />

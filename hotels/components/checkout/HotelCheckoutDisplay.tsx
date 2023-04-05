@@ -34,10 +34,10 @@ const HotelCheckoutDisplay = ({
         <div className="text-white">{Category.icon}</div>
       </IconRoundedContainer>
       <section className="grid gap-1">
-        <section className="font-semibold text-dark-800 text-lg leading-6 ">
+        <section className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-[18px] leading-[22px]">
           {name}
         </section>
-        <Paragraph size="small" textColor="text-dark-800">
+        <Paragraph size="small" fontWeight="semibold" textColor="text-dark-800">
           {roomsFormatted}
         </Paragraph>
       </section>

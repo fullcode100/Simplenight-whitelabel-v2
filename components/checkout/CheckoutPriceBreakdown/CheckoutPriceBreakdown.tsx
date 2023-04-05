@@ -29,7 +29,7 @@ const CheckoutPriceBreakdown = ({
       open={openPriceBreakdown}
       closeModal={onClose}
       title={modalLabel}
-      footerSummary={<BreakdownTotal total={cart?.total_amount.formatted} />}
+      footerSummary={<BreakdownTotal total={cart?.rate.total.full.formatted} />}
     >
       <section className="h-full overflow-y-scroll text-left">
         <BreakdownItemList cart={cart} reload={reload} setReload={setReload} />

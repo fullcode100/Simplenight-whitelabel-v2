@@ -27,7 +27,7 @@ const Summary = ({ cart, reload, setReload, href = '#' }: SummaryProps) => {
       <h4 className="text-base leading-[22px] text-dark-1000">Total</h4>
       <section className="flex flex-col justify-end text-right font-lato">
         <p className="text-[18px] leading-6 font-semibold text-dark-1000">
-          {cart?.total_amount.formatted}
+          {cart?.rate.total.full.formatted}
         </p>
         <section className="flex flex-row gap-1">
           <p className="text-[14px] leading-5 text-dark-800">

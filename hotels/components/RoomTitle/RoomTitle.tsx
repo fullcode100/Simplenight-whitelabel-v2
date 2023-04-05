@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-
 import { fromUpperCaseToCapitilize } from 'helpers/stringUtils';
+import { Paragraph, Heading } from '@simplenight/ui';
 
 interface RoomTitleProps {
   roomName?: string;
@@ -19,18 +19,16 @@ const RoomTitle = ({ roomName, nights, roomQty = 1 }: RoomTitleProps) => {
   const roomNameFormatted = fromUpperCaseToCapitilize(roomName);
 
   return (
-    <section className="flex justify-between font-semibold">
-      <p className="text-sm lg:text-lg leading-[22px] lg:leading-[26px] text-dark-1000">
-        {roomQty}x {roomNameFormatted}
-      </p>
+    <section className="flex justify-between items-center font-semibold">
+      <Heading tag="h6">
+        {roomQty} x {roomNameFormatted}
+      </Heading>
       {nights != undefined ? (
-        <p className="text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-800">
+        <Paragraph textColor="text-dark-700">
           {nights} {nightsCountLabel}
-        </p>
+        </Paragraph>
       ) : (
-        <p className="text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-800">
-          {cancelled}
-        </p>
+        <Paragraph textColor="text-dark-700">{cancelled}</Paragraph>
       )}
     </section>
   );

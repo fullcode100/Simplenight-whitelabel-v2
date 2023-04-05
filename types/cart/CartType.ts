@@ -1,21 +1,14 @@
 import {
   CheckInInstructions,
   Details,
-  Hotel,
   Photo,
   Rates,
   RelativePosition,
   Room,
 } from 'hotels/types/response/SearchResponse';
-import { ShowsCartRequestDetail } from 'showsAndEvents/types/request/ShowsCartRequest';
 import { ShowsCartItemData } from 'showsAndEvents/types/response/ShowsCartResponse';
-import { ThingsCartRequestDetail } from 'thingsToDo/types/request/ThingsCartRequest';
 import { ThingsCartItemData } from 'thingsToDo/types/response/ThingsCartItemData';
 import { Amount } from 'types/global/Amount';
-import { FlightCartRequestDetail } from 'flights/types/request/FlightCartRequest';
-import { FlightCartItemData } from 'flights/types/response/FlightCartItemData';
-import { CarCartRequestDetail } from 'cars/types/request/CarCartRequest';
-import { CarCartItemData } from 'cars/types/response/CarCartItemData';
 
 export interface CartBookingData {
   [key: string]: any;
@@ -52,17 +45,26 @@ export interface CartObjectResponse {
   last_update_at: string;
   sandbox_mode: boolean;
   status: string;
-  total_amount: TotalAmount;
-  total_amount_post_paid: TotalAmount;
-  total_amount_taxes: TotalAmount;
-  total_amount_taxes_postpaid: TotalAmount;
   total_item_qty: number;
+  rate: CartRate;
 }
 
-export interface TotalAmount {
-  amount: number;
-  formatted: string;
-  currency: string;
+export interface CartRate {
+  total: Total;
+  fees: Amount;
+  taxes: {
+    full: Partial<Amount>;
+    postpaid: Amount[];
+    prepaid: Amount[];
+    total_postpaid: Partial<Amount>;
+  };
+}
+
+export interface Total {
+  prepaid: Amount;
+  postpaid: Amount;
+  net: Amount;
+  full: Amount;
 }
 
 export interface CartItemRequest {

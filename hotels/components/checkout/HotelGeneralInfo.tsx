@@ -20,7 +20,7 @@ const HotelGeneralInfo = ({ item }: HotelGeneralInfoProps) => {
     check_in_instructions: item?.details.check_in_instructions,
   };
   return (
-    <section className="flex flex-col gap-2 py-6">
+    <section className="flex flex-col gap-2 py-6 px-4">
       <LocationInfo address={item?.details?.address} />
       <CheckinCheckoutInfo
         checkinDate={checkinDate}

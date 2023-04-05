@@ -13,7 +13,7 @@ interface ItineraryOverlayProps {
 const ItineraryOverlay = ({ isOpen, onClose, cart }: ItineraryOverlayProps) => {
   const [reload, setReload] = useState(false);
 
-  const totalAmount = cart?.total_amount.formatted;
+  const totalAmount = cart?.rate.total.full.formatted;
   const itemsQty = cart?.total_item_qty;
 
   const showCheckOut = !!itemsQty && itemsQty > 0;

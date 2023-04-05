@@ -8,6 +8,7 @@ import ExternalLink from 'components/global/ExternalLink/ExternalLink';
 import { Rate } from '../../../types/booking/bookingType';
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import { MinRateRate } from 'hotels/types/response/CartHotels';
+import { Paragraph, Pricing } from '@simplenight/ui';
 
 interface RoomPriceBreakdownProps {
   total?: string;
@@ -72,28 +73,20 @@ const RoomPriceBreakdown = ({
   const BasePrice = () => (
     <section className="flex justify-between">
       <section className="flex flex-row gap-1">
-        <section className="flex flex-row gap-1 lg:gap-3">
-          <PlusIcon className="ml-0.5 mr-1 mt-1 h-3.5 text-primary-1000 lg:h-4 lg:w-4" />
-          <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
-            {basePriceLabel}
-          </p>
+        <section className="flex flex-row gap-1 lg:gap-3 items-center">
+          <PlusIcon className="h-3.5 text-primary-1000 lg:h-4 lg:w-4 grid place-items-center" />
+          <Paragraph>{basePriceLabel}</Paragraph>
         </section>
       </section>
 
       <section className="text-right">
-        {rate?.rate_breakdown.discounts && !!amountToApply && (
-          <p className="leading-lg text-xs font-semibold text-green-1000 lg:text-sm lg:leading-[22px]">
-            <span className="mr-1 text-dark-800 line-through">
-              {isPriceBase && baseBeforeApply
-                ? baseBeforeApply.formatted
-                : totalBeforeApply?.formatted}
-            </span>
-            {rate?.rate_breakdown.discounts.percentage_to_apply}
-          </p>
-        )}
-        <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
-          {rate?.rate_breakdown.total_base_amount.formatted}
-        </p>
+        <Pricing>
+          <Pricing.Total
+            totalAmount={
+              rate?.rate_breakdown.total_base_amount.formatted as string
+            }
+          />
+        </Pricing>
       </section>
     </section>
   );
@@ -120,12 +113,10 @@ const RoomPriceBreakdown = ({
       })}
       <div className="border-t border-dark-200"></div>
       <section className="mb-5 flex justify-between">
-        <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
-          {payNowLabel}
-        </p>
-        <p className="text-[18px] font-semibold leading-[24px] text-dark-1000">
-          {total}
-        </p>
+        <Paragraph>{payNowLabel}</Paragraph>
+        <Pricing>
+          <Pricing.Total totalAmount={total as string} />
+        </Pricing>
       </section>
 
       {rate?.rate_breakdown.post_paid_rate?.taxes.map((tax, index) => {
@@ -134,11 +125,9 @@ const RoomPriceBreakdown = ({
         return (
           <section className="flex justify-between" key={tax.type + index}>
             <section className="flex flex-row gap-1">
-              <section className="flex flex-row gap-1 lg:gap-3">
-                <PlusIcon className="ml-0.5 mr-1 mt-1 h-3.5 text-primary-1000 lg:h-4 lg:w-4" />
-                <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
-                  {taxLabel}
-                </p>
+              <section className="flex flex-row gap-1 lg:gap-3 items-center">
+                <PlusIcon className="h-3.5 text-primary-1000 lg:h-4 lg:w-4 grid place-items-center" />
+                <Paragraph>{taxLabel}</Paragraph>
               </section>
             </section>
 
@@ -169,12 +158,10 @@ const RoomPriceBreakdown = ({
       )}
       <div className="border-t border-dark-200"></div>
       <section className="mb-5 flex justify-between">
-        <p className="leading-lg text-xs font-semibold text-dark-1000 lg:text-sm lg:leading-[22px]">
-          {payAtPropertyLabel}
-        </p>
-        <p className="text-[18px] font-semibold leading-[24px] text-dark-1000">
-          {resortFees}
-        </p>
+        <Paragraph>{payAtPropertyLabel}</Paragraph>
+        <Pricing>
+          <Pricing.Total totalAmount={resortFees as string} />
+        </Pricing>
       </section>
 
       <ExtraDetailItem detail={amenities} label={priceIncludesLabel} />

@@ -86,7 +86,7 @@ const RoomCard = ({
   );
 
   return (
-    <section className="my-3 overflow-hidden border rounded shadow-container lg:my-0 border-dark-200">
+    <section className="flex flex-col justify-between my-3 overflow-hidden border rounded shadow-container lg:my-0 border-dark-200">
       {images?.length > 0 ? (
         <ImageCarousel
           images={images}
@@ -147,7 +147,7 @@ const RoomCard = ({
         </>
       )}
       <Divider />
-      <section className="px-4 py-4">
+      <section className="flex-1 flex items-center px-4 py-4">
         {cancellable && (
           <FreeCancellationExtended policy={cancellationPolicy?.description} />
         )}

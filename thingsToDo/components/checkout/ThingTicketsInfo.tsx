@@ -10,7 +10,7 @@ import {
 } from 'thingsToDo/types/request/ThingsCartRequest';
 import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse';
 import { formatObjectToString } from 'helpers/objectUtils';
-import { Paragraph } from '@simplenight/ui';
+import { Heading, Paragraph, Pricing } from '@simplenight/ui';
 
 interface Props {
   item: Item;
@@ -60,11 +60,9 @@ const ThingTicketsInfo = ({ item }: Props) => {
         <FeesRow
           label={paxesLabel}
           priceBreakdown={
-            <ThingItineraryPriceBreakdown
-              totalAmount={formattedTotalAmount}
-              discount={hasDiscount && formattedDiscount}
-              amountBeforeDiscount={hasDiscount && formattedAmountBeforeApply}
-            />
+            <Pricing>
+              <Pricing.Total totalAmount={formattedTotalAmount} />
+            </Pricing>
           }
         />
         <Divider />
@@ -72,9 +70,9 @@ const ThingTicketsInfo = ({ item }: Props) => {
           <Paragraph size="small" className="capitalize">
             {payNowLabel}
           </Paragraph>
-          <Paragraph size="small" fontWeight="semibold">
-            {formattedTotalAmount}
-          </Paragraph>
+          <Pricing>
+            <Pricing.Total totalAmount={formattedTotalAmount} />
+          </Pricing>
         </div>
       </>
     );
@@ -204,13 +202,9 @@ const ThingTicketsInfo = ({ item }: Props) => {
     item.item_data?.extra_data.booking_questions;
   return (
     <>
-      <Divider />
       <section className="flex flex-col gap-3 px-4 py-4 text-dark-1000">
-        <Paragraph
-          size="medium"
-          className="capitalize"
-          fontWeight="semibold"
-        >{`${quantity}x ${ticketName}`}</Paragraph>
+        <Divider />
+        <Heading tag="h6">{`${quantity} x ${ticketName}`}</Heading>
         <FeesSection />
         <PoliciesSection />
         {item.customer_additional_requests && <AdditionalRequestsSection />}

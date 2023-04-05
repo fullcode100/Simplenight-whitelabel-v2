@@ -2,7 +2,7 @@ import React from 'react';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import { Rates } from '../../../types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
-import { Paragraph } from '@simplenight/ui';
+import { Paragraph, Pricing } from '@simplenight/ui';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface BreakdownSummaryProps {
@@ -42,12 +42,17 @@ const BreakdownSummary = ({
           : `${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}
       </Paragraph>
       <section className="text-right">
-        <PriceDisplay
+        <Pricing>
+          <Pricing.Total
+            totalAmount={rate.min_rate.rate.total_amount.formatted}
+          />
+        </Pricing>
+        {/* <PriceDisplay
           rate={rate}
           isPriceBase={isPriceBase}
           isAvgAmount={isAvgAmount}
           isStartingTotal={true}
-        />
+        /> */}
 
         {CustomPriceBreakdown && <>{CustomPriceBreakdown}</>}
       </section>

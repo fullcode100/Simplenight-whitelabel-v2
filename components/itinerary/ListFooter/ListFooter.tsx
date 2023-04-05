@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 
 import ModalFooter from '../../global/NewModal/components/ModalFooter';
-import { TotalAmount } from '../../../types/cart/CartType';
 import { useTranslation } from 'react-i18next';
 import TaxesAndFeesPopover from 'hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
+import { Amount } from 'types/global/Amount';
 
 interface ListFooterProps {
-  totalAmount: TotalAmount;
+  totalAmount: Amount;
   className?: string;
 }
 

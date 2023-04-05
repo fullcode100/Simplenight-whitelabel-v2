@@ -2,6 +2,7 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import React, { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Paragraph } from '@simplenight/ui';
 import { Item } from 'types/cart/CartType';
 
 interface ThingsBreakdownHeaderProps {
@@ -30,12 +31,12 @@ export const ThingBreakdownHeader = ({
         <div className="text-white">{icon}</div>
       </IconRoundedContainer>
       <section className="grid gap-1">
-        <section className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-[18px] leading-[22px] ">
+        <section className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-[18px] leading-[22px]">
           {activityName}
         </section>
-        <section className="font-semibold text-dark-800 text-[16px] leading-[22px]">
+        <Paragraph size="small" fontWeight="semibold" textColor="text-dark-800">
           {ticketsFormatted}
-        </section>
+        </Paragraph>
       </section>
     </section>
   );

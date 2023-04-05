@@ -42,9 +42,7 @@ const HotelRoomsInfo = ({
     'Vendor Confirmation Number',
   );
 
-  const selectedRoom = item?.item_data?.rooms?.find(
-    (roomA: any) => roomA.code == item?.item_data?.selected_room_code,
-  );
+  const selectedRoom = item?.item_data?.room;
   const roomName = selectedRoom?.name;
   const amenities = selectedRoom?.amenities.join(', ');
   const roomMinRate = selectedRoom?.rates.min_rate;
@@ -80,7 +78,7 @@ const HotelRoomsInfo = ({
     <section className="flex flex-col gap-2 py-6 border-t lg:gap-3 border-dark-300 lg:pt-6 lg:pb-0">
       <RoomTitle roomName={roomName} roomQty={item?.room_qty} nights={nights} />
 
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <section className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {supplierReferenceID && (
           <SupplierReference supplierReferenceID={supplierReferenceID} />
         )}

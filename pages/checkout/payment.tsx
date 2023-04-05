@@ -167,7 +167,7 @@ const Payment = () => {
       (item) => item.inventory_id === referralItemId,
     );
     // be aware that referralItemId will contain wego's click ID
-    const totalAmount = cart?.total_amount;
+    const totalAmount = cart?.rate.total.full;
 
     const value = totalAmount?.amount;
     const currency = totalAmount?.currency;
@@ -364,7 +364,7 @@ const Payment = () => {
                   labelKey={'amountForThisCard'}
                   subLabel={fullAmountLabel}
                   subLabelKey={'fullAmount'}
-                  value={cart?.total_amount.formatted}
+                  value={cart?.rate.total.full.formatted}
                   disabled={true}
                 />
                 <BillingAddressForm

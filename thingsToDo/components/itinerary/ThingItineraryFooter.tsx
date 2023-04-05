@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
-import { Paragraph } from '@simplenight/ui';
+import { Paragraph, Pricing } from '@simplenight/ui';
 import ThingItineraryActions from './ThingItineraryActions';
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +48,9 @@ const ThingItineraryFooter = ({
             {t('total')}
           </Paragraph>
           <section className="ml-auto text-right">
-            <Paragraph size="medium">{formatedTotalAmount}</Paragraph>
+            <Pricing>
+              <Pricing.Total totalAmount={formatedTotalAmount} />
+            </Pricing>
           </section>
         </section>
         {showActions && (

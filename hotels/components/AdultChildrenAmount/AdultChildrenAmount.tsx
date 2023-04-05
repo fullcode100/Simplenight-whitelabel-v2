@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-
 import PersonsIcon from 'public/icons/assets/multiple-persons.svg';
+import { Paragraph } from '@simplenight/ui';
 
 interface AdultChildrenAmountProps {
   adults?: number;
@@ -45,9 +45,9 @@ const AdultChildrenAmount = ({
     <section className="flex flex-col gap-1">
       <section className="flex flex-row gap-1 lg:gap-3">
         <PersonsIcon className="h-3.5 lg:h-5 lg:w-5 mt-1 lg:mt-0 text-primary-1000" />
-        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+        <Paragraph>
           {adults} {adultsTitle}, {child} {childrenTitle}
-        </p>
+        </Paragraph>
       </section>
       {childrenAges && childrenAges.length >= 1 && (
         <section className="flex flex-col gap-1">{childrenAgesList()}</section>

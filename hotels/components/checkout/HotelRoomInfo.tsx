@@ -10,6 +10,8 @@ import { Item, MinRateRate } from '../../types/response/CartHotels';
 import TrashIcon from 'public/icons/assets/small-trash.svg';
 import { removeFromCart } from 'core/client/services/CartClientService';
 import { Rate } from '../../../types/booking/bookingType';
+import { Paragraph } from '@simplenight/ui';
+import Divider from 'components/global/Divider/Divider';
 
 const RESORT_FEES = 'RESORT_FEES';
 const TAXES_AND_FEES = 'TAXESANDFEES';
@@ -26,9 +28,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
 
-  const selectedRoom = room.item_data?.rooms?.find(
-    (roomA) => roomA.code == room.item_data?.selected_room_code,
-  );
+  const selectedRoom = room.item_data?.room;
 
   const roomName = selectedRoom?.name;
   const amenities = selectedRoom?.amenities.join(', ');
@@ -60,16 +60,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
     const hasInstructions = instructions.length > 0;
     const hasPolicies = policies.length > 0;
 
-    return (
-      <section className="mb-6 font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-        {hasPolicies && (
-          <>
-            <br />
-            {policies[0].list[0]}
-          </>
-        )}
-      </section>
-    );
+    return <Paragraph>{hasPolicies && <>{policies[0].list[0]}</>}</Paragraph>;
   };
 
   const handleRemoveRoom = () => {
@@ -84,7 +75,8 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
   };
 
   return (
-    <section className="flex flex-col gap-2 py-6 border-t border-dark-300">
+    <section className="flex flex-col gap-2 pb-6 px-4">
+      <Divider />
       <RoomTitle
         roomName={roomName}
         roomQty={room.booking_data.room_qty}
@@ -103,6 +95,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
         rate={roomRate}
         isPriceBase
       />
+      <br />
       <Button
         value={removeLabel}
         size="full-sm"

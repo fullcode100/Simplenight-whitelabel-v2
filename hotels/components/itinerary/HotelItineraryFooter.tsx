@@ -40,9 +40,7 @@ const HotelItineraryFooter = ({
 
   const editLabel = tg('edit', 'Edit');
 
-  const selectedRoom = item.item_data?.rooms?.find(
-    (roomA) => roomA.code == item.item_data?.selected_room_code,
-  );
+  const selectedRoom = item.item_data?.room;
   const totalRate = selectedRoom?.rates?.min_rate?.rate;
   const slug = useCategoryType('hotels')?.slug;
 

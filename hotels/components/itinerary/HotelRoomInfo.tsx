@@ -15,9 +15,7 @@ interface HotelRoomInfoProps {
 const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
   const [t, i18next] = useTranslation('global');
 
-  const selectedRoom = room.item_data?.rooms?.find(
-    (roomA) => roomA.code == room.item_data?.selected_room_code,
-  );
+  const selectedRoom = room.item_data?.room;
 
   const roomName = selectedRoom?.name;
   const amenities = selectedRoom?.amenities.join(', ');
@@ -37,7 +35,7 @@ const HotelRoomInfo = ({ room }: HotelRoomInfoProps) => {
   const termsOfService = room.item_data?.terms_and_conditions;
 
   return (
-    <section className="flex flex-col gap-2 border-t border-dark-300 py-4 px-4">
+    <section className="flex flex-col gap-2 px-4 py-4 border-t border-dark-300">
       <RoomTitle
         roomName={roomName}
         roomQty={room.booking_data.room_qty}

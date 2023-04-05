@@ -6,9 +6,7 @@ import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary
 import { Rates } from '../../types/response/SearchResponse';
 
 const HotelCheckoutItemDisplay = (item: any) => {
-  const selectedRoom = item.item?.item_data?.rooms?.find(
-    (roomA: any) => roomA.code == item.item?.item_data?.selected_room_code,
-  );
+  const selectedRoom = item.item?.item_data?.room;
   const breakDownInfo: Rates = selectedRoom.rates;
   const CartItemHeader = () => {
     const itemCategory = useCategorySlug(
@@ -30,7 +28,7 @@ const HotelCheckoutItemDisplay = (item: any) => {
 
   const CartItemBody = () => {
     return (
-      <section className="mb-6 px-4">
+      <section className="px-4 mb-6">
         <CartItemBreakdown />
       </section>
     );

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { formatAsDisplayDate, formatAsDisplayHour } from 'helpers/dajjsUtils';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
+import { Paragraph } from '@simplenight/ui';
 
 interface CheckinCheckoutInfoProps {
   checkinDate?: string;
@@ -29,24 +30,24 @@ const CheckinCheckoutInfo = ({
       <section className="flex flex-row gap-1 lg:gap-2.5">
         <CalendarIcon className="h-3.5 lg:h-5 lg:w-5 mt-1 lg:mt-0 text-primary-1000" />
         {checkinDate && checkinTime && (
-          <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
-            <p className="text-dark-700">{checkinLabel}</p>
-            <p className="text-dark-1000">
+          <section>
+            <Paragraph className="text-dark-700">{checkinLabel}</Paragraph>
+            <Paragraph className="text-dark-1000">
               {fromLowerCaseToCapitilize(formatAsDisplayDate(checkinDate))}{' '}
               {checkinTime}
-            </p>
+            </Paragraph>
           </section>
         )}
       </section>
       <section className="flex flex-row gap-1 lg:gap-2.5">
         <CalendarIcon className="h-3.5 lg:h-5 lg:w-5 mt-1 lg:mt-0 text-primary-1000" />
         {checkoutDate && checkoutTime && (
-          <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">
-            <p className="text-dark-700">{checkoutLabel}</p>
-            <p className="text-dark-1000">
+          <section>
+            <Paragraph className="text-dark-700">{checkoutLabel}</Paragraph>
+            <Paragraph className="text-dark-1000">
               {fromLowerCaseToCapitilize(formattedCheckinDate)}{' '}
               {formatedCheckinHour}
-            </p>
+            </Paragraph>
           </section>
         )}
       </section>

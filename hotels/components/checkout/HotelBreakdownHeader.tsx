@@ -28,7 +28,7 @@ const HotelBreakdownHeader = ({ item, icon }: HotelBreakdownHeaderProps) => {
         <div className="text-white">{icon}</div>
       </IconRoundedContainer>
       <section className="grid gap-1">
-        <section className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-[18px] leading-[22px] ">
+        <section className="font-semibold text-dark-1000 underline underline-offset-4 decoration-1 text-[18px] leading-[22px]">
           {hotelName}
         </section>
         <section className="font-semibold text-dark-800 text-[16px] leading-[22px]">

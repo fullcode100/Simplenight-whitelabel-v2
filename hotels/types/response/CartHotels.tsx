@@ -68,6 +68,7 @@ export interface ItemData {
   accommodation_type: string;
   selected_room_code: null;
   terms_and_conditions: string;
+  room: Room;
 }
 
 export interface TotalAmount {
