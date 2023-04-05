@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+import Button from 'components/global/Button/Button';
 
 import HotelMapView from './HotelResultsMapView';
 import { EmptyState } from '@simplenight/ui';
@@ -60,6 +61,7 @@ export const initialPriceRange = {
   min: 0,
   max: 5000,
 };
+const RESULTS_PER_PAGE = 25;
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const { ClientSearcher: Searcher } = HotelCategory.core;
@@ -113,6 +115,12 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [maxStarRating, setMaxStarRating] = useState<number>(
     MAX_STAR_RATING_INITIAL_VALUE,
   );
+
+  const [next, setNext] = useState(RESULTS_PER_PAGE);
+
+  const loadMoreResults = () => {
+    setNext(next + RESULTS_PER_PAGE);
+  };
 
   const resetCriteria = () => {
     setCriteria({} as unknown as FilterCriteria);
@@ -196,7 +204,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     const { id } = hotel;
     return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
-  console.log(data);
   const hasNoHotels = data?.length === 0;
 
   const checkIfShouldBeShown = () => {
@@ -214,7 +221,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         <HorizontalSkeletonList />
       ) : (
         <>
-          {filteredHotels?.map((hotel) => {
+          {filteredHotels?.slice(0, next).map((hotel) => {
             const {
               details: { name, fullAddress, starRating },
               minRate,
@@ -354,6 +361,16 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                       <HorizontalSkeletonCard />
                     </div>
                   )}
+                </section>
+              )}
+              {filteredHotels.length > next && (
+                <section className="text-center">
+                  <Button
+                    onClick={loadMoreResults}
+                    value={'Load More'}
+                    size="w-60 h-11 text-base leading-[18px]"
+                    className="mt-4 mb-12"
+                  />
                 </section>
               )}
             </>
