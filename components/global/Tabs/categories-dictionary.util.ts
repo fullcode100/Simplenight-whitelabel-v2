@@ -1,6 +1,7 @@
 const categoriesDictonary: { [key: string]: string } = {
   'Ground Transportation': 'GroundTransportation',
   Hotels: 'hotelName',
+  'Vacation Rentals': 'vacationRental',
   'Shows & Events': 'ShowsEvents',
   Flights: 'FlightsName',
   Dining: 'DiningName',
