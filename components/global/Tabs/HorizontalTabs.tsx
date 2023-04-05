@@ -29,7 +29,6 @@ const HorizontalTabs = ({
     setIsModalOpen(false);
   };
   const hoverCss = primary ? 'text-white' : '';
-  console.info(tabs);
   if (tabs?.length <= 1) return <></>;
   return (
     <div
