@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Radio, RadioGroup } from '../../../components/global/Radio/Radio';
@@ -30,6 +30,7 @@ export const DropdownRadio = ({
   onFilterClick,
 }: DropdownRadioProps) => {
   const [showSortingDropdown, setShowSortingDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const handleClickOption = (value: string) => {
     setSortByVal(value);
     setShowSortingDropdown((p) => !p);
@@ -37,13 +38,27 @@ export const DropdownRadio = ({
   };
   const [t] = useTranslation(translation);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowSortingDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <section className="w-auto flex justify-start items-center gap-4 rounded px-2 lg:px-0 bg-primary-100 lg:bg-transparent">
-      <section className="relative">
+      <section className="relative" ref={dropdownRef}>
         <button
           className="flex items-center gap-2 lg:w-[160px] h-6 whitespace-nowrap"
           onClick={() => setShowSortingDropdown(true)}
-          onBlur={() => setShowSortingDropdown(true)}
           style={{ width: 'auto' }}
         >
           <span className="text-primary-1000">
