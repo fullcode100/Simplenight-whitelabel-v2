@@ -10,7 +10,7 @@ interface CardProps<T extends WithId> {
   item: T;
   icon?: ReactNode;
   categoryName?: string;
-  address?: ReactNode;
+  address?: any;
   title?: string;
   image?: ReactNode;
   fallback?: ReactNode;
@@ -32,7 +32,7 @@ function HorizontalItemCard<T extends WithId>({
   title = '',
   image = '',
   price,
-  address = '',
+  address = {},
   className = '',
   rating,
   ratingCount = undefined,
@@ -59,7 +59,12 @@ function HorizontalItemCard<T extends WithId>({
     checkValidImage();
   }, []);
   const AddressSection = () => (
-    <span className="font-normal text-dark-1000 text-sm py-2">{address}</span>
+    <>
+      <p className="font-normal text-dark-1000 text-sm">{address?.address}</p>
+      <span className="font-normal text-dark-1000 text-sm">
+        {address?.city}, {address?.countryCode}, {address?.postalCode}
+      </span>
+    </>
   );
 
   const TitleSection = () => (
@@ -87,7 +92,7 @@ function HorizontalItemCard<T extends WithId>({
   return (
     <li
       key={item.id}
-      className={`bg-white flex flex-col border border-dark-300 rounded ${className}`}
+      className={`bg-white flex flex-col border border-dark-300 rounded-md ${className}`}
     >
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
@@ -122,12 +127,12 @@ function HorizontalItemCard<T extends WithId>({
             <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
               <TitleSection />
               <section className="mt-4">
+                <AddressSection />
+              </section>
+              <section className="mt-4">
                 {rating && (
                   <Rating value={rating} reviews={ratingCount} isHotelRating />
                 )}
-              </section>
-              <section className="mt-4">
-                <AddressSection />
               </section>
               {categoryTags && (
                 <section className="flex flex-row lg:justify-start gap-2 mt-4">

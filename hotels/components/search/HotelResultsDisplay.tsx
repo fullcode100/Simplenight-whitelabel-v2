@@ -246,7 +246,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 image={thumbnail}
                 fallback={<HotelResultFallbackImage />}
                 price={<HotelItemRateInfo minRate={minRate} />}
-                address={formattedLocation}
+                address={fullAddress}
                 className=" flex-0-0-auto"
                 rating={parseInt(starRating)}
                 url={url}

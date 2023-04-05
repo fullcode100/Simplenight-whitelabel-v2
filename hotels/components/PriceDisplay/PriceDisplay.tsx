@@ -25,6 +25,7 @@ const PriceDisplay = ({
   const router = useRouter();
   const pathName = router.pathname;
   const totalAmount = rate?.min_rate.rate.total_amount.formatted;
+  const currency = rate?.min_rate.rate.total_amount.currency;
   const avgAmount = rate?.avg_amount?.avg_amount?.formatted;
   const startingRoomTotal = rate?.min_rate?.rate.starting_room_total;
   const discounts = rate?.avg_amount?.discounts;
@@ -73,13 +74,15 @@ const PriceDisplay = ({
       >
         <span className="text-xs">{totalLabel}</span>
         <span className="text-sm font-semibold">
-          {allRoomsAmount ? allRoomsAmount : totalAmount}
+          {currency} {allRoomsAmount ? allRoomsAmount : totalAmount}
         </span>
       </p>
       {isStartingTotal && startingRoomTotal && (
         <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
           <span>{startingRoomTotalLabel}</span>
-          <span>{startingRoomTotal.formatted}</span>
+          <span>
+            {currency} {startingRoomTotal.formatted}
+          </span>
         </p>
       )}
       <section className="flex flex-row gap-1 justify-end">
