@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Modal } from 'antd';
 import CommingSoon from '../ComingSoon';
 import { useTranslation } from 'react-i18next';
+import categoriesDictonary from './categories-dictionary.util';
 
 const HorizontalTabs = ({
   tabs,
@@ -29,50 +30,15 @@ const HorizontalTabs = ({
   };
   const hoverCss = primary ? 'text-white' : '';
 
-  for (let i = 0; i < tabs.length; i++) {
-    if (tabs[i].name == 'Ground Transportation') {
-      tabs[i].name = t('GroundTransportation', tabs[i].name);
-    }
-    if (tabs[i].name == 'Hotels') {
-      tabs[i].name = t('hotelName', tabs[i].name);
-    }
-    if (tabs[i].name == 'Shows & Events') {
-      tabs[i].name = t('ShowsEvents', tabs[i].name);
-    }
-    if (tabs[i].name == 'Flights') {
-      tabs[i].name = t('FlightsName', tabs[i].name);
-    }
-    if (tabs[i].name == 'Dining') {
-      tabs[i].name = t('DiningName', tabs[i].name);
-    }
-    if (tabs[i].name == 'Entertainment') {
-      tabs[i].name = t('EntertainmentName', tabs[i].name);
-    }
-    if (tabs[i].name == 'Transportation') {
-      tabs[i].name = t('TransportationName', tabs[i].name);
-    }
-    if (tabs[i].name == 'Classes & Workshops') {
-      tabs[i].name = t('ClassesWorkshops', tabs[i].name);
-    }
-    if (tabs[i].name == 'Car Rental') {
-      tabs[i].name = t('CarRental', tabs[i].name);
-    }
-    if (tabs[i].name == 'Parking') {
-      tabs[i].name = t('ParkingName', tabs[i].name);
-    }
-    if (tabs[i].name == 'Food & Beverage') {
-      tabs[i].name = t('FoodBeverage', tabs[i].name);
-    }
-    if (tabs[i].name == 'Other') {
-      tabs[i].name = t('OtherName', tabs[i].name);
-    }
-  }
   if (tabs?.length <= 1) return <></>;
   return (
     <div
       className={`sticky overflow-scroll scrollbar-hide z-30 bg-dark-900 block ${className}`}
     >
-      <nav className="flex justify-start lg:justify-center" aria-label="Tabs">
+      <nav
+        className="flex justify-start w-full mx-auto max-w-7xl overflow-hidden"
+        aria-label="Tabs"
+      >
         {tabs.map((tab) => (
           <button
             key={tab.name}
@@ -88,7 +54,7 @@ const HorizontalTabs = ({
             <div className="flex items-center justify-center w-5 h-5">
               {tab.icon}
             </div>
-            {tab.name}
+            {t(categoriesDictonary[tab.name], tab.name)}
           </button>
         ))}
         {!hideMore && (

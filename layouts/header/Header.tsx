@@ -139,7 +139,7 @@ const Header = ({ color }: HeaderProps) => {
           tabs={categoriesTabs}
           activeTab={tab ? tab : categoriesTabs?.[0]}
           onClick={handleTabClick}
-          className={`lg:pl-[320px] ${
+          className={`${
             scrollDirection === 'down' ? 'top-0' : 'top-[60px] lg:top-[76px]'
           } transition-all duration-500`}
           primary
