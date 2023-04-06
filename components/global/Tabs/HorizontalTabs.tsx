@@ -31,11 +31,9 @@ const HorizontalTabs = ({
   const hoverCss = primary ? 'text-white' : '';
   if (tabs?.length <= 1) return <></>;
   return (
-    <div
-      className={`sticky overflow-scroll scrollbar-hide z-30 bg-dark-900 block ${className}`}
-    >
+    <div className={`sticky z-30 bg-dark-900 block ${className}`}>
       <nav
-        className="flex justify-start w-full mx-auto max-w-7xl overflow-hidden"
+        className="flex justify-start w-full mx-auto overflow-scroll scrollbar-hide max-w-7xl"
         aria-label="Tabs"
       >
         {tabs.map((tab) => (
