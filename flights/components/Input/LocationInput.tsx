@@ -10,15 +10,16 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import { useState, forwardRef, useImperativeHandle } from 'react';
+import { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { getIsMapLoaded } from 'store/selectors/core';
 
 interface LocationInputProps {
   icon: any;
   routeParams?: string[];
   onChange?: (value: string) => void;
-  onSelect?: (value: latLngProp, address: string) => void;
+  onSelect?: (value: latLngProp, address: string, shortName: string) => void;
   defaultAddress?: string;
+  clearShortNames?: () => void;
 }
 
 interface LocationInputRef {
@@ -38,6 +39,7 @@ const LocationInput = forwardRef<
       onSelect,
       onClear,
       defaultAddress,
+      clearShortNames,
       ...others
     },
     ref,
@@ -66,7 +68,12 @@ const LocationInput = forwardRef<
 
         setAddress(results[0].formatted_address);
 
-        if (onSelect) onSelect(latLng, results[0].formatted_address);
+        if (onSelect)
+          onSelect(
+            latLng,
+            results[0].formatted_address,
+            results[0].address_components[0].short_name,
+          );
       } catch (error) {
         console.error(error);
       }
@@ -88,6 +95,10 @@ const LocationInput = forwardRef<
       },
     }));
 
+    useEffect(() => {
+      setAddress(defaultAddress);
+    }, [defaultAddress]);
+
     return (
       <>
         {isMapLoaded && (
@@ -107,7 +118,10 @@ const LocationInput = forwardRef<
                 {address && (
                   <section
                     className=" absolute right-3 top-8 z-10 rounded bg-white w-[30px] flex justify-end"
-                    onClick={() => setAddress('')}
+                    onClick={() => {
+                      setAddress('');
+                      clearShortNames?.();
+                    }}
                   >
                     <CloseIcon className="text-dark-700" />
                   </section>

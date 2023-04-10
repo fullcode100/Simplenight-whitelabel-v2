@@ -98,10 +98,12 @@
   "classic": "Clásica",
   "terminal": "Terminal",
   "upgrade": "Mejora",
-  "removeFlight": "Eliminar vuelo",
+  "removeFlight": "Eliminar",
   "select": "Seleccione",
   "layover": "Escala",
   "priceRange": "Rango de precios",
   "clearFilters": "Limpiar filtros",
-  "results": "Resultados"
+  "results": "Resultados",
+  "hide": "Ocultar",
+  "show": "Mostrar"
 }

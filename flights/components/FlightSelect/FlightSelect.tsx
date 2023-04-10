@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import classnames from 'classnames';
 import Label from 'components/global/Label/Label';
 
 interface FlightSelectProps {
@@ -7,40 +6,29 @@ interface FlightSelectProps {
   onChange?: (value: string) => void;
 }
 
-const FlightSelect = ({value, onChange}: FlightSelectProps) => {
+const FlightSelect = ({ value, onChange }: FlightSelectProps) => {
   const [t, i18n] = useTranslation('flights');
   const flights = ['one_way', 'round_trip', 'multi_city'];
   const flightsLabel = t('trip', 'Trip Type');
-  const handleChangeFlight = (flight: string) => {
-    if (onChange) onChange(flight);
+  const handleChangeFlight = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedFlight = event.target.value;
+    if (onChange) onChange(selectedFlight);
   };
   return (
-    <div className="w-full mt-0">
+    <div>
       <Label value={flightsLabel} className="block lg:hidden mb-3 lg:mb-0" />
       <div className="relative">
-        <section className="p-2 bg-dark-200 flex rounded-md gap-1">
-          {flights.map((flight) => {
-            const isActive = flight === value;
-            const className = classnames(
-              ' p-2 w-[100px] rounded-md h-[36px] grid place-content-center cursor-pointer',
-              {
-                'bg-primary-400 text-primary-1000': isActive,
-                'text-dark-1000': !isActive,
-              },
-            );
-            return (
-              <section
-                key={flight}
-                className={className}
-                onClick={() => handleChangeFlight(flight)}
-              >
-                <p className="cursor-pointer select-none">
-                  {t(flight)}
-                </p>
-              </section>
-            );
-          })}
-        </section>
+        <select
+          value={value}
+          onChange={handleChangeFlight}
+          className="border border-gray-300 rounded-md text-gray-600 text-xs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+        >
+          {flights.map((flight) => (
+            <option key={flight} value={flight}>
+              {t(flight)}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@
   "starRating": "Star rating",
   "sortBy": "Sort by",
   "sortByPriceAsc": "Price (Lowest First)",
-  "sortByPriceDesc": "Price (Highest First)", 
+  "sortByPriceDesc": "Price (Highest First)",
   "sortByRatingAsc": "Rating (Lowest First)",
   "sortByRatingDesc": "Rating (Highest First)",
   "paymentTypes": "Payment Types",
@@ -98,11 +98,13 @@
   "classic": "Classic",
   "terminal": "Terminal",
   "upgrade": "Upgrade",
-  "removeFlight": "Remove Flight",
+  "removeFlight": "Remove",
   "select": "Select",
   "layover": "Layover",
   "infantsAges": "Infants' Ages",
   "priceRange": "Price Range",
   "clearFilters": "Clear Filters",
-  "results": "Results"
+  "results": "Results",
+  "hide": "Hide",
+  "show": "Show"
 }

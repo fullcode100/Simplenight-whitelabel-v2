@@ -30,8 +30,10 @@ import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Label from 'components/global/Label/Label';
 import FlightSelect from '../FlightSelect/FlightSelect';
-import TravelersSelect from '../TravelersSelect/TravelersSelect';
+import classnames from 'classnames';
+import { Collapse } from 'react-collapse';
 import Popper from 'components/global/Popper/Popper';
+import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import useMediaViewport from 'hooks/media/useMediaViewport';
 
 interface LocationInputRef {
@@ -58,8 +60,10 @@ const FlightSearchForm = ({
   const roomsLabel = t('rooms', 'Rooms');
   const roomLabel = t('room', 'Room');
   const addFlightLabel = t('addFlight', 'Add Flight');
-  const removeFlightLabel = t('removeFlight', 'Remove Flight');
+  const removeFlightLabel = t('removeFlight', 'Remove');
   const flightLabel = t('flight', 'Flight');
+  const showFlights = t('show', 'Show');
+  const hideFlights = t('hide', 'Hide');
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
@@ -127,6 +131,8 @@ const FlightSearchForm = ({
   const [addresses2, setAddresses2] = useState<string[]>(
     params.addresses2 ? params.addresses2.toString().split('|') : [address2],
   );
+  const [shortNames, setShortNames] = useState<string[]>([]);
+  const [shortNames2, setShortNames2] = useState<string[]>([]);
 
   let _flights: string[] = [];
   if (direction === 'multi_city') {
@@ -187,7 +193,6 @@ const FlightSearchForm = ({
 
   const handleFlightsDelete = (index: number) => {
     if (flights.length < 2) return;
-
     const _flights = Object.assign([], flights);
     _flights.splice(index, 1);
     setFlights(_flights);
@@ -209,6 +214,7 @@ const FlightSearchForm = ({
     latLng: latLngProp,
     addr: string,
     index: number,
+    shortName: string,
   ) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     if (index < 1) {
@@ -218,12 +224,16 @@ const FlightSearchForm = ({
     const addrs: string[] = Object.assign([], addresses);
     addrs[index] = addr;
     setAddresses(addrs);
+    const shorts: string[] = Object.assign([], shortNames);
+    shorts[index] = shortName;
+    setShortNames(shorts);
   };
 
   const handleSelectLocation2 = (
     latLng: latLngProp,
     addr: string,
     index: number,
+    shortName: string,
   ) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     if (index < 1) {
@@ -233,6 +243,9 @@ const FlightSearchForm = ({
     const addrs: string[] = Object.assign([], addresses2);
     addrs[index] = addr;
     setAddresses2(addrs);
+    const shorts: string[] = Object.assign([], shortNames2);
+    shorts[index] = shortName;
+    setShortNames2(shorts);
   };
 
   const handleStartDateChange = (value: string, index: number) => {
@@ -369,21 +382,69 @@ const FlightSearchForm = ({
     }
   };
 
-  return (
-    <section
-      className={
-        'flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible'
-      }
-    >
-      <section
-        className={
-          'flex flex-col justify-between  lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0'
-        }
-      >
-        <section className="flex flex-col gap-4 lg:flex-row lg:w-[300px] lg:justify-between lg:items-center mt-4 lg:mt-0">
-          <FlightSelect value={direction} onChange={handleDirectionChange} />
-        </section>
+  const [isOpen, setIsOpen] = useState(true);
+  const classNameSwapButton = classnames('justify-center', {
+    hidden: direction === 'multi_city',
+    flex: direction !== 'multi_city',
+  });
 
+  const classNameInputSection = classnames(
+    'w-full flex flex-col lg:flex-row lg:w-[90%] lg:justify-between lg:items-center justify-center',
+    {
+      'gap-4': direction === 'multi_city',
+    },
+  );
+
+  const classNameChevron = classnames('fill-current h-4 w-4', {
+    'rotate-180': isOpen,
+  });
+
+  const classNameCollapseButton = classnames('flex justify-end mb-[-1rem]', {
+    hidden: direction !== 'multi_city' || router.pathname === '/',
+  });
+
+  const classNameSumaryFlights = classnames('bg-blue-50 my-4 px-2 py-4', {
+    hidden: isOpen || router.pathname === '/',
+  });
+
+  const classNameDatepicker = classnames('flex gap-4 lg:mt-0 lg:w-full', {
+    'max-w-xs': direction !== 'round_trip',
+  });
+
+  const fisrtLeavingFrom =
+    shortNames[0] || localStorage.getItem('fisrtLeavingFrom');
+  const lastGoingTo =
+    shortNames2[shortNames2.length - 1] || localStorage.getItem('lastGoingTo');
+
+  useEffect(() => {
+    if (fisrtLeavingFrom !== undefined) {
+      localStorage.setItem('fisrtLeavingFrom', fisrtLeavingFrom || '');
+    }
+    if (lastGoingTo !== undefined) {
+      localStorage.setItem('lastGoingTo', lastGoingTo || '');
+    }
+  }, [fisrtLeavingFrom, lastGoingTo]);
+
+  return (
+    <>
+      <section className={classNameCollapseButton}>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center self-end bg-transparent text-gray-600 text-xs text-right lg:text-center h-8 w-24 py-0 hover:border-gray-400 focus:outline-none z-10"
+        >
+          <span className="pr-1 font-semibold flex-1">
+            {isOpen ? hideFlights : showFlights}
+          </span>
+          <span>
+            <svg
+              className={classNameChevron}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </span>
+        </button>
         {!isDesktop ? (
           <>
             <TravelersInput
@@ -451,161 +512,285 @@ const FlightSearchForm = ({
           </section>
         )}
       </section>
-      {flights.map((item: string, flightIndex: number) => (
-        <section key={flightIndex} className="flex flex-col">
-          {direction === 'multi_city' && (
-            <section className="w-full mt-5">
-              <Label
-                value={`${flightLabel} #${flightIndex + 1}`}
-                className="block text-sm font-normal text-dark-500"
-              />
-            </section>
-          )}
-          <section
-            className={
-              'flex flex-col justify-between lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0 mt-4 lg:mt-4'
-            }
-          >
-            <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-              <section className="w-full flex flex-col lg:flex-row lg:w-[90%] lg:justify-between lg:items-center justify-center">
-                <LocationInput
-                  icon={
-                    <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
-                  }
-                  label={locationInputLabel}
-                  name="location"
-                  placeholder={locationPlaceholder}
-                  routeParams={['address']}
-                  defaultAddress={
-                    direction === 'multi_city'
-                      ? addresses[flightIndex]
-                      : address
-                  }
-                  onSelect={(latLng: latLngProp, address: string) =>
-                    handleSelectLocation(latLng, address, flightIndex)
-                  }
-                  onChange={() => setShowLocationError(false)}
-                  autoFocus={!address ? true : false}
-                  ref={refLocationInputFrom}
-                />
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => swap()}
-                    className="w-10 h-10 p-1.5 mt-[-0.25rem] mb-[-1.75rem] lg:mt-6 lg:mb-0 lg:mx-[-0.75rem] rounded-full flex justify-center items-center border border-gray-300  hover:bg-gray-400 bg-white z-50"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 1.5rem 1.5rem"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <LocationInput
-                  icon={
-                    <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
-                  }
-                  label={location2InputLabel}
-                  name="location2"
-                  placeholder={location2Placeholder}
-                  routeParams={['address2']}
-                  defaultAddress={
-                    direction === 'multi_city'
-                      ? addresses2[flightIndex]
-                      : address2
-                  }
-                  onSelect={(latLng: latLngProp, address: string) =>
-                    handleSelectLocation2(latLng, address, flightIndex)
-                  }
-                  onChange={() => setShowLocationError(false)}
-                  autoFocus={address && !address2 ? true : false}
-                  ref={refLocationInputTo}
-                />
-              </section>
-              <DatePicker
-                showDatePicker={showDatePicker}
-                onClose={() => setShowDatePicker(false)}
-                startDateLabel={checkInText}
-                endDateLabel={checkOutText}
-                initialStartDate={
-                  direction === 'multi_city'
-                    ? startDates[flightIndex]
-                    : startDate
+      <Collapse isOpened={isOpen}>
+        <section
+          className={
+            'flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible'
+          }
+        >
+          {flights.map((item: string, flightIndex: number) => (
+            <section key={flightIndex} className="flex flex-col">
+              {direction === 'multi_city' && (
+                <section className="w-full mt-5">
+                  <Label
+                    value={`${flightLabel} #${flightIndex + 1}`}
+                    className="block text-sm font-normal text-dark-500"
+                  />
+                </section>
+              )}
+              <section
+                className={
+                  'flex flex-col justify-between lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0 mt-4 lg:mt-4'
                 }
-                initialEndDate={endDate}
-                onStartDateChange={(value) =>
-                  handleStartDateChange(value, flightIndex)
-                }
-                onEndDateChange={handleEndDateChange}
-                openOnStart={clickOnStart ? true : false}
-                equal={direction !== 'round_trip'}
-                // isRange={direction === 'round_trip'}
-              />
-              <section className="flex gap-4 lg:mt-0 lg:w-full">
-                <IconInput
-                  label={checkInText}
-                  name="Check-in"
-                  placeholder={checkInText}
-                  className="lg:mt-0"
-                  orientation="left"
-                  icon={<Calendar className="w-5 h-5 text-dark-700" />}
-                  value={fromLowerCaseToCapitilize(
-                    formatAsDisplayDate(
+              >
+                <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
+                  <section className={classNameInputSection}>
+                    <LocationInput
+                      icon={
+                        <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
+                      }
+                      label={locationInputLabel}
+                      name="location"
+                      placeholder={locationPlaceholder}
+                      routeParams={['address']}
+                      defaultAddress={
+                        direction === 'multi_city'
+                          ? addresses[flightIndex]
+                          : address
+                      }
+                      onSelect={(
+                        latLng: latLngProp,
+                        address: string,
+                        shortName: string,
+                      ) =>
+                        handleSelectLocation(
+                          latLng,
+                          address,
+                          flightIndex,
+                          shortName,
+                        )
+                      }
+                      onChange={() => setShowLocationError(false)}
+                      autoFocus={!address ? true : false}
+                      clearShortNames={() => setShortNames([''])}
+                      ref={refLocationInputFrom}
+                    />
+                    <div className={classNameSwapButton}>
+                      <button
+                        onClick={() => swap()}
+                        className="w-8 h-8 p-0.5 mt-[-0.25rem] mb-[-1.75rem] lg:mt-6 lg:mb-0 lg:mx-[-0.75rem] rounded-full flex justify-center items-center border border-gray-300  hover:bg-gray-400 bg-white z-10 text-dark-700"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 1rem 1rem"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <LocationInput
+                      icon={
+                        <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
+                      }
+                      label={location2InputLabel}
+                      name="location2"
+                      placeholder={location2Placeholder}
+                      routeParams={['address2']}
+                      defaultAddress={
+                        direction === 'multi_city'
+                          ? addresses2[flightIndex]
+                          : address2
+                      }
+                      onSelect={(
+                        latLng: latLngProp,
+                        address: string,
+                        shortName: string,
+                      ) =>
+                        handleSelectLocation2(
+                          latLng,
+                          address,
+                          flightIndex,
+                          shortName,
+                        )
+                      }
+                      onChange={() => setShowLocationError(false)}
+                      autoFocus={address && !address2 ? true : false}
+                      clearShortNames={() => setShortNames2([''])}
+                      ref={refLocationInputTo}
+                    />
+                  </section>
+                  <DatePicker
+                    showDatePicker={showDatePicker}
+                    onClose={() => setShowDatePicker(false)}
+                    startDateLabel={checkInText}
+                    endDateLabel={checkOutText}
+                    initialStartDate={
                       direction === 'multi_city'
                         ? startDates[flightIndex]
-                        : startDate,
-                    ),
-                  )}
-                  onChange={(event) =>
-                    handleStartDateChange(event.target.value, flightIndex)
-                  }
-                  onClick={() => {
-                    setClickOnStart(true);
-                    setShowDatePicker(true);
-                  }}
-                />
-                {direction === 'round_trip' && (
-                  <IconInput
-                    label={checkOutText}
-                    name="Check-out"
-                    placeholder={checkOutText}
-                    orientation="left"
-                    className="lg:mt-0"
-                    icon={<Calendar className="w-5 h-5 text-dark-700" />}
-                    value={fromLowerCaseToCapitilize(
-                      formatAsDisplayDate(endDate),
-                    )}
-                    onChange={(event) =>
-                      handleEndDateChange(event.target.value)
+                        : startDate
                     }
-                    onClick={() => {
-                      setClickOnStart(false);
-                      setShowDatePicker(true);
-                    }}
+                    initialEndDate={endDate}
+                    onStartDateChange={(value) =>
+                      handleStartDateChange(value, flightIndex)
+                    }
+                    onEndDateChange={handleEndDateChange}
+                    openOnStart={clickOnStart ? true : false}
+                    equal={direction !== 'round_trip'}
+                    // isRange={direction === 'round_trip'}
                   />
+                  <section className={classNameDatepicker}>
+                    <IconInput
+                      label={checkInText}
+                      name="Check-in"
+                      placeholder={checkInText}
+                      className="lg:mt-0"
+                      orientation="left"
+                      icon={<Calendar className="w-5 h-5 text-dark-700" />}
+                      value={fromLowerCaseToCapitilize(
+                        formatAsDisplayDate(
+                          direction === 'multi_city'
+                            ? startDates[flightIndex]
+                            : startDate,
+                        ),
+                      )}
+                      onChange={(event) =>
+                        handleStartDateChange(event.target.value, flightIndex)
+                      }
+                      onClick={() => {
+                        setClickOnStart(true);
+                        setShowDatePicker(true);
+                      }}
+                    />
+                    {direction === 'round_trip' && (
+                      <IconInput
+                        label={checkOutText}
+                        name="Check-out"
+                        placeholder={checkOutText}
+                        orientation="left"
+                        className="lg:mt-0"
+                        icon={<Calendar className="w-5 h-5 text-dark-700" />}
+                        value={fromLowerCaseToCapitilize(
+                          formatAsDisplayDate(endDate),
+                        )}
+                        onChange={(event) =>
+                          handleEndDateChange(event.target.value)
+                        }
+                        onClick={() => {
+                          setClickOnStart(false);
+                          setShowDatePicker(true);
+                        }}
+                      />
+                    )}
+                  </section>
+                </section>
+
+                {flights.length !== 1 ? (
+                  <section>
+                    <button
+                      onClick={() => handleFlightsDelete(flightIndex)}
+                      className="flex items-center self-end bg-transparent text-gray-600 text-xs text-right lg:text-center h-8 w-24 py-0 hover:border-gray-400 focus:outline-none"
+                    >
+                      <section className="pb-0.5 mr-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                          />
+                        </svg>
+                      </section>
+                      {removeFlightLabel}
+                    </button>
+                  </section>
+                ) : (
+                  <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+                    <Button
+                      key="flights.searchBtn"
+                      size="full"
+                      className="min-w-full text-base"
+                      value={textSearch}
+                      onClick={handleSearchClick}
+                    />
+                  </section>
                 )}
               </section>
             </section>
+          ))}
 
-            {flightIndex < flights.length - 1 ? (
-              <section className="w-full flex items-center justify-center mt-0 lg:mt-6 lg:w-[10%]">
-                <Button
-                  key="flights.removeBtn"
-                  size="full"
-                  className="min-w-full bg-transparent text-sm text-dark-1000 underline text-right lg:text-center"
-                  value={removeFlightLabel}
-                  onClick={() => handleFlightsDelete(flightIndex)}
+          <section className="flex flex-row justify-between">
+            <section
+              className={
+                'flex flex-col justify-start lg:flex-row lg:items-end lg:gap-2 lg:pb-0 lg:px-0 mt-3'
+              }
+            >
+              {direction === 'multi_city' && flights.length < 5 && (
+                <section>
+                  <button
+                    onClick={() => handleFlightsAdd()}
+                    className="flex items-center self-end bg-transparent text-gray-600 text-xs text-right lg:text-center h-8 w-24 py-0 hover:border-gray-400 focus:outline-none"
+                  >
+                    <section className="pb-0.5 mr-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"
+                        />
+                      </svg>
+                    </section>
+                    {addFlightLabel}
+                  </button>
+                </section>
+              )}
+              <section className="">
+                <FlightSelect
+                  value={direction}
+                  onChange={handleDirectionChange}
                 />
               </section>
-            ) : (
+
+              <TravelersInput
+                showTravelersInput={showTravelersInput}
+                onClose={() => setShowTravelersInput(false)}
+                travelers={travelersData}
+                setTravelers={setTravelersData}
+              />
+              <section>
+                <Label
+                  value={travelersLabel}
+                  className="block lg:hidden lg:mb-0 my-3"
+                />
+                <button
+                  onClick={() => setShowTravelersInput(true)}
+                  className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+                >
+                  <section className="flex items-center gap-2">
+                    <MultiplePersons className="text-dark-700" />
+                    {parseInt(adults) +
+                      parseInt(children) +
+                      parseInt(infants)}{' '}
+                    {usePlural(
+                      parseInt(adults) + parseInt(children) + parseInt(infants),
+                      travelerLabel,
+                      travelersLabel,
+                    )}
+                  </section>
+                </button>
+              </section>
+            </section>
+            {flights.length !== 1 && (
               <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
                 <Button
                   key="flights.searchBtn"
@@ -618,23 +803,30 @@ const FlightSearchForm = ({
             )}
           </section>
         </section>
-      ))}
-
-      {direction === 'multi_city' && flights.length < 5 && (
-        <section className={'flex justify-between items-end'}>
-          <section className="w-full lg:w-[10%] hidden lg:inline" />
-          <section className="w-full flex items-center justify-center lg:w-[10%] mb-[100px] lg:mb-0">
-            <Button
-              key="flights.addBtn"
-              size="full"
-              className="self-end min-w-full text-sm bg-transparent text-dark-1000 underline text-right lg:text-center"
-              value={addFlightLabel}
-              onClick={() => handleFlightsAdd()}
-            />
-          </section>
-        </section>
-      )}
-    </section>
+      </Collapse>
+      <section className={classNameSumaryFlights}>
+        <span className="flex justify-start gap-4">
+          {fisrtLeavingFrom}
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+              />
+            </svg>
+          </div>
+          {lastGoingTo}
+        </span>
+      </section>
+    </>
   );
 };
 export default FlightSearchForm;
