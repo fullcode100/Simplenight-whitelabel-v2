@@ -9,131 +9,124 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
-import RoomHeader from './components/RoomHeader';
-import AddRoomButton from './components/AddRoomButton';
 import ChildrenAges from './components/ChildrenAges';
 import InfantsAges from './components/InfantsAges';
 import TravelersCount from './components/TravelersCount';
-import { Room, createRoom } from 'flights/helpers/room';
+import { Traveler } from 'flights/helpers/traveler';
 
 interface TravelersInputProps {
   showTravelersInput: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
-  rooms: Room[];
-  setRooms: Dispatch<SetStateAction<Room[]>>;
+  travelers: Traveler[];
+  setTravelers: Dispatch<SetStateAction<Traveler[]>>;
 }
 
 const TravelersInput = ({
   showTravelersInput,
   onClose,
-  rooms,
-  setRooms,
+  travelers,
+  setTravelers,
 }: TravelersInputProps) => {
   const [t, i18next] = useTranslation('global');
   const applyLabel = t('apply', 'Apply');
-  const roomsLabel = t('travelers', 'Travelers');
+  const travelersLabel = t('travelers', 'Travelers');
 
-  const [newRooms, setNewRooms] = useState<Room[]>(rooms);
-
-  const handleAddRoom = () => {
-    setNewRooms([...newRooms, createRoom()]);
-  };
-
-  const handleDeleteRoom = (room: Room) => {
-    const updatedRooms = newRooms.filter((r) => r !== room);
-    setNewRooms(updatedRooms);
-  };
+  const [newTravelers, setNewTravelers] = useState<Traveler[]>(travelers);
 
   const handleCountChange = (value: number, index: number, type: string) => {
-    const updatedRoom = newRooms[index];
+    const updatedTraveler = newTravelers[index];
     switch (type) {
       case 'adults':
-        updatedRoom['adults'] = value;
+        updatedTraveler['adults'] = value;
         break;
       case 'children':
-        updatedRoom['children'] = value;
+        updatedTraveler['children'] = value;
         break;
       case 'infants':
-        updatedRoom['infants'] = value;
+        updatedTraveler['infants'] = value;
         break;
     }
 
-    const updatedRooms = [...newRooms];
-    updatedRooms[index] = updatedRoom;
-    setNewRooms(updatedRooms);
+    const updatedTravelers = [...newTravelers];
+    updatedTravelers[index] = updatedTraveler;
+    setNewTravelers(updatedTravelers);
   };
 
   const handleChildrenAgesChange = (
     value: number,
     indexAge: number,
-    roomNumber: number,
+    travelerNumber: number,
   ) => {
-    const updatedRoom = newRooms[roomNumber];
-    updatedRoom.childrenAges[indexAge] = value;
+    const updatedTraveler = newTravelers[travelerNumber];
+    updatedTraveler.childrenAges[indexAge] = value;
 
-    const updatedRooms = [...newRooms];
-    updatedRooms[roomNumber] = updatedRoom;
-    setNewRooms(updatedRooms);
+    const updatedTravelers = [...newTravelers];
+    updatedTravelers[travelerNumber] = updatedTraveler;
+    setNewTravelers(updatedTravelers);
   };
 
   const handleInfantsAgesChange = (
     value: number,
     indexAge: number,
-    roomNumber: number,
+    travelerNumber: number,
   ) => {
-    const updatedRoom = newRooms[roomNumber];
-    updatedRoom.infantsAges[indexAge] = value;
+    const updatedTraveler = newTravelers[travelerNumber];
+    updatedTraveler.infantsAges[indexAge] = value;
 
-    const updatedRooms = [...newRooms];
-    updatedRooms[roomNumber] = updatedRoom;
-    setNewRooms(updatedRooms);
+    const updatedTravelers = [...newTravelers];
+    updatedTravelers[travelerNumber] = updatedTraveler;
+    setNewTravelers(updatedTravelers);
   };
 
-  const setTravelers = () => {
-    setRooms(newRooms);
+  const applyTravelers = () => {
+    setTravelers(newTravelers);
     onClose();
   };
 
-  const Divider = () => <div className="w-full border-t border-gray-300" />;
+  const Divider = () => (
+    <div className="w-full border-t border-gray-300 mb-6" />
+  );
 
   return (
     <FullScreenModal
       open={showTravelersInput}
       closeModal={onClose}
-      title={roomsLabel}
+      title={travelersLabel}
       primaryButtonText={applyLabel}
-      primaryButtonAction={setTravelers}
+      primaryButtonAction={applyTravelers}
       className={
         'lg:max-w-[842px] lg:max-h-[660px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-4 overflow-hidden shadow-full'
       }
     >
       <section className="h-full px-5 py-[22px] overflow-y-scroll">
-        {newRooms.map((room: Room, index) => {
+        {newTravelers.map((traveler: Traveler, index) => {
           return (
             <Fragment key={index}>
               <TravelersCount
-                room={room}
+                traveler={traveler}
                 index={index}
                 handleCountChange={handleCountChange}
               />
 
-              {room.children > 0 && (
+              {(!!traveler.children || !!traveler.infants) && <Divider />}
+
+              {traveler.children > 0 && (
                 <ChildrenAges
-                  room={room}
-                  roomNumber={index}
+                  traveler={traveler}
+                  travelerNumber={index}
                   handleChildrenAgesChange={handleChildrenAgesChange}
+                  className="mb-6"
                 />
               )}
 
-              {room.infants > 0 && (
+              {traveler.infants > 0 && (
                 <InfantsAges
-                  room={room}
-                  roomNumber={index}
+                  traveler={traveler}
+                  travelerNumber={index}
                   handleInfantsAgesChange={handleInfantsAgesChange}
+                  className="mb-6"
                 />
               )}
-
-              <Divider />
             </Fragment>
           );
         })}

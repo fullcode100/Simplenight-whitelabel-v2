@@ -67,8 +67,10 @@ const BaseInput = ({
   const NumberInput = () => (
     <section className="flex items-center justify-between w-full h-full">
       <section className="flex flex-col gap-1">
-        <div className="text-dark-850 text-[16px] leading-[16px]">{label}</div>
-        <div className="text-dark-800 text-[16px] leading-[16px]">
+        <div className="text-dark-850 text-[16px] leading-[16px] font-semibold">
+          {label}
+        </div>
+        <div className="text-dark-800 text-[16px] leading-[16px] font-semibold">
           {sublabel}
         </div>
       </section>

@@ -1,14 +1,14 @@
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Room } from 'flights/helpers/room';
+import { Traveler } from 'flights/helpers/traveler';
 import Trash from 'public/icons/assets/trash.svg';
 
 interface RoomHeaderProps {
   index: number;
-  room: Room;
-  newRooms: Room[];
-  handleDeleteRoom: (room: Room) => void;
+  room: Traveler;
+  newRooms: Traveler[];
+  handleDeleteRoom: (room: Traveler) => void;
 }
 
 const RoomHeader = ({

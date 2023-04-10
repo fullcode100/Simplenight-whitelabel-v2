@@ -1,4 +1,4 @@
-export interface Room {
+export interface Traveler {
   adults: number;
   children: number;
   infants: number;
@@ -6,7 +6,7 @@ export interface Room {
   infantsAges: number[];
 }
 
-export const createRoom = (): Room => ({
+export const createTraveler = (): Traveler => ({
   adults: 1,
   children: 0,
   infants: 0,

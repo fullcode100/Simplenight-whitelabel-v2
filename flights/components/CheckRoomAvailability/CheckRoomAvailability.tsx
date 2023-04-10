@@ -6,7 +6,7 @@ import CheckInOutInput, {
 import { useTranslation } from 'react-i18next';
 import GuestsRoomsInput from 'flights/components/GuestsRoomsInput/GuestsRoomsInput';
 import { useState } from 'react';
-import { createRoom, Room } from 'flights/helpers/room';
+import { createTraveler, Traveler } from 'flights/helpers/traveler';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import {
@@ -27,8 +27,10 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
   const onClose = () => setOpen(false);
   const params = useQuery();
   const [checkInOutProps, startDate, endDate] = useCheckInOutInput();
-  const [roomsData, setRoomsData] = useState<Room[]>(
-    params.roomsData ? JSON.parse(params.roomsData as string) : [createRoom()],
+  const [roomsData, setRoomsData] = useState<Traveler[]>(
+    params.roomsData
+      ? JSON.parse(params.roomsData as string)
+      : [createTraveler()],
   );
   const [adults, setAdults] = useState(params?.adults?.toString() ?? '0');
   const [childrens, setChildrens] = useState(
@@ -71,7 +73,7 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
     handleCloseDatePicker,
   } = checkInOutProps as UseCheckInOutInputPropsComponentReturn;
 
-  const onChangeRoomData = (data: Room[]) => {
+  const onChangeRoomData = (data: Traveler[]) => {
     const guests = getGuestData(data);
     setRoomsData(data);
     setAdults(guests.adults.toString());
@@ -82,12 +84,12 @@ const CheckRoomAvailability = ({ open, setOpen }: CheckRoomProps) => {
     setRooms(roomsData.length.toString());
   };
 
-  const getGuestData = (rooms: Room[]) => {
+  const getGuestData = (rooms: Traveler[]) => {
     let adults = 0;
     let childrens = 0;
     let infants = 0;
     let ages: number[] = [];
-    rooms.forEach((room: Room) => {
+    rooms.forEach((room: Traveler) => {
       adults += room.adults;
       childrens += room.children;
       infants += room.infants;

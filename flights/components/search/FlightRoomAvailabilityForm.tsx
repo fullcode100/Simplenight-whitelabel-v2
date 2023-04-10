@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import DatePicker from '../../../components/global/Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
-import { Room, createRoom } from 'flights/helpers/room';
+import { Traveler, createTraveler } from 'flights/helpers/traveler';
 
 import Bed from 'public/icons/assets/bed.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
@@ -44,8 +44,10 @@ const FlightRoomAvailabilityForm = ({
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
-  const [roomsData, setRoomsData] = useState<Room[]>(
-    params.roomsData ? JSON.parse(params.roomsData as string) : [createRoom()],
+  const [roomsData, setRoomsData] = useState<Traveler[]>(
+    params.roomsData
+      ? JSON.parse(params.roomsData as string)
+      : [createTraveler()],
   );
   const [adults, setAdults] = useState(roomsData[0].adults.toString());
   const [children, setChildren] = useState(roomsData[0].children.toString());
@@ -153,8 +155,8 @@ const FlightRoomAvailabilityForm = ({
         <TravelersInput
           showTravelersInput={showTravelersInput}
           onClose={() => setShowTravelersInput(false)}
-          rooms={roomsData}
-          setRooms={setRoomsData}
+          travelers={roomsData}
+          setTravelers={setRoomsData}
         />
         <section className="mt-4 lg:mt-0 lg:w-full">
           <p className="text-sm font-medium text-dark-800">{travelersLabel}</p>

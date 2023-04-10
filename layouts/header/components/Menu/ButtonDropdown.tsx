@@ -8,6 +8,7 @@ interface ButtonDropdownProps {
   value?: string;
   titleDropdown?: string;
   disabled?: boolean;
+  defaultOpen?: boolean;
 }
 
 const ButtonDropdown = ({
@@ -16,8 +17,9 @@ const ButtonDropdown = ({
   value,
   titleDropdown,
   disabled,
+  defaultOpen = false,
 }: ButtonDropdownProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   return (
     <section className="relative">
       <button
@@ -29,14 +31,18 @@ const ButtonDropdown = ({
       </button>
       <section
         className={classnames(
-          'absolute top-10 right-0 bg-white py-4 rounded-4 text-dark-1000 transition-all duration-500 border border-dark-300',
+          'absolute top-10 right-0 bg-white py-4 rounded-4 text-dark-1000 transition-all duration-500 border border-dark-300 z-10',
           {
             'opacity-0 invisible': !open,
           },
         )}
       >
-        <p className="px-4 pb-4 text-sm font-semibold">{titleDropdown}</p>
-        <BlockDivider />
+        {titleDropdown && (
+          <>
+            <p className="text-sm font-semibold px-4 pb-4">{titleDropdown}</p>
+            <BlockDivider />
+          </>
+        )}
         <section className="px-4">{children}</section>
       </section>
     </section>

@@ -5,7 +5,7 @@ import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 // import DatePicker from '../../../components/global/Calendar/Calendar';
 import DatePicker from '../Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
-import { Room, createRoom } from 'flights/helpers/room';
+import { Traveler, createTraveler } from 'flights/helpers/traveler';
 
 import Bed from 'public/icons/assets/bed.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
@@ -30,6 +30,9 @@ import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Label from 'components/global/Label/Label';
 import FlightSelect from '../FlightSelect/FlightSelect';
+import TravelersSelect from '../TravelersSelect/TravelersSelect';
+import Popper from 'components/global/Popper/Popper';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 interface LocationInputRef {
   getAddress: () => string | undefined;
@@ -42,6 +45,7 @@ const FlightSearchForm = ({
   hasReRoute = false,
 }: SearchFormProps) => {
   const router = useRouter();
+  const { isDesktop } = useMediaViewport();
 
   const [t, i18next] = useTranslation('flights');
   const locationInputLabel = t('locationInputLabel', 'Leaving From');
@@ -64,10 +68,10 @@ const FlightSearchForm = ({
   );
   const [cabin, setCabin] = useState('economy');
 
-  const [travelersData, setTravelersData] = useState<Room[]>(
+  const [travelersData, setTravelersData] = useState<Traveler[]>(
     params.travelersData
       ? JSON.parse(params.travelersData as string)
-      : [createRoom()],
+      : [createTraveler()],
   );
   const [adults, setAdults] = useState(travelersData[0].adults.toString());
   const [children, setChildren] = useState(
@@ -346,6 +350,11 @@ const FlightSearchForm = ({
     }
   }, []);
 
+  const travelerLabelText = usePlural(
+    parseInt(adults) + parseInt(children) + parseInt(infants),
+    travelerLabel,
+    travelersLabel,
+  );
   const refLocationInputFrom = useRef<LocationInputRef>(null);
   const refLocationInputTo = useRef<LocationInputRef>(null);
 
@@ -375,29 +384,72 @@ const FlightSearchForm = ({
           <FlightSelect value={direction} onChange={handleDirectionChange} />
         </section>
 
-        <TravelersInput
-          showTravelersInput={showTravelersInput}
-          onClose={() => setShowTravelersInput(false)}
-          rooms={travelersData}
-          setRooms={setTravelersData}
-        />
-        <section className="mt-4 lg:mt-0 lg:w-[200px]">
-          <Label value={travelersLabel} className="block lg:hidden lg:mb-0" />
-          <button
-            onClick={() => setShowTravelersInput(true)}
-            className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default" // grid grid-cols-2
-          >
-            <section className="flex items-center gap-2">
-              <MultiplePersons className="text-dark-700" />
-              {parseInt(adults) + parseInt(children) + parseInt(infants)}{' '}
-              {usePlural(
-                parseInt(adults) + parseInt(children) + parseInt(infants),
-                travelerLabel,
-                travelersLabel,
-              )}
+        {!isDesktop ? (
+          <>
+            <TravelersInput
+              showTravelersInput={showTravelersInput}
+              onClose={() => setShowTravelersInput(false)}
+              travelers={travelersData}
+              setTravelers={setTravelersData}
+            />
+            <section className="mt-4 lg:mt-0 lg:w-[200px]">
+              <Label
+                value={travelersLabel}
+                className="block lg:hidden lg:mb-0"
+              />
+              <button
+                onClick={() => setShowTravelersInput(true)}
+                className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default" // grid grid-cols-2
+              >
+                <section className="flex items-center gap-2">
+                  <MultiplePersons className="text-dark-700" />
+                  {parseInt(adults) +
+                    parseInt(children) +
+                    parseInt(infants)}{' '}
+                  {travelerLabelText}
+                </section>
+                {/*
+    <section className="flex items-center gap-2">
+      <Bed className="text-dark-700" />
+      {cabin}
+    </section>
+    */}
+              </button>
             </section>
-          </button>
-        </section>
+          </>
+        ) : (
+          <section className="mt-4 lg:mt-0 lg:w-[200px] hidden lg:block">
+            <Popper
+              open={showTravelersInput}
+              onClose={() => setShowTravelersInput(false)}
+              content={
+                <TravelersSelect
+                  travelers={travelersData}
+                  setTravelers={setTravelersData}
+                />
+              }
+            >
+              <button
+                onClick={() => setShowTravelersInput(true)}
+                className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default" // grid grid-cols-2
+              >
+                <section className="flex items-center gap-2">
+                  <MultiplePersons className="text-dark-700" />
+                  {parseInt(adults) +
+                    parseInt(children) +
+                    parseInt(infants)}{' '}
+                  {travelerLabelText}
+                </section>
+                {/*
+            <section className="flex items-center gap-2">
+              <Bed className="text-dark-700" />
+              {cabin}
+            </section>
+            */}
+              </button>
+            </Popper>
+          </section>
+        )}
       </section>
       {flights.map((item: string, flightIndex: number) => (
         <section key={flightIndex} className="flex flex-col">

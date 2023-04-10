@@ -2,13 +2,13 @@ import TravelersInput from 'flights/components/TravelersInput/TravelersInput';
 import { Dispatch, SetStateAction, useState } from 'react';
 import Bed from 'public/icons/assets/bed.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
-import { Room } from 'flights/helpers/room';
+import { Traveler } from 'flights/helpers/traveler';
 import { useTranslation } from 'react-i18next';
 
-type setRoomDataType = Dispatch<SetStateAction<Room[]>>;
+type setRoomDataType = Dispatch<SetStateAction<Traveler[]>>;
 interface GuestsRoomsInputProps {
-  roomsData: Room[];
-  setRoomsData: (data: Room[]) => void | setRoomDataType;
+  roomsData: Traveler[];
+  setRoomsData: (data: Traveler[]) => void | setRoomDataType;
   adults: string;
   childrens: string;
   infants: string;
@@ -33,8 +33,8 @@ const GuestsRoomsInput = ({
       <TravelersInput
         showTravelersInput={showTravelersInput}
         onClose={() => setShowTravelersInout(false)}
-        rooms={roomsData}
-        setRooms={setRoomsData as setRoomDataType}
+        travelers={roomsData}
+        setTravelers={setRoomsData as setRoomDataType}
       />
       <p className="text-sm font-medium text-dark-800">{guestAndRoomsText}</p>
       <button
@@ -43,7 +43,9 @@ const GuestsRoomsInput = ({
       >
         <section className="flex items-center gap-2">
           <MultiplePersons className="text-dark-700" />
-          {parseInt(adults) + parseInt(childrens) + parseInt(infants) || '0'} {guestsLabel}
+          {parseInt(adults) + parseInt(childrens) + parseInt(infants) ||
+            '0'}{' '}
+          {guestsLabel}
         </section>
         <section className="flex items-center gap-2">
           <Bed className="text-dark-700" />

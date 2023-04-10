@@ -1,32 +1,35 @@
 import { useTranslation } from 'react-i18next';
 
 import BaseInput from 'components/global/Input/BaseInput';
-import { Room } from 'flights/helpers/room';
+import { Traveler } from 'flights/helpers/traveler';
 import { changeArraySize } from 'helpers/arrayUtils';
+import classnames from 'classnames';
 interface InfantsAgesProps {
-  room: Room;
-  roomNumber: number;
+  traveler: Traveler;
+  travelerNumber: number;
   handleInfantsAgesChange: (
     value: number,
     indexAge: number,
-    roomNumber: number,
+    travelerNumber: number,
   ) => void;
+  className?: string;
 }
 
 const InfantsAges = ({
-  room,
-  roomNumber,
+  traveler,
+  travelerNumber,
   handleInfantsAgesChange,
+  className,
 }: InfantsAgesProps) => {
   const [t, i18next] = useTranslation('global');
   // eslint-disable-next-line quotes
   const infantsAgesLabel = t('infantsAges', "Infants' Ages");
 
-  const newInfantsAmount = room.infants;
-  room.infantsAges =
-    room.infantsAges.length === newInfantsAmount
-      ? room.infantsAges
-      : changeArraySize(room.infantsAges, newInfantsAmount);
+  const newInfantsAmount = traveler.infants;
+  traveler.infantsAges =
+    traveler.infantsAges.length === newInfantsAmount
+      ? traveler.infantsAges
+      : changeArraySize(traveler.infantsAges, newInfantsAmount);
 
   const validateAge = (age: number) => {
     let _age = age;
@@ -36,12 +39,12 @@ const InfantsAges = ({
   };
 
   return (
-    <section className="flex flex-col gap-2 mb-6">
+    <section className={classnames('flex flex-col gap-2', className)}>
       <section className="text-dark-800 text-[16px] leading-[16px]">
         {infantsAgesLabel}
       </section>
       <section className="flex flex-wrap gap-3">
-        {room.infantsAges.map((age, indexAge) => (
+        {traveler.infantsAges.map((age, indexAge) => (
           <section key={indexAge}>
             <BaseInput
               type="number"
@@ -50,7 +53,7 @@ const InfantsAges = ({
                 handleInfantsAgesChange(
                   validateAge(parseInt(e.target.value)),
                   indexAge,
-                  roomNumber,
+                  travelerNumber,
                 )
               }
               min={0}

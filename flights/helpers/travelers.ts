@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Room } from './room';
+import { Traveler } from './traveler';
 
 export const setTravelersTotals = (
-  rooms: Room[],
+  rooms: Traveler[],
   setAdultsCount: Dispatch<SetStateAction<string>>,
   setChildrenCount: Dispatch<SetStateAction<string>>,
   setInfantsCount: Dispatch<SetStateAction<string>>,
@@ -14,7 +14,7 @@ export const setTravelersTotals = (
   let infants = 0;
   let childrenAges: number[] = [];
   let infantsAges: number[] = [];
-  rooms.forEach((room: Room) => {
+  rooms.forEach((room: Traveler) => {
     adults = room.adults;
     children = room.children;
     infants = room.infants;
