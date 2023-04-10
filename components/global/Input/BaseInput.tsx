@@ -95,7 +95,7 @@ const BaseInput = ({
   );
   const Input = (customInput && <CustomInput />) || (
     <>
-      <style jsx>{`
+      <style>{`
         input[type='number'] {
           -moz-appearance: textfield;
         }
@@ -106,7 +106,6 @@ const BaseInput = ({
         id={name}
         ref={inputRef}
         value={value}
-        disabled={disabled}
         className={inputDynamicClass}
         placeholder={placeholder}
         onChange={onChange}
