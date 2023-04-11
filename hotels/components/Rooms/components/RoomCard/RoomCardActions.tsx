@@ -5,6 +5,7 @@ import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface RoomProps {
   room: Room;
@@ -25,6 +26,7 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
   const tRoom = t('room', 'Room');
   const tRooms = t('rooms', 'Rooms');
   const ROOM_TEXT = usePlural(rooms, tRoom, tRooms);
+  const showAddToItinerary = hasCartMode();
 
   let url = '/itinerary';
 
@@ -40,16 +42,18 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
 
   return (
     <footer className="px-4 py-4">
-      <section className="grid grid-cols-2 gap-3">
-        <Button
-          value={addToItineraryText}
-          size="full"
-          type="outlined"
-          textColor="primary"
-          onClick={() => mutate()}
-          className="text-base font-semibold leading-base"
-          disabled={isLoading}
-        />
+      <section className="flex gap-3">
+        {showAddToItinerary && (
+          <Button
+            value={addToItineraryText}
+            size="full"
+            type="outlined"
+            textColor="primary"
+            onClick={() => mutate()}
+            className="text-base font-semibold leading-base"
+            disabled={isLoading}
+          />
+        )}
         <Button
           value={`${bookText} ${rooms} ${ROOM_TEXT}`}
           size="full"

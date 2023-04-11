@@ -6,6 +6,7 @@ import Button from 'components/global/ButtonNew/Button';
 import { addToCart } from 'core/client/services/CartClientService';
 import { CartItemRequest } from 'types/cart/CartType';
 import { useMutation } from '@tanstack/react-query';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface TicketActionsProps {
   itemToBook: CartItemRequest;
@@ -23,6 +24,7 @@ const TicketActions = ({
   const addToItineraryText = tg('addToItinerary', 'Add to itinerary');
   const bookText = tg('book', 'Book');
   const ticketsText = t('tickets', 'tickets');
+  const showAddToItinerary = hasCartMode();
 
   const router = useRouter();
 
@@ -40,14 +42,16 @@ const TicketActions = ({
 
   return (
     <section className="flex gap-3">
-      <Button
-        type="outlined"
-        width="w-full"
-        disabled={timeNotSelected || isLoading}
-        onClick={() => mutate()}
-      >
-        {addToItineraryText}
-      </Button>
+      {showAddToItinerary && (
+        <Button
+          type="outlined"
+          width="w-full"
+          disabled={timeNotSelected || isLoading}
+          onClick={() => mutate()}
+        >
+          {addToItineraryText}
+        </Button>
+      )}
       <Button
         width="w-full"
         disabled={timeNotSelected || isLoading}

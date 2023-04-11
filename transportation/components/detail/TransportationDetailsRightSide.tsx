@@ -11,6 +11,7 @@ import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
 import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstChar';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface TransportationDetailProps {
   transportation: Quote;
@@ -34,6 +35,7 @@ export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
   const params = useQuery();
+  const showAddToItinerary = hasCartMode();
 
   const cartItem: Item = {
     category: 'GROUND-TRANSPORTATION',
@@ -105,14 +107,16 @@ export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
               {transportation?.fare?.price?.toFixed(2)}
             </p>
           </section>
-          <Button
-            value={itineraryText}
-            size="full"
-            type="outlined"
-            textColor="primary"
-            onClick={() => handleAction('/itinerary')}
-            disabled={disabled}
-          />
+          {showAddToItinerary && (
+            <Button
+              value={itineraryText}
+              size="full"
+              type="outlined"
+              textColor="primary"
+              onClick={() => handleAction('/itinerary')}
+              disabled={disabled}
+            />
+          )}
           <Button
             value={bookText}
             size="full"

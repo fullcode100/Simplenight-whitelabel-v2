@@ -13,6 +13,7 @@ import AmenitiesSection from '../Amenities/AmenitiesSection';
 import { addToCart } from 'core/client/services/CartClientService';
 import { Item } from '../../../types/cart/CartType';
 import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 const RESORT_FEES = 'RESORT_FEES';
 
@@ -51,6 +52,7 @@ const PriceBreakdownModal = ({
   const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookNowText = t('bookNow', 'Book Now');
+  const showAddToItinerary = hasCartMode();
 
   const { total_amount: totalAmount, rate_breakdown: rateBreakdown } = rates;
   const {
@@ -82,7 +84,7 @@ const PriceBreakdownModal = ({
       footerSummary={
         <BreakdownSummary rate={rates} nights={nights} guests={guests} />
       }
-      hasMultipleActions={true}
+      hasMultipleActions={showAddToItinerary}
       noHeader={true}
       containerButtonsClassName="grid-cols-1"
     >

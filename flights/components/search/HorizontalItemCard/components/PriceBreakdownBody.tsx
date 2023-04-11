@@ -9,6 +9,7 @@ import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import { Item } from 'types/cart/CartType';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface PriceBreakdownBodyProps {
   cartItem: Item;
@@ -54,6 +55,7 @@ const PriceBreakdownBody = ({
 
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookNowText = t('bookNow', 'Book Now');
+  const showAddToItinerary = hasCartMode();
 
   const handleAction = async (offer: FlightOffer, url: string) => {
     handleFlightClick(item); // select clicked item
@@ -150,14 +152,16 @@ const PriceBreakdownBody = ({
             </section>
             {showAllOffers ? (
               <section className="flex flex-col pt-1 lg:flex-row lg:self-end">
-                <Button
-                  value={addToItineraryText}
-                  size="full"
-                  type="outlined"
-                  textColor="primary"
-                  onClick={() => handleAction(offers[0], '/itinerary')}
-                  className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-                />
+                {showAddToItinerary && (
+                  <Button
+                    value={addToItineraryText}
+                    size="full"
+                    type="outlined"
+                    textColor="primary"
+                    onClick={() => handleAction(offers[0], '/itinerary')}
+                    className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
+                  />
+                )}
                 <Button
                   value={bookNowText}
                   size="full"
@@ -205,14 +209,16 @@ const PriceBreakdownBody = ({
                           <IconNoReschedule className="mt-1 mr-2 text-dark-1000" />
                         </section>
                         <section className="flex flex-col pt-1 lg:flex-row">
-                          <Button
-                            value={addToItineraryText}
-                            size="full"
-                            type="outlined"
-                            textColor="primary"
-                            onClick={() => handleAction(offer, '/itinerary')}
-                            className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-                          />
+                          {showAddToItinerary && (
+                            <Button
+                              value={addToItineraryText}
+                              size="full"
+                              type="outlined"
+                              textColor="primary"
+                              onClick={() => handleAction(offer, '/itinerary')}
+                              className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
+                            />
+                          )}
                           <Button
                             value={bookNowText}
                             size="full"

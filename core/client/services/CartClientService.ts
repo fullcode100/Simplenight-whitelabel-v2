@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { ClientCartItemUpdater } from '../ClientCartItemUpdater';
 import { BookingAnswer } from 'thingsToDo/types/request/ThingsCartRequest';
 import { ClientCartDelete } from '../ClientCartDelete';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 const cartOption = {
   name: 'cart',
@@ -17,9 +18,14 @@ const cartOption = {
 };
 
 export const addToCart = async (itemToAdd: Item, i18next: i18n) => {
-  const cartId = localStorage.getItem('cart')
-    ? JSON.parse(localStorage.getItem('cart') || '')
-    : null;
+  let cartId = null;
+  const cartMode = hasCartMode();
+
+  if (cartMode) {
+    cartId = localStorage.getItem('cart')
+      ? JSON.parse(localStorage.getItem('cart') || '')
+      : null;
+  }
   const cartItemAdder = new ClientCartItemAdder(cartOption);
   let cartUrl = '/carts';
   const newCartRequest = {

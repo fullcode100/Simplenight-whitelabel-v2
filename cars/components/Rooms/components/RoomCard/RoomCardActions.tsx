@@ -5,6 +5,7 @@ import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface RoomProps {
   room: Room;
@@ -26,6 +27,7 @@ const RoomCardActions = ({ room, carId, rooms = 1 }: RoomProps) => {
   const tRoom = t('room', 'Room');
   const tRooms = t('rooms', 'Rooms');
   const ROOM_TEXT = usePlural(rooms, tRoom, tRooms);
+  const showAddToItinerary = hasCartMode();
 
   const handleAction = async (url: string) => {
     setIsDisabled(true);
@@ -35,16 +37,18 @@ const RoomCardActions = ({ room, carId, rooms = 1 }: RoomProps) => {
 
   return (
     <footer className="px-4 py-4">
-      <section className="grid grid-cols-2 gap-3">
-        <Button
-          value={addToItineraryText}
-          size="full"
-          type="outlined"
-          textColor="primary"
-          onClick={() => handleAction('/itinerary')}
-          className="text-base font-semibold leading-base"
-          disabled={isDisabled}
-        />
+      <section className="flex gap-3">
+        {showAddToItinerary && (
+          <Button
+            value={addToItineraryText}
+            size="full"
+            type="outlined"
+            textColor="primary"
+            onClick={() => handleAction('/itinerary')}
+            className="text-base font-semibold leading-base"
+            disabled={isDisabled}
+          />
+        )}
         <Button
           value={`${bookText} ${rooms} ${ROOM_TEXT}`}
           size="full"

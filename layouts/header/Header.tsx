@@ -24,6 +24,7 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useRouter } from 'next/router';
 import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface HeaderProps {
   color: string;
@@ -60,6 +61,7 @@ const Header = ({ color }: HeaderProps) => {
     }
   };
   const scrollDirection = useScrollDirection();
+  const showCart = hasCartMode();
 
   useEffect(() => {
     setTab(categoriesTabs?.[activeTabIndex]);
@@ -126,12 +128,16 @@ const Header = ({ color }: HeaderProps) => {
             </a>
           </Link>
         </section>
-        <button onClick={onOpen} className="relative w-8 h-8 gap-2 px-2 py-1">
-          <span className="absolute w-4 h-4 font-semibold text-white rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
-            {cartQty ?? 0}
-          </span>
-          <ShoppingCart className="text-white" />
-        </button>
+        {showCart ? (
+          <button onClick={onOpen} className="relative w-8 h-8 gap-2 px-2 py-1">
+            <span className="absolute w-4 h-4 font-semibold text-white rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
+              {cartQty ?? 0}
+            </span>
+            <ShoppingCart className="text-white" />
+          </button>
+        ) : (
+          <>&nbsp;</>
+        )}
       </header>
       <HeaderDesktop color={color} cartQty={cartQty} onOpen={onOpen} />
       {(pathname === '/' || pathname.startsWith('/search')) && (

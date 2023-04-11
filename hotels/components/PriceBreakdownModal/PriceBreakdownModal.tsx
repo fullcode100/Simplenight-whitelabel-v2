@@ -21,6 +21,7 @@ import { Item } from '../../../types/cart/CartType';
 import ModalHeader from '../../../components/global/NewModal/components/ModalHeader';
 import BedsAmount from '../BedsAmount/BedsAmount';
 import PartialRefund from 'components/global/PartialRefund/PartialRefund';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 const cancellableType = 'FREE_CANCELLATION';
 const nonRefundableType = 'NON_REFUNDABLE';
@@ -72,6 +73,7 @@ const PriceBreakdownModal = ({
     'Estimation based on the current exchange rate, may change before your stay',
   );
   const approxLabel = t('approx', 'Approx');
+  const showAddToItinerary = hasCartMode();
 
   const { total_amount: totalAmount, rate_breakdown: rateBreakdown } =
     rates.min_rate.rate;
@@ -138,7 +140,7 @@ const PriceBreakdownModal = ({
           isAvgAmount
         />
       }
-      hasMultipleActions={true}
+      hasMultipleActions={showAddToItinerary}
       noHeader={true}
       containerButtonsClassName="grid-cols-1"
       className={

@@ -12,6 +12,7 @@ import { getCurrency } from 'store/selectors/core';
 import useBog from 'hooks/bog/useBog';
 import SearchIcon from 'public/icons/assets/Search.svg';
 import { useSettings } from 'hooks/services/useSettings';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface HeaderDesktopProps {
   color?: string;
@@ -31,6 +32,7 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
   const [tg, i18n] = useTranslation('global');
   const currentCurrency = getCurrency();
   const { isBog } = useBog();
+  const showCart = hasCartMode();
 
   const orderLookupText = tg('orderLookup', 'Order Lookup');
   const { language } = i18n;
@@ -97,15 +99,17 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
             >
               <CurrencySelect />
             </ButtonDropdown>
-            <button
-              onClick={onOpen}
-              className="relative w-8 h-8 gap-2 px-2 py-1"
-            >
-              <span className="absolute w-4 h-4 font-semibold text-white rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
-                {cartQty ?? 0}
-              </span>
-              <ShoppingCart className="text-white" />
-            </button>
+            {showCart && (
+              <button
+                onClick={onOpen}
+                className="relative w-8 h-8 gap-2 px-2 py-1"
+              >
+                <span className="absolute w-4 h-4 font-semibold text-white rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
+                  {cartQty ?? 0}
+                </span>
+                <ShoppingCart className="text-white" />
+              </button>
+            )}
           </section>
         </section>
       </header>

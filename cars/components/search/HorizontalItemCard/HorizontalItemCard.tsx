@@ -9,6 +9,7 @@ import Button from 'components/global/Button/Button';
 import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import { Item } from 'types/cart/CartType';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -55,6 +56,7 @@ function HorizontalItemCard<T extends WithId>({
 
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookNowText = t('bookNow', 'Book Now');
+  const showAddToItinerary = hasCartMode();
 
   const handleAction = async (url: string) => {
     const itemToBook = Object.assign({}, cartItem);
@@ -135,14 +137,16 @@ function HorizontalItemCard<T extends WithId>({
               {priceDisplay}
 
               <section className="flex flex-col pt-1">
-                <Button
-                  value={addToItineraryText}
-                  size="full"
-                  type="outlined"
-                  textColor="primary"
-                  onClick={() => handleAction('/itinerary')}
-                  className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-                />
+                {showAddToItinerary && (
+                  <Button
+                    value={addToItineraryText}
+                    size="full"
+                    type="outlined"
+                    textColor="primary"
+                    onClick={() => handleAction('/itinerary')}
+                    className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
+                  />
+                )}
                 <Button
                   value={bookNowText}
                   size="full"
@@ -156,14 +160,16 @@ function HorizontalItemCard<T extends WithId>({
             {price}
 
             <section className="flex flex-row px-3 py-3">
-              <Button
-                value={addToItineraryText}
-                size="full"
-                type="outlined"
-                textColor="primary"
-                onClick={() => handleAction('/itinerary')}
-                className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-              />
+              {showAddToItinerary && (
+                <Button
+                  value={addToItineraryText}
+                  size="full"
+                  type="outlined"
+                  textColor="primary"
+                  onClick={() => handleAction('/itinerary')}
+                  className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
+                />
+              )}
               <Button
                 value={bookNowText}
                 size="full"

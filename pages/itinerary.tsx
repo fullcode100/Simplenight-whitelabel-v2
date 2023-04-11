@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from 'react';
 import type { NextPage } from 'next';
 import { useTranslation } from 'react-i18next';
@@ -17,9 +18,12 @@ import { getCurrency } from 'store/selectors/core';
 import { Itinerary as ItineraryIcon } from '@simplenight/ui';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import useMediaViewport from '../hooks/media/useMediaViewport';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
+import { useRouter } from 'next/router';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
+  const router = useRouter();
 
   const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,6 +32,7 @@ const Itinerary: NextPage = () => {
   const footerContainerRef = useRef(null);
   const [staticFooter, setStaticFooter] = useState(false);
   const currency = getCurrency();
+  const showItinerary = hasCartMode();
 
   const { refetch } = useReactQuery(['get-cart']);
 
@@ -64,6 +69,13 @@ const Itinerary: NextPage = () => {
   const hasItems = (cart?.total_item_qty ?? 0) > 0;
 
   const { isDesktop } = useMediaViewport();
+
+  useEffect(() => {
+    if (!showItinerary) {
+      router.replace('/');
+    }
+  }, []);
+
   return (
     <main>
       <header>
