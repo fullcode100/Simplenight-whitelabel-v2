@@ -289,7 +289,7 @@ export interface Rate {
   diff_min_rate: Amount;
   rate_breakdown: RateBreakdown;
   total_amount: Amount;
-  starting_room_total?: Amount;
+  starting_room_total: Amount;
 }
 
 export interface Capacity {

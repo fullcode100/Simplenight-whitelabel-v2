@@ -44,7 +44,7 @@ const BreakdownSummary = ({
       <section className="text-right">
         <Pricing>
           <Pricing.Total
-            totalAmount={rate.min_rate.rate.total_amount.formatted}
+            totalAmount={rate.min_rate?.rate?.starting_room_total?.formatted}
           />
         </Pricing>
         {/* <PriceDisplay
