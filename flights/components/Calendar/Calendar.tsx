@@ -80,6 +80,11 @@ const DatePicker = ({
   }, [openOnStart]);
 
   const setDate = (date: string) => {
+    const limitDate = dayjs().add(1, 'year');
+    const endDateAutomatic = dayjs(date).add(
+      equal ? 0 : defaultIntervalDays,
+      'day',
+    );
     const isAfterEndDate = dayjs(date).isSameOrAfter(dayjs(endDate));
     const isBeforeEndDate = dayjs(date).isBefore(
       dayjs(endDate).subtract(2, 'week'),
@@ -88,9 +93,9 @@ const DatePicker = ({
       if ((isAfterEndDate && startDate) || isBeforeEndDate) {
         setStartDate(date);
         setEndDate(
-          dayjs(date)
-            .add(equal ? 0 : defaultIntervalDays, 'day')
-            .format('YYYY-MM-DD'),
+          endDateAutomatic.isAfter(limitDate)
+            ? limitDate.format('YYYY-MM-DD')
+            : endDateAutomatic.format('YYYY-MM-DD'),
         );
         setIsStartDateTurn(!isStartDateTurn);
         return;
@@ -104,9 +109,9 @@ const DatePicker = ({
       if (isBeforeStartDate) {
         setStartDate(date);
         setEndDate(
-          dayjs(date)
-            .add(equal ? 0 : defaultIntervalDays, 'day')
-            .format('YYYY-MM-DD'),
+          endDateAutomatic.isAfter(limitDate)
+            ? limitDate.format('YYYY-MM-DD')
+            : endDateAutomatic.format('YYYY-MM-DD'),
         );
         return;
       }
