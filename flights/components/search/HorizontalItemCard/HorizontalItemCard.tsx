@@ -1,237 +1,108 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WithId } from 'types/global/WithId';
-import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
-import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
-import moment from 'moment';
-import IconBagCabin from 'public/icons/assets/flights/bag_cabin.svg';
-import IconBagChecked from 'public/icons/assets/flights/bag_checked.svg';
-import IconSeat from 'public/icons/assets/flights/seat.svg';
-import IconNoRefund from 'public/icons/assets/flights/no_refund.svg';
-import IconNoReschedule from 'public/icons/assets/flights/no_reschedule.svg';
-import IconRefund from 'public/icons/assets/flights/refund.svg';
-import IconReschedule from 'public/icons/assets/flights/reschedule.svg';
-import { Flight, FlightOffer } from 'flights/types/response/SearchResponse';
-import PriceBreakdownHeader from './components/PriceBreakdownHeader';
-import PriceBreakdownBody from './components/PriceBreakdownBody';
-import FlightDetailsModal from '../../FlightDetailsModal/FlightDetailsModal';
-import { Item } from 'types/cart/CartType';
+import { Flight } from 'flights/types/response/SearchResponse';
 
-interface CardProps<T extends WithId> {
-  key?: string;
-  handleFlightClick: any;
+import { Button, Paragraph } from '@simplenight/ui';
+import Divider from 'components/global/Divider/Divider';
+import useMediaViewport from 'hooks/media/useMediaViewport';
+import ChevronDownIcon from 'public/icons/assets/chevron-down.svg';
+
+import CardCollapsable from './components/CardCollapsable';
+import classnames from 'classnames';
+import FlightAirlines from './components/FlightAirilines';
+import TimeAndAirports from './components/TimeAndAirports';
+import DurationAndStops from './components/DurationAndStops';
+import InclusionsAndExclusions from './components/InclusionsAndExclusions';
+import Pricing from './components/Pricing';
+
+interface CardProps {
   item: Flight;
-  currency: string;
-  icon?: ReactNode;
-  categoryName?: string;
-  className?: string;
-  showAllOffers: boolean;
-  cartItem: Item;
 }
 
-function HorizontalItemCard<T extends WithId>({
-  handleFlightClick,
-  item,
-  currency,
-  icon,
-  categoryName,
-  className = '',
-  showAllOffers,
-  cartItem,
-}: CardProps<T>) {
-  const [t, i18next] = useTranslation('flights');
-  const durationLabel = t('duration', 'Duration');
-  const stopsLabel = t('stops', 'Stops');
-  const flightDetailsLabel = t('flightDetails', 'Flight Details');
-  const fromLabel = t('from', 'From');
-  const [showFlightDetailsModal, setShowFlightDetailsModal] = useState(false);
+const HorizontalItemCard = ({ item }: CardProps) => {
+  const { isDesktop } = useMediaViewport();
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const itemFlight = item;
-  let totalFlightTimeInMinutes = itemFlight?.segments?.totalFlightTimeInMinutes
-    ? itemFlight?.segments?.totalFlightTimeInMinutes
-    : 0;
-  if (
-    !totalFlightTimeInMinutes &&
-    itemFlight?.segments?.collection[0]?.flightDurationInMinutes
-  )
-    totalFlightTimeInMinutes =
-      itemFlight?.segments?.collection[0]?.flightDurationInMinutes;
+  const DesktopCard = () => {
+    return (
+      <section onClick={() => setIsExpanded((expanded) => !expanded)}>
+        <section className="flex">
+          <div className="flex gap-4 px-4 py-2 flex-1 overflow-hidden">
+            <FlightAirlines item={item} />
+            <TimeAndAirports item={item} />
+            <DurationAndStops item={item} />
+            <InclusionsAndExclusions item={item} />
+          </div>
+          <Pricing item={item} />
+        </section>
+        {isExpanded && (
+          <CardCollapsable collection={item.segments.collection} />
+        )}
+      </section>
+    );
+  };
+  const MobileCard = () => {
+    const [t] = useTranslation('flights');
+    const selectLabel = t('select', 'Select');
+    return (
+      <section
+        className="flex flex-col w-full"
+        onClick={() => setIsExpanded((expanded) => !expanded)}
+      >
+        <section className="p-4 flex items-center gap-2 ">
+          <div className="grow flex items-start">
+            <FlightAirlines item={item} />
+          </div>
+          <DurationAndStops item={item} />
+          <ChevronDownIcon
+            className={classnames(
+              'text-dark-700 h-6 transition-all',
+              isExpanded && 'rotate-180',
+            )}
+          />
+        </section>
+        <Divider className="w-full" />
+        {isExpanded ? (
+          <CardCollapsable collection={item.segments.collection} />
+        ) : (
+          <section className="p-4">
+            <TimeAndAirports item={item} />
+          </section>
+        )}
 
-  const CategoryTag = () => (
-    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br">
-      {icon}
-      <span className="font-semibold text-[14px]">{categoryName}</span>
-    </section>
-  );
-
-  const getAirlineIconUrl = (airlineCode: string) => {
-    let url = ''; // `http://pics.avs.io/200/200/${airlineCode}.png`;
-    const icons: string[] = [
-      'AA',
-      'AC',
-      'AF',
-      'AM',
-      'AS',
-      'B6',
-      'BA',
-      'DL',
-      'EK',
-      'EY',
-      'FZ',
-      'GF',
-      'IB',
-      'KU',
-      'LH',
-      'LO',
-      'LX',
-      'MA',
-      'MS',
-      'OS',
-      'QF',
-      'QR',
-      'RJ',
-      'SV',
-      'TK',
-      'UA',
-      'XY',
-    ];
-    if (icons.indexOf(airlineCode) > -1)
-      url = `/icons/airlines/${airlineCode}.png`;
-    else url = '/icons/airlines/MA.png';
-    return url;
+        <Divider className="w-full" />
+        <section className="p-4 flex justify-between items-center">
+          <div className="space-y-1">
+            <Paragraph size="xxsmall" textColor="text-dark-700">
+              Includes
+            </Paragraph>
+            <InclusionsAndExclusions item={item} />
+          </div>
+          <Pricing item={item} />
+        </section>
+        {isExpanded && (
+          <section className="p-4 flex justify-between items-center">
+            <Button size="small" onClick={() => console.log('click')}>
+              {selectLabel}
+            </Button>
+          </section>
+        )}
+      </section>
+    );
   };
 
   return (
-    <li
-      className={`flex flex-col border rounded ${className} flex-0-0-auto cursor-pointer`}
-    >
-      <section
-        className="border-b border-dark-300 flex flex-col"
-        onClick={handleFlightClick}
+    <>
+      <li
+        className={classnames(
+          'border rounded cursor-pointer ',
+          isExpanded && 'border-primary-1000',
+        )}
       >
-        <section className="px-4 py-3">
-          <section className="flex justify-between items-center">
-            <section className="flex flex-row">
-              {itemFlight?.segments?.collection.map((segment, index) => (
-                <IconRoundedContainer
-                  key={`airline_${index}`}
-                  className="border border-dark-300 bg-white lg:w-[3rem] lg:h-[3rem] mr-2"
-                >
-                  <img
-                    src={getAirlineIconUrl(
-                      segment?.marketingCarrier.toUpperCase(),
-                    )}
-                    alt={segment?.marketingCarrierName}
-                  />
-                </IconRoundedContainer>
-              ))}
-            </section>
-            <section className="text-right">
-              <p className="text-dark-800 font-normal">{durationLabel}</p>
-              <p className="text-dark-800 font-normal">
-                {Math.floor(totalFlightTimeInMinutes / 60)}h{' '}
-                {totalFlightTimeInMinutes -
-                  Math.floor(totalFlightTimeInMinutes / 60) * 60}
-                m
-              </p>
-            </section>
-          </section>
-        </section>
-      </section>
-
-      <section
-        className="flex flex-row gap-2 px-4 py-3 lg:py-6 justify-between"
-        onClick={handleFlightClick}
-      >
-        <section className="grid place-items-center w-[40%]">
-          <section className="border border-dark-300 rounded px-3 py-2 text-lg text-dark-1000 font-bold mb-2">
-            {itemFlight?.segments?.collection[0]?.departureAirport}
-          </section>
-          <p className="text-center text-base text-dark-800 font-normal p-0 m-0">
-            {moment(
-              itemFlight?.segments?.collection[0]?.departureDateTime,
-            ).format('hh:mm A')}
-          </p>
-          <p className="text-center text-dark-800 font-normal p-0 m-0">
-            {itemFlight?.segments?.collection[0]?.departureAirportName}
-          </p>
-        </section>
-        <section className="flex flex-col grow w-[20%]">
-          <section className="relative w-full text-center text-dark-1000 font-normal border-b-2 border-primary-1000 py-3 whitespace-nowrap">
-            {itemFlight?.segments?.collection.length - 1} {stopsLabel}
-            {itemFlight?.segments?.collection.map(
-              (segment, index) =>
-                index > 0 && (
-                  <section
-                    key={`stop_${index}`}
-                    className={`absolute bottom-[-7px] left-[calc(${
-                      index *
-                      Math.floor(100 / itemFlight?.segments?.collection.length)
-                    }%-6px)] bg-white border-2 border-primary-1000 rounded-full w-[13px] h-[13px]`}
-                  />
-                ),
-            )}
-          </section>
-        </section>
-        <section className="grid place-items-center w-[40%]">
-          <section className="border border-dark-300 rounded px-3 py-2 text-lg text-dark-1000 font-bold mb-2">
-            {
-              itemFlight?.segments?.collection[
-                itemFlight?.segments?.collection.length - 1
-              ]?.arrivalAirport
-            }
-          </section>
-          <p className="text-center text-base text-dark-800 font-normal p-0 m-0">
-            {moment(
-              itemFlight?.segments?.collection[
-                itemFlight?.segments?.collection.length - 1
-              ]?.arrivalDateTime,
-            ).format('hh:mm A')}
-          </p>
-          <p className="text-center text-dark-800 font-normal p-0 m-0">
-            {
-              itemFlight?.segments?.collection[
-                itemFlight?.segments?.collection.length - 1
-              ]?.arrivalAirportName
-            }
-          </p>
-        </section>
-      </section>
-
-      <section className="text-right px-4 pb-4">
-        <FlightDetailsModal
-          showFlightDetailsModal={showFlightDetailsModal}
-          onClose={() => setShowFlightDetailsModal(false)}
-          itemFlight={itemFlight}
-        />
-        <button
-          type="button"
-          onClick={() => setShowFlightDetailsModal(true)}
-          className="text-sm font-normal text-primary-1000 hover:text-primary-500 focus:outline-none underline transition ease-in-out duration-150"
-        >
-          {flightDetailsLabel}
-        </button>
-      </section>
-
-      <footer className="border-t border-dark-300 px-4 py-0 lg:py-3">
-        <CollapseUnbordered
-          title={
-            <PriceBreakdownHeader offer={item.offers[0]} currency={currency} />
-          }
-          body={
-            <PriceBreakdownBody
-              cartItem={cartItem}
-              item={item}
-              offers={item.offers}
-              currency={currency}
-              showAllOffers={showAllOffers}
-              handleFlightClick={handleFlightClick}
-            />
-          }
-        />
-      </footer>
-    </li>
+        {isDesktop ? <DesktopCard /> : <MobileCard />}
+      </li>
+    </>
   );
-}
+};
 
 export default HorizontalItemCard;

@@ -15,8 +15,9 @@ import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
-import EmptyState from '../../../components/global/EmptyState/EmptyState';
+
 import {
+  Button,
   EmptyState as EmptyStateIllustration,
   Itinerary,
 } from '@simplenight/ui';
@@ -34,9 +35,7 @@ import ListIcon from 'public/icons/assets/list.svg';
 import classnames from 'classnames';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import FlightFilterFormDesktop from './FlightFilterFormDesktop';
-import PriceDisplay from 'flights/components/PriceDisplay/PriceDisplay';
-import FlightCancellable from './FlightCancellable';
-import Button from 'components/global/Button/Button';
+
 import moment from 'moment';
 import { Item } from 'types/cart/CartType';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
@@ -119,7 +118,7 @@ const FlightResultsDisplay = ({
     selected,
   } = useQuery();
 
-  const [sortBy, setSortBy] = useState<string>('sortByPriceAsc');
+  const [sortBy, setSortBy] = useState<string>('sortByRecommended');
   const [showSortingDropdown, setShowSortingDropdown] = useState(false);
 
   const onSortByChange = (_sortBy: string) => {
@@ -233,42 +232,6 @@ const FlightResultsDisplay = ({
       airlines: '',
       cities: '',
     });
-  };
-
-  const handleFlightClick = (flight: Flight) => {
-    const _flightsSelected: string[] = [];
-    for (let i = 0; i < flightIndex; i += 1) {
-      if (flightsSelected[i]) _flightsSelected.push(flightsSelected[i]);
-    }
-    const { legId } = flight;
-    _flightsSelected.push(legId);
-    setFlightsSelected(_flightsSelected);
-    localStorage.setItem('flightsSelected', JSON.stringify(_flightsSelected));
-
-    if (flightIndex + 1 < flightsCount) {
-      // filterFlights(flights, offers, flightIndex + 1, _flightsSelected);
-      setQueryParams({
-        ...queryFilter,
-        // selected flights
-        selected: _flightsSelected.join(','),
-        // reset filters
-        sortBy: '',
-        minPrice: '',
-        maxPrice: '',
-        departureTimes: '',
-        arrivalTimes: '',
-        stops: '',
-        airlines: '',
-        cities: '',
-      });
-    } else {
-      // all flights selected - goto flights detail page
-      /*
-      router.push(
-        `/detail/flights/${_flightsSelected.join('-')}?direction=${direction}&startAirport=${startAirport}&endAirport=${endAirport}&startDate=${startDate}&endDate=${endDate}&adults=${adults}&children=${children}&infants=${infants}&childrenAges=${childrenAges}&infantsAges=${infantsAges}&geolocation=${latitude},${longitude}&startAirports=${startAirports}&endAirports=${endAirports}&startDates=${startDates}`,
-      );
-      */
-    }
   };
 
   const getFlightOffers = (_offers: FlightOffer[], ids: string[]) => {
@@ -453,33 +416,11 @@ const FlightResultsDisplay = ({
           },
         };
         if (index < page * pageItems)
-          return (
-            <HorizontalItemCard
-              cartItem={cartItem}
-              key={`flight_${index}`}
-              item={flight}
-              showAllOffers={flightIndex + 1 === flightsCount}
-              currency={currency}
-              icon={FlightCategory.icon}
-              categoryName={flightLabel}
-              handleFlightClick={() => handleFlightClick(flight)}
-              className={
-                flightsSelected.indexOf(flight?.legId) > -1
-                  ? 'bg-primary-100 border-primary-1000'
-                  : 'bg-white border-dark-300'
-              }
-            />
-          );
+          return <HorizontalItemCard key={`flight_${index}`} item={flight} />;
       })}
       {flightsFiltered.length > page * pageItems && (
-        <section className="flex justify-center w-full">
-          <Button
-            value={loadMoreLabel}
-            color="outlined"
-            className="p-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap hover:text-white hover:bg-primary-1000 lg:w-[200px]"
-            size="full"
-            onClick={() => setPage(page + 1)}
-          />
+        <section className="w-full lg:w-fit mx-auto">
+          <Button onClick={() => setPage(page + 1)}>{loadMoreLabel}</Button>
         </section>
       )}
     </ul>
@@ -545,63 +486,9 @@ const FlightResultsDisplay = ({
                       </span>
                     </section>
 
-                    <section className="flex flex-row hidden mb-3 lg:mb-0 lg:block">
-                      {direction === 'round_trip' && (
-                        <>
-                          <span
-                            className={
-                              flightIndex < 1
-                                ? 'px-4 py-2 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                                : 'px-4 py-2 mr-3 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                            }
-                            onClick={() =>
-                              flightIndex > 0 && onChangeFlightIndex(0)
-                            }
-                          >
-                            {departingFlightsLabel}
-                          </span>
-                          <span
-                            className={
-                              flightIndex === 1
-                                ? 'px-4 py-2 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                                : 'px-4 py-2 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                            }
-                          >
-                            {returningFlightsLabel}
-                          </span>
-                        </>
-                      )}
-                      {direction === 'multi_city' && (
-                        <>
-                          {startAirports
-                            ?.toString()
-                            .split('|')
-                            .map((item, index) => (
-                              <span
-                                key={`tab_flight_${index}`}
-                                color="outlined"
-                                className={
-                                  flightIndex === index
-                                    ? 'px-4 py-2 mr-3 text-[15px] font-normal bg-primary-100 border border-primary-1000 text-primary-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                                    : 'px-4 py-2 mr-3 text-[15px] font-normal bg-white-1000 border border-dark-200 text-dark-1000 whitespace-nowrap rounded-4 cursor-pointer'
-                                }
-                                onClick={() =>
-                                  index < flightIndex &&
-                                  onChangeFlightIndex(index)
-                                }
-                              >{`${
-                                startAirports?.toString().split('|')[index]
-                              } - ${
-                                endAirports?.toString().split('|')[index]
-                              }`}</span>
-                            ))}
-                        </>
-                      )}
-                    </section>
-
                     <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
                       <section className="flex items-center justify-start w-auto">
-                        <button
+                        {/*    <button
                           className="flex items-center h-6 gap-2 mr-2"
                           onClick={() => setShowSortingDropdown((p) => !p)}
                           onBlur={() => setShowSortingDropdown(false)}
@@ -620,7 +507,7 @@ const FlightResultsDisplay = ({
                           <span className="text-dark-800">
                             <Chevron />
                           </span>
-                        </button>
+                        </button> */}
 
                         <section
                           className={`absolute z-[9] border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
@@ -633,6 +520,12 @@ const FlightResultsDisplay = ({
                             gap="gap-0"
                           >
                             <Radio
+                              value="sortByRecommended"
+                              containerClass="px-3 py-2 border-b border-dark-200"
+                            >
+                              {t('sortByRecommended')}
+                            </Radio>
+                            <Radio
                               value="sortByPriceAsc"
                               containerClass="px-3 py-2 border-b border-dark-200"
                             >
@@ -643,6 +536,18 @@ const FlightResultsDisplay = ({
                               containerClass="px-3 py-2 border-b border-dark-200"
                             >
                               {t('sortByPriceDesc')}
+                            </Radio>
+                            <Radio
+                              value="sortByDurationAsc"
+                              containerClass="px-3 py-2 border-b border-dark-200"
+                            >
+                              {t('sortByDurationAsc')}
+                            </Radio>
+                            <Radio
+                              value="sortByDurationDesc"
+                              containerClass="px-3 py-2 border-b border-dark-200"
+                            >
+                              {t('sortByDurationDesc')}
                             </Radio>
                           </RadioGroup>
                         </section>

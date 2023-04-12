@@ -14,8 +14,8 @@ const FlightSegmentDetails = ({ key, segment }: FlightSegmentDetailsProps) => {
   const [t] = useTranslation('flights');
   const terminalLabel = t('terminal', 'Terminal');
   const flightLabel = t('flight', 'Flight');
-  const flightDurationInMinutes: number = segment?.flightDurationInMinutes
-    ? segment?.flightDurationInMinutes
+  const flightDurationInMinutes: number = segment?.flightDuration
+    ? segment?.flightDuration
     : 0;
 
   const getAirlineIconUrl = (airlineCode: string) => {

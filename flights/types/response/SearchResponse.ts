@@ -30,7 +30,7 @@ export interface FlightSegment {
   arrivalDateTime: string;
   arrivalTerminal?: string | null;
 
-  flightDurationInMinutes: number;
+  flightDuration: number;
   layoverToNextSegmentsInMinutes: number;
 
   aircraftType: string | null;
