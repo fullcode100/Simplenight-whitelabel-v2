@@ -32,11 +32,13 @@ import Label from 'components/global/Label/Label';
 import FlightSelect from '../FlightSelect/FlightSelect';
 import classnames from 'classnames';
 import { Collapse } from 'react-collapse';
-import Popper from 'components/global/Popper/Popper';
-import TravelersSelect from '../TravelersSelect/TravelersSelect';
+import { Popover } from '@headlessui/react';
 import useMediaViewport from 'hooks/media/useMediaViewport';
+import TravelersInputPopper from '../TravelersInput/TravelersInputPopper';
 import PlusIcon from 'public/icons/assets/flights/plus.svg';
 import TrashIcon from 'public/icons/assets/flights/trash.svg';
+import Popper from 'components/global/Popper/Popper';
+import TravelersSelect from '../TravelersSelect/TravelersSelect';
 
 interface LocationInputRef {
   getAddress: () => string | undefined;
@@ -50,7 +52,6 @@ const FlightSearchForm = ({
 }: SearchFormProps) => {
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
-
   const [t, i18next] = useTranslation('flights');
   const locationInputLabel = t('locationInputLabel', 'Leaving From');
   const location2InputLabel = t('location2InputLabel', 'Going To');
@@ -385,6 +386,7 @@ const FlightSearchForm = ({
   };
 
   const [isOpen, setIsOpen] = useState(true);
+
   const classNameSwapButton = classnames('justify-center', {
     hidden: direction === 'multi_city',
     flex: direction !== 'multi_city',
@@ -404,7 +406,7 @@ const FlightSearchForm = ({
   const classNameCollapseButton = classnames('flex justify-end mb-[-1rem]');
 
   const classNameSumaryFlights = classnames('bg-blue-50 my-4 px-2 py-4', {
-    hidden: isOpen || router.pathname === '/',
+    hidden: isOpen || router.pathname === '/' || !isDesktop,
   });
 
   const classNameDatepicker = classnames('flex gap-4 lg:mt-0 lg:w-full', {
@@ -427,6 +429,25 @@ const FlightSearchForm = ({
 
   return (
     <>
+      <section className={classNameCollapseButton}>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center self-end bg-transparent text-gray-600 text-xs text-right lg:text-center h-8 w-24 py-0 hover:border-gray-400 focus:outline-none z-10"
+        >
+          <span className="pr-1 font-semibold flex-1">
+            {isOpen ? hideFlights : showFlights}
+          </span>
+          <span>
+            <svg
+              className={classNameChevron}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </span>
+        </button>
+      </section>
       {!(direction !== 'multi_city' || router.pathname === '/') && (
         <section className={classNameCollapseButton}>
           <button
@@ -726,11 +747,80 @@ const FlightSearchForm = ({
                   </Button>
                 </section>
               )}
-              <section className="">
+              <section>
                 <FlightSelect
                   value={direction}
                   onChange={handleDirectionChange}
                 />
+              </section>
+              <section className="lg:hidden">
+                <TravelersInput
+                  showTravelersInput={showTravelersInput}
+                  onClose={() => setShowTravelersInput(false)}
+                  travelers={travelersData}
+                  setTravelers={setTravelersData}
+                />
+                <section className="mt-4 lg:mt-0 lg:w-[200px]">
+                  <Label
+                    value={travelersLabel}
+                    className="block lg:hidden lg:mb-0"
+                  />
+                  <button
+                    onClick={() => setShowTravelersInput(true)}
+                    className="border border-gray-300 rounded-md mt-3 lg:mt-0 text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none"
+                  >
+                    <section className="flex items-center gap-2">
+                      <MultiplePersons className="text-dark-700" />
+                      {parseInt(adults) +
+                        parseInt(children) +
+                        parseInt(infants)}{' '}
+                      {travelerLabelText}
+                    </section>
+                  </button>
+                </section>
+              </section>
+              <section className="mt-4 lg:mt-0 lg:w-[200px] hidden lg:block">
+                <Popover className="relative mt-3 lg:mt-0">
+                  <Popover.Button className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none">
+                    <section className="flex items-center gap-2">
+                      <MultiplePersons className="text-dark-700" />
+                      {parseInt(adults) +
+                        parseInt(children) +
+                        parseInt(infants)}{' '}
+                      {usePlural(
+                        parseInt(adults) +
+                          parseInt(children) +
+                          parseInt(infants),
+                        travelerLabel,
+                        travelersLabel,
+                      )}
+                    </section>
+                  </Popover.Button>
+                  <Popover.Panel className="absolute z-10">
+                    <TravelersInputPopper
+                      showTravelersInput={false}
+                      onClose={() => setShowTravelersInput(false)}
+                      travelers={travelersData}
+                      setTravelers={setTravelersData}
+                    />
+                  </Popover.Panel>
+                </Popover>
+                <button
+                  onClick={() => setShowTravelersInput(true)}
+                  className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+                >
+                  <section className="flex items-center gap-2">
+                    <MultiplePersons className="text-dark-700" />
+                    {parseInt(adults) +
+                      parseInt(children) +
+                      parseInt(infants)}{' '}
+                    {usePlural(
+                      parseInt(adults) + parseInt(children) + parseInt(infants),
+                      travelerLabel,
+                      travelersLabel,
+                    )}
+                  </section>
+                </button>
               </section>
 
               {!isDesktop ? (
