@@ -232,6 +232,15 @@ const FlightSearchForm = ({
     setShortNames(shorts);
   };
 
+  const cleanSelectLocation = (index: number) => {
+    const addrs: string[] = Object.assign([], addresses);
+    addrs[index] = '';
+    setAddresses(addrs);
+    const shorts: string[] = Object.assign([], shortNames);
+    shorts[index] = '';
+    setShortNames(shorts);
+  };
+
   const handleSelectLocation2 = (
     latLng: latLngProp,
     addr: string,
@@ -243,11 +252,29 @@ const FlightSearchForm = ({
       setGeolocation2(newGeolocation);
       setAddress2(addr);
     }
-    const addrs: string[] = Object.assign([], addresses2);
-    addrs[index] = addr;
-    setAddresses2(addrs);
+    const addrs2: string[] = Object.assign([], addresses2);
+    addrs2[index] = addr;
+    const nextItemIndex = index + 1;
+    const addrs: string[] = Object.assign([], addresses);
+    if (addrs[nextItemIndex] === '') {
+      addrs[nextItemIndex] = addr;
+      setAddresses(addrs);
+      const shorts: string[] = Object.assign([], shortNames);
+      shorts[nextItemIndex] = shortName;
+      setShortNames(shorts);
+    }
+    setAddresses2(addrs2);
     const shorts: string[] = Object.assign([], shortNames2);
     shorts[index] = shortName;
+    setShortNames2(shorts);
+  };
+
+  const cleanSelectLocation2 = (index: number) => {
+    const addrs2: string[] = Object.assign([], addresses2);
+    addrs2[index] = '';
+    setAddresses2(addrs2);
+    const shorts: string[] = Object.assign([], shortNames2);
+    shorts[index] = '';
     setShortNames2(shorts);
   };
 
@@ -586,7 +613,7 @@ const FlightSearchForm = ({
                       }
                       onChange={() => setShowLocationError(false)}
                       autoFocus={!address ? true : false}
-                      clearShortNames={() => setShortNames([''])}
+                      clearShortNames={() => cleanSelectLocation(flightIndex)}
                       ref={refLocationInputFrom}
                     />
                     <div className={classNameSwapButton}>
@@ -637,7 +664,9 @@ const FlightSearchForm = ({
                       }
                       onChange={() => setShowLocationError(false)}
                       autoFocus={address && !address2 ? true : false}
-                      clearShortNames={() => setShortNames2([''])}
+                      clearShortNames={() => {
+                        cleanSelectLocation2(flightIndex);
+                      }}
                       ref={refLocationInputTo}
                     />
                   </section>
