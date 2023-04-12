@@ -399,9 +399,7 @@ const FlightSearchForm = ({
     'rotate-180': isOpen,
   });
 
-  const classNameCollapseButton = classnames('flex justify-end mb-[-1rem]', {
-    hidden: direction !== 'multi_city' || router.pathname === '/',
-  });
+  const classNameCollapseButton = classnames('flex justify-end mb-[-1rem]');
 
   const classNameSumaryFlights = classnames('bg-blue-50 my-4 px-2 py-4', {
     hidden: isOpen || router.pathname === '/',
@@ -427,91 +425,94 @@ const FlightSearchForm = ({
 
   return (
     <>
-      <section className={classNameCollapseButton}>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center self-end bg-transparent text-gray-600 text-xs text-right lg:text-center h-8 w-24 py-0 hover:border-gray-400 focus:outline-none z-10"
-        >
-          <span className="pr-1 font-semibold flex-1">
-            {isOpen ? hideFlights : showFlights}
-          </span>
-          <span>
-            <svg
-              className={classNameChevron}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-            </svg>
-          </span>
-        </button>
-        {!isDesktop ? (
-          <>
-            <TravelersInput
-              showTravelersInput={showTravelersInput}
-              onClose={() => setShowTravelersInput(false)}
-              travelers={travelersData}
-              setTravelers={setTravelersData}
-            />
-            <section className="mt-4 lg:mt-0 lg:w-[200px]">
-              <Label
-                value={travelersLabel}
-                className="block lg:hidden lg:mb-0"
-              />
-              <button
-                onClick={() => setShowTravelersInput(true)}
-                className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default" // grid grid-cols-2
+      {!(direction !== 'multi_city' || router.pathname === '/') && (
+        <section className={classNameCollapseButton}>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex items-center self-end bg-transparent text-gray-600 text-xs text-right lg:text-center h-8 w-24 py-0 hover:border-gray-400 focus:outline-none z-10"
+          >
+            <span className="pr-1 font-semibold flex-1">
+              {isOpen ? hideFlights : showFlights}
+            </span>
+            <span>
+              <svg
+                className={classNameChevron}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
               >
-                <section className="flex items-center gap-2">
-                  <MultiplePersons className="text-dark-700" />
-                  {parseInt(adults) +
-                    parseInt(children) +
-                    parseInt(infants)}{' '}
-                  {travelerLabelText}
-                </section>
-                {/*
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </span>
+          </button>
+          {!isDesktop ? (
+            <>
+              <TravelersInput
+                showTravelersInput={showTravelersInput}
+                onClose={() => setShowTravelersInput(false)}
+                travelers={travelersData}
+                setTravelers={setTravelersData}
+              />
+              <section className="mt-4 lg:mt-0 lg:w-[200px]">
+                <Label
+                  value={travelersLabel}
+                  className="block lg:hidden lg:mb-0"
+                />
+                <button
+                  onClick={() => setShowTravelersInput(true)}
+                  className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default" // grid grid-cols-2
+                >
+                  <section className="flex items-center gap-2">
+                    <MultiplePersons className="text-dark-700" />
+                    {parseInt(adults) +
+                      parseInt(children) +
+                      parseInt(infants)}{' '}
+                    {travelerLabelText}
+                  </section>
+                  {/*
     <section className="flex items-center gap-2">
       <Bed className="text-dark-700" />
       {cabin}
     </section>
     */}
-              </button>
-            </section>
-          </>
-        ) : (
-          <section className="mt-4 lg:mt-0 lg:w-[200px] hidden lg:block">
-            <Popper
-              open={showTravelersInput}
-              onClose={() => setShowTravelersInput(false)}
-              content={
-                <TravelersSelect
-                  travelers={travelersData}
-                  setTravelers={setTravelersData}
-                />
-              }
-            >
-              <button
-                onClick={() => setShowTravelersInput(true)}
-                className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default" // grid grid-cols-2
+                </button>
+              </section>
+            </>
+          ) : (
+            <section className="mt-4 lg:mt-0 lg:w-[200px] hidden lg:block">
+              <Popper
+                open={showTravelersInput}
+                onClose={() => setShowTravelersInput(false)}
+                content={
+                  <TravelersSelect
+                    travelers={travelersData}
+                    setTravelers={setTravelersData}
+                  />
+                }
               >
-                <section className="flex items-center gap-2">
-                  <MultiplePersons className="text-dark-700" />
-                  {parseInt(adults) +
-                    parseInt(children) +
-                    parseInt(infants)}{' '}
-                  {travelerLabelText}
-                </section>
-                {/*
+                <button
+                  onClick={() => setShowTravelersInput(true)}
+                  className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default" // grid grid-cols-2
+                >
+                  <section className="flex items-center gap-2">
+                    <MultiplePersons className="text-dark-700" />
+                    {parseInt(adults) +
+                      parseInt(children) +
+                      parseInt(infants)}{' '}
+                    {travelerLabelText}
+                  </section>
+                  {/*
             <section className="flex items-center gap-2">
               <Bed className="text-dark-700" />
               {cabin}
             </section>
             */}
-              </button>
-            </Popper>
-          </section>
-        )}
-      </section>
+                </button>
+              </Popper>
+            </section>
+          )}
+        </section>
+      )}
+
       <Collapse isOpened={isOpen}>
         <section
           className={
@@ -761,34 +762,65 @@ const FlightSearchForm = ({
                 />
               </section>
 
-              <TravelersInput
-                showTravelersInput={showTravelersInput}
-                onClose={() => setShowTravelersInput(false)}
-                travelers={travelersData}
-                setTravelers={setTravelersData}
-              />
-              <section>
-                <Label
-                  value={travelersLabel}
-                  className="block lg:hidden lg:mb-0 my-3"
-                />
-                <button
-                  onClick={() => setShowTravelersInput(true)}
-                  className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
-                >
-                  <section className="flex items-center gap-2">
-                    <MultiplePersons className="text-dark-700" />
-                    {parseInt(adults) +
-                      parseInt(children) +
-                      parseInt(infants)}{' '}
-                    {usePlural(
-                      parseInt(adults) + parseInt(children) + parseInt(infants),
-                      travelerLabel,
-                      travelersLabel,
-                    )}
+              {!isDesktop ? (
+                <>
+                  <TravelersInput
+                    showTravelersInput={showTravelersInput}
+                    onClose={() => setShowTravelersInput(false)}
+                    travelers={travelersData}
+                    setTravelers={setTravelersData}
+                  />
+                  <section>
+                    <Label
+                      value={travelersLabel}
+                      className="block lg:hidden lg:mb-0 my-3"
+                    />
+                    <button
+                      onClick={() => setShowTravelersInput(true)}
+                      className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+                    >
+                      <section className="flex items-center gap-2">
+                        <MultiplePersons className="text-dark-700" />
+                        {parseInt(adults) +
+                          parseInt(children) +
+                          parseInt(infants)}{' '}
+                        {travelerLabelText}
+                      </section>
+                    </button>
                   </section>
-                </button>
-              </section>
+                </>
+              ) : (
+                <section>
+                  <Label
+                    value={travelersLabel}
+                    className="block lg:hidden lg:mb-0 my-3"
+                  />
+                  <Popper
+                    open={showTravelersInput}
+                    onClose={() => setShowTravelersInput(false)}
+                    content={
+                      <TravelersSelect
+                        travelers={travelersData}
+                        setTravelers={setTravelersData}
+                      />
+                    }
+                    placement="left"
+                  >
+                    <button
+                      onClick={() => setShowTravelersInput(true)}
+                      className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+                    >
+                      <section className="flex items-center gap-2">
+                        <MultiplePersons className="text-dark-700" />
+                        {parseInt(adults) +
+                          parseInt(children) +
+                          parseInt(infants)}{' '}
+                        {travelerLabelText}
+                      </section>
+                    </button>
+                  </Popper>
+                </section>
+              )}
             </section>
             {flights.length !== 1 && (
               <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
