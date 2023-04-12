@@ -26,7 +26,7 @@
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.5",
     "@rjsf/core": "^4.1.1",
-    "@simplenight/ui": "^0.1.25",
+    "@simplenight/ui": "^0.1.35",
     "@tanstack/react-query": "^4.23.0",
     "@tanstack/react-query-devtools": "^4.23.0",
     "@types/react-input-mask": "^3.0.2",
