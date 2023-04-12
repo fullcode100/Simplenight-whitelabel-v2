@@ -23,7 +23,7 @@ const UpperSectionBackground = ({ children }: { children?: ReactNode }) => {
   const { whiteLabelBackground } = homepage || {};
   return (
     <section
-      className="bg-no-repeat bg-cover bg-center"
+      className="pt-20 bg-center bg-no-repeat bg-cover lg:pt-0"
       style={{
         backgroundImage: `url(${whiteLabelBackground})`,
       }}

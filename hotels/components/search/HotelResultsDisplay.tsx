@@ -303,7 +303,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             />
           ) : (
             <>
-              <section className=" w-full px-5 z-[1] right-0 block mt-5 mb-1 lg:mt-0 lg:absolute lg:top-6  lg:px-0 ">
+              <section className=" w-full px-5 z-[1] right-0 block my-1 lg:mt-0 lg:absolute lg:top-6  lg:px-0 ">
                 <div
                   className={`flex bg-white  rounded justify-between py-4 ${
                     !isListView ? 'px-4 lg:shadow-container' : ''

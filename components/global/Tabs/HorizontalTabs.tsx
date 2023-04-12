@@ -43,7 +43,7 @@ const HorizontalTabs = ({
               tab.name === activeTab?.name
                 ? `border-white ${hoverCss}`
                 : 'border-transparent text-dark-400 hover:text-dark-300 hover:border-gray-300',
-              'whitespace-nowrap p-3 flex gap-2 items-center justify-center border-b-2 text-xs font-semibold',
+              'whitespace-nowrap p-3 flex flex-col lg:flex-row gap-1 lg:gap-2 items-center justify-center border-b-2 text-xs font-semibold',
             )}
             aria-current={tab.current ? 'page' : undefined}
             onClick={() => onClick(tab)}

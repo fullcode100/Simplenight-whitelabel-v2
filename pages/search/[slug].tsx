@@ -37,14 +37,8 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <div
-        className={`sticky ${
-          scrollDirection === 'down'
-            ? 'top-14 lg:top-20'
-            : 'top-[110px] lg:top-[125px]'
-        } transition-all duration-500 z-20 w-full`}
-      >
-        <section className="pt-3 lg:hidden bg-dark-100 border-dark-300">
+      <div className="z-20 w-full pt-[60px] lg:pt-0">
+        <section className="py-3 lg:hidden bg-dark-100 border-dark-300">
           <ExtendedSearchCategoryForm searchType={searchType} />
         </section>
         <section className="hidden w-full px-20 pt-6 pb-10 lg:block bg-dark-100 border-dark-300">

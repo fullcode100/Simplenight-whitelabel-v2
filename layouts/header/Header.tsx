@@ -146,7 +146,9 @@ const Header = ({ color }: HeaderProps) => {
           activeTab={tab ? tab : categoriesTabs?.[0]}
           onClick={handleTabClick}
           className={`${
-            scrollDirection === 'down' ? 'top-0' : 'top-[60px] lg:top-[76px]'
+            scrollDirection === 'down'
+              ? '-top-4 lg:top-0'
+              : 'top-[60px] lg:top-[76px]'
           } transition-all duration-500`}
           primary
         />
