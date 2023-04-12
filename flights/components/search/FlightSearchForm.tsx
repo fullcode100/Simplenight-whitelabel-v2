@@ -712,13 +712,14 @@ const FlightSearchForm = ({
                 'flex flex-col justify-start lg:flex-row lg:items-end lg:gap-2 lg:pb-0 lg:px-0 mt-3'
               }
             >
-              {direction === 'multi_city' && flights.length < 5 && (
+              {direction === 'multi_city' && (
                 <section>
                   <Button
                     onClick={() => handleFlightsAdd()}
                     type="secondary"
                     icon={<PlusIcon />}
                     compact
+                    disabled={flights.length === 5}
                   >
                     {addFlightLabel}
                   </Button>
