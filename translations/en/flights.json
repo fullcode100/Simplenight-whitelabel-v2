@@ -109,5 +109,7 @@
   "clearFilters": "Clear Filters",
   "results": "Results",
   "hide": "Hide",
-  "show": "Show"
+  "show": "Show",
+  "passengers": "Passengers",
+  "flights": "Flights"
 }

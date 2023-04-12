@@ -2,7 +2,11 @@ import { Button, Paragraph } from '@simplenight/ui';
 import { Flight } from 'flights/types/response/SearchResponse';
 import { useTranslation } from 'react-i18next';
 
-const Pricing = ({ item }: { item: Flight }) => {
+interface Props {
+  item: Flight;
+  onClick: (flight: Flight) => void;
+}
+const Pricing = ({ item, onClick }: Props) => {
   const [t] = useTranslation('flights');
   const selectLabel = t('select', 'Select');
 
@@ -16,7 +20,7 @@ const Pricing = ({ item }: { item: Flight }) => {
       </Paragraph>
 
       <div className="hidden lg:block">
-        <Button size="small" onClick={() => console.log('click')}>
+        <Button size="small" onClick={() => onClick(item)}>
           {selectLabel}
         </Button>
       </div>

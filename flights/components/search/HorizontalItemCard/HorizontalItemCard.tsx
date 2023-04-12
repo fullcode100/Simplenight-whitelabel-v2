@@ -17,9 +17,10 @@ import Pricing from './components/Pricing';
 
 interface CardProps {
   item: Flight;
+  selectFlight: (flight: Flight) => void;
 }
 
-const HorizontalItemCard = ({ item }: CardProps) => {
+const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
   const { isDesktop } = useMediaViewport();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -33,7 +34,7 @@ const HorizontalItemCard = ({ item }: CardProps) => {
             <DurationAndStops item={item} />
             <InclusionsAndExclusions item={item} />
           </div>
-          <Pricing item={item} />
+          <Pricing item={item} onClick={selectFlight} />
         </section>
         {isExpanded && (
           <CardCollapsable collection={item.segments.collection} />
@@ -78,11 +79,11 @@ const HorizontalItemCard = ({ item }: CardProps) => {
             </Paragraph>
             <InclusionsAndExclusions item={item} />
           </div>
-          <Pricing item={item} />
+          <Pricing item={item} onClick={selectFlight} />
         </section>
         {isExpanded && (
           <section className="p-4 flex justify-between items-center">
-            <Button size="small" onClick={() => console.log('click')}>
+            <Button size="small" onClick={() => selectFlight(item)}>
               {selectLabel}
             </Button>
           </section>

@@ -46,6 +46,7 @@ import Sort from '@/icons/assets/sort.svg';
 import Chevron from '@/icons/assets/chevron-down-small.svg';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import FlightsBreadcrumbs from './FlightsBreadcrumbs/FlightsBreadcrumbs';
 
 declare let window: CustomWindow;
 
@@ -129,6 +130,8 @@ const FlightResultsDisplay = ({
   const [offers, setOffers] = useState<FlightOffer[]>([]);
   const [flightsSearched, setFlightsSearched] = useState<Flight[]>([]);
   const [flightsFiltered, setFlightsFiltered] = useState<Flight[]>([]);
+
+  const [selectedFlights, setSelectedFlights] = useState<Flight[]>([]);
 
   const [flightIndex, setFlightIndex] = useState<number>(
     selected ? selected.toString().split(',').length : 0,
@@ -384,39 +387,21 @@ const FlightResultsDisplay = ({
     return results;
   };
 
+  const selectFlight = (flight: Flight) => {
+    setSelectedFlights((flights) => [...flights, flight]);
+  };
+
   const FlightList = () => (
     <ul role="list" className="space-y-4">
       {flightsFiltered.map((flight: Flight, index: number) => {
-        const cartItem: Item = {
-          category: 'FLIGHTS',
-          sector: 'other',
-          booking_data: {
-            inventory_id: '7e6cfd32:7264P3',
-            search: {
-              direction: direction as string,
-
-              start_airport: startAirport as unknown as string,
-              end_airport: endAirport as unknown as string,
-              start_date: formatAsSearchDate(startDate as unknown as string),
-              end_date: formatAsSearchDate(endDate as unknown as string),
-
-              adults: parseQueryNumber(adults ?? ''),
-              children: parseQueryNumber(children ?? ''),
-              infants: parseQueryNumber(infants ?? ''),
-              children_ages: childrenAges as unknown as string,
-              infants_ages: infantsAges as unknown as string,
-
-              start_airports: startAirports as unknown as string,
-              end_airports: endAirports as unknown as string,
-              start_dates: startDates as unknown as string,
-
-              currency: currency as unknown as string,
-            },
-            flights: getFlightsByIds(flights, flightsSelected),
-          },
-        };
         if (index < page * pageItems)
-          return <HorizontalItemCard key={`flight_${index}`} item={flight} />;
+          return (
+            <HorizontalItemCard
+              key={`flight_${index}`}
+              item={flight}
+              selectFlight={selectFlight}
+            />
+          );
       })}
       {flightsFiltered.length > page * pageItems && (
         <section className="w-full lg:w-fit mx-auto">
@@ -463,7 +448,10 @@ const FlightResultsDisplay = ({
 
   return (
     <>
-      <section className="lg:flex lg:w-full">
+      {!isLoading && flightsFiltered.length > 0 && (
+        <FlightsBreadcrumbs selectedFlights={selectedFlights} />
+      )}
+      <section className="lg:flex lg:w-full lg:pt-12">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
           <FlightFilterFormDesktop flights={flightsSearched} />
         </section>
@@ -488,27 +476,6 @@ const FlightResultsDisplay = ({
 
                     <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
                       <section className="flex items-center justify-start w-auto">
-                        {/*    <button
-                          className="flex items-center h-6 gap-2 mr-2"
-                          onClick={() => setShowSortingDropdown((p) => !p)}
-                          onBlur={() => setShowSortingDropdown(false)}
-                        >
-                          <span className="text-primary-1000">
-                            <Sort />
-                          </span>
-                          <span className="flex-1 text-xs font-semibold text-left text-dark-1000">
-                            <span className="hidden lg:inline whitespace-nowrap">
-                              {t(sortBy)}
-                            </span>
-                            <span className="inline lg:hidden">
-                              {t('sort')}
-                            </span>
-                          </span>
-                          <span className="text-dark-800">
-                            <Chevron />
-                          </span>
-                        </button> */}
-
                         <section
                           className={`absolute z-[9] border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
                             !showSortingDropdown && 'opacity-0 invisible'

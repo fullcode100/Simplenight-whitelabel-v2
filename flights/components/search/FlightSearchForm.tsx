@@ -471,11 +471,11 @@ const FlightSearchForm = ({
                     {travelerLabelText}
                   </section>
                   {/*
-                    <section className="flex items-center gap-2">
-                      <Bed className="text-dark-700" />
-                      {cabin}
-                    </section>
-                  */}
+    <section className="flex items-center gap-2">
+      <Bed className="text-dark-700" />
+      {cabin}
+    </section>
+    */}
                 </button>
               </section>
             </>
@@ -503,17 +503,18 @@ const FlightSearchForm = ({
                     {travelerLabelText}
                   </section>
                   {/*
-                    <section className="flex items-center gap-2">
-                      <Bed className="text-dark-700" />
-                      {cabin}
-                    </section>
-                  */}
+            <section className="flex items-center gap-2">
+              <Bed className="text-dark-700" />
+              {cabin}
+            </section>
+            */}
                 </button>
               </Popper>
             </section>
           )}
         </section>
       )}
+
       <Collapse isOpened={isOpen}>
         <section
           className={
@@ -730,23 +731,8 @@ const FlightSearchForm = ({
                   value={direction}
                   onChange={handleDirectionChange}
                 />
-                <button
-                  onClick={() => setShowTravelersInput(true)}
-                  className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
-                >
-                  <section className="flex items-center gap-2">
-                    <MultiplePersons className="text-dark-700" />
-                    {parseInt(adults) +
-                      parseInt(children) +
-                      parseInt(infants)}{' '}
-                    {usePlural(
-                      parseInt(adults) + parseInt(children) + parseInt(infants),
-                      travelerLabel,
-                      travelersLabel,
-                    )}
-                  </section>
-                </button>
               </section>
+
               {!isDesktop ? (
                 <>
                   <TravelersInput

@@ -338,7 +338,6 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
             text={flags[INSUFFICIENT_TRAVELERS_FLAG_INDEX].description}
           />
         )}
-
         <Divider className="py-3 lg:py-4" />
         <Heading tag="h5">{additionalInformationLabel}</Heading>
         <List list={extraData.amenities} limit={8} />
