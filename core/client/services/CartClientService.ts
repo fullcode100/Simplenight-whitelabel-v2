@@ -20,44 +20,67 @@ const cartOption = {
 export const addToCart = async (itemToAdd: Item, i18next: i18n) => {
   let cartId = null;
   const cartMode = hasCartMode();
+  const cartItemAdder = new ClientCartItemAdder(cartOption);
 
   if (cartMode) {
     cartId = localStorage.getItem('cart')
       ? JSON.parse(localStorage.getItem('cart') || '')
       : null;
   }
-  const cartItemAdder = new ClientCartItemAdder(cartOption);
-  let cartUrl = '/carts';
-  const newCartRequest = {
-    cart: {
-      items: [itemToAdd],
-    },
-    url: cartUrl,
-  };
-  const updateCartRequest = {
-    cart: itemToAdd,
-    url: cartUrl,
-  };
   try {
     if (cartId) {
-      cartUrl = `/carts/${cartId}/items/`;
-      updateCartRequest.url = cartUrl;
-      const item = await cartItemAdder.request(
-        updateCartRequest,
+      const item = await addToExistingCart(
+        itemToAdd,
         i18next,
-        cartUrl,
+        cartItemAdder,
+        cartId,
       );
       return item;
     }
-    const item = await cartItemAdder.request(newCartRequest, i18next, cartUrl);
-    const { cart } = item;
-    if (cart) {
-      localStorage.setItem('cart', JSON.stringify(cart.cart_id));
-    }
+    const item = await addToNewCart(itemToAdd, i18next, cartItemAdder);
     return item;
   } catch (error) {
     console.error(error);
   }
+};
+
+const addToNewCart = async (
+  itemToAdd: Item,
+  i18next: i18n,
+  cartItemAdder: ClientCartItemAdder,
+) => {
+  const newCartRequest = {
+    cart: {
+      items: [itemToAdd],
+    },
+    url: '/carts',
+  };
+
+  const item = await cartItemAdder.request(newCartRequest, i18next, '/carts');
+  const { cart } = item;
+  if (cart) {
+    localStorage.setItem('cart', JSON.stringify(cart.cart_id));
+  }
+  return item;
+};
+
+const addToExistingCart = async (
+  itemToAdd: Item,
+  i18next: i18n,
+  cartItemAdder: ClientCartItemAdder,
+  cartId: string,
+) => {
+  const updateCartRequest = {
+    cart: itemToAdd,
+    url: `/carts/${cartId}/items/`,
+  };
+
+  const item = await cartItemAdder.request(
+    updateCartRequest,
+    i18next,
+    `/carts/${cartId}/items/`,
+  );
+  return item;
 };
 
 export const getCart = async (i18next: i18n) => {
