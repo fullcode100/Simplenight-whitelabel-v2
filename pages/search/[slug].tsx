@@ -48,7 +48,7 @@ const Search: NextPage = () => {
         </section>
       </div>
       <main>
-        <section className="lg:w-full lg:px-20">
+        <section className="lg:w-full lg:px-20 relative">
           <section className="mx-auto max-w-7xl ">
             <SearchResultDisplay searchType={searchType} />
           </section>
