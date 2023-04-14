@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 // import DatePicker from '../../../components/global/Calendar/Calendar';
@@ -8,6 +8,10 @@ import TravelersInput from '../TravelersInput/TravelersInput';
 import { Traveler, createTraveler } from 'flights/helpers/traveler';
 
 import Bed from 'public/icons/assets/bed.svg';
+import ArrowMenuRight from 'public/icons/assets/flights/arrow_menu_right.svg';
+import ArrowMenuRoudTrip from 'public/icons/assets/flights/arrow_menu_roundtrip.svg';
+import ArrowMenuMulticity from 'public/icons/assets/flights/arrow_menu_multicity.svg';
+import Seat from 'public/icons/assets/flights/seat.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
@@ -39,6 +43,7 @@ import PlusIcon from 'public/icons/assets/flights/plus.svg';
 import TrashIcon from 'public/icons/assets/flights/trash.svg';
 import Popper from 'components/global/Popper/Popper';
 import TravelersSelect from '../TravelersSelect/TravelersSelect';
+import DropdownMenu from '../FlightSelect/DropDownMenu';
 
 interface LocationInputRef {
   getAddress: () => string | undefined;
@@ -70,6 +75,32 @@ const FlightSearchForm = ({
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
+  const [directionsMenuItems, setDirectionsMenuItems] = useState([
+    {
+      label: 'One-Way',
+      icon: <ArrowMenuRight className="w-5 h-5" />,
+      isActive: false,
+      value: 'one_way',
+    },
+    {
+      label: 'Roundtrip',
+      icon: <ArrowMenuRoudTrip className="w-5 h-5" />,
+      isActive: true,
+      value: 'round_trip',
+    },
+    {
+      label: 'Multi-City',
+      icon: <ArrowMenuMulticity className="w-5 h-5" />,
+      isActive: false,
+      value: 'multi_city',
+    },
+  ]);
+  const [cabinTypeMenuItems, setCabinTypeMenuItems] = useState([
+    { label: 'Economy', isActive: false, value: 'economy' },
+    { label: 'Premium Economy', isActive: false, value: 'premium_economy' },
+    { label: 'Business', isActive: false, value: 'business' },
+    { label: 'First Class', isActive: false, value: 'first_class' },
+  ]);
   const [direction, setDirection] = useState(
     params?.direction?.toString() || 'round_trip',
   );
@@ -158,14 +189,33 @@ const FlightSearchForm = ({
 
   const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
 
-  const handleDirectionChange = (value: string) => {
+  const handleDirectionChange = useCallback((value: string) => {
     setDirection(value);
+    setDirectionsMenuItems((directions) =>
+      [...directions].map((direction) => ({
+        ...direction,
+        isActive: params?.direction?.toString()
+          ? params?.direction?.toString() === direction.value
+          : value === direction.value,
+      })),
+    );
     if (value === 'multi_city') {
       setFlights(['one_way']);
       setStartDates([startDate]);
       setAddresses([address]);
       setAddresses2([address2]);
     } else setFlights([value]);
+  }, []);
+
+  const handleCabineTypeChange = (value: string) => {
+    setCabinTypeMenuItems((cabinTypes) =>
+      [...cabinTypes].map((cabinType) => ({
+        ...cabinType,
+        isActive: params?.cabinType?.toString()
+          ? params?.cabinType?.toString() === cabinType.value
+          : value === cabinType.value,
+      })),
+    );
   };
 
   const handleFlightsAdd = () => {
@@ -479,6 +529,57 @@ const FlightSearchForm = ({
             'flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible'
           }
         >
+          <section
+            className={
+              'flex flex-col justify-start lg:flex-row lg:items-end lg:gap-2 lg:pb-0 lg:px-0 mt-3'
+            }
+          >
+            {isDesktop && (
+              <>
+                <DropdownMenu
+                  items={directionsMenuItems}
+                  onChange={handleDirectionChange}
+                  alingDirection="left"
+                />
+                <section>
+                  <Label
+                    value={travelersLabel}
+                    className="block lg:hidden lg:mb-0 my-3"
+                  />
+                  <Popper
+                    open={showTravelersInput}
+                    onClose={() => setShowTravelersInput(false)}
+                    content={
+                      <TravelersSelect
+                        travelers={travelersData}
+                        setTravelers={setTravelersData}
+                      />
+                    }
+                    placement="left"
+                  >
+                    <button
+                      onClick={() => setShowTravelersInput(true)}
+                      className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+                    >
+                      <section className="flex items-center gap-2">
+                        <MultiplePersons className="text-dark-700" />
+                        {parseInt(adults) +
+                          parseInt(children) +
+                          parseInt(infants)}{' '}
+                        {travelerLabelText}
+                      </section>
+                    </button>
+                  </Popper>
+                </section>
+                <DropdownMenu
+                  items={cabinTypeMenuItems}
+                  onChange={handleCabineTypeChange}
+                  alingDirection="left"
+                  menuIcon={<Seat className="w-5 h-5" />}
+                />
+              </>
+            )}
+          </section>
           {flights.map((item: string, flightIndex: number) => (
             <section key={flightIndex} className="flex flex-col">
               {direction === 'multi_city' && (
@@ -686,14 +787,15 @@ const FlightSearchForm = ({
                   </Button>
                 </section>
               )}
-              <section>
-                <FlightSelect
-                  value={direction}
-                  onChange={handleDirectionChange}
-                />
-              </section>
-              {!isDesktop ? (
+              {!isDesktop && (
                 <>
+                  <section className="">
+                    <DropdownMenu
+                      items={directionsMenuItems}
+                      onChange={handleDirectionChange}
+                      alingDirection="left"
+                    />
+                  </section>
                   <TravelersInput
                     showTravelersInput={showTravelersInput}
                     onClose={() => setShowTravelersInput(false)}
@@ -718,38 +820,13 @@ const FlightSearchForm = ({
                       </section>
                     </button>
                   </section>
-                </>
-              ) : (
-                <section>
-                  <Label
-                    value={travelersLabel}
-                    className="block lg:hidden lg:mb-0 my-3"
+                  <DropdownMenu
+                    items={cabinTypeMenuItems}
+                    onChange={handleCabineTypeChange}
+                    alingDirection="left"
+                    menuIcon={<Seat className="w-5 h-5" />}
                   />
-                  <Popper
-                    open={showTravelersInput}
-                    onClose={() => setShowTravelersInput(false)}
-                    content={
-                      <TravelersSelect
-                        travelers={travelersData}
-                        setTravelers={setTravelersData}
-                      />
-                    }
-                    placement="left"
-                  >
-                    <button
-                      onClick={() => setShowTravelersInput(true)}
-                      className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
-                    >
-                      <section className="flex items-center gap-2">
-                        <MultiplePersons className="text-dark-700" />
-                        {parseInt(adults) +
-                          parseInt(children) +
-                          parseInt(infants)}{' '}
-                        {travelerLabelText}
-                      </section>
-                    </button>
-                  </Popper>
-                </section>
+                </>
               )}
             </section>
             {flights.length !== 1 && (
