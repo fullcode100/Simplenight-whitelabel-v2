@@ -15,5 +15,6 @@ export interface CreateBookingRequest {
   cart_id: string;
   payment_request: PaymentInformation;
   expedia_prod?: boolean;
+  session_id?: string;
   refferal: string;
 }

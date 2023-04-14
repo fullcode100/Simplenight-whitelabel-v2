@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 import valid from 'card-validator';
+import dynamic from 'next/dynamic';
 
 // Credentials
 import {
@@ -220,6 +221,20 @@ const Payment = () => {
     const cardIsValid = validName && validNumber && validExpiration && validCVV;
     return cardIsValid;
   };
+  const [isVerified, setIsVerified] = useState(false);
+  const sessionID = `sn2-${cart?.cart_id}`;
+
+  const config = {
+    clientID: process.env.KOUNT_CLIENT,
+    environment: process.env.KOUNT_ENVIRONMENT,
+    isSinglePageApp: true,
+    isDebugEnabled: true,
+    callbacks: {
+      'collect-end': () => {
+        setIsVerified(true);
+      },
+    },
+  };
 
   const handleBooking = () => {
     const cardIsValid = validateCard();
@@ -264,6 +279,7 @@ const Payment = () => {
           postal_code: postalCode,
           country: countryCode,
         },
+        session_id: sessionID,
       },
       ...(prodExpedia && { expedia_prod: true }),
     };
@@ -345,6 +361,15 @@ const Payment = () => {
       });
     }
   }, [cart]);
+
+  useEffect(() => {
+    const sdkInit = async () => {
+      const kountSDK = (await import('@kount/kount-web-client-sdk')).default;
+      kountSDK(config, sessionID);
+    };
+    sdkInit();
+  }, []);
+
   return (
     <>
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
@@ -433,7 +458,7 @@ const Payment = () => {
               <section className="w-full lg:w-[145px]">
                 <Button
                   value={loading ? loadingLabel : checkoutLabel}
-                  disabled={loading}
+                  disabled={loading || !isVerified}
                   size={'full'}
                   className="text-[18px]"
                   onClick={handleBooking}

@@ -1292,6 +1292,11 @@
   resolved "https://registry.npmjs.org/@js.properties/properties/-/properties-0.5.4.tgz"
   integrity sha512-4M/Mb2CxzuI1CtQhVFs6OC9ceuGPAP6SOWnpLcrdB1TcUHroXbsYDVJNOm32koRMfuCoRACbojcm4dPPcQxu0w==
 
+"@kount/kount-web-client-sdk@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@kount/kount-web-client-sdk/-/kount-web-client-sdk-1.1.6.tgz#34480833eba517dcf89bdc1eeb81e2f70b4d289e"
+  integrity sha512-la9IXLcH3p7e2TE6XOaNVVZH0Djb7lckt1yPgULh/CEh8ebkIMhrMqSdgILXfyLuQ+DghdIU907aNMh20y2dCw==
+
 "@mapbox/point-geometry@^0.1.0":
   version "0.1.0"
   resolved "https://registry.npmjs.org/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz"

@@ -12,3 +12,5 @@ declare module 'react-rating-stars-component';
 declare module 'react-collapse';
 
 declare module 'axios-curlirize';
+
+declare module '@kount/kount-web-client-sdk';
