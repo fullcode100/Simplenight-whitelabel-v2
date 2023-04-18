@@ -17,6 +17,20 @@ export const removeURLParameter = (url: string, parameter: string) => {
   return parsedUrl.origin + '/' + params.toString();
 };
 
+export const useQueryShallowSetter = () => {
+  const router = useRouter();
+  const { query } = router;
+
+  return (params: { [key: string]: string }) => {
+    const urlParams = new URLSearchParams(query as unknown as string);
+    Object.keys(params).forEach((key) => {
+      params[key].length > 0 && urlParams.set(key, params[key]);
+      params[key].length === 0 && urlParams.delete(key);
+    });
+    router.push(`?${urlParams.toString()}`, undefined, { shallow: true });
+  };
+};
+
 const useQuerySetter = () => {
   const router = useRouter();
   const { query } = router;

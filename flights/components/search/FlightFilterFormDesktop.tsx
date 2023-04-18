@@ -2,23 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Checkbox from '../CheckboxGroup/Checkbox';
-
-import IconInput from 'components/global/Input/IconInput';
-import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
-import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import RangeSlider from 'flights/components/RangeSlider/RangeSlider';
 import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
-import MultipleSelect from 'components/global/MultipleSelect/MultipleSelect';
-import CloseIcon from 'public/icons/assets/close.svg';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import { Flight } from 'flights/types/response/SearchResponse';
+import FiltersIcon from 'public/icons/assets/filters.svg';
+import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
+import TabSelector from 'components/global/TabSelector';
+import Selector from 'components/global/Select/Selector';
+import Divider from 'components/global/Divider/Divider';
 
-const Divider = ({ className }: { className?: string }) => (
-  <hr className={className} />
-);
 const FilterContainer = ({ children }: { children?: any }) => (
-  <section className="pr-6 mt-4 mb-6 flex flex-col">{children}</section>
+  <section className="flex flex-col pr-6 mt-4 mb-6">{children}</section>
 );
 
 interface FlightFilterFormDesktopProps {
@@ -27,20 +23,12 @@ interface FlightFilterFormDesktopProps {
 
 const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   const router = useRouter();
-  const setQueryParams = useQuerySetter();
-  const [queryFilter, setQueryFilters] = useState(router.query);
-
-  const [keywordSearch, setKeywordSearch] = useState<string>(
-    (queryFilter?.keywordSearch as string) || '',
-  );
-  const [sortBy, setSortBy] = useState<string>(
-    (queryFilter?.sortBy as string) || 'sortByPriceAsc',
-  );
-
-  const [initialPriceRange, setInitialPriceRange] = useState({
+  const setQueryParams = useQueryShallowSetter();
+  const queryFilter = router.query;
+  const initialPriceRange = {
     min: '0',
     max: '10000',
-  });
+  };
   const [minPrice, setMinPrice] = useState<string>(
     (queryFilter?.minPrice as string) || initialPriceRange.min,
   );
@@ -48,32 +36,19 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     (queryFilter?.maxPrice as string) || initialPriceRange.max,
   );
 
-  const [t, i18n] = useTranslation('flights');
-  const keywordSearchLabel = t('keywordSearch', 'Keyword Search');
-  const searchKeywordPlaceholder = t(
-    'searchKeywordPlaceholder',
-    'Venue Name, Landmark, Location, etc.',
-  );
-  const sortByLabel = t('sortBy', 'Sort By');
-  const sortByPriceAsc = t('sortByPriceAsc', 'Lowest Price');
-  const sortByPriceDesc = t('sortByPriceDesc', 'Highest Price');
+  const [t] = useTranslation('flights');
+  const [tg] = useTranslation('flights');
   const SORT_BY_OPTIONS = [
-    { value: 'sortByPriceAsc', label: sortByPriceAsc },
-    { value: 'sortByPriceDesc', label: sortByPriceDesc },
+    { id: 'sortByPriceAsc', name: t('sortByPriceAsc') },
+    { id: 'sortByPriceDesc', name: t('sortByPriceDesc') },
   ];
 
   const priceRangeLabel = t('priceRange', 'Price Range');
-  const stopsLabel = t('stops', 'Stops');
   const stopText = t('stop', 'Stop');
   const stopsText = t('stops', 'Stops');
   const directText = t('direct', 'Direct');
   const departureTimesLabel = t('departureTimes', 'Departure Times');
   const arrivalTimesLabel = t('arrivalTimes', 'Arrival Times');
-  const airlinesLabel = t('airlines', 'Airlines');
-  const connectingAirportsLabel = t(
-    'connectingAirports',
-    'Connecting Airports',
-  );
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
 
@@ -87,14 +62,17 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
       ? queryFilter.arrivalTimes.toString().split(',')
       : ['0', '23'],
   );
-
   const [stops, setStops] = useState<string[]>([]);
-  const [airlines, setAirlines] = useState<string[]>([]);
-  const [cities, setCities] = useState<string[]>([]);
 
-  const [stopsOptions, setStopsOptions] = useState<string[]>([]);
+  const [stopsOptions, setStopsOptions] = useState<
+    Array<{ id: string; label: string; selected: boolean }>
+  >([]);
   const [airlinesOptions, setAirlinesOptions] = useState<string[]>([]);
   const [citiesOptions, setCitiesOptions] = useState<string[]>([]);
+  const [paymentTypes, setPaymentTypes] = useState<string[]>([
+    t('freeCancellation'),
+    t('payAtProperty'),
+  ]);
 
   const FilterTitle = ({
     label,
@@ -105,15 +83,11 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   }) => <label className={`mb-2 ${className}`}>{label}</label>;
 
   const handleClearFilters = () => {
-    setKeywordSearch('');
     setMinPrice(initialPriceRange.min);
     setMaxPrice(initialPriceRange.max);
-    setSortBy('sortByPriceAsc');
     setDepartureTimes(['0', '23']);
     setArrivalTimes(['0', '23']);
     setStops([]);
-    setAirlines([]);
-    setCities([]);
     setQueryParams({
       ...queryFilter,
       // keywordSearch,
@@ -129,7 +103,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   };
 
   const onChangeSortBy = (value: string) => {
-    setSortBy(value);
+    // setSortBy(value);
     setQueryParams({
       sortBy: value,
     });
@@ -177,50 +151,30 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     });
   };
 
-  const onChangeStops = (value: string, isChecked: boolean) => {
-    const arr = Object.assign([], stops);
-    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1)
-      arr.splice(arr.indexOf(value), 1);
-    setStops(arr);
+  const onChangeCity = (value: string) => {
     setQueryParams({
-      stops: `${arr.join(',')}`,
+      cities: value === 'all' ? '' : value,
     });
   };
 
-  const onChangeAirlines = (value: string, isChecked: boolean) => {
-    const arr = Object.assign([], airlines);
-    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1)
-      arr.splice(arr.indexOf(value), 1);
-    setAirlines(arr);
+  const onChangeAirline = (value: string) => {
     setQueryParams({
-      airlines: `${arr.join(',')}`,
+      airlines: value === 'all' ? '' : value,
     });
   };
+  const paymentTypesChecked =
+    queryFilter?.paymentTypes && typeof queryFilter.paymentTypes === 'string'
+      ? queryFilter.paymentTypes.split(',')
+      : [];
 
-  const onChangeCities = (value: string, isChecked: boolean) => {
-    const arr = Object.assign([], cities);
-    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1)
-      arr.splice(arr.indexOf(value), 1);
-    setCities(arr);
+  const onChangePaymentTypes = (value: string) => {
+    const arr = Object.assign([], paymentTypesChecked);
+    if (arr.indexOf(value) < 0) arr.push(value);
+    else if (arr.indexOf(value) > -1) arr.splice(arr.indexOf(value), 1);
     setQueryParams({
-      cities: `${arr.join(',')}`,
+      paymentTypes: `${arr.join(',')}`,
     });
   };
-
-  const KeywordSearchFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={keywordSearchLabel} />
-      <IconInput
-        value={keywordSearch}
-        placeholder={searchKeywordPlaceholder}
-        icon={<SearchIcon className="text-dark-700" />}
-        onChange={(e) => setKeywordSearch(e.target.value)}
-      />
-    </FilterContainer>
-  );
 
   const PriceRangeFilter = () => (
     <FilterContainer>
@@ -239,64 +193,27 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     </FilterContainer>
   );
 
-  const SortByFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={sortByLabel} className="mb-3" />
-      <RadioGroup onChange={onChangeSortBy} value={sortBy}>
-        {SORT_BY_OPTIONS.map((option, i) => (
-          <Radio key={i} value={option?.value} containerClass="mb-4">
-            {option.label}
-          </Radio>
-        ))}
-      </RadioGroup>
-    </FilterContainer>
-  );
-
   const FilterHeader = () => (
     <FilterContainer>
-      <section className="flex justify-between items-center">
-        <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
+      <section className="flex items-center justify-between ">
         <button
-          className="font-semibold text-base text-primary-1000 capitalize underline"
+          onClick={() => {
+            setQueryParams({
+              filters: '',
+            });
+          }}
+          className="flex flex-row items-center p-2 border-2 rounded-3xl border-primary-1000"
+        >
+          <FiltersIcon className="text-primary-1000" />
+          <span className="ml-2 text-primary-1000">{filtersText}</span>
+        </button>
+        <button
+          className="text-sm font-semibold underline capitalize text-primary-1000"
           onClick={handleClearFilters}
         >
           {clearFiltersText}
         </button>
       </section>
-    </FilterContainer>
-  );
-
-  const DepartureTimesRangeFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={departureTimesLabel} />
-      <TimeRangeSlider
-        initialMin={parseInt(departureTimes[0])}
-        initialMax={parseInt(departureTimes[1])}
-        min={0}
-        max={23}
-        step={1}
-        minDifference={1}
-        type="hour"
-        setMinState={onChangeMinDepartureTimes}
-        setMaxState={onChangeMaxDepartureTimes}
-      />
-    </FilterContainer>
-  );
-
-  const ArrivalTimesRangeFilter = () => (
-    <FilterContainer>
-      <FilterTitle label={arrivalTimesLabel} />
-      <TimeRangeSlider
-        initialMin={parseInt(arrivalTimes[0])}
-        initialMax={parseInt(arrivalTimes[1])}
-        min={0}
-        max={23}
-        step={1}
-        minDifference={1}
-        type="hour"
-        setMinState={onChangeMinArrivalTimes}
-        setMaxState={onChangeMaxArrivalTimes}
-      />
     </FilterContainer>
   );
 
@@ -373,64 +290,177 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         if (i < 2) flightsStops.push(`${i} ${stopText}`);
         else flightsStops.push(`${i} ${stopsText}`);
       }
-      setStopsOptions(flightsStops);
+      setStopsOptions(defineStopOptions(flightsStops));
       // airlines
-      setAirlines(
-        queryFilter?.airlines ? queryFilter.airlines.toString().split(',') : [],
-      );
+      // setAirlines(
+      //   queryFilter?.airlines ? queryFilter.airlines.toString().split(',') : [],
+      // );
       setAirlinesOptions(flightsAirlines.sort(Intl.Collator().compare));
       // cities
-      setCities(
-        queryFilter?.cities ? queryFilter.cities.toString().split(',') : [],
-      );
       setCitiesOptions(flightsCities.sort(Intl.Collator().compare));
     }
   }, [flights]);
 
+  const defineStopOptions = (stps: Array<string>) => {
+    const currentStopSelected = queryFilter?.stops || [];
+    return stps.map((stp) => ({
+      id: stp,
+      label: stp,
+      selected: currentStopSelected.indexOf(stp) !== -1,
+    }));
+  };
+  const availableAirlines = [
+    { id: 'all', name: t('allAirlines') },
+    ...airlinesOptions.map((id) => ({
+      id,
+      name: id,
+    })),
+  ];
+  const availableCities = [
+    { id: 'all', name: t('connectingCities') },
+    ...citiesOptions.map((id) => ({ id, name: id })),
+  ];
+
+  const onChangeStop = (changedStop: string) => {
+    const arr = Object.assign([], stops);
+    if (arr.indexOf(changedStop) < 0) {
+      arr.push(changedStop);
+    } else if (arr.indexOf(changedStop) > -1) {
+      arr.splice(arr.indexOf(changedStop), 1);
+    }
+    setQueryParams({
+      stops: arr.join(','),
+    });
+  };
+
+  const DepartureTimesRangeFilter = () => (
+    <FilterContainer>
+      <FilterTitle label={departureTimesLabel} />
+      <TimeRangeSlider
+        initialMin={parseInt(departureTimes[0])}
+        initialMax={parseInt(departureTimes[1])}
+        min={0}
+        max={23}
+        step={1}
+        minDifference={1}
+        type="hour"
+        setMinState={onChangeMinDepartureTimes}
+        setMaxState={onChangeMaxDepartureTimes}
+      />
+    </FilterContainer>
+  );
+
+  const ArrivalTimesRangeFilter = () => (
+    <FilterContainer>
+      <FilterTitle label={arrivalTimesLabel} />
+      <TimeRangeSlider
+        initialMin={parseInt(arrivalTimes[0])}
+        initialMax={parseInt(arrivalTimes[1])}
+        min={0}
+        max={23}
+        step={1}
+        minDifference={1}
+        type="hour"
+        setMinState={onChangeMinArrivalTimes}
+        setMaxState={onChangeMaxArrivalTimes}
+      />
+    </FilterContainer>
+  );
+
   return (
-    <section className="py-4 h-full overflow-y-scroll">
+    <section className="h-full py-2 overflow-y-scroll">
       <FilterHeader />
-      {/* <KeywordSearchFilter /> */}
-      <PriceRangeFilter />
-      <Divider className="my-4 opacity-0" />
-      {/*
-      <SortByFilter />
-      */}
+      <Selector
+        options={SORT_BY_OPTIONS}
+        onChange={(i) => {
+          onChangeSortBy(i);
+        }}
+        idSelected={
+          queryFilter?.sortBy ? queryFilter.sortBy.toString() : 'sortByPriceAsc'
+        }
+      />
       <Divider className="my-6" />
-      <FilterContainer>
-        <FilterTitle label={stopsLabel} />
-        <Checkbox
-          items={stopsOptions}
-          itemsChecked={stops}
-          onChange={onChangeStops}
-        />
-      </FilterContainer>
-
+      <CollapseUnbordered
+        initialState={true}
+        title={
+          <label className="text-[18px] font-semibold text-dark-1000">
+            {tg('price')}
+          </label>
+        }
+        body={<PriceRangeFilter />}
+      />
       <Divider className="my-6" />
-      <DepartureTimesRangeFilter />
-
+      <CollapseUnbordered
+        initialState={true}
+        title={
+          <label className="text-[18px] font-semibold text-dark-1000">
+            {t('paymentTypes')}
+          </label>
+        }
+        body={
+          <>
+            <Checkbox
+              items={paymentTypes}
+              itemsChecked={paymentTypesChecked}
+              onChange={onChangePaymentTypes}
+            />
+          </>
+        }
+      />
       <Divider className="my-6" />
-      <ArrivalTimesRangeFilter />
-
+      <CollapseUnbordered
+        initialState={true}
+        title={
+          <label className="text-[18px] font-semibold text-dark-1000">
+            {t('stops')}
+          </label>
+        }
+        body={
+          <TabSelector options={stopsOptions} onChangeStop={onChangeStop} />
+        }
+      />
       <Divider className="my-6" />
-      <FilterContainer>
-        <FilterTitle label={airlinesLabel} />
-        <Checkbox
-          items={airlinesOptions}
-          itemsChecked={airlines}
-          onChange={onChangeAirlines}
-        />
-      </FilterContainer>
-
+      <CollapseUnbordered
+        initialState={true}
+        title={
+          <label className="text-[18px] font-semibold text-dark-1000">
+            {t('departureAndArrival')}
+          </label>
+        }
+        body={
+          <>
+            <DepartureTimesRangeFilter />
+            <ArrivalTimesRangeFilter />
+          </>
+        }
+      />
       <Divider className="my-6" />
-      <FilterContainer>
-        <FilterTitle label={connectingAirportsLabel} />
-        <Checkbox
-          items={citiesOptions}
-          itemsChecked={cities}
-          onChange={onChangeCities}
-        />
-      </FilterContainer>
+      <CollapseUnbordered
+        initialState={true}
+        title={
+          <label className="text-[18px] font-semibold text-dark-1000">
+            {t('airlinesAndCities')}
+          </label>
+        }
+        body={
+          <>
+            <Selector
+              options={availableAirlines}
+              idSelected={queryFilter?.airlines?.toString()}
+              onChange={(i) => {
+                onChangeAirline(i);
+              }}
+            />
+            <Selector
+              options={availableCities}
+              idSelected={queryFilter?.cities?.toString()}
+              onChange={(i) => {
+                onChangeCity(i);
+              }}
+            />
+          </>
+        }
+      />
     </section>
   );
 };

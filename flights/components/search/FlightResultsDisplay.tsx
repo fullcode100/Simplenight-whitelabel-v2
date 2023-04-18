@@ -3,47 +3,30 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { FlightSearchRequest } from 'flights/types/request/FlightSearchRequest';
-import {
-  Flight,
-  FlightOffer,
-  FlightSearchResponse,
-  MinRate,
-  Rate,
-} from 'flights/types/response/SearchResponse';
+import { Flight, FlightOffer } from 'flights/types/response/SearchResponse';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 
-import {
-  Button,
-  EmptyState as EmptyStateIllustration,
-  Itinerary,
-} from '@simplenight/ui';
+import { Button, EmptyState as EmptyStateIllustration } from '@simplenight/ui';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
-import { StringGeolocation } from 'types/search/Geolocation';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
-import Loader from '../../../components/global/Loader/Loader';
-import FlightItemRateInfo from './FlightItemRateInfo';
-import { sortByAdapter } from 'flights/adapters/sort-by.adapter';
-import { cancellationTypeAdapter } from 'flights/adapters/cancellation-type.adapter';
-import MapIcon from 'public/icons/assets/map.svg';
 import ListIcon from 'public/icons/assets/list.svg';
 import classnames from 'classnames';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import FlightFilterFormDesktop from './FlightFilterFormDesktop';
 
 import moment from 'moment';
 import { Item } from 'types/cart/CartType';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import SortIcon from 'public/icons/assets/sort.svg';
+import FiltersIcon from 'public/icons/assets/filters.svg';
 import Dropdown from 'components/global/Dropdown/Dropdown';
 import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
-import Sort from '@/icons/assets/sort.svg';
-import Chevron from '@/icons/assets/chevron-down-small.svg';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import FlightsBreadcrumbs from './FlightsBreadcrumbs/FlightsBreadcrumbs';
@@ -78,7 +61,7 @@ const FlightResultsDisplay = ({
   const directText = t('direct', 'Direct');
   const { language } = i18next;
   const router = useRouter();
-  const setQueryParams = useQuerySetter();
+  const setQueryParams = useQueryShallowSetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
 
   const pageItems = 10;
@@ -115,21 +98,17 @@ const FlightResultsDisplay = ({
     startAirports,
     endAirports,
     startDates,
+    sortBy,
 
     selected,
+    filters,
   } = useQuery();
-
-  const [sortBy, setSortBy] = useState<string>('sortByRecommended');
-  const [showSortingDropdown, setShowSortingDropdown] = useState(false);
-
-  const onSortByChange = (_sortBy: string) => {
-    setSortBy(_sortBy);
-  };
 
   const [flights, setFlights] = useState<Flight[]>([]);
   const [offers, setOffers] = useState<FlightOffer[]>([]);
   const [flightsSearched, setFlightsSearched] = useState<Flight[]>([]);
   const [flightsFiltered, setFlightsFiltered] = useState<Flight[]>([]);
+  const [isOpenFilters, setIsOpenFilters] = useState<boolean>(false);
 
   const [selectedFlights, setSelectedFlights] = useState<Flight[]>([]);
 
@@ -404,12 +383,19 @@ const FlightResultsDisplay = ({
           );
       })}
       {flightsFiltered.length > page * pageItems && (
-        <section className="w-full lg:w-fit mx-auto">
+        <section className="w-full mx-auto lg:w-fit">
           <Button onClick={() => setPage(page + 1)}>{loadMoreLabel}</Button>
         </section>
       )}
     </ul>
   );
+
+  const toggleFilters = () => {
+    setQueryParams({
+      filters: queryFilter?.filters === 'open' ? '' : 'open',
+    });
+  };
+
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
 
@@ -448,92 +434,53 @@ const FlightResultsDisplay = ({
 
   return (
     <>
-      {!isLoading && flightsFiltered.length > 0 && (
-        <FlightsBreadcrumbs selectedFlights={selectedFlights} />
-      )}
-      <section className="lg:flex lg:w-full lg:pt-12">
-        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
-          <FlightFilterFormDesktop flights={flightsSearched} />
-        </section>
+      <section className="lg:flex lg:w-full">
+        {!isLoading && flightsFiltered.length > 0 && (
+          <FlightsBreadcrumbs selectedFlights={selectedFlights} />
+        )}
+        {filters === 'open' && (
+          <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
+            <FlightFilterFormDesktop flights={flightsSearched} />
+          </section>
+        )}
         <section className="lg:flex-1 lg:w-[75%] h-full">
           {isLoading ? (
             <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
               <HorizontalSkeletonList />
             </section>
-          ) : flightsFiltered.length > 0 ? (
-            <>
-              {isListView && (
-                <section className="w-full h-full px-5 pb-6">
-                  <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
-                    <section className="py-4">
-                      {flightsFiltered.length}
-                      <span className="lg:hidden"> {flightsFoundLabel}</span>
-                      <span className="hidden lg:inline">
-                        {' '}
-                        {flightsFoundLabelDesktop}
-                      </span>
-                    </section>
-
-                    <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
-                      <section className="flex items-center justify-start w-auto">
-                        <section
-                          className={`absolute z-[9] border border-dark-300 rounded shadow-container top-[100%] right-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
-                            !showSortingDropdown && 'opacity-0 invisible'
-                          }`}
-                        >
-                          <RadioGroup
-                            onChange={onSortByChange}
-                            value={sortBy}
-                            gap="gap-0"
-                          >
-                            <Radio
-                              value="sortByRecommended"
-                              containerClass="px-3 py-2 border-b border-dark-200"
-                            >
-                              {t('sortByRecommended')}
-                            </Radio>
-                            <Radio
-                              value="sortByPriceAsc"
-                              containerClass="px-3 py-2 border-b border-dark-200"
-                            >
-                              {t('sortByPriceAsc')}
-                            </Radio>
-                            <Radio
-                              value="sortByPriceDesc"
-                              containerClass="px-3 py-2 border-b border-dark-200"
-                            >
-                              {t('sortByPriceDesc')}
-                            </Radio>
-                            <Radio
-                              value="sortByDurationAsc"
-                              containerClass="px-3 py-2 border-b border-dark-200"
-                            >
-                              {t('sortByDurationAsc')}
-                            </Radio>
-                            <Radio
-                              value="sortByDurationDesc"
-                              containerClass="px-3 py-2 border-b border-dark-200"
-                            >
-                              {t('sortByDurationDesc')}
-                            </Radio>
-                          </RadioGroup>
-                        </section>
-                      </section>
-
-                      <FlightSecondarySearchOptions />
-                    </section>
-                  </section>
-                  <FlightList />
-                </section>
-              )}
-            </>
           ) : (
-            <EmptyStateContainer
-              text={noResultsLabel}
-              Icon={EmptyStateIllustration}
-              width={114}
-              desktopWidth={223}
-            />
+            <>
+              <section className="w-full h-full px-5 pb-6">
+                <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
+                  <section className="flex flex-row items-center py-3 text-base">
+                    {filters !== 'open' && (
+                      <button
+                        className="p-2 m-2 border-2 rounded-full text-primary-100 border-primary-100"
+                        onClick={toggleFilters}
+                      >
+                        <FiltersIcon className="text-primary-1000" />
+                      </button>
+                    )}
+                    <span>
+                      {`${flightsFiltered.length} ${flightsFoundLabelDesktop}`}{' '}
+                    </span>
+                  </section>
+                  <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
+                    <FlightSecondarySearchOptions />
+                  </section>
+                </section>
+                {flightsFiltered.length > 0 ? (
+                  <FlightList />
+                ) : (
+                  <EmptyStateContainer
+                    text={noResultsLabel}
+                    Icon={EmptyStateIllustration}
+                    width={114}
+                    desktopWidth={223}
+                  />
+                )}
+              </section>
+            </>
           )}
         </section>
       </section>
