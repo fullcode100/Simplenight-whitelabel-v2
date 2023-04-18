@@ -502,6 +502,8 @@ const FlightSearchForm = ({
     }
   }, [fisrtLeavingFrom, lastGoingTo]);
 
+  const [indexDatePicker, setIndexDatePicker] = useState(0);
+
   return (
     <>
       <section className={classNameCollapseButton}>
@@ -693,7 +695,7 @@ const FlightSearchForm = ({
                     }
                     initialEndDate={endDate}
                     onStartDateChange={(value) =>
-                      handleStartDateChange(value, flightIndex)
+                      handleStartDateChange(value, indexDatePicker)
                     }
                     onEndDateChange={handleEndDateChange}
                     openOnStart={clickOnStart ? true : false}
@@ -721,6 +723,7 @@ const FlightSearchForm = ({
                       onClick={() => {
                         setClickOnStart(true);
                         setShowDatePicker(true);
+                        setIndexDatePicker(flightIndex);
                       }}
                     />
                     {direction === 'round_trip' && (

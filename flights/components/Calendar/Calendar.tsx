@@ -80,6 +80,10 @@ const DatePicker = ({
   }, [openOnStart]);
 
   const setDate = (date: string) => {
+    if (equal) {
+      setStartDate(date);
+      return;
+    }
     const limitDate = dayjs().add(1, 'year');
     const endDateAutomatic = dayjs(date).add(
       equal ? 0 : defaultIntervalDays,
