@@ -1,28 +1,16 @@
-import React, { useState } from 'react';
-import BaseInput from 'components/global/Input/BaseInput';
-import InputWrapper from 'components/checkout/Inputs/InputWrapper';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card } from 'types/global/Card';
 import InputMask from 'react-input-mask';
+import { FormField, TextInput } from '@simplenight/ui';
+import { Controller, useFormContext } from 'react-hook-form';
+import { useCustomer } from 'hooks/checkout/useCustomer';
 
-interface CardErrors {
-  name: boolean;
-  number: boolean;
-  expiration: boolean;
-  cvv: boolean;
-}
-
-interface PaymentProps {
-  card: Card;
-  setCard: (value: Card) => void;
-  cardErrors: CardErrors;
-}
-const PaymentForm = ({ card, setCard, cardErrors }: PaymentProps) => {
+const PaymentForm = () => {
   const [tg] = useTranslation('global');
   const requiredText = tg('required', 'Required');
   const nameOnCardText = tg('nameOnCard', 'Name On Card');
   const cardNumberText = tg('cardNumber', 'Credit / Debit Card');
-  const cardExpirationText = tg('cardNumber', 'Credit / Debit Card');
+  const cardExpirationText = tg('cardExpiration', 'Card Expiration');
   const cvvText = tg('cvvNumber', 'Card CVV Number');
   const nameText = tg('name', 'Name');
   const enterCardNumberText = tg('enterCardNumber', 'Enter Your Card Number');
@@ -30,58 +18,90 @@ const PaymentForm = ({ card, setCard, cardErrors }: PaymentProps) => {
     'checkOnBackOfCard',
     'Check On Back Of Card',
   );
+  const [customer] = useCustomer((state) => [state.customer]);
+  const defaultNameOnCard = customer
+    ? `${customer?.first_name} ${customer?.last_name}`
+    : '';
+
+  const methods = useFormContext();
+  const {
+    formState: { errors },
+    register,
+    control,
+  } = methods;
+
+  const getErrors = (key: string) => {
+    if (errors[key]) {
+      return errors[key]!.message as string;
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6">
-      <InputWrapper
+      <FormField
         label={nameOnCardText}
-        labelKey="nameOnCard"
-        subLabel={requiredText}
+        required={{ required: true, label: requiredText }}
+        error={getErrors('creditCardName')}
       >
-        <BaseInput
+        <TextInput
+          state={getErrors('creditCardName') ? 'error' : 'idle'}
           placeholder={nameText}
-          onChange={(e) => setCard({ ...card, name: e.target.value })}
-          error={cardErrors.name}
+          defaultValue={defaultNameOnCard}
+          {...register('creditCardName')}
         />
-      </InputWrapper>
-      <InputWrapper
+      </FormField>
+
+      <FormField
         label={cardNumberText}
-        labelKey="cardNumber"
-        subLabel={requiredText}
+        required={{ required: true, label: requiredText }}
+        error={getErrors('creditCardNumber')}
       >
-        <BaseInput
+        <TextInput
+          state={getErrors('creditCardNumber') ? 'error' : 'idle'}
           placeholder={enterCardNumberText}
-          onChange={(e) => setCard({ ...card, number: e.target.value })}
-          error={cardErrors.number}
+          {...register('creditCardNumber')}
         />
-      </InputWrapper>
-      <InputWrapper
+      </FormField>
+
+      <FormField
         label={cardExpirationText}
-        labelKey="cardExpiration"
-        subLabel={requiredText}
+        required={{ required: true, label: requiredText }}
+        error={getErrors('creditCardExpiration')}
       >
-        <InputMask
-          mask="99/99"
-          maskChar={null}
-          value={card.expiration}
-          onChange={(e) => setCard({ ...card, expiration: e.target.value })}
-        >
-          {() => (
-            <BaseInput placeholder="MM/YY" error={cardErrors.expiration} />
+        <Controller
+          name="creditCardExpiration"
+          control={control}
+          render={({ field }) => (
+            <InputMask
+              mask="99/99"
+              maskChar={null}
+              value={field.value}
+              {...register('creditCardExpiration')}
+              onChange={field.onChange}
+            >
+              {() => (
+                <TextInput
+                  state={getErrors('creditCardExpiration') ? 'error' : 'idle'}
+                  placeholder={'MM/YY'}
+                />
+              )}
+            </InputMask>
           )}
-        </InputMask>
-      </InputWrapper>
-      <InputWrapper
-        label={cvvText}
-        labelKey="cvvNumber"
-        subLabel={requiredText}
-      >
-        <BaseInput
-          placeholder={checkOnBackOfCardText}
-          onChange={(e) => setCard({ ...card, cvv: e.target.value })}
-          error={cardErrors.cvv}
         />
-      </InputWrapper>
+        {/*  */}
+      </FormField>
+
+      <FormField
+        label={cvvText}
+        required={{ required: true, label: requiredText }}
+        error={getErrors('creditCardCVV')}
+      >
+        <TextInput
+          state={getErrors('creditCardCVV') ? 'error' : 'idle'}
+          placeholder={checkOnBackOfCardText}
+          {...register('creditCardCVV')}
+        />
+      </FormField>
     </div>
   );
 };

@@ -1,38 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Divider } from 'antd';
-import InputWrapper from 'components/checkout/Inputs/InputWrapper';
-import CountrySelect from 'components/global/CountrySelect/CountrySelect';
-import BaseInput from '../../global/Input/BaseInput';
-import { BillingAddress } from 'components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
-import { ChangeEvent } from 'react';
-import { Customer } from 'types/cart/CartType';
+
+import { FormField, TextInput } from '@simplenight/ui';
+import { useFormContext } from 'react-hook-form';
+import countryList from 'country-list';
+import Select, { SelectOption } from '../Select/Select';
+import { useCustomer } from 'hooks/checkout/useCustomer';
 
 interface BillingFormProps {
-  billingAddress: BillingAddress;
-  setBillingAddress: (value: BillingAddress) => void;
+  setCountry: (SelectOption: SelectOption) => void;
 }
-const BillingAddressForm = ({
-  billingAddress,
-  setBillingAddress,
-}: BillingFormProps) => {
+const BillingAddressForm = ({ setCountry }: BillingFormProps) => {
   const [g] = useTranslation('global');
+  const [customer] = useCustomer((state) => [state.customer]);
   const billingAddressLabel = g('billingAddress', 'Billing Address');
   const requiredText = g('required', 'Required');
   const countryLabel = g('country', 'Country');
   const stateProvinceLabel = g('stateProvince', 'State / Province');
   const cityLabel = g('city', 'City');
-  const zipCodeLabel = g('zipCode', 'Postal / Zip Code');
+  const postalCodeLabel = g('zipCode', 'Postal / Zip Code');
   const address = g('address', 'Address');
+  const streetAddress = g('streetAddress', 'Street Address');
+  const streetAddressLine2 = g('streetAddress2', 'Street Address Line2');
 
-  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputName = e.target.name as keyof BillingAddress;
-    const updatedAddress = { ...billingAddress };
-    updatedAddress[inputName] = e.target.value as string;
-    setBillingAddress(updatedAddress);
-  };
-  const handleCountryChange = (countryCode: string) => {
-    setBillingAddress({ ...billingAddress, countryCode });
+  const countries = countryList.getData();
+  countries.sort(function (a, b) {
+    const textA = a.name.toUpperCase();
+    const textB = b.name.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
+  const countryOptions = Object.values(countries).map((label) => {
+    return { value: label.code, label: label.name };
+  });
+  const customerCountry = countryOptions.find(
+    (option) => option.value.toUpperCase() === customer?.country.toUpperCase(),
+  );
+
+  const defaultCountry = customerCountry || countryOptions[0];
+
+  useEffect(() => {
+    setCountry(defaultCountry);
+  }, []);
+
+  const methods = useFormContext();
+  const {
+    formState: { errors },
+    register,
+  } = methods;
+
+  const getErrors = (key: string) => {
+    if (errors[key]) {
+      return errors[key]!.message as string;
+    }
   };
 
   return (
@@ -40,48 +60,66 @@ const BillingAddressForm = ({
       <Divider />
       <h5 className="text-dark-800 text-base ">{billingAddressLabel}</h5>
       <div className="grid md:grid-cols-2 gap-4">
-        <InputWrapper label={'Street Address'} labelKey="streetAddress">
-          <BaseInput
-            name={'address1'}
+        <FormField
+          label={streetAddress}
+          required={{ required: true, label: requiredText }}
+          error={getErrors('address1')}
+        >
+          <TextInput
+            state={getErrors('address1') ? 'error' : 'idle'}
             placeholder={address}
-            onChange={(e) => handleAddressChange(e)}
+            {...register('address1')}
           />
-        </InputWrapper>
-        <InputWrapper label={'Street Address Line 2'} labelKey="streetAddress2">
-          <BaseInput
+        </FormField>
+
+        <FormField label={streetAddressLine2} error={getErrors('address2')}>
+          <TextInput
+            state={getErrors('address2') ? 'error' : 'idle'}
             placeholder={address}
-            name={'address2'}
-            onChange={(e) => handleAddressChange(e)}
+            {...register('address2')}
           />
-        </InputWrapper>
-        <InputWrapper label={countryLabel} labelKey="country">
-          <CountrySelect
-            value={billingAddress.countryCode}
-            onChange={(value: string) => handleCountryChange(value)}
-            autoFocus={false}
+        </FormField>
+        <FormField label={countryLabel} error={getErrors('country')}>
+          <Select
+            options={countryOptions}
+            defaultValue={defaultCountry}
+            onChange={(option) => setCountry(option)}
           />
-        </InputWrapper>
-        <InputWrapper label={stateProvinceLabel} labelKey="stateProvince">
-          <BaseInput
-            name="state"
+        </FormField>
+        <FormField
+          label={stateProvinceLabel}
+          error={getErrors('state')}
+          required={{ required: true, label: requiredText }}
+        >
+          <TextInput
+            state={getErrors('state') ? 'error' : 'idle'}
             placeholder={stateProvinceLabel}
-            onChange={(e) => handleAddressChange(e)}
+            {...register('state')}
           />
-        </InputWrapper>
-        <InputWrapper label={cityLabel} labelKey="city">
-          <BaseInput
-            name="city"
+        </FormField>
+        <FormField
+          label={cityLabel}
+          error={getErrors('city')}
+          required={{ required: true, label: requiredText }}
+        >
+          <TextInput
+            state={getErrors('city') ? 'error' : 'idle'}
             placeholder={cityLabel}
-            onChange={(e) => handleAddressChange(e)}
+            {...register('city')}
           />
-        </InputWrapper>
-        <InputWrapper label={zipCodeLabel} labelKey="zipCode">
-          <BaseInput
-            placeholder={zipCodeLabel}
-            onChange={(e) => handleAddressChange(e)}
-            name="postalCode"
+        </FormField>
+
+        <FormField
+          label={postalCodeLabel}
+          error={getErrors('postalCode')}
+          required={{ required: true, label: requiredText }}
+        >
+          <TextInput
+            state={getErrors('postalCode') ? 'error' : 'idle'}
+            placeholder={postalCodeLabel}
+            {...register('postalCode')}
           />
-        </InputWrapper>
+        </FormField>
       </div>
     </div>
   );

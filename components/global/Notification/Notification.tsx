@@ -39,38 +39,40 @@ export const notification = (
 
   return toast.custom(
     (t) => (
-      <Transition
-        show={t.visible}
-        as={Fragment}
-        enter="transform ease-out duration-300 transition"
-        enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-        enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-        leave="transition ease-in duration-100"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <section
-          className={`max-w-sm w-full border shadow-container rounded ${setBG()}`}
+      <section className="w-full max-w-7xl mx-auto flex justify-end lg:pt-[80px]">
+        <Transition
+          show={t.visible}
+          as={Fragment}
+          enter="transform ease-out duration-300 transition"
+          enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+          enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
         >
-          <section className="flex gap-3.5 items-between p-4">
-            <div className="shrink-0">{setIcon()}</div>
-            <section className="grid gap-2">
-              <p className="text-base leading-[22px] font-semibold text-dark-1000">
-                {title}
-              </p>
-              <p className="text-sm leading-[22px] text-dark-1000">
-                {description}
-              </p>
+          <section
+            className={`max-w-sm w-full border shadow-container rounded ${setBG()}`}
+          >
+            <section className="flex gap-3.5 items-between p-4">
+              <div className="shrink-0">{setIcon()}</div>
+              <section className="grid gap-2">
+                <p className="text-base leading-[22px] font-semibold text-dark-1000">
+                  {title}
+                </p>
+                <p className="text-sm leading-[22px] text-dark-1000">
+                  {description}
+                </p>
+              </section>
+              <div className="shrink-0">
+                <button type="button" onClick={() => toast.dismiss(t.id)}>
+                  <span className="sr-only">Close</span>
+                  <Close className="h-3 w-3" aria-hidden="true" />
+                </button>
+              </div>
             </section>
-            <div className="shrink-0">
-              <button type="button" onClick={() => toast.dismiss(t.id)}>
-                <span className="sr-only">Close</span>
-                <Close className="h-3 w-3" aria-hidden="true" />
-              </button>
-            </div>
           </section>
-        </section>
-      </Transition>
+        </Transition>
+      </section>
     ),
     { duration, position },
   );

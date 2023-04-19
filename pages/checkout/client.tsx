@@ -32,6 +32,7 @@ import {
   PICKUP_POINT_UNIT,
   questionsFormDataDestructuring,
 } from 'helpers/bookingQuestions';
+import { useCustomer } from 'hooks/checkout/useCustomer';
 
 interface LayoutProps {
   children: ReactNode;
@@ -47,9 +48,13 @@ const Client = () => {
   const [travelersUiSchema, setTravelersUiSchema] = useState<any>();
   const [isRemoved, setIsRemoved] = useState(false);
 
+  const [customer, updateCustomer] = useCustomer((state) => [
+    state.customer,
+    state.updateCustomer,
+  ]);
+
   const currency = getCurrency();
 
-  let primaryContactData: FormData | undefined;
   const bookingAnswerData: any = {};
   let itemsForm: any[] | undefined = [];
   let hasAdditionalRequests = false;
@@ -155,23 +160,24 @@ const Client = () => {
             first_name: {
               type: 'string',
               title: 'First Name',
-              default: '',
+              default: customer?.first_name || '',
             },
             last_name: {
               type: 'string',
               title: 'Last Name',
-              default: '',
+              default: customer?.last_name || '',
             },
             phone: {
               type: 'string',
               title: 'Phone Number',
-              default: '',
+              defaultCode: customer?.country || 'us',
+              default: customer?.phone_number || '',
             },
             email: {
               type: 'string',
               format: 'email',
               title: 'Email Address',
-              default: '',
+              default: customer?.email || '',
             },
           },
         },
@@ -232,11 +238,6 @@ const Client = () => {
     } catch (error) {
       return error;
     }
-  };
-
-  const handlePrimaryContactFormChange = (data: IChangeEvent<FormData>) => {
-    const formDataCopy = deepCopy(data.formData);
-    primaryContactData = formDataCopy;
   };
 
   const questions = cart?.items[0]?.item_data?.extra_data?.booking_questions;
@@ -304,18 +305,25 @@ const Client = () => {
     router.push(ITINERARY_URI);
   };
 
-  const getAddCustomerRequestBody = (): { customer: AddCustomerRequest } => {
+  const getAddCustomerRequestBody = (primaryContactData: {
+    customer: AddCustomerRequest;
+  }) => {
     const primaryContactCopy = deepCopy(primaryContactData);
+
     const requestItems = itemsForm?.map(createAdditionalItem);
     const request: any = hasAdditionalRequests
       ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
     const phone = JSON?.parse?.(primaryContactCopy.phone || '{}');
     request.customer.phone_number =
-      phone?.phone_number || cart.customer.phone_number;
+      phone?.phone_number ||
+      cart.customer.phone_number ||
+      customer?.phone_number;
     request.customer.phone_prefix =
-      phone?.phone_prefix || cart.customer.phone_prefix;
-    request.customer.country = phone?.country || '';
+      phone?.phone_prefix ||
+      cart.customer.phone_prefix ||
+      customer?.phone_prefix;
+    request.customer.country = phone?.country || customer?.country;
 
     delete request.customer.phone;
     delete request.customer.primary_contact;
@@ -325,10 +333,10 @@ const Client = () => {
 
   const continueToPayment = async (values: any) => {
     if (!checkFormsBeforeContinue()) return;
-    if (!cart || cart.total_item_qty <= 0 || !primaryContactData) return;
-
+    if (!cart || cart.total_item_qty <= 0 /* || !primaryContactData */) return;
     const customerUpdater = new ClientCartCustomerUpdater();
-    const requestBody = getAddCustomerRequestBody();
+    const requestBody = getAddCustomerRequestBody(values.formData);
+    updateCustomer(requestBody.customer);
 
     Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
       const itemData: any = {
@@ -438,7 +446,6 @@ const Client = () => {
                   <ClientForm
                     schema={travelersFormSchemaWithClass}
                     uiSchema={travelersUiSchema}
-                    onChange={handlePrimaryContactFormChange}
                     onSubmit={continueToPayment}
                   >
                     <ClientCart

@@ -171,7 +171,9 @@ const ClientCartItem = ({
             schema={bookingQuestionSchema.schema}
             uiSchema={bookingQuestionSchema.uiSchema}
             onChange={(data) => handleChangeAnswers(data, null)}
-          />
+          >
+            <></>
+          </FormSchema>
         </section>
       )}
       {travelerQuestionSchema &&

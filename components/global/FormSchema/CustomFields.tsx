@@ -66,7 +66,6 @@ export const CustomPhoneNumber = (props: any) => {
   const { onChange, placeholder, required, schema } = props;
   const [t] = useTranslation('hotels');
   const PhoneNumber = t('phone_number', placeholder);
-
   return (
     <NewPhoneNumberInput
       onChange={onChange}

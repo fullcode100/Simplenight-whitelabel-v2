@@ -182,5 +182,15 @@
   "itSeemsSomethingWentWrong": "It seems something went wrong",
   "pageNotFound": "Page Not Found",
   "sorryTheRequestedPage": "Sorry, The Requested Page Could Not Be Found",
-  "goToHome": "Go To Home"
+  "goToHome": "Go To Home",
+  "fillOutThisField": "Please fill out this field",
+  "enterValidCreditCard": "Please enter a valid credit card number",
+  "enterValidCardExpirationDate": "Please enter a valid card expiration date",
+  "enterValidCardCVV": "Please enter a valid card CVV number",
+  "enterValidBillinAddress": "Please enter a valid billing address",
+  "enterUpTo50Characters": "Please enter up to 50 characters",
+  "enterValidStateProvince": "Please enter a valid State/Province",
+  "enterValidCity": "Please enter a valid City",
+  "enterValidZIPCode": "Please a valid Zip Code",
+  "stateShouldHaveAtMost2Characters": "Province/State should have at most 2 characters "
 }

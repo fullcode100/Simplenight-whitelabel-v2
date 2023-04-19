@@ -214,5 +214,14 @@
   "itSeemsSomethingWentWrong": "Parece que algo salió mal",
   "pageNotFound": "Página no encontrada",
   "sorryTheRequestedPage": "Lo siento, la página solicitada no se ha encontrado",
-  "goToHome": "Ir a inicio"
+  "goToHome": "Ir a inicio",
+  "fillOutThisField": "Por favor rellene este campo",
+  "enterValidCreditCard": "Por favor ingrese un número de tarjeta válido",
+  "enterValidCardExpirationDate": "Por favor ingrese una fecha de vencimiento válida",
+  "enterValidBillinAddress": "Por favor ingrese una dirección de facturación válida",
+  "enterUpTo50Characters": "Por favor ingrese hasta 50 caracteres",
+  "enterValidStateProvince": "Por favor ingrese un Estado/Provincia válido",
+  "enterValidCity": "Por favor ingrese una Ciudad válida",
+  "enterValidZIPCode": "Por favor ingrese un Codigo Postal válido",
+  "stateShouldHaveAtMost2Characters": "Provincia/Estado debe tener como máximo 2 caracteres"
 }

@@ -7,11 +7,6 @@ import Script from 'next/script';
 import valid from 'card-validator';
 import dynamic from 'next/dynamic';
 
-// Credentials
-import {
-  SQUARE_SANDBOX_APP_ID,
-  SQUARE_SANDBOX_LOCATION_ID,
-} from 'config/paymentCredentials';
 // Components
 import Button from 'components/global/Button/Button';
 // Layout Components
@@ -40,6 +35,13 @@ import InputWrapper from 'components/checkout/Inputs/InputWrapper';
 import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
 import { BillingAddress } from '../../components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
 import useBog from 'hooks/bog/useBog';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, useForm } from 'react-hook-form';
+import { usePaymentFormSchema } from 'hooks/schemas/usePaymentFormSchema';
+import { SelectOption } from '../../components/checkout/Select/Select';
+import { FormField, TextInput } from '@simplenight/ui';
+import { useCustomer } from 'hooks/checkout/useCustomer';
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
@@ -64,6 +66,7 @@ const Payment = () => {
     'iHaveReviewed',
     'I have reviewed and agree to the ',
   );
+  const { paymentFormSchema } = usePaymentFormSchema();
 
   const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
   const fullAmountLabel = t('fullAmount', 'Full Amount');
@@ -79,10 +82,31 @@ const Payment = () => {
   const [acceptExpediaTerms, setAcceptExpediaTerms] = useState(false);
   const [errorExpediaTerms, setErrorExpediaTerms] = useState(false);
   const [prodExpedia, setProdExpedia] = useState(false);
+  const [country, setCountry] = useState<SelectOption | undefined>();
   const { isBog } = useBog();
+
+  type PaymentFormSchema = z.infer<typeof paymentFormSchema>;
+  const methods = useForm<PaymentFormSchema>({
+    resolver: zodResolver(paymentFormSchema),
+  });
+
+  const onSubmit = (data: PaymentFormSchema) => {
+    if (expediaTerms && !acceptExpediaTerms) {
+      return setErrorExpediaTerms(true);
+    }
+    if (!terms) {
+      return setErrorTerms(true);
+    }
+    if (loading) return;
+    setLoading(true);
+
+    bookItem(data);
+  };
+
   const currency = getCurrency();
 
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
+  const [customer] = useCustomer((state) => [state.customer]);
   const { getCookie } = useCookies();
   const GoogleScript = (scriptData: ScriptProps) => {
     const { value, bookingId, referralItemId, startDate, endDate } = scriptData;
@@ -195,32 +219,7 @@ const Payment = () => {
     const referralItemId = referral[1];
     triggerGTagEvent(bookingId, referralItemId, referralCompany);
   };
-  const dateIsInCorrectFormat = (val: string) => {
-    const datePattern = /\d\d\/\d\d/;
-    return datePattern.test(val);
-  };
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-  const validateCard = () => {
-    const validName = valid.cardholderName(card.name).isValid;
-    const validNumber = valid.number(card.number).isValid;
-    const validExpiration =
-      valid.expirationDate(card.expiration).isValid &&
-      dateIsInCorrectFormat(card.expiration);
-    const validCVV = valid.cvv(card.cvv).isValid;
-    setCardErrors({
-      name: !validName,
-      number: !validNumber,
-      expiration: !validExpiration,
-      cvv: !validCVV,
-    });
-    const cardIsValid = validName && validNumber && validExpiration && validCVV;
-    return cardIsValid;
-  };
+
   const [isVerified, setIsVerified] = useState(false);
   const sessionID = `sn2-${cart?.cart_id}`;
 
@@ -236,41 +235,33 @@ const Payment = () => {
     },
   };
 
-  const handleBooking = () => {
-    const cardIsValid = validateCard();
-    if (!cardIsValid) {
-      return scrollToTop();
-    }
-    if (expediaTerms && !acceptExpediaTerms) {
-      return setErrorExpediaTerms(true);
-    }
-    if (!terms) {
-      return setErrorTerms(true);
-    }
-    if (loading) return;
-    setLoading(true);
-
-    bookItem();
-  };
-  const bookItem = async () => {
-    const country = cart?.customer.country;
+  const bookItem = async (paymentFormData: PaymentFormSchema) => {
+    const countryCode = country?.value || customer?.country;
     const referral = getCookie('referral')?.split('=') || 'no-refferal';
     const referralCompany = referral[0];
     if (!country || !terms || !cart) {
       return;
     }
 
-    const { address1, address2, city, state, postalCode, countryCode } =
-      billingAddress;
+    const {
+      address1,
+      address2,
+      city,
+      state,
+      postalCode,
+      creditCardName,
+      creditCardNumber,
+      creditCardExpiration,
+      creditCardCVV,
+    } = paymentFormData;
     const bookingParameters = {
       cart_id: cart?.cart_id,
       referral: referralCompany,
       payment_request: {
-        payment_method: 'CARD',
-        name_on_card: card.name,
-        credit_card_number: card.number,
-        cvv: card.cvv,
-        expiry_date: card.expiration,
+        name_on_card: creditCardName,
+        credit_card_number: creditCardNumber,
+        cvv: creditCardCVV,
+        expiry_date: creditCardExpiration,
         billing_address: {
           address2: address1,
           address3: address2,
@@ -331,36 +322,6 @@ const Payment = () => {
       item.extended_data?.terms_and_conditions &&
       item.extended_data?.terms_and_conditions?.length > 0,
   );
-  const [card, setCard] = useState<Card>({
-    number: '',
-    name: '',
-    expiration: '',
-    cvv: '',
-  });
-  const [cardErrors, setCardErrors] = useState({
-    number: false,
-    name: false,
-    expiration: false,
-    cvv: false,
-  });
-
-  const [billingAddress, setBillingAddress] = useState<BillingAddress>({
-    address1: '',
-    address2: '',
-    countryCode: cart?.customer.country || '',
-    state: '',
-    city: '',
-    postalCode: '',
-  });
-
-  useEffect(() => {
-    if (cart) {
-      setBillingAddress({
-        ...billingAddress,
-        countryCode: cart?.customer.country,
-      });
-    }
-  }, [cart]);
 
   useEffect(() => {
     const sdkInit = async () => {
@@ -378,24 +339,24 @@ const Payment = () => {
           <section className="w-full lg:w-[840px] lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container overflow-hidden">
             <CheckoutMain>
               <CheckoutForm title={'Payment Information'}>
-                <PaymentForm
-                  card={card}
-                  setCard={(value: Card) => setCard(value)}
-                  cardErrors={cardErrors}
-                />
+                <FormProvider {...methods}>
+                  <form>
+                    <PaymentForm />
+                    <section className="mt-4">
+                      <FormField
+                        label={amountForThisCardLabel}
+                        required={{ required: true, label: fullAmountLabel }}
+                      >
+                        <TextInput
+                          value={cart?.rate.total.full.formatted}
+                          state="disabled"
+                        />
+                      </FormField>
+                    </section>
 
-                <InputWrapper
-                  label={amountForThisCardLabel}
-                  labelKey={'amountForThisCard'}
-                  subLabel={fullAmountLabel}
-                  subLabelKey={'fullAmount'}
-                  value={cart?.rate.total.full.formatted}
-                  disabled={true}
-                />
-                <BillingAddressForm
-                  billingAddress={billingAddress}
-                  setBillingAddress={setBillingAddress}
-                />
+                    <BillingAddressForm setCountry={setCountry} />
+                  </form>
+                </FormProvider>
               </CheckoutForm>
               <section className="px-5 pb-6">
                 <Terms
@@ -458,10 +419,12 @@ const Payment = () => {
               <section className="w-full lg:w-[145px]">
                 <Button
                   value={loading ? loadingLabel : checkoutLabel}
-                  disabled={loading || !isVerified}
+                  disabled={
+                    loading /* TODO: @gaston-simplenight|| !isVerified */
+                  }
                   size={'full'}
                   className="text-[18px]"
-                  onClick={handleBooking}
+                  onClick={methods.handleSubmit(onSubmit)}
                 />
               </section>
             </CheckoutFooter>

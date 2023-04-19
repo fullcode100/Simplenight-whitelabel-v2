@@ -163,7 +163,7 @@ const PhoneNumberInput = ({
     );
   };
   return (
-    <section ref={inputRef} className="relative">
+    <section ref={inputRef} className=" relative  mt-2 ">
       <section
         className={`flex items-center  w-full border px-3
         ${height} ${colors[state]} ${open ? 'rounded-t' : 'rounded'}`}
