@@ -10,7 +10,11 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 
-import { Button, EmptyState as EmptyStateIllustration } from '@simplenight/ui';
+import {
+  Button,
+  EmptyState as EmptyStateIllustration,
+  IconWrapper,
+} from '@simplenight/ui';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
 import { useSelector } from 'react-redux';
@@ -19,6 +23,7 @@ import ListIcon from 'public/icons/assets/list.svg';
 import classnames from 'classnames';
 import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import FlightFilterFormDesktop from './FlightFilterFormDesktop';
+import ChevronRight from 'public/icons/assets/chevron-right.svg';
 
 import moment from 'moment';
 import { Item } from 'types/cart/CartType';
@@ -29,7 +34,8 @@ import Dropdown from 'components/global/Dropdown/Dropdown';
 import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
-import FlightsBreadcrumbs from './FlightsBreadcrumbs/FlightsBreadcrumbs';
+import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
+import FlightInfo from '../FlightInfo/FlightInfo';
 
 declare let window: CustomWindow;
 
@@ -436,7 +442,33 @@ const FlightResultsDisplay = ({
     <>
       <section className="lg:flex lg:w-full">
         {!isLoading && flightsFiltered.length > 0 && (
-          <FlightsBreadcrumbs selectedFlights={selectedFlights} />
+          <FlightsBreadcrumbs
+            step={1}
+            content={selectedFlights.map((flight, idx) => {
+              const flightSegments = flight.segments.collection;
+              const firstSegment = flightSegments[0];
+              const lastSegment = flightSegments[flightSegments.length - 1];
+              const airline = firstSegment.marketingCarrier;
+              const departure = firstSegment.departureAirport;
+              const arrival = lastSegment.arrivalAirport;
+              const isLastFlight = idx === selectedFlights.length - 1;
+              return (
+                <>
+                  <FlightInfo
+                    key={flight.legId}
+                    airline={airline}
+                    departure={departure}
+                    arrival={arrival}
+                  />
+                  {!isLastFlight && (
+                    <IconWrapper size={20}>
+                      <ChevronRight className="text-dark-500" />
+                    </IconWrapper>
+                  )}
+                </>
+              );
+            })}
+          />
         )}
         {filters === 'open' && (
           <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">

@@ -21,6 +21,7 @@ import FlightsIcon from 'public/icons/assets/flights1.svg';
 import FlightSecondarySearchOptions from './components/search/FlightSecondarySearchOptions';
 import FlightCheckoutDisplay from './components/checkout/FlightCheckoutDisplay';
 import FlightCheckoutItemDisplay from './components/checkout/FlightCheckoutItemDesplay';
+import PassengerInformationDisplay from './components/PassengerInformation/PassengerInformationDisplay';
 
 export const FLIGHT_CATEGORY = 'flights';
 
@@ -63,7 +64,8 @@ const Category: CategoryOption = {
 };
 
 Category.resultsDisplay = <FlightResultsDisplay FlightCategory={Category} />;
-Category.detailDisplay = <FlightDetailDisplay Category={Category} />;
+// Category.detailDisplay = <FlightDetailDisplay Category={Category} />;
+Category.detailDisplay = <PassengerInformationDisplay Category={Category} />;
 Category.itineraryDisplay = <FlightItineraryDisplay Category={Category} />;
 Category.breakdownDisplay = <FlightBreakdownDisplay Category={Category} />;
 Category.checkoutDisplay = <FlightCheckoutDisplay Category={Category} />;

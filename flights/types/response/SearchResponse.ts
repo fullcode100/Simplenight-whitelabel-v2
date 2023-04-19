@@ -42,8 +42,6 @@ export interface FlightSegment {
   marketingCarrier: string;
   marketingCarrierName: string;
   marketingFlightNumber: string;
-
-  bookingClass: string | null;
 }
 
 export interface FlightOffer {
