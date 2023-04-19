@@ -44,6 +44,7 @@ import { detailAdapter } from '../../adapters/detail.adapter';
 import { DetailItem } from 'hotels/types/adapters/DetailItem';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import useMediaViewport from '../../../hooks/media/useMediaViewport';
+import AmenitiesGrid from './AmenitiesGridHotels';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 type FetchHotel = () => Promise<DetailItem>;
@@ -109,6 +110,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const roomsLabel = t('rooms', 'Rooms');
   const locationLabel = t('location', 'Location');
   const detailsLabel = t('details', 'Details');
+  const amenitiesLabel = t('amenities', 'Amenities');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
 
@@ -442,6 +444,29 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             </section>
           </section>
           <Divider />
+          <section className="lg:px-20 lg:py-12">
+            <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+              {amenitiesLabel}
+            </span>
+            <AmenitiesGrid
+              amenities={[
+                'Breakfast',
+                'Pool',
+                'Casino',
+                'A.C.',
+                'Restaurant',
+                'WiFi',
+                'Bar',
+                'Hot Tub',
+                'Spa',
+                'Sauna',
+                'Laundry',
+                'Pet Friendly',
+              ]}
+            />
+          </section>
+          <Divider />
+
           {/* It is not yet applicable but I have left the desktop styles configured for when it is to be used */}
           {/* <section className="lg:px-20 lg:py-8">
             <CustomerReviewsSection />

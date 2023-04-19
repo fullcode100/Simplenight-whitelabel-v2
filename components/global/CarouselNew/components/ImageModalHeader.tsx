@@ -9,7 +9,7 @@ interface HeaderProps {
 
 const ImageModalHeader = ({ closeModal, title }: HeaderProps) => {
   return (
-    <header className="sticky flex gap-1 justify-between items-center pt-12 pb-5 px-5">
+    <header className="sticky flex gap-1 justify-between items-center pt-20 pb-5 px-5">
       <p className="font-semibold text-base text-white">
         {fromUpperCaseToCapitilize(title)}
       </p>

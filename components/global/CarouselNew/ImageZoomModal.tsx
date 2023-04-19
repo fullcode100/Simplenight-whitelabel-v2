@@ -64,13 +64,13 @@ const ImageZoomModal = ({
           autoPlay={false}
           customLeftArrow={
             <CustomArrow
-              className="z-10 absolute right-16 bottom-1"
+              className="z-10 absolute left-0 w-24 h-24"
               position="left"
             />
           }
           customRightArrow={
             <CustomArrow
-              className="z-10 absolute right-3 bottom-1"
+              className="z-10 absolute right-0 w-24 h-24"
               position="right"
             />
           }
