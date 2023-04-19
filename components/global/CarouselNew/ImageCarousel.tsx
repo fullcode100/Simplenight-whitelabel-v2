@@ -13,6 +13,7 @@ interface ImageCarouselProps {
   shouldResetAutoPlay?: boolean;
   infinite?: boolean;
   showIndexDot?: boolean;
+  height?: string;
 }
 
 const ImageCarousel = ({
@@ -23,6 +24,7 @@ const ImageCarousel = ({
   shouldResetAutoPlay = false,
   infinite = true,
   showIndexDot = true,
+  height = '250px',
 }: ImageCarouselProps) => {
   const [showImageZoomModal, setShowImageZoomModal] = useState(false);
 
@@ -87,7 +89,7 @@ const ImageCarousel = ({
             <Image
               key={index + image}
               width="375px"
-              height="200px"
+              height={height}
               layout="responsive"
               src={image}
               alt=""

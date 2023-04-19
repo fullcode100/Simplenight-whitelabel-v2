@@ -1,20 +1,17 @@
+import { Pricing } from '@simplenight/ui';
 import { Room } from 'hotels/types/response/SearchResponse';
 import RoomCardHeader from './RoomCard/RoomCardHeader';
 import Divider from 'components/global/Divider/Divider';
-import BreakdownSummary from 'hotels/components/PriceBreakdownModal/components/BreakdownSummary';
 import RoomCardActions from './RoomCard/RoomCardActions';
 import AmenitiesItem from '../../Amenities/components/AmenitiesItem';
 import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
-import { useState } from 'react';
+import { ReactChild, ReactFragment, ReactPortal, useState } from 'react';
 import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
-import { useTranslation } from 'react-i18next';
-import RoomPriceBreakdownModal from 'hotels/components/PriceBreakdownModal/RoomPriceBreakdownModal';
-import useModal from 'hooks/layoutAndUITooling/useModal';
-import PartialRefund from 'components/global/PartialRefund/PartialRefund';
-import Image from 'next/image';
+import { ReactI18NextChild, useTranslation } from 'react-i18next';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface RoomsProps {
   room: Room;
@@ -27,7 +24,6 @@ interface RoomsProps {
 
 const cancellableType = 'FREE_CANCELLATION';
 const nonRefundableType = 'NON_REFUNDABLE';
-const partialRefund = 'PARTIAL_REFUND';
 const FALLBACK_HOTEL_RESULT = '/images/hotels/fallbackRoomDetail.jpg';
 
 const RoomCard = ({
@@ -39,6 +35,8 @@ const RoomCard = ({
   roomsQty,
 }: RoomsProps) => {
   const [t] = useTranslation('hotels');
+  const [tg] = useTranslation('global');
+
   const [showAmenitiesModal, setShowAmenitiesModal] = useState(false);
   const { name: roomName, rates, amenities } = room;
   const { min_rate: minRate } = rates;
@@ -46,69 +44,53 @@ const RoomCard = ({
   const itemToBook = {
     sn_booking_code: minRate.sn_booking_code,
   };
-  const viewAllAmenitiesText = t('viewAllAmenities', 'View all amenities');
+
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
-  const partialRefundable =
-    cancellationPolicy?.cancellation_type === partialRefund;
 
   const images = room?.photos?.map((photo) => photo.url) ?? [];
-  const [isOpen, onOpen, onClose] = useModal();
+  const discounts = rates?.avg_amount?.discounts;
 
-  const priceBreakdownText = t('Price Breakdown', 'Price Breakdown');
+  const totalBeforeDiscount =
+    rates?.min_rate.rate?.rate_breakdown.discounts?.total_amount_before_apply;
+  let percentageToApply:
+    | boolean
+    | ReactChild
+    | ReactFragment
+    | ReactPortal
+    | Iterable<ReactI18NextChild>
+    | null
+    | undefined;
+  let amountToApply;
+  const tRoom = tg('room', 'Room');
+  const tRooms = tg('rooms', 'Rooms');
+  const ROOM_TEXT = usePlural(roomsQty, tRoom, tRooms);
+  const tNight = tg('night', 'Night');
+  const tNights = tg('nights', 'Nights');
+
+  const NIGHT_TEXT = usePlural(nights, tNight, tNights);
+  if (discounts) {
+    ({
+      percentage_to_apply: percentageToApply,
+      amount_to_apply: amountToApply,
+    } = discounts);
+  }
 
   const FallbackImage = () => (
-    <Image
-      width="375px"
-      height="200px"
-      layout="responsive"
-      loading="lazy"
-      src={FALLBACK_HOTEL_RESULT}
-      alt=""
-      objectFit="cover"
+    <section
+      className="min-w-[45%] min-h-[300px] block"
+      style={{
+        backgroundImage: `url(${FALLBACK_HOTEL_RESULT})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+      }}
     />
   );
 
-  const PriceBreakDown = () => (
-    <>
-      <RoomPriceBreakdownModal
-        isOpen={isOpen}
-        onClose={onClose}
-        rate={rates}
-        nights={nights}
-        roomsQty={roomsQty}
-      />
-      <button onClick={onOpen} className="text-sm underline text-primary-1000">
-        {priceBreakdownText}
-      </button>
-    </>
-  );
-
-  return (
-    <section className="flex flex-col justify-between my-3 overflow-hidden border rounded shadow-container lg:my-0 border-dark-200">
-      {images?.length > 0 ? (
-        <ImageCarousel
-          images={images}
-          title={roomName}
-          showDots={true}
-          showIndexDot={false}
-        />
-      ) : (
-        <FallbackImage />
-      )}
-      <RoomCardHeader
-        roomDescription={roomName}
-        rates={rates}
-        cancellationPolicy={cancellationPolicy}
-        amenities={amenities}
-        itemToBook={itemToBook}
-        nights={nights}
-        guests={guests}
-        services={room.services}
-        rooms={roomsQty}
-      />
-      <Divider />
+  const Amenities = () => (
+    <section>
       {amenities?.length > 0 && (
         <>
           <section className="flex flex-col gap-2 p-4">
@@ -133,47 +115,93 @@ const RoomCard = ({
               onClose={() => setShowAmenitiesModal(false)}
               amenities={amenities}
             />
-            {amenities?.length > 3 && (
-              <button
-                type="button"
-                onClick={() => setShowAmenitiesModal(true)}
-                className="text-sm font-semibold leading-5 text-left underline transition duration-150 ease-in-out text-primary-1000 hover:text-primary-500 focus:outline-none"
-              >
-                {viewAllAmenitiesText}
-              </button>
-            )}
           </section>
-          <Divider />
         </>
       )}
-      <Divider />
-      <section className="flex-1 flex items-center px-4 py-4">
-        {cancellable && (
-          <FreeCancellationExtended policy={cancellationPolicy?.description} />
+    </section>
+  );
+
+  const Price = () => (
+    <section className="w-full flex-col py-4 pr-4 justify-end">
+      <section className="text-right">
+        <Pricing>
+          {discounts && percentageToApply ? (
+            <Pricing.Discount
+              totalBeforeDiscount={totalBeforeDiscount?.formatted}
+              percentageToApply={percentageToApply?.toString()}
+            />
+          ) : (
+            <></>
+          )}
+          <Pricing.TotalWithTaxes
+            totalAmount={rates.min_rate?.rate?.starting_room_total?.formatted}
+          />
+          <Pricing.TaxesAndFees />
+        </Pricing>
+      </section>
+    </section>
+  );
+
+  return (
+    <section className="flex flex-col lg:flex-row justify-between my-3 mx-3 overflow-hidden border rounded shadow-container lg:my-0 border-dark-200">
+      <section className="min-h-[500px] w-[100%] lg:min-h-[15rem] lg:min-w-[35%]  bg-red-300">
+        {images?.length > 0 ? (
+          <ImageCarousel
+            images={images}
+            title={roomName}
+            showDots={true}
+            showIndexDot={false}
+            height="300px"
+          />
+        ) : (
+          <FallbackImage />
         )}
-        <NonRefundable
-          nonCancellable={nonRefundable}
-          description={cancellationPolicy?.description}
-        />
-        <PartialRefund
-          nonCancellable={partialRefundable}
-          description={cancellationPolicy?.description}
-        />
       </section>
-      {(cancellable || nonRefundable || partialRefundable) && <Divider />}
-      <section className="px-4 py-3">
-        <BreakdownSummary
-          rate={rates}
-          CustomPriceBreakdown={<PriceBreakDown />}
-          nights={nights}
-          guests={guests}
-          roomsQty={roomsQty}
-          isPriceBase
-          isAvgAmount
-        />
+      <section className="flex flex-col justify-between lg:justify-start w-[100%] lg:min-w-[65%]">
+        <section className="flex w-full flex-col lg:flex-row">
+          <section className="md:w-[100%] sm:w-[100%] lg:w-[50%] ">
+            <RoomCardHeader
+              roomDescription={roomName}
+              rates={rates}
+              cancellationPolicy={cancellationPolicy}
+              amenities={amenities}
+              itemToBook={itemToBook}
+              nights={nights}
+              guests={guests}
+              services={room.services}
+              rooms={roomsQty}
+            />
+            <Divider className="block lg:hidden" />
+            <Amenities />
+          </section>
+          <section className="md:w-[100%] sm:w-[100%] lg:w-[50%] ">
+            <section className=" flex items-center px-4 py-4">
+              {cancellable && (
+                <FreeCancellationExtended
+                  policy={cancellationPolicy?.description}
+                />
+              )}
+              <NonRefundable nonCancellable={nonRefundable} />
+            </section>
+            <section className="hidden lg:block">
+              <Price />
+            </section>
+          </section>
+        </section>
+        <Divider />
+        <section className="flex flex-col lg:flex-row w-full items-center h-[100%]">
+          <section className="flex justify-between w-[100%] lg:w-[50%] items-center ">
+            <section className="p-4">{`${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}</section>
+            <section className=" block lg:hidden">
+              <Price />
+            </section>
+          </section>
+          <section className="w-[100%] lg:w-[50%] items-center ">
+            <Divider className="block lg:hidden" />
+            <RoomCardActions room={room} hotelId={hotelId} rooms={roomsQty} />
+          </section>
+        </section>
       </section>
-      <Divider />
-      <RoomCardActions room={room} hotelId={hotelId} rooms={roomsQty} />
     </section>
   );
 };
