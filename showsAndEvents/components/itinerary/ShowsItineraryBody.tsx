@@ -35,6 +35,9 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
       ? item?.vendor_confirmation_code
       : '-';
 
+  const amountToApply = item.rate?.discounts.amount_to_apply;
+  const showDiscountText = !!amountToApply?.amount;
+
   return (
     <>
       <ShowsGeneralInfo item={item} />
@@ -74,14 +77,17 @@ const ShowsItineraryBody = ({ item }: ShowsItineraryBodyProps) => {
           </section>
 
           <section className="text-right">
-            <div className="flex items-center text-gray-500">
-              <p className="text-xs pr-2 line-through">
-                {item.rate?.discounts.total_amount_before_apply.formatted}
-              </p>
-              <p className="text-primary-1000">
-                {item.rate?.discounts.percentage_to_apply}
-              </p>
-            </div>
+            {showDiscountText && (
+              <div className="flex items-center text-gray-500">
+                <p className="text-xs pr-2 line-through">
+                  {item.rate?.discounts.total_amount_before_apply.formatted}
+                </p>
+                <p className="text-primary-1000">
+                  {item.rate?.discounts.percentage_to_apply}
+                </p>
+              </div>
+            )}
+
             <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
               {item.rate?.total.net.formatted}
             </p>

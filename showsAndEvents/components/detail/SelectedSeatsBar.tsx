@@ -186,18 +186,29 @@ const SelectedSeatsBar = ({
                   {`, ${item.row} ${item.sector}`}
                 </p>
               </div>
-              <div className="flex items-center text-gray-500">
-                <p className="pr-2 text-xs line-through">
+              {item.discountAmount ? (
+                <div className="flex items-center text-gray-500">
+                  <p className="pr-2 text-xs line-through">
+                    $
+                    {(item.quantity * (item.basePrice + item.taxes)).toFixed(2)}
+                  </p>
+                  <p className="text-primary-1000">
+                    {item.discountPercent} Off
+                  </p>
+                </div>
+              ) : (
+                <p>
                   ${(item.quantity * (item.basePrice + item.taxes)).toFixed(2)}
                 </p>
-                <p className="text-primary-1000">{item.discountPercent} Off</p>
+              )}
+            </div>
+            {!!item.discountAmount && (
+              <div className="flex justify-end">
+                <p>
+                  ${(item.quantity * (item.basePrice + item.taxes)).toFixed(2)}
+                </p>
               </div>
-            </div>
-            <div className="flex justify-end">
-              <p>
-                ${(item.quantity * (item.basePrice + item.taxes)).toFixed(2)}
-              </p>
-            </div>
+            )}
           </section>
         ))}
         <div className="flex justify-between pt-1.5 border-b-2 pb-2 px-5">

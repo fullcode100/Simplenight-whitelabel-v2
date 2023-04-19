@@ -11,11 +11,12 @@ interface PriceDisplayProps {
 
 const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
   const percentageToApply = rate?.discounts.percentage_to_apply;
+  const amountToApply = rate?.discounts.amount_to_apply;
+  const showDiscountText = !!amountToApply?.amount;
   const totalBeforeDiscount =
     rate?.discounts.total_amount_before_apply.formatted;
 
   const [t] = useTranslation('global');
-  // const startingRoomTotalLabel = t('total', 'Total');
   const taxesAndFeesLabel = t(
     'includesTaxesAndFees',
     'Includes Taxes and Fees',
@@ -23,7 +24,7 @@ const PriceDisplay = ({ rate, totalLabel }: PriceDisplayProps) => {
 
   return (
     <section className="text-right">
-      {totalBeforeDiscount && (
+      {showDiscountText && totalBeforeDiscount && (
         <p className="text-xs">
           <span className="text-dark-700 line-through font-normal">
             {totalBeforeDiscount}
