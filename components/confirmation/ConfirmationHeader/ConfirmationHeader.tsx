@@ -76,7 +76,7 @@ const ConfirmationHeader = ({
   };
 
   return (
-    <section className="bg-dark-100 lg:flex lg:flex-col-reverse lg:mt-[125px]">
+    <section className="bg-dark-100 mt-[60px] lg:flex lg:flex-col-reverse lg:mt-0">
       {fromLookup && <LookupHeader />}
 
       <section className="p-5 lg:py-6 lg:px-20 border-b-[1px] border-dark-300">
