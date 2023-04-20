@@ -110,5 +110,9 @@
   "hide": "Ocultar",
   "show": "Mostrar",
   "passengers": "Pasajeros",
-  "flights": "Vuelos"
+  "passenger": "Pasajero",
+  "nextPassenger": "Siguiente pasajero",
+  "flights": "Vuelos",
+  "loyaltyProgram": "Programa de fidelización",
+  "loyaltyNumber": "Número de lealtad"
 }

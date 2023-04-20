@@ -70,6 +70,7 @@
   "cancelReservation": "Cancelar Reserva",
   "night": "Noche",
   "country": "País",
+  "countryOfResidence": "País de residencia",
   "clearFilters": "Limpiar filtros",
   "supplierReferenceID": "ID De Referencia Del Proveedor",
   "priceBreakdown": "Desglose de Precios",
@@ -205,9 +206,12 @@
   "Payatproperty": "Pagar en la propiedad",
   "bookedItinerary": "Itinerario reservado",
   "first_name": "Primer nombre",
+  "middle_name": "Segundo nombre",
   "last_name": "Apellido",
   "phone_number": "Número de teléfono",
   "email_address": "Dirección de correo electrónico",
+  "date_of_birth": "Fecha de nacimiento",
+  "gender": "Género",
   "ComingSoon": "Muy pronto",
   "nonRefundable": "No reembolsable",
   "continueToHome": "Ir a la página de inicio",
@@ -223,5 +227,8 @@
   "enterValidStateProvince": "Por favor ingrese un Estado/Provincia válido",
   "enterValidCity": "Por favor ingrese una Ciudad válida",
   "enterValidZIPCode": "Por favor ingrese un Codigo Postal válido",
-  "stateShouldHaveAtMost2Characters": "Provincia/Estado debe tener como máximo 2 caracteres"
+  "stateShouldHaveAtMost2Characters": "Provincia/Estado debe tener como máximo 2 caracteres",
+  "passport": "Pasaporte",
+  "passportIDNumber": "Número de identificación del pasaporte",
+  "expiration": "Vencimiento"
 }

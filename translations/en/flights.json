@@ -112,5 +112,9 @@
   "hide": "Hide",
   "show": "Show",
   "passengers": "Passengers",
-  "flights": "Flights"
+  "nextPassenger": "Next passenger",
+  "passenger": "Passenger",
+  "flights": "Flights",
+  "loyaltyProgram": "Loyalty program",
+  "loyaltyNumber": "Loyalty number"
 }

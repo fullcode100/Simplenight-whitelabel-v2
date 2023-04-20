@@ -8,6 +8,7 @@ import { Flight } from 'flights/types/response/SearchResponse';
 import HorizontalItemCard from '../search/HorizontalItemCard/HorizontalItemCard';
 import { flightsListMock } from 'flights/flightsListMock';
 import Divider from 'components/global/Divider/Divider';
+import Passenger from '../passenger/Passenger';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -44,6 +45,8 @@ const PassengerInformationDisplay = ({
         </ul>
       </section>
       <Divider className="py-12" />
+      <Passenger passengerNumber={1} />
+      <Passenger passengerNumber={2} />
     </>
   );
 };

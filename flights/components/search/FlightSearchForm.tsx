@@ -394,6 +394,7 @@ const FlightSearchForm = ({
       )}&endAirports=${endAirports.join('|')}&startDates=${startDates.join(
         '|',
       )}&addresses=${addresses.join('|')}&addresses2=${addresses2.join('|')}`;
+    route = `${route}&currency='USD'&maxOfferss=50`;
     handleSaveLastSearch(route);
     router.push(route);
   };

@@ -49,6 +49,7 @@
   "cancelReservation": "Cancel Reservation",
   "night": "Night",
   "country": "Country",
+  "countryOfResidence": "Country of residence",
   "supplierReferenceID": "Supplier Reference ID",
   "priceBreakdown": "Price Breakdown",
   "lookupYourOrder": "Look Up Your Order",
@@ -192,5 +193,13 @@
   "enterValidStateProvince": "Please enter a valid State/Province",
   "enterValidCity": "Please enter a valid City",
   "enterValidZIPCode": "Please a valid Zip Code",
-  "stateShouldHaveAtMost2Characters": "Province/State should have at most 2 characters "
+  "stateShouldHaveAtMost2Characters": "Province/State should have at most 2 characters ",
+  "first_name": "First name",
+  "middle_name": "Middle name",
+  "last_name": "Last name",
+  "date_of_birth": "Date of birth",
+  "gender": "Gender",
+  "passport": "Passport",
+  "passportIDNumber": "Passport ID Number",
+  "expiration": "Expiration"
 }
