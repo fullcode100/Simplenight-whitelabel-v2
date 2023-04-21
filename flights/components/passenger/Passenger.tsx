@@ -1,8 +1,8 @@
 import { Collapse } from 'antd';
 import CollapseBody from 'components/global/CollapseBordered/components/CollapseBody';
 import CollapseHeader from 'components/global/CollapseBordered/components/CollapseHeader';
-import React, { useEffect, useMemo, useState } from 'react';
-import People from 'public/icons/assets/people.svg';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import Person from 'public/icons/assets/person.svg';
 import Info from 'public/icons/assets/info-circle.svg';
 import { RegisterOptions, SubmitHandler, useForm } from 'react-hook-form';
 import { IPassengerFormInput } from './inputs';
@@ -12,19 +12,30 @@ import {
   Button,
   Checkbox,
   DateInput,
+  Paragraph,
   Select,
 } from '@simplenight/ui';
 import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
-import SelectInput from 'components/global/SelectInput/SelectInput';
 
 interface PassengerProps {
   passengerNumber: number;
+  open: boolean;
+  setOpen: (value: number) => void;
+  onSubmit: (data: IPassengerFormInput) => void;
+  lastPassenger?: boolean;
+  pricing?: ReactNode;
 }
 
-const Passenger = ({ passengerNumber }: PassengerProps) => {
-  const [open, setOpen] = useState(false);
+const Passenger = ({
+  passengerNumber,
+  open,
+  setOpen,
+  onSubmit,
+  lastPassenger,
+  pricing,
+}: PassengerProps) => {
   const [t, i18next] = useTranslation('flights');
   const [tg] = useTranslation('global');
   const firstNameLabel = tg('first_name', 'First name');
@@ -42,6 +53,7 @@ const Passenger = ({ passengerNumber }: PassengerProps) => {
   const expirationLabel = tg('expiration', 'Expiration');
   const passengerLabel = t('passenger', 'Passenger');
   const nextPassengerLabel = t('nextPassenger', 'Next passenger');
+  const bookNowLabel = t('bookNow', 'Book now');
   const loyaltyProgramLabel = t('loyaltyProgram', 'Loyalty program');
   const loyaltyNumberLabel = t('loyaltyNumber', 'Loyalty number');
   const requiredLabel = tg('required', 'Required');
@@ -52,14 +64,15 @@ const Passenger = ({ passengerNumber }: PassengerProps) => {
     formState: { errors, isValid },
     setValue,
   } = useForm<IPassengerFormInput>({ reValidateMode: 'onBlur' });
-  const onSubmit: SubmitHandler<IPassengerFormInput> = (data) =>
-    console.log(data);
 
-  console.log(isValid);
   const getTitle = () => (
-    <section className="flex flex-row items-center">
-      <People />
-      {passengerLabel} {passengerNumber}
+    <section className="flex flex-row items-center gap-3">
+      <section className="flex w-[40px] h-[40px] items-center justify-center bg-teal-200 rounded-full">
+        <Person className="text-teal-1000" />
+      </section>
+      <Paragraph size="medium">
+        {passengerLabel} {passengerNumber}
+      </Paragraph>
     </section>
   );
 
@@ -128,7 +141,9 @@ const Passenger = ({ passengerNumber }: PassengerProps) => {
         {...register(nameInput, { ...options, onChange: setSelectValue })}
       >
         {selectOptions.map(({ value, label }) => (
-          <option value={value}>{label}</option>
+          <option key={value} value={value}>
+            {label}
+          </option>
         ))}
       </select>
       {/* SELECT IS DOWN IN UI LIBRARY  */}
@@ -147,7 +162,7 @@ const Passenger = ({ passengerNumber }: PassengerProps) => {
         Enter the information of each passenger as it appears on their official
         ID.
       </section>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         <section className="flex flex-row flex-nowrap mx-6 my-4 gap-8 justify-center">
           <section className="flex flex-col gap-4 w-1/3">
             {getInputField(firstNameLabel, 'firstName', {
@@ -241,24 +256,35 @@ const Passenger = ({ passengerNumber }: PassengerProps) => {
           </section>
         </section>
         <section className="flex justify-end mx-6 my-4">
-          <button
-            disabled={!isValid}
-            className=" flex justify-center items-center gap-1 border rounded font-semibold leading-lg group
-            text-base  h-11 px-3 bg-teal-1000 border-transparent text-white hover:bg-teal-800 hover:text-white focus:bg-teal-800 focus:border-teal-600 focus:text-white active:bg-teal-700 active:border-teal-800 active:text-white cursor-pointer"
-            type="submit"
-          >
-            {nextPassengerLabel}
-          </button>
+          {!lastPassenger && (
+            <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+              {nextPassengerLabel}
+            </Button>
+          )}
         </section>
       </form>
     </>
   );
 
   return (
-    <Collapse>
-      <CollapseHeader title={getTitle()} show={open} setShow={setOpen} />
-      {open && <CollapseBody show={open} body={passengerForm()} />}
-    </Collapse>
+    <>
+      <Collapse>
+        <CollapseHeader
+          title={getTitle()}
+          show={open}
+          setShow={() => setOpen(passengerNumber)}
+        />
+        {open && <CollapseBody show={open} body={passengerForm()} />}
+      </Collapse>
+      {lastPassenger && (
+        <section className="flex justify-end gap-6">
+          <section>{pricing}</section>
+          <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+            {bookNowLabel}
+          </Button>
+        </section>
+      )}
+    </>
   );
 };
 

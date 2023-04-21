@@ -37,6 +37,7 @@ module.exports = {
     'text-p-sm',
     'text-p-xs',
     'text-p-xxs',
+    'md:w-auto',
   ],
   theme: {
     extend: {
