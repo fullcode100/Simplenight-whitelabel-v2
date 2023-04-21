@@ -173,6 +173,10 @@ export const CustomLanguageGuide = (props: any) => {
   });
   const [selectedItem, setSelectedItem] = useState<any>(items[0]);
   const placeholder = uiSchema['ui:placeholder'] || 'Language Guide';
+
+  useEffect(() => {
+    onChangeHandler(items[0]);
+  }, []);
   const onChangeHandler = (itemValue: any) => {
     const item = dataByLabel[itemValue.value];
     const answer = { type: item?.type, language: item?.language };

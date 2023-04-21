@@ -333,7 +333,7 @@ const Client = () => {
 
   const continueToPayment = async (values: any) => {
     if (!checkFormsBeforeContinue()) return;
-    if (!cart || cart.total_item_qty <= 0 /* || !primaryContactData */) return;
+    if (!cart || cart.total_item_qty <= 0) return;
     const customerUpdater = new ClientCartCustomerUpdater();
     const requestBody = getAddCustomerRequestBody(values.formData);
     updateCustomer(requestBody.customer);
