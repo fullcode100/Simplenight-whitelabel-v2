@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Rates } from 'thingsToDo/types/response/ThingsSearchResponse';
 
 import { Paragraph } from '@simplenight/ui';
+import RatingSection from 'thingsToDo/components/RatingSection/RatingSection';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -39,7 +40,6 @@ function ResultCard<T extends WithId>({
 }: CardProps<T>) {
   const target = window.innerWidth < 640 ? '_self' : '_blank';
   const [t] = useTranslation('global');
-  const noReviewsLabel = t('noReviews', 'No reviews yet');
 
   const ImageAndTagSection = () => (
     <section
@@ -58,7 +58,7 @@ function ResultCard<T extends WithId>({
     </section>
   );
 
-  const RatingSection = () => (
+  /* const RatingSection = () => (
     <section className="flex gap-2 ">
       {rating && <Rating value={parseInt(rating.toFixed(0))} />}
       {reviewsAmount ? (
@@ -69,10 +69,10 @@ function ResultCard<T extends WithId>({
         <Paragraph textColor="text-dark-700">{noReviewsLabel}</Paragraph>
       )}
     </section>
-  );
+  ); */
 
   const CancelationAndPricingSection = () => <section></section>;
-  const reviewsLabel = 'reviews';
+
   return (
     <li className="w-full overflow-hidden border rounded-4 border-dark-300">
       <Link href={url} passHref>
@@ -81,7 +81,7 @@ function ResultCard<T extends WithId>({
             <ImageAndTagSection />
             <section className="flex flex-col justify-between gap-2 p-4 lg:justify-start lg:w-full">
               <TitleSection />
-              <RatingSection />
+              <RatingSection rating={rating} reviewsAmount={reviewsAmount} />
               {description && (
                 <ReadMore
                   className="w-full text-xs leading-5 text-dark-1000"

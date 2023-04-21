@@ -59,6 +59,7 @@ import {
   TicketType,
 } from 'thingsToDo/types/adapters/TicketAvailability';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import RatingSection from '../RatingSection/RatingSection';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -79,7 +80,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     'Additional Information',
   );
   const policiesLabel = tg('policies', 'Policies');
-  const reviewsLabel = tg('reviews', 'Reviews');
+
   const loadMoreText = t('loadMore', 'Load More');
   const noResultsLabel = tg('noResultsSearch', 'No Results Match Your Search.');
   const checkAvailabilityForYourSearchLabel = tg(
@@ -367,17 +368,10 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           <div className="flex flex-col gap-2 px-5 py-6 lg:px-0">
             {name && <Heading tag="h3">{name}</Heading>}
             <div className="flex items-center gap-2">
-              {activityScore && (
-                <Rating
-                  value={activityScore}
-                  count={Math.floor(activityScore)}
-                  sizeClass={'h-4 w-4'}
-                />
-              )}
-              <span className="text-xs text-dark-700">
-                {activityScore?.toFixed(1)}/{totalScore} ({reviewsAmount}{' '}
-                {reviewsLabel})
-              </span>
+              <RatingSection
+                rating={activityScore}
+                reviewsAmount={reviewsAmount}
+              />
             </div>
           </div>
         </div>
