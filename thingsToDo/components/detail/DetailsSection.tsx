@@ -36,9 +36,13 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
   const rangeDuration = minDuration &&
     maxDuration && { minDuration, maxDuration };
   const fixedDuration = duration ? duration : 0;
-  const languages = thingsItem.extra_data.lang_guides
-    .map((lan) => lan.language)
+  const languages = thingsItem.extra_data.lang_guides.map(
+    (lan) => lan.language,
+  );
+  const uniqueLanguages = languages
+    .filter((lang, i) => languages.indexOf(lang) === i)
     .join(', ');
+
   const presentations = thingsItem.extra_data.presentation
     .map((p) => p.label)
     .join(', ');
@@ -61,7 +65,7 @@ const DetailsSection = ({ thingsItem }: DetailsSectionProps) => {
       <InlineFeature icon={<DeviceMobileIcon />} text={presentations} />
       <InlineFeature
         icon={<LanguageIcon />}
-        text={`${offeredIn} ${languages}`}
+        text={`${offeredIn} ${uniqueLanguages}`}
       />
     </section>
   );
