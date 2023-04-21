@@ -19,6 +19,7 @@ import { Item, Payment } from 'types/booking/bookingType';
 import CardLogo from 'components/confirmation/CardLogo/CardLogo';
 import Disclaimer from 'components/global/Disclaimer/Disclaimer';
 import { Paragraph } from '@simplenight/ui';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface ThingConfirmationFooterProps {
   item: Item;
@@ -40,6 +41,8 @@ const ThingConfirmationFooter = ({
   const dispatch = useDispatch();
   const [g, i18g] = useTranslation('global');
   const [isOpen, onOpen, onClose] = useModal();
+
+  const showCancelButtonPerItem = hasCartMode();
   const cancelledDisclaimer = g(
     'cancelledDisclaimer',
     'Refunds typically take 2 to 7 business days to be returned to your bank.',
@@ -141,16 +144,18 @@ const ThingConfirmationFooter = ({
           <Paragraph size="small">{totalLabel}</Paragraph>
           <Paragraph size="medium">{item.rate.total.full.formatted}</Paragraph>
         </div>
-        <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
-          <Button
-            value={cancelLabel}
-            size="full-sm"
-            type="outlined"
-            leftIcon={<TrashIcon />}
-            onClick={onOpen}
-            className="lg:w-[170px] h-8"
-          ></Button>
-        </section>
+        {showCancelButtonPerItem && (
+          <section className="flex flex-col gap-3 lg:flex-row lg:justify-end">
+            <Button
+              value={cancelLabel}
+              size="full-sm"
+              type="outlined"
+              leftIcon={<TrashIcon />}
+              onClick={onOpen}
+              className="lg:w-[170px] h-8"
+            ></Button>
+          </section>
+        )}
       </section>
     </>
   );
