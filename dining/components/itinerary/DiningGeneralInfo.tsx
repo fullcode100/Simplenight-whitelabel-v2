@@ -1,4 +1,3 @@
-import { Address } from 'dining/types/response/SearchResponse';
 import CheckoutInfo from '../CheckoutInfo/CheckoutInfo';
 import LocationInfo from '../LocationInfo/LocationInfo';
 
@@ -9,7 +8,7 @@ const DiningGeneralInfo = ({
 }: {
   date?: string;
   time?: string;
-  address?: Partial<Address>;
+  address?: string;
 }) => {
   return (
     <section className="gap-2 px-4 py-4">

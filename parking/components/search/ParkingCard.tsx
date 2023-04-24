@@ -50,7 +50,6 @@ export const ParkingCard: FC<ParkingCardProps> = memo(({ parkingItem }) => {
       url={parkingDetailsPageUrl}
       priceDisplay={rateTable && <PriceDisplay parking={parkingItem} />}
       price={<ParkingCardFooterMobileView parking={parkingItem} />}
-      address={<ParkingCardDetails parking={parkingItem} />}
       cancellable={<Restrictions parking={parkingItem} />}
     />
   );

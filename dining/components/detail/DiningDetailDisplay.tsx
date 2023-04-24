@@ -152,7 +152,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
       return;
     }
 
-    const inventoryId = `817e6010:${id}`;
+    const inventoryId = id;
     const itemToBook = {
       category: 'DINING',
       booking_data: {

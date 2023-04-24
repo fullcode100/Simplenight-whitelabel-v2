@@ -230,12 +230,11 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
             const url = urlDetail(hotel);
             const itemKey = hotel.id;
-            const { address, city, state, countryCode } = fullAddress ?? {};
-            const formattedLocation = `${[address, city]
+            const { address, city, postalCode, countryCode } =
+              fullAddress ?? {};
+            const formattedLocation = `${[city, countryCode, postalCode]
               .filter((item) => item)
-              .join(' - ')}${
-              [state, countryCode].some((item) => item) ? ',' : ''
-            } ${[state, countryCode].filter((item) => item).join(' - ')}`;
+              .join(', ')}`;
             return (
               <HorizontalItemCard
                 key={itemKey}
@@ -246,7 +245,8 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 image={thumbnail}
                 fallback={<HotelResultFallbackImage />}
                 price={<HotelItemRateInfo minRate={minRate} />}
-                address={fullAddress}
+                address={address}
+                address2={formattedLocation}
                 className=" flex-0-0-auto"
                 rating={parseInt(starRating)}
                 url={url}

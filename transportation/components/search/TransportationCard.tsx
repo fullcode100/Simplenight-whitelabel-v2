@@ -59,9 +59,6 @@ export const TransportationCard: FC<TransportationCardProps> = ({
       imageBackgroundSize={'contain'}
       url={transportationDetailsPageUrl}
       priceDisplay={<TransportaionDisplay transportaion={transportationItem} />}
-      address={
-        <TransportationCardDetails transportation={transportationItem} />
-      }
       cancellable={
         <TransportationCancellable
           cancellable={true}

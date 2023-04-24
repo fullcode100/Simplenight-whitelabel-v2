@@ -10,7 +10,8 @@ interface CardProps<T extends WithId> {
   item: T;
   icon?: ReactNode;
   categoryName?: string;
-  address?: any;
+  address?: string;
+  address2?: string;
   title?: string;
   image?: ReactNode;
   fallback?: ReactNode;
@@ -32,7 +33,8 @@ function HorizontalItemCard<T extends WithId>({
   title = '',
   image = '',
   price,
-  address = {},
+  address = '',
+  address2,
   className = '',
   rating,
   ratingCount = undefined,
@@ -60,10 +62,10 @@ function HorizontalItemCard<T extends WithId>({
   }, []);
   const AddressSection = () => (
     <>
-      <p className="font-normal text-dark-1000 text-sm">{address?.address}</p>
-      <span className="font-normal text-dark-1000 text-sm">
-        {address?.city}, {address?.countryCode}, {address?.postalCode}
-      </span>
+      <p className="font-normal text-dark-1000 text-sm">{address}</p>
+      {address2 && (
+        <span className="font-normal text-dark-1000 text-sm">{address2}</span>
+      )}
     </>
   );
 

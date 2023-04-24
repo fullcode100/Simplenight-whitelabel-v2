@@ -42,7 +42,7 @@ const DiningItineraryBody = ({
       <DiningGeneralInfo
         date={date}
         time={time}
-        address={item?.item_data?.location as Address}
+        address={item?.item_data?.location.address}
       />
       {customer ? <DiningConfirmationBuyerInfo customer={customer} /> : null}
       <section className="flex flex-col gap-2 px-4 py-4 border-t border-dark-300">
