@@ -19,7 +19,7 @@ import { CartObjectResponse } from 'types/cart/CartType';
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import useScrollDirection from 'hooks/layoutAndUITooling/useScrollDirection';
 import { Tab } from 'components/global/Tabs/types';
-import useCategories from 'hooks/category/useCategories';
+import useCategories, { CategoryInfo } from 'hooks/category/useCategories';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useRouter } from 'next/router';
@@ -50,7 +50,7 @@ const Header = ({ color }: HeaderProps) => {
   const setQueryParams = useQuerySetter();
   const categoriesTabs = useCategories();
   const activeTabIndex = categoriesTabs.findIndex((tab) => tab.slug === slug);
-  const handleTabClick = (tab: Tab) => {
+  const handleTabClick = (tab: Tab | CategoryInfo) => {
     if (pathname.startsWith('/search')) {
       setQueryParams({
         slug: tab.slug ?? '',
@@ -59,6 +59,7 @@ const Header = ({ color }: HeaderProps) => {
     if (pathname === '/') {
       setTab(tab);
     }
+    handleCloseMenu();
   };
   const scrollDirection = useScrollDirection();
   const showCart = hasCartMode();
@@ -106,7 +107,11 @@ const Header = ({ color }: HeaderProps) => {
         className="max-w-[90%] lg:hidden"
       >
         <div className="fixed inset-0 z-10 w-full h-full bg-black/25"></div>
-        <Menu onCloseModal={handleCloseMenu} />
+        <Menu
+          activeTab={tab ? tab : categoriesTabs?.[0]}
+          handleTabClick={handleTabClick}
+          onCloseModal={handleCloseMenu}
+        />
       </FullScreenModal>
       <header
         className={

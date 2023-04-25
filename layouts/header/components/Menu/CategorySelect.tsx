@@ -2,13 +2,20 @@ import classnames from 'classnames';
 import useCategories, { CategoryInfo } from 'hooks/category/useCategories';
 import { useRouter } from 'next/router';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import { useCategorySlug } from 'hooks/category/useCategory';
 import useLocalStorage from 'hooks/localStorage/useLocalStorage';
+import { Tab } from 'components/global/Tabs/types';
 
-const CategorySelect = () => {
+interface categoryProps {
+  handleTabClick: (tab: Tab | CategoryInfo) => void;
+  activeTab: Tab;
+}
+
+const CategorySelect = ({ handleTabClick, activeTab }: categoryProps) => {
   const router = useRouter();
+  const { pathname } = useRouter();
   const [storedValue] = useLocalStorage('lastSearch', '/');
   const storedParams = new URLSearchParams(storedValue.toString());
+  const categories = useCategories();
   const roomsData = storedParams.get('roomsData') || '[]';
   const totalAdults = JSON.parse(roomsData).reduce(
     (acc: unknown, obj: { adults: any }) => acc + obj.adults,
@@ -22,8 +29,7 @@ const CategorySelect = () => {
 
   const { slug, startDate, endDate, latitude, longitude, address } = useQuery();
 
-  const categories = useCategories();
-  const currentCategory = useCategorySlug(slug as string) || categories?.[0];
+  const currentCategory = activeTab || categories?.[0];
 
   const handleSelectCategory = (category: CategoryInfo) => {
     const startDateSearch = startDate || storedParams.get('startDate');
@@ -31,17 +37,18 @@ const CategorySelect = () => {
     const latitudeSearch = latitude || storedParams.get('latitude');
     const longitudeSearch = longitude || storedParams.get('longitude');
     const addressSearch = address || storedParams.get('address');
-
     const roomDataasString = storedParams.get('roomsData') || '[]';
     const roomsDataArray = JSON.parse(roomDataasString);
-
-    const route = `/search/${
-      category.slug || slug
-    }?adults=${totalAdults}&children=${totalchildren}&startDate=${startDateSearch}&endDate=${endDateSearch}&latitude=${latitudeSearch}&longitude=${longitudeSearch}&address=${addressSearch}&rooms=${
-      roomsDataArray?.length
-    }&roomsData=${roomDataasString}`;
-
-    router.push(route);
+    if (pathname === '/') {
+      handleTabClick(category);
+    } else {
+      const route = `/search/${
+        category.slug || slug
+      }?adults=${totalAdults}&children=${totalchildren}&startDate=${startDateSearch}&endDate=${endDateSearch}&latitude=${latitudeSearch}&longitude=${longitudeSearch}&address=${addressSearch}&rooms=${
+        roomsDataArray?.length
+      }&roomsData=${roomDataasString}`;
+      router.push(route);
+    }
   };
 
   if (categories?.length <= 1) return <></>;

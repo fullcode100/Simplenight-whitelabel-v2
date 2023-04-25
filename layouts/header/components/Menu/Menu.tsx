@@ -9,12 +9,16 @@ import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import useDisplayCategory from 'hooks/category/useDisplayCategory';
 import { useSettings } from 'hooks/services/useSettings';
+import { Tab } from 'hooks/layoutAndUITooling/useTabStore';
+import { CategoryInfo } from 'hooks/category/useCategories';
 
 interface MenuProps {
   onCloseModal: (event?: MouseEvent<HTMLElement>) => void;
+  handleTabClick: (tab: Tab | CategoryInfo) => void;
+  activeTab: Tab;
 }
 
-const Menu = ({ onCloseModal }: MenuProps) => {
+const Menu = ({ onCloseModal, handleTabClick, activeTab }: MenuProps) => {
   const [t] = useTranslation('global');
   const displayDropdown = useDisplayCategory();
   const { data: brandConfig } = useSettings();
@@ -39,7 +43,10 @@ const Menu = ({ onCloseModal }: MenuProps) => {
 
       {displayDropdown && (
         <section className="mb-1">
-          <CategorySelect />
+          <CategorySelect
+            activeTab={activeTab}
+            handleTabClick={handleTabClick}
+          />
           <section className="px-4">
             <Divider className="py-4" />
           </section>
