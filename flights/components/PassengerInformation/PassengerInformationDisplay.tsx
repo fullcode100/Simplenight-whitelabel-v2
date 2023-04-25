@@ -4,7 +4,7 @@ import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightDetails from '../FlightDetails/FlightDetails';
 import { Pricing } from '@simplenight/ui';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 import HorizontalItemCard from '../search/HorizontalItemCard/HorizontalItemCard';
 import { flightsListMock } from 'flights/flightsListMock';
 import Divider from 'components/global/Divider/Divider';

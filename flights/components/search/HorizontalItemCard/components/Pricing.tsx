@@ -1,5 +1,5 @@
 import { Button, Paragraph } from '@simplenight/ui';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -13,10 +13,7 @@ const Pricing = ({ item, onClick }: Props) => {
   return (
     <section className="lg:border-l px-4 py-3 flex items-center gap-4 lg:w-1/4 lg:justify-end lg:flex-wrap">
       <Paragraph size="medium" className="shrink-0" fontWeight={'semibold'}>
-        US$
-        {parseFloat(item.offers[0]?.totalAmound)
-          .toFixed(2)
-          .replace(/\d(?=(\d{3})+\.)/g, '$&,')}{' '}
+        {item.availability.rate.total.net.formatted}
       </Paragraph>
 
       <div className="hidden lg:block">

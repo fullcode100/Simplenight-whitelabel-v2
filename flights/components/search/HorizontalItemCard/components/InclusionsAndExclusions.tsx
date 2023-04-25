@@ -1,4 +1,4 @@
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 
 import IconBagCabin from 'public/icons/assets/flights/bag_cabin.svg';
 import IconBagChecked from 'public/icons/assets/flights/bag_checked.svg';

@@ -1,33 +1,37 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
 import Divider from 'components/global/Divider/Divider';
-import { FlightSegment } from 'flights/types/response/SearchResponse';
+import { Segment } from 'flights/types/response/FlightSearchResponse';
 import { formatTime, getAirlineIconUrl, getDuration } from 'flights/utils';
 import React from 'react';
 import ClockIcon from 'public/icons/assets/clock-icon.svg';
 import { useTranslation } from 'react-i18next';
 
-const CardCollapsable = ({ collection }: { collection: FlightSegment[] }) => {
+const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
   const [t] = useTranslation('flights');
   const durationLabel = t('duration', 'Duration');
   const layoverLabel = t('layover', 'Layover');
   return (
     <section className="flex flex-col gap-4">
       <Divider />
-      {collection.map((segment) => {
+      {segments.map((item) => {
         const {
-          marketingCarrier,
-          marketingCarrierName,
-          marketingFlightNumber,
-          aircraftType,
-          departureDateTime,
-          departureAirport,
-          departureAirportName,
-          arrivalDateTime,
-          arrivalAirport,
-          arrivalAirportName,
-          flightDuration,
-          layoverToNextSegmentsInMinutes,
-        } = segment;
+          carrier,
+          carrier_name: carrierName,
+          flight_number: flightNumber,
+          aircraft,
+          departure_date: departureDateTime,
+          origin: {
+            iata_code: departureAirport,
+            airport: departureAirportName,
+          },
+          arrival_date: arrivalDateTime,
+          destination: {
+            iata_code: arrivalAirport,
+            airport: arrivalAirportName,
+          },
+          duration: flightDuration,
+          next_segment: layoverToNextSegmentsInMinutes,
+        } = item;
         const departureTime = formatTime(departureDateTime);
         const arrivalTime = formatTime(arrivalDateTime);
 
@@ -36,16 +40,16 @@ const CardCollapsable = ({ collection }: { collection: FlightSegment[] }) => {
             <div className="bg-dark-100 py-1 px-3 flex items-center gap-1 w-full lg:w-fit rounded-4">
               <img
                 className="h-4"
-                src={getAirlineIconUrl(marketingCarrier.toUpperCase())}
-                alt={marketingCarrierName}
+                src={getAirlineIconUrl(carrier.toUpperCase())}
+                alt={carrierName}
               />
-              <Paragraph size="xxsmall">{marketingCarrierName}</Paragraph>{' '}
+              <Paragraph size="xxsmall">{carrierName}</Paragraph>{' '}
               <Paragraph size="xxsmall" textColor="text-dark-700">
-                · Flight {marketingCarrier}
-                {marketingFlightNumber}
+                · Flight {carrier}
+                {flightNumber}
               </Paragraph>{' '}
               <Paragraph size="xxsmall" textColor="text-dark-700">
-                · {aircraftType}
+                · {aircraft}
               </Paragraph>
             </div>
           );
@@ -134,7 +138,7 @@ const CardCollapsable = ({ collection }: { collection: FlightSegment[] }) => {
                 time={departureTime}
                 airportCode={departureAirport}
                 airportName={departureAirportName}
-                duration={flightDuration}
+                duration={+flightDuration}
               />
               <SegmentDetailRow
                 time={arrivalTime}
@@ -146,7 +150,7 @@ const CardCollapsable = ({ collection }: { collection: FlightSegment[] }) => {
         };
 
         return (
-          <section key={segment.segmentCode} className="px-4">
+          <section key={item.id} className="px-4">
             <AirlineInformation />
             <SegmentsDetail />
 

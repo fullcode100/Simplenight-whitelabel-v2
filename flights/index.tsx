@@ -49,7 +49,7 @@ const Category: CategoryOption = {
     urls: {
       search: {
         client: '/flights',
-        server: '/flights/',
+        server: '/categories/flights',
       },
       detail: {
         client: '/flights',

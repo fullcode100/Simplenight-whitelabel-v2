@@ -1,16 +1,16 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 import { formatTime } from 'flights/utils';
 import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 
 const TimeAndAirports = ({ item }: { item: Flight }) => {
-  const segments = item?.segments?.collection;
+  const segments = item?.availability.segments;
   const firstSegment = segments[0];
   const lastSegment = segments[segments.length - 1];
-  const departureTime = formatTime(firstSegment?.departureDateTime);
-  const departureAirport = firstSegment?.departureAirportName;
-  const arrivalTime = formatTime(lastSegment?.arrivalDateTime);
-  const arrivalAirport = lastSegment?.arrivalAirportName;
+  const departureTime = formatTime(firstSegment?.departure_date);
+  const departureAirport = firstSegment?.origin.airport;
+  const arrivalTime = formatTime(lastSegment?.arrival_date);
+  const arrivalAirport = lastSegment?.destination.airport;
   return (
     <section className="justify-center flex flex-col grow overflow-hidden ">
       <div className="hidden lg:flex items-center gap-1 ">

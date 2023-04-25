@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 
 import { Button, Paragraph } from '@simplenight/ui';
 import Divider from 'components/global/Divider/Divider';
@@ -37,7 +37,7 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
           {selectFlight && <Pricing item={item} onClick={selectFlight} />}
         </section>
         {isExpanded && (
-          <CardCollapsable collection={item.segments.collection} />
+          <CardCollapsable segments={item.availability.segments} />
         )}
       </section>
     );
@@ -64,7 +64,7 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
         </section>
         <Divider className="w-full" />
         {isExpanded ? (
-          <CardCollapsable collection={item.segments.collection} />
+          <CardCollapsable segments={item.availability.segments} />
         ) : (
           <section className="p-4">
             <TimeAndAirports item={item} />

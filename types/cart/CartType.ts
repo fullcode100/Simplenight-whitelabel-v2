@@ -93,9 +93,9 @@ export interface Breakdown {
 }
 export interface Discounts {
   amount_to_apply: Amount;
-  breakdown: Breakdown[];
+  breakdown: Breakdown[] | null;
   total_amount_before_apply: Amount;
-  net_amount_before_apply: Amount;
+  net_amount_before_apply: Amount | null;
   percentage_to_apply: string;
 }
 
@@ -113,6 +113,7 @@ export interface Rate {
     postpaid: Amount;
     prepaid: Amount;
   };
+  fees?: any;
 }
 export interface ItemData extends ThingsCartItemData, ShowsCartItemData {
   rate: Rate;
