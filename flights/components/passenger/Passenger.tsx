@@ -5,7 +5,7 @@ import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import Person from 'public/icons/assets/person.svg';
 import Info from 'public/icons/assets/info-circle.svg';
 import { RegisterOptions, SubmitHandler, useForm } from 'react-hook-form';
-import { IPassengerFormInput } from './inputs';
+import { IPassenger } from './inputs';
 import {
   BaseButtonInput,
   BaseInput,
@@ -23,7 +23,7 @@ interface PassengerProps {
   passengerNumber: number;
   open: boolean;
   setOpen: (value: number) => void;
-  onSubmit: (data: IPassengerFormInput) => void;
+  onSubmit: (data: IPassenger) => void;
   lastPassenger?: boolean;
   pricing?: ReactNode;
 }
@@ -63,7 +63,7 @@ const Passenger = ({
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-  } = useForm<IPassengerFormInput>({ reValidateMode: 'onBlur' });
+  } = useForm<IPassenger>({ reValidateMode: 'onBlur' });
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
@@ -103,8 +103,8 @@ const Passenger = ({
 
   const getInputField = (
     label: string,
-    nameInput: keyof IPassengerFormInput,
-    options?: RegisterOptions<IPassengerFormInput, keyof IPassengerFormInput>,
+    nameInput: keyof IPassenger,
+    options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
     <section className="flex flox-col flex-wrap gap-2">
       <section className="flex flex-row justify-between w-full">
@@ -122,12 +122,12 @@ const Passenger = ({
 
   const getSelectField = (
     label: string,
-    nameInput: keyof IPassengerFormInput,
+    nameInput: keyof IPassenger,
     selectOptions: {
       value: string;
       label: string;
     }[],
-    options?: RegisterOptions<IPassengerFormInput, keyof IPassengerFormInput>,
+    options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
     <section className="flex flox-col flex-wrap gap-2">
       <section className="flex flex-row justify-between w-full">
