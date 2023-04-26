@@ -8,12 +8,14 @@ interface FreeCancellationProps {
   cancellable?: boolean;
   description?: string;
   wfull?: boolean;
+  title?: boolean;
 }
 
 const FreeCancellation = ({
   cancellable,
   description,
   wfull = false,
+  title = true,
 }: FreeCancellationProps) => {
   const [t, i18next] = useTranslation('global');
   const freeCancellationLabel = t('freeCancellation', 'Free Cancellation');
@@ -28,7 +30,7 @@ const FreeCancellation = ({
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
         <Check className="flex-shrink-0 w-6 mt-1 text-green-1000" />
         <label className="text-green-1000 text-[14px] leading-[20px] font-semibold">
-          {freeCancellationLabel}
+          {title && freeCancellationLabel}
           {description && (
             <Paragraph textColor="text-green-1000">{description}</Paragraph>
           )}

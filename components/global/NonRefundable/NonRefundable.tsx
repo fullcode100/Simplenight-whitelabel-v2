@@ -7,12 +7,14 @@ interface NonRefundableProps {
   nonCancellable?: boolean;
   description?: string;
   wfull?: boolean;
+  title?: boolean;
 }
 
 const NonRefundable = ({
   nonCancellable,
   description,
   wfull = false,
+  title = true,
 }: NonRefundableProps) => {
   const [t, i18next] = useTranslation('global');
   const nonRefundableLabel = t('nonRefundable', 'Non-Refundable');
@@ -26,7 +28,7 @@ const NonRefundable = ({
     >
       <section className="flex gap-1.5 px-2 py-1.5">
         <label className="text-dark-1000 text-[14px] leading-[20px] font-semibold">
-          {nonRefundableLabel}
+          {title && nonRefundableLabel}
           {description && <Paragraph>{description}</Paragraph>}
         </label>
       </section>

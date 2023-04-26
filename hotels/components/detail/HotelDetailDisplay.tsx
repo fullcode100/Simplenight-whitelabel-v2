@@ -29,6 +29,8 @@ import Divider from '../../../components/global/Divider/Divider';
 import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import InformationIcon from 'public/icons/assets/information.svg';
+import CheckIcon from 'public/icons/assets/check-white.svg';
+import PoliciesIcon from 'public/icons/assets/policies.svg';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
@@ -39,11 +41,10 @@ import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { createRoom } from 'hotels/helpers/room';
 import { getReferral } from '../../helpers/getReferral';
 import useCookies from 'hooks/localStorage/useCookies';
-import InstructionsSection from '../Instructions/InstructionsSection';
+import PoliciesSection from '../Instructions/PoliciesSection';
 import { detailAdapter } from '../../adapters/detail.adapter';
 import { DetailItem } from 'hotels/types/adapters/DetailItem';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
-import useMediaViewport from '../../../hooks/media/useMediaViewport';
 import AmenitiesGrid from './AmenitiesGridHotels';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
@@ -111,6 +112,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const locationLabel = t('location', 'Location');
   const detailsLabel = t('details', 'Details');
   const amenitiesLabel = t('amenities', 'Amenities');
+  const policiesLabel = t('policies', 'Policies');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
 
@@ -330,8 +332,60 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
       </section>
     </section>
   );
+  const AmenitiesSection = () => (
+    <section className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
+      <section className="mx-auto flex flex-col max-w-7xl">
+        <p className="flex items-center gap-3 mb-6">
+          <IconRoundedContainer isLarge className="bg-primary-1000">
+            <CheckIcon className="h-5 w-5 lg:h-[30px] lg:w-[30px]" />
+          </IconRoundedContainer>
+          <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+            {amenitiesLabel}
+          </span>
+        </p>
+        <AmenitiesGrid
+          amenities={[
+            'Breakfast',
+            'Pool',
+            'Casino',
+            'A.C.',
+            'Restaurant',
+            'WiFi',
+            'Bar',
+            'Hot Tub',
+            'Spa',
+            'Sauna',
+            'Laundry',
+            'Pet Friendly',
+          ]}
+        />
+      </section>
+    </section>
+  );
 
-  const { isDesktop } = useMediaViewport();
+  const Policies = () => (
+    <section className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
+      <section className="mx-auto flex flex-col max-w-7xl">
+        <p className="flex items-center gap-3 mb-6">
+          <IconRoundedContainer isLarge className="bg-primary-1000">
+            <PoliciesIcon className="h-5 w-5 lg:h-[30px] lg:w-[30px]" />
+          </IconRoundedContainer>
+          <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
+            {policiesLabel}
+          </span>
+        </p>
+        <PoliciesSection
+          checkInTime={checkinTime}
+          checkOutTime={checkoutTime}
+          checkInInstructions={checkInInstructions}
+          specialInstructions={specialInstructions}
+          fees={fees}
+          policies={policies}
+        />
+      </section>
+    </section>
+  );
+
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
@@ -387,26 +441,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
               <RatingSection />
             </section>
           </section>
-          <section ref={roomRef} className="lg:hidden">
-            <SeeMore
-              textOpened="See less"
-              textClosed="See more"
-              heightInPixels={hotelRooms.length > 4 ? 2800 : 0}
-              displayButton={hotelRooms.length > 4}
-            >
-              {
-                <RoomsSection
-                  rooms={hotelRooms}
-                  hotelId={hotel.id}
-                  hotelName={name}
-                  nights={nights}
-                  guests={guests}
-                  roomsQty={roomsQty}
-                />
-              }
-            </SeeMore>
-          </section>
-          <section className="hidden px-20 lg:block">
+          <section className="px-12">
             <section className="mx-auto max-w-7xl">
               <RoomsSection
                 rooms={hotelRooms}
@@ -423,17 +458,6 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             <section className="mx-auto divide-y divide-dark-300 lg:divide-y-0 lg:divide-x lg:flex max-w-7xl">
               <section className="lg:w-[50%] lg:pr-12">
                 <DetailsSection />
-                <div className="my-6">
-                  <div className="w-full h-px bg-dark-300" />
-                </div>
-                <InstructionsSection
-                  checkInTime={checkinTime}
-                  checkOutTime={checkoutTime}
-                  checkInInstructions={checkInInstructions}
-                  specialInstructions={specialInstructions}
-                  fees={fees}
-                  policies={policies}
-                />
               </section>
               <section
                 ref={locationRef}
@@ -444,29 +468,9 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             </section>
           </section>
           <Divider />
-          <section className="lg:px-20 lg:py-12">
-            <span className="font-semibold text-dark-800 text-lg leading-[24px] lg:text-[32px] lg:leading-[38px]">
-              {amenitiesLabel}
-            </span>
-            <AmenitiesGrid
-              amenities={[
-                'Breakfast',
-                'Pool',
-                'Casino',
-                'A.C.',
-                'Restaurant',
-                'WiFi',
-                'Bar',
-                'Hot Tub',
-                'Spa',
-                'Sauna',
-                'Laundry',
-                'Pet Friendly',
-              ]}
-            />
-          </section>
+          <AmenitiesSection />
           <Divider />
-
+          <Policies />
           {/* It is not yet applicable but I have left the desktop styles configured for when it is to be used */}
           {/* <section className="lg:px-20 lg:py-8">
             <CustomerReviewsSection />
