@@ -1,4 +1,3 @@
-import { Pricing } from '@simplenight/ui';
 import { Room } from 'hotels/types/response/SearchResponse';
 import RoomCardHeader from './RoomCard/RoomCardHeader';
 import Divider from 'components/global/Divider/Divider';
@@ -8,10 +7,12 @@ import amenitiesIcons from 'hotels/components/Amenities/amenitiesIcons';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import NonRefundable from 'components/global/NonRefundable/NonRefundable';
-import { ReactChild, ReactFragment, ReactPortal, useState } from 'react';
+import { useState } from 'react';
 import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
-import { ReactI18NextChild, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
+import AmenitiesDefaultIcon from 'public/icons/assets/amenities/default.svg';
 
 interface RoomsProps {
   room: Room;
@@ -48,21 +49,8 @@ const RoomCard = ({
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
-
   const images = room?.photos?.map((photo) => photo.url) ?? [];
-  const discounts = rates?.avg_amount?.discounts;
 
-  const totalBeforeDiscount =
-    rates?.min_rate.rate?.rate_breakdown.discounts?.total_amount_before_apply;
-  let percentageToApply:
-    | boolean
-    | ReactChild
-    | ReactFragment
-    | ReactPortal
-    | Iterable<ReactI18NextChild>
-    | null
-    | undefined;
-  let amountToApply;
   const tRoom = tg('room', 'Room');
   const tRooms = tg('rooms', 'Rooms');
   const ROOM_TEXT = usePlural(roomsQty, tRoom, tRooms);
@@ -70,12 +58,11 @@ const RoomCard = ({
   const tNights = tg('nights', 'Nights');
 
   const NIGHT_TEXT = usePlural(nights, tNight, tNights);
-  if (discounts) {
-    ({
-      percentage_to_apply: percentageToApply,
-      amount_to_apply: amountToApply,
-    } = discounts);
-  }
+
+  const AmenityDefaultIcon = {
+    iconLarge: <AmenitiesDefaultIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <AmenitiesDefaultIcon />,
+  };
 
   const FallbackImage = () => (
     <section
@@ -95,10 +82,10 @@ const RoomCard = ({
         <>
           <section className="flex flex-col gap-2 p-4">
             {amenities.map((amenity, index) => {
-              const amenityIcon = amenitiesIcons.find((amenityOption) => {
+              const icon = amenitiesIcons.find((amenityOption) => {
                 amenityOption.options.includes(amenity);
               });
-
+              const amenityIcon = icon ? icon : AmenityDefaultIcon;
               if (index <= 2) {
                 return (
                   <AmenitiesItem
@@ -124,34 +111,26 @@ const RoomCard = ({
   const Price = () => (
     <section className="w-full flex-col py-4 pr-4 justify-end">
       <section className="text-right">
-        <Pricing>
-          {discounts && percentageToApply ? (
-            <Pricing.Discount
-              totalBeforeDiscount={totalBeforeDiscount?.formatted}
-              percentageToApply={percentageToApply?.toString()}
-            />
-          ) : (
-            <></>
-          )}
-          <Pricing.TotalWithTaxes
-            totalAmount={rates.min_rate?.rate?.starting_room_total?.formatted}
-          />
-          <Pricing.TaxesAndFees />
-        </Pricing>
+        <PriceDisplay
+          rate={rates}
+          isStartingTotal={true}
+          isPriceBase
+          isAvgAmount
+        />
       </section>
     </section>
   );
 
   return (
     <section className="flex flex-col lg:flex-row justify-between my-3 mx-3 overflow-hidden border rounded shadow-container lg:my-0 border-dark-200">
-      <section className="min-h-[500px] w-[100%] lg:min-h-[15rem] lg:min-w-[35%]  bg-red-300">
+      <section className="lg:h-[300px] w-[100%] lg:min-h-[15rem] lg:min-w-[35%] ">
         {images?.length > 0 ? (
           <ImageCarousel
             images={images}
             title={roomName}
             showDots={true}
             showIndexDot={false}
-            height="300px"
+            height="270px"
           />
         ) : (
           <FallbackImage />
@@ -174,14 +153,20 @@ const RoomCard = ({
             <Divider className="block lg:hidden" />
             <Amenities />
           </section>
-          <section className="md:w-[100%] sm:w-[100%] lg:w-[50%] ">
-            <section className=" flex items-center px-4 py-4">
+          <section className="lg:flex lg:justify-between lg:flex-col md:w-[100%] sm:w-[100%] lg:w-[50%]">
+            <section className="flex items-center px-4 lg:pt-4 pb-4 justify-start lg:justify-end">
               {cancellable && (
                 <FreeCancellationExtended
+                  title={false}
+                  showPolicyLabel={false}
                   policy={cancellationPolicy?.description}
                 />
               )}
-              <NonRefundable nonCancellable={nonRefundable} />
+              <NonRefundable
+                title={false}
+                description={cancellationPolicy?.description}
+                nonCancellable={nonRefundable}
+              />
             </section>
             <section className="hidden lg:block">
               <Price />

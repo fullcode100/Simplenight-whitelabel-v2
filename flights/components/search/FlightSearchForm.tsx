@@ -2,12 +2,9 @@ import dayjs from 'dayjs';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
-// import DatePicker from '../../../components/global/Calendar/Calendar';
 import DatePicker from '../Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
 import { Traveler, createTraveler } from 'flights/helpers/traveler';
-
-import Bed from 'public/icons/assets/bed.svg';
 import ArrowMenuRight from 'public/icons/assets/flights/arrow_menu_right.svg';
 import ArrowMenuRoudTrip from 'public/icons/assets/flights/arrow_menu_roundtrip.svg';
 import ArrowMenuMulticity from 'public/icons/assets/flights/arrow_menu_multicity.svg';
@@ -17,8 +14,6 @@ import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
 import { Button } from '@simplenight/ui';
-import { SearchFormProps } from 'types/search/SearchFormProps';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import LocationInput from '../Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
@@ -33,43 +28,34 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Label from 'components/global/Label/Label';
-import FlightSelect from '../FlightSelect/FlightSelect';
 import classnames from 'classnames';
 import { Collapse } from 'react-collapse';
-import { Popover } from '@headlessui/react';
 import useMediaViewport from 'hooks/media/useMediaViewport';
-import TravelersInputPopper from '../TravelersInput/TravelersInputPopper';
 import PlusIcon from 'public/icons/assets/flights/plus.svg';
 import TrashIcon from 'public/icons/assets/flights/trash.svg';
 import Popper from 'components/global/Popper/Popper';
 import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import DropdownMenu from '../FlightSelect/DropDownMenu';
+import { useSearchStore } from 'hooks/flights/useSearchStore';
 
+interface LocationInputRef {
+  getAddress: () => string | undefined;
+  setNewAddress: (address: string) => void;
+}
 const FlightSearchForm = ({
   setIsSearching,
   className = '',
   hasReRoute = false,
 }: SearchFormProps) => {
+
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
-  const [t, i18next] = useTranslation('flights');
-  const locationInputLabel = t('locationInputLabel', 'Leaving From');
-  const location2InputLabel = t('location2InputLabel', 'Going To');
-  const textSearch = t('search', 'Search');
-  const checkInText = t('checkIn');
-  const checkOutText = t('checkOut');
+  const [t] = useTranslation('flights');
   const travelersLabel = t('travelers', 'Travelers');
   const travelerLabel = t('traveler', 'Traveler');
-  const roomsLabel = t('rooms', 'Rooms');
-  const roomLabel = t('room', 'Room');
-  const addFlightLabel = t('addFlight', 'Add Flight');
-  const removeFlightLabel = t('removeFlight', 'Remove');
-  const flightLabel = t('flight', 'Flight');
-  const showFlights = t('show', 'Show');
-  const hideFlights = t('hide', 'Hide');
 
   const params = useQuery();
-  const setQueryParam = useQuerySetter();
+  const setSearch = useSearchStore((state) => state.setSearch);
   const [directionsMenuItems, setDirectionsMenuItems] = useState([
     {
       label: 'One-Way',
@@ -99,7 +85,6 @@ const FlightSearchForm = ({
   const [direction, setDirection] = useState(
     params?.direction?.toString() || 'round_trip',
   );
-  const [cabin, setCabin] = useState('economy');
 
   const [travelersData, setTravelersData] = useState<Traveler[]>(
     params.travelersData
@@ -390,7 +375,25 @@ const FlightSearchForm = ({
         '|',
       )}&addresses=${addresses.join('|')}&addresses2=${addresses2.join('|')}`;
     route = `${route}&currency='USD'&maxOfferss=50`;
+
+    setSearch({
+      direction,
+      startAirport,
+      endAirport,
+      startDate,
+      adults,
+      children,
+      infants,
+      childrenAges,
+      infantsAges,
+      geolocation,
+      address,
+      geolocation2,
+      address2,
+      travelersData,
+    });
     handleSaveLastSearch(route);
+
     router.push(route);
   };
 
@@ -429,7 +432,7 @@ const FlightSearchForm = ({
     setTravelersPlaceholder(
       `${
         parseInt(adults) + parseInt(children) + parseInt(infants)
-      } ${travelersLabel}, ${rooms} ${roomsLabel}`,
+      } ${travelersLabel}, ${rooms} ${t('rooms')}`,
     );
   }, [adults, children, infants]);
 
@@ -499,10 +502,10 @@ const FlightSearchForm = ({
       <section className={classNameCollapseButton}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center self-end bg-transparent text-gray-600 text-xs text-right lg:text-center h-8 w-24 py-0 hover:border-gray-400 focus:outline-none z-10"
+          className="z-10 flex items-center self-end w-24 h-8 py-0 text-xs text-right text-gray-600 bg-transparent lg:text-center hover:border-gray-400 focus:outline-none"
         >
-          <span className="pr-1 font-semibold flex-1">
-            {isOpen ? hideFlights : showFlights}
+          <span className="flex-1 pr-1 font-semibold">
+            {isOpen ? t('hide') : t('show')}
           </span>
           <span>
             <svg
@@ -536,7 +539,7 @@ const FlightSearchForm = ({
                 <section>
                   <Label
                     value={travelersLabel}
-                    className="block lg:hidden lg:mb-0 my-3"
+                    className="block my-3 lg:hidden lg:mb-0"
                   />
                   <Popper
                     open={showTravelersInput}
@@ -577,7 +580,7 @@ const FlightSearchForm = ({
               {direction === 'multi_city' && (
                 <section className="w-full mt-5">
                   <Label
-                    value={`${flightLabel} #${flightIndex + 1}`}
+                    value={`${t('flight')} #${flightIndex + 1}`}
                     className="block text-sm font-normal text-dark-500"
                   />
                 </section>
@@ -593,7 +596,7 @@ const FlightSearchForm = ({
                       icon={
                         <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
                       }
-                      label={locationInputLabel}
+                      label={t('locationInputLabel')}
                       name="location"
                       placeholder={locationPlaceholder}
                       routeParams={['address']}
@@ -645,7 +648,7 @@ const FlightSearchForm = ({
                       icon={
                         <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
                       }
-                      label={location2InputLabel}
+                      label={t('location2InputLabel')}
                       name="location2"
                       placeholder={location2Placeholder}
                       routeParams={['address2']}
@@ -678,8 +681,8 @@ const FlightSearchForm = ({
                   <DatePicker
                     showDatePicker={showDatePicker}
                     onClose={() => setShowDatePicker(false)}
-                    startDateLabel={checkInText}
-                    endDateLabel={checkOutText}
+                    startDateLabel={t('checkIn')}
+                    endDateLabel={t('checkOut')}
                     initialStartDate={
                       direction === 'multi_city'
                         ? startDates[flightIndex]
@@ -696,9 +699,9 @@ const FlightSearchForm = ({
                   />
                   <section className={classNameDatepicker}>
                     <IconInput
-                      label={checkInText}
+                      label={t('checkIn')}
                       name="Check-in"
-                      placeholder={checkInText}
+                      placeholder={t('checkIn')}
                       className="lg:mt-0"
                       orientation="left"
                       icon={<Calendar className="w-5 h-5 text-dark-700" />}
@@ -720,9 +723,9 @@ const FlightSearchForm = ({
                     />
                     {direction === 'round_trip' && (
                       <IconInput
-                        label={checkOutText}
+                        label={t('checkOut')}
                         name="Check-out"
-                        placeholder={checkOutText}
+                        placeholder={t('checkOut')}
                         orientation="left"
                         className="lg:mt-0"
                         icon={<Calendar className="w-5 h-5 text-dark-700" />}
@@ -749,13 +752,13 @@ const FlightSearchForm = ({
                       icon={<TrashIcon />}
                       compact
                     >
-                      {removeFlightLabel}
+                      {t('removeFlight')}
                     </Button>
                   </section>
                 ) : (
                   <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
                     <Button key="flights.searchBtn" onClick={handleSearchClick}>
-                      {textSearch}
+                      {t('search')}
                     </Button>
                   </section>
                 )}
@@ -778,7 +781,7 @@ const FlightSearchForm = ({
                     compact
                     disabled={flights.length === 5}
                   >
-                    {addFlightLabel}
+                    {t('addFlight')}
                   </Button>
                 </section>
               )}
@@ -800,7 +803,7 @@ const FlightSearchForm = ({
                   <section>
                     <Label
                       value={travelersLabel}
-                      className="block lg:hidden lg:mb-0 my-3"
+                      className="block my-3 lg:hidden lg:mb-0"
                     />
                     <button
                       onClick={() => setShowTravelersInput(true)}
@@ -827,7 +830,7 @@ const FlightSearchForm = ({
             {flights.length !== 1 && (
               <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
                 <Button key="flights.searchBtn" onClick={handleSearchClick}>
-                  {textSearch}
+                  {t('search')}
                 </Button>
               </section>
             )}
