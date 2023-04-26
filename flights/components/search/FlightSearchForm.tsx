@@ -45,11 +45,6 @@ import Popper from 'components/global/Popper/Popper';
 import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import DropdownMenu from '../FlightSelect/DropDownMenu';
 
-interface LocationInputRef {
-  getAddress: () => string | undefined;
-  setNewAddress: (address: string) => void;
-}
-
 const FlightSearchForm = ({
   setIsSearching,
   className = '',
@@ -449,18 +444,12 @@ const FlightSearchForm = ({
     travelerLabel,
     travelersLabel,
   );
-  const refLocationInputFrom = useRef<LocationInputRef>(null);
-  const refLocationInputTo = useRef<LocationInputRef>(null);
 
   const swap = () => {
-    const locationInput1State = refLocationInputFrom?.current;
-    const locationInput2State = refLocationInputTo?.current;
-    const from = locationInput1State?.getAddress();
-    const to = locationInput2State?.getAddress();
-    if (from && to) {
-      locationInput1State?.setNewAddress(to);
-      locationInput2State?.setNewAddress(from);
-    }
+    const from = address;
+    const to = address2;
+    setAddress(to);
+    setAddress2(from);
   };
 
   const [isOpen, setIsOpen] = useState(true);
@@ -628,7 +617,8 @@ const FlightSearchForm = ({
                       onChange={() => setShowLocationError(false)}
                       autoFocus={!address ? true : false}
                       clearShortNames={() => cleanSelectLocation(flightIndex)}
-                      ref={refLocationInputFrom}
+                      value={address}
+                      setValue={setAddress}
                     />
                     <div className={classNameSwapButton}>
                       <button
@@ -681,7 +671,8 @@ const FlightSearchForm = ({
                       clearShortNames={() => {
                         cleanSelectLocation2(flightIndex);
                       }}
-                      ref={refLocationInputTo}
+                      value={address2}
+                      setValue={setAddress2}
                     />
                   </section>
                   <DatePicker
