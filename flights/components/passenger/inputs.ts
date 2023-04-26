@@ -1,4 +1,4 @@
-export interface IPassengerFormInput {
+export interface IPassenger {
   firstName: string;
   middleName: string;
   lastName: string;
@@ -10,10 +10,12 @@ export interface IPassengerFormInput {
   passportIdNumber: string;
   country: string;
   expiration: string;
+  wheelChair: boolean;
+  vaccinationRecords: boolean;
+  knownTravelerNumber: boolean;
 }
 
 enum GenderEnum {
   female = 'female',
   male = 'male',
-  other = 'other',
 }
