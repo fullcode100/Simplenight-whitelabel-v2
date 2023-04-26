@@ -114,5 +114,7 @@
   "nextPassenger": "Siguiente pasajero",
   "flights": "Vuelos",
   "loyaltyProgram": "Programa de fidelización",
-  "loyaltyNumber": "Número de lealtad"
+  "loyaltyNumber": "Número de lealtad",
+  "departure": "Partida",
+  "departureFlight": "Vuelo de partida"
 }

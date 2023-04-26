@@ -116,5 +116,7 @@
   "passenger": "Passenger",
   "flights": "Flights",
   "loyaltyProgram": "Loyalty program",
-  "loyaltyNumber": "Loyalty number"
+  "loyaltyNumber": "Loyalty number",
+  "departure": "Departure",
+  "departureFlight": "Departure Flight"
 }

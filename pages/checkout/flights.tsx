@@ -26,6 +26,9 @@ import { usePaymentFormSchema } from 'hooks/schemas/usePaymentFormSchema';
 import { SelectOption } from '../../components/checkout/Select/Select';
 import { Container, FormField, TextInput } from '@simplenight/ui';
 import { useCustomer } from 'hooks/checkout/useCustomer';
+import { useFlightsStore } from 'hooks/flights/useFligthsStore';
+import FlightsCheckoutAccordion from 'flights/components/checkout/FlightsCheckoutAccordion/FlightsCheckoutAccordion';
+import Divider from 'components/global/Divider/Divider';
 
 const CONFIRMATION_URI = '/confirmation';
 
@@ -49,6 +52,9 @@ const Payment = () => {
   const [errorTerms, setErrorTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [country, setCountry] = useState<SelectOption | undefined>();
+
+  const flights = useFlightsStore((store) => store.flights);
+  console.log(flights);
 
   type PaymentFormSchema = z.infer<typeof paymentFormSchema>;
   const methods = useForm<PaymentFormSchema>({
@@ -147,8 +153,15 @@ const Payment = () => {
                   setErrorTerms={setErrorTerms}
                 />
               </section>
-              <section className="px-5">
-                {/* <PaymentCart items={cart?.items} customer={cart?.customer} /> */}
+              <Divider />
+              <section className="px-5 py-4">
+                {flights &&
+                  flights.map((flight) => (
+                    <FlightsCheckoutAccordion
+                      key={flight.departure.iata_code}
+                      flight={flight}
+                    />
+                  ))}
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
