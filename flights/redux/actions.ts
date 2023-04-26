@@ -4,6 +4,7 @@ import { FlightSearchRequest } from 'flights/types/request/FlightSearchRequest';
 import { AppThunk } from 'store';
 import { FlightStoreActions } from './FlightStoreActions';
 import * as types from './types';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 
 const search =
   (searchParams: FlightSearchRequest): AppThunk =>
@@ -39,6 +40,11 @@ const detail =
       );
     }
   };
+
+export const saveFlightDetail = (data: Flight) => ({
+  type: types.SET_DETAIL,
+  payload: data,
+});
 
 const actions: FlightStoreActions = {
   search,

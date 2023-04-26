@@ -1,7 +1,7 @@
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 import { FlightState } from './FlightState';
 
 export default {
   flights: [],
-  flight: {} as Flight,
+  flight: null,
 } as FlightState;

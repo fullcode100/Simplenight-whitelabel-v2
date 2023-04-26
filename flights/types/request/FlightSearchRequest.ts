@@ -9,7 +9,7 @@ export interface FlightSearchRequest extends SearchRequest {
   origin: string;
   destination: string;
   departure_date: string;
-  return_date: string;
+  return_date?: string;
 
   adults: number;
   children: number;

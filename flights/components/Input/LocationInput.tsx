@@ -117,7 +117,7 @@ const LocationInput = forwardRef<
               <div className=" relative lg:w-full">
                 {address && (
                   <section
-                    className=" absolute right-3 top-8 z-10 rounded bg-white w-[30px] flex justify-end"
+                    className=" absolute right-3 top-8 z-20 rounded bg-white w-[30px] flex justify-end"
                     onClick={() => {
                       setAddress('');
                       clearShortNames?.();
@@ -137,7 +137,7 @@ const LocationInput = forwardRef<
                   />
                   <section
                     className={classnames(
-                      'autocomplete-dropdown-container rounded absolute z-10 w-full block',
+                      'autocomplete-dropdown-container rounded absolute z-20 w-full block',
                       {
                         'shadow-md': suggestions[0],
                       },

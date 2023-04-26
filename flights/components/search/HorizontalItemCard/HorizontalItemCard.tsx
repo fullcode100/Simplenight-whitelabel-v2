@@ -29,15 +29,15 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
       <section onClick={() => setIsExpanded((expanded) => !expanded)}>
         <section className="flex">
           <div className="flex gap-4 px-4 py-2 flex-1 overflow-hidden">
-            <FlightAirlines item={item} />
-            <TimeAndAirports item={item} />
-            <DurationAndStops item={item} />
+            <FlightAirlines segments={item.availability.outbound.segments} />
+            <TimeAndAirports segments={item.availability.outbound.segments} />
+            <DurationAndStops segmentInfo={item.availability.outbound} />
             <InclusionsAndExclusions item={item} />
           </div>
           {selectFlight && <Pricing item={item} onClick={selectFlight} />}
         </section>
         {isExpanded && (
-          <CardCollapsable segments={item.availability.segments} />
+          <CardCollapsable segments={item.availability.outbound.segments} />
         )}
       </section>
     );
@@ -52,9 +52,9 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
       >
         <section className="p-4 flex items-center gap-2 ">
           <div className="grow flex items-start">
-            <FlightAirlines item={item} />
+            <FlightAirlines segments={item.availability.outbound.segments} />
           </div>
-          <DurationAndStops item={item} />
+          <DurationAndStops segmentInfo={item.availability.outbound} />
           <ChevronDownIcon
             className={classnames(
               'text-dark-700 h-6 transition-all',
@@ -64,10 +64,10 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
         </section>
         <Divider className="w-full" />
         {isExpanded ? (
-          <CardCollapsable segments={item.availability.segments} />
+          <CardCollapsable segments={item.availability.outbound.segments} />
         ) : (
           <section className="p-4">
-            <TimeAndAirports item={item} />
+            <TimeAndAirports segments={item.availability.outbound.segments} />
           </section>
         )}
 

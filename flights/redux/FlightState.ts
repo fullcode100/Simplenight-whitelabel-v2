@@ -1,7 +1,6 @@
-import { FlightDetailResponse } from 'flights/types/response/FlightDetailResponse';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 
 export interface FlightState {
   flights: Flight[];
-  flight: FlightDetailResponse | Flight;
+  flight: Flight | null;
 }

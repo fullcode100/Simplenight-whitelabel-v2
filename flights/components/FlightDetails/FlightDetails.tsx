@@ -4,14 +4,16 @@ import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 
 interface FlightDetailsProps {
   departure: string;
+  departureDate: string;
   arrival: string;
-  dateTime: string;
+  arrivaDate: string;
   type: string;
 }
 const FlightDetails = ({
   departure,
   arrival,
-  dateTime,
+  departureDate,
+  arrivaDate,
   type,
 }: FlightDetailsProps) => {
   return (
@@ -30,7 +32,7 @@ const FlightDetails = ({
       &bull;
       <section>
         <Paragraph size="small" fontWeight="semibold">
-          {dateTime}
+          {`${departureDate} to ${arrivaDate}`}
         </Paragraph>
       </section>
       &bull;

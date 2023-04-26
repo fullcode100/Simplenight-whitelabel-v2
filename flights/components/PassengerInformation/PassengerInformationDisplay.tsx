@@ -1,4 +1,3 @@
-import useQuery from 'hooks/pageInteraction/useQuery';
 import React, { useState } from 'react';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
@@ -6,9 +5,12 @@ import FlightDetails from '../FlightDetails/FlightDetails';
 import { Pricing } from '@simplenight/ui';
 import { Flight } from 'flights/types/response/FlightSearchResponse';
 import HorizontalItemCard from '../search/HorizontalItemCard/HorizontalItemCard';
-import { flightsListMock } from 'flights/flightsListMock';
 import Divider from 'components/global/Divider/Divider';
 import Passenger from '../passenger/Passenger';
+import { useSelector } from 'react-redux';
+import { formatDate } from 'flights/utils';
+import useQuery from 'hooks/pageInteraction/useQuery';
+import { useTranslation } from 'react-i18next';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -16,11 +18,22 @@ const PassengerInformationDisplay = ({
   Category,
 }: FlightDetailDisplayProps) => {
   const { id } = useQuery();
-  const [passengerForm, setPassengerForm] = useState(2);
+  const [t, i18next] = useTranslation('flights');
+  const [passengerForm, setPassengerForm] = useState(1);
+  const { flight }: { flight?: Flight } = useSelector(
+    ({ flights }: any) => flights,
+  );
+  console.log('flight detail:', flight);
+
+  if (!flight) {
+    return null;
+  }
 
   const getPricing = () => (
     <Pricing>
-      <Pricing.Total totalAmount="US$999.00" />
+      <Pricing.Total
+        totalAmount={flight.availability.rate.total.net.formatted}
+      />
       <Pricing.TaxesAndFees />
     </Pricing>
   );
@@ -31,20 +44,18 @@ const PassengerInformationDisplay = ({
       <section className="flex w-full justify-between max-w-7xl mx-auto mt-[64px] pt-6">
         <section>
           <FlightDetails
-            key={'12345'}
-            departure={'BUE'}
-            arrival={'CHI'}
-            dateTime="Mar 25, 2023 to Mar 31, 2023"
-            type="Roundtrip"
+            departure={flight.departure.iata_code}
+            departureDate={formatDate(flight.availability.departure_date)}
+            arrival={flight.arrival.iata_code}
+            arrivaDate={formatDate(flight.availability.arrival_date)}
+            type={t(id as string)}
           />
         </section>
         <section>{getPricing()}</section>
       </section>
       <section className="flex w-full max-w-7xl mx-auto mt-3">
         <ul role="list" className="w-full">
-          {flightsListMock.map((flight: Flight, index: number) => (
-            <HorizontalItemCard key={`flight_${index}`} item={flight} />
-          ))}
+          <HorizontalItemCard item={flight} />
         </ul>
       </section>
       <Divider className="py-12" />

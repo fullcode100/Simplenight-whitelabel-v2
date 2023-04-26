@@ -15,7 +15,7 @@ import {
 } from '@simplenight/ui';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import ChevronRight from 'public/icons/assets/chevron-right.svg';
@@ -25,6 +25,7 @@ import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStat
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightInfo from '../FlightInfo/FlightInfo';
 import { useCategorySlug } from 'hooks/category/useCategory';
+import { saveFlightDetail } from 'flights/redux/actions';
 
 declare let window: CustomWindow;
 
@@ -44,6 +45,8 @@ const FlightResultsDisplay = ({
   const router = useRouter();
   const setQueryParams = useQueryShallowSetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
+
+  const dispatch = useDispatch();
 
   const pageItems = 10;
   const [page, setPage] = useState<number>(1);
@@ -80,6 +83,10 @@ const FlightResultsDisplay = ({
   const { slug } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
+  const isOneWay = direction === 'one_way';
+  const isRoundTrip = direction === 'round_trip';
+  const isMultiCity = direction === 'multi_city';
+
   const params: FlightSearchRequest = {
     direction: direction as unknown as string,
     cabin_type: 'economy',
@@ -87,7 +94,6 @@ const FlightResultsDisplay = ({
     origin: startAirport as unknown as string,
     destination: endAirport as unknown as string,
     departure_date: formatAsSearchDate(startDate as unknown as string),
-    return_date: formatAsSearchDate(endDate as unknown as string),
 
     adults: parseQueryNumber(adults ?? ''),
     children: parseQueryNumber(children ?? ''),
@@ -102,6 +108,11 @@ const FlightResultsDisplay = ({
     currency: currency as unknown as string,
     apiUrl,
   };
+
+  if (!isOneWay) {
+    params.return_date = formatAsSearchDate(endDate as unknown as string);
+  }
+
   const hasEmptyValues = checkIfAnyNull([
     direction,
     startAirport,
@@ -109,10 +120,6 @@ const FlightResultsDisplay = ({
     startDate,
     adults,
   ]);
-
-  const isOneWay = direction === 'one_way';
-  const isRoundTrip = direction === 'round_trip';
-  const isMultiCity = direction === 'multi_city';
 
   const hasEmptyValuesMultiCity = checkIfAnyNull([
     startAirports,
@@ -148,13 +155,9 @@ const FlightResultsDisplay = ({
   }, [data]);
 
   const selectFlight = (flight: Flight) => {
-    if (isOneWay && selectedFlights.length === 0) {
-      router.push('/detail/flights/12345');
-    } else if (isRoundTrip && selectedFlights.length === 1) {
-      router.push('/detail/flights/12345');
-    } else {
-      setSelectedFlights((flights) => [...flights, flight]);
-    }
+    setSelectedFlights((flights) => [...flights, flight]);
+    dispatch(saveFlightDetail(flight));
+    router.push(`/detail/flights/${direction}`);
   };
 
   const FlightList = () => (
@@ -184,7 +187,7 @@ const FlightResultsDisplay = ({
           <FlightsBreadcrumbs
             step={1}
             content={selectedFlights.map((flight, idx) => {
-              const flightSegments = flight.availability.segments;
+              const flightSegments = flight.availability.outbound.segments;
               const firstSegment = flightSegments[0];
               const lastSegment = flightSegments[flightSegments.length - 1];
               const airline = firstSegment.carrier_name;
@@ -214,7 +217,7 @@ const FlightResultsDisplay = ({
             <FlightFilterFormDesktop flights={flightsSearched} />
           </section>
         )} */}
-        <section className="lg:flex-1 lg:w-[75%] h-full">
+        <section className="lg:flex-1 lg:w-[75%] h-full pt-9">
           {isLoading ? (
             <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
               <HorizontalSkeletonList />

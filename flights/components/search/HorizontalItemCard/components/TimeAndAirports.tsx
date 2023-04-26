@@ -1,10 +1,9 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
-import { Flight } from 'flights/types/response/FlightSearchResponse';
+import { Segment } from 'flights/types/response/FlightSearchResponse';
 import { formatTime } from 'flights/utils';
 import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 
-const TimeAndAirports = ({ item }: { item: Flight }) => {
-  const segments = item?.availability.segments;
+const TimeAndAirports = ({ segments }: { segments: Segment[] }) => {
   const firstSegment = segments[0];
   const lastSegment = segments[segments.length - 1];
   const departureTime = formatTime(firstSegment?.departure_date);

@@ -15,13 +15,16 @@ export interface Flight {
 export interface Availability {
   rate: Rate;
   departure_date: string;
-  departure_terminal: string;
   arrival_date: string;
-  arrival_terminal: string;
-  stops: 0;
-  segments: Segment[];
+  booking_class?: string;
+  inbound: SegmentInfo;
+  outbound: SegmentInfo;
 }
 
+export interface SegmentInfo {
+  segments: Segment[];
+  stops: number;
+}
 export interface LocationInfo {
   iata_code: string;
   airport: string;
