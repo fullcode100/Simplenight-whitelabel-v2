@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { formatDate } from 'flights/utils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useTranslation } from 'react-i18next';
+import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -20,10 +21,11 @@ const PassengerInformationDisplay = ({
   const { id } = useQuery();
   const [t, i18next] = useTranslation('flights');
   const [passengerForm, setPassengerForm] = useState(1);
-  const { flight }: { flight?: Flight } = useSelector(
-    ({ flights }: any) => flights,
-  );
-  console.log('flight detail:', flight);
+  const flights = useFlightsStore((state) => state.flights);
+  const flight = flights[0];
+  // const { flight }: { flight?: Flight } = useSelector(
+  //   ({ flights }: any) => flights,
+  // );
 
   if (!flight) {
     return null;
@@ -53,13 +55,15 @@ const PassengerInformationDisplay = ({
         </section>
         <section>{getPricing()}</section>
       </section>
-      <section className="flex w-full max-w-7xl mx-auto mt-3">
+      <section className="flex w-full mx-auto mt-3 max-w-7xl">
         <ul role="list" className="w-full">
-          <HorizontalItemCard item={flight} />
+          {flights?.map((itemFlight, index) => (
+            <HorizontalItemCard key={index} item={itemFlight} />
+          ))}
         </ul>
       </section>
       <Divider className="py-12" />
-      <section className="flex flex-col w-full max-w-7xl mx-auto pb-12  gap-6">
+      <section className="flex flex-col w-full gap-6 pb-12 mx-auto max-w-7xl">
         <Passenger
           passengerNumber={1}
           open={passengerForm === 1}

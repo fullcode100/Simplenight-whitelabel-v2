@@ -10,7 +10,7 @@ export interface CCStore {
   clear(): void;
 }
 
-export const useCC = create<CCStore>()((set) => ({
+export const useCCStore = create<CCStore>()((set) => ({
   cc: null,
   setCC: (cc: CCard) => {
     set((state: CCStore) => ({

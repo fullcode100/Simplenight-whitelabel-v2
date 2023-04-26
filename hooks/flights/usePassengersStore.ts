@@ -10,7 +10,7 @@ export interface PassengersStore {
   clear(): void;
 }
 
-export const usePassengers = create<PassengersStore>()((set) => ({
+export const usePassengersStore = create<PassengersStore>()((set) => ({
   passengers: [],
   setPassengers: (passengers: Array<Passenger>) => {
     set((state: PassengersStore) => ({

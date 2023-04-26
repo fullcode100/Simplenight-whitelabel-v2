@@ -1,8 +1,5 @@
+import { Flight } from 'flights/types/response/FlightSearchResponse';
 import { create } from 'zustand';
-
-export interface Flight {
-  name: string;
-}
 
 export interface FlightsStore {
   flights: Array<Flight>;
@@ -10,7 +7,7 @@ export interface FlightsStore {
   clear(): void;
 }
 
-export const useFlights = create<FlightsStore>()((set) => ({
+export const useFlightsStore = create<FlightsStore>()((set) => ({
   flights: [],
   addFlight: (flight: Flight) => {
     set((state: FlightsStore) => ({
