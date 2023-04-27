@@ -1,3 +1,8 @@
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+
 export const transformTo12hours = (label: string, withDivider?: boolean) => {
   let labelString = label;
   if (labelString) {
@@ -7,12 +12,9 @@ export const transformTo12hours = (label: string, withDivider?: boolean) => {
       labelSplited[1] = label.substring(2);
     }
 
-    const hour = Number(labelSplited[0]);
-    const isMoreThan12 = hour > 12;
-    const newHour = isMoreThan12 ? hour - 12 : hour;
-    labelString = `${newHour > 9 ? newHour : '0' + newHour}:${
-      labelSplited[1]
-    } ${isMoreThan12 ? 'PM' : 'AM'}`;
+    const hour = `${labelSplited[0]}:${labelSplited[1]}`;
+    const date = dayjs(hour, 'HH:mm').toDate();
+    labelString = dayjs(date).format('hh:mm A');
   }
 
   return labelString;
@@ -21,14 +23,8 @@ export const transformTo12hours = (label: string, withDivider?: boolean) => {
 export const transformTo12hoursLowercase = (label?: string) => {
   let labelString = label;
   if (label) {
-    const labelSplited = label.split(':');
-    const hour = Number(labelSplited[0]);
-    const minutes = Number(labelSplited[1]);
-    const isMoreThan12 = hour > 12;
-    const newHour = isMoreThan12 ? hour - 12 : hour;
-    labelString = `${newHour}${minutes > 0 ? ':' + minutes : ''}${
-      isMoreThan12 ? 'pm' : 'am'
-    }`;
+    const date = dayjs(label, 'HH:mm').toDate();
+    labelString = dayjs(date).format('hh:mm A');
   }
 
   return labelString;

@@ -697,7 +697,7 @@ const ShowAndEventsDetailDisplay = ({
               </section>
             </section>
             {showSelectedSeatsBar && (
-              <section className="w-full col-span-3 border-l-0 lg:border-l-2 lg:sticky fixed bottom-0 pt-0 lg:top-32 lg:h-[82vh] h-[30vh] lg:col-span-1 bg-white col z-10 shadow-up lg:shadow-container rounded-t-lg lg:rounded-none overflow-hidden">
+              <section className="w-full col-span-3 border-l-0 lg:border-l-2 lg:sticky fixed bottom-0 pt-0 lg:top-20 lg:h-[89vh] h-[30vh] lg:col-span-1 bg-white col z-10 shadow-up lg:shadow-container rounded-t-lg lg:rounded-none overflow-hidden">
                 <section className="w-full h-full bg-white">
                   <SelectedSeatsBar
                     id={id as string}

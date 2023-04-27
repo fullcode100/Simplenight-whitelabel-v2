@@ -1,5 +1,8 @@
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
-import { WeekDaysAvailability } from 'dining/types/response/SearchResponse';
+import {
+  Times,
+  WeekDaysAvailability,
+} from 'dining/types/response/SearchResponse';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import DiningCategoryDetail from './DiningCategoryDetail';
@@ -13,7 +16,7 @@ import DiningTimeSelector from './DiningTimeSelector';
 const DiningAboutDetail = ({
   phone,
   categories,
-  hours,
+  times,
   onSelectDate,
   isOpen,
   onChange,
@@ -24,7 +27,7 @@ const DiningAboutDetail = ({
 }: {
   phone?: string;
   categories: string[];
-  hours?: string[];
+  times?: Times[];
   onSelectDate: (date: string) => void;
   isOpen: boolean;
   onChange: (time: string) => void;
@@ -63,13 +66,13 @@ const DiningAboutDetail = ({
       </div>
       <h6 className="mt-6 text-sm text-dark-800 lg:hidden">{t('timeSlots')}</h6>
       <div className="grid grid-cols-4 mt-6 lg:grid-cols-6 gap-x-3">
-        {hours && hours.length > 0 ? (
-          hours?.map((value) => (
+        {times && times.length > 0 ? (
+          times?.map((item) => (
             <DiningTimeSelector
-              key={value}
-              label={value}
+              key={item.time}
+              label={item.time}
               onSelect={onSelect}
-              status={defaultTime === value ? 'selected' : 'enabled'}
+              status={defaultTime === item.time ? 'selected' : 'enabled'}
             />
           ))
         ) : (

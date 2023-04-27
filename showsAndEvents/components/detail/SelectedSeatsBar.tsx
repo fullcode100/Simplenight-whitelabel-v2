@@ -14,6 +14,7 @@ import NonRefundable from 'components/global/NonRefundable/NonRefundable';
 import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCancellationExtended';
 import { CancelationPolicy } from 'showsAndEvents/types/response/ShowsDetailResponse';
 import TaxesAndFeesPopover from '../TaxesAndFeesPopover/TaxesAndFeesPopover';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface selectedSeatsProp {
   sector: string;
@@ -63,6 +64,8 @@ const SelectedSeatsBar = ({
     'includesTaxesAndFees',
     'Includes Taxes and Fees',
   );
+
+  const showAddToItinerary = hasCartMode();
 
   const totalTickets = useMemo(() => {
     return selectedSeats.reduce((a, b) => {
@@ -290,13 +293,15 @@ const SelectedSeatsBar = ({
             </p>
           </div>
         </div>
-        <Button
-          value="Add To Itinerary"
-          type="outlined"
-          size="full"
-          className="my-4"
-          onClick={() => handleAction('/itinerary')}
-        />
+        {showAddToItinerary && (
+          <Button
+            value="Add To Itinerary"
+            type="outlined"
+            size="full"
+            className="my-4"
+            onClick={() => handleAction('/itinerary')}
+          />
+        )}
         <Button
           value="Book Now"
           size="full"
