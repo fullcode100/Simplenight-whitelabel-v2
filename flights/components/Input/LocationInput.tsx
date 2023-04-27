@@ -20,8 +20,8 @@ interface LocationInputProps {
   defaultAddress?: string;
   clearShortNames?: () => void;
   filter?: (description: string) => boolean;
-  value?: string;
-  setValue?: (value: string) => void;
+  addressValue?: string;
+  setAddressValue?: (value: string) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
@@ -30,8 +30,8 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
   defaultAddress,
   clearShortNames,
   filter,
-  value,
-  setValue,
+  addressValue,
+  setAddressValue,
   ...others
 }) => {
   const isMapLoaded = getIsMapLoaded();
@@ -40,7 +40,7 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
   const loadingMessage = t('loading', 'Loading');
 
   const handleChange = (newAddress: string) => {
-    setValue?.(newAddress);
+    setAddressValue?.(newAddress);
     if (onChange) onChange(newAddress);
   };
 
@@ -49,7 +49,7 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
       const results = await geocodeByAddress(newAddress);
       const latLng = await getLatLng(results[0]);
 
-      setValue?.(results[0].formatted_address);
+      setAddressValue?.(results[0].formatted_address);
 
       if (onSelect)
         onSelect(
@@ -63,14 +63,14 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
   };
 
   useEffect(() => {
-    setValue?.(defaultAddress ? defaultAddress : '');
+    setAddressValue?.(defaultAddress ? defaultAddress : '');
   }, [defaultAddress]);
 
   return (
     <>
       {isMapLoaded && (
         <PlacesAutocomplete
-          value={value}
+          value={addressValue}
           onChange={handleChange}
           onSelect={handleSelect}
           searchOptions={{ types: ['airport'] }}
@@ -82,11 +82,11 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
             loading,
           }) => (
             <div className="relative lg:w-full">
-              {value && (
+              {addressValue && (
                 <section
                   className=" absolute right-3 top-8 z-20 rounded bg-white w-[30px] flex justify-end"
                   onClick={() => {
-                    setValue?.('');
+                    setAddressValue?.('');
                     clearShortNames?.();
                   }}
                 >

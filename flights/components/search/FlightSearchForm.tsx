@@ -618,8 +618,8 @@ const FlightSearchForm = () => {
                       autoFocus={!address ? true : false}
                       clearShortNames={() => cleanSelectLocation(flightIndex)}
                       filter={filterByAirport}
-                      value={address}
-                      setValue={setAddress}
+                      addressValue={address}
+                      setAddressValue={setAddress}
                     />
                     <div className={classNameSwapButton}>
                       <button
@@ -673,8 +673,8 @@ const FlightSearchForm = () => {
                         cleanSelectLocation2(flightIndex);
                       }}
                       filter={filterByAirport}
-                      value={address}
-                      setValue={setAddress}
+                      addressValue={address2}
+                      setAddressValue={setAddress2}
                     />
                   </section>
                   <DatePicker
