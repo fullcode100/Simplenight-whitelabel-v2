@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 // Components
-import Button from 'components/global/Button/Button';
+import { Button } from '@simplenight/ui';
 // Layout Components
 import CheckoutMain from 'components/checkout/CheckoutMain/CheckoutMain';
 import CheckoutForm from 'components/checkout/CheckoutForm/CheckoutForm';
@@ -29,6 +29,8 @@ import { useCustomer } from 'hooks/checkout/useCustomer';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import FlightsCheckoutAccordion from 'flights/components/checkout/FlightsCheckoutAccordion/FlightsCheckoutAccordion';
 import Divider from 'components/global/Divider/Divider';
+import { useSearchStore } from 'hooks/flights/useSearchStore';
+import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 
 const CONFIRMATION_URI = '/confirmation';
 
@@ -53,8 +55,8 @@ const Payment = () => {
   const [loading, setLoading] = useState(false);
   const [country, setCountry] = useState<SelectOption | undefined>();
 
-  const flights = useFlightsStore((store) => store.flights);
-  console.log(flights);
+  const flights = useFlightsStore((state) => state.flights);
+  const search = useSearchStore((state) => state.search);
 
   type PaymentFormSchema = z.infer<typeof paymentFormSchema>;
   const methods = useForm<PaymentFormSchema>({
@@ -121,8 +123,29 @@ const Payment = () => {
 
   if (loading) return <Loader />;
 
+  const InactiveCartMessage = () => {
+    const continueShoppingText = t('continueShopping', 'Continue Shopping');
+    const continueShopping = () => {
+      router.push('/');
+    };
+    return (
+      <FullScreenModal
+        open={!search || !flights}
+        title={continueShoppingText}
+        primaryButtonText={continueShoppingText}
+        primaryButtonAction={continueShopping}
+        closeModal={continueShopping}
+      >
+        <section className="p-8 text-2xl text-error-400 font-bold w-full text-center h-[90vh] grid content-center">
+          The booking must start again
+        </section>
+      </FullScreenModal>
+    );
+  };
+
   return (
     <>
+      <InactiveCartMessage />
       <CheckoutHeader step="payment" />
       <Container>
         <main className="flex items-start justify-center gap-8 px-0 py-0">
@@ -156,10 +179,12 @@ const Payment = () => {
               <Divider />
               <section className="px-5 py-4">
                 {flights &&
+                  search &&
                   flights.map((flight) => (
                     <FlightsCheckoutAccordion
                       key={flight.departure.iata_code}
                       flight={flight}
+                      search={search}
                     />
                   ))}
               </section>
@@ -169,24 +194,17 @@ const Payment = () => {
                 <Summary cart={cart} reload={reload} setReload={setReload} />
               )} */}
               <section className="w-full lg:w-[145px]">
-                <Button
-                  value={backLabel}
-                  onClick={() => router.back()}
-                  size={'full'}
-                  color="outlined"
-                  className="text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                />
+                <Button type="outlined" onClick={() => router.back()}>
+                  {backLabel}
+                </Button>
               </section>
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value={loading ? loadingLabel : checkoutLabel}
-                  disabled={
-                    loading /* TODO: @gaston-simplenight|| !isVerified */
-                  }
-                  size={'full'}
-                  className="text-[18px]"
+                  loading={loading}
                   onClick={methods.handleSubmit(onSubmit)}
-                />
+                >
+                  {checkoutLabel}
+                </Button>
               </section>
             </CheckoutFooter>
           </section>

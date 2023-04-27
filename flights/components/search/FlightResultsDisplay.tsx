@@ -169,6 +169,7 @@ const FlightResultsDisplay = ({
         parseInt(infants as string, 10),
     );
     // dispatch(saveFlightDetail(flight));
+
     router.push(`/detail/flights/${direction}`);
   };
 

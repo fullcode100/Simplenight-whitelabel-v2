@@ -38,6 +38,7 @@ import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import DropdownMenu from '../FlightSelect/DropDownMenu';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
 
+type Direction = 'round_trip' | 'one_way' | 'multi_city';
 const FlightSearchForm = () => {
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
@@ -73,8 +74,8 @@ const FlightSearchForm = () => {
     { label: 'Business', isActive: false, value: 'business' },
     { label: 'First Class', isActive: false, value: 'first_class' },
   ]);
-  const [direction, setDirection] = useState(
-    params?.direction?.toString() || 'round_trip',
+  const [direction, setDirection] = useState<Direction>(
+    (params?.direction?.toString() as Direction) || 'round_trip',
   );
 
   const [travelersData, setTravelersData] = useState<Traveler[]>(
@@ -161,7 +162,7 @@ const FlightSearchForm = () => {
   const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
 
   const handleDirectionChange = useCallback((value: string) => {
-    setDirection(value);
+    setDirection(value as Direction);
     setDirectionsMenuItems((directions) =>
       [...directions].map((direction) => ({
         ...direction,

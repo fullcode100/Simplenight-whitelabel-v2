@@ -6,9 +6,18 @@ import { useTranslation } from 'react-i18next';
 import IconMultiCity from 'public/icons/assets/flights/multi_city.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
 import { Flight } from 'flights/types/response/FlightSearchResponse';
+import { Search } from 'hooks/flights/useSearchStore';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
-const FlightsCheckoutHeader = ({ flight }: { flight: Flight }) => {
+interface Props {
+  flight: Flight;
+  search: Search;
+}
+
+const FlightsCheckoutHeader = ({ flight, search }: Props) => {
   const [t] = useTranslation('flights');
+  const { adults, infants, children, direction, startAirport, endAirport } =
+    search;
   const directionMapper = {
     one_way: {
       icon: <IconOneWay />,
@@ -24,16 +33,8 @@ const FlightsCheckoutHeader = ({ flight }: { flight: Flight }) => {
     },
   };
 
-  const startAirport = flight.departure.iata_code;
-  const endAirport = flight.arrival.iata_code;
-
-  // TODO: Replace mocked data
-
-  const direction = 'one_way';
-  // should be updated once valdimirs pr is ready
-
-  const passengers = 2;
-  // should be updated once alejandros pr which saves passenger info in zustand is done
+  const passengers = Number(adults) + Number(children) + Number(infants);
+  const ticketsLabel = usePlural(passengers, 'Ticket', 'Tickets');
 
   return (
     <section className="flex flex-row gap-3">
@@ -49,7 +50,7 @@ const FlightsCheckoutHeader = ({ flight }: { flight: Flight }) => {
           <Heading tag="h5">{endAirport}</Heading>
         </section>
         <Paragraph size="small" textColor="text-dark-800">
-          {directionMapper[direction].label} | {passengers} Tickets
+          {directionMapper[direction].label} | {passengers} {ticketsLabel}
         </Paragraph>
       </section>
     </section>

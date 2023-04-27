@@ -11,42 +11,56 @@ import PlusIcon from 'public/icons/assets/Plus.svg';
 import Divider from 'components/global/Divider/Divider';
 import { Flight } from 'flights/types/response/FlightSearchResponse';
 import dayjs from 'dayjs';
+import { Search } from 'hooks/flights/useSearchStore';
+import { usePlural } from 'hooks/stringBehavior/usePlural';
 
-const FlightsCheckoutBody = ({ flight }: { flight: Flight }) => {
+interface Props {
+  flight: Flight;
+  search: Search;
+}
+const FlightsCheckoutBody = ({ flight, search }: Props) => {
   const [t] = useTranslation('flights');
-  const stopsLabel = t('stops', 'Stops');
-  const departureLabel = t('departure', 'Departure');
-  const departureFlightLabel = t('departureFlight', 'Departure Flight');
+  const stops =
+    flight.availability.outbound.stops + flight.availability.inbound.stops;
+  const stopsLabel = usePlural(stops, t('stop', 'Stop'), t('stops', 'Stops'));
+
   const payNowLabel = t('payNow', 'Pay Now');
 
-  const startAirport = flight.departure.iata_code;
-  const endAirport = flight.arrival.iata_code;
-  const stops = flight.availability.outbound.stops;
-  const departureDate = dayjs(flight.availability.departure_date).format(
-    'MMM D, YYYY',
-  );
-  const departureTime = dayjs(flight.availability.departure_date).format(
-    'HH:MM A',
-  );
-  const hasDiscount =
-    flight.availability.rate.discounts.amount_to_apply.amount > 0;
-  const percentageOff =
-    flight.availability.rate.discounts.amount_to_apply.formatted;
+  const { direction, startAirport, endAirport, adults, children, infants } =
+    search;
+
   const totalFlightAmount = flight.availability.rate.total.full.formatted;
 
-  // TODO: Replace mocked data
+  const adultsAmount = Number(adults);
+  const adultsText = usePlural(
+    adultsAmount,
+    t('adult', 'Adult'),
+    t('adults', 'Adults'),
+  );
+  const childrenAmount = Number(children);
+  const childrenText = usePlural(
+    childrenAmount,
+    t('child', 'Child'),
+    t('children', 'Children'),
+  );
+  const infantsAmount = Number(infants);
+  const infantsText = usePlural(
+    infantsAmount,
+    t('infant', 'Infant'),
+    t('infants', 'Infants'),
+  );
+  const tickets = adultsAmount + childrenAmount + infantsAmount;
 
-  const direction = 'one_way';
-  // should be updated once valdimirs pr is ready
+  const getPaxMixLabel = () => {
+    const adultsLabel = `${adultsAmount} ${adultsText}`;
+    const childrenLabel =
+      childrenAmount > 0 ? `, ${childrenAmount} ${childrenText}` : '';
+    const infantsLabel =
+      infantsAmount > 0 ? `, ${infantsAmount} ${infantsText}` : '';
 
-  const tickets = 2;
-  // should be updated once alejandros pr which saves passenger info in zustand is done
-
-  const fullFareAmount = 'US$160.00';
-  const totalFareAmount = 'US$145.00';
-
-  const fare = 'Classic Fare';
-  const specialBaggage = '2x Special Baggage';
+    return adultsLabel + childrenLabel + infantsLabel;
+  };
+  const paxMix = getPaxMixLabel();
 
   const directionMapper = {
     one_way: {
@@ -61,6 +75,41 @@ const FlightsCheckoutBody = ({ flight }: { flight: Flight }) => {
       icon: <IconRoundTrip />,
       label: t('round_trip', 'Round-Trip'),
     },
+  };
+
+  console.log(flight);
+
+  const FlightItinerary = () => {
+    const departureLabel = t('departure', 'Departure');
+    const returnLabel = t('return', 'Return');
+    const departureDate = dayjs(flight.availability.departure_date).format(
+      'MMM D, YYYY',
+    );
+    const departureTime = dayjs(flight.availability.departure_date).format(
+      'HH:MM A',
+    );
+    const arrivalDate = dayjs(flight.availability.arrival_date).format(
+      'MMM D, YYYY',
+    );
+    const arrivalTime = dayjs(flight.availability.arrival_date).format(
+      'HH:MM A',
+    );
+    return (
+      <div className="space-y-2">
+        <IconAndLabel
+          Icon={IconCalendar}
+          label={`${departureDate} at ${departureTime} `}
+          sublabel={departureLabel}
+        />
+        {direction === 'round_trip' && (
+          <IconAndLabel
+            Icon={IconCalendar}
+            label={`${arrivalDate} at ${arrivalTime} `}
+            sublabel={returnLabel}
+          />
+        )}
+      </div>
+    );
   };
 
   interface IconsAndLabelProps {
@@ -122,8 +171,8 @@ const FlightsCheckoutBody = ({ flight }: { flight: Flight }) => {
       <Paragraph size="medium" fontWeight="semibold">
         {tickets}x {directionMapper[direction].label}
       </Paragraph>
-      <IconAndLabel Icon={IconTravelers} label={`${tickets} tickets`} />
-      {/* TODO: we should displpay ageband ie(adults,children, infants) instead of "tickets" once we gather that info */}
+      <IconAndLabel Icon={IconTravelers} label={paxMix} />
+
       <section className="flex gap-2 ">
         <IconWrapper size={20}>
           <IconLocation className="text-primary-1000" />
@@ -146,11 +195,8 @@ const FlightsCheckoutBody = ({ flight }: { flight: Flight }) => {
         </section>
         {/* TO DO : MODAL  Flight Details */}
       </section>
-      <IconAndLabel
-        Icon={IconCalendar}
-        label={`${departureDate} at ${departureTime} EST`}
-        sublabel={departureLabel}
-      />
+      <FlightItinerary />
+
       {/*  Currently we are not receiveing rates per fare or additional fares (ie: Special Baggage)  
       when we do we can use the components commented below
       */}

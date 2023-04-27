@@ -4,12 +4,18 @@ import FlightsCheckoutHeader from './FlightsCheckoutHeader';
 import FlightsCheckoutBody from './FlightsCheckoutBody';
 import { Flight } from 'flights/types/response/FlightSearchResponse';
 import FlightsCheckoutFooter from './FlightsCheckoutFooter';
+import { Search } from 'hooks/flights/useSearchStore';
 
-const FlightsCheckoutAccordion = ({ flight }: { flight: Flight }) => {
+interface Props {
+  flight: Flight;
+  search: Search;
+}
+
+const FlightsCheckoutAccordion = ({ flight, search }: Props) => {
   return (
     <CollapseBordered
-      title={<FlightsCheckoutHeader flight={flight} />}
-      body={<FlightsCheckoutBody flight={flight} />}
+      title={<FlightsCheckoutHeader flight={flight} search={search} />}
+      body={<FlightsCheckoutBody flight={flight} search={search} />}
       footer={<FlightsCheckoutFooter flight={flight} />}
     />
   );
