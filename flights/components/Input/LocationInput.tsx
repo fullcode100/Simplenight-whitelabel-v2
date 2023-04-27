@@ -9,7 +9,6 @@ import CloseIcon from 'public/icons/assets/close.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
-import useQuery from 'hooks/pageInteraction/useQuery';
 import { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { getIsMapLoaded } from 'store/selectors/core';
 
@@ -20,6 +19,7 @@ interface LocationInputProps {
   onSelect?: (value: latLngProp, address: string, shortName: string) => void;
   defaultAddress?: string;
   clearShortNames?: () => void;
+  filter?: (description: string) => boolean;
 }
 
 interface LocationInputRef {
@@ -32,33 +32,18 @@ const LocationInput = forwardRef<
   LocationInputProps & BaseInputProps
 >(
   (
-    {
-      icon,
-      routeParams,
-      onChange,
-      onSelect,
-      onClear,
-      defaultAddress,
-      clearShortNames,
-      ...others
-    },
+    { onChange, onSelect, defaultAddress, clearShortNames, filter, ...others },
     ref,
   ) => {
-    const params = useQuery();
     const [address, setAddress] = useState(defaultAddress);
     const isMapLoaded = getIsMapLoaded();
 
-    const [t, i18next] = useTranslation('global');
+    const [t] = useTranslation('global');
     const loadingMessage = t('loading', 'Loading');
 
     const handleChange = (newAddress: string) => {
       setAddress(newAddress);
       if (onChange) onChange(newAddress);
-    };
-
-    const clearLocationHandler = () => {
-      setAddress('');
-      onClear?.();
     };
 
     const handleSelect = async (newAddress: string) => {
@@ -78,11 +63,6 @@ const LocationInput = forwardRef<
         console.error(error);
       }
     };
-
-    const locationPlaceholder = t(
-      'locationInputPlaceholder',
-      'Pick your destination',
-    );
 
     useImperativeHandle(ref, () => ({
       getAddress: () => {
@@ -114,7 +94,7 @@ const LocationInput = forwardRef<
               getSuggestionItemProps,
               loading,
             }) => (
-              <div className=" relative lg:w-full">
+              <div className="relative lg:w-full">
                 {address && (
                   <section
                     className=" absolute right-3 top-8 z-20 rounded bg-white w-[30px] flex justify-end"
@@ -128,12 +108,15 @@ const LocationInput = forwardRef<
                 )}
                 <section className="relative lg:w-full">
                   <IconInput
-                    icon={<LocationPin className="w-5 h-5 text-dark-700" />}
                     {...getInputProps({
-                      placeholder: locationPlaceholder,
+                      placeholder: t(
+                        'locationInputPlaceholder',
+                        'Pick your destination',
+                      ),
                       className: 'location-search-input',
                     })}
                     {...others}
+                    icon={<LocationPin className="w-5 h-5 text-dark-700" />}
                   />
                   <section
                     className={classnames(
@@ -145,6 +128,9 @@ const LocationInput = forwardRef<
                   >
                     {loading && <section>{loadingMessage}...</section>}
                     {suggestions.map((suggestion, index) => {
+                      if (filter && filter(suggestion.description)) {
+                        return null;
+                      }
                       const { active, description } = suggestion;
                       const className = classnames(
                         'py-2 px-4 flex justify-between suggestion-item',

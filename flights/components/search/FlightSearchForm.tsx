@@ -438,6 +438,12 @@ const FlightSearchForm = () => {
     }
   }, []);
 
+  const filterByAirport = (description: string) => {
+    const indexOne = description.indexOf('(');
+    const indexTwo = description.indexOf(')');
+    return !(indexTwo - indexOne === 4);
+  };
+
   const travelerLabelText = usePlural(
     parseInt(adults) + parseInt(children) + parseInt(infants),
     travelerLabel,
@@ -623,6 +629,7 @@ const FlightSearchForm = () => {
                       autoFocus={!address ? true : false}
                       clearShortNames={() => cleanSelectLocation(flightIndex)}
                       ref={refLocationInputFrom}
+                      filter={filterByAirport}
                     />
                     <div className={classNameSwapButton}>
                       <button
@@ -676,6 +683,7 @@ const FlightSearchForm = () => {
                         cleanSelectLocation2(flightIndex);
                       }}
                       ref={refLocationInputTo}
+                      filter={filterByAirport}
                     />
                   </section>
                   <DatePicker
