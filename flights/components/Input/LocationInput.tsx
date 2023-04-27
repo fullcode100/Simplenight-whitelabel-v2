@@ -123,7 +123,7 @@ const LocationInput = forwardRef<
                       clearShortNames?.();
                     }}
                   >
-                    <CloseIcon className="text-dark-700" />
+                    <CloseIcon className="text-dark-700 z-0" />
                   </section>
                 )}
                 <section className="relative lg:w-full">
