@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import DatePicker from '../Calendar/Calendar';
@@ -37,13 +37,8 @@ import Popper from 'components/global/Popper/Popper';
 import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import DropdownMenu from '../FlightSelect/DropDownMenu';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
-import { SearchFormProps } from 'types/search/SearchFormProps';
 
-const FlightSearchForm = ({
-  setIsSearching,
-  className = '',
-  hasReRoute = false,
-}: SearchFormProps) => {
+const FlightSearchForm = () => {
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
   const [t] = useTranslation('flights');
@@ -438,6 +433,12 @@ const FlightSearchForm = ({
     }
   }, []);
 
+  const filterByAirport = (description: string) => {
+    const indexOne = description.indexOf('(');
+    const indexTwo = description.indexOf(')');
+    return !(indexTwo - indexOne === 4);
+  };
+
   const travelerLabelText = usePlural(
     parseInt(adults) + parseInt(children) + parseInt(infants),
     travelerLabel,
@@ -616,6 +617,7 @@ const FlightSearchForm = ({
                       onChange={() => setShowLocationError(false)}
                       autoFocus={!address ? true : false}
                       clearShortNames={() => cleanSelectLocation(flightIndex)}
+                      filter={filterByAirport}
                       value={address}
                       setValue={setAddress}
                     />
@@ -670,8 +672,9 @@ const FlightSearchForm = ({
                       clearShortNames={() => {
                         cleanSelectLocation2(flightIndex);
                       }}
-                      value={address2}
-                      setValue={setAddress2}
+                      filter={filterByAirport}
+                      value={address}
+                      setValue={setAddress}
                     />
                   </section>
                   <DatePicker

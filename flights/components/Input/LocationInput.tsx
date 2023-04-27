@@ -9,7 +9,6 @@ import CloseIcon from 'public/icons/assets/close.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
-import useQuery from 'hooks/pageInteraction/useQuery';
 import { useEffect } from 'react';
 import { getIsMapLoaded } from 'store/selectors/core';
 
@@ -20,28 +19,24 @@ interface LocationInputProps {
   onSelect?: (value: latLngProp, address: string, shortName: string) => void;
   defaultAddress?: string;
   clearShortNames?: () => void;
+  filter?: (description: string) => boolean;
   value?: string;
   setValue?: (value: string) => void;
 }
-const LocationInput: React.FC<LocationInputProps & BaseInputProps> = (
-  {
-    icon,
-    routeParams,
-    onChange,
-    onSelect,
-    onClear,
-    defaultAddress,
-    clearShortNames,
-    value,
-    setValue,
-    ...others
-  },
-  ref,
-) => {
-  const params = useQuery();
+
+const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
+  onChange,
+  onSelect,
+  defaultAddress,
+  clearShortNames,
+  filter,
+  value,
+  setValue,
+  ...others
+}) => {
   const isMapLoaded = getIsMapLoaded();
 
-  const [t, i18next] = useTranslation('global');
+  const [t] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
 
   const handleChange = (newAddress: string) => {
@@ -49,14 +44,11 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = (
     if (onChange) onChange(newAddress);
   };
 
-  const clearLocationHandler = () => {
-    onClear?.();
-  };
-
   const handleSelect = async (newAddress: string) => {
     try {
       const results = await geocodeByAddress(newAddress);
       const latLng = await getLatLng(results[0]);
+
       setValue?.(results[0].formatted_address);
 
       if (onSelect)
@@ -69,11 +61,6 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = (
       console.error(error);
     }
   };
-
-  const locationPlaceholder = t(
-    'locationInputPlaceholder',
-    'Pick your destination',
-  );
 
   useEffect(() => {
     setValue?.(defaultAddress ? defaultAddress : '');
@@ -94,7 +81,7 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = (
             getSuggestionItemProps,
             loading,
           }) => (
-            <div className=" relative lg:w-full">
+            <div className="relative lg:w-full">
               {value && (
                 <section
                   className=" absolute right-3 top-8 z-20 rounded bg-white w-[30px] flex justify-end"
@@ -108,12 +95,15 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = (
               )}
               <section className="relative lg:w-full">
                 <IconInput
-                  icon={<LocationPin className="w-5 h-5 text-dark-700" />}
                   {...getInputProps({
-                    placeholder: locationPlaceholder,
+                    placeholder: t(
+                      'locationInputPlaceholder',
+                      'Pick your destination',
+                    ),
                     className: 'location-search-input',
                   })}
                   {...others}
+                  icon={<LocationPin className="w-5 h-5 text-dark-700" />}
                 />
                 <section
                   className={classnames(
@@ -125,6 +115,9 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = (
                 >
                   {loading && <section>{loadingMessage}...</section>}
                   {suggestions.map((suggestion, index) => {
+                    if (filter && filter(suggestion.description)) {
+                      return null;
+                    }
                     const { active, description } = suggestion;
                     const className = classnames(
                       'py-2 px-4 flex justify-between suggestion-item',
@@ -160,7 +153,5 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = (
     </>
   );
 };
-
-LocationInput.displayName = 'LocationInput';
 
 export default LocationInput;
