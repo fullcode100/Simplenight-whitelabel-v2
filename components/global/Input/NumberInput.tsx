@@ -35,7 +35,7 @@ const NumberInput = ({
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = parseInt(e.target.value);
-    if (inputValue < min || !inputValue) return;
+    if (inputValue <= min || isNaN(inputValue)) return;
     const countValue = inputValue ? inputValue : 0;
 
     if (onChange) onChange(countValue);
