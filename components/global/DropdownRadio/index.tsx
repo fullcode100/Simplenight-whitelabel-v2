@@ -58,7 +58,7 @@ export const DropdownRadio = ({
       <section className="relative" ref={dropdownRef}>
         <button
           className="flex items-center gap-2 lg:w-[160px] h-6 whitespace-nowrap"
-          onClick={() => setShowSortingDropdown(true)}
+          onClick={() => setShowSortingDropdown(!showSortingDropdown)}
           style={{ width: 'auto' }}
         >
           <span className="text-primary-1000">
