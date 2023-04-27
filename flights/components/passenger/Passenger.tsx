@@ -61,9 +61,9 @@ const Passenger = ({
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isValidating },
     setValue,
-  } = useForm<IPassenger>({ reValidateMode: 'onBlur' });
+  } = useForm<IPassenger>({ mode: 'onChange' });
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
@@ -188,8 +188,8 @@ const Passenger = ({
             </section>
             <section className="flex flex-row items-center">
               <Checkbox
-                name="test"
-                value="test"
+                name="wheelChair"
+                value="test1"
                 className=""
                 onChange={() => {}}
                 size="small"
@@ -198,8 +198,8 @@ const Passenger = ({
             </section>
             <section className="flex flex-row items-center">
               <Checkbox
-                name="test"
-                value="test"
+                name="knownTravelerNumber"
+                value="test2"
                 className=""
                 onChange={() => {}}
                 size="small"
@@ -208,8 +208,8 @@ const Passenger = ({
             </section>
             <section className="flex flex-row items-center">
               <Checkbox
-                name="test"
-                value="test"
+                name="vaccinationRecords"
+                value="test3"
                 className=""
                 onChange={() => {}}
                 size="small"
@@ -237,6 +237,7 @@ const Passenger = ({
               required: true,
               max: 25,
               min: 1,
+              valueAsNumber: true,
             })}
             <section className="flex flex-row justify-between gap-4">
               {getSelectField(countryLabel, 'country', countriesOptions, {
@@ -256,10 +257,17 @@ const Passenger = ({
           </section>
         </section>
         <section className="flex justify-end mx-6 my-4">
-          {!lastPassenger && (
+          {!lastPassenger ? (
             <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
               {nextPassengerLabel}
             </Button>
+          ) : (
+            <section className="flex justify-end gap-6">
+              <section>{pricing}</section>
+              <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+                {bookNowLabel}
+              </Button>
+            </section>
           )}
         </section>
       </form>
@@ -276,14 +284,6 @@ const Passenger = ({
         />
         {open && <CollapseBody show={open} body={passengerForm()} />}
       </Collapse>
-      {lastPassenger && (
-        <section className="flex justify-end gap-6">
-          <section>{pricing}</section>
-          <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
-            {bookNowLabel}
-          </Button>
-        </section>
-      )}
     </>
   );
 };

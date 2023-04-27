@@ -27,6 +27,7 @@ import FlightInfo from '../FlightInfo/FlightInfo';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { saveFlightDetail } from 'flights/redux/actions';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
+import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 
 declare let window: CustomWindow;
 
@@ -47,6 +48,9 @@ const FlightResultsDisplay = ({
   const setQueryParams = useQueryShallowSetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
   const addFlight = useFlightsStore((state) => state.addFlight);
+  const setPassengersQuantity = usePassengersStore(
+    (state) => state.setPassengersQuantity,
+  );
 
   const dispatch = useDispatch();
 
@@ -159,6 +163,11 @@ const FlightResultsDisplay = ({
   const selectFlight = (flight: Flight) => {
     setSelectedFlights((flights) => [...flights, flight]);
     addFlight(flight);
+    setPassengersQuantity(
+      parseInt(adults as string, 10) +
+        parseInt(children as string, 10) +
+        parseInt(infants as string, 10),
+    );
     // dispatch(saveFlightDetail(flight));
     router.push(`/detail/flights/${direction}`);
   };
