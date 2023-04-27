@@ -37,17 +37,13 @@ import Popper from 'components/global/Popper/Popper';
 import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import DropdownMenu from '../FlightSelect/DropDownMenu';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
+import { SearchFormProps } from 'types/search/SearchFormProps';
 
-interface LocationInputRef {
-  getAddress: () => string | undefined;
-  setNewAddress: (address: string) => void;
-}
 const FlightSearchForm = ({
   setIsSearching,
   className = '',
   hasReRoute = false,
 }: SearchFormProps) => {
-
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
   const [t] = useTranslation('flights');
