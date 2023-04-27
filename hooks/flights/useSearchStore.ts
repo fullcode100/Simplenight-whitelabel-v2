@@ -2,7 +2,7 @@ import { Traveler } from 'flights/helpers/traveler';
 import { create } from 'zustand';
 
 export interface Search {
-  direction: string;
+  direction: 'round_trip' | 'one_way' | 'multi_city';
   startAirport: string;
   endAirport: string;
   startDate: string;
@@ -29,7 +29,7 @@ export const useSearchStore = create<SearchStore>()((set) => ({
   setSearch: (cc: Search) => {
     set((state: SearchStore) => ({
       ...state,
-      cc,
+      search: cc,
     }));
   },
   clear: () => set((state) => ({ ...state, cc: null })),

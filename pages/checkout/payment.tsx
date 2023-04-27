@@ -8,7 +8,7 @@ import valid from 'card-validator';
 import dynamic from 'next/dynamic';
 
 // Components
-import Button from 'components/global/Button/Button';
+import { Button } from '@simplenight/ui';
 // Layout Components
 import CheckoutMain from 'components/checkout/CheckoutMain/CheckoutMain';
 import CheckoutForm from 'components/checkout/CheckoutForm/CheckoutForm';
@@ -409,23 +409,21 @@ const Payment = () => {
               )}
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value={backLabel}
+                  fullWidth={true}
                   onClick={() => router.back()}
-                  size={'full'}
-                  color="outlined"
-                  className="text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                />
+                  type="outlined"
+                >
+                  {backLabel}
+                </Button>
               </section>
               <section className="w-full lg:w-[145px]">
                 <Button
-                  value={loading ? loadingLabel : checkoutLabel}
-                  disabled={
-                    loading /* TODO: @gaston-simplenight|| !isVerified */
-                  }
-                  size={'full'}
-                  className="text-[18px]"
                   onClick={methods.handleSubmit(onSubmit)}
-                />
+                  loading={loading}
+                  disabled={false /* TODO: @gaston-simplenight|| !isVerified */}
+                >
+                  {checkoutLabel}
+                </Button>
               </section>
             </CheckoutFooter>
           </section>
