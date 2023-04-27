@@ -14,6 +14,17 @@ export type Restaurant = {
   rating: number;
   review_count: number;
   reviews: Review[];
+  openings: OpeningDate[];
+};
+
+export type OpeningDate = {
+  date: string;
+  times: Times[];
+};
+
+export type Times = {
+  credit_card_required: boolean;
+  time: string;
 };
 
 export type Review = {

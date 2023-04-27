@@ -55,6 +55,11 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   );
   const router = useRouter();
   const data = restaurant;
+  const selectedOpeningTime = data?.openings.filter(
+    (item) => item.date === selectedDate,
+  );
+  const openingTime = selectedOpeningTime?.[0];
+  const isOpened = !!openingTime?.times?.length;
   const [t, i18n] = useTranslation('dining');
   const overviewLabel = t('overview');
   const locationLabel = t('location');
@@ -109,7 +114,8 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   useEffect(() => {
     const params: DiningDetailPreRequest = {
       id: (id as unknown as string) ?? '',
-      date: startDate,
+      start_date: formatAsSearchDate(selectedDate),
+      covers,
     };
 
     Category.core.ClientDetailer?.request(params, i18next, params.id)
@@ -123,7 +129,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currency, language]);
+  }, [currency, language, selectedDate, covers]);
 
   const onSelectDate = (date: string) => {
     setSelectedDate(date);
@@ -291,7 +297,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
           reviewsLength={data.review_count}
           phone={data.display_phone}
           categories={data.categories}
-          isOpen={!data.is_closed}
+          isOpen={isOpened}
           hours={availableHours}
         />
         {diningImages && (
@@ -314,9 +320,9 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
             <DiningAboutDetail
               phone={data.display_phone}
               categories={data.categories}
-              hours={availableHours}
+              times={openingTime?.times}
               onSelectDate={onSelectDate}
-              isOpen={!data.is_closed}
+              isOpen={isOpened}
               onChange={onChangeTime}
               defaultTime={time}
               onChangeCovers={(newCovers) => setCovers(newCovers)}

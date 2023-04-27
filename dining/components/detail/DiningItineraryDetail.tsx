@@ -43,7 +43,7 @@ const DiningItineraryDetail = ({
 }) => {
   const [t] = useTranslation('dining');
   return (
-    <div className="lg:flex flex-col hidden min-w-[376px] border-[1px] h-[83vh] sticky col-span-1 lg:top-32">
+    <div className="lg:flex flex-col hidden min-w-[376px] border-[1px] h-[90vh] sticky col-span-1 lg:top-20">
       <div className="flex items-center px-5 py-6 text-xs border-b-[1px]">
         <DiningIconCircle />
         <h4 className="pl-3">{name}</h4>

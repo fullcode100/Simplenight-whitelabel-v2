@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightDetails from '../FlightDetails/FlightDetails';
@@ -12,6 +12,8 @@ import { formatDate } from 'flights/utils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useTranslation } from 'react-i18next';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
+import { usePassengersStore } from 'hooks/flights/usePassengersStore';
+import { IPassenger } from '../passenger/inputs';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -23,6 +25,10 @@ const PassengerInformationDisplay = ({
   const [passengerForm, setPassengerForm] = useState(1);
   const flights = useFlightsStore((state) => state.flights);
   const flight = flights[0];
+  const { passengersQuantity, setPassengers, passengers } = usePassengersStore(
+    (state) => state,
+  );
+  const [passengersData, setPassengerData] = useState<IPassenger[]>([]);
   // const { flight }: { flight?: Flight } = useSelector(
   //   ({ flights }: any) => flights,
   // );
@@ -39,6 +45,33 @@ const PassengerInformationDisplay = ({
       <Pricing.TaxesAndFees />
     </Pricing>
   );
+
+  const savePassenger = (currentData: IPassenger) => {
+    console.log(currentData, 'submit');
+    setPassengerForm(passengerForm + 1);
+    setPassengerData((data) => [...data, currentData]);
+  };
+
+  useEffect(() => {
+    setPassengers(passengersData);
+  }, [passengersData]);
+
+  const getPassengersInfoForms = () => {
+    const passengersInfoForms = [];
+    for (let i = 1; i <= passengersQuantity; i++) {
+      passengersInfoForms.push(
+        <Passenger
+          passengerNumber={i}
+          open={passengerForm === i}
+          setOpen={setPassengerForm}
+          onSubmit={savePassenger}
+          pricing={getPricing()}
+          lastPassenger={passengerForm === passengersQuantity}
+        />,
+      );
+    }
+    return passengersInfoForms;
+  };
 
   return (
     <>
@@ -64,20 +97,7 @@ const PassengerInformationDisplay = ({
       </section>
       <Divider className="py-12" />
       <section className="flex flex-col w-full gap-6 pb-12 mx-auto max-w-7xl">
-        <Passenger
-          passengerNumber={1}
-          open={passengerForm === 1}
-          setOpen={setPassengerForm}
-          onSubmit={() => setPassengerForm(2)}
-        />
-        <Passenger
-          passengerNumber={2}
-          open={passengerForm === 2}
-          setOpen={setPassengerForm}
-          onSubmit={() => setPassengerForm(2)}
-          pricing={getPricing()}
-          lastPassenger={passengerForm === 2}
-        />
+        {getPassengersInfoForms()}
       </section>
     </>
   );

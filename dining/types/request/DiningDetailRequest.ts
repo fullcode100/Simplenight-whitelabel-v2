@@ -2,7 +2,8 @@ import { DateString } from 'types/global/DateString';
 
 export interface DiningDetailPreRequest {
   id: string;
-  date: string;
+  start_date: string;
+  covers: number;
 }
 
 export interface DiningDetailRequest {
