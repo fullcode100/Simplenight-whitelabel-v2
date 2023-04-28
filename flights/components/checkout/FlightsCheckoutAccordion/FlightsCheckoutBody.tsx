@@ -2,7 +2,7 @@ import { IconWrapper, Paragraph } from '@simplenight/ui';
 import React, { ReactComponentElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import IconOneWay from 'public/icons/assets/flights/one_way.svg';
-import IconMultiCity from 'public/icons/assets/flights/multi_city.svg';
+import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
 import IconTravelers from 'public/icons/assets/flights/travelers.svg';
 import IconLocation from 'public/icons/assets/flights/location.svg';
@@ -67,9 +67,9 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
       icon: <IconOneWay />,
       label: t('one_way', 'One-way'),
     },
-    multi_city: {
+    multicity: {
       icon: <IconMultiCity />,
-      label: t('multi_city', 'Multi-city'),
+      label: t('multicity', 'Multi-city'),
     },
     round_trip: {
       icon: <IconRoundTrip />,
