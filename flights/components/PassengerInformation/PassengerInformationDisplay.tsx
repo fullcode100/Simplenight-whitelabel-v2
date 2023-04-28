@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 import { IPassenger } from '../passenger/inputs';
+import { useRouter } from 'next/router';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -21,6 +22,7 @@ const PassengerInformationDisplay = ({
   Category,
 }: FlightDetailDisplayProps) => {
   const { id } = useQuery();
+  const router = useRouter();
   const [t, i18next] = useTranslation('flights');
   const [passengerForm, setPassengerForm] = useState(1);
   const flights = useFlightsStore((state) => state.flights);
@@ -47,7 +49,6 @@ const PassengerInformationDisplay = ({
   );
 
   const savePassenger = (currentData: IPassenger) => {
-    console.log(currentData, 'submit');
     setPassengerForm(passengerForm + 1);
     setPassengerData((data) => [...data, currentData]);
   };
@@ -55,6 +56,11 @@ const PassengerInformationDisplay = ({
   useEffect(() => {
     setPassengers(passengersData);
   }, [passengersData]);
+
+  const goCheckout = (currentData: IPassenger) => {
+    savePassenger(currentData);
+    router.replace('/checkout/client');
+  };
 
   const getPassengersInfoForms = () => {
     const passengersInfoForms = [];
@@ -64,7 +70,9 @@ const PassengerInformationDisplay = ({
           passengerNumber={i}
           open={passengerForm === i}
           setOpen={setPassengerForm}
-          onSubmit={savePassenger}
+          onSubmit={
+            passengerForm === passengersQuantity ? goCheckout : savePassenger
+          }
           pricing={getPricing()}
           lastPassenger={passengerForm === passengersQuantity}
         />,
