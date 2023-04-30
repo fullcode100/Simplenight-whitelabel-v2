@@ -49,9 +49,11 @@ const FlightSearchFormReadState = ({
     addresses2,
   } = useQuery();
 
-  const location = `${address ? address?.toString().split(',')[0] : ''} - ${address2 ? address2?.toString().split(',')[0] : ''}`;
+  const location = `${address ? address?.toString().split(',')[0] : ''} - ${
+    address2 ? address2?.toString().split(',')[0] : ''
+  }`;
   const locations: string[] = [];
-  if (direction === 'multi_city' && addresses && addresses2) {
+  if (direction === 'multicity' && addresses && addresses2) {
     const _addresses = addresses.toString().split('|');
     const _addresses2 = addresses2.toString().split('|');
     _addresses.forEach((addr: string, index: number) => {
@@ -98,21 +100,22 @@ const FlightSearchFormReadState = ({
     </section>
   );
 
-  const DatesSection = () => direction === 'round_trip' ? (
-    <section>
-      <span>{formattedStartDate}</span>
-      <span> {toLabel} </span>
-      <span>{formattedEndDate}</span>
-    </section>
-  ) : (
-    <section>
-      <span>{formattedStartDate}</span>
-    </section>
-  );
+  const DatesSection = () =>
+    direction === 'round_trip' ? (
+      <section>
+        <span>{formattedStartDate}</span>
+        <span> {toLabel} </span>
+        <span>{formattedEndDate}</span>
+      </section>
+    ) : (
+      <section>
+        <span>{formattedStartDate}</span>
+      </section>
+    );
 
   const OccupancyAndDatesSection = () => (
     <section className="grid gap-2 font-normal text-dark-1000">
-      {direction === 'multi_city' ? (
+      {direction === 'multicity' ? (
         <>
           {locations.map((_location: string, index: number) => (
             <section key={`location_label_${index}`}>
@@ -127,7 +130,13 @@ const FlightSearchFormReadState = ({
                   <CalendarIcon className="text-primary-1000" />
                 </section>
                 <section>
-                  <span>{startDates && startDates.toString().split('|')[index] ? formatAsDisplayDate(startDates.toString().split('|')[index]) : ''}</span>
+                  <span>
+                    {startDates && startDates.toString().split('|')[index]
+                      ? formatAsDisplayDate(
+                          startDates.toString().split('|')[index],
+                        )
+                      : ''}
+                  </span>
                 </section>
               </section>
             </section>

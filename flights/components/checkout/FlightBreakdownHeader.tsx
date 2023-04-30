@@ -5,7 +5,7 @@ import { Item } from 'types/cart/CartType';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import IconOneWay from 'public/icons/assets/flights/one_way.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
-import IconMultiCity from 'public/icons/assets/flights/multi_city.svg';
+import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
 
 interface FlightBreakdownHeaderProps {
   item?: Item;
@@ -22,8 +22,8 @@ const FlightBreakdownHeader = ({ item, icon }: FlightBreakdownHeaderProps) => {
   let directionLabel = t('one_way', 'One-way');
   if (direction === 'round_trip')
     directionLabel = t('round_trip', 'Round-trip');
-  else if (direction === 'multi_city') {
-    directionLabel = t('multi_city', 'Multi-city');
+  else if (direction === 'multicity') {
+    directionLabel = t('multicity', 'Multi-city');
     startDates = (item?.booking_data?.search?.start_dates as string).split(',');
     startAirports = (
       item?.booking_data?.search?.start_airports as string
@@ -66,7 +66,7 @@ const FlightBreakdownHeader = ({ item, icon }: FlightBreakdownHeaderProps) => {
               {item?.booking_data?.search?.end_airport}
             </section>
           )}
-          {direction === 'multi_city' && (
+          {direction === 'multicity' && (
             <section className="flex flex-row">
               {startAirports[0]}
               <IconMultiCity className="mx-2 text-dark-1000" />

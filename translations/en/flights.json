@@ -67,7 +67,7 @@
   "location": "Location",
   "one_way": "One-way",
   "round_trip": "Round-trip",
-  "multi_city": "Multi-city",
+  "multicity": "Multi-city",
   "cabin": "Cabin Class",
   "economy": "Economy",
   "premium": "Premium Economy",

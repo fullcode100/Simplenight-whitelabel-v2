@@ -128,7 +128,7 @@ const FlightResultsDisplay = ({
 
   let flightsCount = 1;
   if (direction === 'round_trip') flightsCount = 2;
-  else if (direction === 'multi_city' && startAirports)
+  else if (direction === 'multicity' && startAirports)
     flightsCount = startAirports.toString().split('|').length;
 
   const [currency, setCurrency] = useState<string>(window.currency);
@@ -167,7 +167,7 @@ const FlightResultsDisplay = ({
     adults,
   ]);
 
-  const isMultiCity = direction === 'multi_city';
+  const isMultiCity = direction === 'multicity';
 
   const hasEmptyValuesMultiCity = checkIfAnyNull([
     startAirports,

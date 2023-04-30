@@ -91,7 +91,7 @@ const FlightResultsDisplay = ({
 
   const isOneWay = direction === 'one_way';
   const isRoundTrip = direction === 'round_trip';
-  const isMultiCity = direction === 'multi_city';
+  const isMultiCity = direction === 'multicity';
 
   const params: FlightSearchRequest = {
     direction: direction as unknown as string,
