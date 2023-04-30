@@ -63,7 +63,7 @@ const Passenger = ({
     handleSubmit,
     formState: { errors, isValid, isValidating },
     setValue,
-  } = useForm<IPassenger>({ mode: 'onChange' });
+  } = useForm<IPassenger>({ mode: 'all' });
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
@@ -116,6 +116,24 @@ const Passenger = ({
       <BaseInput
         placeholder={label}
         {...register(nameInput, { ...options, onChange: setInputValue })}
+      />
+    </section>
+  );
+
+  const getCheckboxField = (
+    label: string,
+    nameInput: keyof IPassenger,
+    options?: RegisterOptions<IPassenger, keyof IPassenger>,
+  ) => (
+    <section className="flex flex-row items-center">
+      <Checkbox
+        className=""
+        size="small"
+        {...register(nameInput, { ...options })}
+        onChange={(value) => {
+          setValue(nameInput, value);
+        }}
+        children={label}
       />
     </section>
   );
@@ -186,36 +204,18 @@ const Passenger = ({
               </section>
               {getSelectField(genderLabel, 'gender', genderOptions)}
             </section>
-            <section className="flex flex-row items-center">
-              <Checkbox
-                name="wheelChair"
-                value="test1"
-                className=""
-                onChange={() => {}}
-                size="small"
-              />
-              <Label value="I require wheelchair assistance while traveling." />
-            </section>
-            <section className="flex flex-row items-center">
-              <Checkbox
-                name="knownTravelerNumber"
-                value="test2"
-                className=""
-                onChange={() => {}}
-                size="small"
-              />
-              <Label value="I have a Known Traveler Number." />
-            </section>
-            <section className="flex flex-row items-center">
-              <Checkbox
-                name="vaccinationRecords"
-                value="test3"
-                className=""
-                onChange={() => {}}
-                size="small"
-              />
-              <Label value="I am prepared to show vaccination records." />
-            </section>
+            {getCheckboxField(
+              'I require wheelchair assistance while traveling.',
+              'wheelChair',
+            )}
+            {getCheckboxField(
+              'I have a Known Traveler Number.',
+              'knownTravelerNumber',
+            )}
+            {getCheckboxField(
+              'I am prepared to show vaccination records.',
+              'vaccinationRecords',
+            )}
           </section>
           <section className="flex flex-col gap-4 w-1/3">
             {getSelectField(
@@ -235,8 +235,6 @@ const Passenger = ({
           <section className="flex flex-col gap-4 w-1/3">
             {getInputField(passportIDNumberLabel, 'passportIdNumber', {
               required: true,
-              max: 25,
-              min: 1,
               valueAsNumber: true,
             })}
             <section className="flex flex-row justify-between gap-4">
