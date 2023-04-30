@@ -8,7 +8,7 @@ interface FlightSelectProps {
 
 const FlightSelect = ({ value, onChange }: FlightSelectProps) => {
   const [t, i18n] = useTranslation('flights');
-  const flights = ['one_way', 'round_trip', 'multi_city'];
+  const flights = ['one_way', 'round_trip', 'multicity'];
   const flightsLabel = t('trip', 'Trip Type');
   const handleChangeFlight = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedFlight = event.target.value;

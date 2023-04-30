@@ -2,7 +2,7 @@ import { Traveler } from 'flights/helpers/traveler';
 import { create } from 'zustand';
 
 export interface Search {
-  direction: 'round_trip' | 'one_way' | 'multi_city';
+  direction: 'round_trip' | 'one_way' | 'multicity';
   startAirport: string;
   endAirport: string;
   startDate: string;

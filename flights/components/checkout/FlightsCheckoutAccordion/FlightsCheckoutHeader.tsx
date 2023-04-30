@@ -3,7 +3,7 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import FlightsIcon from 'public/icons/categories/Category-Flights.svg';
 import IconOneWay from 'public/icons/assets/flights/one_way.svg';
 import { useTranslation } from 'react-i18next';
-import IconMultiCity from 'public/icons/assets/flights/multi_city.svg';
+import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
 import { Flight } from 'flights/types/response/FlightSearchResponse';
 import { Search } from 'hooks/flights/useSearchStore';
@@ -23,9 +23,9 @@ const FlightsCheckoutHeader = ({ flight, search }: Props) => {
       icon: <IconOneWay />,
       label: t('one_way', 'One-way'),
     },
-    multi_city: {
+    multicity: {
       icon: <IconMultiCity />,
-      label: t('multi_city', 'Multi-city'),
+      label: t('multicity', 'Multi-city'),
     },
     round_trip: {
       icon: <IconRoundTrip />,

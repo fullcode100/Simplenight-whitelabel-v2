@@ -3,7 +3,7 @@ import { DateString } from 'types/global/DateString';
 
 export interface FlightSearchRequest extends SearchRequest {
   //  extends SearchRequest
-  direction: string; // 'one_way' | 'round_trip' | 'multi_city';
+  direction: string; // 'one_way' | 'round_trip' | 'multicity';
   cabin_type: string; // 'economy' | 'business';
 
   origin: string;

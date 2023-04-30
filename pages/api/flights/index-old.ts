@@ -55,7 +55,7 @@ export default async function handler(
         direction: 'inbound',
       },
     ];
-  } else if (direction === 'multi_city') {
+  } else if (direction === 'multicity') {
     const startAirports = req.query?.start_airports
       ? req.query?.start_airports.toString().split('|')
       : [];

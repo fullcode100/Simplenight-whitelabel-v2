@@ -59,7 +59,7 @@ const DropdownMenu = ({
       </button>
 
       <section
-        className={`absolute z-[11] border border-dark-300 rounded shadow-container top-[100%] ${alingDirection}-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
+        className={`absolute z-[21] border border-dark-300 rounded shadow-container top-[100%] ${alingDirection}-0 bg-white w-[256px] transition-all duration-500 text-dark-1000 ${
           !showMenu && 'opacity-0 invisible'
         }`}
       >

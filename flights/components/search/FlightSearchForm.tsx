@@ -38,7 +38,7 @@ import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import DropdownMenu from '../FlightSelect/DropDownMenu';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
 
-type Direction = 'round_trip' | 'one_way' | 'multi_city';
+type Direction = 'round_trip' | 'one_way' | 'multicity';
 const FlightSearchForm = () => {
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
@@ -65,7 +65,7 @@ const FlightSearchForm = () => {
       label: 'Multi-City',
       icon: <ArrowMenuMulticity className="w-5 h-5" />,
       isActive: false,
-      value: 'multi_city',
+      value: 'multicity',
     },
   ]);
   const [cabinTypeMenuItems, setCabinTypeMenuItems] = useState([
@@ -141,7 +141,7 @@ const FlightSearchForm = () => {
   const [shortNames2, setShortNames2] = useState<string[]>([]);
 
   let _flights: string[] = [];
-  if (direction === 'multi_city') {
+  if (direction === 'multicity') {
     if (params.startDates) {
       for (
         let i = 0;
@@ -171,7 +171,7 @@ const FlightSearchForm = () => {
           : value === direction.value,
       })),
     );
-    if (value === 'multi_city') {
+    if (value === 'multicity') {
       setFlights(['one_way']);
       setStartDates([startDate]);
       setAddresses([address]);
@@ -330,7 +330,7 @@ const FlightSearchForm = () => {
     // multi city
     const startAirports: string[] = [];
     const endAirports: string[] = [];
-    if (direction === 'multi_city') {
+    if (direction === 'multicity') {
       addresses.forEach((addr: string, index: number) => {
         const _addr = addr.toString().split('(').pop();
         const airportCode = _addr ? _addr.toString().split(')')[0] : '';
@@ -360,7 +360,7 @@ const FlightSearchForm = () => {
     }&longitude2=${
       geolocation2?.toString().split(',')[LONGITUDE_INDEX]
     }&address2=${address2}&travelersData=${JSON.stringify(travelersData)}`;
-    if (direction === 'multi_city')
+    if (direction === 'multicity')
       route = `${route}&startAirports=${startAirports.join(
         '|',
       )}&endAirports=${endAirports.join('|')}&startDates=${startDates.join(
@@ -456,14 +456,14 @@ const FlightSearchForm = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   const classNameSwapButton = classnames('justify-center', {
-    hidden: direction === 'multi_city',
-    flex: direction !== 'multi_city',
+    hidden: direction === 'multicity',
+    flex: direction !== 'multicity',
   });
 
   const classNameInputSection = classnames(
     'w-full flex flex-col lg:flex-row lg:w-[90%] lg:justify-between lg:items-center justify-center',
     {
-      'gap-4': direction === 'multi_city',
+      'gap-4': direction === 'multicity',
     },
   );
 
@@ -472,7 +472,7 @@ const FlightSearchForm = () => {
   });
 
   const classNameCollapseButton = classnames('flex justify-end mb-[-1rem]', {
-    hidden: direction !== 'multi_city' || router.pathname === '/' || !isDesktop,
+    hidden: direction !== 'multicity' || router.pathname === '/' || !isDesktop,
   });
 
   const classNameDatepicker = classnames('flex gap-4 lg:mt-0 lg:w-full', {
@@ -575,7 +575,7 @@ const FlightSearchForm = () => {
           </section>
           {flights.map((item: string, flightIndex: number) => (
             <section key={flightIndex} className="flex flex-col">
-              {direction === 'multi_city' && (
+              {direction === 'multicity' && (
                 <section className="w-full mt-5">
                   <Label
                     value={`${t('flight')} #${flightIndex + 1}`}
@@ -599,7 +599,7 @@ const FlightSearchForm = () => {
                       placeholder={locationPlaceholder}
                       routeParams={['address']}
                       defaultAddress={
-                        direction === 'multi_city'
+                        direction === 'multicity'
                           ? addresses[flightIndex]
                           : address
                       }
@@ -652,7 +652,7 @@ const FlightSearchForm = () => {
                       placeholder={location2Placeholder}
                       routeParams={['address2']}
                       defaultAddress={
-                        direction === 'multi_city'
+                        direction === 'multicity'
                           ? addresses2[flightIndex]
                           : address2
                       }
@@ -684,7 +684,7 @@ const FlightSearchForm = () => {
                     startDateLabel={t('checkIn')}
                     endDateLabel={t('checkOut')}
                     initialStartDate={
-                      direction === 'multi_city'
+                      direction === 'multicity'
                         ? startDates[flightIndex]
                         : startDate
                     }
@@ -707,7 +707,7 @@ const FlightSearchForm = () => {
                       icon={<Calendar className="w-5 h-5 text-dark-700" />}
                       value={fromLowerCaseToCapitilize(
                         formatAsDisplayDate(
-                          direction === 'multi_city'
+                          direction === 'multicity'
                             ? startDates[flightIndex]
                             : startDate,
                         ),
@@ -772,7 +772,7 @@ const FlightSearchForm = () => {
                 'flex flex-col justify-start lg:flex-row lg:items-end lg:gap-2 lg:pb-0 lg:px-0 mt-3'
               }
             >
-              {direction === 'multi_city' && (
+              {direction === 'multicity' && (
                 <section>
                   <Button
                     onClick={() => handleFlightsAdd()}
