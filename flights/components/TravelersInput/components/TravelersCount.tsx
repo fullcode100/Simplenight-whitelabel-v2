@@ -49,7 +49,6 @@ const TravelersCount = ({
     }
     return result;
   };
-
   return (
     <section className="flex flex-col gap-y-6 mb-6">
       <NumberInput
@@ -60,7 +59,7 @@ const TravelersCount = ({
           canAddMoreTravelers(value, 'adults') &&
           handleCountChange(value, index, 'adults')
         }
-        min={1}
+        min={traveler.infants > 1 ? traveler.infants : 1}
         max={getMaxValue('adults')}
         disabled
       />
