@@ -73,6 +73,7 @@ const Payment = () => {
     bookItem(data);
   };
 
+  console.log(flights, search);
   const [customer] = useCustomer((state) => [state.customer]);
 
   const bookItem = async (paymentFormData: PaymentFormSchema) => {

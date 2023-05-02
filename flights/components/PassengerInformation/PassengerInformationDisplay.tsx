@@ -59,7 +59,7 @@ const PassengerInformationDisplay = ({
 
   const goCheckout = (currentData: IPassenger) => {
     savePassenger(currentData);
-    router.replace('/checkout/client');
+    router.replace('/checkout/flights');
   };
 
   const getPassengersInfoForms = () => {

@@ -27,8 +27,7 @@ export interface SearchStore {
 export const useSearchStore = create<SearchStore>()((set) => ({
   search: null,
   setSearch: (cc: Search) => {
-    set((state: SearchStore) => ({
-      ...state,
+    set(() => ({
       search: cc,
     }));
   },

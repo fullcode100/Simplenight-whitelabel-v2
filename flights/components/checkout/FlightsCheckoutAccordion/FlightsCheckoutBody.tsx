@@ -21,7 +21,9 @@ interface Props {
 const FlightsCheckoutBody = ({ flight, search }: Props) => {
   const [t] = useTranslation('flights');
   const stops =
-    flight.availability.outbound.stops + flight.availability.inbound.stops;
+    flight.availability.outbound?.stops ||
+    0 + flight.availability?.inbound?.stops ||
+    0;
   const stopsLabel = usePlural(stops, t('stop', 'Stop'), t('stops', 'Stops'));
 
   const payNowLabel = t('payNow', 'Pay Now');
