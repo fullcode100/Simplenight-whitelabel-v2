@@ -134,19 +134,22 @@ const Payment = () => {
           gender: 'M',
         },
       ],
-      segments: {
-        collection: [
-          {
-            departureAirport: segments[0].origin.iata_code,
-            departureDateTime: segments[0].departure_date,
-            arrivalAirport: segments[segments.length - 1].destination.iata_code,
-            arrivalDateTime: segments[segments.length - 1].arrival_date,
-            marketingCarrier: segments[0].carrier,
-            marketingCarrierName: segments[0].carrier_name,
-            marketingFlightNumber: segments[0].flight_number,
-          },
-        ],
-      },
+      segments: [
+        {
+          collection: [
+            {
+              departureAirport: segments[0].origin.iata_code,
+              departureDateTime: segments[0].departure_date,
+              arrivalAirport:
+                segments[segments.length - 1].destination.iata_code,
+              arrivalDateTime: segments[segments.length - 1].arrival_date,
+              marketingCarrier: segments[0].carrier,
+              marketingCarrierName: segments[0].carrier_name,
+              marketingFlightNumber: segments[0].flight_number,
+            },
+          ],
+        },
+      ],
       offer: {
         bookingClass: flights[0].availability.booking_class,
       },
@@ -271,7 +274,7 @@ const Payment = () => {
 
 export default Payment;
 
-/* 
+/*
 
 
 "segments": [
