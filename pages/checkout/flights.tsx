@@ -30,7 +30,11 @@ import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import FlightsCheckoutAccordion from 'flights/components/checkout/FlightsCheckoutAccordion/FlightsCheckoutAccordion';
 import Divider from 'components/global/Divider/Divider';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
+
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
+import axios from 'axios';
+import { usePassengersStore } from 'hooks/flights/usePassengersStore';
+import dayjs from 'dayjs';
 
 const CONFIRMATION_URI = '/confirmation';
 
@@ -57,6 +61,7 @@ const Payment = () => {
 
   const flights = useFlightsStore((state) => state.flights);
   const search = useSearchStore((state) => state.search);
+  const passengers = usePassengersStore((state) => state.passengers);
 
   type PaymentFormSchema = z.infer<typeof paymentFormSchema>;
   const methods = useForm<PaymentFormSchema>({
@@ -73,6 +78,7 @@ const Payment = () => {
     bookItem(data);
   };
 
+  console.log(flights, search, passengers);
   const [customer] = useCustomer((state) => [state.customer]);
 
   const bookItem = async (paymentFormData: PaymentFormSchema) => {
@@ -108,17 +114,63 @@ const Payment = () => {
         },
       },
     };
+    const segments = flights[0].availability.outbound.segments;
+    /* TODO: see how thos would work with multiple passengers */
+    const passenger = passengers[0];
 
-    try {
-      const data = await createBooking(bookingParameters, i18next);
-      const bookingId = data?.booking.booking_id;
-      localStorage.removeItem('cart');
-      setLoading(false);
-      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
-    }
+    const body = {
+      passenger: [
+        {
+          id: '1',
+          dateOfBirth: dayjs(passenger.dateOfBirth)
+            .format('DDMMMYY')
+            .toUpperCase(),
+          /* TODO: we currently dont associate age band to passengers */
+          code: 'ADT',
+          firstName: passenger.firstName,
+          lastName: passenger.firstName,
+          /* TODO: remove hardcoded into */
+          phoneNumber: '817-706-9009',
+          gender: 'M',
+        },
+      ],
+      segments: {
+        collection: [
+          {
+            departureAirport: segments[0].origin.iata_code,
+            departureDateTime: segments[0].departure_date,
+            arrivalAirport: segments[segments.length - 1].destination.iata_code,
+            arrivalDateTime: segments[segments.length - 1].arrival_date,
+            marketingCarrier: segments[0].carrier,
+            marketingCarrierName: segments[0].carrier_name,
+            marketingFlightNumber: segments[0].flight_number,
+          },
+        ],
+      },
+      offer: {
+        bookingClass: flights[0].availability.booking_class,
+      },
+      creditCardInfo: {
+        /* TODO: remove hardcoded data */
+        name: 'MasterCard',
+        vendorCode: 'CA',
+        cardNumber: creditCardNumber,
+        securityId: creditCardCVV,
+        expiryDate: creditCardExpiration.replace('/', ''),
+      },
+    };
+
+    const res = await axios.post(
+      'https://api-dev.simplenight.com/sn-booking-service/reservation',
+      body,
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
+
+    console.log(res);
   };
 
   if (loading) return <Loader />;
@@ -130,7 +182,7 @@ const Payment = () => {
     };
     return (
       <FullScreenModal
-        open={!search || !flights}
+        open={!search || !flights || !passengers}
         title={continueShoppingText}
         primaryButtonText={continueShoppingText}
         primaryButtonAction={continueShopping}
@@ -218,3 +270,25 @@ const Payment = () => {
 };
 
 export default Payment;
+
+/* 
+
+
+"segments": [
+        {
+            "collection": [
+                {
+                    "departureAirport": "ATL", //availability.outbound.segments[0].origin.iata_code
+                    "departureDateTime": "2023-05-15T22:25:00", //availability.outbound.segments[0].departure_date
+                    "arrivalAirport": "EWR", //availability.outbound.segments[0].destination.iata_code
+                    "arrivalDateTime": //availability.outbound.segments[0].arrival_date
+                    "marketingCarrier": "DL", //availability.outbound.segments[0].carrier
+                    "marketingCarrierName": "Delta", //availability.outbound.segments[0].carrier_name
+                    "marketingFlightNumber": "1292" //availability.outbound.segments[0].flight_number
+                }
+            ]
+        }
+    ],
+"offer": {
+        "bookingClass": "L" //availability.booking_class
+    },*/
