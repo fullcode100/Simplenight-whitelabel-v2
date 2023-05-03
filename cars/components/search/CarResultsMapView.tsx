@@ -1,6 +1,6 @@
 import MapView from 'cars/components/search/MapView/MapView';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import { Car } from 'cars/types/response/SearchResponse';
+import { Car } from 'cars/types/response/CarSearchResponse';
 
 interface CarMapViewProps {
   CarCategory: CategoryOption;

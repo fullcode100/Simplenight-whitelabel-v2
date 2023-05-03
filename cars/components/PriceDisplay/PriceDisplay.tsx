@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import { Car } from '../../types/response/SearchResponse';
+import { Car } from '../../types/response/CarSearchResponse';
 import { useTranslation } from 'react-i18next';
 import TaxesAndFeesPopover from 'cars/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
 
@@ -16,9 +16,9 @@ const PriceDisplay = ({
   totalLabel,
   isSearch = false,
 }: PriceDisplayProps) => {
-  const totalAmount = item.VehAvailCore.TotalCharge['@RateTotalAmount'];
-  const avgAmount = item.VehAvailCore.TotalCharge['@EstimatedTotalAmount'];
-  const currency = item.VehAvailCore.TotalCharge['@CurrencyCode'];
+  const totalAmount = item.rate_total_amount['@RateTotalAmount'];
+  const avgAmount = item.rate_total_amount['@EstimatedTotalAmount'];
+  const currency = item.rate_total_amount['@CurrencyCode'];
   const discounts = null;
   const [t] = useTranslation('global');
   const startingRoomTotalLabel = t('total', 'Total');

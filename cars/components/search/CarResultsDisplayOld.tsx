@@ -1,7 +1,12 @@
 import { formatAsDateAndTime, formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { CarSearchRequest } from 'cars/types/request/CarSearchRequest';
-import { Car, CarSearchResponse } from 'cars/types/response/CarSearchResponse';
+import {
+  Car,
+  CarSearchResponse,
+  MinRate,
+  Rates,
+} from 'cars/types/response/SearchResponse';
 import React, { createRef, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
@@ -160,9 +165,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       const response = JSON.parse(
         localStorage.getItem('CarSearchResponse') as string,
       );
-      if (response && response.items) {
-        setCars(response.items);
-        filterCars(response.items);
+      if (response && response.cars) {
+        setCars(response.cars);
+        filterCars(response.cars);
       }
       setLoaded(true);
     } else {
@@ -170,9 +175,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       Searcher?.request(params, i18next)
         .then((response: CarSearchResponse) => {
           localStorage.setItem('CarSearchResponse', JSON.stringify(response));
-          if (response && response.items) {
-            setCars(response.items);
-            filterCars(response.items);
+          if (response && response.cars) {
+            setCars(response.cars);
+            filterCars(response.cars);
           }
         })
         .catch((error) => console.error(error))
@@ -217,18 +222,22 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     _cars.forEach((item: Car, index: number) => {
       let valid = true;
       // price
-      const amount = parseFloat(item.rate_total_amount['@RateTotalAmount']);
+      const amount = parseFloat(
+        item.VehAvailCore.TotalCharge['@RateTotalAmount'],
+      );
       if (minPrice && parseInt(minPrice as string) > amount) valid = false;
       if (maxPrice && parseInt(maxPrice as string) < amount) valid = false;
       // type
-      const type = item.car_model;
+      const type = item.VehAvailCore.Vehicle.VehMakeModel['@Name'];
       if (types && types.toString().split(',').indexOf(type) < 0) valid = false;
       // company
-      const company = item.company_short_name;
+      const company = item.Vendor['@CompanyShortName'];
       if (companies && companies.toString().split(',').indexOf(company) < 0)
         valid = false;
       // passengers
-      const itemPassengers = parseInt(item.passenger_quantity);
+      const itemPassengers = parseInt(
+        item.VehAvailCore.Vehicle['@PassengerQuantity'],
+      );
       if (passengers) {
         const _passengers = passengers.toString().split(',');
         if (_passengers[0] && parseInt(_passengers[0]) > itemPassengers)
@@ -244,15 +253,23 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       if (keywordSearch) {
         const keyword = keywordSearch as string;
         if (
-          item.company_short_name.toLowerCase().indexOf(keyword.toLowerCase()) <
-            0 &&
-          item.car_model.toLowerCase().indexOf(keyword.toLowerCase()) < 0 &&
-          item.transmission_type.toLowerCase().indexOf(keyword.toLowerCase()) <
-            0 &&
-          item.address_line &&
-          item.address_line.toLowerCase().indexOf(keyword.toLowerCase()) < 0 &&
-          item.address_line &&
-          item.address_line.toLowerCase().indexOf(keyword.toLowerCase()) < 0
+          item.Vendor['@CompanyShortName']
+            .toLowerCase()
+            .indexOf(keyword.toLowerCase()) < 0 &&
+          item.VehAvailCore.Vehicle.VehMakeModel['@Name']
+            .toLowerCase()
+            .indexOf(keyword.toLowerCase()) < 0 &&
+          item.VehAvailCore.Vehicle['@TransmissionType']
+            .toLowerCase()
+            .indexOf(keyword.toLowerCase()) < 0 &&
+          item.Info.LocationDetails['@Name'] &&
+          item.Info.LocationDetails['@Name']
+            .toLowerCase()
+            .indexOf(keyword.toLowerCase()) < 0 &&
+          item.Info.LocationDetails.Address.AddressLine &&
+          item.Info.LocationDetails.Address.AddressLine.toLowerCase().indexOf(
+            keyword.toLowerCase(),
+          ) < 0
         )
           valid = false;
       }
@@ -262,22 +279,22 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     // sort by price
     if (sortBy && sortBy === 'sortByPriceDesc')
       _carsFiltered.sort((a, b) =>
-        parseFloat(a.rate_total_amount['@RateTotalAmount']) >
-        parseFloat(b.rate_total_amount['@RateTotalAmount'])
+        parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) >
+        parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount'])
           ? -1
           : Number(
-              parseFloat(a.rate_total_amount['@RateTotalAmount']) <
-                parseFloat(b.rate_total_amount['@RateTotalAmount']),
+              parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) <
+                parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount']),
             ),
       );
     else
       _carsFiltered.sort((a, b) =>
-        parseFloat(a.rate_total_amount['@RateTotalAmount']) <
-        parseFloat(b.rate_total_amount['@RateTotalAmount'])
+        parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) <
+        parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount'])
           ? -1
           : Number(
-              parseFloat(a.rate_total_amount['@RateTotalAmount']) >
-                parseFloat(b.rate_total_amount['@RateTotalAmount']),
+              parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) >
+                parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount']),
             ),
       );
 
@@ -285,7 +302,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   };
 
   const urlDetail = (car: Car) => {
-    const id = '12345';
+    const id = car?.id;
     const route = `/detail/car-rental/${id}?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
     return route;
   };
@@ -294,11 +311,13 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     <ul role="list" className="space-y-4">
       {carsFiltered.map((car: Car, index: number) => {
         const url = urlDetail(car);
-        const title = car.car_model;
-        const companyName = car.company_short_name;
-        // const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
-        const image = car.picture_url;
-        const address = car.address_line;
+        const title = car.VehAvailCore.Vehicle.VehMakeModel['@Name'];
+        const companyName = car.Vendor['@CompanyShortName'];
+        const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
+        const image = car.VehAvailCore.Vehicle.PictureURL;
+        const address = car.Info.LocationDetails
+          ? `${car.Info.LocationDetails['@Name']}, ${car.Info.LocationDetails.Address.AddressLine}`
+          : '';
 
         const geolocation = `${latitude},${longitude}`;
         const geolocation2 = `${latitude2},${longitude2}`;
@@ -321,9 +340,12 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
               total: {
                 prepaid: {
                   amount: parseFloat(
-                    car.rate_total_amount['@RateTotalAmount'] as string,
+                    car?.VehAvailCore?.TotalCharge[
+                      '@RateTotalAmount'
+                    ] as string,
                   ),
-                  currency: car.rate_total_amount['@CurrencyCode'] ?? 'USD',
+                  currency:
+                    car?.VehAvailCore?.TotalCharge['@CurrencyCode'] ?? 'USD',
                 },
               },
             },
@@ -337,10 +359,11 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
               key={`car_${index}`}
               icon={CarCategory.icon}
               categoryName={carLabel}
+              item={car}
               title={title}
               subtitle={
                 <img
-                  src={''}
+                  src={companyImage}
                   alt={companyName}
                   style={{ maxWidth: '70px', maxHeight: '25px' }}
                 />
@@ -349,7 +372,13 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
               price={<CarItemRateInfo item={car} />}
               className=" flex-0-0-auto"
               url={url}
-              priceDisplay={<PriceDisplay item={car} isSearch={true} />}
+              priceDisplay={
+                <PriceDisplay
+                  item={car}
+                  totalLabel={fromLabel}
+                  isSearch={true}
+                />
+              }
               cancellable={<CarCancellable item={car} />}
               features={<CarFeatures item={car} />}
               address={address}

@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WithId } from 'types/global/WithId';
 import EmptyImage from 'components/global//EmptyImage/EmptyImage';
 import Rating from 'components/global//Rating/Rating';
 import Link from 'next/link';
@@ -11,8 +10,7 @@ import { useRouter } from 'next/router';
 import { Item } from 'types/cart/CartType';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
 
-interface CardProps<T extends WithId> {
-  item: T;
+interface CardProps {
   icon?: ReactNode;
   categoryName?: string;
   subtitle?: ReactNode;
@@ -29,8 +27,7 @@ interface CardProps<T extends WithId> {
   cartItem: Item;
 }
 
-function HorizontalItemCard<T extends WithId>({
-  item,
+function HorizontalItemCard({
   icon,
   categoryName,
   title = '',
@@ -45,7 +42,7 @@ function HorizontalItemCard<T extends WithId>({
   address,
   features,
   cartItem,
-}: CardProps<T>) {
+}: CardProps) {
   const [t, i18next] = useTranslation('global');
   const [invalidImage, setInvalidImage] = useState(false);
   const fromLabel = t('from', 'From');
@@ -94,12 +91,11 @@ function HorizontalItemCard<T extends WithId>({
 
   return (
     <li
-      key={item.id}
       className={`bg-white flex flex-col border border-dark-300 rounded ${className}`}
     >
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
-          <CategoryTag />
+          {/* <CategoryTag /> */}
           <section className="flex flex-col justify-center lg:flex-row">
             <section
               className="min-w-[55%] max-w-[80%] min-h-[150px] self-center lg:max-w-[100%] lg:min-w-[15rem] lg:min-h-[11.3rem] "
@@ -133,51 +129,11 @@ function HorizontalItemCard<T extends WithId>({
               {features && <section className="mt-2">{features}</section>}
             </section>
             <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
-              {/* <section className="text-left">{cancellable}</section> */}
+              <section className="text-left">{cancellable}</section>
               {priceDisplay}
-
-              <section className="flex flex-col pt-1">
-                {showAddToItinerary && (
-                  <Button
-                    value={addToItineraryText}
-                    size="full"
-                    type="outlined"
-                    textColor="primary"
-                    onClick={() => handleAction('/itinerary')}
-                    className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-                  />
-                )}
-                <Button
-                  value={bookNowText}
-                  size="full"
-                  onClick={() => handleAction('/checkout/client')}
-                  className="px-4 py-1 mt-1 text-base font-semibold leading-base whitespace-nowrap"
-                />
-              </section>
             </section>
           </section>
-          <section className="flex-col lg:hidden">
-            {price}
-
-            <section className="flex flex-row px-3 py-3">
-              {showAddToItinerary && (
-                <Button
-                  value={addToItineraryText}
-                  size="full"
-                  type="outlined"
-                  textColor="primary"
-                  onClick={() => handleAction('/itinerary')}
-                  className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-                />
-              )}
-              <Button
-                value={bookNowText}
-                size="full"
-                onClick={() => handleAction('/checkout/client')}
-                className="px-4 py-1 mt-1 text-base font-semibold leading-base whitespace-nowrap"
-              />
-            </section>
-          </section>
+          <section className="flex-col lg:hidden">{price}</section>
         </a>
       </Link>
     </li>

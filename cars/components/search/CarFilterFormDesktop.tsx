@@ -12,7 +12,7 @@ import PassengersSlider from '../PassengersSlider/PassengersSlider';
 import MultipleSelect from 'components/global/MultipleSelect/MultipleSelect';
 import CloseIcon from 'public/icons/assets/close.svg';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import { Car } from 'cars/types/response/SearchResponse';
+import { Car } from 'cars/types/response/CarSearchResponse';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -252,8 +252,9 @@ const CarFilterFormDesktop = ({ cars }: CarFilterFormDesktopProps) => {
   const getCarCompanyUrl = (cars: Car[], company: string) => {
     if (cars && cars.length) {
       for (let i = 0; i < cars.length; i += 1) {
-        if (cars[i].Vendor['@CompanyShortName'] === company)
-          return cars[i].Info.TPA_Extensions.VendorPictureURL['#text'];
+        if (cars[i].company_short_name === company)
+          // return cars[i].Info.TPA_Extensions.VendorPictureURL['#text'];
+          return '';
       }
     }
     return '';
@@ -263,11 +264,11 @@ const CarFilterFormDesktop = ({ cars }: CarFilterFormDesktopProps) => {
     // analyze cars response
     let carsMinPrice: number =
       cars && cars[0]
-        ? parseFloat(cars[0]?.VehAvailCore.TotalCharge['@RateTotalAmount'])
+        ? parseFloat(cars[0]?.rate_total_amount['@RateTotalAmount'])
         : 100;
     let carsMaxPrice: number =
       cars && cars[0]
-        ? parseFloat(cars[0]?.VehAvailCore.TotalCharge['@RateTotalAmount'])
+        ? parseFloat(cars[0]?.rate_total_amount['@RateTotalAmount'])
         : 5000;
     const carsTypes: string[] = [];
     const carsCompanies: string[] = [];
@@ -275,16 +276,14 @@ const CarFilterFormDesktop = ({ cars }: CarFilterFormDesktopProps) => {
     if (cars && cars.length) {
       cars.forEach((item: Car) => {
         // price
-        const amount = parseFloat(
-          item.VehAvailCore.TotalCharge['@RateTotalAmount'],
-        );
+        const amount = parseFloat(item.rate_total_amount['@RateTotalAmount']);
         if (amount < carsMinPrice) carsMinPrice = amount;
         if (amount > carsMaxPrice) carsMaxPrice = amount;
         // types
-        const type = item.VehAvailCore.Vehicle.VehMakeModel['@Name'];
+        const type = item.car_model;
         if (carsTypes.indexOf(type) < 0) carsTypes.push(type);
         // companies
-        const company = item.Vendor['@CompanyShortName'];
+        const company = item.company_short_name;
         if (carsCompanies.indexOf(company) < 0) carsCompanies.push(company);
       });
 

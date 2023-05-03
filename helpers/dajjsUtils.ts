@@ -49,6 +49,18 @@ export const formatAsExactHour = (
   return dayjs(date).format('HH:mm');
 };
 
+export const formatAsDateAndTime = (
+  date: string | number | Date | dayjs.Dayjs,
+  hour: string,
+) => {
+  const time = dayjs(hour, DISPLAY_HOUR_FORMAT);
+  const dateTime = dayjs(date)
+    .set('hour', time.hour())
+    .set('minute', time.minute())
+    .set('second', time.second());
+  return dateTime.format('YYYY-MM-DDTHH:mm:ss');
+};
+
 export const formatAsDisplayDatetime = (datetime: string) =>
   dayjs(datetime).format(EXACT_DATETIME_FORMAT);
 
