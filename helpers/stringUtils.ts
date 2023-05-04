@@ -99,3 +99,7 @@ export const getChildrenAges = (rooms: Room[]): string => {
 
   return childrenAges.join(',');
 };
+
+export const haveKeyword = (str = '', keyword = '') => {
+  return str.toLowerCase().indexOf(keyword.toLowerCase()) < 0;
+};

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import PriceDisplay from 'cars/components/PriceDisplay/PriceDisplay';
 import CarCancellable from './CarCancellable';
-import { Car } from 'cars/types/response/SearchResponse';
+import { Car } from 'cars/types/response/CarSearchResponse';
 
 interface CarItemRateInfoProps {
   item: Car;

@@ -41,12 +41,8 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
 
   const currentItem = items?.[activeItem];
   const coordinates = {
-    latitude: parseFloat(
-      currentItem.Info.LocationDetails.Address['@Remark'].split(',')[0],
-    ),
-    longitude: parseFloat(
-      currentItem.Info.LocationDetails.Address['@Remark'].split(',')[1],
-    ),
+    latitude: parseFloat(currentItem.remarks.split(',')[0]),
+    longitude: parseFloat(currentItem.remarks.split(',')[1]),
   };
 
   const responsive = {
@@ -110,14 +106,11 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
           >
             {items.map((car, index) => {
               const url = createUrl(car);
-              const title = car.VehAvailCore.Vehicle.VehMakeModel['@Name'];
-              const companyName = car.Vendor['@CompanyShortName'];
-              const companyImage =
-                car.Info.TPA_Extensions.VendorPictureURL['#text'];
-              const image = car.VehAvailCore.Vehicle.PictureURL;
-              const address = car.Info.LocationDetails
-                ? `${car.Info.LocationDetails['@Name']}, ${car.Info.LocationDetails.Address.AddressLine}`
-                : '';
+              const title = car.car_model;
+              const companyName = car.company_short_name;
+              // const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
+              const image = car.picture_url;
+              const address = car.address_line;
               const isNext = index === nextItem;
 
               const cardClassName = classnames(
@@ -150,13 +143,10 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
                     total: {
                       prepaid: {
                         amount: parseFloat(
-                          car?.VehAvailCore?.TotalCharge[
-                            '@RateTotalAmount'
-                          ] as string,
+                          car.rate_total_amount['@RateTotalAmount'] as string,
                         ),
                         currency:
-                          car?.VehAvailCore?.TotalCharge['@CurrencyCode'] ??
-                          'USD',
+                          car.rate_total_amount['@CurrencyCode'] ?? 'USD',
                       },
                     },
                   },
@@ -166,15 +156,11 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
               return (
                 <section key={index + '-image'} className="w-full p-5">
                   <HorizontalItemCard
-                    cartItem={cartItem}
                     key={`car_${index}`}
-                    icon={CarCategory.icon}
-                    categoryName={carLabel}
-                    item={car}
                     title={title}
                     subtitle={
                       <img
-                        src={companyImage}
+                        src={''}
                         alt={companyName}
                         style={{ maxWidth: '70px', maxHeight: '25px' }}
                       />
@@ -183,13 +169,7 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
                     price={<CarItemRateInfo item={car} />}
                     className=" flex-0-0-auto"
                     url={url}
-                    priceDisplay={
-                      <PriceDisplay
-                        item={car}
-                        totalLabel={fromLabel}
-                        isSearch={true}
-                      />
-                    }
+                    priceDisplay={<PriceDisplay item={car} isSearch={true} />}
                     cancellable={<CarCancellable item={car} />}
                     features={<CarFeatures item={car} />}
                     address={address}

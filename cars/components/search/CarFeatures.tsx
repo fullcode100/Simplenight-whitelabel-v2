@@ -1,4 +1,4 @@
-import { Car } from 'cars/types/response/SearchResponse';
+import { Car } from 'cars/types/response/CarSearchResponse';
 import { useTranslation } from 'react-i18next';
 import PassengersIcon from 'public/icons/assets/cars/passengers.svg';
 import BaggageIcon from 'public/icons/assets/cars/baggage.svg';
@@ -30,44 +30,42 @@ const CarFeatures = ({ item }: CarFeaturesProps) => {
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
         <PassengersIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
-          {item.VehAvailCore.Vehicle['@PassengerQuantity']} {passengersText}
+          {item.passenger_quantity} {passengersText}
         </label>
       </section>
 
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
         <BaggageIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
-          {item.VehAvailCore.Vehicle['@BaggageQuantity']} {bagsText}
+          {item.baggage_quantity} {bagsText}
         </label>
       </section>
 
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
         <TransmissionIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
-          {item.VehAvailCore.Vehicle['@TransmissionType']}
+          {item.transmission_type}
         </label>
       </section>
 
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
         <FuelIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
-          {item.VehAvailCore.Vehicle['@FuelType']}
+          {item.fuel_policy}
         </label>
       </section>
 
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
         <SizeIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
-          {item.VehAvailCore.Vehicle.VehType['@DoorCount']} {doorsText}
+          {item.door_count} {doorsText}
         </label>
       </section>
 
       <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
         <LocationIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
-          {item.VehAvailCore.Vehicle['@AirConditionInd'] === 'true'
-            ? acText
-            : noAcText}
+          {item.air_condition_ind ? acText : noAcText}
         </label>
       </section>
     </section>

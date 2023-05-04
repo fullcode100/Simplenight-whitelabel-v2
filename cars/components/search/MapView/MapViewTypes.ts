@@ -1,4 +1,4 @@
-import { Car } from 'cars/types/response/SearchResponse';
+import { Car } from 'cars/types/response/CarSearchResponse';
 import { Amount } from 'types/global/Amount';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 

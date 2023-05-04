@@ -1,28 +1,19 @@
-import { formatAsSearchDate } from 'helpers/dajjsUtils';
+import { formatAsDateAndTime, formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { CarSearchRequest } from 'cars/types/request/CarSearchRequest';
-import {
-  Car,
-  CarSearchResponse,
-  MinRate,
-  Rates,
-} from 'cars/types/response/SearchResponse';
-import React, { createRef, ReactNode, useEffect, useState } from 'react';
+import { Car, CarSearchResponse } from 'cars/types/response/CarSearchResponse';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 import CarMapView from './CarResultsMapView';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
-import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
+import { haveKeyword } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
-import Loader from '../../../components/global/Loader/Loader';
-import { Room, createRoom } from 'cars/helpers/room';
 import CarItemRateInfo from './CarItemRateInfo';
-import { sortByAdapter } from 'cars/adapters/sort-by.adapter';
-import { cancellationTypeAdapter } from 'cars/adapters/cancellation-type.adapter';
 import classnames from 'classnames';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import CarFilterFormDesktop from './CarFilterFormDesktop';
@@ -39,9 +30,6 @@ import {
 } from 'components/global/AltRadioButton/AltRadioButton';
 import MapIcon from 'public/icons/assets/map.svg';
 import ListIcon from 'public/icons/assets/list.svg';
-import SortIcon from 'public/icons/assets/sort.svg';
-import FilterIcon from 'public/icons/assets/filter.svg';
-import Dropdown from 'components/global/Dropdown/Dropdown';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import CarSecondarySearchOptions from './CarSecondarySearchOptions';
 import Sort from '@/icons/assets/sort.svg';
@@ -50,6 +38,7 @@ import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import classNames from 'classnames';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import { EmptyState } from '@simplenight/ui';
+import { useCategorySlug } from 'hooks/category/useCategory';
 
 declare let window: CustomWindow;
 
@@ -100,6 +89,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     maxPrice,
   } = useQuery();
 
+  const { slug } = useQuery();
+  const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
+
   const [sortBy, setSortBy] = useState<string>('sortByPriceAsc');
   const [showSortingDropdown, setShowSortingDropdown] = useState(false);
 
@@ -132,12 +124,20 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     const geolocation2 = `${latitude2},${longitude2}`;
 
     const params: CarSearchRequest = {
-      start_date: formatAsSearchDate(startDate as unknown as string),
-      end_date: formatAsSearchDate(endDate as unknown as string),
-      start_time: startTime as unknown as string,
-      end_time: endTime as unknown as string,
-      geolocation: geolocation as unknown as StringGeolocation,
-      geolocation2: geolocation2 as unknown as StringGeolocation,
+      pickup_datetime: formatAsDateAndTime(
+        startDate as unknown as string,
+        startTime as unknown as string,
+      ),
+      return_datetime: formatAsDateAndTime(
+        endDate as unknown as string,
+        endTime as unknown as string,
+      ),
+      pickup_context: 'GEO',
+      pickup_location: geolocation as unknown as StringGeolocation,
+      return_context: 'GEO',
+      return_location: geolocation2 as unknown as StringGeolocation,
+      driver_age: 20,
+      apiUrl,
     };
 
     if (
@@ -153,9 +153,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       const response = JSON.parse(
         localStorage.getItem('CarSearchResponse') as string,
       );
-      if (response && response.cars) {
-        setCars(response.cars);
-        filterCars(response.cars);
+      if (response && response.items) {
+        setCars(response.items);
+        filterCars(response.items);
       }
       setLoaded(true);
     } else {
@@ -163,9 +163,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       Searcher?.request(params, i18next)
         .then((response: CarSearchResponse) => {
           localStorage.setItem('CarSearchResponse', JSON.stringify(response));
-          if (response && response.cars) {
-            setCars(response.cars);
-            filterCars(response.cars);
+          if (response && response.items) {
+            setCars(response.items);
+            filterCars(response.items);
           }
         })
         .catch((error) => console.error(error))
@@ -210,22 +210,18 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     _cars.forEach((item: Car, index: number) => {
       let valid = true;
       // price
-      const amount = parseFloat(
-        item.VehAvailCore.TotalCharge['@RateTotalAmount'],
-      );
+      const amount = parseFloat(item.rate_total_amount['@RateTotalAmount']);
       if (minPrice && parseInt(minPrice as string) > amount) valid = false;
       if (maxPrice && parseInt(maxPrice as string) < amount) valid = false;
       // type
-      const type = item.VehAvailCore.Vehicle.VehMakeModel['@Name'];
+      const type = item.car_model;
       if (types && types.toString().split(',').indexOf(type) < 0) valid = false;
       // company
-      const company = item.Vendor['@CompanyShortName'];
+      const company = item.company_short_name;
       if (companies && companies.toString().split(',').indexOf(company) < 0)
         valid = false;
       // passengers
-      const itemPassengers = parseInt(
-        item.VehAvailCore.Vehicle['@PassengerQuantity'],
-      );
+      const itemPassengers = parseInt(item.passenger_quantity);
       if (passengers) {
         const _passengers = passengers.toString().split(',');
         if (_passengers[0] && parseInt(_passengers[0]) > itemPassengers)
@@ -241,23 +237,10 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       if (keywordSearch) {
         const keyword = keywordSearch as string;
         if (
-          item.Vendor['@CompanyShortName']
-            .toLowerCase()
-            .indexOf(keyword.toLowerCase()) < 0 &&
-          item.VehAvailCore.Vehicle.VehMakeModel['@Name']
-            .toLowerCase()
-            .indexOf(keyword.toLowerCase()) < 0 &&
-          item.VehAvailCore.Vehicle['@TransmissionType']
-            .toLowerCase()
-            .indexOf(keyword.toLowerCase()) < 0 &&
-          item.Info.LocationDetails['@Name'] &&
-          item.Info.LocationDetails['@Name']
-            .toLowerCase()
-            .indexOf(keyword.toLowerCase()) < 0 &&
-          item.Info.LocationDetails.Address.AddressLine &&
-          item.Info.LocationDetails.Address.AddressLine.toLowerCase().indexOf(
-            keyword.toLowerCase(),
-          ) < 0
+          haveKeyword(item.company_short_name, keyword) &&
+          haveKeyword(item.car_model, keyword) &&
+          haveKeyword(item.transmission_type, keyword) &&
+          haveKeyword(item.address_line, keyword)
         )
           valid = false;
       }
@@ -267,45 +250,42 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     // sort by price
     if (sortBy && sortBy === 'sortByPriceDesc')
       _carsFiltered.sort((a, b) =>
-        parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) >
-        parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount'])
+        parseFloat(a.rate_total_amount['@RateTotalAmount']) >
+        parseFloat(b.rate_total_amount['@RateTotalAmount'])
           ? -1
           : Number(
-              parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) <
-                parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount']),
+              parseFloat(a.rate_total_amount['@RateTotalAmount']) <
+                parseFloat(b.rate_total_amount['@RateTotalAmount']),
             ),
       );
     else
       _carsFiltered.sort((a, b) =>
-        parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) <
-        parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount'])
+        parseFloat(a.rate_total_amount['@RateTotalAmount']) <
+        parseFloat(b.rate_total_amount['@RateTotalAmount'])
           ? -1
           : Number(
-              parseFloat(a.VehAvailCore.TotalCharge['@RateTotalAmount']) >
-                parseFloat(b.VehAvailCore.TotalCharge['@RateTotalAmount']),
+              parseFloat(a.rate_total_amount['@RateTotalAmount']) >
+                parseFloat(b.rate_total_amount['@RateTotalAmount']),
             ),
       );
 
     setCarsFiltered(_carsFiltered);
   };
 
-  const urlDetail = (car: Car) => {
-    const id = car?.id;
-    const route = `/detail/car-rental/${id}?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
+  const urlDetail = () => {
+    const route = `/detail/car-rental/info?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
     return route;
   };
 
   const CarList = () => (
     <ul role="list" className="space-y-4">
       {carsFiltered.map((car: Car, index: number) => {
-        const url = urlDetail(car);
-        const title = car.VehAvailCore.Vehicle.VehMakeModel['@Name'];
-        const companyName = car.Vendor['@CompanyShortName'];
-        const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
-        const image = car.VehAvailCore.Vehicle.PictureURL;
-        const address = car.Info.LocationDetails
-          ? `${car.Info.LocationDetails['@Name']}, ${car.Info.LocationDetails.Address.AddressLine}`
-          : '';
+        const url = urlDetail();
+        const title = car.car_model;
+        const companyName = car.company_short_name;
+        // const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
+        const image = car.picture_url;
+        const address = car.address_line;
 
         const geolocation = `${latitude},${longitude}`;
         const geolocation2 = `${latitude2},${longitude2}`;
@@ -328,12 +308,9 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
               total: {
                 prepaid: {
                   amount: parseFloat(
-                    car?.VehAvailCore?.TotalCharge[
-                      '@RateTotalAmount'
-                    ] as string,
+                    car.rate_total_amount['@RateTotalAmount'] as string,
                   ),
-                  currency:
-                    car?.VehAvailCore?.TotalCharge['@CurrencyCode'] ?? 'USD',
+                  currency: car.rate_total_amount['@CurrencyCode'] ?? 'USD',
                 },
               },
             },
@@ -343,15 +320,11 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
         if (index < page * pageItems)
           return (
             <HorizontalItemCard
-              cartItem={cartItem}
               key={`car_${index}`}
-              icon={CarCategory.icon}
-              categoryName={carLabel}
-              item={car}
               title={title}
               subtitle={
                 <img
-                  src={companyImage}
+                  src={''}
                   alt={companyName}
                   style={{ maxWidth: '70px', maxHeight: '25px' }}
                 />
@@ -360,13 +333,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
               price={<CarItemRateInfo item={car} />}
               className=" flex-0-0-auto"
               url={url}
-              priceDisplay={
-                <PriceDisplay
-                  item={car}
-                  totalLabel={fromLabel}
-                  isSearch={true}
-                />
-              }
+              priceDisplay={<PriceDisplay item={car} isSearch={true} />}
               cancellable={<CarCancellable item={car} />}
               features={<CarFeatures item={car} />}
               address={address}

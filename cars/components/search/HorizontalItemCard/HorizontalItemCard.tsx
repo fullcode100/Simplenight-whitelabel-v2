@@ -1,20 +1,11 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { WithId } from 'types/global/WithId';
 import EmptyImage from 'components/global//EmptyImage/EmptyImage';
 import Rating from 'components/global//Rating/Rating';
 import Link from 'next/link';
 import LocationIcon from 'public/icons/assets/cars/location.svg';
-import Button from 'components/global/Button/Button';
-import { addToCart } from 'core/client/services/CartClientService';
-import { useRouter } from 'next/router';
 import { Item } from 'types/cart/CartType';
-import { hasCartMode } from 'helpers/purchaseModeUtils';
 
-interface CardProps<T extends WithId> {
-  item: T;
-  icon?: ReactNode;
-  categoryName?: string;
+interface CardProps {
   subtitle?: ReactNode;
   title?: string;
   image?: string;
@@ -26,13 +17,9 @@ interface CardProps<T extends WithId> {
   url?: string;
   address?: ReactNode;
   features?: ReactNode;
-  cartItem: Item;
 }
 
-function HorizontalItemCard<T extends WithId>({
-  item,
-  icon,
-  categoryName,
+function HorizontalItemCard({
   title = '',
   image = '',
   price,
@@ -44,25 +31,9 @@ function HorizontalItemCard<T extends WithId>({
   url = '/',
   address,
   features,
-  cartItem,
-}: CardProps<T>) {
-  const [t, i18next] = useTranslation('global');
+}: CardProps) {
   const [invalidImage, setInvalidImage] = useState(false);
-  const fromLabel = t('from', 'From');
   const target = window.innerWidth < 640 ? '_self' : '_blank';
-
-  // add to cart
-  const router = useRouter();
-
-  const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
-  const bookNowText = t('bookNow', 'Book Now');
-  const showAddToItinerary = hasCartMode();
-
-  const handleAction = async (url: string) => {
-    const itemToBook = Object.assign({}, cartItem);
-    await addToCart(itemToBook, i18next); // add to cart
-    router.replace(url); // redirect to: cart or checkout
-  };
 
   useEffect(() => {
     checkValidImage();
@@ -77,13 +48,6 @@ function HorizontalItemCard<T extends WithId>({
     </header>
   );
 
-  const CategoryTag = () => (
-    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br">
-      {icon}
-      <span className="font-semibold text-[14px]">{categoryName}</span>
-    </section>
-  );
-
   const checkValidImage = () => {
     const img = new Image();
     img.src = image;
@@ -94,12 +58,10 @@ function HorizontalItemCard<T extends WithId>({
 
   return (
     <li
-      key={item.id}
       className={`bg-white flex flex-col border border-dark-300 rounded ${className}`}
     >
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
-          <CategoryTag />
           <section className="flex flex-col justify-center lg:flex-row">
             <section
               className="min-w-[55%] max-w-[80%] min-h-[150px] self-center lg:max-w-[100%] lg:min-w-[15rem] lg:min-h-[11.3rem] "
@@ -133,51 +95,11 @@ function HorizontalItemCard<T extends WithId>({
               {features && <section className="mt-2">{features}</section>}
             </section>
             <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
-              {/* <section className="text-left">{cancellable}</section> */}
+              <section className="text-left">{cancellable}</section>
               {priceDisplay}
-
-              <section className="flex flex-col pt-1">
-                {showAddToItinerary && (
-                  <Button
-                    value={addToItineraryText}
-                    size="full"
-                    type="outlined"
-                    textColor="primary"
-                    onClick={() => handleAction('/itinerary')}
-                    className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-                  />
-                )}
-                <Button
-                  value={bookNowText}
-                  size="full"
-                  onClick={() => handleAction('/checkout/client')}
-                  className="px-4 py-1 mt-1 text-base font-semibold leading-base whitespace-nowrap"
-                />
-              </section>
             </section>
           </section>
-          <section className="flex-col lg:hidden">
-            {price}
-
-            <section className="flex flex-row px-3 py-3">
-              {showAddToItinerary && (
-                <Button
-                  value={addToItineraryText}
-                  size="full"
-                  type="outlined"
-                  textColor="primary"
-                  onClick={() => handleAction('/itinerary')}
-                  className="px-4 py-1 mt-1 mr-2 text-base font-semibold leading-base whitespace-nowrap"
-                />
-              )}
-              <Button
-                value={bookNowText}
-                size="full"
-                onClick={() => handleAction('/checkout/client')}
-                className="px-4 py-1 mt-1 text-base font-semibold leading-base whitespace-nowrap"
-              />
-            </section>
-          </section>
+          <section className="flex-col lg:hidden">{price}</section>
         </a>
       </Link>
     </li>
