@@ -2,8 +2,7 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { FlightSearchRequest } from 'flights/types/request/FlightSearchRequest';
-import { Flight } from 'flights/types/response/FlightSearchResponse';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
@@ -15,7 +14,6 @@ import {
 } from '@simplenight/ui';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
-import { useDispatch, useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import ChevronRight from 'public/icons/assets/chevron-right.svg';
@@ -25,13 +23,13 @@ import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStat
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightInfo from '../FlightInfo/FlightInfo';
 import { useCategorySlug } from 'hooks/category/useCategory';
-// import { saveFlightDetail } from 'flights/redux/actions';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 import {
   FlightItem,
   FlightResponse,
 } from 'flights/types/response/FlightSearchResponseMS';
+import { useSelector } from 'react-redux';
 
 declare let window: CustomWindow;
 
@@ -52,11 +50,10 @@ const FlightResultsDisplay = ({
   const setQueryParams = useQueryShallowSetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
   const setFlightsStore = useFlightsStore((state) => state.setFlights);
+
   const setPassengersQuantity = usePassengersStore(
     (state) => state.setPassengersQuantity,
   );
-
-  const dispatch = useDispatch();
 
   const pageItems = 10;
   const [page, setPage] = useState<number>(1);
@@ -152,8 +149,6 @@ const FlightResultsDisplay = ({
         i18next,
       );
 
-      console.log('results - >< ', results);
-
       return results.flights;
     } catch (e) {
       console.error(e);
@@ -178,11 +173,13 @@ const FlightResultsDisplay = ({
 
   const selectFlight = (flight: FlightItem) => {
     const nextIndex = selectedFlights.length + 1;
+
     if (nextIndex < flights.length) {
       setCurrentIndex(nextIndex);
       setSelectedFlights((flights) => [...flights, flight]);
     } else {
-      setFlightsStore(selectedFlights);
+      setFlightsStore([...selectedFlights, flight]);
+      setSelectedFlights((flights) => [...flights, flight]);
       setPassengersQuantity(
         parseInt(adults as string, 10) +
           parseInt(children as string, 10) +
