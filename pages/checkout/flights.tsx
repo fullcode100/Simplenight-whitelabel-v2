@@ -183,7 +183,7 @@ const Payment = () => {
                   search &&
                   flights.map((flight) => (
                     <FlightsCheckoutAccordion
-                      key={flight.departure.iata_code}
+                      key={flight.legId}
                       flight={flight}
                       search={search}
                     />

@@ -5,16 +5,17 @@ import FlightsCheckoutBody from './FlightsCheckoutBody';
 import { Flight } from 'flights/types/response/FlightSearchResponse';
 import FlightsCheckoutFooter from './FlightsCheckoutFooter';
 import { Search } from 'hooks/flights/useSearchStore';
+import { FlightItem } from 'pages/api/flights';
 
 interface Props {
-  flight: Flight;
+  flight: FlightItem;
   search: Search;
 }
 
 const FlightsCheckoutAccordion = ({ flight, search }: Props) => {
   return (
     <CollapseBordered
-      title={<FlightsCheckoutHeader flight={flight} search={search} />}
+      title={<FlightsCheckoutHeader search={search} />}
       body={<FlightsCheckoutBody flight={flight} search={search} />}
       footer={<FlightsCheckoutFooter flight={flight} />}
     />
