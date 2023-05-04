@@ -36,8 +36,8 @@ const TicketTabs = ({
     );
   };
   return (
-    <section className="overflow-x-scroll">
-      <div className="flex gap-2 text-dark-700 border-b-2">
+    <section className="overflow-x-scroll scrollbar-hide">
+      <div className="flex gap-2 border-b-2 text-dark-700">
         <TabItem
           isActive={sectorsInfo.every(({ title }) => title !== selectedTab)}
         >

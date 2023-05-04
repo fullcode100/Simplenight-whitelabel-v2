@@ -671,7 +671,7 @@ const ShowAndEventsDetailDisplay = ({
                 })}
               >
                 <section className="grid w-full grid-cols-1 mx-auto lg:grid-cols-5 max-w-7xl">
-                  <section className="xl:mr-24 lg:pr-6 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto col-span-3">
+                  <section className="xl:mr-24 lg:pr-6 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto scrollbar-hide col-span-3">
                     <section className="flex content-center justify-center lg:hidden">
                       {getSeatsMap()}
                     </section>
