@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import LocationInput from 'components/global/Input/LocationInput';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchFormProps } from 'types/search/SearchFormProps';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 import { useTranslation } from 'react-i18next';
@@ -46,7 +46,7 @@ const DiningSearchForm = ({
   const [endDate, setEndDate] = useState<string>(
     params.endDate
       ? params.endDate.toString()
-      : formatAsSearchDate(dayjs().add(1, 'day')),
+      : formatAsSearchDate(dayjs().add(1, 'week')),
   );
   const [geolocation, setGeolocation] = useState<StringGeolocation>(
     `${parseFloat(params.latitude as string)},${parseFloat(
@@ -60,6 +60,10 @@ const DiningSearchForm = ({
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
   };
+
+  useEffect(() => {
+    setEndDate(formatAsSearchDate(dayjs(startDate).add(1, 'week')));
+  }, [startDate]);
 
   const handleEndDateChange = (value: string) => {
     setEndDate(value);
