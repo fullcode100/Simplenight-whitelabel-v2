@@ -282,7 +282,6 @@ const FlightResultsDisplay = ({
                     {/* <FlightSecondarySearchOptions /> */}
                   </section>
                 </section>
-                <HorizontalSkeletonCard />
                 {flights.length > 0 ? (
                   <FlightList />
                 ) : (
