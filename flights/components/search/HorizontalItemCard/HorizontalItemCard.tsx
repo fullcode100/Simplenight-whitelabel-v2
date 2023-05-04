@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flight } from 'flights/types/response/FlightSearchResponse';
 
 import { Button, Paragraph } from '@simplenight/ui';
 import Divider from 'components/global/Divider/Divider';
@@ -14,31 +13,30 @@ import TimeAndAirports from './components/TimeAndAirports';
 import DurationAndStops from './components/DurationAndStops';
 import InclusionsAndExclusions from './components/InclusionsAndExclusions';
 import Pricing from './components/Pricing';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 interface CardProps {
-  item: Flight;
-  selectFlight?: (flight: Flight) => void;
+  item: FlightItem;
+  selectFlight?: (flight: FlightItem) => void;
 }
 
 const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
   const { isDesktop } = useMediaViewport();
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const segments = item.segments.collection || [];
   const DesktopCard = () => {
     return (
       <section onClick={() => setIsExpanded((expanded) => !expanded)}>
         <section className="flex">
-          <div className="flex gap-4 px-4 py-2 flex-1 overflow-hidden">
-            <FlightAirlines segments={item.availability.outbound.segments} />
-            <TimeAndAirports segments={item.availability.outbound.segments} />
-            <DurationAndStops segmentInfo={item.availability.outbound} />
-            <InclusionsAndExclusions item={item} />
+          <div className="flex flex-1 gap-4 px-4 py-2 overflow-hidden">
+            <FlightAirlines segments={segments} />
+            <TimeAndAirports segments={segments} />
+            <DurationAndStops segmentInfo={item.segments} />
+            <InclusionsAndExclusions item={item.segments} />
           </div>
           {selectFlight && <Pricing item={item} onClick={selectFlight} />}
         </section>
-        {isExpanded && (
-          <CardCollapsable segments={item.availability.outbound.segments} />
-        )}
+        {isExpanded && <CardCollapsable segments={segments} />}
       </section>
     );
   };
@@ -50,11 +48,11 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
         className="flex flex-col w-full"
         onClick={() => setIsExpanded((expanded) => !expanded)}
       >
-        <section className="p-4 flex items-center gap-2 ">
-          <div className="grow flex items-start">
-            <FlightAirlines segments={item.availability.outbound.segments} />
+        <section className="flex items-center gap-2 p-4 ">
+          <div className="flex items-start grow">
+            <FlightAirlines segments={segments} />
           </div>
-          <DurationAndStops segmentInfo={item.availability.outbound} />
+          <DurationAndStops segmentInfo={item.segments} />
           <ChevronDownIcon
             className={classnames(
               'text-dark-700 h-6 transition-all',
@@ -64,25 +62,25 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
         </section>
         <Divider className="w-full" />
         {isExpanded ? (
-          <CardCollapsable segments={item.availability.outbound.segments} />
+          <CardCollapsable segments={segments} />
         ) : (
           <section className="p-4">
-            <TimeAndAirports segments={item.availability.outbound.segments} />
+            <TimeAndAirports segments={segments} />
           </section>
         )}
 
         <Divider className="w-full" />
-        <section className="p-4 flex justify-between items-center">
+        <section className="flex items-center justify-between p-4">
           <div className="space-y-1">
             <Paragraph size="xxsmall" textColor="text-dark-700">
               Includes
             </Paragraph>
-            <InclusionsAndExclusions item={item} />
+            <InclusionsAndExclusions item={item.segments} />
           </div>
           {selectFlight && <Pricing item={item} onClick={selectFlight} />}
         </section>
         {isExpanded && selectFlight && (
-          <section className="p-4 flex justify-between items-center">
+          <section className="flex items-center justify-between p-4">
             <Button size="small" onClick={() => selectFlight(item)}>
               {selectLabel}
             </Button>

@@ -73,7 +73,6 @@ const Payment = () => {
     bookItem(data);
   };
 
-  console.log(flights, search);
   const [customer] = useCustomer((state) => [state.customer]);
 
   const bookItem = async (paymentFormData: PaymentFormSchema) => {
@@ -183,7 +182,7 @@ const Payment = () => {
                   search &&
                   flights.map((flight) => (
                     <FlightsCheckoutAccordion
-                      key={flight.departure.iata_code}
+                      key={flight.legId}
                       flight={flight}
                       search={search}
                     />

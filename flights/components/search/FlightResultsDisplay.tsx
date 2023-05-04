@@ -25,9 +25,13 @@ import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStat
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightInfo from '../FlightInfo/FlightInfo';
 import { useCategorySlug } from 'hooks/category/useCategory';
-import { saveFlightDetail } from 'flights/redux/actions';
+// import { saveFlightDetail } from 'flights/redux/actions';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
+import {
+  FlightItem,
+  FlightResponse,
+} from 'flights/types/response/FlightSearchResponseMS';
 
 declare let window: CustomWindow;
 
@@ -47,7 +51,7 @@ const FlightResultsDisplay = ({
   const router = useRouter();
   const setQueryParams = useQueryShallowSetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
-  const addFlight = useFlightsStore((state) => state.addFlight);
+  const setFlightsStore = useFlightsStore((state) => state.setFlights);
   const setPassengersQuantity = usePassengersStore(
     (state) => state.setPassengersQuantity,
   );
@@ -79,9 +83,9 @@ const FlightResultsDisplay = ({
     selected,
   } = useQuery();
 
-  const [flights, setFlights] = useState<Flight[]>([]);
+  const [flights, setFlights] = useState<Array<Array<FlightItem>>>([]);
 
-  const [selectedFlights, setSelectedFlights] = useState<Flight[]>([]);
+  const [selectedFlights, setSelectedFlights] = useState<FlightItem[]>([]);
 
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
@@ -109,11 +113,17 @@ const FlightResultsDisplay = ({
 
     start_airports: startAirports as unknown as string,
     end_airports: endAirports as unknown as string,
+
+    start_airport: startAirport as unknown as string,
+    end_airport: endAirport as unknown as string,
     start_dates: startDates as unknown as string,
+    start_date: formatAsSearchDate(startDate as unknown as string),
+    end_date: formatAsSearchDate(endDate as unknown as string),
 
     currency: currency as unknown as string,
     apiUrl,
   };
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   if (!isOneWay) {
     params.return_date = formatAsSearchDate(endDate as unknown as string);
@@ -137,7 +147,14 @@ const FlightResultsDisplay = ({
     if (hasEmptyValues) return;
     if (isMultiCity && hasEmptyValuesMultiCity) return;
     try {
-      return await Searcher?.request?.(params, i18next);
+      const results: FlightResponse = await Searcher?.request?.(
+        params,
+        i18next,
+      );
+
+      console.log('results - >< ', results);
+
+      return results.flights;
     } catch (e) {
       console.error(e);
     }
@@ -155,36 +172,47 @@ const FlightResultsDisplay = ({
 
   useEffect(() => {
     if (data) {
-      const { items } = data;
-      setFlights(items);
+      setFlights(data);
     }
   }, [data]);
 
-  const selectFlight = (flight: Flight) => {
-    setSelectedFlights((flights) => [...flights, flight]);
-    addFlight(flight);
-    setPassengersQuantity(
-      parseInt(adults as string, 10) +
-        parseInt(children as string, 10) +
-        parseInt(infants as string, 10),
-    );
-    // dispatch(saveFlightDetail(flight));
-
-    router.push(`/detail/flights/${direction}`);
+  const selectFlight = (flight: FlightItem) => {
+    const nextIndex = selectedFlights.length + 1;
+    if (nextIndex < flights.length) {
+      setCurrentIndex(nextIndex);
+      setSelectedFlights((flights) => [...flights, flight]);
+    } else {
+      setFlightsStore(selectedFlights);
+      setPassengersQuantity(
+        parseInt(adults as string, 10) +
+          parseInt(children as string, 10) +
+          parseInt(infants as string, 10),
+      );
+      router.push(`/detail/flights/${direction}`);
+    }
   };
 
   const FlightList = () => (
     <ul role="list" className="space-y-4">
-      {flights.map((flight: Flight, index: number) => {
-        if (index < page * pageItems)
-          return (
-            <HorizontalItemCard
-              key={`flight_${index}`}
-              item={flight}
-              selectFlight={selectFlight}
-            />
-          );
-      })}
+      {flights[currentIndex]
+        .filter((flight) => {
+          if (selectedFlights.length > 0) {
+            return selectedFlights
+              .map((leg) => leg.legId)
+              .every((legId) => flight.offers?.[0].legRef?.includes(legId));
+          }
+          return true;
+        })
+        .map((flight: FlightItem, index: number) => {
+          if (index < page * pageItems)
+            return (
+              <HorizontalItemCard
+                key={`flight_${index}`}
+                item={flight}
+                selectFlight={selectFlight}
+              />
+            );
+        })}
       {/* {flights.length > page * pageItems && (
         <section className="w-full mx-auto lg:w-fit">
           <Button onClick={() => setPage(page + 1)}>{loadMoreLabel}</Button>
@@ -200,12 +228,12 @@ const FlightResultsDisplay = ({
           <FlightsBreadcrumbs
             step={1}
             content={selectedFlights.map((flight, idx) => {
-              const flightSegments = flight.availability.outbound.segments;
+              const flightSegments = flight.segments.collection || [];
               const firstSegment = flightSegments[0];
               const lastSegment = flightSegments[flightSegments.length - 1];
-              const airline = firstSegment.carrier_name;
-              const departure = firstSegment.origin.iata_code;
-              const arrival = lastSegment.destination.iata_code;
+              const airline = firstSegment.marketingCarrierName;
+              const departure = firstSegment.departureAirport;
+              const arrival = lastSegment.arrivalAirport;
               const isLastFlight = idx === selectedFlights.length - 1;
               return (
                 <>

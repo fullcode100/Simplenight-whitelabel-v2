@@ -1,18 +1,23 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
 import { Segment } from 'flights/types/response/FlightSearchResponse';
+import { SegmentCollection } from 'flights/types/response/FlightSearchResponseMS';
 import { formatTime } from 'flights/utils';
 import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 
-const TimeAndAirports = ({ segments }: { segments: Segment[] }) => {
+const TimeAndAirports = ({
+  segments,
+}: {
+  segments: Array<SegmentCollection>;
+}) => {
   const firstSegment = segments[0];
   const lastSegment = segments[segments.length - 1];
-  const departureTime = formatTime(firstSegment?.departure_date);
-  const departureAirport = firstSegment?.origin.airport;
-  const arrivalTime = formatTime(lastSegment?.arrival_date);
-  const arrivalAirport = lastSegment?.destination.airport;
+  const departureTime = formatTime(firstSegment?.departureDateTime);
+  const departureAirport = firstSegment?.departureAirportName;
+  const arrivalTime = formatTime(lastSegment?.arrivalDateTime);
+  const arrivalAirport = lastSegment?.arrivalAirportName;
   return (
-    <section className="justify-center flex flex-col grow overflow-hidden ">
-      <div className="hidden lg:flex items-center gap-1 ">
+    <section className="flex flex-col justify-center overflow-hidden grow ">
+      <div className="items-center hidden gap-1 lg:flex ">
         <Paragraph size="xs" fontWeight="semibold">
           {departureTime}
         </Paragraph>
@@ -23,11 +28,11 @@ const TimeAndAirports = ({ segments }: { segments: Segment[] }) => {
           {arrivalTime}
         </Paragraph>
       </div>
-      <div className="hidden lg:flex  items-center flex-initial gap-1  ">
+      <div className="items-center flex-initial hidden gap-1 lg:flex ">
         <Paragraph
           size="xxs"
           textColor="text-dark-700"
-          className=" whitespace-nowrap  flex-initial truncate"
+          className="flex-initial truncate whitespace-nowrap"
         >
           {departureAirport}
         </Paragraph>
@@ -38,12 +43,12 @@ const TimeAndAirports = ({ segments }: { segments: Segment[] }) => {
         <Paragraph
           size="xxs"
           textColor="text-dark-700"
-          className="whitespace-nowrap  flex-initial truncate"
+          className="flex-initial truncate whitespace-nowrap"
         >
           {arrivalAirport}
         </Paragraph>
       </div>
-      <div className="flex lg:hidden items-center gap-1 justify-evenly text-center ">
+      <div className="flex items-center gap-1 text-center lg:hidden justify-evenly ">
         <div>
           <Paragraph size="xs" fontWeight="semibold">
             {departureTime}

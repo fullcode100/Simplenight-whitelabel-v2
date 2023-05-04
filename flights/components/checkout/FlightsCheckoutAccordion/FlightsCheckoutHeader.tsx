@@ -5,16 +5,14 @@ import IconOneWay from 'public/icons/assets/flights/one_way.svg';
 import { useTranslation } from 'react-i18next';
 import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
-import { Flight } from 'flights/types/response/FlightSearchResponse';
 import { Search } from 'hooks/flights/useSearchStore';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 
 interface Props {
-  flight: Flight;
   search: Search;
 }
 
-const FlightsCheckoutHeader = ({ flight, search }: Props) => {
+const FlightsCheckoutHeader = ({ search }: Props) => {
   const [t] = useTranslation('flights');
   const { adults, infants, children, direction, startAirport, endAirport } =
     search;
