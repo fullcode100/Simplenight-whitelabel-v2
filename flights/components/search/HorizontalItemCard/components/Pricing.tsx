@@ -1,5 +1,5 @@
 import { Button, Paragraph } from '@simplenight/ui';
-import { FlightItem } from 'pages/api/flights';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
