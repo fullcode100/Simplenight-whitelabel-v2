@@ -78,7 +78,6 @@ const Payment = () => {
     bookItem(data);
   };
 
-  console.log(flights, search, passengers);
   const [customer] = useCustomer((state) => [state.customer]);
 
   const bookItem = async (paymentFormData: PaymentFormSchema) => {
@@ -114,7 +113,7 @@ const Payment = () => {
         },
       },
     };
-    const segments = flights[0].availability.outbound.segments;
+    const segments = flights[0].segments.collection?.[0];
     /* TODO: see how thos would work with multiple passengers */
     const passenger = passengers[0];
 
@@ -138,20 +137,19 @@ const Payment = () => {
         {
           collection: [
             {
-              departureAirport: segments[0].origin.iata_code,
-              departureDateTime: segments[0].departure_date,
-              arrivalAirport:
-                segments[segments.length - 1].destination.iata_code,
-              arrivalDateTime: segments[segments.length - 1].arrival_date,
-              marketingCarrier: segments[0].carrier,
-              marketingCarrierName: segments[0].carrier_name,
-              marketingFlightNumber: segments[0].flight_number,
+              departureAirport: segments?.departureAirport,
+              departureDateTime: segments?.departureDateTime,
+              arrivalAirport: segments?.arrivalAirport,
+              arrivalDateTime: segments?.arrivalDateTime,
+              marketingCarrier: segments?.marketingCarrier,
+              marketingCarrierName: segments?.marketingCarrierName,
+              marketingFlightNumber: segments?.marketingFlightNumber,
             },
           ],
         },
       ],
       offer: {
-        bookingClass: flights[0].availability.booking_class,
+        bookingClass: flights[0].offers?.[0].bookingClass,
       },
       creditCardInfo: {
         /* TODO: remove hardcoded data */
@@ -172,8 +170,6 @@ const Payment = () => {
         },
       },
     );
-
-    console.log(res);
   };
 
   if (loading) return <Loader />;
