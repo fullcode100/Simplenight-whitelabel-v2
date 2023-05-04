@@ -9,10 +9,10 @@ export interface FlightsStore {
 
 export const useFlightsStore = create<FlightsStore>()((set) => ({
   flights: [],
-  setFlights: (flights: Array<FlightItem>) => {
+  setFlights: (selectedFlights: Array<FlightItem>) => {
     set(() => ({
-      flights,
+      flights: selectedFlights,
     }));
   },
-  clear: () => set((state) => ({ ...state, flights: [] })),
+  clear: () => set(() => ({ flights: [] })),
 }));
