@@ -33,6 +33,7 @@ import { useWindowSize } from 'hotels/hooks/useWinoowsResize';
 import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImage';
 import HotelMobileFilters from './HotelMobileFilters';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
+import dayjs from 'dayjs';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -151,11 +152,17 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const geolocation = `${latitude},${longitude}`;
 
   const params: HotelSearchRequest = {
-    rooms: parseQueryNumber(rooms ?? ''),
-    adults: parseQueryNumber(adults ?? ''),
+    rooms: parseQueryNumber(rooms !== '0' && rooms ? rooms : '1'),
+    adults: parseQueryNumber(adults !== '0' && adults ? adults : '2'),
     children: parseQueryNumber(children ?? ''),
     start_date: formatAsSearchDate(startDate as unknown as string),
-    end_date: formatAsSearchDate(endDate as unknown as string),
+    end_date: formatAsSearchDate(
+      dayjs(endDate as unknown as string).isAfter(
+        startDate as unknown as string,
+      )
+        ? (endDate as unknown as string)
+        : dayjs(startDate as unknown as string).add(1, 'day'),
+    ),
     dst_geolocation: geolocation as unknown as StringGeolocation,
     rsp_fields_set: 'basic',
     sort: sortByAdapter(sortBy as unknown as string),

@@ -70,7 +70,9 @@ const DiningSearchForm = ({
   const geolocationIsNull = geolocation === `${NaN},${NaN}`;
 
   const rerouteToSearchPage = () => {
-    const route = `/search/${slug}?startDate=${startDate}&endDate=${endDate}&latitude=${
+    const route = `/search/${slug}?startDate=${startDate}&endDate=${formatAsSearchDate(
+      dayjs(startDate).add(1, 'day'),
+    ).toString()}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${geolocation?.split(',')[LONGITUDE_INDEX]}&address=${address}`;
     handleSaveLastSearch(route);
@@ -88,7 +90,7 @@ const DiningSearchForm = ({
     }
     setQueryParam({
       startDate,
-      endDate,
+      endDate: dayjs(startDate).add(1, 'day').toString(),
       address: address as string,
       geolocation: geolocation ?? '',
       latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
