@@ -13,7 +13,7 @@ import TimeAndAirports from './components/TimeAndAirports';
 import DurationAndStops from './components/DurationAndStops';
 import InclusionsAndExclusions from './components/InclusionsAndExclusions';
 import Pricing from './components/Pricing';
-import { FlightItem } from 'pages/api/flights';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 interface CardProps {
   item: FlightItem;

@@ -11,7 +11,7 @@ import Divider from 'components/global/Divider/Divider';
 import dayjs from 'dayjs';
 import { Search } from 'hooks/flights/useSearchStore';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
-import { FlightItem } from 'pages/api/flights';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 interface Props {
   flight: FlightItem;
@@ -75,8 +75,6 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
       label: t('round_trip', 'Round-Trip'),
     },
   };
-
-  console.log(flight);
 
   const firstSegment = flight.segments.collection?.[0];
   const lastSegment = flight.segments.collection?.[segmentsLength - 1];

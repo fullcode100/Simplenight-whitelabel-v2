@@ -1,6 +1,6 @@
 import { Paragraph, Pricing } from '@simplenight/ui';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import React from 'react';
-import { FlightItem } from 'pages/api/flights';
 
 const FlightsCheckoutFooter = ({ flight }: { flight: FlightItem }) => {
   const totalFlightAmount = flight.offers?.[0].totalAmount || '0';

@@ -1,5 +1,4 @@
-import { Flight } from 'flights/types/response/FlightSearchResponse';
-import { FlightItem } from 'pages/api/flights';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { create } from 'zustand';
 
 export interface FlightsStore {

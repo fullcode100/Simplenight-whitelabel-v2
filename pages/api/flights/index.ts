@@ -2,17 +2,11 @@
 import type { NextApiResponse } from 'next';
 import { NextApiRequestWithSession } from 'types/core/server';
 import {
+  FlightResponse,
   FlightsSearchResponseMS,
   Leg,
   OfferLegRefsEntity,
 } from 'flights/types/response/FlightSearchResponseMS';
-
-export type FlightItem = Leg & { offers?: Array<OfferLegRefsEntity> };
-
-export type FlightResponse = {
-  flights?: Array<Array<FlightItem>>;
-  errors?: string;
-};
 
 const MAX_OFFERS = 50;
 export default async function handler(

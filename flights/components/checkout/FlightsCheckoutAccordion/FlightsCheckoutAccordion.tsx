@@ -2,10 +2,9 @@ import React from 'react';
 import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
 import FlightsCheckoutHeader from './FlightsCheckoutHeader';
 import FlightsCheckoutBody from './FlightsCheckoutBody';
-import { Flight } from 'flights/types/response/FlightSearchResponse';
 import FlightsCheckoutFooter from './FlightsCheckoutFooter';
 import { Search } from 'hooks/flights/useSearchStore';
-import { FlightItem } from 'pages/api/flights';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 interface Props {
   flight: FlightItem;

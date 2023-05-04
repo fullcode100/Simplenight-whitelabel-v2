@@ -90,3 +90,10 @@ export type WarningCollection = {
   _meta: Meta;
   _collection?: null[];
 };
+
+export type FlightItem = Leg & { offers?: Array<OfferLegRefsEntity> };
+
+export type FlightResponse = {
+  flights?: Array<Array<FlightItem>>;
+  errors?: string;
+};
