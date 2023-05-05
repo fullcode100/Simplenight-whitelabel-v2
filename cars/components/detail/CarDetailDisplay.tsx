@@ -35,6 +35,14 @@ import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import InformationIcon from 'public/icons/assets/information.svg';
 import PoliciesIcon from 'public/icons/assets/policies.svg';
+import Calendar from 'public/icons/assets/calendar.svg';
+import LocationPin from 'public/icons/assets/location-pin.svg';
+import PassengersIcon from 'public/icons/assets/cars/passengers.svg';
+import BaggageIcon from 'public/icons/assets/cars/baggage.svg';
+import TransmissionIcon from 'public/icons/assets/cars/transmission.svg';
+import FuelIcon from 'public/icons/assets/cars/fuel.svg';
+import SizeIcon from 'public/icons/assets/cars/size.svg';
+import LocationIcon from 'public/icons/assets/cars/location.svg';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
@@ -56,6 +64,10 @@ declare let window: CustomWindow;
 
 const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   const params = useQuery();
+  console.log(
+    '🚀 ~ file: CarDetailDisplay.tsx:59 ~ CarDetailDisplay ~ params:',
+    params,
+  );
   const { id, roomsData } = params;
   const referralParam = params.referral as string;
   const { setCookie } = useCookies();
@@ -110,7 +122,7 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   const starCarLabel = t('starCar', 'Star Car');
   const roomsLabel = t('rooms', 'Rooms');
   const locationLabel = t('location', 'Location');
-  const detailsLabel = t('details', 'Details');
+  const detailsLabel = t('rentalPolicies', 'Rental Policies');
   const policiesLabel = t('policies', 'Policies');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
@@ -131,40 +143,40 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   useEffect(() => {}, [detailsLabel]);
 
-  useEffect(() => {
-    const paramRoomsData = roomsData
-      ? JSON.parse(roomsData as string)
-      : [createRoom()];
+  // useEffect(() => {
+  //   const paramRoomsData = roomsData
+  //     ? JSON.parse(roomsData as string)
+  //     : [createRoom()];
 
-    const occupancy: Occupancy = {
-      adults: parseQueryNumber(adults ?? '1') + '',
-      children: parseQueryNumber(children ?? '0') + '',
-      rooms: parseQueryNumber(rooms ?? '1') + '',
-    };
+  //   const occupancy: Occupancy = {
+  //     adults: parseQueryNumber(adults ?? '1') + '',
+  //     children: parseQueryNumber(children ?? '0') + '',
+  //     rooms: parseQueryNumber(rooms ?? '1') + '',
+  //   };
 
-    if (parseQueryNumber(occupancy.children) > 0) {
-      occupancy.children_ages = getChildrenAges(paramRoomsData);
-    }
+  //   if (parseQueryNumber(occupancy.children) > 0) {
+  //     occupancy.children_ages = getChildrenAges(paramRoomsData);
+  //   }
 
-    const params: CarDetailPreRequest = {
-      car_id: (id as unknown as string) ?? '', // id as string,
-      start_date: searchStartDate, // (startDate),
-      end_date: searchEndDate, // (endDate),
-      occupancy: occupancy,
-    };
+  //   const params: CarDetailPreRequest = {
+  //     car_id: (id as unknown as string) ?? '', // id as string,
+  //     start_date: searchStartDate, // (startDate),
+  //     end_date: searchEndDate, // (endDate),
+  //     occupancy: occupancy,
+  //   };
 
-    Category.core.ClientDetailer?.request(params, i18next, params.car_id)
-      .then(({ cars }: CarSearchResponse2) => {
-        setCar(cars[0]);
-        setLoaded(true);
-        setEmptyState(false);
-      })
-      .catch((e) => {
-        console.error(e);
-        setLoaded(true);
-        setEmptyState(true);
-      });
-  }, [currency, language]);
+  //   Category.core.ClientDetailer?.request(params, i18next, params.car_id)
+  //     .then(({ cars }: CarSearchResponse2) => {
+  //       // setCar(cars[0]);
+  //       setLoaded(true);
+  //       setEmptyState(false);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //       setLoaded(true);
+  //       setEmptyState(true);
+  //     });
+  // }, [currency, language]);
 
   const scrollToRoom = () => {
     if (roomRef.current) {
@@ -385,11 +397,16 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   );
 
   const DatesSection = () => (
-    <section>
-      <span>{fromLowerCaseToCapitilize(startDate)}</span>
-      <span> {toLabel} </span>
-      <span>{fromLowerCaseToCapitilize(endDate)}</span>
-    </section>
+    <div className="flex items-center">
+      <Calendar className="text-primary-1000 h-4 w-4 mr-2" />
+      <section className="flex items-center">
+        <span className="capitalize">
+          {fromLowerCaseToCapitilize(startDate)}
+        </span>
+        <span className="mx-1">{toLabel}</span>
+        <span className="capitalize">{fromLowerCaseToCapitilize(endDate)}</span>
+      </section>
+    </div>
   );
 
   const VerticalDivider = () => (
@@ -427,75 +444,34 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
 
   return (
     <>
-      <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
-        <section className="flex items-center justify-between h-12">
-          <OccupancyAndDatesSection />
-          <section>
-            <Button
-              value="Edit"
-              translationKey="edit"
-              type="contained"
-              className="w-20 text-sm font-normal h-9"
-              size="full"
-              onClick={handleOpenCheckRoom}
-            />
-          </section>
-        </section>
-      </header>
-      {loaded && emptyState && (
-        <>
-          <section className="hidden px-20 pt-12 lg:block">
-            <RoomSectionTitle />
-            <section className="p-4 my-8 rounded-md bg-dark-100">
-              <CarRoomAvailabilityForm />
-            </section>
-          </section>
-          <EmptyStateContainer
-            text={noResultsLabel}
-            Icon={EmptyState}
-            forcedHeight={220}
-          />
-        </>
-      )}
-      {loaded && !emptyState && (
+      {/* <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} /> */}
+
+      {true && (
         <main className="relative">
           {/* <ImagesSection /> */}
-          <section className="lg:hidden">
-            <ImageCarousel images={carImages} title={name} />
-          </section>
-          <section className="hidden w-full pt-8 lg:block bg-dark-100">
-            <ImageCarouselLargeScreen images={carImages} title={name} />
-          </section>
-          <section className="lg:hidden">
-            {/* <GeneralInformationSection /> */}
-          </section>
-          <section className="hidden px-20 py-6 text-left lg:block bg-dark-100">
-            <section className="mx-auto max-w-7xl">
-              <p className="text-[2rem]">{name}</p>
-              <RatingSection />
-            </section>
-          </section>
-          <section ref={roomRef} className="lg:hidden">
-            <SeeMore
-              textOpened="See less"
-              textClosed="See more"
-              heightInPixels={carRooms.length > 4 ? 2800 : 0}
-              displayButton={carRooms.length > 4}
-            >
-              {
-                <RoomsSection
-                  rooms={carRooms}
-                  carId={car.id}
-                  carName={name}
-                  nights={nights}
-                  guests={guests}
-                  roomsQty={roomsQty}
+          <section className="lg:px-20 lg:py-12">
+            <div className="flex flex-col md:flex-row items-center  p-8">
+              <div className="w-full md:w-1/4 mb-4 md:mb-0">
+                <img
+                  src="https://ctimg-fleet.cartrawler.com/chevrolet/tahoe/primary.png"
+                  alt="Your Image"
+                  className="w-full h-auto object-cover"
                 />
-              }
-            </SeeMore>
+              </div>
+              <div className="w-full md:w-1/2 md:pl-8">
+                <h2 className="text-3xl font-bold mb-2">Midsize SUV</h2>
+                <p className="text-gray-500 mb-4">Jeep Compass or similar</p>
+                <DatesSection />
+                <div className="flex items-center">
+                  <LocationPin className="text-primary-1000 h-4 w-4 mr-2.5" />
+                  <section className="flex items-center">
+                    <p className="text-gray-600">31 26 Queens Blvd US</p>
+                  </section>
+                </div>
+              </div>
+            </div>
           </section>
-          <section className="hidden px-20 lg:block">
+          {/* <section className="hidden px-20 lg:block">
             <section className="mx-auto max-w-7xl">
               <RoomsSection
                 rooms={carRooms}
@@ -506,8 +482,31 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
                 roomsQty={roomsQty}
               />
             </section>
-          </section>
+          </section> */}
           <Divider />
+
+          <div className="flex flex-wrap justify-between max-w-7xl mx-auto py-10">
+            <div className="w-16 h-16 flex items-center justify-center">
+              <LocationIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
+            </div>
+            <div className="w-16 h-16 flex items-center justify-center">
+              <SizeIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
+            </div>
+            <div className="w-16 h-16 flex items-center justify-center">
+              <BaggageIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
+            </div>
+            <div className="w-16 h-16 flex items-center justify-center">
+              <PassengersIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
+            </div>
+            <div className="w-16 h-16 flex items-center justify-center">
+              <TransmissionIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
+            </div>
+            <div className="w-16 h-16 flex items-center justify-center">
+              <FuelIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
+            </div>
+          </div>
+          <Divider />
+
           <section className="lg:px-20 lg:py-12">
             <section className="mx-auto divide-y divide-dark-300 lg:divide-y-0 lg:divide-x lg:flex max-w-7xl">
               <section className="lg:w-[50%] lg:pr-12">
@@ -532,11 +531,11 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
           </section> */}
         </main>
       )}
-      {!loaded && (
+      {/* {!loaded && (
         <section className="lg:pt-14">
           <Loader />
         </section>
-      )}
+      )} */}
     </>
   );
 };

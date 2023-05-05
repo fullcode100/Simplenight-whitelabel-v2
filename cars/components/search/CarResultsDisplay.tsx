@@ -286,7 +286,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
 
   const urlDetail = (car: Car) => {
     const id = '12345';
-    const route = `/detail/car-rental/${id}?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
+    const route = `/detail/cars/${id}?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
     return route;
   };
 
