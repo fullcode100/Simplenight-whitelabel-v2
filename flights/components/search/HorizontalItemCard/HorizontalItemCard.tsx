@@ -17,13 +17,21 @@ import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 interface CardProps {
   item: FlightItem;
+  price?: string;
   selectFlight?: (flight: FlightItem) => void;
 }
 
-const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
+const HorizontalItemCard = ({ item, price, selectFlight }: CardProps) => {
   const { isDesktop } = useMediaViewport();
   const [isExpanded, setIsExpanded] = useState(false);
   const segments = item.segments.collection || [];
+
+  const onSelectFlight = () => {
+    if (selectFlight) {
+      selectFlight(item);
+    }
+  };
+
   const DesktopCard = () => {
     return (
       <section onClick={() => setIsExpanded((expanded) => !expanded)}>
@@ -34,7 +42,7 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
             <DurationAndStops segmentInfo={item.segments} />
             <InclusionsAndExclusions item={item.segments} />
           </div>
-          {selectFlight && <Pricing item={item} onClick={selectFlight} />}
+          {selectFlight && <Pricing price={price} onClick={onSelectFlight} />}
         </section>
         {isExpanded && <CardCollapsable segments={segments} />}
       </section>
@@ -77,11 +85,11 @@ const HorizontalItemCard = ({ item, selectFlight }: CardProps) => {
             </Paragraph>
             <InclusionsAndExclusions item={item.segments} />
           </div>
-          {selectFlight && <Pricing item={item} onClick={selectFlight} />}
+          {selectFlight && <Pricing price={price} onClick={onSelectFlight} />}
         </section>
         {isExpanded && selectFlight && (
           <section className="flex items-center justify-between p-4">
-            <Button size="small" onClick={() => selectFlight(item)}>
+            <Button size="small" onClick={onSelectFlight}>
               {selectLabel}
             </Button>
           </section>

@@ -24,7 +24,7 @@ const PassengerInformationDisplay = ({
   const [t, i18next] = useTranslation('flights');
   const [passengerForm, setPassengerForm] = useState(1);
   const flights = useFlightsStore((state) => state.flights);
-  const flight = flights[0];
+  const flight = flights[flights.length - 1];
   const { passengersQuantity, setPassengers, passengers } = usePassengersStore(
     (state) => state,
   );

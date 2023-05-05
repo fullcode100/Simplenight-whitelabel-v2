@@ -79,6 +79,7 @@ const FlightResultsDisplay = ({
     startDates,
 
     selected,
+    cabinType,
   } = useQuery();
 
   const [flights, setFlights] = useState<Array<Array<FlightItem>>>([]);
@@ -97,7 +98,7 @@ const FlightResultsDisplay = ({
 
   const params: FlightSearchRequest = {
     direction: direction as unknown as string,
-    cabin_type: 'economy',
+    cabin_type: cabinType as unknown as string,
 
     origin: startAirport as unknown as string,
     destination: endAirport as unknown as string,
@@ -202,11 +203,22 @@ const FlightResultsDisplay = ({
           return true;
         })
         .map((flight: FlightItem, index: number) => {
+          let price = flight.offers?.[0].totalAmount;
+          if (selectedFlights[currentIndex - 1]) {
+            const lastPrice = Number(
+              selectedFlights[currentIndex - 1].offers?.[0].totalAmount,
+            );
+            price = `+ $${Number(price) - lastPrice}`;
+          } else {
+            price = `$${price}`;
+          }
+
           if (index < page * pageItems)
             return (
               <HorizontalItemCard
                 key={`flight_${index}`}
                 item={flight}
+                price={price}
                 selectFlight={selectFlight}
               />
             );

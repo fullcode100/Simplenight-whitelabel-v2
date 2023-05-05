@@ -83,14 +83,20 @@ export default async function handler(
     });
   }
 
+  let cabinType = 'economy';
+  const queryParamCabinType = req.query?.cabin_type?.toString();
+  if (['economy', 'business', 'first_class'].includes(queryParamCabinType)) {
+    cabinType = queryParamCabinType;
+  }
+
   const postData = {
     passenger: passenger,
     airTravel: {
       direction: direction,
       cabin: {
-        economy: true,
-        business: true,
-        first: true,
+        economy: cabinType === 'economy',
+        business: cabinType === 'business',
+        first: cabinType === 'first_class',
       },
       itemDetails: itemDetails,
     },
