@@ -534,7 +534,7 @@ const FlightSearchForm = () => {
                   onChange={handleDirectionChange}
                   alingDirection="left"
                 />
-                <section className="z-50">
+                <section>
                   <Label
                     value={travelersLabel}
                     className="block my-3 lg:hidden lg:mb-0"

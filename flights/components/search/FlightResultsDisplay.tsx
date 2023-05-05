@@ -18,7 +18,7 @@ import { CustomWindow } from 'types/global/CustomWindow';
 import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import ChevronRight from 'public/icons/assets/chevron-right.svg';
 
-import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
+import HorizontalSkeletonList from './HorizontalItemCard/HorizontalSkeletonList';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightInfo from '../FlightInfo/FlightInfo';
@@ -30,6 +30,7 @@ import {
   FlightResponse,
 } from 'flights/types/response/FlightSearchResponseMS';
 import { useSelector } from 'react-redux';
+import HorizontalSkeletonCard from './HorizontalItemCard/HorizontalSkeletonCard';
 
 declare let window: CustomWindow;
 
