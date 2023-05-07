@@ -6,8 +6,9 @@ import IconSeat from 'public/icons/assets/flights/seat.svg';
 import IconRefund from 'public/icons/assets/flights/refund.svg';
 import IconReschedule from 'public/icons/assets/flights/reschedule.svg';
 import { IconWrapper } from '@simplenight/ui';
+import { SegmentItem } from 'flights/types/response/FlightSearchResponseMS';
 
-const InclusionsAndExclusions = ({ item }: { item: Flight }) => {
+const InclusionsAndExclusions = ({ item }: { item: SegmentItem }) => {
   return (
     <section className="flex items-center gap-1 shrink-0">
       <IconWrapper size={16}>

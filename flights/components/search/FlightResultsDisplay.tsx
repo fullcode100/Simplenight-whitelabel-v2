@@ -2,8 +2,7 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { FlightSearchRequest } from 'flights/types/request/FlightSearchRequest';
-import { Flight } from 'flights/types/response/FlightSearchResponse';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
@@ -15,19 +14,23 @@ import {
 } from '@simplenight/ui';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { parseQueryNumber } from 'helpers/stringUtils';
-import { useDispatch, useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import ChevronRight from 'public/icons/assets/chevron-right.svg';
 
-import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
+import HorizontalSkeletonList from './HorizontalItemCard/HorizontalSkeletonList';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightInfo from '../FlightInfo/FlightInfo';
 import { useCategorySlug } from 'hooks/category/useCategory';
-import { saveFlightDetail } from 'flights/redux/actions';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
+import {
+  FlightItem,
+  FlightResponse,
+} from 'flights/types/response/FlightSearchResponseMS';
+import { useSelector } from 'react-redux';
+import HorizontalSkeletonCard from './HorizontalItemCard/HorizontalSkeletonCard';
 
 declare let window: CustomWindow;
 
@@ -47,12 +50,11 @@ const FlightResultsDisplay = ({
   const router = useRouter();
   const setQueryParams = useQueryShallowSetter();
   const [queryFilter, setQueryFilters] = useState(router.query);
-  const addFlight = useFlightsStore((state) => state.addFlight);
+  const setFlightsStore = useFlightsStore((state) => state.setFlights);
+
   const setPassengersQuantity = usePassengersStore(
     (state) => state.setPassengersQuantity,
   );
-
-  const dispatch = useDispatch();
 
   const pageItems = 10;
   const [page, setPage] = useState<number>(1);
@@ -77,11 +79,12 @@ const FlightResultsDisplay = ({
     startDates,
 
     selected,
+    cabinType,
   } = useQuery();
 
-  const [flights, setFlights] = useState<Flight[]>([]);
+  const [flights, setFlights] = useState<Array<Array<FlightItem>>>([]);
 
-  const [selectedFlights, setSelectedFlights] = useState<Flight[]>([]);
+  const [selectedFlights, setSelectedFlights] = useState<FlightItem[]>([]);
 
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
@@ -95,7 +98,7 @@ const FlightResultsDisplay = ({
 
   const params: FlightSearchRequest = {
     direction: direction as unknown as string,
-    cabin_type: 'economy',
+    cabin_type: cabinType as unknown as string,
 
     origin: startAirport as unknown as string,
     destination: endAirport as unknown as string,
@@ -109,11 +112,17 @@ const FlightResultsDisplay = ({
 
     start_airports: startAirports as unknown as string,
     end_airports: endAirports as unknown as string,
+
+    start_airport: startAirport as unknown as string,
+    end_airport: endAirport as unknown as string,
     start_dates: startDates as unknown as string,
+    start_date: formatAsSearchDate(startDate as unknown as string),
+    end_date: formatAsSearchDate(endDate as unknown as string),
 
     currency: currency as unknown as string,
     apiUrl,
   };
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   if (!isOneWay) {
     params.return_date = formatAsSearchDate(endDate as unknown as string);
@@ -137,7 +146,12 @@ const FlightResultsDisplay = ({
     if (hasEmptyValues) return;
     if (isMultiCity && hasEmptyValuesMultiCity) return;
     try {
-      return await Searcher?.request?.(params, i18next);
+      const results: FlightResponse = await Searcher?.request?.(
+        params,
+        i18next,
+      );
+
+      return results.flights;
     } catch (e) {
       console.error(e);
     }
@@ -155,36 +169,60 @@ const FlightResultsDisplay = ({
 
   useEffect(() => {
     if (data) {
-      const { items } = data;
-      setFlights(items);
+      setFlights(data);
     }
   }, [data]);
 
-  const selectFlight = (flight: Flight) => {
-    setSelectedFlights((flights) => [...flights, flight]);
-    addFlight(flight);
-    setPassengersQuantity(
-      parseInt(adults as string, 10) +
-        parseInt(children as string, 10) +
-        parseInt(infants as string, 10),
-    );
-    // dispatch(saveFlightDetail(flight));
+  const selectFlight = (flight: FlightItem) => {
+    const nextIndex = selectedFlights.length + 1;
 
-    router.push(`/detail/flights/${direction}`);
+    if (nextIndex < flights.length) {
+      setCurrentIndex(nextIndex);
+      setSelectedFlights((flights) => [...flights, flight]);
+    } else {
+      setFlightsStore([...selectedFlights, flight]);
+      setSelectedFlights((flights) => [...flights, flight]);
+      setPassengersQuantity(
+        parseInt(adults as string, 10) +
+          parseInt(children as string, 10) +
+          parseInt(infants as string, 10),
+      );
+      router.push(`/detail/flights/${direction}`);
+    }
   };
 
   const FlightList = () => (
     <ul role="list" className="space-y-4">
-      {flights.map((flight: Flight, index: number) => {
-        if (index < page * pageItems)
-          return (
-            <HorizontalItemCard
-              key={`flight_${index}`}
-              item={flight}
-              selectFlight={selectFlight}
-            />
-          );
-      })}
+      {flights[currentIndex]
+        .filter((flight) => {
+          if (selectedFlights.length > 0) {
+            return selectedFlights
+              .map((leg) => leg.legId)
+              .every((legId) => flight.offers?.[0].legRef?.includes(legId));
+          }
+          return true;
+        })
+        .map((flight: FlightItem, index: number) => {
+          let price = flight.offers?.[0].totalAmount;
+          if (selectedFlights[currentIndex - 1]) {
+            const lastPrice = Number(
+              selectedFlights[currentIndex - 1].offers?.[0].totalAmount,
+            );
+            price = `+ $${Number(price) - lastPrice}`;
+          } else {
+            price = `$${price}`;
+          }
+
+          if (index < page * pageItems)
+            return (
+              <HorizontalItemCard
+                key={`flight_${index}`}
+                item={flight}
+                price={price}
+                selectFlight={selectFlight}
+              />
+            );
+        })}
       {/* {flights.length > page * pageItems && (
         <section className="w-full mx-auto lg:w-fit">
           <Button onClick={() => setPage(page + 1)}>{loadMoreLabel}</Button>
@@ -200,12 +238,12 @@ const FlightResultsDisplay = ({
           <FlightsBreadcrumbs
             step={1}
             content={selectedFlights.map((flight, idx) => {
-              const flightSegments = flight.availability.outbound.segments;
+              const flightSegments = flight.segments.collection || [];
               const firstSegment = flightSegments[0];
               const lastSegment = flightSegments[flightSegments.length - 1];
-              const airline = firstSegment.carrier_name;
-              const departure = firstSegment.origin.iata_code;
-              const arrival = lastSegment.destination.iata_code;
+              const airline = firstSegment.marketingCarrierName;
+              const departure = firstSegment.departureAirport;
+              const arrival = lastSegment.arrivalAirport;
               const isLastFlight = idx === selectedFlights.length - 1;
               return (
                 <>

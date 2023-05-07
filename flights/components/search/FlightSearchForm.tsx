@@ -139,6 +139,9 @@ const FlightSearchForm = () => {
   );
   const [shortNames, setShortNames] = useState<string[]>([]);
   const [shortNames2, setShortNames2] = useState<string[]>([]);
+  const [selectedCabinType, setSelectedCabinType] = useState<string | null>(
+    params?.cabinType ? params.cabinType.toString() : null,
+  );
 
   let _flights: string[] = [];
   if (direction === 'multicity') {
@@ -180,12 +183,11 @@ const FlightSearchForm = () => {
   }, []);
 
   const handleCabineTypeChange = (value: string) => {
+    setSelectedCabinType(value);
     setCabinTypeMenuItems((cabinTypes) =>
       [...cabinTypes].map((cabinType) => ({
         ...cabinType,
-        isActive: params?.cabinType?.toString()
-          ? params?.cabinType?.toString() === cabinType.value
-          : value === cabinType.value,
+        isActive: value === cabinType.value,
       })),
     );
   };
@@ -366,7 +368,7 @@ const FlightSearchForm = () => {
       )}&endAirports=${endAirports.join('|')}&startDates=${startDates.join(
         '|',
       )}&addresses=${addresses.join('|')}&addresses2=${addresses2.join('|')}`;
-    route = `${route}&currency='USD'&maxOfferss=50`;
+    route = `${route}&currency='USD'&maxOfferss=50&cabinType=${selectedCabinType}`;
 
     setSearch({
       direction,
@@ -534,7 +536,7 @@ const FlightSearchForm = () => {
                   onChange={handleDirectionChange}
                   alingDirection="left"
                 />
-                <section className="z-50">
+                <section>
                   <Label
                     value={travelersLabel}
                     className="block my-3 lg:hidden lg:mb-0"

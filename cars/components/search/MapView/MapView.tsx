@@ -156,10 +156,7 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
               return (
                 <section key={index + '-image'} className="w-full p-5">
                   <HorizontalItemCard
-                    cartItem={cartItem}
                     key={`car_${index}`}
-                    icon={CarCategory.icon}
-                    categoryName={carLabel}
                     title={title}
                     subtitle={
                       <img

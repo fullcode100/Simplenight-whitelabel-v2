@@ -137,7 +137,7 @@ const SelectedSeatsBar = ({
           </div>
         </section>
       </section>
-      <section className="flex flex-col flex-grow hidden overflow-y-scroll lg:block">
+      <section className="flex flex-col flex-grow overflow-y-scroll scrollbar-hide lg:block">
         {/* {deliveryMethodMenu} */}
         {selectedSeats.map((item, i) => (
           <section
@@ -249,7 +249,7 @@ const SelectedSeatsBar = ({
             </div>
           </div>
           <div
-            className={classnames('min-w-max rounded-4 px-2 mt-6', {
+            className={classnames('w-full rounded-4 px-2 mt-6', {
               'bg-gray-100': !isFreeCacellationPolicy,
               'bg-green-100': isFreeCacellationPolicy,
               'text-green-600': isFreeCacellationPolicy,

@@ -1,19 +1,10 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { WithId } from 'types/global/WithId';
 import EmptyImage from 'components/global//EmptyImage/EmptyImage';
 import Rating from 'components/global//Rating/Rating';
 import Link from 'next/link';
 import LocationIcon from 'public/icons/assets/cars/location.svg';
-import Button from 'components/global/Button/Button';
-import { addToCart } from 'core/client/services/CartClientService';
-import { useRouter } from 'next/router';
-import { Item } from 'types/cart/CartType';
-import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface CardProps {
-  icon?: ReactNode;
-  categoryName?: string;
   subtitle?: ReactNode;
   title?: string;
   image?: string;
@@ -25,12 +16,9 @@ interface CardProps {
   url?: string;
   address?: ReactNode;
   features?: ReactNode;
-  cartItem: Item;
 }
 
 function HorizontalItemCard({
-  icon,
-  categoryName,
   title = '',
   image = '',
   price,
@@ -42,25 +30,9 @@ function HorizontalItemCard({
   url = '/',
   address,
   features,
-  cartItem,
 }: CardProps) {
-  const [t, i18next] = useTranslation('global');
   const [invalidImage, setInvalidImage] = useState(false);
-  const fromLabel = t('from', 'From');
   const target = window.innerWidth < 640 ? '_self' : '_blank';
-
-  // add to cart
-  const router = useRouter();
-
-  const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
-  const bookNowText = t('bookNow', 'Book Now');
-  const showAddToItinerary = hasCartMode();
-
-  const handleAction = async (url: string) => {
-    const itemToBook = Object.assign({}, cartItem);
-    await addToCart(itemToBook, i18next); // add to cart
-    router.replace(url); // redirect to: cart or checkout
-  };
 
   useEffect(() => {
     checkValidImage();
@@ -73,13 +45,6 @@ function HorizontalItemCard({
     <header className=" font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg break-words">
       {title}
     </header>
-  );
-
-  const CategoryTag = () => (
-    <section className="absolute flex flex-row items-center gap-2 bg-dark-1000 opacity-[0.85] text-white px-2 py-1 rounded-br">
-      {icon}
-      <span className="font-semibold text-[14px]">{categoryName}</span>
-    </section>
   );
 
   const checkValidImage = () => {
@@ -96,7 +61,6 @@ function HorizontalItemCard({
     >
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
-          {/* <CategoryTag /> */}
           <section className="flex flex-row justify-center lg:flex-row">
             <section className="flex flex-row justify-between w-full">
               <section

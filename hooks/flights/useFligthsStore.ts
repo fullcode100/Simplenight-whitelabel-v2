@@ -1,19 +1,18 @@
-import { Flight } from 'flights/types/response/FlightSearchResponse';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { create } from 'zustand';
 
 export interface FlightsStore {
-  flights: Array<Flight>;
-  addFlight: (flight: Flight) => void;
+  flights: Array<FlightItem>;
+  setFlights: (flight: Array<FlightItem>) => void;
   clear(): void;
 }
 
 export const useFlightsStore = create<FlightsStore>()((set) => ({
   flights: [],
-  addFlight: (flight: Flight) => {
-    set((state: FlightsStore) => ({
-      ...state,
-      flights: [...state.flights, flight],
+  setFlights: (selectedFlights: Array<FlightItem>) => {
+    set(() => ({
+      flights: selectedFlights,
     }));
   },
-  clear: () => set((state) => ({ ...state, flights: [] })),
+  clear: () => set(() => ({ flights: [] })),
 }));

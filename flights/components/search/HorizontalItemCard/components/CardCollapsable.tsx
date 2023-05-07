@@ -1,12 +1,12 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
 import Divider from 'components/global/Divider/Divider';
-import { Segment } from 'flights/types/response/FlightSearchResponse';
 import { formatTime, getAirlineIconUrl, getDuration } from 'flights/utils';
 import React from 'react';
 import ClockIcon from 'public/icons/assets/clock-icon.svg';
 import { useTranslation } from 'react-i18next';
+import { SegmentCollection } from 'flights/types/response/FlightSearchResponseMS';
 
-const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
+const CardCollapsable = ({ segments }: { segments: SegmentCollection[] }) => {
   const [t] = useTranslation('flights');
   const durationLabel = t('duration', 'Duration');
   const layoverLabel = t('layover', 'Layover');
@@ -15,32 +15,28 @@ const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
       <Divider />
       {segments.map((item) => {
         const {
-          carrier,
-          carrier_name: carrierName,
-          flight_number: flightNumber,
-          aircraft,
-          departure_date: departureDateTime,
-          origin: {
-            iata_code: departureAirport,
-            airport: departureAirportName,
-          },
-          arrival_date: arrivalDateTime,
-          destination: {
-            iata_code: arrivalAirport,
-            airport: arrivalAirportName,
-          },
-          duration: flightDuration,
-          next_segment: layoverToNextSegmentsInMinutes,
+          operatingCarrier: carrier,
+          marketingCarrierName: carrierName,
+          marketingFlightNumber: flightNumber,
+          aircraftType: aircraft,
+          departureDateTime,
+          departureAirport,
+          departureAirportName,
+          arrivalDateTime,
+          arrivalAirport,
+          arrivalAirportName,
+          flightDuration,
+          layoverToNextSegmentsInMinutes,
         } = item;
         const departureTime = formatTime(departureDateTime);
         const arrivalTime = formatTime(arrivalDateTime);
 
         const AirlineInformation = () => {
           return (
-            <div className="bg-dark-100 py-1 px-3 flex items-center gap-1 w-full lg:w-fit rounded-4">
+            <div className="flex items-center w-full gap-1 px-3 py-1 bg-dark-100 lg:w-fit rounded-4">
               <img
                 className="h-4"
-                src={getAirlineIconUrl(carrier.toUpperCase())}
+                src={getAirlineIconUrl(carrier?.toUpperCase() || '')}
                 alt={carrierName}
               />
               <Paragraph size="xxsmall">{carrierName}</Paragraph>{' '}
@@ -71,7 +67,7 @@ const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
               <Paragraph
                 size="xxsmall"
                 fontWeight="semibold"
-                className="border-dark-300 rounded-4  border  px-2"
+                className="px-2 border border-dark-300 rounded-4"
               >
                 {airportCode}
               </Paragraph>{' '}
@@ -81,9 +77,9 @@ const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
             </div>
           );
           return (
-            <li className="mb-2 pl-5">
-              <div className="absolute w-2 h-2 mt-2 bg-white rounded-full -left-1 border border-dark-700 ring-4 ring-white"></div>
-              <div className="flex flex-col lg:flex-row lg:items-center gap-2 mb-3">
+            <li className="pl-5 mb-2">
+              <div className="absolute w-2 h-2 mt-2 bg-white border rounded-full -left-1 border-dark-700 ring-4 ring-white"></div>
+              <div className="flex flex-col gap-2 mb-3 lg:flex-row lg:items-center">
                 <div className="flex items-center gap-2">
                   <Paragraph
                     size="xs"
@@ -120,7 +116,7 @@ const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
         };
 
         const LayoverInformation = () => (
-          <section className="flex gap-2 p-2 items-center text-dark-700">
+          <section className="flex items-center gap-2 p-2 text-dark-700">
             <IconWrapper size={16}>
               <ClockIcon />
             </IconWrapper>
@@ -133,7 +129,7 @@ const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
 
         const SegmentsDetail = () => {
           return (
-            <ol className="border-l border-dark-700 relative ml-2 my-3">
+            <ol className="relative my-3 ml-2 border-l border-dark-700">
               <SegmentDetailRow
                 time={departureTime}
                 airportCode={departureAirport}
@@ -150,7 +146,7 @@ const CardCollapsable = ({ segments }: { segments: Segment[] }) => {
         };
 
         return (
-          <section key={item.id} className="px-4">
+          <section key={item.segmentCode} className="px-4">
             <AirlineInformation />
             <SegmentsDetail />
 

@@ -2,22 +2,18 @@ import { formatAsDateAndTime, formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { CarSearchRequest } from 'cars/types/request/CarSearchRequest';
 import { Car, CarSearchResponse } from 'cars/types/response/CarSearchResponse';
-import React, { createRef, ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 import CarMapView from './CarResultsMapView';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
-import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
+import { haveKeyword } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
-import Loader from '../../../components/global/Loader/Loader';
-import { Room, createRoom } from 'cars/helpers/room';
 import CarItemRateInfo from './CarItemRateInfo';
-import { sortByAdapter } from 'cars/adapters/sort-by.adapter';
-import { cancellationTypeAdapter } from 'cars/adapters/cancellation-type.adapter';
 import classnames from 'classnames';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import CarFilterFormDesktop from './CarFilterFormDesktop';
@@ -34,9 +30,6 @@ import {
 } from 'components/global/AltRadioButton/AltRadioButton';
 import MapIcon from 'public/icons/assets/map.svg';
 import ListIcon from 'public/icons/assets/list.svg';
-import SortIcon from 'public/icons/assets/sort.svg';
-import FilterIcon from 'public/icons/assets/filter.svg';
-import Dropdown from 'components/global/Dropdown/Dropdown';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import CarSecondarySearchOptions from './CarSecondarySearchOptions';
 import Sort from '@/icons/assets/sort.svg';
@@ -244,15 +237,10 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       if (keywordSearch) {
         const keyword = keywordSearch as string;
         if (
-          item.company_short_name.toLowerCase().indexOf(keyword.toLowerCase()) <
-            0 &&
-          item.car_model.toLowerCase().indexOf(keyword.toLowerCase()) < 0 &&
-          item.transmission_type.toLowerCase().indexOf(keyword.toLowerCase()) <
-            0 &&
-          item.address_line &&
-          item.address_line.toLowerCase().indexOf(keyword.toLowerCase()) < 0 &&
-          item.address_line &&
-          item.address_line.toLowerCase().indexOf(keyword.toLowerCase()) < 0
+          haveKeyword(item.company_short_name, keyword) &&
+          haveKeyword(item.car_model, keyword) &&
+          haveKeyword(item.transmission_type, keyword) &&
+          haveKeyword(item.address_line, keyword)
         )
           valid = false;
       }
@@ -284,16 +272,15 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     setCarsFiltered(_carsFiltered);
   };
 
-  const urlDetail = (car: Car) => {
-    const id = '12345';
-    const route = `/detail/cars/${id}?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
+  const urlDetail = () => {
+    const route = `/detail/car-rental/info?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
     return route;
   };
 
   const CarList = () => (
     <ul role="list" className="space-y-4">
       {carsFiltered.map((car: Car, index: number) => {
-        const url = urlDetail(car);
+        const url = urlDetail();
         const title = car.car_model;
         const companyName = car.company_short_name;
         // const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
@@ -333,10 +320,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
         if (index < page * pageItems)
           return (
             <HorizontalItemCard
-              cartItem={cartItem}
               key={`car_${index}`}
-              icon={CarCategory.icon}
-              categoryName={carLabel}
               title={title}
               subtitle={
                 <img

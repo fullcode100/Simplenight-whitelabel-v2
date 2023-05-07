@@ -41,6 +41,7 @@ import { SearchRequest } from 'types/search/SearchRequest';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 import { filters } from './Filters/types';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
+import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -484,7 +485,7 @@ const ShowAndEventsDetailDisplay = ({
               selectedTab={selectedTab}
               setSelectedTab={setSelectedTab}
             />
-            <section className="w-full relative">
+            <section className="relative w-full">
               <section className="flex items-center justify-between pt-3 pb-3 lg:mt-1 lg:pb-0">
                 <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
                   {getResultsQuatity() || 0} {resultsLabel}
@@ -545,6 +546,16 @@ const ShowAndEventsDetailDisplay = ({
                               item.bookingCodeSupplier ===
                               row.booking_code_supplier,
                           )?.quantity || 0
+                        }
+                        isDisabled={
+                          (!hasCartMode() &&
+                            selectedSeats.length &&
+                            !selectedSeats.find(
+                              (item) =>
+                                item.bookingCodeSupplier ===
+                                row.booking_code_supplier,
+                            )?.quantity) ||
+                          false
                         }
                       />
                     );
@@ -660,7 +671,7 @@ const ShowAndEventsDetailDisplay = ({
                 })}
               >
                 <section className="grid w-full grid-cols-1 mx-auto lg:grid-cols-5 max-w-7xl">
-                  <section className="xl:mr-24 lg:pr-6 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto col-span-3">
+                  <section className="xl:mr-24 lg:pr-6 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto scrollbar-hide col-span-3">
                     <section className="flex content-center justify-center lg:hidden">
                       {getSeatsMap()}
                     </section>

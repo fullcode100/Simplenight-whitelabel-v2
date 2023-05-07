@@ -19,6 +19,7 @@ interface TicketCard {
   remove: (value: number) => void;
   purchasable_quantities: number[];
   selectedSeats: number;
+  isDisabled?: boolean;
 }
 
 const TicketCard: React.FC<TicketCard> = ({
@@ -30,6 +31,7 @@ const TicketCard: React.FC<TicketCard> = ({
   remove,
   purchasable_quantities: purchasableQuantities,
   selectedSeats = 0,
+  isDisabled = false,
 }) => {
   const [t, i18next] = useTranslation('events');
   const sectorLabel = t('sector', 'Sector');
@@ -72,12 +74,12 @@ const TicketCard: React.FC<TicketCard> = ({
   };
 
   return (
-    <section className="border border-dark-300 mt-2 rounded cursor-pointer">
+    <section className="mt-2 border rounded cursor-pointer border-dark-300">
       <div className="py-4 w-full border-solid border-l-0 border-r-0 border-t-0 border-b gap-2.5 flex flex-col items-start self-stretch border-[rgba(212,212,212,1)]">
-        <div className="px-4 w-full gap-2 flex flex-col items-start self-stretch">
-          <div className="gap-2 flex items-start w-full">
+        <div className="flex flex-col items-start self-stretch w-full gap-2 px-4">
+          <div className="flex items-start w-full gap-2">
             <div className="text-[rgba(122,122,122,1)] w-full">
-              <p className="text-xl leading-6 capitalize m-0 truncate">
+              <p className="m-0 text-xl leading-6 capitalize truncate">
                 <span className="text-[rgba(69,69,69,1)]">{`${rowLabel} ${row} `}</span>
                 {`${sectorLabel} ${section}`}
               </p>
@@ -86,7 +88,7 @@ const TicketCard: React.FC<TicketCard> = ({
           <div className="gap-1">
             {seatTogether && (
               <InlineFeature
-                icon={<InfoCircle className="text-dark-800 h-4 w-4" />}
+                icon={<InfoCircle className="w-4 h-4 text-dark-800" />}
                 text="Your seats are guaranteed to be together"
               />
             )}
@@ -111,17 +113,17 @@ const TicketCard: React.FC<TicketCard> = ({
             <div className="gap-1">
               {seatSplitQuantity && seatSplitQuantity > 1 && (
                 <InlineFeature
-                  icon={<InfoCircle className="text-dark-800 h-4 w-4" />}
+                  icon={<InfoCircle className="w-4 h-4 text-dark-800" />}
                   text={`this is selectable in ${seatSplitQuantity} by ${seatSplitQuantity}`}
                 />
               )}
             </div>
           </div>
-          <div className="w-36 gap-3 flex items-end ml-auto">
+          <div className="flex items-end gap-3 ml-auto w-36">
             <SquareInputLarge value={selectedSeats} />
             <ButtonMinusPlus
-              disabledMinus={false}
-              disabledPlus={false}
+              disabledMinus={isDisabled}
+              disabledPlus={isDisabled}
               onClickMinus={(e) => {
                 e?.stopPropagation();
                 decreaseSelectedSeats();
@@ -154,20 +156,20 @@ const TicketCard: React.FC<TicketCard> = ({
           >
             <div className="gap-1 font-semibold text-end">
               <div className="w-[200px] text-end">
-                <p className="text-lg leading-6 text-end m-0">
+                <p className="m-0 text-lg leading-6 text-end">
                   ${rate.total.net.amount.toFixed(2)}
                 </p>
               </div>
             </div>
             <div className="gap-1 font-normal">
               {!!selectedSeats && (
-                <p className="text-xs leading-tight capitalize m-0">
+                <p className="m-0 text-xs leading-tight capitalize">
                   ${(selectedSeats * rate.total.net.amount).toFixed(2)}{' '}
                   {totalLabel}
                 </p>
               )}
               {!selectedSeats && (
-                <p className="text-xs leading-tight capitalize m-0">
+                <p className="m-0 text-xs leading-tight capitalize">
                   <span
                     className={classnames({
                       block: !!selectedSeats,

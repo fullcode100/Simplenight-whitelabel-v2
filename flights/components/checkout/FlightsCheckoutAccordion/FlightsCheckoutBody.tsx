@@ -1,5 +1,5 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
-import React, { ReactComponentElement } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import IconOneWay from 'public/icons/assets/flights/one_way.svg';
 import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
@@ -7,21 +7,20 @@ import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
 import IconTravelers from 'public/icons/assets/flights/travelers.svg';
 import IconLocation from 'public/icons/assets/flights/location.svg';
 import IconCalendar from 'public/icons/assets/flights/calendar.svg';
-import PlusIcon from 'public/icons/assets/Plus.svg';
 import Divider from 'components/global/Divider/Divider';
-import { Flight } from 'flights/types/response/FlightSearchResponse';
 import dayjs from 'dayjs';
 import { Search } from 'hooks/flights/useSearchStore';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 interface Props {
-  flight: Flight;
+  flight: FlightItem;
   search: Search;
 }
 const FlightsCheckoutBody = ({ flight, search }: Props) => {
   const [t] = useTranslation('flights');
-  const stops =
-    flight.availability.outbound.stops + flight.availability.inbound.stops;
+  const segmentsLength = flight.segments.collection?.length || 0;
+  const stops = segmentsLength - 1;
   const stopsLabel = usePlural(stops, t('stop', 'Stop'), t('stops', 'Stops'));
 
   const payNowLabel = t('payNow', 'Pay Now');
@@ -29,7 +28,7 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
   const { direction, startAirport, endAirport, adults, children, infants } =
     search;
 
-  const totalFlightAmount = flight.availability.rate.total.full.formatted;
+  const totalFlightAmount = flight.offers?.[0].totalAmount || '0';
 
   const adultsAmount = Number(adults);
   const adultsText = usePlural(
@@ -77,23 +76,21 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
     },
   };
 
-  console.log(flight);
-
+  const firstSegment = flight.segments.collection?.[0];
+  const lastSegment = flight.segments.collection?.[segmentsLength - 1];
   const FlightItinerary = () => {
     const departureLabel = t('departure', 'Departure');
     const returnLabel = t('return', 'Return');
-    const departureDate = dayjs(flight.availability.departure_date).format(
+    const departureDate = dayjs(firstSegment?.departureDateTime).format(
       'MMM D, YYYY',
     );
-    const departureTime = dayjs(flight.availability.departure_date).format(
+    const departureTime = dayjs(firstSegment?.departureDateTime).format(
       'HH:MM A',
     );
-    const arrivalDate = dayjs(flight.availability.arrival_date).format(
+    const arrivalDate = dayjs(lastSegment?.arrivalDateTime).format(
       'MMM D, YYYY',
     );
-    const arrivalTime = dayjs(flight.availability.arrival_date).format(
-      'HH:MM A',
-    );
+    const arrivalTime = dayjs(lastSegment?.arrivalDateTime).format('HH:MM A');
     return (
       <div className="space-y-2">
         <IconAndLabel
