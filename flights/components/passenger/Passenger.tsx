@@ -14,11 +14,14 @@ import {
   DateInput,
   Paragraph,
   Select,
+  TextInput,
 } from '@simplenight/ui';
 import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import countryList from 'country-list';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -74,6 +77,25 @@ const Passenger = ({
     }),
   ];
 
+  const passengerSchema = z.object({
+    firstName: z.string().min(1),
+    middleName: z.string().optional(),
+    lastName: z.string().min(1),
+    /* TODO UPDATE dateOfBirth this when datepicker is working */
+    dateOfBirth: z.date().optional(),
+    gender: z.string().optional(),
+    countryOfResidence: z.string(),
+    loyaltyProgram: z.string().optional(),
+    loyaltyNumber: z.string().optional(),
+    passportIdNumber: z.string().min(1),
+    country: z.string(),
+    /* TODO UPDATE Exporation this to required whem datepicker is working */
+    expiration: z.string().optional(),
+    wheelChair: z.boolean().optional(),
+    vaccinationRecords: z.boolean().optional(),
+    knownTravelerNumber: z.boolean().optional(),
+  });
+
   const {
     register,
     handleSubmit,
@@ -81,6 +103,7 @@ const Passenger = ({
     setValue,
   } = useForm<IPassenger>({
     mode: 'all',
+    resolver: zodResolver(passengerSchema),
   });
 
   const enableBookNow =
@@ -125,10 +148,10 @@ const Passenger = ({
           <Label className="text-teal-1000" value={requiredLabel} />
         )}
       </section>
-      <BaseInput
-        placeholder={label}
+      <TextInput placeholder={label} {...register(nameInput)} />
+      {/*   <BaseInput
         {...register(nameInput, { ...options, onChange: setInputValue })}
-      />
+      /> */}
     </section>
   );
 

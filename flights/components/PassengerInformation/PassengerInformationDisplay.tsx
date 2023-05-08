@@ -35,6 +35,7 @@ const PassengerInformationDisplay = ({
 
   useEffect(() => {
     setPassengers(passengersData);
+    console.log(passengersData);
   }, [passengersData]);
 
   if (!flight) {
@@ -49,6 +50,7 @@ const PassengerInformationDisplay = ({
   );
 
   const savePassenger = (currentData: IPassenger) => {
+    console.log(currentData);
     setPassengerForm(passengerForm + 1);
     setPassengerData((data) => [...data, currentData]);
   };
