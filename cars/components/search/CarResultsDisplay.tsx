@@ -39,6 +39,7 @@ import classNames from 'classnames';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import { EmptyState } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
+import { defaultDriverAge } from './CarSearchForm';
 
 declare let window: CustomWindow;
 
@@ -79,6 +80,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     longitude2,
     address,
     address2,
+    driverAge,
 
     keywordSearch,
     // sortBy,
@@ -136,7 +138,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       pickup_location: geolocation as unknown as StringGeolocation,
       return_context: 'GEO',
       return_location: geolocation2 as unknown as StringGeolocation,
-      driver_age: 20,
+      driver_age: parseInt(driverAge as string) || defaultDriverAge,
       apiUrl,
     };
 

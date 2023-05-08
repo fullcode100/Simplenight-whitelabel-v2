@@ -1,18 +1,14 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import DatePicker from '../../../components/global/Calendar/Calendar';
 
-import Bed from 'public/icons/assets/bed.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
-import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
 import Button from 'components/global/Button/Button';
 import { SearchFormProps } from 'types/search/SearchFormProps';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-// import LocationInput from 'components/global/Input/LocationInput';
 import LocationInput from '../Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
@@ -25,9 +21,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
-import Label from 'components/global/Label/Label';
-import Select from '../Select/Select';
+import Select from '../SelectTime/SelectTime';
 import Checkbox from 'components/global/Checkbox/Checkbox';
+
+export const defaultDriverAge = 25;
+export const minDriverAge = 18;
 
 const CarSearchForm = ({
   setIsSearching,
@@ -72,6 +70,10 @@ const CarSearchForm = ({
 
   const [showLocation2, setShowLocation2] = useState(
     address && address2 && address !== address2 ? true : false,
+  );
+
+  const [driverAge, setDriverAge] = useState(
+    params.driverAge ? (params.driverAge as string) : `${defaultDriverAge}`,
   );
 
   const [startDate, setStartDate] = useState<string>(
@@ -124,7 +126,7 @@ const CarSearchForm = ({
       geolocation2?.split(',')[LATITUDE_INDEX]
     }&longitude2=${
       geolocation2?.split(',')[LONGITUDE_INDEX]
-    }&address2=${address2}`;
+    }&address2=${address2}&driverAge=${driverAge}`;
     handleSaveLastSearch(route);
     router.push(route);
   };
@@ -180,6 +182,10 @@ const CarSearchForm = ({
   const handleCheckLocation = (value: boolean) => {
     setShowLocation2(value);
     if (!value) setAddress2('');
+  };
+
+  const handleCheckDriverAge = (value: boolean) => {
+    setDriverAge(value ? `${defaultDriverAge}` : `${minDriverAge}`);
   };
 
   useEffect(() => {
@@ -252,6 +258,7 @@ const CarSearchForm = ({
             onStartDateChange={handleStartDateChange}
             onEndDateChange={handleEndDateChange}
             openOnStart={clickOnStart ? true : false}
+            maxMonthsDisplayed={13}
           />
 
           {showLocation2 && (
@@ -307,6 +314,15 @@ const CarSearchForm = ({
           className="sm"
         >
           Return to a different location
+        </Checkbox>
+      </section>
+      <section className="hidden lg:block w-full flex items-center justify-start mt-3 text-gray-500">
+        <Checkbox
+          checked={+driverAge >= defaultDriverAge}
+          onChange={handleCheckDriverAge}
+          className="sm"
+        >
+          Driver is {defaultDriverAge} years of age or older
         </Checkbox>
       </section>
     </section>
