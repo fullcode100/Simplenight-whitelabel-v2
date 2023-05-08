@@ -31,7 +31,9 @@ const PassengerInformationDisplay = ({
   const { passengersQuantity, setPassengers, passengers } = usePassengersStore(
     (state) => state,
   );
-  const [passengersData, setPassengerData] = useState<IPassenger[]>([]);
+  const [passengersData, setPassengerData] = useState<
+    IPassenger & { passengerNumber: number }[]
+  >([]);
 
   useEffect(() => {
     setPassengers(passengersData);
@@ -49,14 +51,26 @@ const PassengerInformationDisplay = ({
     </Pricing>
   );
 
-  const savePassenger = (currentData: IPassenger) => {
-    console.log(currentData);
+  const savePassenger = (currentData: IPassenger, passengerNumber: number) => {
     setPassengerForm(passengerForm + 1);
-    setPassengerData((data) => [...data, currentData]);
+    const passengerIndex = passengersData.findIndex(
+      (p) => p.passengerNumber === passengerNumber,
+    );
+    console.log(passengerIndex);
+    if (passengerIndex >= 0) {
+      const newData = [...passengersData];
+      newData[passengerIndex] = { ...currentData, passengerNumber };
+      setPassengerData(newData);
+    } else {
+      setPassengerData((data) => [
+        ...data,
+        { ...currentData, passengerNumber },
+      ]);
+    }
   };
 
-  const goCheckout = (currentData: IPassenger) => {
-    savePassenger(currentData);
+  const goCheckout = (currentData: IPassenger, passengerNumber: number) => {
+    savePassenger(currentData, passengerNumber);
     router.replace('/checkout/flights');
   };
 

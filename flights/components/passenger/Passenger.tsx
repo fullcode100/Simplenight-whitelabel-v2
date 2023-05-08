@@ -27,7 +27,7 @@ interface PassengerProps {
   passengerNumber: number;
   open: boolean;
   setOpen: (value: number) => void;
-  onSubmit: (data: IPassenger) => void;
+  onSubmit: (data: IPassenger, passengerNumber: number) => void;
   pricing?: ReactNode;
   passengersData: IPassenger[];
   passengersQuantity: number;
@@ -291,7 +291,10 @@ const Passenger = ({
         </section>
         <section className="flex justify-end mx-6 my-4">
           {!isLastPassenger && (
-            <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+            <Button
+              disabled={!isValid}
+              onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
+            >
               {nextPassengerLabel}
             </Button>
           )}
@@ -313,7 +316,10 @@ const Passenger = ({
       {isLastPassenger && open && (
         <section className="flex justify-end gap-6">
           {pricing}
-          <Button disabled={!enableBookNow} onClick={handleSubmit(onSubmit)}>
+          <Button
+            disabled={!enableBookNow}
+            onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
+          >
             Book now
           </Button>
         </section>
