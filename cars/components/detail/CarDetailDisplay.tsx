@@ -25,8 +25,8 @@ const data: Car = {
   availability_status: 'Available',
   car_model: 'Nissan Frontier or similar',
   picture_url: 'https://ctimg-fleet.cartrawler.com/nissan/frontier/primary.png',
-  rate_total_amount: {
-    rateTotalAmount: '138.50',
+  rate: {
+    totalAmount: '138.50',
     estimatedTotalAmount: '138.50',
     currencyCode: 'USD',
   },

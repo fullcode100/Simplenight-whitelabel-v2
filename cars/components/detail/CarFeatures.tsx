@@ -26,44 +26,44 @@ const CarFeatures = ({ item }: CarFeaturesProps) => {
   const noAcText = t('noAc', 'No Air Conditioning');
 
   return (
-    <section className="flex flex-wrap">
-      <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-        <PassengersIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
+    <section className="flex flex-wrap justify-between">
+      <section className="flex flex-col items-center gap-1.5 py-1 pl-1.5 pr-2">
+        <PassengersIcon className="w-10 h-10 mt-[-1px] text-primary-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
           {item.passenger_quantity} {passengersText}
         </label>
       </section>
 
-      <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-        <BaggageIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
+      <section className="flex flex-col items-center gap-1.5 py-1 pl-1.5 pr-2">
+        <BaggageIcon className="w-10 h-10 mt-[-1px] text-primary-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
           {item.baggage_quantity} {bagsText}
         </label>
       </section>
 
-      <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-        <TransmissionIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
+      <section className="flex flex-col items-center gap-1.5 py-1 pl-1.5 pr-2">
+        <TransmissionIcon className="w-10 h-10 mt-[-1px] text-primary-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
           {item.transmission_type}
         </label>
       </section>
 
-      <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-        <FuelIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
+      <section className="flex flex-col items-center gap-1.5 py-1 pl-1.5 pr-2">
+        <FuelIcon className="w-10 h-10 mt-[-1px] text-primary-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
           {item.fuel_policy}
         </label>
       </section>
 
-      <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-        <SizeIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
+      <section className="flex flex-col items-center gap-1.5 py-1 pl-1.5 pr-2">
+        <SizeIcon className="w-10 h-10 mt-[-1px] text-primary-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
           {item.door_count} {doorsText}
         </label>
       </section>
 
-      <section className="flex gap-1.5 py-1 pl-1.5 pr-2">
-        <LocationIcon className="w-7 mt-[-1px] text-green-1000 flex-shrink-0" />
+      <section className="flex flex-col items-center gap-1.5 py-1 pl-1.5 pr-2">
+        <LocationIcon className="w-10 h-10 mt-[-1px] text-primary-1000 flex-shrink-0" />
         <label className="text-dark-700 text-[14px] font-normal">
           {item.air_condition_ind ? acText : noAcText}
         </label>
