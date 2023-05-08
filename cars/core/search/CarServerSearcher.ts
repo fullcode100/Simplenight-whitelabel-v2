@@ -1,10 +1,14 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { ServerSearcher } from 'core/server/ServerSearcher';
-import { CarSearchResponse } from 'cars/types/response/CarSearchResponse';
+import {
+  CarSearchResponse,
+  CarSearchItem,
+} from 'cars/types/adapter/SearchAdapter';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { NextApiRequestWithSession } from 'types/core/server';
 import { sendSuccess } from 'apiCalls/config/responseHelpers';
+import { searchAdapter } from 'cars/adapters/search.adapter';
 
 export class CarServerSearcher extends ServerSearcher<CarSearchResponse> {
   public constructor(category: CategoryOption) {
@@ -26,7 +30,10 @@ export class CarServerSearcher extends ServerSearcher<CarSearchResponse> {
     result: CarSearchResponse,
   ): void {
     if (result && result.items) {
-      sendSuccess(response, { items: result.items[0] });
+      const data = result.items[0];
+      sendSuccess(response, {
+        items: searchAdapter(data as unknown as CarSearchItem[]),
+      });
     }
   }
 }

@@ -210,7 +210,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     _cars.forEach((item: Car, index: number) => {
       let valid = true;
       // price
-      const amount = parseFloat(item.rate_total_amount['@RateTotalAmount']);
+      const amount = parseFloat(item.rate.totalAmount);
       if (minPrice && parseInt(minPrice as string) > amount) valid = false;
       if (maxPrice && parseInt(maxPrice as string) < amount) valid = false;
       // type
@@ -250,22 +250,18 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     // sort by price
     if (sortBy && sortBy === 'sortByPriceDesc')
       _carsFiltered.sort((a, b) =>
-        parseFloat(a.rate_total_amount['@RateTotalAmount']) >
-        parseFloat(b.rate_total_amount['@RateTotalAmount'])
+        parseFloat(a.rate.totalAmount) > parseFloat(b.rate.totalAmount)
           ? -1
           : Number(
-              parseFloat(a.rate_total_amount['@RateTotalAmount']) <
-                parseFloat(b.rate_total_amount['@RateTotalAmount']),
+              parseFloat(a.rate.totalAmount) < parseFloat(b.rate.totalAmount),
             ),
       );
     else
       _carsFiltered.sort((a, b) =>
-        parseFloat(a.rate_total_amount['@RateTotalAmount']) <
-        parseFloat(b.rate_total_amount['@RateTotalAmount'])
+        parseFloat(a.rate.totalAmount) < parseFloat(b.rate.totalAmount)
           ? -1
           : Number(
-              parseFloat(a.rate_total_amount['@RateTotalAmount']) >
-                parseFloat(b.rate_total_amount['@RateTotalAmount']),
+              parseFloat(a.rate.totalAmount) > parseFloat(b.rate.totalAmount),
             ),
       );
 
@@ -283,7 +279,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
         const url = urlDetail();
         const title = car.car_model;
         const companyName = car.company_short_name;
-        // const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
+        const companyImage = car.company_picture.svg_url;
         const image = car.picture_url;
         const address = car.address_line;
 
@@ -307,10 +303,8 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
             rate: {
               total: {
                 prepaid: {
-                  amount: parseFloat(
-                    car.rate_total_amount['@RateTotalAmount'] as string,
-                  ),
-                  currency: car.rate_total_amount['@CurrencyCode'] ?? 'USD',
+                  amount: parseFloat(car.rate.totalAmount as string),
+                  currency: car.rate.currencyCode ?? 'USD',
                 },
               },
             },
@@ -324,7 +318,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
               title={title}
               subtitle={
                 <img
-                  src={''}
+                  src={companyImage}
                   alt={companyName}
                   style={{ maxWidth: '70px', maxHeight: '25px' }}
                 />
