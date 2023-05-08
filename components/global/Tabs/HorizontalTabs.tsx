@@ -6,6 +6,7 @@ import { Modal } from 'antd';
 import CommingSoon from '../ComingSoon';
 import { useTranslation } from 'react-i18next';
 import categoriesDictonary from './categories-dictionary.util';
+import { useRouter } from 'next/router';
 
 const HorizontalTabs = ({
   tabs,
@@ -17,6 +18,7 @@ const HorizontalTabs = ({
 }: TabsProps) => {
   const [t] = useTranslation('global');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { pathname } = useRouter();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -31,7 +33,11 @@ const HorizontalTabs = ({
   const hoverCss = primary ? 'text-white' : '';
   if (tabs?.length <= 1) return <></>;
   return (
-    <div className={`sticky z-0 lg:z-30 bg-dark-900 block ${className}`}>
+    <div
+      className={`sticky ${
+        pathname === '/' ? 'z-30' : 'z-0'
+      } lg:z-30 bg-dark-900 block ${className}`}
+    >
       <nav
         className="flex justify-start w-full mx-auto overflow-scroll scrollbar-hide max-w-7xl"
         aria-label="Tabs"
