@@ -25,8 +25,9 @@ interface PassengerProps {
   open: boolean;
   setOpen: (value: number) => void;
   onSubmit: (data: IPassenger) => void;
-  lastPassenger?: boolean;
   pricing?: ReactNode;
+  passengersData: IPassenger[];
+  passengersQuantity: number;
 }
 
 const Passenger = ({
@@ -34,8 +35,9 @@ const Passenger = ({
   open,
   setOpen,
   onSubmit,
-  lastPassenger,
   pricing,
+  passengersData,
+  passengersQuantity,
 }: PassengerProps) => {
   const [t, i18next] = useTranslation('flights');
   const [tg] = useTranslation('global');
@@ -54,10 +56,10 @@ const Passenger = ({
   const expirationLabel = tg('expiration', 'Expiration');
   const passengerLabel = t('passenger', 'Passenger');
   const nextPassengerLabel = t('nextPassenger', 'Next passenger');
-  const bookNowLabel = t('bookNow', 'Book now');
   const loyaltyProgramLabel = t('loyaltyProgram', 'Loyalty program');
   const loyaltyNumberLabel = t('loyaltyNumber', 'Loyalty number');
   const requiredLabel = tg('required', 'Required');
+  const isLastPassenger = passengerNumber === passengersQuantity;
 
   const countries = countryList.getData();
   countries.sort(function (a, b) {
@@ -80,6 +82,9 @@ const Passenger = ({
   } = useForm<IPassenger>({
     mode: 'all',
   });
+
+  const enableBookNow =
+    passengersData.length === passengersQuantity - 1 && isValid;
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
@@ -262,17 +267,10 @@ const Passenger = ({
           </section>
         </section>
         <section className="flex justify-end mx-6 my-4">
-          {!lastPassenger ? (
+          {!isLastPassenger && (
             <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
               {nextPassengerLabel}
             </Button>
-          ) : (
-            <section className="flex justify-end gap-6">
-              <section>{pricing}</section>
-              <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
-                {bookNowLabel}
-              </Button>
-            </section>
           )}
         </section>
       </form>
@@ -289,6 +287,14 @@ const Passenger = ({
         />
         {open && <CollapseBody show={open} body={passengerForm()} />}
       </Collapse>
+      {isLastPassenger && open && (
+        <section className="flex justify-end gap-6">
+          {pricing}
+          <Button disabled={!enableBookNow} onClick={handleSubmit(onSubmit)}>
+            Book now
+          </Button>
+        </section>
+      )}
     </>
   );
 };
