@@ -16,9 +16,9 @@ const PriceDisplay = ({
   totalLabel,
   isSearch = false,
 }: PriceDisplayProps) => {
-  const totalAmount = item.rate_total_amount['@RateTotalAmount'];
-  const avgAmount = item.rate_total_amount['@EstimatedTotalAmount'];
-  const currency = item.rate_total_amount['@CurrencyCode'];
+  const totalAmount = item.rate.totalAmount;
+  const avgAmount = item.rate.estimatedTotalAmount;
+  const currency = item.rate.currencyCode;
   const discounts = null;
   const [t] = useTranslation('global');
   const startingRoomTotalLabel = t('total', 'Total');

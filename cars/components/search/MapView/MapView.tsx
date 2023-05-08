@@ -108,7 +108,7 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
               const url = createUrl(car);
               const title = car.car_model;
               const companyName = car.company_short_name;
-              // const companyImage = car.Info.TPA_Extensions.VendorPictureURL['#text'];
+              const companyImage = car.company_picture.svg_url;
               const image = car.picture_url;
               const address = car.address_line;
               const isNext = index === nextItem;
@@ -142,11 +142,8 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
                   rate: {
                     total: {
                       prepaid: {
-                        amount: parseFloat(
-                          car.rate_total_amount['@RateTotalAmount'] as string,
-                        ),
-                        currency:
-                          car.rate_total_amount['@CurrencyCode'] ?? 'USD',
+                        amount: parseFloat(car.rate.totalAmount as string),
+                        currency: car.rate.currencyCode ?? 'USD',
                       },
                     },
                   },
@@ -160,7 +157,7 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
                     title={title}
                     subtitle={
                       <img
-                        src={''}
+                        src={companyImage}
                         alt={companyName}
                         style={{ maxWidth: '70px', maxHeight: '25px' }}
                       />
