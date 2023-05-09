@@ -74,7 +74,14 @@ const Passenger = ({
     handleSubmit,
     formState: { errors, isValid, isValidating },
     setValue,
-  } = useForm<IPassenger>({ mode: 'all' });
+  } = useForm<IPassenger>({
+    mode: 'all',
+    defaultValues: {
+      countryOfResidence: 'US',
+      country: 'US',
+      loyaltyProgram: 'US',
+    },
+  });
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
