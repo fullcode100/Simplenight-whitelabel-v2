@@ -31,9 +31,7 @@ const PassengerInformationDisplay = ({
   const { passengersQuantity, setPassengers, passengers } = usePassengersStore(
     (state) => state,
   );
-  const [passengersData, setPassengerData] = useState<
-    IPassenger & { passengerNumber: number }[]
-  >([]);
+  const [passengersData, setPassengerData] = useState<IPassenger[]>([]);
 
   useEffect(() => {
     setPassengers(passengersData);

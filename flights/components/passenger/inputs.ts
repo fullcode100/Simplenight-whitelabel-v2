@@ -13,6 +13,7 @@ export interface IPassenger {
   wheelChair?: boolean;
   vaccinationRecords?: boolean;
   knownTravelerNumber?: boolean;
+  passengerNumber: number;
 }
 
 enum GenderEnum {
