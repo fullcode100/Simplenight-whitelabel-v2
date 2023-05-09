@@ -15,6 +15,7 @@ import {
   VACATION_RENTALS_INITIAL_VALUE,
 } from './HotelResultsDisplay';
 import { HotelsFilterFormDesktopProps } from './HotelFilterFormDesktop';
+import { useSearchFilterStore } from 'hooks/dining/useSearchFilterStore';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -46,8 +47,11 @@ const HotelMobileFilters = ({
   setMaxStarRating,
 }: HotelSecondarySearchOptionsProps) => {
   const payAtProperty = false;
-  const [propertyHotels, setPropertyHotels] =
-    useState<boolean>(HOTELS_INITIAL_VALUE);
+  const { criteria: criteriaState } = useSearchFilterStore((state) => state);
+  const [isHotelsChecked, setIsHotelsChecked] = useState<boolean>(
+    criteriaState.property === 'propertyHotel' ||
+      criteriaState.property === 'propertyHotel&Rental',
+  );
   const [t] = useTranslation('hotels');
   const filtersLabel = t('filters', 'Filters');
   const applyFiltersLabel = t('applyFilters', 'Apply Filters');
@@ -61,7 +65,7 @@ const HotelMobileFilters = ({
     setFreeCancellation(FREE_CANCELATION_INITIAL_VALUE);
     setMinStarRating(MIN_STAR_RATING_INITIAL_VALUE);
     setMaxStarRating(MAX_STAR_RATING_INITIAL_VALUE);
-    setPropertyHotels(HOTELS_INITIAL_VALUE);
+    setIsHotelsChecked(HOTELS_INITIAL_VALUE);
     setVacationRentals(VACATION_RENTALS_INITIAL_VALUE);
   };
 
@@ -112,7 +116,7 @@ const HotelMobileFilters = ({
       propertyTypes.push('vacationRentals');
       handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
-    setPropertyHotels(value);
+    setIsHotelsChecked(value);
     specialCasesProperties(propertyTypes);
   };
 
@@ -122,7 +126,7 @@ const HotelMobileFilters = ({
       propertyTypes.push('vacationRentals');
       handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
-    if (propertyHotels) {
+    if (isHotelsChecked) {
       propertyTypes.push('hotels');
       handleFilterHotels({ ...criteria, property: 'propertyHotel' });
     }
@@ -134,7 +138,7 @@ const HotelMobileFilters = ({
     <section className="h-full overflow-y-auto px-5 py-4">
       {/* <KeywordSearchFilter /> */}
       <PropertyFilter
-        hotels={propertyHotels}
+        hotels={isHotelsChecked}
         vacationRentals={vacationRentals}
         onChangeHotels={onChangeHotels}
         onChangeVacationRentals={onChangeVacationRentals}
