@@ -34,6 +34,7 @@ import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImag
 import HotelMobileFilters from './HotelMobileFilters';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import dayjs from 'dayjs';
+import { useSearchFilterStore } from 'hooks/dining/useSearchFilterStore';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -65,11 +66,11 @@ export const initialPriceRange = {
 const RESULTS_PER_PAGE = 25;
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
+  const { clear, criteria, setCriteria } = useSearchFilterStore(
+    (state) => state,
+  );
   const { ClientSearcher: Searcher } = HotelCategory.core;
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-  const [criteria, setCriteria] = useState<FilterCriteria>(
-    {} as unknown as FilterCriteria,
-  );
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
   const hotelsFoundLabelDesktop = t('results', 'Results');
@@ -96,25 +97,46 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     supplierIds,
     slug,
   } = useQuery();
-  const [sortByVal, setSortByVal] = useState(priceLowerFirst);
+
+  const getSortByValFromCriteriaState = () => {
+    switch (criteria.sortCriteria) {
+      case 'ratingLowFirst':
+        return 'Rating (Lowest First)';
+      case 'ratingHighFirst':
+        return 'Rating (Highest First)';
+      case 'priceLowFirst':
+        return 'Price (Lowest First)';
+      case 'priceHighFirst':
+        return 'Price (Highest First)';
+      default:
+        return 'Price (Lowest First)';
+    }
+  };
+
+  const [sortByVal, setSortByVal] = useState(getSortByValFromCriteriaState());
   const [hotels, setHotels] = useState<SearchItem[]>([]);
   const [view, setview] = useState('list');
   const windowSize = useWindowSize();
   const isListView = view === 'list';
   const [freeCancellation, setFreeCancellation] = useState<boolean>(
-    FREE_CANCELATION_INITIAL_VALUE,
+    criteria.freeCancelation,
   );
 
   const [vacationRentals, setVacationRentals] = useState<boolean>(
-    VACATION_RENTALS_INITIAL_VALUE,
+    criteria.property === 'propertyRental' ||
+      criteria.property === 'propertyHotel&Rental',
   );
-  const [minPriceFilter, setMinPrice] = useState<number>(initialPriceRange.min);
-  const [maxPriceFilter, setMaxPrice] = useState<number>(initialPriceRange.max);
+  const [minPriceFilter, setMinPrice] = useState<number>(
+    parseInt(criteria.MinPrice, 10),
+  );
+  const [maxPriceFilter, setMaxPrice] = useState<number>(
+    parseInt(criteria.MaxPrice, 10),
+  );
   const [minStarRating, setMinStarRating] = useState<number>(
-    MIN_STAR_RATING_INITIAL_VALUE,
+    parseInt(criteria.MinRange, 10),
   );
   const [maxStarRating, setMaxStarRating] = useState<number>(
-    MAX_STAR_RATING_INITIAL_VALUE,
+    parseInt(criteria.MaxRange, 10),
   );
 
   const [next, setNext] = useState(RESULTS_PER_PAGE);
@@ -124,7 +146,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   };
 
   const resetCriteria = () => {
-    setCriteria({} as unknown as FilterCriteria);
+    clear();
   };
 
   const onChangeSortBy = (value: string) => {

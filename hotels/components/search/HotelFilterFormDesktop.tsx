@@ -20,6 +20,7 @@ import {
   MIN_STAR_RATING_INITIAL_VALUE,
   VACATION_RENTALS_INITIAL_VALUE,
 } from './HotelResultsDisplay';
+import { useSearchFilterStore } from 'hooks/dining/useSearchFilterStore';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -29,7 +30,7 @@ const HOTEL_AND_RENTAL_OPTIONS_SIZE = 2;
 const ALL_PROPERTY_TYPES_OPTIONS_SIZE = 0;
 
 export interface HotelsFilterFormDesktopProps {
-  handleFilterHotels: React.Dispatch<React.SetStateAction<FilterCriteria>>;
+  handleFilterHotels: (criteria: FilterCriteria) => void;
   loading: boolean;
   resetFilters: () => void;
   criteria: FilterCriteria;
@@ -67,9 +68,13 @@ const HotelFilterFormDesktop = ({
 }: HotelsFilterFormDesktopProps) => {
   const setQueryParams = useQuerySetter();
   const payAtProperty = false;
-  const [hotels, setHotels] = useState<boolean>(HOTELS_INITIAL_VALUE);
+  const { criteria: criteriaState } = useSearchFilterStore((state) => state);
+  const [isHotelsChecked, setIsHotelsChecked] = useState<boolean>(
+    criteriaState.property === 'propertyHotel' ||
+      criteriaState.property === 'propertyHotel&Rental',
+  );
 
-  const [name, setName] = useState<string>('');
+  const [name, setName] = useState<string>(criteriaState.hotelName);
 
   const getAmenities = () => {
     const amenitiesListParams: string | string[] = [];
@@ -90,7 +95,7 @@ const HotelFilterFormDesktop = ({
     setFreeCancellation(FREE_CANCELATION_INITIAL_VALUE);
     setMinStarRating(MIN_STAR_RATING_INITIAL_VALUE);
     setMaxStarRating(MAX_STAR_RATING_INITIAL_VALUE);
-    setHotels(HOTELS_INITIAL_VALUE);
+    setIsHotelsChecked(HOTELS_INITIAL_VALUE);
     setVacationRentals(VACATION_RENTALS_INITIAL_VALUE);
     setName('');
   };
@@ -156,7 +161,7 @@ const HotelFilterFormDesktop = ({
       propertyTypes.push('vacationRentals');
       handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
-    setHotels(value);
+    setIsHotelsChecked(value);
     specialCasesProperties(propertyTypes);
   };
 
@@ -166,7 +171,7 @@ const HotelFilterFormDesktop = ({
       propertyTypes.push('vacationRentals');
       handleFilterHotels({ ...criteria, property: 'propertyRental' });
     }
-    if (hotels) {
+    if (isHotelsChecked) {
       propertyTypes.push('hotels');
       handleFilterHotels({ ...criteria, property: 'propertyHotel' });
     }
@@ -250,7 +255,7 @@ const HotelFilterFormDesktop = ({
       />
       <Divider className="my-6" />
       <PropertyFilter
-        hotels={hotels}
+        hotels={isHotelsChecked}
         vacationRentals={vacationRentals}
         onChangeHotels={onChangeHotels}
         onChangeVacationRentals={onChangeVacationRentals}
