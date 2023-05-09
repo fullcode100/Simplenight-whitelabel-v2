@@ -65,16 +65,21 @@ const Passenger = ({
     const textB = b.name.toUpperCase();
     return textA < textB ? -1 : textA > textB ? 1 : 0;
   });
-  const countriesOptions = Object.values(countries).map((label) => {
-    return { value: label.code, label: label.name };
-  });
+  const countriesOptions = [
+    { value: '', label: '' },
+    ...Object.values(countries).map((label) => {
+      return { value: label.code, label: label.name };
+    }),
+  ];
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isValidating },
     setValue,
-  } = useForm<IPassenger>({ mode: 'all' });
+  } = useForm<IPassenger>({
+    mode: 'all',
+  });
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
