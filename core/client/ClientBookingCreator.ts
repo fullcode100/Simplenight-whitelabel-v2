@@ -21,7 +21,9 @@ export class ClientBookingCreator extends ClientRequester<
     request: CreateBookingRequest,
     axios: AxiosInstance,
   ): Promise<AxiosResponse<CreateBookingResponse, any>> {
-    const url = '/bookings';
+    const endpoint = request.apiUrl;
+    const url = endpoint || '/bookings';
+    delete request.apiUrl;
 
     return axios.post<CreateBookingResponse>(url, {
       ...request,
