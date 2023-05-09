@@ -18,6 +18,7 @@ import {
 import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
+import countryList from 'country-list';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -58,6 +59,16 @@ const Passenger = ({
   const loyaltyNumberLabel = t('loyaltyNumber', 'Loyalty number');
   const requiredLabel = tg('required', 'Required');
 
+  const countries = countryList.getData();
+  countries.sort(function (a, b) {
+    const textA = a.name.toUpperCase();
+    const textB = b.name.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
+  const countriesOptions = Object.values(countries).map((label) => {
+    return { value: label.code, label: label.name };
+  });
+
   const {
     register,
     handleSubmit,
@@ -74,15 +85,6 @@ const Passenger = ({
         {passengerLabel} {passengerNumber}
       </Paragraph>
     </section>
-  );
-
-  const countriesOptions = useMemo(
-    () => [
-      { value: 'bolivia', label: 'Bolivia' },
-      { value: 'usa', label: 'Unites States' },
-      { value: 'rusia', label: 'Rusia' },
-    ],
-    [],
   );
 
   const genderOptions = useMemo(
@@ -106,7 +108,7 @@ const Passenger = ({
     nameInput: keyof IPassenger,
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
-    <section className="flex flox-col flex-wrap gap-2">
+    <section className="flex flex-wrap gap-2 flox-col">
       <section className="flex flex-row justify-between w-full">
         <Label value={label} htmlFor={nameInput} />
         {options?.required && (
@@ -147,7 +149,7 @@ const Passenger = ({
     }[],
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
-    <section className="flex flox-col flex-wrap gap-2">
+    <section className="flex flex-wrap gap-2 flox-col">
       <section className="flex flex-row justify-between w-full">
         <Label value={label} htmlFor={nameInput} />
         {options?.required && (
@@ -181,8 +183,8 @@ const Passenger = ({
         ID.
       </section>
       <form>
-        <section className="flex flex-row flex-nowrap mx-6 my-4 gap-8 justify-center">
-          <section className="flex flex-col gap-4 w-1/3">
+        <section className="flex flex-row justify-center gap-8 mx-6 my-4 flex-nowrap">
+          <section className="flex flex-col w-1/3 gap-4">
             {getInputField(firstNameLabel, 'firstName', {
               required: true,
               max: 25,
@@ -195,7 +197,7 @@ const Passenger = ({
               min: 1,
             })}
             <section className="flex flex-row justify-between gap-4">
-              <section className="flex flox-col flex-wrap gap-2">
+              <section className="flex flex-wrap gap-2 flox-col">
                 <Label value={dateOfBirthLabel} htmlFor="dateOfBirth" />
                 <DateInput
                   value={dayjs().format('MM-DD-YY')}
@@ -217,7 +219,7 @@ const Passenger = ({
               'vaccinationRecords',
             )}
           </section>
-          <section className="flex flex-col gap-4 w-1/3">
+          <section className="flex flex-col w-1/3 gap-4">
             {getSelectField(
               countryOfResidenceLabel,
               'countryOfResidence',
@@ -232,7 +234,7 @@ const Passenger = ({
             {getInputField(loyaltyNumberLabel, 'loyaltyNumber')}
           </section>
           <section className="border-l-2 h-80 border-dark-300" />
-          <section className="flex flex-col gap-4 w-1/3">
+          <section className="flex flex-col w-1/3 gap-4">
             {getInputField(passportIDNumberLabel, 'passportIdNumber', {
               required: true,
               valueAsNumber: true,
@@ -241,7 +243,7 @@ const Passenger = ({
               {getSelectField(countryLabel, 'country', countriesOptions, {
                 required: true,
               })}
-              <section className="flex flox-col flex-wrap gap-2">
+              <section className="flex flex-wrap gap-2 flox-col">
                 <section className="flex flex-row justify-between w-full">
                   <Label value={expirationLabel} htmlFor="expiration" />
                   <Label className="text-teal-1000" value={requiredLabel} />
