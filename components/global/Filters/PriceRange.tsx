@@ -1,7 +1,5 @@
 import { Dispatch } from 'react';
-import { useTranslation } from 'react-i18next';
 import FilterContainer from './FilterContainer';
-import FilterTitle from './FilterTitle';
 import RangesliderLegacy from './RangesliderLegacy';
 
 export interface PriceRangeFilterProps {
@@ -21,12 +19,8 @@ const PriceRangeFilter = ({
   onChangeMinPrice,
   onChangeMaxPrice,
 }: PriceRangeFilterProps) => {
-  const [t] = useTranslation('global');
-  const priceRangeLabel = t('priceRange', 'Price Range');
-
   return (
     <FilterContainer>
-      <FilterTitle label={priceRangeLabel} />
       {/* Avoid using this legacy component, instead use /components/global/RangeSlider/RangeSlider.tsx */}
       <RangesliderLegacy
         initialMin={minPrice ? parseInt(minPrice) : 0}

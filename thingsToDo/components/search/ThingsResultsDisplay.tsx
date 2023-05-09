@@ -12,26 +12,30 @@ import { ThingsSearchRequest } from 'thingsToDo/types/request/ThingsSearchReques
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { Category } from 'thingsToDo/types/response/ThingsSearchResponse';
-import Sort from 'public/icons/assets/sort.svg';
-import Chevron from 'public/icons/assets/chevron-down-small.svg';
-import Filter from 'public/icons/assets/filter.svg';
-import { RadioGroup, Radio } from 'components/global/Radio/Radio';
-import { SORT_BY_OPTIONS } from 'thingsToDo/constants/sortByOptions';
-import FilterModal from '../filter/FilterModal';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import FilterSidebar from '../filter/FilterSidebar';
-import { sortByAdapter } from 'thingsToDo/adapters/sort-by.adapter';
-import { cancellationTypeAdapter } from 'thingsToDo/adapters/cancellation-type.adapter';
 import { useCategorySlug } from 'hooks/category/useCategory';
-import useKeywordFilter from 'thingsToDo/hooks/useKeywordFilter';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import { EmptyState as EmptyStateIllustration } from '@simplenight/ui';
+import FiltersIcon from 'public/icons/assets/filters.svg';
 
 import { Paragraph } from '@simplenight/ui';
 import { SearchItem } from 'thingsToDo/types/adapters/SearchItem';
+import { filterByFilters } from 'thingsToDo/helpers/filterByFilters';
+import getKeywordSearchList from 'thingsToDo/helpers/getKeywordSearchList';
+import getFilterCount from 'thingsToDo/helpers/getFilterCount';
+import { useRouter } from 'next/router';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
+}
+
+interface FiltersApplied {
+  keywordSearch: string;
+  price: { minPrice: string; maxPrice: string };
+  freeCancellation: boolean;
+  starRating: { minStarRating: string; maxStarRating: string };
+  sortBy: string;
 }
 
 const ThingsResultsDisplay = ({
@@ -40,20 +44,19 @@ const ThingsResultsDisplay = ({
   const [isOpen, onOpen, onClose] = useModal();
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
-
   const [entertainmentItems, setEntertainmentItems] = useState<SearchItem[]>(
     [],
   );
 
-  const [showSortModal, setShowSortModal] = useState(false);
-  const [sortBy, setSortBy] = useState<string>('recommended');
+  const [keywordSearchData, setKeywordSearchData] = useState({});
+
+  const [filtersCount, setFiltersCount] = useState(0);
+
   const { ClientSearcher: Searcher } = ThingsCategory.core;
   const { slug } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   const thingsToDoLabel = t('thingsToDo', 'Things to Do');
-  const sortLabel = tg('sort', 'Sort');
-  const filterLabel = tg('filter', 'Filter');
   const resultsLabel = tg('results', 'Results');
   const noResultsLabel = tg('noResultsSearch', 'No Results Match Your Search');
 
@@ -62,19 +65,40 @@ const ThingsResultsDisplay = ({
     string[]
   >([]);
 
-  const {
-    startDate,
-    endDate,
-    latitude,
-    longitude,
-    keywordSearch,
-    paymentTypes,
-    minPrice,
-    maxPrice,
-    isTotalPrice,
-    minRating,
-    maxRating,
-  } = useQuery();
+  const initialFiltersApplied = {
+    keywordSearch: '',
+    price: { minPrice: '0', maxPrice: '5000' },
+    freeCancellation: false,
+    starRating: { minStarRating: '1', maxStarRating: '5' },
+    sortBy: 'recommended',
+  };
+
+  const [appliedSearchFilters, setAppliedSearchFilters] =
+    useState<FiltersApplied>(initialFiltersApplied);
+
+  const router = useRouter();
+  const [queryFilter, setQueryFilters] = useState(router.query);
+  const [minPrice, setMinPrice] = useState(
+    (queryFilter?.minPrice as string) || '0',
+  );
+  const [maxPrice, setMaxPrice] = useState(
+    (queryFilter?.maxPrice as string) || '5000',
+  );
+  const [freeCancellation, setFreeCancellation] = useState(
+    queryFilter?.paymentTypes?.includes('freeCancellation') || false,
+  );
+  const [minStarRating, setMinStarRating] = useState<string>(
+    (queryFilter.minRating as string) || '1',
+  );
+  const [maxStarRating, setMaxStarRating] = useState<string>(
+    (queryFilter.maxRating as string) || '5',
+  );
+  const [keywordSearch, setKeywordSearch] = useState<string>(
+    (queryFilter?.keywordSearch as string) || '',
+  );
+  const [sortBy, setSortBy] = useState<string>('recommended');
+
+  const { startDate, endDate, latitude, longitude } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
 
   const getAllCategories = (
@@ -107,47 +131,11 @@ const ThingsResultsDisplay = ({
     }
   };
 
-  const filterResultsByCategory = () => {
-    const items: SearchItem[] = [];
-    data.forEach((item: SearchItem) => {
-      if (
-        item.categories.some((category) =>
-          appliedCategoryFilters.some(
-            (appliedCategoryFilter) => category.id === appliedCategoryFilter,
-          ),
-        )
-      ) {
-        items.push(item);
-      }
-    });
-
-    setEntertainmentItems(items);
-  };
-  useEffect(() => {
-    if (appliedCategoryFilters.length > 0) {
-      filterResultsByCategory();
-    } else {
-      setEntertainmentItems(data);
-    }
-  }, [appliedCategoryFilters]);
-
-  const memoizedEntertainmentItems = useKeywordFilter(
-    entertainmentItems,
-    keywordSearch as string,
-  );
-
   const params: ThingsSearchRequest = {
     start_date: formatAsSearchDate(startDate as string),
     end_date: formatAsSearchDate(endDate as string),
     dst_geolocation: dstGeolocation as StringGeolocation,
     rsp_fields_set: 'basic',
-    ...(sortBy != 'recommended' && { sort: sortByAdapter(sortBy) }),
-    ...(minPrice && { min_price: minPrice as string }),
-    ...(maxPrice && { max_price: maxPrice as string }),
-    ...(minRating && { min_rating: minRating as string }),
-    ...(maxRating && { max_rating: maxRating as string }),
-    ...(isTotalPrice && { is_total_price: maxRating as string }),
-    cancellation_type: cancellationTypeAdapter(paymentTypes as string),
     supplier_ids: '',
     apiUrl,
   };
@@ -174,73 +162,73 @@ const ThingsResultsDisplay = ({
     }
   }, [data]);
 
+  useEffect(() => {
+    getKeywordSearchList(data, setKeywordSearchData);
+  }, [data]);
+
   const urlDetail = (thingsItem: SearchItem) => {
     const { id } = thingsItem;
     return `/detail/${slug}/${id}?startDate=${startDate}&endDate=${endDate}`;
   };
 
-  const noResults = memoizedEntertainmentItems?.length === 0;
+  const noResults = entertainmentItems?.length === 0;
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const filterResultsByCategory = (
+    items: SearchItem[] | undefined,
+    appliedFilters: string[],
+  ) => {
+    const filteredItems: SearchItem[] = [];
+    if (items) {
+      items.forEach((item: SearchItem) => {
+        if (
+          item.categories.some((category) =>
+            appliedFilters.some(
+              (appliedFilter) => category.id === appliedFilter,
+            ),
+          )
+        ) {
+          filteredItems.push(item);
+        }
+      });
+    }
+    return filteredItems;
+  };
+
+  useEffect(() => {
+    let filteredData = data;
+    if (appliedCategoryFilters.length > 0) {
+      filteredData = filterResultsByCategory(data, appliedCategoryFilters);
+    }
+    filteredData = filterByFilters(filteredData, appliedSearchFilters);
+    setEntertainmentItems(filteredData);
+    setFiltersCount(getFilterCount(appliedSearchFilters));
+  }, [appliedCategoryFilters, appliedSearchFilters, data]);
 
   const ResultsAmountSort = () => {
     return (
       <>
-        <section
-          className={`absolute z-10 border border-dark-300 rounded shadow-container top-12 bg-white w-[335px] right-5 lg:right-20 transition-all duration-500 text-dark-1000 ${
-            !showSortModal && 'opacity-0 invisible'
-          }`}
-        >
-          <RadioGroup onChange={setSortBy} value={sortBy} gap="gap-0">
-            {SORT_BY_OPTIONS.map((option, i) => (
-              <Radio
-                key={i}
-                value={option?.value}
-                containerClass={`px-3 py-2 ${
-                  i < SORT_BY_OPTIONS.length - 1 && 'border-b border-dark-200'
-                }`}
-              >
-                {tg(option.label)}
-              </Radio>
-            ))}
-          </RadioGroup>
-        </section>
         <section className="flex items-center justify-between px-5 pt-3 pb-3 lg:mt-12 lg:pb-0">
-          <Paragraph
-            size="sm-lg"
-            fontWeight="semibold"
-          >{`${memoizedEntertainmentItems?.length} ${resultsLabel}`}</Paragraph>
-          <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
-            <button
-              className="flex items-center gap-1"
-              onClick={() => setShowSortModal(!showSortModal)}
-              onBlur={() => setShowSortModal(false)}
-            >
-              <span className="text-primary-1000">
-                <Sort />
-              </span>
-              <span className="text-xs font-semibold text-dark-1000 lg:hidden">
-                {sortLabel}
-              </span>
-              <span className="hidden text-xs font-semibold text-dark-1000 lg:flex">
-                {tg(
-                  SORT_BY_OPTIONS.find((option) => option.value == sortBy)
-                    ?.label ?? '',
-                )}
-              </span>
-              <span className="text-dark-800">
-                <Chevron />
-              </span>
-            </button>
-            <button
-              onClick={onOpen}
-              className="flex items-center gap-1 lg:hidden"
-            >
-              <span className="text-primary-1000">
-                <Filter />
-              </span>
-              <span className="text-xs font-semibold text-dark-1000 lg:hidden">
-                {filterLabel}
-              </span>
-            </button>
+          <section className="flex align-baseline">
+            {!isFilterOpen && (
+              <button
+                className="hover:bg-primary-800 hover:text-white p-2 mx-2 border-2 rounded-full text-primary-1000 border-primary-100"
+                onClick={() => {
+                  setIsFilterOpen(true);
+                  onOpen();
+                }}
+              >
+                <FiltersIcon />
+              </button>
+            )}
+            <section className="flex items-center">
+              <Paragraph size="sm-lg" fontWeight="semibold">{`${
+                entertainmentItems?.length === undefined
+                  ? ''
+                  : entertainmentItems?.length
+              } ${resultsLabel}`}</Paragraph>
+            </section>
           </section>
         </section>
       </>
@@ -250,7 +238,7 @@ const ThingsResultsDisplay = ({
   const ThingsToDoList = () => {
     return (
       <ul className="flex flex-col gap-3 px-5 py-6">
-        {memoizedEntertainmentItems?.map((thingToDo: SearchItem) => {
+        {entertainmentItems?.map((thingToDo: SearchItem) => {
           const {
             id,
             name,
@@ -295,10 +283,33 @@ const ThingsResultsDisplay = ({
 
   return (
     <div className="relative lg:flex lg:w-full">
-      <FilterModal isOpen={isOpen} onClose={onClose} />
-      <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12">
-        <FilterSidebar />
-      </section>
+      {isFilterOpen && (
+        <section>
+          <FilterSidebar
+            isOpen={isOpen}
+            onClose={onClose}
+            keywordSearchData={keywordSearchData}
+            setAppliedFilters={setAppliedSearchFilters}
+            setIsOpen={setIsFilterOpen}
+            filtersCount={filtersCount}
+            minPrice={minPrice}
+            setMinPrice={setMinPrice}
+            maxPrice={maxPrice}
+            setMaxPrice={setMaxPrice}
+            freeCancellation={freeCancellation}
+            setFreeCancellation={setFreeCancellation}
+            minStarRating={minStarRating}
+            setMinStarRating={setMinStarRating}
+            maxStarRating={maxStarRating}
+            setMaxStarRating={setMaxStarRating}
+            keywordSearch={keywordSearch}
+            setKeywordSearch={setKeywordSearch}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+          />
+        </section>
+      )}
+
       {!isLoading && !noResults && (
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           <ResultsAmountSort />
