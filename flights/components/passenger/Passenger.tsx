@@ -14,19 +14,23 @@ import {
   DateInput,
   Paragraph,
   Select,
+  TextInput,
 } from '@simplenight/ui';
 import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import countryList from 'country-list';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 interface PassengerProps {
   passengerNumber: number;
   open: boolean;
   setOpen: (value: number) => void;
-  onSubmit: (data: IPassenger) => void;
-  lastPassenger?: boolean;
+  onSubmit: (data: IPassenger, passengerNumber: number) => void;
   pricing?: ReactNode;
+  passengersData: IPassenger[];
+  passengersQuantity: number;
 }
 
 const Passenger = ({
@@ -34,8 +38,9 @@ const Passenger = ({
   open,
   setOpen,
   onSubmit,
-  lastPassenger,
   pricing,
+  passengersData,
+  passengersQuantity,
 }: PassengerProps) => {
   const [t, i18next] = useTranslation('flights');
   const [tg] = useTranslation('global');
@@ -54,10 +59,10 @@ const Passenger = ({
   const expirationLabel = tg('expiration', 'Expiration');
   const passengerLabel = t('passenger', 'Passenger');
   const nextPassengerLabel = t('nextPassenger', 'Next passenger');
-  const bookNowLabel = t('bookNow', 'Book now');
   const loyaltyProgramLabel = t('loyaltyProgram', 'Loyalty program');
   const loyaltyNumberLabel = t('loyaltyNumber', 'Loyalty number');
   const requiredLabel = tg('required', 'Required');
+  const isLastPassenger = passengerNumber === passengersQuantity;
 
   const countries = countryList.getData();
   countries.sort(function (a, b) {
@@ -72,6 +77,25 @@ const Passenger = ({
     }),
   ];
 
+  const passengerSchema = z.object({
+    firstName: z.string().min(1),
+    middleName: z.string().optional(),
+    lastName: z.string().min(1),
+    /* TODO UPDATE dateOfBirth this when datepicker is working */
+    dateOfBirth: z.date().optional(),
+    gender: z.string().optional(),
+    countryOfResidence: z.string(),
+    loyaltyProgram: z.string().optional(),
+    loyaltyNumber: z.string().optional(),
+    passportIdNumber: z.string().min(1),
+    country: z.string(),
+    /* TODO UPDATE Exporation this to required whem datepicker is working */
+    expiration: z.string().optional(),
+    wheelChair: z.boolean().optional(),
+    vaccinationRecords: z.boolean().optional(),
+    knownTravelerNumber: z.boolean().optional(),
+  });
+
   const {
     register,
     handleSubmit,
@@ -79,7 +103,11 @@ const Passenger = ({
     setValue,
   } = useForm<IPassenger>({
     mode: 'all',
+    resolver: zodResolver(passengerSchema),
   });
+
+  const enableBookNow =
+    passengersData.length === passengersQuantity - 1 && isValid;
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
@@ -120,10 +148,10 @@ const Passenger = ({
           <Label className="text-teal-1000" value={requiredLabel} />
         )}
       </section>
-      <BaseInput
-        placeholder={label}
+      <TextInput placeholder={label} {...register(nameInput)} />
+      {/*   <BaseInput
         {...register(nameInput, { ...options, onChange: setInputValue })}
-      />
+      /> */}
     </section>
   );
 
@@ -262,17 +290,13 @@ const Passenger = ({
           </section>
         </section>
         <section className="flex justify-end mx-6 my-4">
-          {!lastPassenger ? (
-            <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+          {!isLastPassenger && (
+            <Button
+              disabled={!isValid}
+              onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
+            >
               {nextPassengerLabel}
             </Button>
-          ) : (
-            <section className="flex justify-end gap-6">
-              <section>{pricing}</section>
-              <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
-                {bookNowLabel}
-              </Button>
-            </section>
           )}
         </section>
       </form>
@@ -289,6 +313,17 @@ const Passenger = ({
         />
         {open && <CollapseBody show={open} body={passengerForm()} />}
       </Collapse>
+      {isLastPassenger && open && (
+        <section className="flex justify-end gap-6">
+          {pricing}
+          <Button
+            disabled={!enableBookNow}
+            onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
+          >
+            Book now
+          </Button>
+        </section>
+      )}
     </>
   );
 };

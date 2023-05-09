@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
 import FlightDetails from '../FlightDetails/FlightDetails';
-import { Pricing } from '@simplenight/ui';
+import { Button, Pricing } from '@simplenight/ui';
 import HorizontalItemCard from '../search/HorizontalItemCard/HorizontalItemCard';
 import Divider from 'components/global/Divider/Divider';
 import Passenger from '../passenger/Passenger';
@@ -13,6 +13,7 @@ import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 import { IPassenger } from '../passenger/inputs';
 import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -22,6 +23,8 @@ const PassengerInformationDisplay = ({
   const { id } = useQuery();
   const router = useRouter();
   const [t, i18next] = useTranslation('flights');
+  const [tg] = useTranslation('global');
+  const bookNowLabel = tg('bookNow', 'Book now');
   const [passengerForm, setPassengerForm] = useState(1);
   const flights = useFlightsStore((state) => state.flights);
   const flight = flights[flights.length - 1];
@@ -32,6 +35,7 @@ const PassengerInformationDisplay = ({
 
   useEffect(() => {
     setPassengers(passengersData);
+    console.log(passengersData);
   }, [passengersData]);
 
   if (!flight) {
@@ -45,13 +49,26 @@ const PassengerInformationDisplay = ({
     </Pricing>
   );
 
-  const savePassenger = (currentData: IPassenger) => {
+  const savePassenger = (currentData: IPassenger, passengerNumber: number) => {
     setPassengerForm(passengerForm + 1);
-    setPassengerData((data) => [...data, currentData]);
+    const passengerIndex = passengersData.findIndex(
+      (p) => p.passengerNumber === passengerNumber,
+    );
+    console.log(passengerIndex);
+    if (passengerIndex >= 0) {
+      const newData = [...passengersData];
+      newData[passengerIndex] = { ...currentData, passengerNumber };
+      setPassengerData(newData);
+    } else {
+      setPassengerData((data) => [
+        ...data,
+        { ...currentData, passengerNumber },
+      ]);
+    }
   };
 
-  const goCheckout = (currentData: IPassenger) => {
-    savePassenger(currentData);
+  const goCheckout = (currentData: IPassenger, passengerNumber: number) => {
+    savePassenger(currentData, passengerNumber);
     router.replace('/checkout/flights');
   };
 
@@ -67,7 +84,9 @@ const PassengerInformationDisplay = ({
             passengerForm === passengersQuantity ? goCheckout : savePassenger
           }
           pricing={getPricing()}
-          lastPassenger={passengerForm === passengersQuantity}
+          /* lastPassenger={passengerForm === passengersQuantity} */
+          passengersData={passengersData}
+          passengersQuantity={passengersQuantity}
         />,
       );
     }
