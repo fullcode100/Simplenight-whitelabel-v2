@@ -65,9 +65,12 @@ const Passenger = ({
     const textB = b.name.toUpperCase();
     return textA < textB ? -1 : textA > textB ? 1 : 0;
   });
-  const countriesOptions = Object.values(countries).map((label) => {
-    return { value: label.code, label: label.name };
-  });
+  const countriesOptions = [
+    { value: '', label: '' },
+    ...Object.values(countries).map((label) => {
+      return { value: label.code, label: label.name };
+    }),
+  ];
 
   const {
     register,
@@ -76,11 +79,6 @@ const Passenger = ({
     setValue,
   } = useForm<IPassenger>({
     mode: 'all',
-    defaultValues: {
-      countryOfResidence: 'US',
-      country: 'US',
-      loyaltyProgram: 'US',
-    },
   });
 
   const getTitle = () => (
