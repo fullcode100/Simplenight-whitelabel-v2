@@ -133,7 +133,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
 
   const urlDetail = (dining: Dining) => {
     const { id } = dining;
-    return `/detail/${slug}/${id}?covers=2&startDate=${startDate}&geolocation=${latitude},${longitude}`;
+    return `/detail/${slug}/${id}?covers=${params.covers}&time=${params.time}&startDate=${startDate}&geolocation=${latitude},${longitude}`;
   };
 
   const onChangeSortBy = (value: string) => {

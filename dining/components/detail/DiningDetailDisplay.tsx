@@ -47,9 +47,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   const [currency, setCurrency] = useState<string>(storeCurrency);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedDate, setSelectedDate] = useState<string>(startDate);
-  const [time, setTime] = useState<string>(
-    typeof defaultTime === 'string' ? defaultTime : '',
-  );
+  const [time, setTime] = useState<string>('');
   const [covers, setCovers] = useState<number>(
     defaultCovers ? Number(defaultCovers) : 1,
   );
@@ -116,6 +114,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
       id: (id as unknown as string) ?? '',
       start_date: formatAsSearchDate(selectedDate),
       covers,
+      time: defaultTime as string,
     };
 
     Category.core.ClientDetailer?.request(params, i18next, params.id)

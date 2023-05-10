@@ -4,6 +4,7 @@ export interface DiningDetailPreRequest {
   id: string;
   start_date: string;
   covers: number;
+  time: string;
 }
 
 export interface DiningDetailRequest {
