@@ -15,6 +15,7 @@ import {
   Paragraph,
   Select,
   TextInput,
+  IconWrapper,
 } from '@simplenight/ui';
 import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +23,8 @@ import dayjs from 'dayjs';
 import countryList from 'country-list';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+
+import InfoCircle from 'public/icons/assets/info-circle.svg';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -214,14 +217,18 @@ const Passenger = ({
 
   const passengerForm = () => (
     <>
-      <section className="rounded border-[1px] border-dark-300 m-6 flex flex-row items-center py-[6px] px-1 w-max">
-        <Info className="w-4 h-4 mr-1" />
-        Enter the information of each passenger as it appears on their official
-        ID.
+      <section className="rounded border m-4 border-dark-300 flex flex-row items-center py-[6px] px-2 gap-2">
+        <IconWrapper size={16}>
+          <InfoCircle className="text-primary-1000" />
+        </IconWrapper>
+        <Paragraph className="shrink capitalize" fontWeight="semibold">
+          Enter the information of each passenger as it appears on their
+          official ID.
+        </Paragraph>
       </section>
       <form>
-        <section className="flex flex-row justify-center gap-8 mx-6 my-4 flex-nowrap">
-          <section className="flex flex-col w-1/3 gap-4">
+        <section className="flex flex-col md:flex-row justify-center gap-8 m-4 md:mx-6 flex-nowrap">
+          <section className="flex flex-col md:w-1/3 gap-4">
             {getInputField(firstNameLabel, 'firstName', {
               required: true,
               max: 25,
@@ -245,20 +252,22 @@ const Passenger = ({
                 required: true,
               })}
             </section>
-            {getCheckboxField(
-              'I require wheelchair assistance while traveling.',
-              'wheelChair',
-            )}
-            {getCheckboxField(
-              'I have a Known Traveler Number.',
-              'knownTravelerNumber',
-            )}
-            {getCheckboxField(
-              'I am prepared to show vaccination records.',
-              'vaccinationRecords',
-            )}
+            <section className="hidden md:block space-y-4 ">
+              {getCheckboxField(
+                'I require wheelchair assistance while traveling.',
+                'wheelChair',
+              )}
+              {getCheckboxField(
+                'I have a Known Traveler Number.',
+                'knownTravelerNumber',
+              )}
+              {getCheckboxField(
+                'I am prepared to show vaccination records.',
+                'vaccinationRecords',
+              )}
+            </section>
           </section>
-          <section className="flex flex-col w-1/3 gap-4">
+          <section className="flex flex-col md:w-1/3 gap-4">
             {getSelectField(
               countryOfResidenceLabel,
               'countryOfResidence',
@@ -272,8 +281,22 @@ const Passenger = ({
             )}
             {getInputField(loyaltyNumberLabel, 'loyaltyNumber')}
           </section>
-          <section className="border-l-2 h-80 border-dark-300" />
-          <section className="flex flex-col w-1/3 gap-4">
+          <section className="block md:hidden space-y-4 ">
+            {getCheckboxField(
+              'I require wheelchair assistance while traveling.',
+              'wheelChair',
+            )}
+            {getCheckboxField(
+              'I have a Known Traveler Number.',
+              'knownTravelerNumber',
+            )}
+            {getCheckboxField(
+              'I am prepared to show vaccination records.',
+              'vaccinationRecords',
+            )}
+          </section>
+          <section className="border-t md:border-t-0 md:border-l-2 md:h-80 border-dark-300" />
+          <section className="flex flex-col md:w-1/3 gap-4">
             {getInputField(passportIDNumberLabel, 'passportIdNumber', {
               required: true,
               valueAsNumber: true,
@@ -295,7 +318,7 @@ const Passenger = ({
             </section>
           </section>
         </section>
-        <section className="flex justify-end mx-6 my-4">
+        <section className="flex justify-end m-4 md:mx-6 ">
           {!isLastPassenger && (
             <Button
               disabled={!isValid}
@@ -320,8 +343,11 @@ const Passenger = ({
         {open && <CollapseBody show={open} body={passengerForm()} />}
       </Collapse>
       {isLastPassenger && open && (
-        <section className="flex justify-end gap-6">
-          {pricing}
+        <section className="flex flex-col md:flex-row md:justify-end gap-2 md:gap-6">
+          <div className="flex justify-between ">
+            <Paragraph className="md:hidden">Total</Paragraph>
+            {pricing}
+          </div>
           <Button
             disabled={!enableBookNow}
             onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
