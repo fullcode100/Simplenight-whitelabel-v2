@@ -210,9 +210,9 @@ const FlightResultsDisplay = ({
             const lastPrice = Number(
               selectedFlights[currentIndex - 1].offers?.[0].totalAmount,
             );
-            price = `+ $${Number(price) - lastPrice}`;
+            price = `+ US$${Number(price) - lastPrice}`;
           } else {
-            price = `$${price}`;
+            price = `US$${price}`;
           }
 
           if (index < page * pageItems)
