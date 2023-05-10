@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
-
+import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 import {
   EmptyState as EmptyStateIllustration,
   IconWrapper,
@@ -151,6 +151,8 @@ const FlightResultsDisplay = ({
         i18next,
       );
 
+      console.log('results => ', results);
+
       return results.flights;
     } catch (e) {
       console.error(e);
@@ -237,30 +239,58 @@ const FlightResultsDisplay = ({
         {!isLoading && flights.length > 0 && (
           <FlightsBreadcrumbs
             step={1}
-            content={selectedFlights.map((flight, idx) => {
-              const flightSegments = flight.segments.collection || [];
-              const firstSegment = flightSegments[0];
-              const lastSegment = flightSegments[flightSegments.length - 1];
-              const airline = firstSegment.marketingCarrierName;
-              const departure = firstSegment.departureAirport;
-              const arrival = lastSegment.arrivalAirport;
-              const isLastFlight = idx === selectedFlights.length - 1;
-              return (
-                <>
-                  <FlightInfo
-                    key={idx}
-                    airline={airline}
-                    departure={departure}
-                    arrival={arrival}
-                  />
-                  {!isLastFlight && (
-                    <IconWrapper size={20}>
-                      <ChevronRight className="text-dark-500" />
-                    </IconWrapper>
-                  )}
-                </>
-              );
-            })}
+            content={
+              <>
+                {selectedFlights.map((flight, idx) => {
+                  const flightSegments = flight.segments.collection || [];
+                  const firstSegment = flightSegments[0];
+                  const lastSegment = flightSegments[flightSegments.length - 1];
+                  const airline = firstSegment.marketingCarrierName;
+                  const departure = firstSegment.departureAirport;
+                  const arrival = lastSegment.arrivalAirport;
+                  const isLastFlight = idx === selectedFlights.length - 1;
+                  return (
+                    <>
+                      <FlightInfo
+                        key={idx}
+                        airline={airline}
+                        departure={departure}
+                        arrival={arrival}
+                      />
+                      {!isLastFlight && (
+                        <IconWrapper size={20}>
+                          <ChevronRight className="text-dark-500" />
+                        </IconWrapper>
+                      )}
+                    </>
+                  );
+                })}
+                {selectedFlights?.length > 0 && (
+                  <IconWrapper size={20}>
+                    <ChevronRight className="text-dark-500" />
+                  </IconWrapper>
+                )}
+                <span className="flex flex-row items-center text-sm text-center">
+                  <span className="ml-2">
+                    {
+                      flights[currentIndex]?.[0].segments.collection?.[0]
+                        ?.departureAirportName
+                    }
+                  </span>
+                  <IconWrapper size={16}>
+                    <ArrowRight />
+                  </IconWrapper>
+                  <span>
+                    {
+                      flights[currentIndex]?.[0].segments.collection?.[
+                        (flights[currentIndex]?.[0].segments.collection
+                          ?.length || 1) - 1
+                      ]?.arrivalAirportName
+                    }
+                  </span>
+                </span>
+              </>
+            }
           />
         )}
         {/* {filters === 'open' && (
@@ -277,7 +307,7 @@ const FlightResultsDisplay = ({
             <>
               <section className="w-full h-full px-5 pb-6">
                 <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
-                  <section className="flex flex-row items-center py-3 text-base">
+                  <section className="flex flex-row items-center pt-8 pb-3 text-base">
                     {/* {filters !== 'open' && (
                       <button
                         className="p-2 m-2 border-2 rounded-full text-primary-100 border-primary-100"
@@ -287,12 +317,12 @@ const FlightResultsDisplay = ({
                       </button>
                     )} */}
                     <span>
-                      {`${flights.length} ${flightsFoundLabelDesktop}`}{' '}
+                      {`${flights[currentIndex]?.length} ${flightsFoundLabelDesktop}`}{' '}
                     </span>
                   </section>
-                  <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
-                    {/* <FlightSecondarySearchOptions /> */}
-                  </section>
+                  {/* <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
+                     <FlightSecondarySearchOptions />
+                  </section> */}
                 </section>
                 {flights.length > 0 ? (
                   <FlightList />

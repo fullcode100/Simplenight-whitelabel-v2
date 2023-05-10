@@ -8,7 +8,7 @@ import {
   OfferLegRefsEntity,
 } from 'flights/types/response/FlightSearchResponseMS';
 
-const MAX_OFFERS = 50;
+const MAX_OFFERS = 100;
 export default async function handler(
   req: NextApiRequestWithSession,
   res: NextApiResponse<FlightResponse>,
@@ -118,6 +118,8 @@ export default async function handler(
       requestOptions,
     );
     const response: FlightsSearchResponseMS = await rawResults.json();
+
+    console.log('response flihgts => ', JSON.stringify(response));
 
     const flights = response?._legCollection._collection;
     const offers = response?._offersCollection.offerLegRefs;
