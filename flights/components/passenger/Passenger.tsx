@@ -53,6 +53,10 @@ const Passenger = ({
     'Country of residence',
   );
   const genderLabel = tg('gender', 'Gender');
+
+  const maleLabel = t('maleLabel', 'Male');
+  const femaleLabel = t('female', 'Female');
+
   const countryLabel = tg('country', 'Country');
   const passportLabel = tg('passport', 'Passport');
   const passportIDNumberLabel = tg('passportIDNumber', 'Passport ID Number');
@@ -83,7 +87,7 @@ const Passenger = ({
     lastName: z.string().min(1),
     /* TODO UPDATE dateOfBirth this when datepicker is working */
     dateOfBirth: z.date().optional(),
-    gender: z.string().optional(),
+    gender: z.string(),
     countryOfResidence: z.string(),
     loyaltyProgram: z.string().optional(),
     loyaltyNumber: z.string().optional(),
@@ -122,8 +126,8 @@ const Passenger = ({
 
   const genderOptions = useMemo(
     () => [
-      { value: 'female', label: 'Female' },
-      { value: 'Male', label: 'Male' },
+      { value: 'male', label: maleLabel },
+      { value: 'female', label: femaleLabel },
     ],
     [],
   );
@@ -237,7 +241,9 @@ const Passenger = ({
                   {...register('dateOfBirth')}
                 />
               </section>
-              {getSelectField(genderLabel, 'gender', genderOptions)}
+              {getSelectField(genderLabel, 'gender', genderOptions, {
+                required: true,
+              })}
             </section>
             {getCheckboxField(
               'I require wheelchair assistance while traveling.',

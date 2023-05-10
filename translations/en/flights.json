@@ -120,5 +120,7 @@
   "loyaltyProgram": "Loyalty program",
   "loyaltyNumber": "Loyalty number",
   "departure": "Departure",
-  "departureFlight": "Departure Flight"
+  "departureFlight": "Departure Flight",
+  "male": "Male",
+  "female": "Female"
 }
