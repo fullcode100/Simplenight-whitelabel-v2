@@ -16,6 +16,7 @@ import {
   Select,
   TextInput,
   IconWrapper,
+  FormField,
 } from '@simplenight/ui';
 import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import InfoCircle from 'public/icons/assets/info-circle.svg';
+import { usePassengerSchema } from '../../hooks/usePassengerSchema';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -84,24 +86,7 @@ const Passenger = ({
     }),
   ];
 
-  const passengerSchema = z.object({
-    firstName: z.string().min(1),
-    middleName: z.string().optional(),
-    lastName: z.string().min(1),
-    /* TODO UPDATE dateOfBirth this when datepicker is working */
-    dateOfBirth: z.date().optional(),
-    gender: z.string(),
-    countryOfResidence: z.string(),
-    loyaltyProgram: z.string().optional(),
-    loyaltyNumber: z.string().optional(),
-    passportIdNumber: z.string().min(1),
-    country: z.string(),
-    /* TODO UPDATE Exporation this to required whem datepicker is working */
-    expiration: z.string().optional(),
-    wheelChair: z.boolean().optional(),
-    vaccinationRecords: z.boolean().optional(),
-    knownTravelerNumber: z.boolean().optional(),
-  });
+  const { passengerSchema } = usePassengerSchema();
 
   const {
     register,
@@ -148,18 +133,20 @@ const Passenger = ({
     nameInput: keyof IPassenger,
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
-    <section className="flex flex-wrap gap-2 flox-col">
-      <section className="flex flex-row justify-between w-full">
-        <Label value={label} htmlFor={nameInput} />
-        {options?.required && (
-          <Label className="text-teal-1000" value={requiredLabel} />
-        )}
-      </section>
-      <TextInput placeholder={label} {...register(nameInput)} />
-      {/*   <BaseInput
-        {...register(nameInput, { ...options, onChange: setInputValue })}
-      /> */}
-    </section>
+    <FormField
+      label={label}
+      required={{
+        required: options?.required ? true : false,
+        label: requiredLabel,
+      }}
+      error={errors[nameInput]?.message}
+    >
+      <TextInput
+        placeholder={label}
+        {...register(nameInput)}
+        state={errors[nameInput] && 'error'}
+      />
+    </FormField>
   );
 
   const getCheckboxField = (
@@ -189,13 +176,14 @@ const Passenger = ({
     }[],
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
-    <section className="flex flex-wrap gap-2 flox-col">
-      <section className="flex flex-row justify-between w-full">
-        <Label value={label} htmlFor={nameInput} />
-        {options?.required && (
-          <Label className="text-teal-1000" value={requiredLabel} />
-        )}
-      </section>
+    <FormField
+      label={label}
+      required={{
+        required: options?.required ? true : false,
+        label: requiredLabel,
+      }}
+      error={errors[nameInput]?.message}
+    >
       <select
         className="block w-full border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
         {...register(nameInput, { ...options, onChange: setSelectValue })}
@@ -206,13 +194,7 @@ const Passenger = ({
           </option>
         ))}
       </select>
-      {/* SELECT IS DOWN IN UI LIBRARY  */}
-      {/* <Select
-        options={countriesOptions}
-        defaultValue={countriesOptions[0]}
-        {...register('dateOfBirth', { required: false, max: 25, min: 1 })}
-      /> */}
-    </section>
+    </FormField>
   );
 
   const passengerForm = () => (
@@ -240,17 +222,20 @@ const Passenger = ({
               max: 25,
               min: 1,
             })}
-            <section className="flex flex-row justify-between gap-4">
-              <section className="flex flex-wrap gap-2 flox-col">
-                <Label value={dateOfBirthLabel} htmlFor="dateOfBirth" />
-                <DateInput
-                  value={dayjs().format('MM-DD-YY')}
-                  {...register('dateOfBirth')}
-                />
+            <section className="flex flex-row gap-2">
+              <section className="w-full">
+                <FormField label={dateOfBirthLabel}>
+                  <DateInput
+                    value={dayjs().format('MM-DD-YY')}
+                    {...register('dateOfBirth')}
+                  />
+                </FormField>
               </section>
-              {getSelectField(genderLabel, 'gender', genderOptions, {
-                required: true,
-              })}
+              <section className="w-full">
+                {getSelectField(genderLabel, 'gender', genderOptions, {
+                  required: true,
+                })}
+              </section>
             </section>
             <section className="hidden md:block space-y-4 ">
               {getCheckboxField(
@@ -301,19 +286,19 @@ const Passenger = ({
               required: true,
               valueAsNumber: true,
             })}
-            <section className="flex flex-row justify-between gap-4">
-              {getSelectField(countryLabel, 'country', countriesOptions, {
-                required: true,
-              })}
-              <section className="flex flex-wrap gap-2 flox-col">
-                <section className="flex flex-row justify-between w-full">
-                  <Label value={expirationLabel} htmlFor="expiration" />
-                  <Label className="text-teal-1000" value={requiredLabel} />
-                </section>
-                <DateInput
-                  value={dayjs().format('MM-DD-YY')}
-                  {...register('expiration')}
-                />
+            <section className="flex flex-row gap-2">
+              <section className="w-full">
+                {getSelectField(countryLabel, 'country', countriesOptions, {
+                  required: true,
+                })}
+              </section>
+              <section className="w-full">
+                <FormField label={dateOfBirthLabel}>
+                  <DateInput
+                    value={dayjs().format('MM-DD-YY')}
+                    {...register('expiration')}
+                  />
+                </FormField>
               </section>
             </section>
           </section>
