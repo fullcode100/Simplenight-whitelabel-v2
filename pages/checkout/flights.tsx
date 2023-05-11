@@ -124,7 +124,7 @@ const Payment = () => {
         },
       ],
       offer: {
-        bookingClass: flights[0].offers?.[0].bookingClass,
+        bookingClass: flights[0].offer?.bookingClass,
       },
       creditCardInfo: {
         /* TODO: remove hardcoded data */
