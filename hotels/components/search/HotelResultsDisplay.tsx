@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
 import Button from 'components/global/Button/Button';
+import FiltersIcon from 'public/icons/assets/filters.svg';
 
 import HotelMapView from './HotelResultsMapView';
 import { EmptyState } from '@simplenight/ui';
@@ -16,25 +17,21 @@ import { getChildrenAges, parseQueryNumber } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { createRoom } from 'hotels/helpers/room';
 import HotelItemRateInfo from './HotelItemRateInfo';
-import { sortByAdapter } from 'hotels/adapters/sort-by.adapter';
-import { cancellationTypeAdapter } from 'hotels/adapters/cancellation-type.adapter';
 
-import HotelFilterFormDesktop from './HotelFilterFormDesktop';
+import FilterSidebarHotels from './FilterSidebarHotels';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
 import HotelCancellable from './HotelCancellable';
 import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/HorizontalSkeletonCard';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
-import { propertyTypesAdapter } from 'hotels/adapters/property-type.adapter';
-import { useFilterHotels, FilterCriteria } from '../../hooks/useFilterHotels';
+import { useFilterHotels } from '../../hooks/useFilterHotels';
 import { ViewActions } from './ViewActions';
-import { DropdownRadio } from 'components/global/DropdownRadio';
 import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/ListMapMobileBottomTabs';
-import { useWindowSize } from 'hotels/hooks/useWinoowsResize';
 import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImage';
-import HotelMobileFilters from './HotelMobileFilters';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import dayjs from 'dayjs';
-import { useSearchFilterStore } from 'hooks/dining/useSearchFilterStore';
+import { useSearchFilterStore } from 'hooks/hotels/useSearchFilterStore';
+import useModal from 'hooks/layoutAndUITooling/useModal';
+import getKeywordSearchListHotels from '../helpers/getKeywordSearchListHotels';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -43,25 +40,21 @@ interface HotelResultsDisplayProps {
 type FetchHotels = () => Promise<SearchItem[]>;
 
 export type sortByFilters =
-  | 'Price (Lowest First)'
-  | 'Price (Highest First)'
-  | 'Rating (Highest First)'
-  | 'Rating (Lowest First)';
+  | 'sortByPriceAsc'
+  | 'sortByPriceDesc'
+  | 'sortByStarRatingDesc'
+  | 'sortByStarRatingAsc'
+  | 'recommended';
 
-const priceLowerFirst = 'Price (Lowest First)';
-const priceHihgerFirst = 'Price (Highest First)';
-const ratingHighestFirst = 'Rating (Highest First)';
-const ratingLoweFirst = 'Rating (Lowest First)';
-const LG_SCREEN_SIZE = 1024;
-
+export const SORTBY_INITIAL_VALUE = 'recommended';
 export const FREE_CANCELATION_INITIAL_VALUE = false;
-export const MIN_STAR_RATING_INITIAL_VALUE = 1;
-export const MAX_STAR_RATING_INITIAL_VALUE = 5;
+export const MIN_STAR_RATING_INITIAL_VALUE = '1';
+export const MAX_STAR_RATING_INITIAL_VALUE = '5';
 export const HOTELS_INITIAL_VALUE = false;
 export const VACATION_RENTALS_INITIAL_VALUE = false;
 export const initialPriceRange = {
-  min: 0,
-  max: 5000,
+  min: '0',
+  max: '5000',
 };
 const RESULTS_PER_PAGE = 25;
 
@@ -70,7 +63,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     (state) => state,
   );
   const { ClientSearcher: Searcher } = HotelCategory.core;
-  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
   const hotelsFoundLabelDesktop = t('results', 'Results');
@@ -85,59 +77,28 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     latitude,
     longitude,
     rooms,
-    sortBy,
-    paymentTypes,
-    propertyTypes,
-    starRating,
-    minPrice,
-    maxPrice,
-    isTotalPrice,
     roomsData,
-    amenities,
     supplierIds,
     slug,
   } = useQuery();
 
-  const getSortByValFromCriteriaState = () => {
-    switch (criteria.sortCriteria) {
-      case 'ratingLowFirst':
-        return 'Rating (Lowest First)';
-      case 'ratingHighFirst':
-        return 'Rating (Highest First)';
-      case 'priceLowFirst':
-        return 'Price (Lowest First)';
-      case 'priceHighFirst':
-        return 'Price (Highest First)';
-      default:
-        return 'Price (Lowest First)';
-    }
-  };
-
-  const [sortByVal, setSortByVal] = useState(getSortByValFromCriteriaState());
+  const [sortByVal, setSortByVal] = useState<string>('recommended');
   const [hotels, setHotels] = useState<SearchItem[]>([]);
   const [view, setview] = useState('list');
-  const windowSize = useWindowSize();
   const isListView = view === 'list';
-  const [freeCancellation, setFreeCancellation] = useState<boolean>(
-    criteria.freeCancelation,
+
+  const [isOpen, onOpen, onClose] = useModal();
+  const [keywordSearchData, setKeywordSearchData] = useState<string[]>([]);
+
+  const [minPriceFilter, setMinPrice] = useState<string>(criteria.MinPrice);
+  const [maxPriceFilter, setMaxPrice] = useState<string>(criteria.MaxPrice);
+  const [minStarRating, setMinStarRating] = useState<string>(criteria.MinRange);
+  const [maxStarRating, setMaxStarRating] = useState<string>(criteria.MaxRange);
+  const [keywordSearch, setKeywordSearch] = useState<string>(
+    criteria.keywordSearch,
   );
 
-  const [vacationRentals, setVacationRentals] = useState<boolean>(
-    criteria.property === 'propertyRental' ||
-      criteria.property === 'propertyHotel&Rental',
-  );
-  const [minPriceFilter, setMinPrice] = useState<number>(
-    parseInt(criteria.MinPrice, 10),
-  );
-  const [maxPriceFilter, setMaxPrice] = useState<number>(
-    parseInt(criteria.MaxPrice, 10),
-  );
-  const [minStarRating, setMinStarRating] = useState<number>(
-    parseInt(criteria.MinRange, 10),
-  );
-  const [maxStarRating, setMaxStarRating] = useState<number>(
-    parseInt(criteria.MaxRange, 10),
-  );
+  const [filtersCount, setFiltersCount] = useState(0);
 
   const [next, setNext] = useState(RESULTS_PER_PAGE);
 
@@ -147,25 +108,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const resetCriteria = () => {
     clear();
-  };
-
-  const onChangeSortBy = (value: string) => {
-    const typedValue: sortByFilters = value as sortByFilters;
-    setSortByVal(value);
-    switch (typedValue) {
-      case 'Rating (Lowest First)':
-        setCriteria({ ...criteria, sortCriteria: 'ratingLowFirst' });
-        break;
-      case 'Rating (Highest First)':
-        setCriteria({ ...criteria, sortCriteria: 'ratingHighFirst' });
-        break;
-      case 'Price (Lowest First)':
-        setCriteria({ ...criteria, sortCriteria: 'priceLowFirst' });
-        break;
-      case 'Price (Highest First)':
-        setCriteria({ ...criteria, sortCriteria: 'priceHighFirst' });
-        break;
-    }
   };
 
   const paramRoomsData = roomsData
@@ -187,18 +129,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     ),
     dst_geolocation: geolocation as unknown as StringGeolocation,
     rsp_fields_set: 'basic',
-    sort: sortByAdapter(sortBy as unknown as string),
-    cancellation_type: cancellationTypeAdapter(
-      paymentTypes as unknown as string,
-    ),
-    accommodation_type: propertyTypesAdapter(
-      propertyTypes as unknown as string,
-    ),
-    star_rating: starRating as string,
-    min_price: minPrice as string,
-    max_price: maxPrice as string,
-    is_total_price: isTotalPrice as string,
-    amenities: amenities as string,
     supplier_ids: supplierIds as string,
     apiUrl: '/hotels',
   };
@@ -221,7 +151,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
   );
 
-  const filteredHotels = useFilterHotels(hotels, criteria);
+  const filteredHotels = useFilterHotels(hotels, criteria, setFiltersCount);
 
   useEffect(() => {
     if (data) {
@@ -229,20 +159,15 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     }
   }, [data]);
 
+  useEffect(() => {
+    getKeywordSearchListHotels(data as SearchItem[], setKeywordSearchData);
+  }, [data]);
+
   const urlDetail = (hotel: SearchItem) => {
     const { id } = hotel;
     return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
   };
   const hasNoHotels = data?.length === 0;
-
-  const checkIfShouldBeShown = () => {
-    if (
-      (windowSize.width >= LG_SCREEN_SIZE && isListView) ||
-      windowSize.width < LG_SCREEN_SIZE
-    )
-      return true;
-    else if (!isListView && windowSize.width >= LG_SCREEN_SIZE) return false;
-  };
 
   const HotelList = () => (
     <ul role="list" className="space-y-4">
@@ -301,27 +226,34 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   return (
     <>
-      <section className="lg:flex lg:w-full">
-        <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
-          <HotelFilterFormDesktop
-            loading={isLoading}
-            handleFilterHotels={setCriteria}
-            resetFilters={resetCriteria}
-            criteria={criteria}
-            freeCancellation={freeCancellation}
-            setFreeCancellation={setFreeCancellation}
-            vacationRentals={vacationRentals}
-            setVacationRentals={setVacationRentals}
-            minPrice={minPriceFilter}
-            setMinPrice={setMinPrice}
-            maxPrice={maxPriceFilter}
-            setMaxPrice={setMaxPrice}
-            minStarRating={minStarRating}
-            setMinStarRating={setMinStarRating}
-            maxStarRating={maxStarRating}
-            setMaxStarRating={setMaxStarRating}
-          />
-        </section>
+      <section className="relative lg:flex lg:w-full">
+        {isOpen && (
+          <section>
+            <FilterSidebarHotels
+              filtersCount={filtersCount}
+              setCriteria={setCriteria}
+              keywordSearchData={keywordSearchData}
+              keywordSearch={keywordSearch}
+              setKeywordSearch={setKeywordSearch}
+              sortByVal={sortByVal}
+              setSortByVal={setSortByVal}
+              onClose={onClose}
+              isOpen={isOpen}
+              loading={isLoading}
+              handleFilterHotels={setCriteria}
+              resetFilters={resetCriteria}
+              criteria={criteria}
+              minPrice={minPriceFilter}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPriceFilter}
+              setMaxPrice={setMaxPrice}
+              minStarRating={minStarRating}
+              setMinStarRating={setMinStarRating}
+              maxStarRating={maxStarRating}
+              setMaxStarRating={setMaxStarRating}
+            />
+          </section>
+        )}
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           {!isLoading && hasNoHotels ? (
             <EmptyStateContainer
@@ -340,34 +272,31 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 >
                   <section className=" text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
                     {!isLoading ? (
-                      <span>
-                        {filteredHotels.length}
-                        <span className="lg:hidden"> {hotelsFoundLabel}</span>
-                        <span className="hidden lg:inline">
-                          {' '}
-                          {hotelsFoundLabelDesktop}
+                      <>
+                        {!isOpen && (
+                          <button
+                            className="hover:bg-primary-800 hover:text-white p-2 mx-2 border-2 rounded-full text-primary-1000 border-primary-100"
+                            onClick={() => {
+                              onOpen();
+                            }}
+                          >
+                            <FiltersIcon />
+                          </button>
+                        )}
+                        <span>
+                          {filteredHotels.length}
+                          <span className="lg:hidden"> {hotelsFoundLabel}</span>
+                          <span className="hidden lg:inline">
+                            {' '}
+                            {hotelsFoundLabelDesktop}
+                          </span>
                         </span>
-                      </span>
+                      </>
                     ) : (
                       <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
                     )}
                   </section>
                   <section className="flex items-center gap-4">
-                    {checkIfShouldBeShown() && (
-                      <DropdownRadio
-                        translation="hotels"
-                        sortByVal={sortByVal}
-                        setSortByVal={setSortByVal}
-                        onClickOption={onChangeSortBy}
-                        onFilterClick={setFilterModalOpen}
-                        options={[
-                          priceLowerFirst,
-                          priceHihgerFirst,
-                          ratingHighestFirst,
-                          ratingLoweFirst,
-                        ]}
-                      />
-                    )}
                     <ViewActions view={view} setview={setview} />
                   </section>
                 </div>
@@ -407,25 +336,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         </section>
       </section>
       <ListMapMobileBottomTabs view={view} setview={setview} />
-      <HotelMobileFilters
-        handleFilterHotels={setCriteria}
-        setFilterModalOpen={setFilterModalOpen}
-        isFilterModalOpen={isFilterModalOpen}
-        criteria={criteria}
-        resetFilters={resetCriteria}
-        freeCancellation={freeCancellation}
-        setFreeCancellation={setFreeCancellation}
-        vacationRentals={vacationRentals}
-        setVacationRentals={setVacationRentals}
-        minPrice={minPriceFilter}
-        setMinPrice={setMinPrice}
-        maxPrice={maxPriceFilter}
-        setMaxPrice={setMaxPrice}
-        minStarRating={minStarRating}
-        setMinStarRating={setMinStarRating}
-        maxStarRating={maxStarRating}
-        setMaxStarRating={setMaxStarRating}
-      />
     </>
   );
 };

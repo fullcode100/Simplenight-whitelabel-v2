@@ -1,3 +1,4 @@
+import getFilterCountHotels from 'hotels/helpers/getFilterCountHotels';
 import { SearchItem } from 'hotels/types/adapters/SearchItem';
 import { useEffect, useState } from 'react';
 
@@ -6,18 +7,13 @@ export interface FilterCriteria {
   MinPrice: string;
   MaxRange: string;
   MinRange: string;
-  freeCancelation: boolean;
-  property:
-    | 'propertyHotel'
-    | 'propertyRental'
-    | 'propertyHotel&Rental'
-    | 'propertyAll';
-  hotelName: string;
+  keywordSearch: string;
   sortCriteria?:
     | 'priceLowFirst'
     | 'priceHighFirst'
     | 'ratingLowFirst'
-    | 'ratingHighFirst';
+    | 'ratingHighFirst'
+    | 'recommended';
 }
 
 type FilterFunction = (list: SearchItem[], value: any) => SearchItem[];
@@ -35,32 +31,7 @@ const criteriaFilterFunctions: {
     list.filter((hotel) => Number(hotel.details.starRating) >= Number(value)),
   MaxRange: (list, value) =>
     list.filter((hotel) => Number(hotel.details.starRating) <= Number(value)),
-  freeCancelation: (list, value) =>
-    value
-      ? list.filter(
-          (hotel) =>
-            hotel.minRate.min_rate.cancellation_policy?.cancellation_type ===
-            'FREE_CANCELLATION',
-        )
-      : list,
-  property: (list, value) => {
-    switch (value) {
-      case 'propertyRental':
-        return list.filter(
-          (hotel) => hotel.accommodationType === 'VACATION_RENTALS',
-        );
-      case 'propertyHotel':
-        return list.filter((hotel) => hotel.accommodationType === 'HOTELS');
-      case 'propertyHotel&Rental':
-        return list.filter(
-          (hotel) =>
-            hotel.accommodationType === 'VACATION_RENTALS' ||
-            hotel.accommodationType === 'HOTELS',
-        );
-    }
-    return list;
-  },
-  hotelName: (list, value) =>
+  keywordSearch: (list, value) =>
     list.filter((hotel) =>
       hotel.details.name.toUpperCase().match(value.toUpperCase()),
     ),
@@ -78,6 +49,8 @@ const criteriaFilterFunctions: {
         return list.sort(
           (a, b) => Number(a.details.starRating) - Number(b.details.starRating),
         );
+      case 'recommended':
+        return list;
     }
     return list;
   },
@@ -86,6 +59,7 @@ const criteriaFilterFunctions: {
 export const useFilterHotels = (
   hotels: SearchItem[],
   criteria: FilterCriteria,
+  setFiltersCount: any,
 ) => {
   const [filteredArray, setFilteredArray] = useState(hotels);
 
@@ -103,6 +77,7 @@ export const useFilterHotels = (
     });
 
     setFilteredArray(filtered);
+    setFiltersCount(getFilterCountHotels(criteria));
   }, [hotels, criteria]);
 
   return filteredArray;

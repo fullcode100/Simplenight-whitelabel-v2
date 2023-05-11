@@ -18,6 +18,7 @@ const KeywordSearchFilter = ({
   keywordSearchPlaceholder,
   onChangeKeywordSearch,
   keywordSearchData,
+  keywordSearch,
 }: KeywordSearchFilterProps) => {
   return (
     <FilterContainer>
@@ -28,6 +29,7 @@ const KeywordSearchFilter = ({
         keywordSearchData={keywordSearchData}
         onChangeKeywordSearch={onChangeKeywordSearch}
         keywordSearchPlaceholder={keywordSearchPlaceholder}
+        keywordSearch={keywordSearch}
       />
     </FilterContainer>
   );

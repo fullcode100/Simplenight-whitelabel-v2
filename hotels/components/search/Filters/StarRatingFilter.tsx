@@ -1,9 +1,6 @@
 import { Dispatch } from 'react';
-import { useTranslation } from 'react-i18next';
-
 import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 import FilterContainer from './FilterContainer';
-import FilterTitle from './FilterTitle';
 
 interface StarRatingFilterProps {
   onChangeMinRating:
@@ -26,12 +23,8 @@ const StarRatingFilter = ({
   minValue,
   maxValue,
 }: StarRatingFilterProps) => {
-  const [t, i18n] = useTranslation('hotels');
-  const starRatingLabel = t('starRating', 'Star Rating');
-
   return (
     <FilterContainer>
-      <FilterTitle label={starRatingLabel} />
       <RangeSlider
         min={1}
         max={5}

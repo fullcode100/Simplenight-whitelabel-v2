@@ -2,10 +2,8 @@ import { useState } from 'react';
 import FilterContainer from './FilterContainer';
 import Sort from 'public/icons/assets/sort.svg';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
-import Filter from 'public/icons/assets/filter.svg';
 import { useTranslation } from 'react-i18next';
 import { SORT_BY_OPTIONS } from 'thingsToDo/constants/sortByOptions';
-import useModal from 'hooks/layoutAndUITooling/useModal';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 
 export interface SortByProps {
@@ -16,7 +14,6 @@ export interface SortByProps {
 const SortBy = ({ sortBy, onChangeSortBy }: SortByProps) => {
   const [tg] = useTranslation('global');
   const [showSortModal, setShowSortModal] = useState(false);
-  const sortLabel = tg('sort', 'Sort');
   return (
     <FilterContainer>
       <section className="relative">
