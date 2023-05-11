@@ -293,7 +293,13 @@ const Passenger = ({
                 })}
               </section>
               <section className="w-full">
-                <FormField label={dateOfBirthLabel}>
+                <FormField
+                  label={expirationLabel}
+                  required={{
+                    required: true,
+                    label: requiredLabel,
+                  }}
+                >
                   <DateInput
                     value={dayjs().format('MM-DD-YY')}
                     {...register('expiration')}

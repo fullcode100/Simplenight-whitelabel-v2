@@ -230,5 +230,6 @@
   "stateShouldHaveAtMost2Characters": "Provincia/Estado debe tener como máximo 2 caracteres",
   "passport": "Pasaporte",
   "passportIDNumber": "Número de identificación del pasaporte",
-  "expiration": "Vencimiento"
+  "expiration": "Vencimiento",
+  "25maxCharacters": "25 es el número máximo de caracteres permitidos"
 }
