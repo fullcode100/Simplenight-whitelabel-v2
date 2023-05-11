@@ -35,6 +35,7 @@ import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import axios from 'axios';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 import dayjs from 'dayjs';
+import { bookingAdapter } from 'flights/adapters/booking.adapter';
 
 const CONFIRMATION_URI = '/confirmation';
 
@@ -83,59 +84,12 @@ const Payment = () => {
       return;
     }
 
-    const {
-      creditCardName,
-      creditCardNumber,
-      creditCardExpiration,
-      creditCardCVV,
-    } = paymentFormData;
-    const segments = flights[0].segments.collection?.[0];
-    const passenger = passengers.map((passenger, idx) => {
-      return {
-        id: `${idx + 1}`,
-        dateOfBirth: dayjs(passenger.dateOfBirth)
-          .format('DDMMMYY')
-          .toUpperCase(),
-        /* TODO: we currently dont associate age band to passengers */
-        code: 'ADT',
-        firstName: passenger.firstName,
-        lastName: passenger.lastName,
-        /* TODO: remove hardcoded into */
-        phoneNumber: '817-706-9009',
-        gender: passenger.gender?.[0].toUpperCase(),
-      };
+    const bookingParameters = bookingAdapter({
+      paymentFormData,
+      flights,
+      passengers,
+      apiUrl: '/flights/bookings',
     });
-
-    const bookingParameters = {
-      passenger,
-      segments: [
-        {
-          collection: [
-            {
-              departureAirport: segments?.departureAirport,
-              departureDateTime: segments?.departureDateTime,
-              arrivalAirport: segments?.arrivalAirport,
-              arrivalDateTime: segments?.arrivalDateTime,
-              marketingCarrier: segments?.marketingCarrier,
-              marketingCarrierName: segments?.marketingCarrierName,
-              marketingFlightNumber: segments?.marketingFlightNumber,
-            },
-          ],
-        },
-      ],
-      offer: {
-        bookingClass: flights[0].offers?.[0].bookingClass,
-      },
-      creditCardInfo: {
-        /* TODO: remove hardcoded data */
-        name: creditCardName,
-        vendorCode: 'CA',
-        cardNumber: creditCardNumber,
-        securityId: creditCardCVV,
-        expiryDate: creditCardExpiration.replace('/', ''),
-      },
-      apiUrl: '/flights/booking',
-    };
 
     try {
       const data = await createBooking(bookingParameters, i18next);

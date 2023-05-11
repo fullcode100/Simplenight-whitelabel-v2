@@ -16,6 +16,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import ArrowLeft from 'public/icons/assets/flights/arrow_left.svg';
+import { bookingAdapter } from 'flights/adapters/booking.adapter';
+import { validateBooking } from 'core/client/services/BookingService';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -24,7 +26,7 @@ const PassengerInformationDisplay = ({
 }: FlightDetailDisplayProps) => {
   const { id } = useQuery();
   const router = useRouter();
-  const [t] = useTranslation('flights');
+  const [t, i18next] = useTranslation('flights');
   const [passengerForm, setPassengerForm] = useState(1);
   const flights = useFlightsStore((state) => state.flights);
   const flight = flights[flights.length - 1];
@@ -58,16 +60,27 @@ const PassengerInformationDisplay = ({
       const newData = [...passengersData];
       newData[passengerIndex] = { ...currentData, passengerNumber };
       setPassengerData(newData);
-    } else {
-      setPassengerData((data) => [
-        ...data,
-        { ...currentData, passengerNumber },
-      ]);
+      return newData;
     }
+    const newItem = [...passengersData, { ...currentData, passengerNumber }];
+    setPassengerData(newItem);
+    return newItem;
   };
 
-  const goCheckout = (currentData: IPassenger, passengerNumber: number) => {
-    savePassenger(currentData, passengerNumber);
+  const goCheckout = async (
+    currentData: IPassenger,
+    passengerNumber: number,
+  ) => {
+    const passengers = savePassenger(currentData, passengerNumber);
+
+    const bookingParameters = bookingAdapter({
+      flights,
+      passengers,
+      apiUrl: '/flights/bookings/validate',
+    });
+
+    await validateBooking(bookingParameters, i18next);
+
     router.push('/checkout/flights', undefined, { shallow: true });
   };
 
@@ -79,9 +92,11 @@ const PassengerInformationDisplay = ({
           passengerNumber={i}
           open={passengerForm === i}
           setOpen={setPassengerForm}
-          onSubmit={
-            passengerForm === passengersQuantity ? goCheckout : savePassenger
-          }
+          onSubmit={async (...params) => {
+            passengerForm === passengersQuantity
+              ? await goCheckout(...params)
+              : savePassenger(...params);
+          }}
           pricing={getPricing()}
           passengersData={passengersData}
           passengersQuantity={passengersQuantity}
