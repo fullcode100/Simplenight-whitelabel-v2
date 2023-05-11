@@ -69,7 +69,6 @@ const FormSchema = ({
     return (
       <section className={`${classNames}`}>
         {renderTemplate(schema.type)}
-        {errors}
         {help}
       </section>
     );

@@ -4,12 +4,10 @@ import React, { ReactNode, useEffect, useState } from 'react';
 // Components
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Button from 'components/global/Button/Button';
-import ClientForm from 'components/checkout/ClientForm/ClientForm';
 import {
   deleteCart,
   getCartAvailability,
   getCartId,
-  getCartSchema,
   updateCartItem,
 } from 'core/client/services/CartClientService';
 import { useTranslation } from 'react-i18next';
@@ -33,6 +31,11 @@ import {
   questionsFormDataDestructuring,
 } from 'helpers/bookingQuestions';
 import { useCustomer } from 'hooks/checkout/useCustomer';
+import { ClientFormContent } from 'components/checkout/ClientForm/ClientFormContent';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useCheckoutFormSchema } from 'hooks/schemas/useCheckoutFormSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 interface LayoutProps {
   children: ReactNode;
@@ -47,6 +50,11 @@ const Client = () => {
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
   const [travelersUiSchema, setTravelersUiSchema] = useState<any>();
   const [isRemoved, setIsRemoved] = useState(false);
+  const { checkOutFormSchema } = useCheckoutFormSchema();
+  type CheckoutFormSchema = z.infer<typeof checkOutFormSchema>;
+  const methods = useForm<CheckoutFormSchema>({
+    resolver: zodResolver(checkOutFormSchema),
+  });
 
   const [customer, updateCustomer] = useCustomer((state) => [
     state.customer,
@@ -82,34 +90,7 @@ const Client = () => {
   const [loaded, setLoaded] = useState(false);
 
   const [cart, setCart] = useState<any>();
-  const [isDisabled, setIsDisabled] = useState(true);
   let cartId: string | null = null;
-
-  const checkFormValidate = () => {
-    const forms = document?.forms;
-    if (forms) {
-      for (let i = 0; i < forms.length; i++) {
-        const form = forms[i];
-        if (!form?.checkValidity()) return setIsDisabled(true);
-      }
-      return setIsDisabled(false);
-    }
-  };
-
-  const checkFormsBeforeContinue = () => {
-    const forms = document?.forms;
-    if (forms) {
-      for (let i = 0; i < forms.length; i++) {
-        const form = forms[i];
-        if (!form?.checkValidity()) {
-          form?.reportValidity();
-          return false;
-        }
-      }
-      return true;
-    }
-  };
-
   const handleAdditionalRequestChange = (
     data: any,
     cartItemId: string,
@@ -136,12 +117,10 @@ const Client = () => {
       cart.items = newItemsForm;
       itemsForm = cart.items;
     }
-
     hasAdditionalRequests = true;
   };
 
   const primaryContactText = t('orderName', 'Order Name');
-  const priceBreakdownText = t('priceBreakdown', 'Price Breakdown');
   const cancelButton = t('cancel', 'Cancel');
   const continueButton = t('continue', 'Continue');
   const continueShoppingText = t('continueShopping', 'Continue Shopping');
@@ -203,7 +182,6 @@ const Client = () => {
       return error;
     }
   };
-
   const handleInactiveCartMessage = async () => {
     try {
       if (!cartId) throw new Error('Cart ID is not defined');
@@ -239,7 +217,6 @@ const Client = () => {
       return error;
     }
   };
-
   const questions = cart?.items[0]?.item_data?.extra_data?.booking_questions;
   const hasQuestionPickup = questions?.find(
     (question: any) => question.id === PICKUP_POINT_ID,
@@ -305,24 +282,17 @@ const Client = () => {
     router.push(ITINERARY_URI);
   };
 
-  const getAddCustomerRequestBody = (primaryContactData: {
-    customer: AddCustomerRequest;
-  }) => {
+  const getAddCustomerRequestBody = (primaryContactData: any) => {
     const primaryContactCopy = deepCopy(primaryContactData);
-
     const requestItems = itemsForm?.map(createAdditionalItem);
     const request: any = hasAdditionalRequests
       ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
-    const phone = JSON?.parse?.(primaryContactCopy.phone || '{}');
+    const phone = JSON?.parse?.(primaryContactCopy.phoneNumber || '{}');
     request.customer.phone_number =
-      phone?.phone_number ||
-      cart.customer.phone_number ||
-      customer?.phone_number;
+      phone?.phone_number || customer?.phone_number;
     request.customer.phone_prefix =
-      phone?.phone_prefix ||
-      cart.customer.phone_prefix ||
-      customer?.phone_prefix;
+      phone?.phone_prefix || customer?.phone_prefix;
     request.customer.country = phone?.country || customer?.country;
 
     delete request.customer.phone;
@@ -332,11 +302,18 @@ const Client = () => {
   };
 
   const continueToPayment = async (values: any) => {
-    if (!checkFormsBeforeContinue()) return;
     if (!cart || cart.total_item_qty <= 0) return;
     const customerUpdater = new ClientCartCustomerUpdater();
-    const requestBody = getAddCustomerRequestBody(values.formData);
-    updateCustomer(requestBody.customer);
+    const requestBody = getAddCustomerRequestBody(values);
+    const customer = {
+      country: requestBody.customer.country,
+      email: requestBody.customer.email,
+      first_name: requestBody.customer.firstName,
+      last_name: requestBody.customer.lastName,
+      phone_number: requestBody.customer.phoneNumber,
+      phone_prefix: requestBody.customer.phone_prefix,
+    };
+    updateCustomer(customer);
 
     Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
       const itemData: any = {
@@ -352,7 +329,7 @@ const Client = () => {
       ...requestBody,
       customer: {
         ...cart.customer,
-        ...requestBody.customer,
+        ...customer,
       },
     };
 
@@ -366,10 +343,9 @@ const Client = () => {
   useEffect(() => {
     cartId = JSON.parse(window.localStorage.getItem('cart') ?? 'null');
     handleGetCart()
-      .then(() => handleGetSchema().then(() => handleGetCartAvailability()))
+      .then(() => handleGetCartAvailability())
       .catch((error) => console.error(error));
   }, [reload, currency]);
-
   const Title = ({ children }: LayoutProps) => (
     <p className="px-5 mt-3 mb-2 text-lg lg:mt-0 lg:text-2xl text-dark-800 lg:bg-dark-100 lg:py-6 lg:border-b lg:font-semibold">
       {children}
@@ -425,13 +401,6 @@ const Client = () => {
     }
   }, [cart, travelersFormSchema]);
 
-  let travelersFormSchemaWithClass;
-  travelersFormSchema &&
-    (travelersFormSchemaWithClass = {
-      ...(travelersFormSchema as any),
-      className: 'lg:grid lg:grid-cols-2 lg:gap-x-4',
-    });
-
   return (
     <>
       <CheckoutHeader step="client" itemsNumber={itemsNumber} />
@@ -442,39 +411,37 @@ const Client = () => {
               <InactiveCartMessage />
               <Card>
                 <Title>{primaryContactText}</Title>
-                <section>
-                  <ClientForm
-                    schema={travelersFormSchemaWithClass}
+                <section className="p-4">
+                  <FormProvider {...methods}>
+                    <ClientFormContent />
+                  </FormProvider>
+                  <ClientCart
+                    items={cart?.items}
+                    schema={travelersFormSchema}
                     uiSchema={travelersUiSchema}
-                    onSubmit={continueToPayment}
-                  >
-                    <ClientCart
-                      items={cart?.items}
-                      schema={travelersFormSchema}
-                      uiSchema={travelersUiSchema}
-                      onChange={handleAdditionalRequestChange}
-                      onChangeAnswers={handleTravelerAnswerChange}
+                    onChange={handleAdditionalRequestChange}
+                    onChangeAnswers={handleTravelerAnswerChange}
+                  />
+                  <CheckoutFooter type="client">
+                    <CheckoutSummary
+                      cart={cart}
+                      reload={reload}
+                      setReload={setReload}
                     />
-                    <CheckoutFooter type="client">
-                      <CheckoutSummary
-                        cart={cart}
-                        reload={reload}
-                        setReload={setReload}
-                      />
-                      <Button
-                        value={cancelButton}
-                        size={'full'}
-                        onClick={redirectToItinerary}
-                        color="outlined"
-                        className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                      />
-                      <Button
-                        value={continueButton}
-                        size={'full'}
-                        className="lg:w-[35%] text-[18px] font-normal"
-                      />
-                    </CheckoutFooter>
-                  </ClientForm>
+                    <Button
+                      value={cancelButton}
+                      size={'full'}
+                      onClick={redirectToItinerary}
+                      color="outlined"
+                      className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+                    />
+                    <Button
+                      value={continueButton}
+                      size={'full'}
+                      className="lg:w-[35%] text-[18px] font-normal"
+                      onClick={methods.handleSubmit(continueToPayment)}
+                    />
+                  </CheckoutFooter>
                 </section>
               </Card>
             </section>
