@@ -1,10 +1,10 @@
 import { Collapse } from 'antd';
 import CollapseBody from 'components/global/CollapseBordered/components/CollapseBody';
 import CollapseHeader from 'components/global/CollapseBordered/components/CollapseHeader';
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import Person from 'public/icons/assets/person.svg';
 import Info from 'public/icons/assets/info-circle.svg';
-import { RegisterOptions, SubmitHandler, useForm } from 'react-hook-form';
+import { RegisterOptions, useForm } from 'react-hook-form';
 import { IPassenger } from './inputs';
 import {
   BaseButtonInput,
@@ -24,6 +24,7 @@ import dayjs from 'dayjs';
 import countryList from 'country-list';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import InputMask from 'react-input-mask';
 
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { usePassengerSchema } from '../../hooks/usePassengerSchema';
@@ -47,7 +48,7 @@ const Passenger = ({
   passengersData,
   passengersQuantity,
 }: PassengerProps) => {
-  const [t, i18next] = useTranslation('flights');
+  const [t] = useTranslation('flights');
   const [tg] = useTranslation('global');
   const firstNameLabel = tg('first_name', 'First name');
   const middleNameLabel = tg('middle_name', 'Middle name');
@@ -63,7 +64,6 @@ const Passenger = ({
   const femaleLabel = t('female', 'Female');
 
   const countryLabel = tg('country', 'Country');
-  const passportLabel = tg('passport', 'Passport');
   const passportIDNumberLabel = tg('passportIDNumber', 'Passport ID Number');
   const expirationLabel = tg('expiration', 'Expiration');
   const passengerLabel = t('passenger', 'Passenger');
@@ -91,7 +91,7 @@ const Passenger = ({
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isValidating },
+    formState: { isValid, errors },
     setValue,
   } = useForm<IPassenger>({
     mode: 'all',
@@ -119,10 +119,6 @@ const Passenger = ({
     ],
     [],
   );
-
-  const setInputValue = (event: any) => {
-    setValue(event.target.id, event.target.value);
-  };
 
   const setSelectValue = (event: any) => {
     setValue(event.target.name, event.target.value);
@@ -203,14 +199,14 @@ const Passenger = ({
         <IconWrapper size={16}>
           <InfoCircle className="text-primary-1000" />
         </IconWrapper>
-        <Paragraph className="shrink capitalize" fontWeight="semibold">
+        <Paragraph className="capitalize shrink" fontWeight="semibold">
           Enter the information of each passenger as it appears on their
           official ID.
         </Paragraph>
       </section>
       <form>
-        <section className="flex flex-col md:flex-row justify-center gap-8 m-4 md:mx-6 flex-nowrap">
-          <section className="flex flex-col md:w-1/3 gap-4">
+        <section className="flex flex-col justify-center gap-8 m-4 md:flex-row md:mx-6 flex-nowrap">
+          <section className="flex flex-col gap-4 md:w-1/3">
             {getInputField(firstNameLabel, 'firstName', {
               required: true,
               max: 25,
@@ -225,9 +221,14 @@ const Passenger = ({
             <section className="flex flex-row gap-2">
               <section className="w-full">
                 <FormField label={dateOfBirthLabel}>
-                  <DateInput
-                    value={dayjs().format('MM-DD-YY')}
-                    {...register('dateOfBirth')}
+                  <InputMask
+                    mask={'99-99-99'}
+                    alwaysShowMask={false}
+                    maskPlaceholder=""
+                    type={'text'}
+                    placeholder="MM-DD-YY"
+                    {...register('dateOfBirth', { required: false })}
+                    className="border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   />
                 </FormField>
               </section>
@@ -237,7 +238,7 @@ const Passenger = ({
                 })}
               </section>
             </section>
-            <section className="hidden md:block space-y-4 ">
+            <section className="hidden space-y-4 md:block ">
               {getCheckboxField(
                 'I require wheelchair assistance while traveling.',
                 'wheelChair',
@@ -252,7 +253,7 @@ const Passenger = ({
               )}
             </section>
           </section>
-          <section className="flex flex-col md:w-1/3 gap-4">
+          <section className="flex flex-col gap-4 md:w-1/3">
             {getSelectField(
               countryOfResidenceLabel,
               'countryOfResidence',
@@ -266,7 +267,7 @@ const Passenger = ({
             )}
             {getInputField(loyaltyNumberLabel, 'loyaltyNumber')}
           </section>
-          <section className="block md:hidden space-y-4 ">
+          <section className="block space-y-4 md:hidden ">
             {getCheckboxField(
               'I require wheelchair assistance while traveling.',
               'wheelChair',
@@ -281,7 +282,7 @@ const Passenger = ({
             )}
           </section>
           <section className="border-t md:border-t-0 md:border-l-2 md:h-80 border-dark-300" />
-          <section className="flex flex-col md:w-1/3 gap-4">
+          <section className="flex flex-col gap-4 md:w-1/3">
             {getInputField(passportIDNumberLabel, 'passportIdNumber', {
               required: true,
               valueAsNumber: true,
@@ -300,9 +301,14 @@ const Passenger = ({
                     label: requiredLabel,
                   }}
                 >
-                  <DateInput
-                    value={dayjs().format('MM-DD-YY')}
-                    {...register('expiration')}
+                  <InputMask
+                    mask={'99-99-99'}
+                    alwaysShowMask={false}
+                    maskPlaceholder=""
+                    type={'text'}
+                    placeholder="MM-DD-YY"
+                    {...register('expiration', { required: true })}
+                    className="border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   />
                 </FormField>
               </section>
@@ -334,7 +340,7 @@ const Passenger = ({
         {open && <CollapseBody show={open} body={passengerForm()} />}
       </Collapse>
       {isLastPassenger && open && (
-        <section className="flex flex-col md:flex-row md:justify-end gap-2 md:gap-6">
+        <section className="flex flex-col gap-2 md:flex-row md:justify-end md:gap-6">
           <div className="flex justify-between ">
             <Paragraph className="md:hidden">Total</Paragraph>
             {pricing}

@@ -13,7 +13,7 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
-import { Button } from '@simplenight/ui';
+import { Button, IconWrapper, Paragraph } from '@simplenight/ui';
 import LocationInput from '../Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
@@ -554,14 +554,18 @@ const FlightSearchForm = () => {
                   >
                     <button
                       onClick={() => setShowTravelersInput(true)}
-                      className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+                      className="border border-gray-300 rounded text-gray-600 text-p-xxs h-8 px-2 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
                     >
                       <section className="flex items-center gap-2">
-                        <MultiplePersons className="text-dark-700" />
-                        {parseInt(adults) +
-                          parseInt(children) +
-                          parseInt(infants)}{' '}
-                        {travelerLabelText}
+                        <IconWrapper size={20}>
+                          <MultiplePersons className="text-dark-1000" />
+                        </IconWrapper>
+                        <Paragraph fontWeight="semibold">
+                          {parseInt(adults) +
+                            parseInt(children) +
+                            parseInt(infants)}{' '}
+                          {travelerLabelText}
+                        </Paragraph>
                       </section>
                     </button>
                   </Popper>
