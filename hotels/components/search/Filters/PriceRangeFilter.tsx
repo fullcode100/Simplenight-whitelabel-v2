@@ -1,9 +1,7 @@
 import { Dispatch } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 import FilterContainer from './FilterContainer';
-import FilterTitle from './FilterTitle';
 
 interface PriceRangeFilterProps {
   onChangeMaxPrice:
@@ -26,12 +24,8 @@ const PriceRangeFilter = ({
   minValue,
   maxValue,
 }: PriceRangeFilterProps) => {
-  const [t, i18n] = useTranslation('hotels');
-  const priceRangeLabel = t('priceRange', 'Price Range');
-
   return (
     <FilterContainer>
-      <FilterTitle label={priceRangeLabel} />
       <RangeSlider
         min={0}
         max={5000}

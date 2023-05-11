@@ -9,7 +9,6 @@ import ChevronDown from 'public/icons/assets/chevron-down-arrow.svg';
 import ChevronUp from 'public/icons/assets/chevron-up-arrow.svg';
 
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
-import { checkBog } from '../../../helpers/urlUtils';
 import useBog from 'hooks/bog/useBog';
 
 export interface CountryCodeOption {

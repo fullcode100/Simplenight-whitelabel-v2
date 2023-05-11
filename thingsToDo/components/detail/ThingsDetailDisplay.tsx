@@ -157,8 +157,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
 
   useEffect(() => {
     const url = '/categories/' + item?.main_category ?? '';
-    const startDate = formatAsSearchDate(dayjs());
-    const endDate = formatAsSearchDate(dayjs().add(1, 'years'));
+    const startDate = formatAsSearchDate(dayjs().utc());
+    const endDate = formatAsSearchDate(dayjs().add(1, 'years').utc());
 
     const params: ThingsAvailabilityScheduleRequest = {
       inventory_id: id as string,

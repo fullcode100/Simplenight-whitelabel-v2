@@ -2,14 +2,12 @@ import { FilterCriteria } from 'hotels/hooks/useFilterHotels';
 import { create } from 'zustand';
 
 export const defaultCriteriaState: FilterCriteria = {
-  freeCancelation: false,
-  hotelName: '',
+  keywordSearch: '',
   MaxPrice: '5000',
   MinPrice: '0',
   MaxRange: '5',
   MinRange: '1',
-  property: 'propertyAll',
-  sortCriteria: 'priceLowFirst',
+  sortCriteria: 'recommended',
 };
 
 export interface SearchFilterStore {

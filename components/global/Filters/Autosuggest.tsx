@@ -6,15 +6,16 @@ interface AutosuggestProps {
   keywordSearchData: string[];
   onChangeKeywordSearch: any;
   keywordSearchPlaceholder: string;
+  keywordSearch: string;
 }
 
 const Autosuggest = ({
   keywordSearchData,
   onChangeKeywordSearch,
   keywordSearchPlaceholder,
+  keywordSearch,
 }: AutosuggestProps) => {
   const suggestions: string[] = keywordSearchData || [];
-  const [value, setValue] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
 
   const handleChange = (event: any) => {
@@ -23,17 +24,16 @@ const Autosuggest = ({
       (suggestion) => suggestion.toLowerCase().indexOf(input) > -1,
     );
     setFilteredSuggestions(filtered);
-    setValue(event.target.value);
+    onChangeKeywordSearch(event.target.value);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    setValue(suggestion);
     onChangeKeywordSearch(suggestion);
     setFilteredSuggestions([]);
   };
 
   const renderSuggestions = () => {
-    if (value.length <= 2) return;
+    if (keywordSearch.length <= 2) return;
     if (filteredSuggestions.length === 0) {
       return null;
     }
@@ -54,11 +54,10 @@ const Autosuggest = ({
 
   return (
     <div className="relative">
-      {value && (
+      {keywordSearch && (
         <section
           className="absolute z-10 right-2 top-2"
           onClick={() => {
-            setValue('');
             onChangeKeywordSearch('');
           }}
         >
@@ -69,7 +68,7 @@ const Autosuggest = ({
       <input
         type="text"
         className="focus:ring-primary-500 focus:border-primary-500 block w-full h-11 sm:text-sm border-gray-300 rounded pl-10 pr-9 truncate "
-        value={value}
+        value={keywordSearch}
         onChange={handleChange}
         placeholder={keywordSearchPlaceholder}
       />
