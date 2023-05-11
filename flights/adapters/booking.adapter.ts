@@ -53,7 +53,7 @@ export const bookingAdapter = ({
       },
     ],
     offer: {
-      bookingClass: flights[0].offers?.[0].bookingClass,
+      bookingClass: flights[0].offer?.bookingClass,
     },
     creditCardInfo: {},
     apiUrl,
