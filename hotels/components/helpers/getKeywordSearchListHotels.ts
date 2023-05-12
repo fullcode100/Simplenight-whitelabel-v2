@@ -5,10 +5,11 @@ const getKeywordSearchListHotels = (
   setKeywordSearchData: (listWords: string[]) => void,
 ) => {
   let keywordArray: string[] = [];
-  const regex = /[.,:;!@#$%^&*()=+/{}[\]\s]+/;
+  // regular expression to separate/split the inserted characters
+  const splitSeparatorCharacter = /[.,:;!@#$%^&*()=+/{}[\]\s]+/;
   if (data) {
     data.forEach((element: SearchItem) => {
-      const nameSplit = element.details.name.split(regex);
+      const nameSplit = element.details.name.split(splitSeparatorCharacter);
       nameSplit.forEach((nameWord: string) => {
         if (nameWord.length > 2) {
           keywordArray.push(nameWord.toLowerCase().trim());
