@@ -91,7 +91,7 @@ export type WarningCollection = {
   _collection?: null[];
 };
 
-export type FlightItem = Leg & { offers?: Array<OfferLegRefsEntity> };
+export type FlightItem = Leg & { offer?: OfferLegRefsEntity };
 
 export type FlightResponse = {
   flights?: Array<Array<FlightItem>>;

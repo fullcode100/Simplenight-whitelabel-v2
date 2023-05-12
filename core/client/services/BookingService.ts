@@ -6,6 +6,7 @@ import { ClientBookingCancel } from '../ClientBookingCancel';
 import { ClientBookingCreator } from '../ClientBookingCreator';
 import { ClientBookingGetter } from '../ClientBookingGetter';
 import { ClientBookingsGetter } from '../ClientBookingsGetter';
+import { ClientBookingValidator } from '../ClientBookingValidator';
 
 const PAYMENT_METHOD = 'TOKEN';
 
@@ -82,4 +83,20 @@ export const cancelBooking = async (i18next: i18n, bookingId: string) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const tryValidateBooking = async (
+  bookingRequest: CreateBookingRequest,
+  i18next: i18n,
+) => {
+  const clientBookingCreator = new ClientBookingValidator();
+  return await clientBookingCreator.request(bookingRequest, i18next);
+};
+
+export const validateBooking = (paymentParameters: any, i18next: i18n) => {
+  const bookingRequest: CreateBookingRequest = {
+    ...paymentParameters,
+  };
+
+  return tryValidateBooking(bookingRequest, i18next);
 };

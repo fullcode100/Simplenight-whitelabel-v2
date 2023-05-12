@@ -213,15 +213,15 @@ const FlightResultsDisplay = ({
           if (selectedFlights.length > 0) {
             return selectedFlights
               .map((leg) => leg.legId)
-              .every((legId) => flight.offers?.[0].legRef?.includes(legId));
+              .every((legId) => flight.offer?.legRef?.includes(legId));
           }
           return true;
         })
         .map((flight: FlightItem, index: number) => {
-          let price = flight.offers?.[0].totalAmount;
+          let price = flight.offer?.totalAmount;
           if (selectedFlights[currentIndex - 1]) {
             const lastPrice = Number(
-              selectedFlights[currentIndex - 1].offers?.[0].totalAmount,
+              selectedFlights[currentIndex - 1].offer?.totalAmount,
             );
             price = `+ US$${Number(price) - lastPrice}`;
           } else {

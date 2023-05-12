@@ -158,6 +158,7 @@ const Passenger = ({
         onChange={(value) => {
           setValue(nameInput, value);
         }}
+        // eslint-disable-next-line react/no-children-prop
         children={label}
       />
     </section>

@@ -147,10 +147,11 @@ export default async function handler(
           if (!acum[id]) {
             acum[id] = [];
           }
-          acum[id].push({ ...current, offers: IdWithPrices[current.legId] });
+          const offersList = IdWithPrices[current.legId];
+          acum[id].push({ ...current, offer: offersList[0] });
 
           return acum;
-        }, [] as Array<Array<Leg & { offers?: Array<OfferLegRefsEntity> }>>);
+        }, [] as Array<Array<Leg & { offer?: OfferLegRefsEntity }>>);
 
       res.status(200).json({
         flights: resultFlights,
