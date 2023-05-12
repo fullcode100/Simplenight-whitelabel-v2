@@ -14,7 +14,7 @@ import Selector from 'components/global/Select/Selector';
 import Divider from 'components/global/Divider/Divider';
 
 const FilterContainer = ({ children }: { children?: any }) => (
-  <section className="flex flex-col pr-6 mt-4 mb-6">{children}</section>
+  <section className="flex flex-col pr-6 mt-20 mb-6">{children}</section>
 );
 
 interface FlightFilterFormDesktopProps {
