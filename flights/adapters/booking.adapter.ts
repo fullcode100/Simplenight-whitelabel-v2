@@ -24,7 +24,9 @@ export const bookingAdapter = ({
   const passenger = passengers.map((passenger, idx) => {
     return {
       id: `${idx + 1}`,
-      dateOfBirth: dayjs(passenger.dateOfBirth).format('DDMMMYY').toUpperCase(),
+      dateOfBirth: passenger.dateOfBirth
+        ? dayjs(passenger.dateOfBirth).format('DDMMMYY').toUpperCase()
+        : '',
       /* TODO: we currently dont associate age band to passengers */
       code: 'ADT',
       firstName: passenger.firstName,
