@@ -25,12 +25,16 @@ import FlightInfo from '../FlightInfo/FlightInfo';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
+import { Flight } from 'flights/types/response/SearchResponse';
 import {
   FlightItem,
   FlightResponse,
 } from 'flights/types/response/FlightSearchResponseMS';
 import { useSelector } from 'react-redux';
 import HorizontalSkeletonCard from './HorizontalItemCard/HorizontalSkeletonCard';
+import FiltersIcon from 'public/icons/assets/filters.svg';
+import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
+import FlightFilterFormDesktop from './FlightFilterFormDesktop';
 
 declare let window: CustomWindow;
 
@@ -77,14 +81,17 @@ const FlightResultsDisplay = ({
     startAirports,
     endAirports,
     startDates,
+    sortBy,
 
     selected,
+    filters,
     cabinType,
   } = useQuery();
 
   const [flights, setFlights] = useState<Array<Array<FlightItem>>>([]);
 
   const [selectedFlights, setSelectedFlights] = useState<FlightItem[]>([]);
+  const [flightsSearched, setFlightsSearched] = useState<Flight[]>([]);
 
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
@@ -164,6 +171,12 @@ const FlightResultsDisplay = ({
     fetchFligths,
     { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
   );
+
+  const toggleFilters = () => {
+    setQueryParams({
+      filters: queryFilter?.filters === 'open' ? '' : 'open',
+    });
+  };
 
   useEffect(() => {
     if (currency !== storeCurrency) setCurrency(storeCurrency);
@@ -293,11 +306,11 @@ const FlightResultsDisplay = ({
             }
           />
         )}
-        {/* {filters === 'open' && (
+        {filters === 'open' && (
           <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
             <FlightFilterFormDesktop flights={flightsSearched} />
           </section>
-        )} */}
+        )}
         <section className="lg:flex-1 lg:w-[75%] h-full pt-9">
           {isLoading ? (
             <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
@@ -306,23 +319,23 @@ const FlightResultsDisplay = ({
           ) : (
             <>
               <section className="w-full h-full px-5 pb-6">
-                <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
-                  <section className="flex flex-row items-center pt-8 pb-3 text-base">
-                    {/* {filters !== 'open' && (
+                <section className="lg:py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
+                  <section className="flex flex-row items-center lg:pt-8 pb-3 text-base">
+                    {filters !== 'open' && (
                       <button
                         className="p-2 m-2 border-2 rounded-full text-primary-100 border-primary-100"
                         onClick={toggleFilters}
                       >
                         <FiltersIcon className="text-primary-1000" />
                       </button>
-                    )} */}
+                    )}
                     <span>
                       {`${flights[currentIndex]?.length} ${flightsFoundLabelDesktop}`}{' '}
                     </span>
                   </section>
-                  {/* <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
-                     <FlightSecondarySearchOptions />
-                  </section> */}
+                  <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
+                    <FlightSecondarySearchOptions />
+                  </section>
                 </section>
                 {flights.length > 0 ? (
                   <FlightList />
