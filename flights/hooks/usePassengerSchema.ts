@@ -31,7 +31,10 @@ export const usePassengerSchema = () => {
     gender: z.string().min(1, { message: fillOutThisFieldLabel }),
     countryOfResidence: z.string().min(1, { message: fillOutThisFieldLabel }),
     loyaltyProgram: z.string().optional(),
-    loyaltyNumber: z.string().optional(),
+    loyaltyNumber: z
+      .string()
+      .max(25, { message: maxCharacters25Label })
+      .optional(),
     passportIdNumber: z
       .string()
       .min(1, { message: fillOutThisFieldLabel })
