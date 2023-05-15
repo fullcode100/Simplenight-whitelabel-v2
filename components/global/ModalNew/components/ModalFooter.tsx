@@ -1,12 +1,12 @@
+import { Button } from '@simplenight/ui';
 import { MouseEvent, ReactNode } from 'react';
-
-import Button from 'components/global/ButtonNew/Button';
 
 interface ModalFooterProps {
   primaryButtonText?: string;
   secondaryButtonText?: string;
   primaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
+  isPrimaryActionLoading: boolean;
   footerSummary?: ReactNode;
 }
 
@@ -15,6 +15,7 @@ const ModalFooter = ({
   secondaryButtonText,
   primaryButtonAction,
   secondaryButtonAction,
+  isPrimaryActionLoading = false,
   footerSummary,
 }: ModalFooterProps) => {
   const renderButtons = !!primaryButtonText || !!secondaryButtonText;
@@ -23,24 +24,19 @@ const ModalFooter = ({
       <section className={renderButtons ? 'grid gap-4' : ''}>
         {footerSummary}
 
-        <section className="grid gap-3 lg:flex lg:w-[337px] lg:justify-self-end">
+        <section className="grid gap-3 lg:flex  lg:justify-self-end">
           {secondaryButtonText && (
-            <Button
-              type="outlined"
-              width="w-full lg:w-[30%]"
-              onClick={secondaryButtonAction}
-            >
-              <p className="text-base font-semibold leading-base">
-                {secondaryButtonText}
-              </p>
+            <Button type="outlined" onClick={secondaryButtonAction}>
+              {secondaryButtonText}
             </Button>
           )}
 
           {primaryButtonText && (
-            <Button width="w-full lg:w-[70%]" onClick={primaryButtonAction}>
-              <p className="text-base font-semibold leading-base">
-                {primaryButtonText}
-              </p>
+            <Button
+              onClick={primaryButtonAction}
+              loading={isPrimaryActionLoading}
+            >
+              {primaryButtonText}
             </Button>
           )}
         </section>

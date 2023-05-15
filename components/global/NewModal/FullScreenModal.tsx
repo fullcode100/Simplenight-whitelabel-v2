@@ -39,33 +39,43 @@ const FullScreenModal = ({
   headerAction,
 }: FullScreenModalProps) => {
   return (
-    <section
-      className={classnames(
-        `h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100] ${className}`,
-        { ['hidden']: !open },
+    <>
+      {open && (
+        <>
+          <div
+            className="fixed inset-0 bg-black opacity-20"
+            style={{ zIndex: 99 }}
+          ></div>
+          <section
+            className={classnames(
+              `h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100] ${className}`,
+              { ['hidden']: !open },
+            )}
+            style={{ width: '100%', zIndex: 100 }}
+          >
+            {!noHeader && (
+              <ModalHeader
+                title={title}
+                onCloseModal={closeModal}
+                headerAction={headerAction}
+              />
+            )}
+            {children}
+            {!noFooter && (
+              <ModalFooter
+                primaryButtonText={primaryButtonText}
+                secondaryButtonText={secondaryButtonText}
+                primaryButtonAction={primaryButtonAction}
+                secondaryButtonAction={secondaryButtonAction}
+                summary={footerSummary}
+                hasMultipleActions={hasMultipleActions}
+                containerButtonsClassName={containerButtonsClassName}
+              />
+            )}
+          </section>
+        </>
       )}
-      style={{ width: '100%' }}
-    >
-      {!noHeader && (
-        <ModalHeader
-          title={title}
-          onCloseModal={closeModal}
-          headerAction={headerAction}
-        />
-      )}
-      {children}
-      {!noFooter && (
-        <ModalFooter
-          primaryButtonText={primaryButtonText}
-          secondaryButtonText={secondaryButtonText}
-          primaryButtonAction={primaryButtonAction}
-          secondaryButtonAction={secondaryButtonAction}
-          summary={footerSummary}
-          hasMultipleActions={hasMultipleActions}
-          containerButtonsClassName={containerButtonsClassName}
-        />
-      )}
-    </section>
+    </>
   );
 };
 export default FullScreenModal;

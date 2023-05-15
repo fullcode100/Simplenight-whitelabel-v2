@@ -15,6 +15,7 @@ interface FullScreenModalProps {
   secondaryButtonText?: string;
   primaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
   secondaryButtonAction?: (event?: MouseEvent<HTMLElement>) => void;
+  isPrimaryActionLoading?: boolean;
   footerSummary?: ReactNode;
   className?: string;
 }
@@ -31,6 +32,7 @@ const FullScreenModal = ({
   secondaryButtonAction,
   footerSummary,
   className = '',
+  isPrimaryActionLoading = false,
 }: FullScreenModalProps) => {
   const renderFooter =
     !!primaryButtonText || !!secondaryButtonText || !!footerSummary;
@@ -83,6 +85,7 @@ const FullScreenModal = ({
                   secondaryButtonText={secondaryButtonText}
                   primaryButtonAction={primaryButtonAction}
                   secondaryButtonAction={secondaryButtonAction}
+                  isPrimaryActionLoading={isPrimaryActionLoading}
                   footerSummary={footerSummary}
                 />
               )}

@@ -165,8 +165,6 @@ const FlightResultsDisplay = ({
         i18next,
       );
 
-      console.log('results => ', results);
-
       return results.flights;
     } catch (e) {
       console.error(e);
