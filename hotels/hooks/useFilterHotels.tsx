@@ -24,9 +24,13 @@ const criteriaFilterFunctions: {
   [key in keyof FilterCriteria]: FilterFunction;
 } = {
   MinPrice: (list, value) =>
-    list.filter((hotel) => hotel.amountMin.amount >= Number(value)),
+    list.filter(
+      (hotel) => hotel.minRate.avg_amount.avg_amount.amount >= Number(value),
+    ),
   MaxPrice: (list, value) =>
-    list.filter((hotel) => hotel.amountMin.amount <= Number(value)),
+    list.filter(
+      (hotel) => hotel.minRate.avg_amount.avg_amount.amount <= Number(value),
+    ),
   MinRange: (list, value) =>
     list.filter((hotel) => Number(hotel.details.starRating) >= Number(value)),
   MaxRange: (list, value) =>
@@ -38,9 +42,17 @@ const criteriaFilterFunctions: {
   sortCriteria: (list, value) => {
     switch (value) {
       case 'priceLowFirst':
-        return list.sort((a, b) => a.amountMin.amount - b.amountMin.amount);
+        return list.sort(
+          (a, b) =>
+            a.minRate.avg_amount.avg_amount.amount -
+            b.minRate.avg_amount.avg_amount.amount,
+        );
       case 'priceHighFirst':
-        return list.sort((a, b) => b.amountMin.amount - a.amountMin.amount);
+        return list.sort(
+          (a, b) =>
+            b.minRate.avg_amount.avg_amount.amount -
+            a.minRate.avg_amount.avg_amount.amount,
+        );
       case 'ratingHighFirst':
         return list.sort(
           (a, b) => Number(b.details.starRating) - Number(a.details.starRating),
@@ -60,6 +72,7 @@ export const useFilterHotels = (
   hotels: SearchItem[],
   criteria: FilterCriteria,
   setFiltersCount: any,
+  limits: number[],
 ) => {
   const [filteredArray, setFilteredArray] = useState(hotels);
 
@@ -77,7 +90,7 @@ export const useFilterHotels = (
     });
 
     setFilteredArray(filtered);
-    setFiltersCount(getFilterCountHotels(criteria));
+    setFiltersCount(getFilterCountHotels(criteria, limits));
   }, [hotels, criteria]);
 
   return filteredArray;

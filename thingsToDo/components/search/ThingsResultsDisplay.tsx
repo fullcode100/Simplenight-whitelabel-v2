@@ -96,6 +96,7 @@ const ThingsResultsDisplay = ({
   const [keywordSearch, setKeywordSearch] = useState<string>(
     (queryFilter?.keywordSearch as string) || '',
   );
+  const [keywordState, setKeywordState] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('recommended');
 
   const { startDate, endDate, latitude, longitude } = useQuery();
@@ -286,6 +287,8 @@ const ThingsResultsDisplay = ({
       {isFilterOpen && (
         <section>
           <FilterSidebar
+            keywordState={keywordState}
+            setKeywordState={setKeywordState}
             isOpen={isOpen}
             onClose={onClose}
             keywordSearchData={keywordSearchData}

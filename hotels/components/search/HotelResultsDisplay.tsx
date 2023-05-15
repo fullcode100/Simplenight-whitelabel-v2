@@ -32,6 +32,7 @@ import dayjs from 'dayjs';
 import { useSearchFilterStore } from 'hooks/hotels/useSearchFilterStore';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import getKeywordSearchListHotels from '../helpers/getKeywordSearchListHotels';
+import { getPriceLimits } from 'hotels/helpers/getPriceLimits';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -89,9 +90,14 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const [isOpen, onOpen, onClose] = useModal();
   const [keywordSearchData, setKeywordSearchData] = useState<string[]>([]);
+  const [keywordState, setKeywordState] = useState<string>('');
 
-  const [minPriceFilter, setMinPrice] = useState<string>(criteria.MinPrice);
-  const [maxPriceFilter, setMaxPrice] = useState<string>(criteria.MaxPrice);
+  const [minPriceFilter, setMinPriceFilter] = useState<number>(
+    parseInt(criteria.MinPrice),
+  );
+  const [maxPriceFilter, setMaxPriceFilter] = useState<number>(
+    parseInt(criteria.MaxPrice),
+  );
   const [minStarRating, setMinStarRating] = useState<string>(criteria.MinRange);
   const [maxStarRating, setMaxStarRating] = useState<string>(criteria.MaxRange);
   const [keywordSearch, setKeywordSearch] = useState<string>(
@@ -102,12 +108,15 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const [next, setNext] = useState(RESULTS_PER_PAGE);
 
+  const [limitsPrice, setLimitsPrice] = useState<number[]>([0, 5000]);
+
   const loadMoreResults = () => {
     setNext(next + RESULTS_PER_PAGE);
   };
 
   const resetCriteria = () => {
     clear();
+    setLimitsPrice(getPriceLimits(data as SearchItem[], criteria));
   };
 
   const paramRoomsData = roomsData
@@ -151,7 +160,12 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
   );
 
-  const filteredHotels = useFilterHotels(hotels, criteria, setFiltersCount);
+  const filteredHotels = useFilterHotels(
+    hotels,
+    criteria,
+    setFiltersCount,
+    limitsPrice,
+  );
 
   useEffect(() => {
     if (data) {
@@ -160,8 +174,24 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   }, [data]);
 
   useEffect(() => {
-    getKeywordSearchListHotels(data as SearchItem[], setKeywordSearchData);
-  }, [data]);
+    getKeywordSearchListHotels(filteredHotels, setKeywordSearchData);
+  }, [filteredHotels]);
+
+  useEffect(() => {
+    if (data) {
+      setLimitsPrice(getPriceLimits(data, criteria));
+    }
+  }, [data, criteria.MaxRange, criteria.MinRange, criteria.keywordSearch]);
+
+  useEffect(() => {
+    setMaxPriceFilter(limitsPrice[1]);
+    setMinPriceFilter(limitsPrice[0]);
+    setCriteria({
+      ...criteria,
+      MinPrice: String(limitsPrice[0]),
+      MaxPrice: String(limitsPrice[1]),
+    });
+  }, [limitsPrice]);
 
   const urlDetail = (hotel: SearchItem) => {
     const { id } = hotel;
@@ -230,6 +260,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         {isOpen && (
           <section>
             <FilterSidebarHotels
+              keywordState={keywordState}
+              setKeywordState={setKeywordState}
+              limitsPrice={limitsPrice}
               filtersCount={filtersCount}
               setCriteria={setCriteria}
               keywordSearchData={keywordSearchData}
@@ -244,9 +277,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
               resetFilters={resetCriteria}
               criteria={criteria}
               minPrice={minPriceFilter}
-              setMinPrice={setMinPrice}
+              setMinPrice={setMinPriceFilter}
               maxPrice={maxPriceFilter}
-              setMaxPrice={setMaxPrice}
+              setMaxPrice={setMaxPriceFilter}
               minStarRating={minStarRating}
               setMinStarRating={setMinStarRating}
               maxStarRating={maxStarRating}

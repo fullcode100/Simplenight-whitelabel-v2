@@ -151,7 +151,7 @@ const RangesliderLegacy = ({
             onTouchEnd={() => setMaxState(maxValue.toString())}
             type="range"
             min={min}
-            step={step}
+            step={maxValue === max ? 1 : step}
             max={max}
             value={maxValue}
             id="maxValue"

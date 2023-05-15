@@ -11,6 +11,8 @@ export interface KeywordSearchFilterProps {
   onChangeKeywordSearch:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
+  keywordState: string;
+  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const KeywordSearchFilter = ({
@@ -19,6 +21,8 @@ const KeywordSearchFilter = ({
   onChangeKeywordSearch,
   keywordSearchData,
   keywordSearch,
+  keywordState,
+  setKeywordState,
 }: KeywordSearchFilterProps) => {
   return (
     <FilterContainer>
@@ -30,6 +34,8 @@ const KeywordSearchFilter = ({
         onChangeKeywordSearch={onChangeKeywordSearch}
         keywordSearchPlaceholder={keywordSearchPlaceholder}
         keywordSearch={keywordSearch}
+        keywordState={keywordState}
+        setKeywordState={setKeywordState}
       />
     </FilterContainer>
   );

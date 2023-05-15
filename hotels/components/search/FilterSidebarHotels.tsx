@@ -6,7 +6,6 @@ import ClearFilterButton from 'components/global/Filters/ClearFilterButton';
 
 import { FilterCriteria } from 'hotels/hooks/useFilterHotels';
 import {
-  initialPriceRange,
   MAX_STAR_RATING_INITIAL_VALUE,
   MIN_STAR_RATING_INITIAL_VALUE,
   SORTBY_INITIAL_VALUE,
@@ -16,6 +15,9 @@ import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import FilterFormHotels from './Filters/FilterFormHotels';
 
 export interface FilterSidebarHotelsProps {
+  keywordState: string;
+  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
+  limitsPrice: number[];
   filtersCount: number;
   setCriteria: (criteria: FilterCriteria) => void;
   keywordSearchData: string[];
@@ -29,10 +31,10 @@ export interface FilterSidebarHotelsProps {
   loading: boolean;
   resetFilters: () => void;
   criteria: FilterCriteria;
-  minPrice: string;
-  setMinPrice: React.Dispatch<React.SetStateAction<string>>;
-  maxPrice: string;
-  setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
+  minPrice: number;
+  setMinPrice: React.Dispatch<React.SetStateAction<number>>;
+  maxPrice: number;
+  setMaxPrice: React.Dispatch<React.SetStateAction<number>>;
   minStarRating: string;
   setMinStarRating: React.Dispatch<React.SetStateAction<string>>;
   maxStarRating: string;
@@ -40,6 +42,9 @@ export interface FilterSidebarHotelsProps {
 }
 
 const FilterSidebarHotels = ({
+  keywordState,
+  setKeywordState,
+  limitsPrice,
   filtersCount,
   setCriteria,
   keywordSearchData,
@@ -70,12 +75,11 @@ const FilterSidebarHotels = ({
 
   const handleClearFilters = () => {
     resetFilters();
-    setMinPrice(initialPriceRange.min);
-    setMaxPrice(initialPriceRange.max);
     setMinStarRating(MIN_STAR_RATING_INITIAL_VALUE);
     setMaxStarRating(MAX_STAR_RATING_INITIAL_VALUE);
     setSortByVal(SORTBY_INITIAL_VALUE);
     setKeywordSearch('');
+    setKeywordState('');
   };
 
   const handleCloseModal = () => {
@@ -83,12 +87,12 @@ const FilterSidebarHotels = ({
   };
 
   const onChangeMinPrice = (value: string) => {
-    setMinPrice(value);
+    setMinPrice(parseInt(value));
     handleFilterHotels({ ...criteria, MinPrice: value });
   };
 
   const onChangeMaxPrice = (value: string) => {
-    setMaxPrice(value);
+    setMaxPrice(parseInt(value));
     handleFilterHotels({ ...criteria, MaxPrice: value });
   };
 
@@ -135,6 +139,8 @@ const FilterSidebarHotels = ({
     onChangeKeywordSearch,
     keywordSearchPlaceholder: searchKeywordPlaceholder,
     keywordSearchData,
+    setKeywordState,
+    keywordState,
   };
 
   const sortByselect = {
@@ -186,6 +192,7 @@ const FilterSidebarHotels = ({
       <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative">
         <FilterHeader />
         <FilterFormHotels
+          limitsPrice={limitsPrice}
           sortBySelect={sortByselect}
           priceRangeFilter={priceRangeFilter}
           starRangeFilter={starRangeFilter}
@@ -204,6 +211,7 @@ const FilterSidebarHotels = ({
           }
         >
           <FilterFormHotels
+            limitsPrice={limitsPrice}
             sortBySelect={sortByselect}
             priceRangeFilter={priceRangeFilter}
             starRangeFilter={starRangeFilter}

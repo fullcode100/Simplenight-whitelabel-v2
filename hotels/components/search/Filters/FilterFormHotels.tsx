@@ -13,6 +13,7 @@ import StarRangeFilter, {
 import { useTranslation } from 'react-i18next';
 
 interface Props {
+  limitsPrice: number[];
   priceRangeFilter: PriceRangeFilterProps;
   starRangeFilter: StarRangeFilterProps;
   keywordSearchFilter: KeywordSearchFilterProps;
@@ -25,6 +26,7 @@ const Divider = ({ className }: { className?: string }) => (
 );
 
 const FilterFormHotels = ({
+  limitsPrice,
   priceRangeFilter,
   starRangeFilter,
   keywordSearchFilter,
@@ -46,12 +48,15 @@ const FilterFormHotels = ({
         keywordSearchPlaceholder={keywordSearchFilter.keywordSearchPlaceholder}
         onChangeKeywordSearch={keywordSearchFilter.onChangeKeywordSearch}
         keywordSearchData={keywordSearchFilter.keywordSearchData}
+        keywordState={keywordSearchFilter.keywordState}
+        setKeywordState={keywordSearchFilter.setKeywordState}
       />
       <Divider className="my-6" />
       <CollapseUnbordered
         title={<Heading tag="h5">{priceLabel}</Heading>}
         body={
           <PriceRangeFilter
+            limitsPrice={limitsPrice}
             onChangeMinPrice={priceRangeFilter.onChangeMinPrice}
             onChangeMaxPrice={priceRangeFilter.onChangeMaxPrice}
             minPrice={priceRangeFilter.minPrice}

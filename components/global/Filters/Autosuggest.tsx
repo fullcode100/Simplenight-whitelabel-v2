@@ -7,13 +7,16 @@ interface AutosuggestProps {
   onChangeKeywordSearch: any;
   keywordSearchPlaceholder: string;
   keywordSearch: string;
+  keywordState: string;
+  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Autosuggest = ({
   keywordSearchData,
   onChangeKeywordSearch,
   keywordSearchPlaceholder,
-  keywordSearch,
+  keywordState,
+  setKeywordState,
 }: AutosuggestProps) => {
   const suggestions: string[] = keywordSearchData || [];
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -24,16 +27,17 @@ const Autosuggest = ({
       (suggestion) => suggestion.toLowerCase().indexOf(input) > -1,
     );
     setFilteredSuggestions(filtered);
-    onChangeKeywordSearch(event.target.value);
+    setKeywordState(event.target.value);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     onChangeKeywordSearch(suggestion);
+    setKeywordState(suggestion);
     setFilteredSuggestions([]);
   };
 
   const renderSuggestions = () => {
-    if (keywordSearch.length <= 2) return;
+    if (keywordState.length <= 2) return;
     if (filteredSuggestions.length === 0) {
       return null;
     }
@@ -54,11 +58,12 @@ const Autosuggest = ({
 
   return (
     <div className="relative">
-      {keywordSearch && (
+      {keywordState && (
         <section
           className="absolute z-10 right-2 top-2"
           onClick={() => {
             onChangeKeywordSearch('');
+            setKeywordState('');
           }}
         >
           <CloseIcon className="text-dark-700 cursor-pointer" />
@@ -68,7 +73,7 @@ const Autosuggest = ({
       <input
         type="text"
         className="focus:ring-primary-500 focus:border-primary-500 block w-full h-11 sm:text-sm border-gray-300 rounded pl-10 pr-9 truncate "
-        value={keywordSearch}
+        value={keywordState}
         onChange={handleChange}
         placeholder={keywordSearchPlaceholder}
       />

@@ -6,6 +6,8 @@ import FiltersIcon from 'public/icons/assets/filters.svg';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 
 interface FilterSidebarProps {
+  keywordState: string;
+  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
   isOpen: boolean;
   onClose: () => void;
   keywordSearchData: any;
@@ -37,6 +39,8 @@ const initialFilters = {
 };
 
 const FilterSidebar = ({
+  keywordState,
+  setKeywordState,
   isOpen,
   onClose,
   keywordSearchData,
@@ -75,6 +79,7 @@ const FilterSidebar = ({
     setMaxStarRating('5');
     setKeywordSearch('');
     setSortBy('recommended');
+    setKeywordState('');
   };
 
   const handleCloseModal = () => {
@@ -137,8 +142,8 @@ const FilterSidebar = ({
   };
 
   const priceRangeFilter = {
-    minPrice,
-    maxPrice,
+    minPrice: parseInt(minPrice),
+    maxPrice: parseInt(maxPrice),
     onChangeMinPrice,
     onChangeMaxPrice,
   };
@@ -159,6 +164,8 @@ const FilterSidebar = ({
     onChangeKeywordSearch,
     keywordSearchPlaceholder: searchKeywordPlaceholder,
     keywordSearchData,
+    setKeywordState,
+    keywordState,
   };
 
   const sortByselect = {

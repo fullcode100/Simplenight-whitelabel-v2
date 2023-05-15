@@ -34,6 +34,7 @@ const StarRangeFilter = ({
         type="star"
         setMinState={onChangeMinRating}
         setMaxState={onChangeMaxRating}
+        marks={true}
       />
     </FilterContainer>
   );
