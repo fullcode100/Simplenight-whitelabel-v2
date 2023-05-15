@@ -38,15 +38,11 @@ const ConfirmationFooterButtons = ({
     router.push('/');
   };
 
-  useEffect(() => {
-    console.log(loading);
-  }, [loading]);
   const handleCancelBooking = () => {
     setLoading(true);
     cancelBooking(i18next, bookingId).then(() => {
-      setLoading(false);
-      console.log('not loading');
       router.reload();
+      setLoading(false);
     });
   };
 
