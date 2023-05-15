@@ -2,6 +2,7 @@
 import type { NextApiResponse } from 'next';
 import { NextApiRequestWithSession } from 'types/core/server';
 import {
+  FlightItem,
   FlightResponse,
   FlightsSearchResponseMS,
   Leg,
@@ -149,7 +150,7 @@ export default async function handler(
           acum[id].push({ ...current, offer: offersList[0] });
 
           return acum;
-        }, [] as Array<Array<Leg & { offer?: OfferLegRefsEntity }>>);
+        }, [] as Array<Array<FlightItem>>);
 
       res.status(200).json({
         flights: resultFlights,

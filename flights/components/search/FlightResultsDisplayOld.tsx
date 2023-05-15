@@ -479,7 +479,7 @@ const FlightResultsDisplay = ({
         )}
         {filters === 'open' && (
           <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
-            <FlightFilterFormDesktop flights={flightsSearched} />
+            {/* <FlightFilterFormDesktop flights={flightsSearched} /> */}
           </section>
         )}
         <section className="lg:flex-1 lg:w-[75%] h-full">

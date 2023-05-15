@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import RangeSlider from 'flights/components/RangeSlider/RangeSlider';
 import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -95,9 +95,15 @@ const FlightSecondarySearchOptions = () => {
   const [airlines, setAirlines] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
 
-  const [stopsOptions, setStopsOptions] = useState<string[]>([]);
-  const [airlinesOptions, setAirlinesOptions] = useState<string[]>([]);
-  const [citiesOptions, setCitiesOptions] = useState<string[]>([]);
+  const [stopsOptions, setStopsOptions] = useState<
+    Array<{ id: string; label: string; selected: boolean }>
+  >([]);
+  const [airlinesOptions, setAirlinesOptions] = useState<
+    Array<{ id: string; label: string; selected: boolean }>
+  >([]);
+  const [citiesOptions, setCitiesOptions] = useState<
+    Array<{ id: string; label: string; selected: boolean }>
+  >([]);
 
   const handleFilterButtonClick = () => {
     setFilterModalOpen(true);
@@ -105,56 +111,47 @@ const FlightSecondarySearchOptions = () => {
     if (!flights) flights = [];
 
     // analyze flights response
-    let flightsMinPrice: number =
-      flights && flights[0]
-        ? parseFloat(flights[0]?.offers[0]?.totalAmound)
-        : 100;
-    let flightsMaxPrice: number =
-      flights && flights[0]
-        ? parseFloat(flights[0]?.offers[0]?.totalAmound)
-        : 5000;
-    let flightsMaxStops = 0;
+    let flightsMinPrice: number = parseFloat(
+      flights?.[0]?.offer?.totalAmount || '100',
+    );
+    let flightsMaxPrice: number = parseFloat(
+      flights?.[0]?.offer?.totalAmount || '5000',
+    );
+    const flightsStopsList: number[] = [];
     const flightsAirlines: string[] = [];
     const flightsCities: string[] = [];
 
     if (flights && flights.length) {
-      flights.forEach((item: Flight) => {
+      flights.forEach((item: FlightItem) => {
         const itemFlight = item;
-        const amountMin = item?.offers[0]?.totalAmound
-          ? parseFloat(item?.offers[0]?.totalAmound)
-          : 0;
-        const amountMax = item?.offers[item?.offers.length - 1]?.totalAmound
-          ? parseFloat(item?.offers[item?.offers.length - 1]?.totalAmound)
-          : 0;
+        const totalAmount = itemFlight?.offer?.totalAmount;
+        const segmentsCollection = itemFlight?.segments?.collection;
+        const totalStops = segmentsCollection.length - 1;
         // price
+        const amountMin = parseFloat(totalAmount || '0');
+        const amountMax = parseFloat(totalAmount || '0');
         if (amountMin < flightsMinPrice) flightsMinPrice = amountMin;
         if (amountMax > flightsMaxPrice) flightsMaxPrice = amountMax;
         // stops
-        if (itemFlight?.segments?.collection.length - 1 > flightsMaxStops)
-          flightsMaxStops = itemFlight?.segments?.collection.length - 1;
+        if (!flightsStopsList.includes(totalStops)) {
+          flightsStopsList.push(totalStops);
+        }
         // airlines
-        itemFlight?.segments?.collection.forEach((segment) => {
-          if (flightsAirlines.indexOf(segment?.marketingCarrierName) < 0)
+        segmentsCollection.forEach((segment) => {
+          if (!flightsAirlines.includes(segment?.marketingCarrierName)) {
             flightsAirlines.push(segment?.marketingCarrierName);
+          }
         });
         // cities
-        itemFlight?.segments?.collection.forEach((segment) => {
+        segmentsCollection.forEach((segment) => {
           if (
-            flightsCities.indexOf(
-              itemFlight?.segments?.collection[0]?.departureAirportName,
-            ) < 0
+            !flightsCities.includes(segmentsCollection[0]?.departureAirportName)
           )
-            flightsCities.push(
-              itemFlight?.segments?.collection[0]?.departureAirportName,
-            );
+            flightsCities.push(segmentsCollection[0]?.departureAirportName);
           if (
-            flightsCities.indexOf(
-              itemFlight?.segments?.collection[0]?.arrivalAirportName,
-            ) < 0
+            !flightsCities.includes(segmentsCollection[0]?.arrivalAirportName)
           )
-            flightsCities.push(
-              itemFlight?.segments?.collection[0]?.arrivalAirportName,
-            );
+            flightsCities.push(segmentsCollection[0]?.arrivalAirportName);
         });
       });
 
@@ -171,23 +168,52 @@ const FlightSecondarySearchOptions = () => {
       setStops(
         queryFilter?.stops ? queryFilter.stops.toString().split(',') : [],
       );
-      const flightsStops = [directText];
-      for (let i = 1; i <= flightsMaxStops; i += 1) {
-        if (i < 2) flightsStops.push(`${i} ${stopText}`);
-        else flightsStops.push(`${i} ${stopsText}`);
-      }
-      setStopsOptions(flightsStops);
+      const flightsStops = flightsStopsList.sort();
+      setStopsOptions(defineStopOptions(flightsStops));
       // airlines
       setAirlines(
         queryFilter?.airlines ? queryFilter.airlines.toString().split(',') : [],
       );
-      setAirlinesOptions(flightsAirlines.sort(Intl.Collator().compare));
+      const airlinesList = flightsAirlines.sort(
+        Intl.Collator().compare,
+      ) as string[];
+      setAirlinesOptions(defineAirlinesOptions(airlinesList));
       // cities
       setCities(
         queryFilter?.cities ? queryFilter.cities.toString().split(',') : [],
       );
-      setCitiesOptions(flightsCities.sort(Intl.Collator().compare));
+      const citiesList = flightsCities.sort(
+        Intl.Collator().compare,
+      ) as string[];
+      setCitiesOptions(defineCitiesOptions(citiesList));
     }
+  };
+
+  const defineStopOptions = (stps: Array<number>) => {
+    const currentStopSelected = queryFilter?.stops || [];
+    return stps.map((item) => ({
+      id: `${item}`,
+      label: item ? `${item} ${stopsText}` : directText,
+      selected: currentStopSelected.includes(`${item}`),
+    }));
+  };
+
+  const defineAirlinesOptions = (airlines: Array<string>) => {
+    const currentAirlinesSelected = queryFilter?.airlines || [];
+    return airlines.map((item) => ({
+      id: `${item}`,
+      label: `${item}`,
+      selected: currentAirlinesSelected.includes(`${item}`),
+    }));
+  };
+
+  const defineCitiesOptions = (cities: Array<string>) => {
+    const currentCitiesSelected = queryFilter?.cities || [];
+    return cities.map((item) => ({
+      id: `${item}`,
+      label: `${item}`,
+      selected: currentCitiesSelected.includes(`${item}`),
+    }));
   };
 
   const handleClearFilters = () => {
@@ -219,104 +245,75 @@ const FlightSecondarySearchOptions = () => {
 
   const onChangeSortBy = (value: string) => {
     setSortBy(value);
-    /*
-    setQueryParams({
-      sortBy: value,
-    });
-    */
   };
 
   const onChangeMinPrice = (value: string) => {
     setMinPrice(value);
-    /*
-    setQueryParams({
-      minPrice: value,
-    });
-    */
   };
 
   const onChangeMaxPrice = (value: string) => {
     setMaxPrice(value);
-    /*
-    setQueryParams({
-      maxPrice: value,
-    });
-    */
   };
 
   const onChangeMinDepartureTimes = (value: string) => {
     setDepartureTimes([value, departureTimes[1]]);
-    /*
-    setQueryParams({
-      departureTimes: `${value},${departureTimes[1]}`,
-    });
-    */
   };
 
   const onChangeMaxDepartureTimes = (value: string) => {
     setDepartureTimes([departureTimes[0], value]);
-    /*
-    setQueryParams({
-      departureTimes: `${departureTimes[0]},${value}`,
-    });
-    */
   };
 
   const onChangeMinArrivalTimes = (value: string) => {
     setArrivalTimes([value, arrivalTimes[1]]);
-    /*
-    setQueryParams({
-      arrivalTimes: `${value},${arrivalTimes[1]}`,
-    });
-    */
   };
 
   const onChangeMaxArrivalTimes = (value: string) => {
     setArrivalTimes([arrivalTimes[0], value]);
-    /*
-    setQueryParams({
-      arrivalTimes: `${arrivalTimes[0]},${value}`,
-    });
-    */
   };
 
-  const onChangeStops = (value: string, isChecked: boolean) => {
+  const onChangeStops = (value: string) => {
     const arr = Object.assign([], stops);
-    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1)
+    if (arr.indexOf(value) < 0) {
+      arr.push(value);
+    } else if (arr.indexOf(value) > -1) {
       arr.splice(arr.indexOf(value), 1);
+    }
+    const updateOptions = stopsOptions.map((item) => ({
+      ...item,
+      selected: item.id === value ? !item.selected : item.selected,
+    }));
+    setStopsOptions(updateOptions);
     setStops(arr);
-    /*
-    setQueryParams({
-      stops: `${arr.join(',')}`,
-    });
-    */
   };
 
-  const onChangeAirlines = (value: string, isChecked: boolean) => {
+  const onChangeAirlines = (value: string) => {
     const arr = Object.assign([], airlines);
-    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1)
+    if (arr.indexOf(value) < 0) {
+      arr.push(value);
+    } else if (arr.indexOf(value) > -1) {
       arr.splice(arr.indexOf(value), 1);
+    }
+    const updateOptions = airlinesOptions.map((item) => ({
+      ...item,
+      selected: item.id === value ? !item.selected : item.selected,
+    }));
+    setAirlinesOptions(updateOptions);
     setAirlines(arr);
-    /*
-    setQueryParams({
-      airlines: `${arr.join(',')}`,
-    });
-    */
   };
 
-  const onChangeCities = (value: string, isChecked: boolean) => {
+  const onChangeCities = (value: string) => {
     const arr = Object.assign([], cities);
-    if (isChecked && arr.indexOf(value) < 0) arr.push(value);
-    if (!isChecked && arr.indexOf(value) > -1)
+    if (arr.indexOf(value) < 0) {
+      arr.push(value);
+    } else if (arr.indexOf(value) > -1) {
       arr.splice(arr.indexOf(value), 1);
+    }
+    const updateOptions = citiesOptions.map((item) => ({
+      ...item,
+      selected: item.id === value ? !item.selected : item.selected,
+    }));
+    setCitiesOptions(updateOptions);
     setCities(arr);
-    /*
-    setQueryParams({
-      cities: `${arr.join(',')}`,
-    });
-    */
   };
 
   const KeywordSearchFilter = () => (
@@ -432,11 +429,7 @@ const FlightSecondarySearchOptions = () => {
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={stopsLabel} />
-        <Checkbox
-          items={stopsOptions}
-          itemsChecked={stops}
-          onChange={onChangeStops}
-        />
+        <Checkbox options={stopsOptions} onChange={onChangeStops} />
       </FilterContainer>
 
       <Divider className="my-6" />
@@ -448,21 +441,13 @@ const FlightSecondarySearchOptions = () => {
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={airlinesLabel} />
-        <Checkbox
-          items={airlinesOptions}
-          itemsChecked={airlines}
-          onChange={onChangeAirlines}
-        />
+        <Checkbox options={airlinesOptions} onChange={onChangeAirlines} />
       </FilterContainer>
 
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={connectingAirportsLabel} />
-        <Checkbox
-          items={citiesOptions}
-          itemsChecked={cities}
-          onChange={onChangeCities}
-        />
+        <Checkbox options={citiesOptions} onChange={onChangeCities} />
       </FilterContainer>
     </section>
   );
