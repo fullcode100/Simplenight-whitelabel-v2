@@ -38,6 +38,7 @@ const ConfirmationFooter = ({
           </h1>
         </section>
       </section>
+
       <ConfirmationFooterButtons
         booking={booking}
         loading={loading}

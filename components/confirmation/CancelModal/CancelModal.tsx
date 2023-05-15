@@ -86,6 +86,7 @@ const CancelModal = ({
       title={cancelTitle}
       primaryButtonText={cancelTitle}
       primaryButtonAction={handleCancel}
+      isPrimaryActionLoading={loading}
       secondaryButtonText={close}
       secondaryButtonAction={onClose}
     >

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
@@ -38,10 +38,14 @@ const ConfirmationFooterButtons = ({
     router.push('/');
   };
 
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
   const handleCancelBooking = () => {
-    setLoading(!loading);
+    setLoading(true);
     cancelBooking(i18next, bookingId).then(() => {
-      setLoading(!loading);
+      setLoading(false);
+      console.log('not loading');
       router.reload();
     });
   };
@@ -64,6 +68,7 @@ const ConfirmationFooterButtons = ({
             type="outlined"
             translationKey="cancelOrder"
             onClick={onOpen}
+            disabled={loading}
           />
           <CancelModal
             open={isOpen}
