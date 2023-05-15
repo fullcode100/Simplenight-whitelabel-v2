@@ -113,7 +113,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const currentCurrency = getCurrency();
   const setQueryParam = useQuerySetterNotReload();
 
-  const { id, startDate, endDate, slug } = useQuery();
+  const { id, startDate, endDate, slug, mainCategory } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   const params: ThingsDetailRequest = {
@@ -121,6 +121,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     end_date: formatAsSearchDate(endDate as string),
     rsp_fields_set: 'extended',
     apiUrl,
+    mainCategory: mainCategory as string,
   };
 
   const fetchThingsToDo = async () => {
