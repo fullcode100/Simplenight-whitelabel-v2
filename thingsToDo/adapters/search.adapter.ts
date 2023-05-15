@@ -15,6 +15,7 @@ export const searchAdapter = (items: ThingsSearchItem[]) => {
       totalAmount: item.rate.total.full.formatted,
       categories: item.categories,
       address: item.address,
+      mainCategory: item.main_category,
     };
     return i;
   });

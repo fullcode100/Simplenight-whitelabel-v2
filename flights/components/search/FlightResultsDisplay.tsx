@@ -158,8 +158,6 @@ const FlightResultsDisplay = ({
         i18next,
       );
 
-      console.log('results => ', results);
-
       return results.flights;
     } catch (e) {
       console.error(e);
@@ -320,7 +318,7 @@ const FlightResultsDisplay = ({
             <>
               <section className="w-full h-full px-5 pb-6">
                 <section className="lg:py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
-                  <section className="flex flex-row items-center lg:pt-8 pb-3 text-base">
+                  <section className="flex flex-row items-center pb-3 text-base lg:pt-8">
                     {filters !== 'open' && (
                       <button
                         className="p-2 m-2 border-2 rounded-full text-primary-100 border-primary-100"

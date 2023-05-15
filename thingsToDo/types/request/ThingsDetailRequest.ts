@@ -9,4 +9,5 @@ export interface ThingsDetailRequest {
   end_date: DateString;
   rsp_fields_set: string;
   apiUrl: string;
+  mainCategory: string;
 }
