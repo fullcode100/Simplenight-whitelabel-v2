@@ -1,47 +1,39 @@
-import { BaseSyntheticEvent, useState } from 'react';
+import React from 'react';
 
-interface CheckboxProps {
-  items: string[];
-  itemsChecked: string[];
-  onChange?: (value: string, isChecked: boolean) => void;
+type Option = {
+  id: string;
+  label: string;
+  selected?: boolean;
+};
+
+type CheckboxProps = {
+  options: Array<Option>;
+  onChange: (selectedOption: string) => void;
   title?: string;
-}
+};
 
 export default function Checkbox({
-  items,
-  itemsChecked,
+  options,
   title = 'Checkbox',
   onChange,
 }: CheckboxProps) {
-  const handleCheckboxChange = (event: BaseSyntheticEvent, value: string) => {
-    const isChecked = event.target.checked;
-    if (onChange) onChange(value, isChecked);
-  };
-
-  const CheckboxItem = ({ item, checked }: { item: string, checked: boolean }) => {
-    const [isChecked, setIsChecked] = useState(checked);
-
-    const handleChange = (event: BaseSyntheticEvent) => {
-      setIsChecked(event.target.checked);
-      handleCheckboxChange(event, item);
-    };
-
+  const CheckboxItem = ({ item }: { item: Option }) => {
     return (
       <section className="relative flex items-start">
         <section className="flex items-center h-5">
           <input
-            id={item}
+            id={item.id}
             aria-describedby={`${item}-description`}
             name="comments"
             type="checkbox"
             className="focus:ring-primary-500 h-4 w-4 text-primary-600 border-gray-300 rounded"
-            onChange={handleChange}
-            checked={isChecked}
+            onChange={() => onChange(item.id)}
+            checked={item.selected}
           />
         </section>
         <section className="ml-3 text-sm">
           <label htmlFor="comments" className="font-medium text-gray-700">
-            {item}
+            {item.label}
           </label>
         </section>
       </section>
@@ -52,8 +44,8 @@ export default function Checkbox({
     <fieldset className="space-y-5">
       <legend className="sr-only">{title}</legend>
 
-      {items.map((item, index) => (
-        <CheckboxItem key={item + index} item={item} checked={itemsChecked.indexOf(item) > -1} />
+      {options.map((item) => (
+        <CheckboxItem key={item.id} item={item} />
       ))}
     </fieldset>
   );
