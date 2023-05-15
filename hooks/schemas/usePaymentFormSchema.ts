@@ -10,6 +10,11 @@ export const usePaymentFormSchema = () => {
     'Please fill out this field',
   );
 
+  const needsNameAndLastName = t(
+    'needsNameAndLastName',
+    'Please enter your name and last name',
+  );
+
   const enterValidCreditCardLabel = t(
     'enterValidCreditCard',
     'Please enter a valid credit card number',
@@ -47,6 +52,7 @@ export const usePaymentFormSchema = () => {
   const paymentFormSchema = z.object({
     creditCardName: z
       .string()
+      .regex(/^(?=.*\s)(\w+\s\w+).*/, needsNameAndLastName)
       .min(1, fillOutThisFieldLabel)
       .max(50, enterUpTo50CharactersLabel),
     creditCardNumber: z
