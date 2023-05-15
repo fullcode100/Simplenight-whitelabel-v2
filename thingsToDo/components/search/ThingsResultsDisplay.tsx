@@ -168,7 +168,7 @@ const ThingsResultsDisplay = ({
 
   const urlDetail = (thingsItem: SearchItem) => {
     const { id } = thingsItem;
-    return `/detail/${slug}/${id}?startDate=${startDate}&endDate=${endDate}`;
+    return `/detail/${slug}/${id}?startDate=${startDate}&endDate=${endDate}&mainCategory=${thingsItem.mainCategory}`;
   };
 
   const noResults = entertainmentItems?.length === 0;
@@ -213,7 +213,7 @@ const ThingsResultsDisplay = ({
           <section className="flex align-baseline">
             {!isFilterOpen && (
               <button
-                className="hover:bg-primary-800 hover:text-white p-2 mx-2 border-2 rounded-full text-primary-1000 border-primary-100"
+                className="p-2 mx-2 border-2 rounded-full hover:bg-primary-800 hover:text-white text-primary-1000 border-primary-100"
                 onClick={() => {
                   setIsFilterOpen(true);
                   onOpen();

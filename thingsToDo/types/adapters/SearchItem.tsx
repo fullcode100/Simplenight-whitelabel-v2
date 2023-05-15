@@ -17,4 +17,5 @@ export interface SearchItem {
   totalAmount: string;
   categories: Category[];
   address: Address;
+  mainCategory: string;
 }

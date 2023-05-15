@@ -119,8 +119,6 @@ export default async function handler(
     );
     const response: FlightsSearchResponseMS = await rawResults.json();
 
-    console.log('response flihgts => ', JSON.stringify(response));
-
     const flights = response?._legCollection._collection;
     const offers = response?._offersCollection.offerLegRefs;
 
