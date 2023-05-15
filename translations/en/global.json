@@ -202,5 +202,6 @@
   "passport": "Passport",
   "passportIDNumber": "Passport ID Number",
   "expiration": "Expiration",
-  "25maxCharacters": "25 is the maximum number of characters allowed"
+  "25maxCharacters": "25 is the maximum number of characters allowed",
+  "needsNameAndLastName": "Please enter the name and last name of the card owner"
 }

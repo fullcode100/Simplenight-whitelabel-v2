@@ -13,6 +13,7 @@ export interface ThingsSearchItem {
   cancellation_policy: CancellationPolicy;
   extra_data: ExtraData;
   categories: Category[];
+  main_category: string;
 }
 
 export interface Category {
