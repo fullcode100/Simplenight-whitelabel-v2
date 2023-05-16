@@ -12,13 +12,16 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import DiningFilterFormDesktop from './DiningFilterFormDesktop';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
-import MapIcon from 'public/icons/assets/map.svg';
-import ListIcon from 'public/icons/assets/list.svg';
+import MapIcon from 'public/icons/assets/map-ok.svg';
+import ListIcon from 'public/icons/assets/list-ok.svg';
 import classnames from 'classnames';
 import MapView from './MapView/MapView';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
-import { EmptyState as EmptyStateIllustration } from '@simplenight/ui';
+import {
+  EmptyState as EmptyStateIllustration,
+  IconWrapper,
+} from '@simplenight/ui';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
@@ -223,11 +226,19 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   const viewTypeFilterItems: RadioItemType[] = [
     {
       value: 'list',
-      label: <ListIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <ListIcon />
+        </IconWrapper>
+      ),
     },
     {
       value: 'map',
-      label: <MapIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <MapIcon />
+        </IconWrapper>
+      ),
     },
   ];
 
@@ -293,6 +304,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
                         value={view as string}
                         onChange={handleViewTypeChange}
                         name="viewType"
+                        square={true}
                       />
                     </section>
                     <DiningSecondarySearchOptions />
