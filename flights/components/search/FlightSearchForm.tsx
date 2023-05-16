@@ -45,6 +45,10 @@ const FlightSearchForm = () => {
   const [t] = useTranslation('flights');
   const travelersLabel = t('travelers', 'Travelers');
   const travelerLabel = t('traveler', 'Traveler');
+  const findThePerfectFlightLabel = t(
+    'findThePerfectFlightForYou',
+    'Find the perfect flight for you',
+  );
 
   const params = useQuery();
   const setSearch = useSearchStore((state) => state.setSearch);
@@ -496,6 +500,7 @@ const FlightSearchForm = () => {
   }, [fisrtLeavingFrom, lastGoingTo]);
 
   const [indexDatePicker, setIndexDatePicker] = useState(0);
+  const isSearchPage = router.asPath.includes('search');
 
   return (
     <>
@@ -524,6 +529,15 @@ const FlightSearchForm = () => {
             'flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible'
           }
         >
+          {!isSearchPage && (
+            <Paragraph
+              fontWeight="semibold"
+              size="large"
+              className="capitalize"
+            >
+              {findThePerfectFlightLabel}
+            </Paragraph>
+          )}
           <section
             className={
               'flex flex-col justify-start lg:flex-row lg:items-end lg:gap-2 lg:pb-0 lg:px-0 mt-3'
