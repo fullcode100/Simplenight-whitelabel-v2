@@ -3,8 +3,8 @@ import {
   AltRadioButtonGroup,
   RadioItemType,
 } from '../../../components/global/AltRadioButton/AltRadioButton';
-import MapIcon from '../../../public/icons/assets/map.svg';
-import ListIcon from '../../../public/icons/assets/list.svg';
+import MapIcon from '../../../public/icons/assets/map-ok.svg';
+import ListIcon from '../../../public/icons/assets/list-ok.svg';
 import { useTranslation } from 'react-i18next';
 import { ParkingSortBy } from '../../types/ParkingFilter';
 import SortAsc from '@/icons/assets/sort.svg';
@@ -14,6 +14,7 @@ import Chevron from '@/icons/assets/chevron-down-small.svg';
 import { Radio, RadioGroup } from '../../../components/global/Radio/Radio';
 import { Divider } from 'antd';
 import classNames from 'classnames';
+import { IconWrapper } from '@simplenight/ui';
 
 interface SearchResultsHeaderProps {
   length: number;
@@ -134,11 +135,19 @@ const ParkingSortingAndViewType: FC<{
   const viewTypeFilterItems: RadioItemType[] = [
     {
       value: 'list',
-      label: <ListIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <ListIcon />
+        </IconWrapper>
+      ),
     },
     {
       value: 'map',
-      label: <MapIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <MapIcon />
+        </IconWrapper>
+      ),
     },
   ];
 
