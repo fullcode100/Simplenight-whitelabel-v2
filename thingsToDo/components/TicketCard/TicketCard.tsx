@@ -1,5 +1,5 @@
 import Divider from 'components/global/Divider/Divider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TimeSelectorPill from '../TimeSelector/TimeSelectorPill';
 import TicketHeader from './TicketHeader';
 import TimeSelectorDrop from '../TimeSelector/TimeSelectorDrop';
@@ -13,6 +13,9 @@ import { getCurrency } from 'store/selectors/core';
 import { Location } from 'thingsToDo/types/response/ThingsDetailResponse';
 import DurationLabel from '../DurationLabel/DurationLabel';
 import { TicketAvailability } from 'thingsToDo/types/adapters/TicketAvailability';
+import { use } from 'i18next';
+import { CartItemRequest } from 'types/cart/CartType';
+import { useSelector } from 'react-redux';
 
 const PICKUP_QUESTION_ID = 'PICKUP_POINT';
 const MEETING_QUESTION_ID = 'MEETING_POINT';
@@ -56,13 +59,16 @@ const TicketCard = ({
 
   const timeNotSelected = selectedTime == '' ? true : false;
   /* selected */
-  const cantSelectTime = hasNoStartTime || isFullDay;
+  const cantSelectTime = hasNoStartTime || ticket.times.length === 0;
   const actionsAreDisabled =
     cantSelectTime && selected ? false : timeNotSelected;
 
+  const [itemToBook, setItemToBook] = useState<CartItemRequest | undefined>();
+
+  const currency = useSelector((state: any) => state.core.currency);
+
   const addToCartRequest = () => {
     const time = formatAsExactHour(selectedTime);
-    const currency = getCurrency();
 
     const bookingAnswers = [];
     if (pickup) {
@@ -97,6 +103,10 @@ const TicketCard = ({
       category,
     };
   };
+
+  useEffect(() => {
+    setItemToBook(addToCartRequest());
+  }, [selectedTime]);
 
   const TimeSelector = () => {
     ticket.times.sort((a, b) => a.start_time.localeCompare(b.start_time));
@@ -155,7 +165,7 @@ const TicketCard = ({
       <Divider />
       <section className="p-4">
         <TicketActions
-          itemToBook={addToCartRequest()}
+          itemToBook={itemToBook ?? {}}
           timeNotSelected={actionsAreDisabled}
           numberTickets={ticket.totalGuests}
         />
