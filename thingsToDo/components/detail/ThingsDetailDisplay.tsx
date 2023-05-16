@@ -72,6 +72,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
 
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
+  const { isDesktop } = useMediaViewport();
   const cancellationLabel = t('cancellation', 'Cancellation');
   const additionalInformationLabel = t(
     'additionalInformation',
@@ -93,11 +94,9 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const policiesRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
 
-  const { isDesktop } = useMediaViewport();
   const [isLoadMoreTickets, setIsLoadMoreTickets] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [scheduleLoaded, setScheduleLoaded] = useState(false);
-  const [emptyState, setEmptyState] = useState<boolean>(false);
   const [selectedMeeting, setSelectedMeeting] = useState<Location | undefined>(
     undefined,
   );
@@ -188,24 +187,26 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     });
     setQueryParam(queryParams);
     setIsCheckingAvailability(true);
-    const url = '/categories/' + item?.main_category ?? '';
-    const params: ThingsAvailabilityRequest = {
-      start_date: formatAsSearchDate(date as string),
-      inventory_id: id as string,
-      lang: i18next.language,
-      currency: currentCurrency,
-      ticket_types: ticketTypes,
-      apiUrl: url,
-    };
-    if (id) {
-      setLoading((prev) => !prev);
+
+    if (id && item?.main_category) {
+      const url = '/categories/' + item?.main_category;
+      const params: ThingsAvailabilityRequest = {
+        start_date: formatAsSearchDate(date as string),
+        inventory_id: id as string,
+        lang: i18next.language,
+        currency: currentCurrency,
+        ticket_types: ticketTypes,
+        apiUrl: url,
+      };
+
+      setAvailabilityLoading(true);
       Availability?.request?.(params, i18next, id)
         .then((tickets: TicketAvailability[]) => {
           setTickets(tickets);
-          setLoading((prev) => !prev);
+          setAvailabilityLoading(false);
         })
         .catch((e: any) => {
-          setLoading((prev) => !prev);
+          setAvailabilityLoading(false);
           console.error(e);
         });
     }
@@ -379,12 +380,8 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   const EmptyTickets = () => {
-    const { isDesktop } = useMediaViewport();
-    if (loading) {
-      return <Loader />;
-    }
     return (
-      <section className="w-full mx-auto ">
+      <section className="w-full mx-auto">
         <EmptyStateContainer
           Icon={isCheckingAvailability ? EmptyState : NoContent}
           text={
@@ -452,23 +449,29 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
         >
           <SectionTitle icon={<TicketIcon />} title="Tickets" />
           <section className="p-4 mt-4 rounded bg-dark-100 lg:mt-8 lg:mb-8">
-            <section>
-              <CheckThingsAvailability
-                isAdultRequired={isAdultRequired}
-                pricing={pricing}
-                onApply={handleAvailability}
-                activityMaxTravelers={activityMaxTravelers}
-                activityMinTravelers={activityMinTravelers}
-                disabledDays={disabledDays}
-              />
-            </section>
+            <CheckThingsAvailability
+              isAdultRequired={isAdultRequired}
+              pricing={pricing}
+              onApply={handleAvailability}
+              activityMaxTravelers={activityMaxTravelers}
+              activityMinTravelers={activityMinTravelers}
+              disabledDays={disabledDays}
+            />
           </section>
           <section
-            className={`items-start ${
-              tickets.length == 0 ? 'flex justify-center' : 'grid'
-            } gap-4 mt-4 lg:grid-cols-3`}
+            className={`items-start gap-4 mt-4 lg:grid-cols-3 ${
+              tickets.length == 0 || availabilityLoading
+                ? 'flex justify-center'
+                : 'grid'
+            }`}
           >
-            {tickets.length > 0 ? <TicketsList /> : <EmptyTickets />}
+            {availabilityLoading ? (
+              <Loader />
+            ) : tickets.length > 0 ? (
+              <TicketsList />
+            ) : (
+              <EmptyTickets />
+            )}
           </section>
           {!isLoadMoreTickets && tickets.length > startTicketsNumber && (
             <section className="flex justify-center mt-4">
