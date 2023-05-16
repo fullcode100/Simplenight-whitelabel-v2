@@ -13,29 +13,34 @@ interface RadioInputType {
   square?: boolean;
 }
 
-const AltRadioButton: FC<RadioItemType & RadioInputType> = (props) => {
+const AltRadioButton: FC<RadioItemType & RadioInputType> = ({
+  checked,
+  square,
+  name,
+  value,
+  onChange,
+  label,
+}) => {
   return (
     <label
       className={classNames(
-        'bg-white h-9 border hover:bg-primary-100 hover:border-primary-300 rounded flex justify-center items-center cursor-pointer grow basis-0',
-        {
-          'bg-primary-100 border-primary-1000 border-primary-1000 hover:border-primary-1000 text-primary-1000':
-            props.checked,
-          'px-4': !props.square,
-          'w-9': props.square,
-        },
+        'h-10 rounded flex justify-center items-center cursor-pointer grow basis-0 ',
+        square ? 'w-10' : 'px-4',
+        checked
+          ? 'bg-primary-100 text-primary-1000 shadow-container'
+          : 'text-dark-400',
       )}
     >
       <span className="absolute opacity-0 pointer-events-none">
         <input
           type="radio"
-          name={props.name}
-          value={props.value}
-          checked={props.checked}
-          onChange={(e) => props.onChange(e.target.value)}
+          name={name}
+          value={value}
+          checked={checked}
+          onChange={(e) => onChange(e.target.value)}
         />
       </span>
-      <span className="text-xs">{props.label}</span>
+      <span className="text-xs">{label}</span>
     </label>
   );
 };
