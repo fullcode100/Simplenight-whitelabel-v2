@@ -116,7 +116,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const resetCriteria = () => {
     clear();
-    setLimitsPrice(getPriceLimits(data as SearchItem[], criteria));
+    setLimitsPrice(getPriceLimits(data as SearchItem[]));
   };
 
   const paramRoomsData = roomsData
@@ -179,7 +179,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   useEffect(() => {
     if (data) {
-      setLimitsPrice(getPriceLimits(data, criteria));
+      setLimitsPrice(getPriceLimits(data));
     }
   }, [data, criteria.MaxRange, criteria.MinRange, criteria.keywordSearch]);
 
@@ -308,7 +308,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                       <>
                         {!isOpen && (
                           <button
-                            className="hover:bg-primary-800 hover:text-white p-2 mx-2 border-2 rounded-full text-primary-1000 border-primary-100"
+                            className="p-2 mx-2 border-2 rounded-full hover:bg-primary-800 hover:text-white text-primary-1000 border-primary-100"
                             onClick={() => {
                               onOpen();
                             }}

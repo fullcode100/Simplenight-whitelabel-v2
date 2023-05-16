@@ -25,31 +25,13 @@ const criteriaFilterFunctionsForPriceLimits: {
     ),
 };
 
-export const getPriceLimits = (
-  hotels: SearchItem[],
-  criteria: FilterCriteria,
-) => {
-  let filteredForPriceLimits = [...hotels];
-  Object.entries(criteria).forEach(([key, value]) => {
-    key = key || 'sortCriteria';
-    const filterFunction =
-      criteriaFilterFunctionsForPriceLimits[
-        key as FilterFunctionKeysForPriceLimits
-      ];
-    if (filterFunction) {
-      if ((key as string) !== 'MinPrice' && (key as string) !== 'MaxPrice') {
-        filteredForPriceLimits = filterFunction(filteredForPriceLimits, value);
-      }
-    }
-  });
+export const getPriceLimits = (hotels: SearchItem[]) => {
   const limits = [0, 5000];
-  const priceArray: number[] = [];
-  if (filteredForPriceLimits.length > 0) {
-    filteredForPriceLimits.forEach((item) =>
-      priceArray.push(item.minRate.avg_amount.avg_amount.amount),
-    );
-    limits[0] = Math.floor(Math.min(...priceArray));
-    limits[1] = Math.ceil(Math.max(...priceArray));
-  }
+  limits[0] = Math.floor(
+    Math.min(...hotels.map((h) => h.minRate.avg_amount.avg_amount.amount)),
+  );
+  limits[1] = Math.ceil(
+    Math.max(...hotels.map((h) => h.minRate.avg_amount.avg_amount.amount)),
+  );
   return limits;
 };
