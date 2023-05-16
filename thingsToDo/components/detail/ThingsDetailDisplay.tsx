@@ -38,8 +38,6 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
 import { ThingsAvailabilityRequest } from 'thingsToDo/types/request/ThingsAvailabilityRequest';
 import { getCurrency } from 'store/selectors/core';
-import EmptyCheckAvailability from 'public/icons/assets/empty-check-availability.svg';
-import EmptyNoAvailability from 'public/icons/assets/empty-no-availability.svg';
 import CheckThingsAvailability from '../CheckAvailability/CheckAvailability';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { useQuerySetterNotReload } from 'hooks/pageInteraction/useQuerySetter';
@@ -190,7 +188,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     });
     setQueryParam(queryParams);
     setIsCheckingAvailability(true);
-    const url = '/categories/' + item?.categories[0].id ?? '';
+    const url = '/categories/' + item?.main_category ?? '';
     const params: ThingsAvailabilityRequest = {
       start_date: formatAsSearchDate(date as string),
       inventory_id: id as string,
@@ -352,7 +350,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     const name = item?.name;
     const reviewsAmount = item?.extra_data?.review_amount;
     const activityScore = item?.extra_data?.avg_rating;
-    const totalScore = '5';
+
     return (
       <section className="border border-dark-300 bg-dark-100">
         <div className="mx-auto max-w-7xl">
@@ -490,40 +488,34 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
 
     return (
       <>
-        {emptyState ? (
-          <section className="flex items-center justify-center h-screen text-xl font-bold text-primary-1000">
-            empty state
-          </section>
-        ) : (
-          item && (
-            <>
-              <HeaderSection />
-              <TabsSection
-                ticketsRef={ticketsRef}
-                detailsRef={detailsRef}
-                policiesRef={policiesRef}
-                locationRef={locationRef}
+        {item && (
+          <>
+            <HeaderSection />
+            <TabsSection
+              ticketsRef={ticketsRef}
+              detailsRef={detailsRef}
+              policiesRef={policiesRef}
+              locationRef={locationRef}
+            />
+            <TicketsSection />
+            <Divider className="mt-6" />
+            <section className="mx-auto divide-dark-300 lg:gap-12 lg:grid lg:grid-cols-2 lg:divide-x max-w-7xl">
+              <section ref={detailsRef}>
+                <DetailsSection thingsItem={item} />
+              </section>
+              <Divider className="lg:hidden" />
+              <PoliciesSection />
+            </section>
+            <Divider />
+            <section ref={locationRef}>
+              <LocationSection
+                meetingPoints={meetingPoints}
+                pickupPoints={pickupPoints}
+                selectedPickup={selectedPickup}
+                setSelectedPickup={setSelectedPickup}
               />
-              <TicketsSection />
-              <Divider className="mt-6" />
-              <section className="mx-auto divide-dark-300 lg:gap-12 lg:grid lg:grid-cols-2 lg:divide-x max-w-7xl">
-                <section ref={detailsRef}>
-                  <DetailsSection thingsItem={item} />
-                </section>
-                <Divider className="lg:hidden" />
-                <PoliciesSection />
-              </section>
-              <Divider />
-              <section ref={locationRef}>
-                <LocationSection
-                  meetingPoints={meetingPoints}
-                  pickupPoints={pickupPoints}
-                  selectedPickup={selectedPickup}
-                  setSelectedPickup={setSelectedPickup}
-                />
-              </section>
-            </>
-          )
+            </section>
+          </>
         )}
       </>
     );
