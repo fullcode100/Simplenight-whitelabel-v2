@@ -33,6 +33,10 @@ const ConfirmationFooterButtons = ({
   const payment = booking.payments[0];
   const bookingItemsList = booking.items;
   const bookingTotalOrder = booking.order_total.formatted;
+  const hasSomeNotCancellableItem = bookingItemsList.some(
+    (item) => !item.is_cancellable,
+  );
+  const isCancellable = !hasSomeNotCancellableItem && bookedAmount > 0;
 
   const handleContinueShopping = () => {
     router.push('/');
@@ -56,7 +60,7 @@ const ConfirmationFooterButtons = ({
           {continueShopping}
         </h4>
       </button>
-      {bookedAmount > 0 && (
+      {isCancellable && (
         <section>
           <Button
             value={cancelOrder}
