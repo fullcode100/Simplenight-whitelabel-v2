@@ -44,10 +44,10 @@ const TicketCard = ({
   const description = ticket?.description;
   const isFullDay = ticket?.fullDay;
   const hasNoStartTime = ticket.times.length === 0;
-  const { duration: actiyvityDuration, minDuration, maxDuration } = ticket;
+  const { duration: activityDuration, minDuration, maxDuration } = ticket;
   const rangeDuration = minDuration &&
     maxDuration && { minDuration, maxDuration };
-  const fixedDuration = actiyvityDuration ? actiyvityDuration : 0;
+  const fixedDuration = activityDuration ? activityDuration : 0;
 
   const duration = (
     <DurationLabel duration={rangeDuration ? rangeDuration : fixedDuration} />
@@ -55,7 +55,7 @@ const TicketCard = ({
   const fulldayText = t('fullDay', 'Full Day');
   const fullDayOrDuration = isFullDay ? fulldayText : duration;
 
-  const showDuration = actiyvityDuration !== undefined && actiyvityDuration > 0;
+  const showDuration = activityDuration !== undefined && activityDuration > 0;
 
   const timeNotSelected = selectedTime == '' ? true : false;
   /* selected */
