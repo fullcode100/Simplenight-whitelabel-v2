@@ -76,6 +76,7 @@ export interface Item {
   voucher?: Voucher;
   customer_additional_requests?: string;
   refund: Refund;
+  is_cancellable: boolean;
 }
 
 export interface Voucher {
