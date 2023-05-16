@@ -1,11 +1,12 @@
 import React from 'react';
 
-import MapIcon from 'public/icons/assets/map.svg';
-import ListIcon from 'public/icons/assets/list.svg';
+import MapIcon from 'public/icons/assets/map-ok.svg';
+import ListIcon from 'public/icons/assets/list-ok.svg';
 import {
   AltRadioButtonGroup,
   RadioItemType,
 } from 'components/global/AltRadioButton/AltRadioButton';
+import { IconWrapper } from '@simplenight/ui';
 
 interface ViewActionsProps {
   setview: React.Dispatch<React.SetStateAction<string>>;
@@ -15,11 +16,19 @@ interface ViewActionsProps {
 const viewTypeFilterItems: RadioItemType[] = [
   {
     value: 'list',
-    label: <ListIcon />,
+    label: (
+      <IconWrapper size={24}>
+        <ListIcon />
+      </IconWrapper>
+    ),
   },
   {
     value: 'map',
-    label: <MapIcon />,
+    label: (
+      <IconWrapper size={24}>
+        <MapIcon />
+      </IconWrapper>
+    ),
   },
 ];
 

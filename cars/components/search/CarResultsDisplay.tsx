@@ -28,8 +28,8 @@ import {
   AltRadioButtonGroup,
   RadioItemType,
 } from 'components/global/AltRadioButton/AltRadioButton';
-import MapIcon from 'public/icons/assets/map.svg';
-import ListIcon from 'public/icons/assets/list.svg';
+import MapIcon from 'public/icons/assets/map-ok.svg';
+import ListIcon from 'public/icons/assets/list-ok.svg';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import CarSecondarySearchOptions from './CarSecondarySearchOptions';
 import Sort from '@/icons/assets/sort.svg';
@@ -37,7 +37,7 @@ import Chevron from '@/icons/assets/chevron-down-small.svg';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import classNames from 'classnames';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
-import { EmptyState } from '@simplenight/ui';
+import { EmptyState, IconWrapper } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { defaultDriverAge } from './CarSearchForm';
 
@@ -396,11 +396,19 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const viewTypeFilterItems: RadioItemType[] = [
     {
       value: 'list',
-      label: <ListIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <ListIcon />
+        </IconWrapper>
+      ),
     },
     {
       value: 'map',
-      label: <MapIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <MapIcon />
+        </IconWrapper>
+      ),
     },
   ];
 
