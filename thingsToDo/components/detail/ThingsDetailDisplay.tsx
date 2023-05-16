@@ -154,7 +154,6 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   };
 
   useEffect(() => {
-    const url = '/categories/' + item?.main_category ?? '';
     const startDate = formatAsSearchDate(dayjs().utc());
     const endDate = formatAsSearchDate(dayjs().add(1, 'years').utc());
 
@@ -162,7 +161,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
       inventory_id: id as string,
       start_date: startDate,
       end_date: endDate,
-      apiUrl: url,
+      apiUrl: `/categories/${item?.main_category}`,
     };
 
     if (item) {
@@ -189,14 +188,13 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
     setIsCheckingAvailability(true);
 
     if (id && item?.main_category) {
-      const url = '/categories/' + item?.main_category;
       const params: ThingsAvailabilityRequest = {
         start_date: formatAsSearchDate(date as string),
         inventory_id: id as string,
         lang: i18next.language,
         currency: currentCurrency,
         ticket_types: ticketTypes,
-        apiUrl: url,
+        apiUrl: `/categories/${item?.main_category}`,
       };
 
       setAvailabilityLoading(true);
