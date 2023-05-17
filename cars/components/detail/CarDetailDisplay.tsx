@@ -68,8 +68,12 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   console.log('Car data selected:', car);
 
   const coordinates = {
-    latitude: car?.remarks ? parseFloat(car?.remarks.split(',')[0]) : '',
-    longitude: car?.remarks ? parseFloat(car?.remarks.split(',')[1]) : '',
+    latitude: car?.remarks
+      ? parseFloat(car?.remarks.split(',')[0])
+      : ('' as unknown as number),
+    longitude: car?.remarks
+      ? parseFloat(car?.remarks.split(',')[1])
+      : ('' as unknown as number),
   };
 
   const goCheckout = () => {
