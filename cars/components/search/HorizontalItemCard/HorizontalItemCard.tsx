@@ -4,6 +4,7 @@ import Rating from 'components/global//Rating/Rating';
 import Link from 'next/link';
 import LocationIcon from 'public/icons/assets/cars/location.svg';
 import { Item } from 'types/cart/CartType';
+import { Car } from 'cars/types/response/CarSearchResponse';
 
 interface CardProps {
   subtitle?: ReactNode;
@@ -14,9 +15,10 @@ interface CardProps {
   rating?: number;
   priceDisplay?: ReactNode;
   cancellable?: ReactNode;
-  url?: string;
   address?: ReactNode;
   features?: ReactNode;
+  item: Car;
+  onClick: (car: Car) => void;
 }
 
 function HorizontalItemCard({
@@ -28,9 +30,10 @@ function HorizontalItemCard({
   rating,
   priceDisplay,
   cancellable,
-  url = '/',
   address,
   features,
+  item,
+  onClick,
 }: CardProps) {
   const [invalidImage, setInvalidImage] = useState(false);
   const target = window.innerWidth < 640 ? '_self' : '_blank';
@@ -60,7 +63,7 @@ function HorizontalItemCard({
     <li
       className={`bg-white flex flex-col border border-dark-300 rounded ${className}`}
     >
-      <Link href={url} passHref>
+      <div onClick={() => onClick(item)}>
         <a target={target} rel="noopener noreferrer">
           <section className="flex flex-col justify-center lg:flex-row">
             <section
@@ -101,7 +104,7 @@ function HorizontalItemCard({
           </section>
           <section className="flex-col lg:hidden">{price}</section>
         </a>
-      </Link>
+      </div>
     </li>
   );
 }

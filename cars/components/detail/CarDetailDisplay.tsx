@@ -11,6 +11,8 @@ import { Paragraph } from '@simplenight/ui';
 import CalendarInfo from '../CalendarInfo/CalendarInfo';
 import CarFeatures from './CarFeatures';
 import { Car } from 'cars/types/response/CarSearchResponse';
+import { useRouter } from 'next/router';
+import { useCarsStore } from 'hooks/cars/useCarsStore';
 
 type CarDetailDisplayProps = CategoryPageComponentProps;
 
@@ -72,10 +74,18 @@ const reviews = [
 
 const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   const [t, i18n] = useTranslation('cars');
+  const router = useRouter();
+
+  const car = useCarsStore((state) => state.car);
+  console.log('Car data selected:', car);
 
   const coordinates = {
     latitude: parseFloat(data.remarks.split(',')[0]),
     longitude: parseFloat(data.remarks.split(',')[1]),
+  };
+
+  const goCheckout = () => {
+    router.push('/checkout/car-rental', undefined, { shallow: true });
   };
 
   return (
@@ -144,7 +154,7 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
           </section>
         </section>
       </main>
-      <CarItineraryDetail name={data.car_model} handleAction={() => {}} />
+      <CarItineraryDetail name={data.car_model} handleAction={goCheckout} />
     </div>
   );
 };

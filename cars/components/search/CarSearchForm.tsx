@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Select from '../SelectTime/SelectTime';
 import Checkbox from 'components/global/Checkbox/Checkbox';
+import { useSearchStore } from 'hooks/cars/useSearchStore';
 
 export const defaultDriverAge = 25;
 export const minDriverAge = 18;
@@ -49,6 +50,7 @@ const CarSearchForm = ({
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
+  const setSearch = useSearchStore((state) => state.setSearch);
 
   const [address, setAddress] = useState<string>(
     params.address ? (params.address as string) : '',
@@ -127,6 +129,18 @@ const CarSearchForm = ({
     }&longitude2=${
       geolocation2?.split(',')[LONGITUDE_INDEX]
     }&address2=${address2}&driverAge=${driverAge}`;
+
+    setSearch({
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      geolocation,
+      geolocation2,
+      address2,
+      driverAge,
+    });
+
     handleSaveLastSearch(route);
     router.push(route);
   };

@@ -29,3 +29,5 @@ export interface CompanyPicture {
   png_url: string;
   svg_url: string;
 }
+
+export type CarItem = Car;
