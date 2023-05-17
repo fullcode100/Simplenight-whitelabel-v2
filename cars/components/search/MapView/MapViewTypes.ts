@@ -28,5 +28,5 @@ export interface itemsProps {
 export interface MapViewProps {
   CarCategory: CategoryOption;
   items: Car[];
-  createUrl: (item: Car) => string;
+  onClick: (item: Car) => void;
 }

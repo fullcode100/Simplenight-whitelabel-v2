@@ -40,6 +40,7 @@ import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStat
 import { EmptyState, IconWrapper } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { defaultDriverAge } from './CarSearchForm';
+import { useCarsStore } from 'hooks/cars/useCarsStore';
 
 declare let window: CustomWindow;
 
@@ -65,6 +66,8 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const { language } = i18next;
   const router = useRouter();
   const setQueryParams = useQuerySetter();
+
+  const setCarStore = useCarsStore((state) => state.setCar);
 
   const pageItems = 10;
   const [page, setPage] = useState<number>(1);
@@ -270,15 +273,14 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     setCarsFiltered(_carsFiltered);
   };
 
-  const urlDetail = () => {
-    const route = `/detail/car-rental/info?startDate=${startDate}&endDate=${endDate}&startTime=${startTime}&endTime=${endTime}&latitude=${latitude}&longitude=${longitude}&address=${address}&latitude2=${latitude2}&longitude2=${longitude2}&address2=${address2}`;
-    return route;
+  const goToDetailPage = (carItem: Car) => {
+    setCarStore({ ...carItem });
+    router.push('/detail/car-rental/info');
   };
 
   const CarList = () => (
     <ul role="list" className="space-y-4">
       {carsFiltered.map((car: Car, index: number) => {
-        const url = urlDetail();
         const title = car.car_model;
         const companyName = car.company_short_name;
         const companyImage = car.company_picture.svg_url;
@@ -328,7 +330,8 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
               image={image}
               price={<CarItemRateInfo item={car} />}
               className=" flex-0-0-auto"
-              url={url}
+              item={car}
+              onClick={goToDetailPage}
               priceDisplay={<PriceDisplay item={car} isSearch={true} />}
               cancellable={<CarCancellable item={car} />}
               features={<CarFeatures item={car} />}
@@ -529,7 +532,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
                     <CarMapView
                       CarCategory={CarCategory}
                       items={carsFiltered}
-                      createUrl={urlDetail}
+                      onClick={goToDetailPage}
                     />
                   ) : (
                     <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
