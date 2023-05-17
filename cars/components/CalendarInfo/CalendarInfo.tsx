@@ -8,16 +8,26 @@ interface CalenadarInfoProps {
 
 const CalendarInfo = ({ date, time, compact }: CalenadarInfoProps) => {
   return (
-    <section className="flex flex-row gap-2">
-      <CalendarIcon className="h-3.5 lg:h-4 lg:w-4 lg:ml-0 mt-1 lg:mt-0 text-primary-1000" />
-      <Paragraph
-        size="small"
-        fontWeight="semibold"
-        className={compact ? 'max-w-[268px]' : ''}
-      >
-        {date}
-        {time}
-      </Paragraph>
+    <section className="flex flex-col ">
+      <div className="flex flex-row gap-2">
+        <CalendarIcon className="h-3.5 lg:h-4 lg:w-4 lg:ml-0 mt-1 lg:mt-0 text-primary-1000" />
+        <Paragraph
+          size="small"
+          fontWeight="semibold"
+          className={compact ? 'max-w-[268px]' : ''}
+        >
+          {date}
+        </Paragraph>
+      </div>
+      <div className="ml-5 ">
+        <Paragraph
+          size="small"
+          fontWeight="semibold"
+          className={compact ? 'max-w-[268px]' : ''}
+        >
+          {time}
+        </Paragraph>
+      </div>
     </section>
   );
 };

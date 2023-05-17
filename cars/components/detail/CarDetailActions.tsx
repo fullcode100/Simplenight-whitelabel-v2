@@ -5,15 +5,17 @@ import { useTranslation } from 'react-i18next';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 const CarDetailActions = ({
+  total,
   handleAction,
 }: {
+  total: string;
   handleAction: (path: string) => void;
 }) => {
   const [t] = useTranslation('cars');
   const showAddToItinerary = hasCartMode();
   return (
     <div>
-      <BreakdownTotal total={t('free')} />
+      <BreakdownTotal total={`$${total}`} />
       {showAddToItinerary && (
         <Button
           className="mt-3"
