@@ -11,7 +11,7 @@ import React, { useState, ReactNode, useEffect } from 'react';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import DiningFilterFormDesktop from './DiningFilterFormDesktop';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
-import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+import HorizontalItemCard from './HorizontalItemCard';
 import MapIcon from 'public/icons/assets/map-ok.svg';
 import ListIcon from 'public/icons/assets/list-ok.svg';
 import classnames from 'classnames';
@@ -175,7 +175,6 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
         } = dining;
 
         const itemKey = id + index;
-        const formattedAddress = `${phone} | ${address}`;
         const url = urlDetail(dining);
 
         return (
@@ -187,7 +186,8 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
             item={dining}
             title={name}
             image={image}
-            address={formattedAddress}
+            address={address}
+            phone={phone}
             className="flex-0-0-auto"
             rating={rating}
             url={url}
