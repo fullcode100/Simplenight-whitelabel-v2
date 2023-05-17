@@ -2,13 +2,14 @@
 import type { NextApiResponse } from 'next';
 import { NextApiRequestWithSession } from 'types/core/server';
 import {
+  FlightItem,
   FlightResponse,
   FlightsSearchResponseMS,
   Leg,
   OfferLegRefsEntity,
 } from 'flights/types/response/FlightSearchResponseMS';
 
-const MAX_OFFERS = 50;
+const MAX_OFFERS = 100;
 export default async function handler(
   req: NextApiRequestWithSession,
   res: NextApiResponse<FlightResponse>,
@@ -95,6 +96,7 @@ export default async function handler(
       direction: direction,
       cabin: {
         economy: cabinType === 'economy',
+        premium_economy: cabinType === 'premium_economy',
         business: cabinType === 'business',
         first: cabinType === 'first_class',
       },
@@ -145,10 +147,11 @@ export default async function handler(
           if (!acum[id]) {
             acum[id] = [];
           }
-          acum[id].push({ ...current, offers: IdWithPrices[current.legId] });
+          const offersList = IdWithPrices[current.legId];
+          acum[id].push({ ...current, offer: offersList[0] });
 
           return acum;
-        }, [] as Array<Array<Leg & { offers?: Array<OfferLegRefsEntity> }>>);
+        }, [] as Array<Array<FlightItem>>);
 
       res.status(200).json({
         flights: resultFlights,

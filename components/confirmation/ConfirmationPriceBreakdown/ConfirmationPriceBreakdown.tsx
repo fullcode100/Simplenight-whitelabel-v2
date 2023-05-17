@@ -10,7 +10,7 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
   const [t, i18next] = useTranslation('global');
   const itemsSubtotal = t('itemsSubtotal', 'Items Subtotal');
   const taxes = t('taxesAndFees', 'Taxes And Fees');
-  const Payatproperty = t('Payatproperty', 'Pay at property');
+  const payAtProperty = t('Payatproperty', 'Pay at property');
 
   const {
     sub_total: orderSubTotal,
@@ -39,7 +39,7 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
       </section>
       <section className="flex justify-between mb-3">
         <h4 className="font-semibold text-dark-600 text-[18px]">
-          {Payatproperty}
+          {payAtProperty}
         </h4>
         <h4 className="font-semibold text-dark-1000 text-[18px]">
           {taxTotalPostpaid?.formatted}

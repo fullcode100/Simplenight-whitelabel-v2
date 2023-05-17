@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Checkbox from '../CheckboxGroup/Checkbox';
 import { useRouter } from 'next/router';
 import RangeSlider from 'flights/components/RangeSlider/RangeSlider';
 import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
 import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
-import { Flight } from 'flights/types/response/SearchResponse';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import FiltersIcon from 'public/icons/assets/filters.svg';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import TabSelector from 'components/global/TabSelector';
 import Selector from 'components/global/Select/Selector';
 import Divider from 'components/global/Divider/Divider';
 
+const FilterMainContainer = ({ children }: { children?: any }) => (
+  <section className="flex flex-col pr-6 mt-20 mb-6">{children}</section>
+);
+
 const FilterContainer = ({ children }: { children?: any }) => (
-  <section className="flex flex-col pr-6 mt-4 mb-6">{children}</section>
+  <section className="flex flex-col pr-6 my-6">{children}</section>
 );
 
 interface FlightFilterFormDesktopProps {
-  flights: Flight[];
+  flights: FlightItem[];
 }
 
 const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
@@ -194,12 +197,12 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   );
 
   const FilterHeader = () => (
-    <FilterContainer>
+    <FilterMainContainer>
       <section className="flex items-center justify-between ">
         <button
           onClick={() => {
             setQueryParams({
-              filters: '',
+              isFiltersOpen: '',
             });
           }}
           className="flex flex-row items-center p-2 border-2 rounded-3xl border-primary-1000"
@@ -214,101 +217,80 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
           {clearFiltersText}
         </button>
       </section>
-    </FilterContainer>
+    </FilterMainContainer>
   );
 
   useEffect(() => {
     // analyze flights response
-    let flightsMinPrice: number =
-      flights && flights[0]
-        ? parseFloat(flights[0]?.offers[0]?.totalAmound)
-        : 100;
-    let flightsMaxPrice: number =
-      flights && flights[0]
-        ? parseFloat(flights[0]?.offers[0]?.totalAmound)
-        : 5000;
-    let flightsMaxStops = 0;
+    let flightsMinPrice: number = parseFloat(
+      flights?.[0]?.offer?.totalAmount || '100',
+    );
+    let flightsMaxPrice: number = parseFloat(
+      flights?.[0]?.offer?.totalAmount || '5000',
+    );
+    const flightsStopsList: number[] = [];
     const flightsAirlines: string[] = [];
     const flightsCities: string[] = [];
 
     if (flights && flights.length) {
       flights.forEach((item) => {
         const itemFlight = item;
-        const amountMin = item?.offers[0]?.totalAmound
-          ? parseFloat(item?.offers[0]?.totalAmound)
-          : 0;
-        const amountMax = item?.offers[item?.offers.length - 1]?.totalAmound
-          ? parseFloat(item?.offers[item?.offers.length - 1]?.totalAmound)
-          : 0;
+        const totalAmount = itemFlight?.offer?.totalAmount;
+        const segmentsCollection = itemFlight?.segments?.collection;
+        const totalStops = segmentsCollection.length - 1;
         // price
+        const amountMin = parseFloat(totalAmount || '0');
+        const amountMax = parseFloat(totalAmount || '0');
         if (amountMin < flightsMinPrice) flightsMinPrice = amountMin;
         if (amountMax > flightsMaxPrice) flightsMaxPrice = amountMax;
         // stops
-        if (itemFlight?.segments?.collection.length - 1 > flightsMaxStops)
-          flightsMaxStops = itemFlight?.segments?.collection.length - 1;
+        if (!flightsStopsList.includes(totalStops)) {
+          flightsStopsList.push(totalStops);
+        }
         // airlines
-        itemFlight?.segments?.collection.forEach((segment) => {
-          if (flightsAirlines.indexOf(segment?.marketingCarrierName) < 0)
+        segmentsCollection.forEach((segment) => {
+          if (!flightsAirlines.includes(segment?.marketingCarrierName)) {
             flightsAirlines.push(segment?.marketingCarrierName);
+          }
         });
         // cities
-        itemFlight?.segments?.collection.forEach((segment) => {
+        segmentsCollection.forEach((segment) => {
           if (
-            flightsCities.indexOf(
-              itemFlight?.segments?.collection[0]?.departureAirportName,
-            ) < 0
+            !flightsCities.includes(segmentsCollection[0]?.departureAirportName)
           )
-            flightsCities.push(
-              itemFlight?.segments?.collection[0]?.departureAirportName,
-            );
+            flightsCities.push(segmentsCollection[0]?.departureAirportName);
           if (
-            flightsCities.indexOf(
-              itemFlight?.segments?.collection[0]?.arrivalAirportName,
-            ) < 0
+            !flightsCities.includes(segmentsCollection[0]?.arrivalAirportName)
           )
-            flightsCities.push(
-              itemFlight?.segments?.collection[0]?.arrivalAirportName,
-            );
+            flightsCities.push(segmentsCollection[0]?.arrivalAirportName);
         });
       });
 
       // price
       if (!queryFilter?.minPrice) setMinPrice(`${flightsMinPrice}`);
       if (!queryFilter?.maxPrice) setMaxPrice(`${flightsMaxPrice}`);
-      /*
-      setInitialPriceRange({
-        min: `${flightsMinPrice}`,
-        max: `${flightsMaxPrice}`,
-      });
-      */
       // stops
       setStops(
         queryFilter?.stops ? queryFilter.stops.toString().split(',') : [],
       );
-      const flightsStops = [directText];
-      for (let i = 1; i <= flightsMaxStops; i += 1) {
-        if (i < 2) flightsStops.push(`${i} ${stopText}`);
-        else flightsStops.push(`${i} ${stopsText}`);
-      }
+      const flightsStops = flightsStopsList.sort();
       setStopsOptions(defineStopOptions(flightsStops));
       // airlines
-      // setAirlines(
-      //   queryFilter?.airlines ? queryFilter.airlines.toString().split(',') : [],
-      // );
       setAirlinesOptions(flightsAirlines.sort(Intl.Collator().compare));
       // cities
       setCitiesOptions(flightsCities.sort(Intl.Collator().compare));
     }
   }, [flights]);
 
-  const defineStopOptions = (stps: Array<string>) => {
+  const defineStopOptions = (stps: Array<number>) => {
     const currentStopSelected = queryFilter?.stops || [];
-    return stps.map((stp) => ({
-      id: stp,
-      label: stp,
-      selected: currentStopSelected.indexOf(stp) !== -1,
+    return stps.map((item) => ({
+      id: `${item}`,
+      label: item ? `${item} ${stopsText}` : directText,
+      selected: currentStopSelected.includes(`${item}`),
     }));
   };
+
   const availableAirlines = [
     { id: 'all', name: t('allAirlines') },
     ...airlinesOptions.map((id) => ({
@@ -389,7 +371,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         }
         body={<PriceRangeFilter />}
       />
-      <Divider className="my-6" />
+      {/* <Divider className="my-6" />
       <CollapseUnbordered
         initialState={true}
         title={
@@ -406,7 +388,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
             />
           </>
         }
-      />
+      /> */}
       <Divider className="my-6" />
       <CollapseUnbordered
         initialState={true}

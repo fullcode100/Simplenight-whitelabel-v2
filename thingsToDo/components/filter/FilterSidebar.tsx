@@ -1,102 +1,149 @@
-import React, { useEffect, useState } from 'react';
 import FilterForm from './FilterForm';
 import ClearFilterButton from 'components/global/Filters/ClearFilterButton';
-import { useRouter } from 'next/router';
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import FilterContainer from 'components/global/Filters/FilterContainer';
 import { useTranslation } from 'react-i18next';
-import { Paragraph } from '@simplenight/ui';
+import FiltersIcon from 'public/icons/assets/filters.svg';
+import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 
-const FilterSidebar = () => {
+interface FilterSidebarProps {
+  keywordState: string;
+  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
+  isOpen: boolean;
+  onClose: () => void;
+  keywordSearchData: any;
+  setAppliedFilters: any;
+  setIsOpen: any;
+  filtersCount: number;
+  minPrice: string;
+  setMinPrice(price: string): void;
+  maxPrice: string;
+  setMaxPrice(price: string): void;
+  freeCancellation: boolean;
+  setFreeCancellation(freeCancellation: boolean): void;
+  minStarRating: string;
+  setMinStarRating(rating: string): void;
+  maxStarRating: string;
+  setMaxStarRating(rating: string): void;
+  keywordSearch: string;
+  setKeywordSearch(keywordSearch: string): void;
+  sortBy: string;
+  setSortBy(sortBay: string): void;
+}
+
+const initialFilters = {
+  keywordSearch: '',
+  price: { minPrice: '0', maxPrice: '5000' },
+  freeCancellation: false,
+  starRating: { minStarRating: '1', maxStarRating: '5' },
+  sortBy: 'recommended',
+};
+
+const FilterSidebar = ({
+  keywordState,
+  setKeywordState,
+  isOpen,
+  onClose,
+  keywordSearchData,
+  setAppliedFilters,
+  setIsOpen,
+  filtersCount,
+  minPrice,
+  setMinPrice,
+  maxPrice,
+  setMaxPrice,
+  freeCancellation,
+  setFreeCancellation,
+  minStarRating,
+  setMinStarRating,
+  maxStarRating,
+  setMaxStarRating,
+  keywordSearch,
+  setKeywordSearch,
+  sortBy,
+  setSortBy,
+}: FilterSidebarProps) => {
   const [t] = useTranslation('global');
-  const router = useRouter();
-  const [queryFilter, setQueryFilters] = useState(router.query);
-  const setQueryParams = useQuerySetter();
   const starRatingLabel = t('customerRating', 'Customer Rating');
   const keywordSearchLabel = t('keywordSearch', 'Keyword Search');
   const searchKeywordPlaceholder = t('searchKeywordPlaceholder', 'Venue Name');
   const filtersLabel = t('filters', 'Filters');
-
-  const [minPrice, setMinPrice] = useState(
-    (queryFilter?.minPrice as string) || '0',
-  );
-  const [maxPrice, setMaxPrice] = useState(
-    (queryFilter?.maxPrice as string) || '5000',
-  );
-  const [freeCancellation, setFreeCancellation] = useState(
-    queryFilter?.paymentTypes?.includes('freeCancellation') || false,
-  );
-  const [minStarRating, setMinStarRating] = useState<string>(
-    (queryFilter.minRating as string) || '1',
-  );
-  const [maxStarRating, setMaxStarRating] = useState<string>(
-    (queryFilter.maxRating as string) || '5',
-  );
-  const [keywordSearch, setKeywordSearch] = useState<string>(
-    (queryFilter?.keywordSearch as string) || '',
-  );
+  const sortLabel = t('sort', 'Sort');
+  const applyFiltersLabel = t('applyFilters', 'Apply Filters');
 
   const handleClearFilters = () => {
-    setQueryParams({
-      paymentTypes: '',
-      minRating: '',
-      maxRating: '',
-      isTotalPrice: '',
-      minPrice: '',
-      maxPrice: '',
-      keywordSearch: '',
-    });
+    setAppliedFilters(initialFilters);
+    setMinPrice('0');
+    setMaxPrice('5000');
+    setFreeCancellation(false);
+    setMinStarRating('1');
+    setMaxStarRating('5');
+    setKeywordSearch('');
+    setSortBy('recommended');
+    setKeywordState('');
+  };
+
+  const handleCloseModal = () => {
+    onClose();
+    setIsOpen(false);
+  };
+
+  const filtersApplied = {
+    keywordSearch: keywordSearch,
+    price: { minPrice: minPrice, maxPrice: maxPrice },
+    freeCancellation: freeCancellation,
+    starRating: { minStarRating: minStarRating, maxStarRating: maxStarRating },
+    sortBy: sortBy,
   };
 
   const onChangeMinPrice = (value: string) => {
     setMinPrice(value);
-    setQueryParams({
-      minPrice: value,
-      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
-    });
+    filtersApplied.price.minPrice = value;
+    setAppliedFilters(filtersApplied);
   };
 
   const onChangeMaxPrice = (value: string) => {
     setMaxPrice(value);
-    setQueryParams({
-      maxPrice: value,
-      ...((minPrice || maxPrice) && { isTotalPrice: 'false' }),
-    });
+    filtersApplied.price.maxPrice = value;
+    setAppliedFilters(filtersApplied);
   };
 
   const onChangeMinRating = (value: string) => {
     setMinStarRating(value);
-    setQueryParams({
-      minRating: value,
-    });
+    filtersApplied.starRating.minStarRating = value;
+    setAppliedFilters(filtersApplied);
   };
 
   const onChangeMaxRating = (value: string) => {
     setMaxStarRating(value);
-    setQueryParams({
-      maxRating: value,
-    });
+    filtersApplied.starRating.maxStarRating = value;
+    setAppliedFilters(filtersApplied);
   };
 
   const onChangeFreeCancellation = (value: boolean) => {
-    const paymentTypes = [];
-    if (value) paymentTypes.push('freeCancellation');
+    if (value) {
+      filtersApplied.freeCancellation = true;
+    } else {
+      filtersApplied.freeCancellation = false;
+    }
     setFreeCancellation(value);
-    setQueryParams({
-      paymentTypes: paymentTypes.join('-'),
-    });
+    setAppliedFilters(filtersApplied);
   };
 
   const onChangeKeywordSearch = (value: string) => {
     setKeywordSearch(value);
-    setQueryParams({
-      keywordSearch: value,
-    });
+    filtersApplied.keywordSearch = value;
+    setAppliedFilters(filtersApplied);
+  };
+
+  const onChangeSortBy = (value: string) => {
+    setSortBy(value);
+    filtersApplied.sortBy = value;
+    setAppliedFilters(filtersApplied);
   };
 
   const priceRangeFilter = {
-    minPrice,
-    maxPrice,
+    minPrice: parseInt(minPrice),
+    maxPrice: parseInt(maxPrice),
     onChangeMinPrice,
     onChangeMaxPrice,
   };
@@ -116,25 +163,71 @@ const FilterSidebar = () => {
     keywordSearch,
     onChangeKeywordSearch,
     keywordSearchPlaceholder: searchKeywordPlaceholder,
+    keywordSearchData,
+    setKeywordState,
+    keywordState,
+  };
+
+  const sortByselect = {
+    sortLabel: sortLabel,
+    sortBy,
+    onChangeSortBy,
   };
 
   return (
-    <section className="mt-3">
-      <FilterContainer>
-        <section className="flex items-center justify-between">
-          <Paragraph size="large" fontWeight="semibold">
-            {filtersLabel}
-          </Paragraph>
-          <ClearFilterButton handleClearFilters={handleClearFilters} />
-        </section>
-      </FilterContainer>
-      <FilterForm
-        priceRangeFilter={priceRangeFilter}
-        paymentFilter={paymentFilter}
-        starRangeFilter={starRangeFilter}
-        keywordSearchFilter={keywordSearchFilter}
-      />
-    </section>
+    <>
+      <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative">
+        <FilterContainer>
+          <section className="flex items-center justify-between ">
+            <button
+              onClick={() => {
+                setIsOpen(false);
+              }}
+              className="hover:bg-primary-800 hover:text-white hover:border-white flex flex-row items-center px-2 py-1 border-2 rounded-3xl border-primary-1000 text-primary-1000"
+            >
+              <FiltersIcon />
+              <span className="ml-2">{filtersLabel}</span>
+            </button>
+            <ClearFilterButton handleClearFilters={handleClearFilters} />
+            <section className="absolute left-16 -top-3">
+              <div className="w-6 h-6 bg-primary-1000 rounded-full flex justify-center items-center">
+                <span className="text-white font-light text-xs">
+                  {filtersCount}
+                </span>
+              </div>
+            </section>
+          </section>
+        </FilterContainer>
+        <FilterForm
+          sortBySelect={sortByselect}
+          priceRangeFilter={priceRangeFilter}
+          paymentFilter={paymentFilter}
+          starRangeFilter={starRangeFilter}
+          keywordSearchFilter={keywordSearchFilter}
+        />
+      </section>
+      <section className="lg:hidden">
+        <FullScreenModal
+          open={isOpen}
+          closeModal={handleCloseModal}
+          title="Filters"
+          primaryButtonText={applyFiltersLabel}
+          primaryButtonAction={handleCloseModal}
+          headerAction={
+            <ClearFilterButton handleClearFilters={handleClearFilters} />
+          }
+        >
+          <FilterForm
+            sortBySelect={sortByselect}
+            priceRangeFilter={priceRangeFilter}
+            paymentFilter={paymentFilter}
+            starRangeFilter={starRangeFilter}
+            keywordSearchFilter={keywordSearchFilter}
+            className="px-5 py-6"
+          />
+        </FullScreenModal>
+      </section>
+    </>
   );
 };
 

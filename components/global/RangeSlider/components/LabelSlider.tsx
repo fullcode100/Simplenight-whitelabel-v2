@@ -13,12 +13,7 @@ const LabelSlider = ({ type, value, isMaxLabel = false }: LabelProps) => {
       case 'priceRange':
         return <span>{'$'.repeat(value)}</span>;
       case 'price':
-        return (
-          <span>
-            ${value}
-            {isMaxLabel && '+'}
-          </span>
-        );
+        return <span>${value}</span>;
       case 'distance':
         return <span>{value} mi</span>;
       case 'star':

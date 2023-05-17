@@ -28,8 +28,8 @@ import {
   AltRadioButtonGroup,
   RadioItemType,
 } from 'components/global/AltRadioButton/AltRadioButton';
-import MapIcon from 'public/icons/assets/map.svg';
-import ListIcon from 'public/icons/assets/list.svg';
+import MapIcon from 'public/icons/assets/map-ok.svg';
+import ListIcon from 'public/icons/assets/list-ok.svg';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import CarSecondarySearchOptions from './CarSecondarySearchOptions';
 import Sort from '@/icons/assets/sort.svg';
@@ -37,8 +37,9 @@ import Chevron from '@/icons/assets/chevron-down-small.svg';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import classNames from 'classnames';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
-import { EmptyState } from '@simplenight/ui';
+import { EmptyState, IconWrapper } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
+import { defaultDriverAge } from './CarSearchForm';
 
 declare let window: CustomWindow;
 
@@ -79,6 +80,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     longitude2,
     address,
     address2,
+    driverAge,
 
     keywordSearch,
     // sortBy,
@@ -136,7 +138,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
       pickup_location: geolocation as unknown as StringGeolocation,
       return_context: 'GEO',
       return_location: geolocation2 as unknown as StringGeolocation,
-      driver_age: 20,
+      driver_age: parseInt(driverAge as string) || defaultDriverAge,
       apiUrl,
     };
 
@@ -394,11 +396,19 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const viewTypeFilterItems: RadioItemType[] = [
     {
       value: 'list',
-      label: <ListIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <ListIcon />
+        </IconWrapper>
+      ),
     },
     {
       value: 'map',
-      label: <MapIcon />,
+      label: (
+        <IconWrapper size={24}>
+          <MapIcon />
+        </IconWrapper>
+      ),
     },
   ];
 

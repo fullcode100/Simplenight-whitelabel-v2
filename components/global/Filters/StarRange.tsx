@@ -2,7 +2,6 @@ import { Dispatch } from 'react';
 
 import RangesliderLegacy from './RangesliderLegacy';
 import FilterContainer from './FilterContainer';
-import FilterTitle from './FilterTitle';
 
 export interface StarRangeFilterProps {
   minStarRating: string;
@@ -21,11 +20,9 @@ const StarRangeFilter = ({
   maxStarRating,
   onChangeMinRating,
   onChangeMaxRating,
-  starRatingLabel,
 }: StarRangeFilterProps) => {
   return (
     <FilterContainer>
-      <FilterTitle label={starRatingLabel} />
       {/* Avoid using this legacy component, instead use /components/global/RangeSlider/RangeSlider.tsx */}
       <RangesliderLegacy
         initialMin={minStarRating ? parseInt(minStarRating) : 1}
@@ -37,6 +34,7 @@ const StarRangeFilter = ({
         type="star"
         setMinState={onChangeMinRating}
         setMaxState={onChangeMaxRating}
+        marks={true}
       />
     </FilterContainer>
   );

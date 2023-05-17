@@ -1,10 +1,10 @@
 import { Collapse } from 'antd';
 import CollapseBody from 'components/global/CollapseBordered/components/CollapseBody';
 import CollapseHeader from 'components/global/CollapseBordered/components/CollapseHeader';
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import Person from 'public/icons/assets/person.svg';
 import Info from 'public/icons/assets/info-circle.svg';
-import { RegisterOptions, SubmitHandler, useForm } from 'react-hook-form';
+import { RegisterOptions, useForm } from 'react-hook-form';
 import { IPassenger } from './inputs';
 import {
   BaseButtonInput,
@@ -14,18 +14,29 @@ import {
   DateInput,
   Paragraph,
   Select,
+  TextInput,
+  IconWrapper,
+  FormField,
 } from '@simplenight/ui';
 import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
+import countryList from 'country-list';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import InputMask from 'react-input-mask';
+
+import InfoCircle from 'public/icons/assets/info-circle.svg';
+import { usePassengerSchema } from '../../hooks/usePassengerSchema';
 
 interface PassengerProps {
   passengerNumber: number;
   open: boolean;
   setOpen: (value: number) => void;
-  onSubmit: (data: IPassenger) => void;
-  lastPassenger?: boolean;
+  onSubmit: (data: IPassenger, passengerNumber: number) => void;
   pricing?: ReactNode;
+  passengersData: IPassenger[];
+  passengersQuantity: number;
 }
 
 const Passenger = ({
@@ -33,10 +44,11 @@ const Passenger = ({
   open,
   setOpen,
   onSubmit,
-  lastPassenger,
   pricing,
+  passengersData,
+  passengersQuantity,
 }: PassengerProps) => {
-  const [t, i18next] = useTranslation('flights');
+  const [t] = useTranslation('flights');
   const [tg] = useTranslation('global');
   const firstNameLabel = tg('first_name', 'First name');
   const middleNameLabel = tg('middle_name', 'Middle name');
@@ -47,23 +59,47 @@ const Passenger = ({
     'Country of residence',
   );
   const genderLabel = tg('gender', 'Gender');
+
+  const maleLabel = t('maleLabel', 'Male');
+  const femaleLabel = t('female', 'Female');
+
   const countryLabel = tg('country', 'Country');
-  const passportLabel = tg('passport', 'Passport');
   const passportIDNumberLabel = tg('passportIDNumber', 'Passport ID Number');
   const expirationLabel = tg('expiration', 'Expiration');
   const passengerLabel = t('passenger', 'Passenger');
   const nextPassengerLabel = t('nextPassenger', 'Next passenger');
-  const bookNowLabel = t('bookNow', 'Book now');
   const loyaltyProgramLabel = t('loyaltyProgram', 'Loyalty program');
   const loyaltyNumberLabel = t('loyaltyNumber', 'Loyalty number');
   const requiredLabel = tg('required', 'Required');
+  const isLastPassenger = passengerNumber === passengersQuantity;
+
+  const countries = countryList.getData();
+  countries.sort(function (a, b) {
+    const textA = a.name.toUpperCase();
+    const textB = b.name.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
+  const countriesOptions = [
+    { value: '', label: '' },
+    ...Object.values(countries).map((label) => {
+      return { value: label.code, label: label.name };
+    }),
+  ];
+
+  const { passengerSchema } = usePassengerSchema();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isValidating },
+    formState: { isValid, errors },
     setValue,
-  } = useForm<IPassenger>({ mode: 'all' });
+  } = useForm<IPassenger>({
+    mode: 'all',
+    resolver: zodResolver(passengerSchema),
+  });
+
+  const enableBookNow =
+    passengersData.length === passengersQuantity - 1 && isValid;
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
@@ -76,26 +112,13 @@ const Passenger = ({
     </section>
   );
 
-  const countriesOptions = useMemo(
-    () => [
-      { value: 'bolivia', label: 'Bolivia' },
-      { value: 'usa', label: 'Unites States' },
-      { value: 'rusia', label: 'Rusia' },
-    ],
-    [],
-  );
-
   const genderOptions = useMemo(
     () => [
-      { value: 'female', label: 'Female' },
-      { value: 'Male', label: 'Male' },
+      { value: 'male', label: maleLabel },
+      { value: 'female', label: femaleLabel },
     ],
     [],
   );
-
-  const setInputValue = (event: any) => {
-    setValue(event.target.id, event.target.value);
-  };
 
   const setSelectValue = (event: any) => {
     setValue(event.target.name, event.target.value);
@@ -106,18 +129,20 @@ const Passenger = ({
     nameInput: keyof IPassenger,
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
-    <section className="flex flox-col flex-wrap gap-2">
-      <section className="flex flex-row justify-between w-full">
-        <Label value={label} htmlFor={nameInput} />
-        {options?.required && (
-          <Label className="text-teal-1000" value={requiredLabel} />
-        )}
-      </section>
-      <BaseInput
+    <FormField
+      label={label}
+      required={{
+        required: options?.required ? true : false,
+        label: requiredLabel,
+      }}
+      error={errors[nameInput]?.message}
+    >
+      <TextInput
         placeholder={label}
-        {...register(nameInput, { ...options, onChange: setInputValue })}
+        {...register(nameInput)}
+        state={errors[nameInput] && 'error'}
       />
-    </section>
+    </FormField>
   );
 
   const getCheckboxField = (
@@ -133,6 +158,7 @@ const Passenger = ({
         onChange={(value) => {
           setValue(nameInput, value);
         }}
+        // eslint-disable-next-line react/no-children-prop
         children={label}
       />
     </section>
@@ -147,13 +173,14 @@ const Passenger = ({
     }[],
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
-    <section className="flex flox-col flex-wrap gap-2">
-      <section className="flex flex-row justify-between w-full">
-        <Label value={label} htmlFor={nameInput} />
-        {options?.required && (
-          <Label className="text-teal-1000" value={requiredLabel} />
-        )}
-      </section>
+    <FormField
+      label={label}
+      required={{
+        required: options?.required ? true : false,
+        label: requiredLabel,
+      }}
+      error={errors[nameInput]?.message}
+    >
       <select
         className="block w-full border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
         {...register(nameInput, { ...options, onChange: setSelectValue })}
@@ -164,25 +191,23 @@ const Passenger = ({
           </option>
         ))}
       </select>
-      {/* SELECT IS DOWN IN UI LIBRARY  */}
-      {/* <Select
-        options={countriesOptions}
-        defaultValue={countriesOptions[0]}
-        {...register('dateOfBirth', { required: false, max: 25, min: 1 })}
-      /> */}
-    </section>
+    </FormField>
   );
 
   const passengerForm = () => (
     <>
-      <section className="rounded border-[1px] border-dark-300 m-6 flex flex-row items-center py-[6px] px-1 w-max">
-        <Info className="w-4 h-4 mr-1" />
-        Enter the information of each passenger as it appears on their official
-        ID.
+      <section className="rounded border m-4 border-dark-300 flex flex-row items-center py-[6px] px-2 gap-2">
+        <IconWrapper size={16}>
+          <InfoCircle className="text-primary-1000" />
+        </IconWrapper>
+        <Paragraph className="capitalize shrink" fontWeight="semibold">
+          Enter the information of each passenger as it appears on their
+          official ID.
+        </Paragraph>
       </section>
       <form>
-        <section className="flex flex-row flex-nowrap mx-6 my-4 gap-8 justify-center">
-          <section className="flex flex-col gap-4 w-1/3">
+        <section className="flex flex-col justify-center gap-8 m-4 md:flex-row md:mx-6 flex-nowrap">
+          <section className="flex flex-col gap-4 md:w-1/3">
             {getInputField(firstNameLabel, 'firstName', {
               required: true,
               max: 25,
@@ -194,30 +219,42 @@ const Passenger = ({
               max: 25,
               min: 1,
             })}
-            <section className="flex flex-row justify-between gap-4">
-              <section className="flex flox-col flex-wrap gap-2">
-                <Label value={dateOfBirthLabel} htmlFor="dateOfBirth" />
-                <DateInput
-                  value={dayjs().format('MM-DD-YY')}
-                  {...register('dateOfBirth')}
-                />
+            <section className="flex flex-row gap-2">
+              <section className="w-full">
+                <FormField label={dateOfBirthLabel}>
+                  <InputMask
+                    mask={'99-99-99'}
+                    alwaysShowMask={false}
+                    maskPlaceholder=""
+                    type={'text'}
+                    placeholder="MM-DD-YY"
+                    {...register('dateOfBirth', { required: false })}
+                    className="border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  />
+                </FormField>
               </section>
-              {getSelectField(genderLabel, 'gender', genderOptions)}
+              <section className="w-full">
+                {getSelectField(genderLabel, 'gender', genderOptions, {
+                  required: true,
+                })}
+              </section>
             </section>
-            {getCheckboxField(
-              'I require wheelchair assistance while traveling.',
-              'wheelChair',
-            )}
-            {getCheckboxField(
-              'I have a Known Traveler Number.',
-              'knownTravelerNumber',
-            )}
-            {getCheckboxField(
-              'I am prepared to show vaccination records.',
-              'vaccinationRecords',
-            )}
+            <section className="hidden space-y-4 md:block ">
+              {getCheckboxField(
+                'I require wheelchair assistance while traveling.',
+                'wheelChair',
+              )}
+              {getCheckboxField(
+                'I have a Known Traveler Number.',
+                'knownTravelerNumber',
+              )}
+              {getCheckboxField(
+                'I am prepared to show vaccination records.',
+                'vaccinationRecords',
+              )}
+            </section>
           </section>
-          <section className="flex flex-col gap-4 w-1/3">
+          <section className="flex flex-col gap-4 md:w-1/3">
             {getSelectField(
               countryOfResidenceLabel,
               'countryOfResidence',
@@ -231,41 +268,62 @@ const Passenger = ({
             )}
             {getInputField(loyaltyNumberLabel, 'loyaltyNumber')}
           </section>
-          <section className="border-l-2 h-80 border-dark-300" />
-          <section className="flex flex-col gap-4 w-1/3">
+          <section className="block space-y-4 md:hidden ">
+            {getCheckboxField(
+              'I require wheelchair assistance while traveling.',
+              'wheelChair',
+            )}
+            {getCheckboxField(
+              'I have a Known Traveler Number.',
+              'knownTravelerNumber',
+            )}
+            {getCheckboxField(
+              'I am prepared to show vaccination records.',
+              'vaccinationRecords',
+            )}
+          </section>
+          <section className="border-t md:border-t-0 md:border-l-2 md:h-80 border-dark-300" />
+          <section className="flex flex-col gap-4 md:w-1/3">
             {getInputField(passportIDNumberLabel, 'passportIdNumber', {
               required: true,
               valueAsNumber: true,
             })}
-            <section className="flex flex-row justify-between gap-4">
-              {getSelectField(countryLabel, 'country', countriesOptions, {
-                required: true,
-              })}
-              <section className="flex flox-col flex-wrap gap-2">
-                <section className="flex flex-row justify-between w-full">
-                  <Label value={expirationLabel} htmlFor="expiration" />
-                  <Label className="text-teal-1000" value={requiredLabel} />
-                </section>
-                <DateInput
-                  value={dayjs().format('MM-DD-YY')}
-                  {...register('expiration')}
-                />
+            <section className="flex flex-row gap-2">
+              <section className="w-full">
+                {getSelectField(countryLabel, 'country', countriesOptions, {
+                  required: true,
+                })}
+              </section>
+              <section className="w-full">
+                <FormField
+                  label={expirationLabel}
+                  required={{
+                    required: true,
+                    label: requiredLabel,
+                  }}
+                >
+                  <InputMask
+                    mask={'99-99-99'}
+                    alwaysShowMask={false}
+                    maskPlaceholder=""
+                    type={'text'}
+                    placeholder="MM-DD-YY"
+                    {...register('expiration', { required: true })}
+                    className="border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  />
+                </FormField>
               </section>
             </section>
           </section>
         </section>
-        <section className="flex justify-end mx-6 my-4">
-          {!lastPassenger ? (
-            <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+        <section className="flex justify-end m-4 md:mx-6 ">
+          {!isLastPassenger && (
+            <Button
+              disabled={!isValid}
+              onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
+            >
               {nextPassengerLabel}
             </Button>
-          ) : (
-            <section className="flex justify-end gap-6">
-              <section>{pricing}</section>
-              <Button disabled={!isValid} onClick={handleSubmit(onSubmit)}>
-                {bookNowLabel}
-              </Button>
-            </section>
           )}
         </section>
       </form>
@@ -282,6 +340,20 @@ const Passenger = ({
         />
         {open && <CollapseBody show={open} body={passengerForm()} />}
       </Collapse>
+      {isLastPassenger && open && (
+        <section className="flex flex-col gap-2 md:flex-row md:justify-end md:gap-6">
+          <div className="flex justify-between ">
+            <Paragraph className="md:hidden">Total</Paragraph>
+            {pricing}
+          </div>
+          <Button
+            disabled={!enableBookNow}
+            onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
+          >
+            Book now
+          </Button>
+        </section>
+      )}
     </>
   );
 };

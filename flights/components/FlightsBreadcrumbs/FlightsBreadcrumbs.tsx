@@ -8,25 +8,18 @@ interface BreadCrumbProps {
   step: 1 | 2;
 }
 const FlightsBreadcrumbs = ({ content, step }: BreadCrumbProps) => {
-  const scrollDirection = useScrollDirection();
-
-  const classNameAbsolute = classnames(
-    'hidden lg:flex w-full left-0 absolute bg-primary-100 h-16 items-center justify-between z-10 transition-all duration-500 px-20',
-  );
-
-  const classNameFixed = classnames(
-    'hidden lg:flex w-full fixed left-0 bg-primary-100 h-16 items-center justify-between z-10 transition-all duration-500 px-20 top-20',
-  );
-
   return (
     <section
-      className={
-        scrollDirection === 'down' ? classNameFixed : classNameAbsolute
-      }
+      className={classnames(
+        'absolute flex w-full left-0 bg-primary-100 h-16 items-center justify-between transition-all duration-500 mt-[60px] md:mt-0 md:px-20 ',
+        step === 1 && 'hidden md:flex',
+      )}
     >
       <section className="flex w-full items-center justify-between max-w-7xl mx-auto">
         <section className="flex items-center gap-6">{content}</section>
-        <Stepper step={step} />
+        <div className="hidden md:block">
+          <Stepper step={step} />
+        </div>
       </section>
     </section>
   );

@@ -17,8 +17,8 @@ const FlightDetails = ({
   type,
 }: FlightDetailsProps) => {
   return (
-    <div className="flex gap-2 items-center">
-      <section className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center px-4 md:px-0">
+      <section className="flex gap-1 items-center">
         <Paragraph size="small" fontWeight="semibold">
           {departure}
         </Paragraph>
@@ -29,16 +29,15 @@ const FlightDetails = ({
           {arrival}
         </Paragraph>
       </section>
-      &bull;
       <section>
         <Paragraph size="small" fontWeight="semibold">
-          {`${departureDate} to ${arrivaDate}`}
+          · {`${departureDate} to ${arrivaDate}`}
         </Paragraph>
       </section>
-      &bull;
-      <section>
+
+      <section className="hidden md:block">
         <Paragraph size="small" fontWeight="semibold">
-          {type}
+          · {type}
         </Paragraph>
       </section>
     </div>

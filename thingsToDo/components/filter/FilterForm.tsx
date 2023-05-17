@@ -14,12 +14,14 @@ import StarRangeFilter, {
 import { Heading } from '@simplenight/ui';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import SortBy from 'components/global/Filters/SortBy';
 
 interface Props {
   priceRangeFilter: PriceRangeFilterProps;
   paymentFilter: PaymentFilterProps;
   starRangeFilter: StarRangeFilterProps;
   keywordSearchFilter: KeywordSearchFilterProps;
+  sortBySelect: any;
   className?: string;
 }
 
@@ -28,6 +30,7 @@ const FilterForm = ({
   paymentFilter,
   starRangeFilter,
   keywordSearchFilter,
+  sortBySelect,
   className,
 }: Props) => {
   const [t] = useTranslation('global');
@@ -36,12 +39,20 @@ const FilterForm = ({
   const paymentTypeLabel = t('paymentType', 'Payment Type');
 
   return (
-    <div className={`h-full overflow-y-hidden ${className}`}>
+    <div className={`h-full w-full overflow-hidden ${className}`}>
+      <SortBy
+        sortBy={sortBySelect?.sortBy}
+        onChangeSortBy={sortBySelect?.onChangeSortBy}
+      />
+      <div className="w-full h-px bg-dark-300" />
       <KeywordSearchFilter
         keywordSearch={keywordSearchFilter.keywordSearch}
         keywordSearchLabel={keywordSearchFilter.keywordSearchLabel}
         keywordSearchPlaceholder={keywordSearchFilter.keywordSearchPlaceholder}
         onChangeKeywordSearch={keywordSearchFilter.onChangeKeywordSearch}
+        keywordSearchData={keywordSearchFilter.keywordSearchData}
+        keywordState={keywordSearchFilter.keywordState}
+        setKeywordState={keywordSearchFilter.setKeywordState}
       />
       <div className="w-full h-px bg-dark-300" />
 

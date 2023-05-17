@@ -9,7 +9,6 @@ import ChevronDown from 'public/icons/assets/chevron-down-arrow.svg';
 import ChevronUp from 'public/icons/assets/chevron-up-arrow.svg';
 
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
-import { checkBog } from '../../../helpers/urlUtils';
 import useBog from 'hooks/bog/useBog';
 
 export interface CountryCodeOption {
@@ -105,17 +104,17 @@ const PhoneNumberInput = ({
 
   const getDefaultCountryCode = (defaultIso2Code: string) => {
     const countryIndex = iso2Lookup[defaultIso2Code];
-    return allCountries[countryIndex as unknown as number];
+    const code = allCountries[countryIndex as unknown as number];
+    return code;
   };
-  const [countryCode, setCountryCode] = useState<CountryCodeOption>(
-    getDefaultCountryCode(defaultCode.toLowerCase()),
-  );
-  const [formattedDialCode, setFormattedDialCode] = useState<string>(
-    countryCode.format ? formatDialCode(countryCode) : countryCode.dialCode,
-  );
+
+  const [countryCode, setCountryCode] = useState<CountryCodeOption>();
+  const [formattedDialCode, setFormattedDialCode] = useState<
+    string | undefined
+  >(countryCode?.format ? formatDialCode(countryCode) : countryCode?.dialCode);
   const [phoneNumber, setPhoneNumber] = useState(defaultPhoneNumber || '');
   const [phoneNumberMask, setPhoneNumberMask] = useState<string>(
-    countryCode.format ? getPhoneNumberMask(countryCode) : '',
+    countryCode?.format ? getPhoneNumberMask(countryCode) : '',
   );
 
   const idleBorderColor =
@@ -156,12 +155,17 @@ const PhoneNumberInput = ({
     setPhoneNumber(phone);
     onChange(
       JSON.stringify({
-        phone_prefix: isBog ? '1' : countryCode.dialCode,
+        phone_prefix: isBog ? '1' : countryCode?.dialCode,
         phone_number: removeFormatFromPhoneNumber(phone),
-        country: isBog ? 'us' : countryCode.iso2,
+        country: isBog ? 'us' : countryCode?.iso2,
       }),
     );
   };
+
+  useEffect(() => {
+    setCountryCode(getDefaultCountryCode(defaultCode.toLowerCase()));
+    handleChangeCode(getDefaultCountryCode(defaultCode.toLowerCase()));
+  }, [defaultCode]);
   return (
     <section ref={inputRef} className=" relative  mt-2 ">
       <section

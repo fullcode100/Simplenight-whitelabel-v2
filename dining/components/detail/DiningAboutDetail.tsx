@@ -66,7 +66,8 @@ const DiningAboutDetail = ({
       </div>
       <h6 className="mt-6 text-sm text-dark-800 lg:hidden">{t('timeSlots')}</h6>
       <div className="grid grid-cols-4 mt-6 lg:grid-cols-6 gap-x-3">
-        {times && times.length > 0 ? (
+        {times &&
+          times.length > 0 &&
           times?.map((item) => (
             <DiningTimeSelector
               key={item.time}
@@ -74,11 +75,9 @@ const DiningAboutDetail = ({
               onSelect={onSelect}
               status={defaultTime === item.time ? 'selected' : 'enabled'}
             />
-          ))
-        ) : (
-          <div>{t('closedDate')}</div>
-        )}
+          ))}
       </div>
+      {!times && <div>{t('reservationNotAvailable')}</div>}
     </>
   );
 };

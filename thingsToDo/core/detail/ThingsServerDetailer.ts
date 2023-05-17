@@ -5,10 +5,7 @@ import {
 import { AxiosInstance } from 'axios';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import { NextApiResponse } from 'next';
-import {
-  ThingsDetailResponse,
-  ThingsDetailItem,
-} from 'thingsToDo/types/response/ThingsDetailResponse';
+import { ThingsDetailResponse } from 'thingsToDo/types/response/ThingsDetailResponse';
 import { NextApiRequestWithSession } from 'types/core/server';
 import { ApiResponse } from 'types/global/Request';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
@@ -29,8 +26,16 @@ export class ThingsServerDetailer extends ServerDetailer<ThingsDetailResponse> {
     params['inventory_ids'] = id;
 
     const endpoint = params.apiUrl as string;
+
+    // TODO [CMPLXN-234], re design api in order to avoid this replaces, because our endpoints are set in admin side
     const endpointFormatted = `${endpoint}/items/details`;
-    const url = applyApiBaseUrlV2(endpointFormatted, request);
+
+    const url = applyApiBaseUrlV2(
+      endpointFormatted
+        .replace('sectors', 'categories')
+        .replace('entertainment', params.mainCategory as string),
+      request,
+    );
 
     delete params.id, params.apiUrl;
 

@@ -107,27 +107,29 @@ const HotelRoomsInfo = ({
         termsOfService={termsOfService}
         isPriceBase
       />
-      <section className="lg:flex lg:justify-end">
-        <section className="lg:w-1/4">
-          <Button
-            value={cancelLabel}
-            size="full-sm"
-            type="outlined"
-            translationKey="cancelReservation"
-            onClick={onOpen}
-          />
-          <CancelModal
-            open={isOpen}
-            onClose={onClose}
-            bookingItemsList={bookingItemsList}
-            payment={payment}
-            loading={loading}
-            setLoading={setLoading}
-            handleCancel={handleItemRemoval}
-            bookingTotalOrder={'$0.0'}
-          />
+      {item?.cancellation_policy?.cancellation_type !== 'NON_REFUNDABLE' && (
+        <section className="lg:flex lg:justify-end">
+          <section className="lg:w-1/4">
+            <Button
+              value={cancelLabel}
+              size="full-sm"
+              type="outlined"
+              translationKey="cancelReservation"
+              onClick={onOpen}
+            />
+            <CancelModal
+              open={isOpen}
+              onClose={onClose}
+              bookingItemsList={bookingItemsList}
+              payment={payment}
+              loading={loading}
+              setLoading={setLoading}
+              handleCancel={handleItemRemoval}
+              bookingTotalOrder={'$0.0'}
+            />
+          </section>
         </section>
-      </section>
+      )}
     </section>
   );
 };

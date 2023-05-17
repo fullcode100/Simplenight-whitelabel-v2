@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
@@ -33,16 +33,20 @@ const ConfirmationFooterButtons = ({
   const payment = booking.payments[0];
   const bookingItemsList = booking.items;
   const bookingTotalOrder = booking.order_total.formatted;
+  const hasSomeNotCancellableItem = bookingItemsList.some(
+    (item) => !item.is_cancellable,
+  );
+  const isCancellable = !hasSomeNotCancellableItem && bookedAmount > 0;
 
   const handleContinueShopping = () => {
     router.push('/');
   };
 
   const handleCancelBooking = () => {
-    setLoading(!loading);
+    setLoading(true);
     cancelBooking(i18next, bookingId).then(() => {
-      setLoading(!loading);
       router.reload();
+      setLoading(false);
     });
   };
 
@@ -56,7 +60,7 @@ const ConfirmationFooterButtons = ({
           {continueShopping}
         </h4>
       </button>
-      {bookedAmount > 0 && (
+      {isCancellable && (
         <section>
           <Button
             value={cancelOrder}
@@ -64,6 +68,7 @@ const ConfirmationFooterButtons = ({
             type="outlined"
             translationKey="cancelOrder"
             onClick={onOpen}
+            disabled={loading}
           />
           <CancelModal
             open={isOpen}

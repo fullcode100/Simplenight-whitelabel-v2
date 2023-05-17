@@ -28,7 +28,7 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
   const { direction, startAirport, endAirport, adults, children, infants } =
     search;
 
-  const totalFlightAmount = flight.offers?.[0].totalAmount || '0';
+  const totalFlightAmount = flight.offer?.totalAmount || '0';
 
   const adultsAmount = Number(adults);
   const adultsText = usePlural(
@@ -194,10 +194,10 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
       </section>
       <FlightItinerary />
 
-      {/*  Currently we are not receiveing rates per fare or additional fares (ie: Special Baggage)  
+      {/*  Currently we are not receiveing rates per fare or additional fares (ie: Special Baggage)
       when we do we can use the components commented below
       */}
-      {/*     
+      {/*
       <section className="space-y-2">
         <section className="flex justify-between">
           <IconAndLabel
@@ -221,7 +221,7 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
         <Paragraph size="small" fontWeight="semibold">
           {payNowLabel}
         </Paragraph>
-        <Pricing totalAmount={totalFlightAmount} />
+        <Pricing totalAmount={`US$${totalFlightAmount}`} />
       </section>
     </div>
   );

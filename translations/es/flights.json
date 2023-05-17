@@ -118,5 +118,8 @@
   "loyaltyProgram": "Programa de fidelización",
   "loyaltyNumber": "Número de lealtad",
   "departure": "Partida",
-  "departureFlight": "Vuelo de partida"
+  "departureFlight": "Vuelo de partida",
+  "male": "Masculino",
+  "female": "Femenino",
+  "findThePerfectFlightForYou": "Encuentra el vuelo perfecto para ti"
 }

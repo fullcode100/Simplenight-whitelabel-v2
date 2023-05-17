@@ -10,7 +10,7 @@ const ClearFilterButton = ({ handleClearFilters }: ClearFilterButtonProps) => {
 
   return (
     <button
-      className="text-base font-semibold underline text-primary-1000"
+      className="text-sm font-semibold underline text-primary-1000"
       onClick={handleClearFilters}
     >
       {clearFiltersText}
