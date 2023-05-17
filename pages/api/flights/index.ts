@@ -96,6 +96,7 @@ export default async function handler(
       direction: direction,
       cabin: {
         economy: cabinType === 'economy',
+        premium_economy: cabinType === 'premium_economy',
         business: cabinType === 'business',
         first: cabinType === 'first_class',
       },

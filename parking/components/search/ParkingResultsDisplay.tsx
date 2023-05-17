@@ -190,11 +190,8 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
       endTime ? (endTime as string) : (end as string),
       TIME_SELECTION_FORMAT,
     ).format('HHmm'),
-    latitude,
-    longitude,
-    rsp_fields_set: 'extended',
-    inventory_ids: ' ',
-    apiUrl: '/categories/parking/items/details',
+    apiUrl: '/categories/parking',
+    dst_geolocation: `${latitude},${longitude}`,
   };
 
   const fetchParking = async () => {
@@ -238,7 +235,7 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
 
   return (
     <>
-      <section className="lg:flex lg:w-full pt-4">
+      <section className="pt-4 lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 shrink-0">
           <ParkingFilterForm
             handleReset={onReset}

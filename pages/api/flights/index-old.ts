@@ -136,8 +136,6 @@ export default async function handler(
     // 'https://dev.jarnetsolutions.com/sn-booking-service/airsearch', // Amadeus
     // 'https://dev.jarnetsolutions.com/sn-booking-service/findbargain', // SABRE
 
-    console.log('Flights URL', url);
-
     const { data } = await axios.post(url, postData, {
       headers: {
         Accept: 'application/json',

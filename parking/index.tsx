@@ -36,7 +36,7 @@ const Category: CategoryOption = {
     urls: {
       search: {
         client: '/parking',
-        server: '/categories/parking/items/details',
+        server: '/categories/parking',
       },
       detail: {
         client: '/parking',
