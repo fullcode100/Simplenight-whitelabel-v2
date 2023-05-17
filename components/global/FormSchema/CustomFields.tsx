@@ -5,7 +5,6 @@ import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
 import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
 import NewPhoneNumberInput from '../PhoneNumberInput/NewPhoneNumberInput';
-import PhoneNumberInput from '../PhoneNumberInput/PhoneNumberInput';
 import SelectInput from '../SelectInput/SelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
