@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next';
 import Car from 'public/icons/categories/Category-Cars.svg';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import CarDetailActions from './CarDetailActions';
-
+export interface Rate {
+  totalAmount: string;
+  estimatedTotalAmount: string;
+  currencyCode: string;
+}
 const CarIconCircle = () => {
   return (
     <section className="rounded-full grid place-content-center min-h-[40px] min-w-[40px] bg-primary-1000 text-white">
@@ -14,31 +18,45 @@ const CarIconCircle = () => {
   );
 };
 
-const ItemItinerary = ({ label }: { label: string }) => {
+const ItemItinerary = ({
+  label,
+  estimatedAmount,
+}: {
+  label: string;
+  estimatedAmount: string;
+}) => {
   return (
     <div className="flex justify-between py-1 text-xs">
       <p>
         <span className="pr-3 text-lg leading-3 text-primary-1000">+</span>
         {label}
       </p>
-      <p>$0.00</p>
+      <p>${estimatedAmount}</p>
     </div>
   );
 };
 
-const TotalItinerary = ({ label }: { label: string }) => {
+const TotalItinerary = ({
+  label,
+  totalAmount,
+}: {
+  label: string;
+  totalAmount: string;
+}) => {
   return (
     <div className="flex justify-between text-xs">
       <p>{label}</p>
-      <p className="text-lg">$0.00</p>
+      <p className="text-lg">${totalAmount}</p>
     </div>
   );
 };
 const CarItineraryDetail = ({
   name,
+  rate,
   handleAction,
 }: {
   name: string;
+  rate: Rate;
   handleAction: (path: string) => void;
 }) => {
   const [t] = useTranslation('cars');
@@ -50,18 +68,27 @@ const CarItineraryDetail = ({
       </div>
       <div className="flex flex-col content-between flex-1 p-6">
         <div className="flex-1">
-          <ItemItinerary label={t('basePrice')} />
-          <ItemItinerary label={t('taxes')} />
+          <ItemItinerary
+            estimatedAmount={rate?.estimatedTotalAmount}
+            label={t('basePrice')}
+          />
+          <ItemItinerary
+            estimatedAmount={rate?.estimatedTotalAmount}
+            label={t('taxes')}
+          />
           <BlockDivider className="my-3" />
-          <TotalItinerary label={t('payNow')} />
+          <TotalItinerary totalAmount={rate?.totalAmount} label={t('payNow')} />
           <a
             href="https://terms.yelp.com/tos/en_us/20200101_en_us/"
             className="border-b-[1px] border-primary-1000 text-primary-1000 hover:text-primary-1000 visited:text-primary-1000"
           >
-            {t('termsOfService')}
+            {t('Terms Of Service')}
           </a>
         </div>
-        <CarDetailActions handleAction={handleAction} />
+        <CarDetailActions
+          total={rate?.totalAmount}
+          handleAction={handleAction}
+        />
       </div>
     </div>
   );
