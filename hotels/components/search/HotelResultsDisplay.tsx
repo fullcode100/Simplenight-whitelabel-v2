@@ -214,9 +214,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
             const url = urlDetail(hotel);
             const itemKey = hotel.id;
-            const { address, city, postalCode, countryCode } =
+            const { address, city, state, postalCode, countryCode } =
               fullAddress ?? {};
-            const formattedLocation = `${[city, countryCode, postalCode]
+            const formattedLocation = `${[city, state, countryCode, postalCode]
               .filter((item) => item)
               .join(', ')}`;
             return (

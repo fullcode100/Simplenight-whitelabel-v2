@@ -15,18 +15,15 @@ interface PriceDisplayProps {
   isAvgAmount?: boolean;
 }
 
-const PriceDisplay = ({
+const PriceDisplay: any = ({
   rate,
   totalLabel,
   isStartingTotal = false,
   isPriceBase = false,
-  isAvgAmount = false,
 }: PriceDisplayProps) => {
   const router = useRouter();
   const pathName = router.pathname;
   const totalAmount = rate?.min_rate.rate.total_amount.formatted;
-  const currency = rate?.min_rate.rate.total_amount.currency;
-  const avgAmount = rate?.avg_amount?.avg_amount?.formatted;
   const startingRoomTotal = rate?.min_rate?.rate.starting_room_total;
   const discounts = rate?.avg_amount?.discounts;
   const allRoomsAmount =
@@ -72,17 +69,14 @@ const PriceDisplay = ({
           ['flex flex-row gap-1 justify-end']: totalLabel,
         })}
       >
-        <span className="text-xs">{totalLabel}</span>
         <span className="text-sm font-semibold">
-          {currency} {allRoomsAmount ? allRoomsAmount : totalAmount}
+          {allRoomsAmount ? allRoomsAmount : totalAmount}
         </span>
       </p>
       {isStartingTotal && startingRoomTotal && (
         <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
           <span>{startingRoomTotalLabel}</span>
-          <span>
-            {currency} {startingRoomTotal.formatted}
-          </span>
+          <span>{startingRoomTotal.formatted}</span>
         </p>
       )}
       <section className="flex flex-row gap-1 justify-end">
