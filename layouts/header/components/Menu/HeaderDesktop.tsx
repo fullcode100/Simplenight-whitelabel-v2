@@ -73,7 +73,7 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
                   <img
                     src={logo}
                     alt="Branch Logo"
-                    className="h-[30px] object-contain"
+                    className="h-[60px] object-contain"
                   />
                 </a>
               </Link>
