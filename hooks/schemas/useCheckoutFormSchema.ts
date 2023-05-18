@@ -33,7 +33,7 @@ export const useCheckoutFormSchema = () => {
       .email(validEmailMessage)
       .min(1, fillOutThisFieldLabel)
       .max(50, enterUpTo50CharactersLabel),
-    country: z.string().min(1, fillOutThisFieldLabel),
+    country: z.string().min(1, fillOutThisFieldLabel).optional(),
   });
 
   return { checkOutFormSchema };
