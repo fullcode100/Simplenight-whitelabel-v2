@@ -357,6 +357,7 @@ const FlightSearchForm = () => {
       });
     }
 
+    const showFiltersParam = isDesktop ? '&isFiltersOpen=true' : '';
     let route = `/search/flights?direction=${direction}&startAirport=${startAirport}&endAirport=${endAirport}&startDate=${startDate}&endDate=${endDate}&adults=${adults}&children=${children}&infants=${infants}&childrenAges=${childrenAges}&infantsAges=${infantsAges}&latitude=${
       geolocation?.toString().split(',')[LATITUDE_INDEX]
     }&longitude=${
@@ -372,7 +373,8 @@ const FlightSearchForm = () => {
       )}&endAirports=${endAirports.join('|')}&startDates=${startDates.join(
         '|',
       )}&addresses=${addresses.join('|')}&addresses2=${addresses2.join('|')}`;
-    route = `${route}&currency='USD'&maxOfferss=50&cabinType=${selectedCabinType}`;
+    route = `${route}&currency='USD'&maxOfferss=50&cabinType=${selectedCabinType}${showFiltersParam}
+    `;
 
     setSearch({
       direction,

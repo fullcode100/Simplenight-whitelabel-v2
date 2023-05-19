@@ -33,6 +33,7 @@ import { useSearchFilterStore } from 'hooks/hotels/useSearchFilterStore';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import getKeywordSearchListHotels from '../helpers/getKeywordSearchListHotels';
 import { getPriceLimits } from 'hotels/helpers/getPriceLimits';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -87,10 +88,15 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const [hotels, setHotels] = useState<SearchItem[]>([]);
   const [view, setview] = useState('list');
   const isListView = view === 'list';
+  const { isDesktop } = useMediaViewport();
 
   const [isOpen, onOpen, onClose] = useModal();
   const [keywordSearchData, setKeywordSearchData] = useState<string[]>([]);
   const [keywordState, setKeywordState] = useState<string>('');
+
+  useEffect(() => {
+    isDesktop && onOpen();
+  }, [isDesktop]);
 
   const [minPriceFilter, setMinPriceFilter] = useState<number>(
     parseInt(criteria.MinPrice),
