@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { TabsProps } from './types';
 import Plus from '../../../public/icons/assets/Plus.svg';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Modal } from 'antd';
 import CommingSoon from '../ComingSoon';
 import { useTranslation } from 'react-i18next';
@@ -19,12 +19,37 @@ const HorizontalTabs = ({
   const [t] = useTranslation('global');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { pathname } = useRouter();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleOk = () => {
     setIsModalOpen(false);
+  };
+
+  if (typeof window !== 'undefined') {
+    if (
+      window.localStorage.getItem('scrollPositionNavHeader') &&
+      scrollContainerRef.current
+    ) {
+      const scrollPosition =
+        window.localStorage.getItem('scrollPositionNavHeader') || '0';
+      scrollContainerRef.current.scrollLeft = parseInt(scrollPosition);
+    }
+  }
+
+  const handleSetScrollPosition = () => {
+    if (
+      scrollContainerRef.current &&
+      scrollContainerRef.current.scrollLeft &&
+      typeof window !== 'undefined'
+    ) {
+      window.localStorage.setItem(
+        'scrollPositionNavHeader',
+        scrollContainerRef.current.scrollLeft.toString(),
+      );
+    }
   };
 
   const handleCancel = () => {
@@ -41,6 +66,8 @@ const HorizontalTabs = ({
       <nav
         className="flex justify-start w-full mx-auto overflow-scroll scrollbar-hide max-w-7xl"
         aria-label="Tabs"
+        ref={scrollContainerRef}
+        onScroll={() => handleSetScrollPosition()}
       >
         {tabs.map((tab) => (
           <button

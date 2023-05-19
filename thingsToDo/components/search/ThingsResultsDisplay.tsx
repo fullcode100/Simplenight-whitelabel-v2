@@ -25,6 +25,7 @@ import { filterByFilters } from 'thingsToDo/helpers/filterByFilters';
 import getKeywordSearchList from 'thingsToDo/helpers/getKeywordSearchList';
 import getFilterCount from 'thingsToDo/helpers/getFilterCount';
 import { useRouter } from 'next/router';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 interface ThingsResultsDisplayProps {
   ThingsCategory: CategoryOption;
@@ -174,7 +175,13 @@ const ThingsResultsDisplay = ({
 
   const noResults = entertainmentItems?.length === 0;
 
+  const { isDesktop } = useMediaViewport();
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    if (isDesktop) setIsFilterOpen(true);
+  }, [isDesktop]);
 
   const filterResultsByCategory = (
     items: SearchItem[] | undefined,

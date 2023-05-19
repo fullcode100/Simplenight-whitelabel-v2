@@ -44,13 +44,11 @@ const Rating = ({
         }
       />
       {count && (
-        <p className=" text-dark-800 font-semibold text-[14px]">
+        <p className=" text-dark-700 text-[14px]">
           {isHotelRating ? (
             <>{`${value}-Star Hotel`}</>
           ) : (
-            <>
-              {reviews} {reviewsLabel}
-            </>
+            <>{`${value}/5 (${reviews} ${reviewsLabel})`}</>
           )}
         </p>
       )}
