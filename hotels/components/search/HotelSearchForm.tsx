@@ -150,6 +150,34 @@ const HotelSearchForm = ({
     'Where would you like to go?',
   );
 
+  if (params.endDate && params.startDate) {
+    if (params.endDate === params.startDate) {
+      const isSameDay =
+        params.startDate.toString() === formatAsSearchDate(dayjs());
+      const newStartDate = isSameDay
+        ? formatAsSearchDate(dayjs().add(1, 'day')).toString()
+        : params.startDate.toString();
+      const newEndDate = isSameDay
+        ? formatAsSearchDate(dayjs().add(2, 'day')).toString()
+        : formatAsSearchDate(dayjs(params.startDate.toString()).add(1, 'day'));
+      const encodedAddress = encodeURIComponent(address || '');
+      const roomsDataFormatted = JSON.stringify(roomsData);
+      setQueryParam({
+        startDate: newStartDate,
+        endDate: newEndDate,
+        rooms: '1',
+        adults: '2',
+        children: '0',
+        childrenAges,
+        address: encodedAddress,
+        geolocation: geolocation ?? '',
+        latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
+        longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
+        roomsData: roomsDataFormatted,
+      });
+    }
+  }
+
   useEffect(() => {
     setTravelersTotals(roomsData, setAdults, setChildren, setChildrenAges);
     setRooms(roomsData.length.toString());
