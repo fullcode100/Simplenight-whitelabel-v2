@@ -1,6 +1,6 @@
 import { FormField, TextInput } from '@simplenight/ui';
 import NewPhoneNumberInput from 'components/global/PhoneNumberInput/NewPhoneNumberInput';
-import { useController, useFormContext } from 'react-hook-form';
+import { Controller, useController, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import countryList from 'country-list';
 
@@ -39,6 +39,7 @@ export const ClientFormContent = () => {
   const {
     register,
     formState: { errors },
+    control,
   } = methods;
 
   const { field } = useController({
@@ -55,7 +56,7 @@ export const ClientFormContent = () => {
 
   return (
     <div>
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-3">
         <FormField
           label={firstName}
           required={{ required: true, label: requiredText }}
@@ -78,18 +79,23 @@ export const ClientFormContent = () => {
             {...register('lastName')}
           />
         </FormField>
-        <FormField label={countryLabel} error={getErrors('country')}>
-          <Select
-            options={countryOptions}
-            defaultValue={selectedCountry}
-            onChange={(option) => setSelectedCountry(option)}
+        <FormField label={countryLabel}>
+          <Controller
+            name="country"
+            control={control}
+            render={({ field }) => (
+              <Select
+                options={countryOptions}
+                defaultValue={selectedCountry}
+                onChange={(option) => {
+                  setSelectedCountry(option);
+                  field.onChange(option.value);
+                }}
+              />
+            )}
           />
         </FormField>
-        <FormField
-          label={phoneNumber}
-          required={{ required: true, label: requiredText }}
-          error={getErrors('phoneNumber')}
-        >
+        <FormField label={phoneNumber} error={getErrors('phoneNumber')}>
           <NewPhoneNumberInput
             placeholder={phoneNumber}
             defaultCode={selectedCountry.value}
@@ -98,7 +104,7 @@ export const ClientFormContent = () => {
           />
         </FormField>
       </section>
-      <section className="grid gap-x-4 gap-y-6">
+      <section className="grid gap-x-4 pt-3">
         <FormField
           label={email}
           required={{ required: true, label: requiredText }}

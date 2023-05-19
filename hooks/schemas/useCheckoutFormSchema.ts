@@ -27,7 +27,10 @@ export const useCheckoutFormSchema = () => {
       .string()
       .min(1, fillOutThisFieldLabel)
       .max(25, enterUpTo25CharactersLabel),
-    phoneNumber: z.string(),
+    phoneNumber: z.string().refine((value) => {
+      const parsedValue = JSON.parse(value);
+      return parsedValue.phone_number.trim().length > 0;
+    }, fillOutThisFieldLabel),
     email: z
       .string()
       .email(validEmailMessage)
