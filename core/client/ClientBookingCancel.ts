@@ -22,8 +22,10 @@ export class ClientBookingCancel extends ClientRequester<
     axios: AxiosInstance,
   ): Promise<AxiosResponse<GetBookingResponse, any>> {
     const { bookingId } = request;
-    const endpoint = `/bookings/${bookingId}`;
+    const endpoint = request.apiUrl;
+    const url = `${endpoint || '/bookings'}/${bookingId}`;
+    delete request.apiUrl;
 
-    return axios.delete<GetBookingResponse>(endpoint);
+    return axios.delete<GetBookingResponse>(url);
   }
 }

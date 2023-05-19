@@ -9,7 +9,7 @@ const SupplierReference = ({
   const supplierIdLabel = t('supplierReferenceID', 'Supplier Reference ID');
 
   return (
-    <section className="grid gap-0 ">
+    <section className="grid gap-0 mb-4">
       <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-700">
         {supplierIdLabel}
       </p>

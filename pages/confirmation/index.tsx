@@ -13,12 +13,15 @@ import Loader from 'components/global/Loader/Loader';
 import ConfirmationCancelled from 'components/confirmation/ConfirmationCancelled/ConfirmationCancelled';
 import ConfirmationBooked from 'components/confirmation/ConfirmationBooked/ConfirmationBooked';
 import { useSettings } from 'hooks/services/useSettings';
+import { cancelBooking } from 'core/client/services/BookingService';
 
 import EmailIcon from 'public/icons/assets/email.svg';
 import PhoneCall from 'public/icons/assets/phone-call.svg';
+import { useRouter } from 'next/router';
 
 const Confirmation: NextPage = () => {
   // const [booking, setBooking] = useState<Booking | undefined>(undefined);
+  const router = useRouter();
   const { bookingId: bookingIdParams, lookup } = useQuery();
   const bookingId = bookingIdParams?.toString() || '';
   const [loading, setLoading] = useState(false);
@@ -51,6 +54,14 @@ const Confirmation: NextPage = () => {
     flatBookingItems?.filter((item) => item.status == 'cancelled').length || 0;
 
   const itemsAmount = bookedItemsAmount + cancelledItemsAmount;
+
+  const handleCancelBooking = () => {
+    setLoading(true);
+    cancelBooking(i18next, bookingId).then(() => {
+      router.reload();
+      setLoading(false);
+    });
+  };
 
   const HelpSection = () => {
     const [t, i18next] = useTranslation('global');
@@ -154,6 +165,7 @@ const Confirmation: NextPage = () => {
                     loading={loading}
                     setLoading={setLoading}
                     bookedAmount={bookedItemsAmount}
+                    handleCancelBooking={handleCancelBooking}
                   />
                   <HelpSection />
                 </section>

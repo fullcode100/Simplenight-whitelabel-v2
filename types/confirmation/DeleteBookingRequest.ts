@@ -5,4 +5,5 @@ export interface DeleteBookingItemRequest {
 
 export interface CancelBookingRequest {
   bookingId: string;
+  apiUrl?: string;
 }

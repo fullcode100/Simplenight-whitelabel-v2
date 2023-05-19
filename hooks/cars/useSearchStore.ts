@@ -8,6 +8,7 @@ export interface Search {
   endTime: string;
   geolocation: string;
   geolocation2: string;
+  address: string;
   address2: string;
   driverAge: string;
 }

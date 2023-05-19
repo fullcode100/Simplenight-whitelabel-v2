@@ -56,10 +56,15 @@ export const getBookingByOrderNumber = async (
   }
 };
 
-export const getBookingId = async (i18next: i18n, bookingId: string) => {
+export const getBookingId = async (
+  i18next: i18n,
+  bookingId: string,
+  apiUrl?: string,
+) => {
   const bookingGetter = new ClientBookingGetter();
   const bookingRequest = {
     id: bookingId,
+    apiUrl,
   };
 
   try {
@@ -72,10 +77,15 @@ export const getBookingId = async (i18next: i18n, bookingId: string) => {
   }
 };
 
-export const cancelBooking = async (i18next: i18n, bookingId: string) => {
+export const cancelBooking = async (
+  i18next: i18n,
+  bookingId: string,
+  apiUrl?: string,
+) => {
   const bookingCancel = new ClientBookingCancel();
   const requestData: CancelBookingRequest = {
     bookingId,
+    apiUrl,
   };
 
   try {

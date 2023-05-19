@@ -2,48 +2,33 @@ import { useTranslation } from 'react-i18next';
 
 import AmountDetailItem from './components/AmountDetailItem';
 import ExtraDetailItem from './components/ExtraDataItem';
+import { Paragraph, Pricing } from '@simplenight/ui';
 
 interface RoomPriceBreakdownProps {
   total?: string;
-  taxesAndFees?: string;
-  cancellationPolicy?: string;
 }
 
-const RoomPriceBreakdown = ({
-  total,
-  taxesAndFees,
-  cancellationPolicy,
-}: RoomPriceBreakdownProps) => {
+const RoomPriceBreakdown = ({ total }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('flights');
-  const taxesAndFeesLabel = t('taxesAndFees', 'Taxes And Fees');
-  const totalLabel = t('total', 'Total');
-  const priceIncludesLabel = t('priceIncludes', 'Price Includes');
-  const cancellationPolicyLabel = t(
-    'cancellationPolicy',
-    'Cancellation Policy',
-  );
+  const basePriceLabel = t('basePrice', 'Base Price');
+  const taxesLabel = t('taxes', 'Taxes');
+  const otherFeesLabel = t('otherFees', 'Other Fees');
+  const payNowLabel = t('payNow', 'Pay now');
 
   return (
     <>
-      {taxesAndFees && (
-        <AmountDetailItem amount={taxesAndFees} label={taxesAndFeesLabel} />
-      )}
-
-      {taxesAndFees && <div className="border-t border-dark-200"></div>}
-
-      <section className="flex justify-between">
-        <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-          {totalLabel}
+      <AmountDetailItem amount={total} label={basePriceLabel} />
+      <AmountDetailItem amount={'$0.00'} label={taxesLabel} />
+      <AmountDetailItem amount={'$0.00'} label={otherFeesLabel} />
+      <div className="border-t border-dark-200"></div>
+      <section className="mb-5 flex justify-between">
+        <p className="font-bold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+          {payNowLabel}
         </p>
-        <p className="font-bold text-[18px] leading-[24px] text-dark-1000">
-          {total}
-        </p>
+        <Pricing>
+          <Pricing.Total totalAmount={total as string} />
+        </Pricing>
       </section>
-
-      <ExtraDetailItem
-        detail={cancellationPolicy}
-        label={cancellationPolicyLabel}
-      />
     </>
   );
 };

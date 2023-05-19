@@ -31,8 +31,10 @@ import { useSearchStore } from 'hooks/cars/useSearchStore';
 
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import { bookingAdapter } from 'cars/adapters/booking.adapter';
+import PaymentCartItem from 'components/checkout/PaymentCart/PaymentCartItem';
+import { carBookingItemAdapter } from 'cars/adapters/carBookingItem.adapter';
 
-const CONFIRMATION_URI = '/car-rental/confirmation';
+const CONFIRMATION_URI = '/confirmation/car-rental';
 
 const Payment = () => {
   const router = useRouter();
@@ -63,6 +65,12 @@ const Payment = () => {
     resolver: zodResolver(paymentFormSchema),
   });
 
+  if (!car || !search) {
+    return null;
+  }
+
+  const item = carBookingItemAdapter(car, search);
+
   const onSubmit = (data: PaymentFormSchema) => {
     if (!terms) {
       return setErrorTerms(true);
@@ -88,7 +96,7 @@ const Payment = () => {
       const data = await createBooking(bookingParameters, i18next);
       const bookingId = data?.booking.booking_id;
       setLoading(false);
-      // router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
     } catch (error) {
       setLoading(false);
       console.error(error);
@@ -152,15 +160,7 @@ const Payment = () => {
               </section>
               <Divider />
               <section className="px-5 py-4">
-                {/* {cars &&
-                  search &&
-                  cars.map((car) => (
-                    <CarsCheckoutAccordion
-                      key={car.legId}
-                      car={car}
-                      search={search}
-                    />
-                  ))} */}
+                <PaymentCartItem item={item} />
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">

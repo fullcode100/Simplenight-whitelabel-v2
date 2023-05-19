@@ -6,21 +6,23 @@ import { useTranslation } from 'react-i18next';
 
 interface CarCustomerInfoProps {
   item?: Item;
-  primaryContact?: PrimaryContact;
 }
 
-const CarCustomerInfo = ({ item, primaryContact }: CarCustomerInfoProps) => {
+const CarCustomerInfo = ({ item }: CarCustomerInfoProps) => {
   const [t, i18next] = useTranslation('global');
   const reservationName = t('reservationName', 'Reservation Name');
-
-  const email = primaryContact?.email;
-  const phoneNumber = primaryContact?.phone_number;
-  const phonePrefix = primaryContact?.phone_prefix;
-  const firstName = primaryContact?.first_name;
-  const lastName = primaryContact?.last_name;
+  const customerData = item?.customer;
+  if (!customerData) {
+    return null;
+  }
+  const email = customerData?.email;
+  const phoneNumber = customerData?.phone_number;
+  const phonePrefix = customerData?.phone_prefix;
+  const firstName = customerData?.first_name;
+  const lastName = customerData?.last_name;
 
   return (
-    <section className="bg-primary-100 mt-6 lg:mt-3 flex p-3 border rounded border-primary-300">
+    <section className="bg-primary-100 mt-6 lg:mt-4 flex p-3 border rounded border-primary-300">
       <Buyer className="text-primary-1000 h-5 w-5 mr-2.5" />
       <section className="flex flex-col lg:flex-row lg:grid lg:grid-cols-2 lg:w-full">
         <section className="mb-1">

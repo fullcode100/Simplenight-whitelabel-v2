@@ -22,8 +22,10 @@ export class ClientBookingGetter extends ClientRequester<
     axios: AxiosInstance,
   ): Promise<AxiosResponse<GetBookingResponse, any>> {
     const { id } = request;
-    const endpoint = `/bookings/${id}`;
+    const endpoint = request.apiUrl;
+    const url = `${endpoint || '/bookings'}/${id}`;
+    delete request.apiUrl;
 
-    return axios.get<GetBookingResponse>(endpoint);
+    return axios.get<GetBookingResponse>(url);
   }
 }

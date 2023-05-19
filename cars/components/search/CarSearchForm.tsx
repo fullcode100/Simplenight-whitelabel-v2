@@ -128,7 +128,7 @@ const CarSearchForm = ({
       geolocation2?.split(',')[LATITUDE_INDEX]
     }&longitude2=${
       geolocation2?.split(',')[LONGITUDE_INDEX]
-    }&address2=${address2}&driverAge=${driverAge}`;
+    }&address=${address}&address2=${address2}&driverAge=${driverAge}`;
 
     setSearch({
       startDate,
@@ -137,6 +137,7 @@ const CarSearchForm = ({
       endTime,
       geolocation,
       geolocation2,
+      address,
       address2,
       driverAge,
     });

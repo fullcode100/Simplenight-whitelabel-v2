@@ -24,19 +24,9 @@ const CarRoomsInfo = ({ item, loading, setLoading }: CarRoomsInfoProps) => {
   const [t, i18next] = useTranslation('global');
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
 
-  const supplierReferenceID = item?.supplier_order_number;
-  const roomDetail = item?.extra_data?.rooms?.[0];
-  const roomName = roomDetail?.name;
-  const amenities = roomDetail?.amenities.join(', ');
+  const supplierReferenceID = item?.booking_data?.supplier_order_number;
 
-  const cancellationPolicy = item?.cancellation_policy?.description;
   const total = item?.total.formatted;
-  const taxesAndFees = item?.total_tax.formatted;
-  const resortFees = item?.total_postpaid.formatted;
-
-  const startDate = item?.extra_data?.start_date;
-  const endDate = item?.extra_data?.end_date;
-  const nights = startDate && endDate ? diffDays(startDate, endDate) : 0;
 
   const handleItemRemoval = async () => {
     const itemRemover = new ClientBookingItemRemover();
@@ -55,19 +45,13 @@ const CarRoomsInfo = ({ item, loading, setLoading }: CarRoomsInfoProps) => {
   };
 
   return (
-    <section className="flex flex-col gap-2 lg:gap-3 border-t border-dark-300 py-6 lg:pt-6 lg:pb-0">
-      <RoomTitle roomName={roomName} roomQty={item?.room_qty} nights={nights} />
-
+    <section className="flex flex-col gap-2 lg:gap-3 py-6 lg:pt-1 lg:pb-6">
       {supplierReferenceID && (
         <SupplierReference supplierReferenceID={supplierReferenceID} />
       )}
 
-      <RoomPriceBreakdown
-        total={total}
-        taxesAndFees={taxesAndFees}
-        cancellationPolicy={cancellationPolicy}
-      />
-      <section className="lg:flex lg:justify-end">
+      <RoomPriceBreakdown total={total} />
+      {/* <section className="lg:flex lg:justify-end">
         <section className="lg:w-1/4">
           <Button
             value={cancelLabel}
@@ -77,7 +61,7 @@ const CarRoomsInfo = ({ item, loading, setLoading }: CarRoomsInfoProps) => {
             onClick={handleItemRemoval}
           ></Button>
         </section>
-      </section>
+      </section> */}
     </section>
   );
 };
