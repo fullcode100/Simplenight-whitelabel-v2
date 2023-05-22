@@ -33,7 +33,7 @@ const ConfirmationFooterButtons = ({
   const bookingId = booking.booking_id;
   const payment = booking.payments[0];
   const bookingItemsList = booking.items;
-  const bookingTotalOrder = booking.order_total.formatted;
+  const bookingTotalOrder = booking.refunds_total.formatted;
   const hasSomeNotCancellableItem = bookingItemsList.some(
     (item) => !item.is_cancellable,
   );

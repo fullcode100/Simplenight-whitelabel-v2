@@ -76,7 +76,7 @@ const FullScreenModal = ({
                   headerAction={headerAction}
                 />
               )}
-              <section className="bg-white h-screen overflow-y-scroll">
+              <section className="h-screen overflow-y-scroll bg-white styled-scrollbar">
                 {children}
               </section>
               {renderFooter && (

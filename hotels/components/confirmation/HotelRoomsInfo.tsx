@@ -53,6 +53,7 @@ const HotelRoomsInfo = ({
   const taxesAndFees = roomRateDetail?.total_taxes.formatted;
   const resortFees = roomRateDetail?.post_paid_rate?.total_taxes.formatted;
   const termsOfService = item?.extra_data?.terms_and_conditions;
+  const refundAmount = item?.refund_amount_estimate.formatted;
 
   const nights = item?.booking_data?.nights ? item?.booking_data?.nights : 0;
 
@@ -125,7 +126,7 @@ const HotelRoomsInfo = ({
               loading={loading}
               setLoading={setLoading}
               handleCancel={handleItemRemoval}
-              bookingTotalOrder={'$0.0'}
+              bookingTotalOrder={refundAmount || '$0.00'}
             />
           </section>
         </section>
