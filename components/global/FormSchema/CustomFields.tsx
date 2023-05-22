@@ -140,7 +140,7 @@ export const CustomCountry = (props: any) => {
 };
 
 export const CustomPickupPoint = (props: any) => {
-  const { value, onChange, schema } = props;
+  const { value, onChange, schema, id } = props;
   useEffect(() => {
     const locations = schema?.data?.locations?.map?.(
       (location: any) => location.location,
@@ -152,6 +152,7 @@ export const CustomPickupPoint = (props: any) => {
       pickupPoints={schema?.data}
       selectedPickup={value}
       setSelectedPickup={onChange}
+      id={id}
     />
   );
 };
@@ -162,7 +163,7 @@ export const CustomNumberUnit = (props: any) => {
 };
 
 export const CustomLanguageGuide = (props: any) => {
-  const { value, onChange, schema, uiSchema } = props;
+  const { value, onChange, schema, uiSchema, id } = props;
   const dataByLabel: any = {};
   const data = schema?.data;
   const items: any = [];
@@ -191,6 +192,7 @@ export const CustomLanguageGuide = (props: any) => {
       selectedItem={selectedItem}
       setSelectedItem={onChangeHandler}
       isSearchable={false}
+      id={id}
     />
   );
 };

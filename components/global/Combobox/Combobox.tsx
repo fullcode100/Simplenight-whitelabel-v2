@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
 import ChevronDownIcon from 'public/icons/assets/chevron-down.svg';
+import { FieldValues, RegisterOptions, useFormContext } from 'react-hook-form';
 
 interface ComboboxProps {
   width: string;
@@ -12,6 +13,7 @@ interface ComboboxProps {
   selectedItem: any;
   setSelectedItem: any;
   isSearchable?: boolean;
+  id?: string;
 }
 
 const Combobox = ({
@@ -21,11 +23,16 @@ const Combobox = ({
   selectedItem,
   setSelectedItem,
   isSearchable = true,
+  id,
 }: ComboboxProps) => {
   const [searchResults, setSearchResults] = useState(items);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
 
+  const methods = useFormContext();
+  const { register = () => ({ id }), setValue = () => ({ id }) } = {
+    ...methods,
+  };
   const selectRef = useRef(null);
   useOnOutsideClick(selectRef, () => setOpen(false));
 
@@ -55,6 +62,7 @@ const Combobox = ({
 
   useEffect(() => {
     setSearch(selectedItem?.value);
+    setValue(id || '', selectedItem?.value);
   }, [selectedItem]);
 
   const handleOpen = () => {
@@ -78,8 +86,8 @@ const Combobox = ({
         }
         placeholder={placeholder}
         value={search}
-        onChange={handleSearch}
         disabled={!isSearchable}
+        {...register(id || '', { onChange: handleSearch })}
       />
       <button className="w-5 h-10 px-5" onClick={handleOpen} type="button">
         <ChevronDownIcon className="text-dark-700" />

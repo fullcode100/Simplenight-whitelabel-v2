@@ -41,3 +41,36 @@ export const useCheckoutFormSchema = () => {
 
   return { checkOutFormSchema };
 };
+
+export const useClientQuestionsCheckoutFormSchema = (schemas: any[]) => {
+  const baseValidationSchema: { [index: string]: any } = {};
+  const [t] = useTranslation('global');
+
+  const fillOutThisFieldLabel = t(
+    'fillOutThisField',
+    'Please fill out this field',
+  );
+  schemas?.forEach(({ travelerSchema, bookingSchema }) => {
+    // TODO: this would be refactored to check the travelers dynamic schema
+    // travelerSchema?.schema?.required?.forEach((value: string)=> {
+    //   baseValidationSchema[`root_${value}`] =
+    //     z[travelerSchema?.schema?.properties[value].type]()
+    //     .min(1)
+    // })
+    bookingSchema?.schema?.required?.forEach((value: string) => {
+      let zCopy;
+      switch (bookingSchema?.schema?.properties[value]!.type) {
+        case 'string':
+          zCopy = z.string();
+          break;
+        default:
+          zCopy = z.string();
+          break;
+      }
+      baseValidationSchema[`root_${value}`] = zCopy
+        .min(1, fillOutThisFieldLabel)
+        .max(bookingSchema?.schema?.properties[value]!.maxLength);
+    });
+  });
+  return z.object(baseValidationSchema);
+};

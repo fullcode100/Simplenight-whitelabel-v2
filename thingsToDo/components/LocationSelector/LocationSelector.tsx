@@ -8,6 +8,7 @@ interface LocationSelectorProps {
   locations: Location[];
   selectedPoint?: Location;
   setSelectedPoint: Dispatch<SetStateAction<Location | undefined>>;
+  id?: string;
 }
 
 const LocationSelector = ({
@@ -15,6 +16,7 @@ const LocationSelector = ({
   locations,
   selectedPoint,
   setSelectedPoint,
+  id,
 }: LocationSelectorProps) => {
   const formattedLocations = locations.map((location: any) => {
     const value = location.name || location.description;
@@ -36,6 +38,7 @@ const LocationSelector = ({
       items={formattedLocations}
       selectedItem={selectedPoint}
       setSelectedItem={setSelectedPoint}
+      id={id}
     />
   );
 };

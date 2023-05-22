@@ -33,9 +33,13 @@ import {
 import { useCustomer } from 'hooks/checkout/useCustomer';
 import { ClientFormContent } from 'components/checkout/ClientForm/ClientFormContent';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useCheckoutFormSchema } from 'hooks/schemas/useCheckoutFormSchema';
+import {
+  useCheckoutFormSchema,
+  useClientQuestionsCheckoutFormSchema,
+} from 'hooks/schemas/useCheckoutFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { getItemQuestionSchemas } from 'thingsToDo/helpers/questions';
 
 interface LayoutProps {
   children: ReactNode;
@@ -51,9 +55,18 @@ const Client = () => {
   const [travelersUiSchema, setTravelersUiSchema] = useState<any>();
   const [isRemoved, setIsRemoved] = useState(false);
   const { checkOutFormSchema } = useCheckoutFormSchema();
-  type CheckoutFormSchema = z.infer<typeof checkOutFormSchema>;
+
+  const [cart, setCart] = useState<any>();
+  const schemas = cart?.items?.map((item: any) => {
+    return getItemQuestionSchemas(item);
+  });
+  const baseValidationSchema = useClientQuestionsCheckoutFormSchema(schemas);
+
+  const formSchema = checkOutFormSchema.merge(baseValidationSchema);
+  type CheckoutFormSchema = z.infer<typeof formSchema>;
   const methods = useForm<CheckoutFormSchema>({
-    resolver: zodResolver(checkOutFormSchema),
+    resolver: zodResolver(formSchema),
+    mode: 'onSubmit',
   });
 
   const [customer, updateCustomer] = useCustomer((state) => [
@@ -89,7 +102,6 @@ const Client = () => {
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  const [cart, setCart] = useState<any>();
   let cartId: string | null = null;
   const handleAdditionalRequestChange = (
     data: any,
@@ -414,34 +426,34 @@ const Client = () => {
                 <section className="p-4">
                   <FormProvider {...methods}>
                     <ClientFormContent />
+                    <ClientCart
+                      items={cart?.items}
+                      schema={travelersFormSchema}
+                      uiSchema={travelersUiSchema}
+                      onChange={handleAdditionalRequestChange}
+                      onChangeAnswers={handleTravelerAnswerChange}
+                    />
+                    <CheckoutFooter type="client">
+                      <CheckoutSummary
+                        cart={cart}
+                        reload={reload}
+                        setReload={setReload}
+                      />
+                      <Button
+                        value={cancelButton}
+                        size={'full'}
+                        onClick={redirectToItinerary}
+                        color="outlined"
+                        className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+                      />
+                      <Button
+                        value={continueButton}
+                        size={'full'}
+                        className="lg:w-[35%] text-[18px] font-normal"
+                        onClick={methods.handleSubmit(continueToPayment)}
+                      />
+                    </CheckoutFooter>
                   </FormProvider>
-                  <ClientCart
-                    items={cart?.items}
-                    schema={travelersFormSchema}
-                    uiSchema={travelersUiSchema}
-                    onChange={handleAdditionalRequestChange}
-                    onChangeAnswers={handleTravelerAnswerChange}
-                  />
-                  <CheckoutFooter type="client">
-                    <CheckoutSummary
-                      cart={cart}
-                      reload={reload}
-                      setReload={setReload}
-                    />
-                    <Button
-                      value={cancelButton}
-                      size={'full'}
-                      onClick={redirectToItinerary}
-                      color="outlined"
-                      className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
-                    />
-                    <Button
-                      value={continueButton}
-                      size={'full'}
-                      className="lg:w-[35%] text-[18px] font-normal"
-                      onClick={methods.handleSubmit(continueToPayment)}
-                    />
-                  </CheckoutFooter>
                 </section>
               </Card>
             </section>
