@@ -9,7 +9,7 @@ export interface IPassenger {
   gender?: GenderEnum;
   passportIdNumber?: string;
   country?: string;
-  expiration?: string;
+  expiration?: Date;
   wheelChair?: boolean;
   vaccinationRecords?: boolean;
   knownTravelerNumber?: boolean;

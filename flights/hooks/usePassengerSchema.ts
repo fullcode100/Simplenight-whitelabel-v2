@@ -27,7 +27,7 @@ export const usePassengerSchema = () => {
       .min(1, { message: fillOutThisFieldLabel })
       .max(25, { message: maxCharacters25Label }),
     /* TODO UPDATE dateOfBirth this when datepicker is working */
-    dateOfBirth: z.string(),
+    dateOfBirth: z.date().optional(),
     gender: z.string().min(1, { message: fillOutThisFieldLabel }),
     countryOfResidence: z.string().min(1, { message: fillOutThisFieldLabel }),
     loyaltyProgram: z.string().optional(),
@@ -41,10 +41,7 @@ export const usePassengerSchema = () => {
       .max(25, { message: maxCharacters25Label }),
     country: z.string().min(1, { message: fillOutThisFieldLabel }),
     /* TODO UPDATE Expiration this to required whem datepicker is working */
-    expiration: z
-      .string()
-      .min(8)
-      .regex(/^\d{2}-\d{2}-\d{2}$/, { message: fillOutThisFieldLabel }),
+    expiration: z.date().optional(),
     wheelChair: z.boolean().optional(),
     vaccinationRecords: z.boolean().optional(),
     knownTravelerNumber: z.boolean().optional(),

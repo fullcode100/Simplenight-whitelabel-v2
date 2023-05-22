@@ -138,6 +138,7 @@ const Home: NextPageWithLayout = () => {
             </section>
           </UpperSectionBackground>
         </section>
+
         <HomeCategoryContent activeTab={tab ? tab : categoriesTabs?.[0]} />
         <section className="px-5 py-6 lg:px-20 lg:py-12">
           <section className="flex flex-col gap-4 mx-auto max-w-7xl lg:gap-8 lg:flex-row">

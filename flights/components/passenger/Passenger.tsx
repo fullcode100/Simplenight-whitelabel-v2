@@ -3,29 +3,21 @@ import CollapseBody from 'components/global/CollapseBordered/components/Collapse
 import CollapseHeader from 'components/global/CollapseBordered/components/CollapseHeader';
 import React, { ReactNode, useMemo } from 'react';
 import Person from 'public/icons/assets/person.svg';
-import Info from 'public/icons/assets/info-circle.svg';
-import { RegisterOptions, useForm } from 'react-hook-form';
+import { Controller, RegisterOptions, useForm } from 'react-hook-form';
 import { IPassenger } from './inputs';
 import {
-  BaseButtonInput,
-  BaseInput,
   Button,
   Checkbox,
-  DateInput,
   Paragraph,
-  Select,
   TextInput,
   IconWrapper,
   FormField,
 } from '@simplenight/ui';
-import Label from 'components/global/Label/Label';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import countryList from 'country-list';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import InputMask from 'react-input-mask';
-
+import ReactDatepicker from 'components/global/ReactDatepicker/ReactDatepicker';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { usePassengerSchema } from '../../hooks/usePassengerSchema';
 
@@ -93,11 +85,14 @@ const Passenger = ({
     handleSubmit,
     formState: { isValid, errors },
     setValue,
+    control,
   } = useForm<IPassenger>({
     mode: 'all',
     resolver: zodResolver(passengerSchema),
   });
 
+  console.log(errors);
+  console.log(isValid);
   const enableBookNow =
     passengersData.length === passengersQuantity - 1 && isValid;
 
@@ -222,14 +217,18 @@ const Passenger = ({
             <section className="flex flex-row gap-2">
               <section className="w-full">
                 <FormField label={dateOfBirthLabel}>
-                  <InputMask
-                    mask={'99-99-99'}
-                    alwaysShowMask={false}
-                    maskPlaceholder=""
-                    type={'text'}
-                    placeholder="MM-DD-YY"
-                    {...register('dateOfBirth', { required: false })}
-                    className="border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  <Controller
+                    control={control}
+                    name="dateOfBirth"
+                    render={({ field }) => (
+                      <ReactDatepicker
+                        onChange={(date: Date) => {
+                          field.onChange(date);
+                        }}
+                        selected={field.value || new Date()}
+                        maxDate={new Date()}
+                      />
+                    )}
                   />
                 </FormField>
               </section>
@@ -302,14 +301,18 @@ const Passenger = ({
                     label: requiredLabel,
                   }}
                 >
-                  <InputMask
-                    mask={'99-99-99'}
-                    alwaysShowMask={false}
-                    maskPlaceholder=""
-                    type={'text'}
-                    placeholder="MM-DD-YY"
-                    {...register('expiration', { required: true })}
-                    className="border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  <Controller
+                    control={control}
+                    name="expiration"
+                    render={({ field }) => (
+                      <ReactDatepicker
+                        onChange={(date: Date) => {
+                          field.onChange(date);
+                        }}
+                        selected={field.value || new Date()}
+                        maxDate={dayjs().add(20, 'years').toDate()}
+                      />
+                    )}
                   />
                 </FormField>
               </section>
