@@ -1,11 +1,10 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
 import Button from 'components/global/Button/Button';
 import CancelModal from '../CancelModal/CancelModal';
 
-import { cancelBooking } from 'core/client/services/BookingService';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import { Booking } from 'types/booking/bookingType';
 
@@ -14,6 +13,7 @@ interface ConfirmationFooterButtonsProps {
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
   bookedAmount: number;
+  handleCancelBooking: () => void;
 }
 
 const ConfirmationFooterButtons = ({
@@ -21,6 +21,7 @@ const ConfirmationFooterButtons = ({
   loading,
   setLoading,
   bookedAmount,
+  handleCancelBooking,
 }: ConfirmationFooterButtonsProps) => {
   const router = useRouter();
   const [isOpen, onOpen, onClose] = useModal();
@@ -40,14 +41,6 @@ const ConfirmationFooterButtons = ({
 
   const handleContinueShopping = () => {
     router.push('/');
-  };
-
-  const handleCancelBooking = () => {
-    setLoading(true);
-    cancelBooking(i18next, bookingId).then(() => {
-      router.reload();
-      setLoading(false);
-    });
   };
 
   return (

@@ -16,7 +16,7 @@ import CarCancellable from 'cars/components/search/CarCancellable';
 import CarFeatures from 'cars/components/search/CarFeatures';
 import { Item } from 'types/cart/CartType';
 
-const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
+const MapView = ({ CarCategory, items, onClick }: MapViewProps) => {
   const [t, i18next] = useTranslation('cars');
   const carLabel = t('car', 'Car');
   const fromLabel = t('from', 'From');
@@ -105,7 +105,6 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
             }
           >
             {items.map((car, index) => {
-              const url = createUrl(car);
               const title = car.car_model;
               const companyName = car.company_short_name;
               const companyImage = car.company_picture.svg_url;
@@ -165,7 +164,8 @@ const MapView = ({ CarCategory, items, createUrl }: MapViewProps) => {
                     image={image}
                     price={<CarItemRateInfo item={car} />}
                     className=" flex-0-0-auto"
-                    url={url}
+                    item={car}
+                    onClick={onClick}
                     priceDisplay={<PriceDisplay item={car} isSearch={true} />}
                     cancellable={<CarCancellable item={car} />}
                     features={<CarFeatures item={car} />}

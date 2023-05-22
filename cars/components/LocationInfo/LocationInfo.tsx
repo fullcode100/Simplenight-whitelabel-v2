@@ -1,20 +1,21 @@
-import { fromUpperCaseToCapitilize } from 'helpers/stringUtils';
-import { Address } from 'cars/types/response/SearchResponse';
+import { Paragraph } from '@simplenight/ui';
 import LocationPin from 'public/icons/assets/location-pin.svg';
 interface LocationInfoProps {
-  address?: Address;
+  address?: string;
+  compact?: boolean;
 }
 
-const LocationInfo = ({ address }: LocationInfoProps) => {
-  const city = fromUpperCaseToCapitilize(address?.city);
-
+const LocationInfo = ({ address, compact }: LocationInfoProps) => {
   return (
-    <section className="flex flex-row gap-2 lg:w-1/2">
-      <LocationPin className="h-3.5 lg:h-5 lg:w-5 ml-0.5 lg:ml-0 mt-1 lg:mt-0 text-primary-1000" />
-      <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-        {address?.address1}, {city}, {address?.country_code},{' '}
-        {address?.postal_code}
-      </p>
+    <section className="flex flex-row gap-2">
+      <LocationPin className="h-3.5 lg:h-4 lg:w-4 lg:ml-0 mt-1 lg:mt-0 text-primary-1000" />
+      <Paragraph
+        size="small"
+        fontWeight="semibold"
+        className={compact ? 'max-w-[268px]' : ''}
+      >
+        {address}
+      </Paragraph>
     </section>
   );
 };

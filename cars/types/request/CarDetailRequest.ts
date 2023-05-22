@@ -1,5 +1,4 @@
 import { DateString } from 'types/global/DateString';
-import { StringGeolocation } from 'types/search/Geolocation';
 import { Occupancy } from '../response/CarDetailResponse';
 
 export interface CarDetailPreRequest {

@@ -11,6 +11,7 @@ interface ConfirmationFooterProps {
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
   bookedAmount: number;
+  handleCancelBooking: () => void;
 }
 
 const ConfirmationFooter = ({
@@ -18,6 +19,7 @@ const ConfirmationFooter = ({
   loading,
   setLoading,
   bookedAmount,
+  handleCancelBooking,
 }: ConfirmationFooterProps) => {
   const [t, i18next] = useTranslation('global');
   const orderTotalLabel = t('orderTotal', 'Order Total');
@@ -44,6 +46,7 @@ const ConfirmationFooter = ({
         loading={loading}
         setLoading={setLoading}
         bookedAmount={bookedAmount}
+        handleCancelBooking={handleCancelBooking}
       />
     </section>
   );

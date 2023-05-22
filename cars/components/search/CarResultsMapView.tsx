@@ -5,13 +5,11 @@ import { Car } from 'cars/types/response/CarSearchResponse';
 interface CarMapViewProps {
   CarCategory: CategoryOption;
   items: Car[];
-  createUrl: (item: Car) => string;
+  onClick: (item: Car) => void;
 }
 
-const CarMapView = ({ CarCategory, items, createUrl }: CarMapViewProps) => {
-  return (
-    <MapView CarCategory={CarCategory} items={items} createUrl={createUrl} />
-  );
+const CarMapView = ({ CarCategory, items, onClick }: CarMapViewProps) => {
+  return <MapView CarCategory={CarCategory} items={items} onClick={onClick} />;
 };
 
 export default CarMapView;

@@ -9,8 +9,7 @@ import CategoryCarsIcon from 'public/icons/categories/Category-Cars.svg';
 import CarResultsDisplay from 'cars/components/search/CarResultsDisplay';
 import CarDetailDisplay from './components/detail/CarDetailDisplay';
 import CarItineraryDisplay from './components/itinerary/CarItineraryDisplay';
-import CarBreakdownDisplay from './components/checkout/CarBreakdownDisplay';
-import CarConfirmationDisplay from './components/confirmation/CarConfirmationDisplay';
+import CarItemBookingDisplay from './components/confirmation/CarItemBookingDisplay';
 import CarCancelledDisplay from './components/confirmation/CarCancelledDisplay';
 import { CarClientSearcher } from './core/search/CarClientSearcher';
 import { CarServerSearcher } from './core/search/CarServerSearcher';
@@ -19,8 +18,6 @@ import { CarServerDetailer } from './core/detail/CarServerDetailer';
 import CarSearchFormReadState from './components/search/CarSearchFormReadState';
 import CarIcon from 'public/icons/assets/car.svg';
 import CarSecondarySearchOptions from './components/search/CarSecondarySearchOptions';
-import CarCheckoutDisplay from './components/checkout/CarCheckoutDisplay';
-import CarCheckoutItemDisplay from './components/checkout/CarCheckoutItemDesplay';
 
 export const CAR_CATEGORY = 'car-rental';
 
@@ -65,10 +62,10 @@ const Category: CategoryOption = {
 Category.resultsDisplay = <CarResultsDisplay CarCategory={Category} />;
 Category.detailDisplay = <CarDetailDisplay Category={Category} />;
 Category.itineraryDisplay = <CarItineraryDisplay Category={Category} />;
-Category.breakdownDisplay = <CarBreakdownDisplay Category={Category} />;
-Category.checkoutDisplay = <CarCheckoutDisplay Category={Category} />;
-Category.checkoutItemDisplay = <CarCheckoutItemDisplay Category={Category} />;
-Category.confirmationDisplay = <CarConfirmationDisplay Category={Category} />;
+Category.breakdownDisplay = <CarItemBookingDisplay Category={Category} />;
+Category.checkoutDisplay = <CarItemBookingDisplay Category={Category} />;
+Category.checkoutItemDisplay = <CarItemBookingDisplay Category={Category} />;
+Category.confirmationDisplay = <CarItemBookingDisplay Category={Category} />;
 Category.cancelledDisplay = <CarCancelledDisplay Category={Category} />;
 
 Category.core.ClientSearcher = new CarClientSearcher(Category);

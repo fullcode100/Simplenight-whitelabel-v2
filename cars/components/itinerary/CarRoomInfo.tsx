@@ -14,11 +14,7 @@ const CarRoomInfo = ({ item }: CarRoomInfoProps) => {
 
   return (
     <section className="flex flex-col gap-2 border-t border-dark-300 py-4 px-4">
-      <RoomPriceBreakdown
-        total={total}
-        taxesAndFees={taxesAndFees}
-        cancellationPolicy={cancellationPolicy}
-      />
+      <RoomPriceBreakdown total={total} />
     </section>
   );
 };

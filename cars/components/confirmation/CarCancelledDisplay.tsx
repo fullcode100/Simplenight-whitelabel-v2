@@ -18,7 +18,7 @@ const CarCancelledDisplay = ({
   return (
     <CollapseUnbordered
       title={<CarConfirmationHeader item={item} icon={Category.icon} />}
-      body={<CarCancelledBody item={item} primaryContact={primaryContact} />}
+      body={<CarCancelledBody item={item} />}
     />
   );
 };
