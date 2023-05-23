@@ -49,13 +49,13 @@
   "sortByRating": "Clasificación",
   "sortByReviewCount": "Recuento de reseñas",
   "sortByDistance": "Distancia",
-  "day0": "Lun",
-  "day1": "Mar",
-  "day2": "Mie",
-  "day3": "Jue",
-  "day4": "Vie",
-  "day5": "Sab",
-  "day6": "Dom",
+  "day0": "Lunes",
+  "day1": "Martes",
+  "day2": "Miércoles",
+  "day3": "Jueves",
+  "day4": "Viernes",
+  "day5": "Sábado",
+  "day6": "Domingo",
   "supplierReference": "ID de referencia del proveedor",
   "confirmationNumber": "Número de confirmación",
   "openingTimes": "Horarios de apertura",
@@ -66,5 +66,6 @@
   "price": "Precio",
   "open": "Abierto",
   "closed": "Cerrado",
-  "diningItineraryDisclaimer": "Finalizar Pedido Ahora para evitar cambios de tarifa"
+  "diningItineraryDisclaimer": "Finalizar Pedido Ahora para evitar cambios de tarifa",
+  "bookTable": "Reservar una Mesa"
 }
