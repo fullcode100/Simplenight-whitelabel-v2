@@ -20,6 +20,7 @@ interface LocationMapProps {
   zoom?: number;
   onClickMarker?: (lat: number, lng: number, index: number) => void;
   activeMarkerIndex?: number;
+  locations?: DefaultCenterProps[];
 }
 
 const LocationMap = ({
@@ -29,6 +30,7 @@ const LocationMap = ({
   zoom = 15,
   onClickMarker,
   activeMarkerIndex,
+  locations,
 }: LocationMapProps) => {
   return (
     <section className="w-full" style={{ height }}>
@@ -48,14 +50,17 @@ const LocationMap = ({
         }}
         options={{ zoomControl: false, fullscreenControl: false }}
       >
-        {coords?.map(({ latitude, longitude }, i) => {
+        {locations?.map(({ latitude, longitude }, i) => {
           return (
             <LocationMarker
               key={`marker${i}`}
               lat={latitude}
               lng={longitude}
               onClick={() => onClickMarker?.(latitude, longitude, i)}
-              active={i === activeMarkerIndex}
+              active={
+                latitude == coords?.[0].latitude &&
+                longitude == coords?.[0].longitude
+              }
             />
           );
         })}

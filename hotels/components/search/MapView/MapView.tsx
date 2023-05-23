@@ -25,6 +25,12 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
 
   const currentItem = items?.[activeItem];
   const coordinates = currentItem?.details?.fullAddress?.coordinates;
+  const locations = items?.map((i) => {
+    return {
+      latitude: i.details.fullAddress.coordinates.latitude,
+      longitude: i.details.fullAddress.coordinates.longitude,
+    };
+  });
 
   const responsive = {
     superLargeDesktop: {
@@ -49,7 +55,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
       <section className="relative">
         <LocationMap
           center={{
-            latitude: coordinates?.latitude - 0.0013,
+            latitude: coordinates?.latitude,
             longitude: coordinates?.longitude,
           }}
           coords={[
@@ -60,6 +66,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
           ]}
           zoom={17}
           height={575}
+          locations={locations}
         />
         <section className="absolute bottom-0 w-full">
           <Carousel
