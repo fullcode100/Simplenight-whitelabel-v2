@@ -31,6 +31,7 @@ import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import { TRIP_OPTIONS } from 'transportation/constants/tripOptions';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import { notification } from 'components/global/Notification/Notification';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 const ceilToNextHalfHour = (date: dayjs.Dayjs): dayjs.Dayjs => {
   const minutes = date.get('minutes');
@@ -324,7 +325,7 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                   addressOnly={true}
                 />
               </section>
-              <section className="relative flex gap-2 lg:mt-0 lg:w-[60%]">
+              <section className="relative flex gap-2 lg:mt-0 lg:w-[60%] lg:pt-4">
                 <IconInput
                   name="Check-in"
                   className="w-full lg:w-full"
@@ -342,6 +343,7 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                   onClick={() => {
                     setClickOnStart(true);
                     setShowDatePicker(true);
+                    scrollTopSmoothly();
                   }}
                 />
                 <Select
@@ -351,6 +353,18 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                   items={timeList}
                   icon={<Clock className="w-5 h-5 text-dark-700" />}
                   error={showStartTimeError}
+                />
+                <DatePicker
+                  showDatePicker={showDatePicker}
+                  onClose={() => setShowDatePicker(false)}
+                  startDateLabel={pickUpInputLabel}
+                  endDateLabel={dropOffInputLabel}
+                  initialStartDate={startDate}
+                  initialEndDate={endDate}
+                  onStartDateChange={handleStartDateChange}
+                  onEndDateChange={handleEndDateChange}
+                  openOnStart={clickOnStart ? true : false}
+                  isRange={trip === 'roundTrip' ? true : false}
                 />
               </section>
             </section>
@@ -415,18 +429,6 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                 </section>
               )}
             </section>
-            <DatePicker
-              showDatePicker={showDatePicker}
-              onClose={() => setShowDatePicker(false)}
-              startDateLabel={pickUpInputLabel}
-              endDateLabel={dropOffInputLabel}
-              initialStartDate={startDate}
-              initialEndDate={endDate}
-              onStartDateChange={handleStartDateChange}
-              onEndDateChange={handleEndDateChange}
-              openOnStart={clickOnStart ? true : false}
-              isRange={trip === 'roundTrip' ? true : false}
-            />
           </section>
         </section>
         <section className="flex flex-col justify-start items-start gap-2 lg:flex lg:flex-row lg:w-[90%] lg:justify-start lg:items-center lg:gap-2">

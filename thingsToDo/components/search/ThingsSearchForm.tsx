@@ -21,6 +21,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 const ThingsSearchForm = ({
   setIsSearching,
@@ -146,6 +147,7 @@ const ThingsSearchForm = ({
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
+              scrollTopSmoothly();
             }}
             disabled
           />
@@ -161,6 +163,7 @@ const ThingsSearchForm = ({
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
+              scrollTopSmoothly();
             }}
             disabled
           />

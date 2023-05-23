@@ -20,6 +20,7 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import { useRouter } from 'next/router';
 import IconInput from 'components/global/Input/IconInput';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 const DiningSearchForm = ({
   setIsSearching,
@@ -128,19 +129,7 @@ const DiningSearchForm = ({
           error={showLocationError}
           onChange={handleChangeLocation}
         />
-        <DatePicker
-          showDatePicker={showDatePicker}
-          onClose={() => setShowDatePicker(false)}
-          startDateLabel={t('startDate')}
-          endDateLabel={t('endDate')}
-          initialStartDate={startDate}
-          initialEndDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-          openOnStart={clickOnStart ? true : false}
-          isRange={false}
-        />
-        <section className="flex gap-4 lg:mt-0 lg:w-full">
+        <section className="relative flex gap-4 lg:mt-0 lg:w-full">
           <IconInput
             label={t('startDate')}
             name="Check-in"
@@ -153,8 +142,21 @@ const DiningSearchForm = ({
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
+              scrollTopSmoothly();
             }}
             disabled
+          />
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={t('startDate')}
+            endDateLabel={t('endDate')}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
+            isRange={false}
           />
         </section>
       </section>

@@ -28,6 +28,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Label from 'components/global/Label/Label';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 const HotelSearchForm = ({
   setIsSearching,
@@ -250,6 +251,7 @@ const HotelSearchForm = ({
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
+              scrollTopSmoothly();
             }}
           />
           <IconInput
@@ -264,6 +266,7 @@ const HotelSearchForm = ({
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
+              scrollTopSmoothly();
             }}
           />
           <DatePicker
