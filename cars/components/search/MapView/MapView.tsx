@@ -44,6 +44,12 @@ const MapView = ({ CarCategory, items, onClick }: MapViewProps) => {
     latitude: parseFloat(currentItem.remarks.split(',')[0]),
     longitude: parseFloat(currentItem.remarks.split(',')[1]),
   };
+  const locations = items?.map((i) => {
+    return {
+      latitude: parseFloat(i.remarks.split(',')[0]),
+      longitude: parseFloat(i.remarks.split(',')[1]),
+    };
+  });
 
   const responsive = {
     superLargeDesktop: {
@@ -82,8 +88,9 @@ const MapView = ({ CarCategory, items, onClick }: MapViewProps) => {
           ]}
           zoom={17}
           height={575}
+          locations={locations}
         />
-        <section className="absolute w-full bottom-0">
+        <section className="absolute bottom-0 w-full">
           <Carousel
             partialVisible={false}
             responsive={responsive}
@@ -93,13 +100,13 @@ const MapView = ({ CarCategory, items, onClick }: MapViewProps) => {
             beforeChange={handleBeforeCarouselChange}
             customLeftArrow={
               <CustomArrow
-                className="z-10 absolute left-0 -translate-y-7"
+                className="absolute left-0 z-10 -translate-y-7"
                 position="left"
               />
             }
             customRightArrow={
               <CustomArrow
-                className="z-10 absolute right-0 -translate-y-7"
+                className="absolute right-0 z-10 -translate-y-7"
                 position="right"
               />
             }
