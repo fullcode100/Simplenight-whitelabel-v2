@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import ModalHeader from './components/ModalHeader';
 import ModalDivider from './components/ModalDivider';
@@ -20,6 +20,14 @@ const FullScreenModal = ({
   children,
   className = '',
 }: ModalProps) => {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [open]);
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog

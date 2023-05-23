@@ -1,6 +1,6 @@
 import ModalFooter from './components/ModalFooter';
 import ModalHeader from './components/ModalHeader';
-import { MouseEvent, ReactNode } from 'react';
+import { MouseEvent, ReactNode, useEffect } from 'react';
 import classnames from 'classnames';
 
 interface FullScreenModalProps {
@@ -38,6 +38,14 @@ const FullScreenModal = ({
   className = '',
   headerAction,
 }: FullScreenModalProps) => {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [open]);
+
   return (
     <>
       {open && (

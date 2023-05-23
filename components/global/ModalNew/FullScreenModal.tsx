@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode } from 'react';
+import { MouseEvent, ReactNode, useEffect } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Transition } from '@headlessui/react';
 
@@ -36,6 +36,14 @@ const FullScreenModal = ({
 }: FullScreenModalProps) => {
   const renderFooter =
     !!primaryButtonText || !!secondaryButtonText || !!footerSummary;
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [open]);
 
   return (
     <Transition.Root show={open}>
