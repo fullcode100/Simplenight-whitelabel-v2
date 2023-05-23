@@ -7,6 +7,7 @@ import { addToCart } from 'core/client/services/CartClientService';
 import { CartItemRequest } from 'types/cart/CartType';
 import { useMutation } from '@tanstack/react-query';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
+import { useState } from 'react';
 
 interface TicketActionsProps {
   itemToBook: CartItemRequest;
@@ -28,7 +29,7 @@ const TicketActions = ({
 
   const router = useRouter();
 
-  let url = '/itinerary';
+  const [url, setUrl] = useState<string>('/itinerary');
 
   const handleAction = async () => {
     await addToCart(itemToBook, i18next);
@@ -56,7 +57,7 @@ const TicketActions = ({
         width="w-full"
         disabled={timeNotSelected || isLoading}
         onClick={() => {
-          url = '/checkout/client';
+          setUrl('/checkout/client');
           mutate();
         }}
       >
