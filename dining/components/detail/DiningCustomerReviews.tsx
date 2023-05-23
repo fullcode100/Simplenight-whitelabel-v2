@@ -3,6 +3,7 @@ import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import DiningComment from './DiningComment';
+import StarIcon from 'public/icons/assets/star-outlined.svg';
 
 const DiningCustomerReviews = ({
   reviews,
@@ -22,7 +23,7 @@ const DiningCustomerReviews = ({
   const [t] = useTranslation('dining');
   return (
     <>
-      <SectionTitle title={t('customerReview')} />
+      <SectionTitle title={t('customerReview')} icon={<StarIcon />} />
       <div className="flex items-center my-6">
         <span className="pr-5 text-base text-dark-1000">
           {t('overallRating')}

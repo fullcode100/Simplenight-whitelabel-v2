@@ -27,6 +27,7 @@ import SingleSelectDropdown from 'components/global/SingleSelectDropdown/SingleS
 import { DATES_OPTIONS, TIME_OPTIONS } from 'hotels/constants/amenities';
 import { Radio, RadioGroup } from 'components/global/Radio/Radio';
 import { SORT_BY_OPTIONS } from 'hotels/constants/sortByOptions';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 export interface Option {
   value: string;
   label: string;
@@ -166,18 +167,6 @@ const ShowsAndEvents = ({
           value={query}
         />
 
-        <DatePicker
-          showDatePicker={showDatePicker}
-          onClose={() => setShowDatePicker(false)}
-          startDateLabel={startDateText}
-          endDateLabel={endDateText}
-          initialStartDate={startDate}
-          initialEndDate={endDate}
-          onStartDateChange={handleStartDateChange}
-          onEndDateChange={handleEndDateChange}
-          openOnStart={clickOnStart ? true : false}
-          restricted={false}
-        />
         <LocationInput
           icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
           name="location"
@@ -188,7 +177,7 @@ const ShowsAndEvents = ({
           error={showLocationError}
           onChange={handleChangeLocation}
         />
-        <section className="flex gap-4 lg:mt-0 lg:w-full">
+        <section className="relative flex gap-4 lg:mt-0 lg:w-full">
           <IconInput
             label={startDateText}
             name="Check-in"
@@ -202,6 +191,7 @@ const ShowsAndEvents = ({
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
+              scrollTopSmoothly();
             }}
             disabled
           />
@@ -218,8 +208,21 @@ const ShowsAndEvents = ({
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
+              scrollTopSmoothly();
             }}
             disabled
+          />
+          <DatePicker
+            showDatePicker={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            startDateLabel={startDateText}
+            endDateLabel={endDateText}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            openOnStart={clickOnStart ? true : false}
+            restricted={false}
           />
         </section>
       </section>
