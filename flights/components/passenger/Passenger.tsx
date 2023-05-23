@@ -91,8 +91,6 @@ const Passenger = ({
     resolver: zodResolver(passengerSchema),
   });
 
-  console.log(errors);
-  console.log(isValid);
   const enableBookNow =
     passengersData.length === passengersQuantity - 1 && isValid;
 
@@ -215,7 +213,7 @@ const Passenger = ({
               min: 1,
             })}
             <section className="flex flex-row gap-2">
-              <section className="w-full">
+              <section className="w-full ">
                 <FormField label={dateOfBirthLabel}>
                   <Controller
                     control={control}

@@ -27,7 +27,8 @@ const PassengerInformationDisplay = ({
   const { id } = useQuery();
   const router = useRouter();
   const [t, i18next] = useTranslation('flights');
-  const [passengerForm, setPassengerForm] = useState(1);
+  const [passengerForm, setPassengerForm] = useState<number | null>(1);
+
   const flights = useFlightsStore((state) => state.flights);
   const flight = flights[flights.length - 1];
   const { passengersQuantity, setPassengers } = usePassengersStore(
@@ -51,7 +52,7 @@ const PassengerInformationDisplay = ({
   );
 
   const savePassenger = (currentData: IPassenger, passengerNumber: number) => {
-    setPassengerForm(passengerForm + 1);
+    setPassengerForm(passengerForm! + 1);
     const passengerIndex = passengersData.findIndex(
       (p) => p.passengerNumber === passengerNumber,
     );
@@ -84,6 +85,13 @@ const PassengerInformationDisplay = ({
     router.push('/checkout/flights', undefined, { shallow: true });
   };
 
+  const handlePassengerAccordion = (i: number) => {
+    if (passengerForm && passengerForm === i) {
+      setPassengerForm(null);
+    } else {
+      setPassengerForm(i);
+    }
+  };
   const getPassengersInfoForms = () => {
     const passengersInfoForms = [];
     for (let i = 1; i <= passengersQuantity; i++) {
@@ -91,7 +99,7 @@ const PassengerInformationDisplay = ({
         <Passenger
           passengerNumber={i}
           open={passengerForm === i}
-          setOpen={setPassengerForm}
+          setOpen={() => handlePassengerAccordion(i)}
           onSubmit={async (...params) => {
             passengerForm === passengersQuantity
               ? await goCheckout(...params)
