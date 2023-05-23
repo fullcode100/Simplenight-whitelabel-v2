@@ -27,6 +27,7 @@ import { SearchFormProps } from '../../../types/search/SearchFormProps';
 import { Select } from '../../../components/global/SelectNew/Select';
 import classNames from 'classnames';
 import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
   const router = useRouter();
@@ -252,6 +253,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
               onClick={() => {
                 setClickOnStart(true);
                 setShowDatePicker(true);
+                scrollTopSmoothly();
               }}
             />
 
@@ -278,6 +280,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
               onClick={() => {
                 setClickOnStart(false);
                 setShowDatePicker(true);
+                scrollTopSmoothly();
               }}
             />
 

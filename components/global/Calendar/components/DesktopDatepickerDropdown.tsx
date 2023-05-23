@@ -51,8 +51,6 @@ const DesktopDatepickerDropdown = ({
 }: Props) => {
   const ref = useRef<HTMLElement>(null);
   useOnOutsideClick(ref, () => closeModal());
-  const defaultTop = 74;
-  const [top, setTop] = useState(defaultTop);
 
   useEffect(() => {
     onStartDateChange(startDate);
@@ -60,34 +58,6 @@ const DesktopDatepickerDropdown = ({
       onEndDateChange(endDate);
     }
   }, [startDate, endDate]);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (element) {
-      const { bottom } = element.getBoundingClientRect();
-      const innerHeight = window.innerHeight;
-      const isOutOf = innerHeight < bottom;
-      const distanceMissing = bottom - innerHeight;
-      const margin = 10;
-      const newTop = top - distanceMissing - margin;
-      if (isOutOf) setTop(newTop);
-      else setTop(defaultTop);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (element) {
-      const { bottom } = element.getBoundingClientRect();
-      const innerHeight = window.innerHeight;
-      const isOutOf = innerHeight < bottom;
-      const distanceMissing = bottom - innerHeight;
-      const margin = 10;
-      const newTop = top - distanceMissing - margin;
-      if (isOutOf) setTop(newTop);
-      else setTop(defaultTop);
-    }
-  }, [open]);
 
   interface ArrowButtonProps {
     icon: JSX.Element;
@@ -159,18 +129,15 @@ const DesktopDatepickerDropdown = ({
     <section
       ref={ref}
       className={classnames(
-        'flex flex-col  bg-white  w-[610px] absolute right-0 top-[74px] shadow-container rounded-4 overflow-hidden border border-dark-300 z-20',
+        'flex flex-col  bg-white  w-[610px] absolute left-0 top-[68px] shadow-container rounded-4 overflow-hidden border border-dark-300 z-20',
         {
           ['hidden']: !open,
         },
       )}
-      style={{
-        top: `${top}px`,
-      }}
     >
       {rangeDate}
       <ArrowSection />
-      <section className="flex grid items-start w-full grid-cols-2 gap-2 p-5 text-center">
+      <section className="grid items-start w-full grid-cols-2 gap-2 p-5 text-center">
         {calendar && (
           <>
             <MonthSection month={calendar[calendarFirstMonth]} />

@@ -92,7 +92,9 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const [isOpen, onOpen, onClose] = useModal();
   const [keywordSearchData, setKeywordSearchData] = useState<string[]>([]);
-  const [keywordState, setKeywordState] = useState<string>('');
+  const [keywordState, setKeywordState] = useState<string>(
+    criteria.keywordSearch,
+  );
 
   useEffect(() => {
     isDesktop && onOpen();
@@ -190,13 +192,20 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   }, [data, criteria.MaxRange, criteria.MinRange, criteria.keywordSearch]);
 
   useEffect(() => {
-    setMaxPriceFilter(limitsPrice[1]);
-    setMinPriceFilter(limitsPrice[0]);
-    setCriteria({
-      ...criteria,
-      MinPrice: String(limitsPrice[0]),
-      MaxPrice: String(limitsPrice[1]),
-    });
+    if (parseInt(criteria.MinPrice) < limitsPrice[0]) {
+      setMinPriceFilter(limitsPrice[0]);
+      setCriteria({
+        ...criteria,
+        MinPrice: String(limitsPrice[0]),
+      });
+    }
+    if (parseInt(criteria.MaxPrice) > limitsPrice[1]) {
+      setMaxPriceFilter(limitsPrice[1]);
+      setCriteria({
+        ...criteria,
+        MaxPrice: String(limitsPrice[1]),
+      });
+    }
   }, [limitsPrice]);
 
   const urlDetail = (hotel: SearchItem) => {
