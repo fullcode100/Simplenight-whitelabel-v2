@@ -215,6 +215,8 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
     'Where do you like to go?',
   );
 
+  const isHomePage = router.pathname === '/';
+
   return (
     <section
       className={classNames(
@@ -253,7 +255,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
               onClick={() => {
                 setClickOnStart(true);
                 setShowDatePicker(true);
-                scrollTopSmoothly();
+                isHomePage && scrollTopSmoothly();
               }}
             />
 
@@ -280,7 +282,7 @@ export const ParkingSearchForm: FC<SearchFormProps> = (props) => {
               onClick={() => {
                 setClickOnStart(false);
                 setShowDatePicker(true);
-                scrollTopSmoothly();
+                isHomePage && scrollTopSmoothly();
               }}
             />
 

@@ -145,6 +145,8 @@ const ShowsAndEvents = ({
 
   const selectedAmenities: Option[] = [];
 
+  const isHomePage = router.pathname === '/';
+
   return (
     <section
       className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
@@ -191,7 +193,7 @@ const ShowsAndEvents = ({
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
-              scrollTopSmoothly();
+              isHomePage && scrollTopSmoothly();
             }}
             disabled
           />
@@ -208,7 +210,7 @@ const ShowsAndEvents = ({
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
-              scrollTopSmoothly();
+              isHomePage && scrollTopSmoothly();
             }}
             disabled
           />

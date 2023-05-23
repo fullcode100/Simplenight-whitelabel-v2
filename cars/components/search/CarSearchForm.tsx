@@ -217,6 +217,8 @@ const CarSearchForm = ({
     }
   }, []);
 
+  const isHomePage = router.pathname === '/';
+
   return (
     <section className="flex flex-col">
       <section
@@ -248,7 +250,7 @@ const CarSearchForm = ({
                 onClick={() => {
                   setClickOnStart(true);
                   setShowDatePicker(true);
-                  scrollTopSmoothly();
+                  isHomePage && scrollTopSmoothly();
                 }}
               />
               <Select
@@ -307,7 +309,7 @@ const CarSearchForm = ({
               onClick={() => {
                 setClickOnStart(false);
                 setShowDatePicker(true);
-                scrollTopSmoothly();
+                isHomePage && scrollTopSmoothly();
               }}
             />
             <Select

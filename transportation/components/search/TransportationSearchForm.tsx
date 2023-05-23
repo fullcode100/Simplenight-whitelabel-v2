@@ -293,6 +293,8 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
     }
   }, []);
 
+  const isHomePage = router.pathname === '/';
+
   return (
     <section
       className={`flex flex-col justify-between ${className} lg:flex-row lg:justify-start lg:items-start lg:pb-0 lg:px-0 lg:gap-2 lg:w-full`}
@@ -343,7 +345,7 @@ export const TransportationSearchForm: FC<SearchFormProps> = ({
                   onClick={() => {
                     setClickOnStart(true);
                     setShowDatePicker(true);
-                    scrollTopSmoothly();
+                    isHomePage && scrollTopSmoothly();
                   }}
                 />
                 <Select
