@@ -48,13 +48,13 @@
   "sortByRating": "Rating",
   "sortByReviewCount": "Review Count",
   "sortByDistance": "Distance",
-  "day0": "Mon",
-  "day1": "Tue",
-  "day2": "Wed",
-  "day3": "Thu",
-  "day4": "Fri",
-  "day5": "Sat",
-  "day6": "Sun",
+  "day0": "Monday",
+  "day1": "Tuesday",
+  "day2": "Wednesday",
+  "day3": "Thursday",
+  "day4": "Friday",
+  "day5": "Saturday",
+  "day6": "Sunday",
   "supplierReference": "Supplier Reference ID",
   "confirmationNumber": "Confirmation Number",
   "openingTimes": "Opening times",
@@ -65,5 +65,6 @@
   "price": "Price",
   "open": "Open",
   "closed": "Closed",
-  "diningItineraryDisclaimer": "Check Out Now to avoid rate changes"
+  "diningItineraryDisclaimer": "Check Out Now to avoid rate changes",
+  "bookTable": "Book A Table"
 }
