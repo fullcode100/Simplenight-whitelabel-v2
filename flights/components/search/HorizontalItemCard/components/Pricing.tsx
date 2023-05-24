@@ -16,10 +16,14 @@ const Pricing = ({ price, onClick }: Props) => {
         {price}
       </Paragraph>
 
-      <div className="hidden lg:block">
-        <Button size="small" onClick={() => onClick()}>
-          {selectLabel}
-        </Button>
+      <div
+        className="hidden lg:block"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick();
+        }}
+      >
+        <Button size="small">{selectLabel}</Button>
       </div>
     </section>
   );
