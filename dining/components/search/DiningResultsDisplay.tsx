@@ -194,6 +194,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
             price={<DiningItemPriceInfo />}
             ratingCount={review_count}
             priceDisplay={<PriceDisplay price={t('free')} />}
+            priceNumber={dining.price?.length}
           />
         );
       })}
