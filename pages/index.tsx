@@ -41,6 +41,8 @@ const LOOKUP_URI = '/lookup';
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
   const tab = useTabStore((state) => state.tab);
+  const { data: brandConfig } = useSettings();
+  const { heroSectionTitle } = brandConfig?.homepage || {};
 
   const [t, i18next] = useTranslation('global');
   const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
@@ -55,8 +57,6 @@ const Home: NextPageWithLayout = () => {
 
   const categoriesTabs = useCategories();
   // const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);
-
-  const homePageTextLabel = t('homePageText', homePageText);
 
   // const handleTabClick = (tab: Tab) => {
   //   setActiveTab(tab);
@@ -123,7 +123,7 @@ const Home: NextPageWithLayout = () => {
           <UpperSectionBackground>
             <section className="relative w-full mx-auto max-w-7xl">
               <p className="font-lato leading-[38px] text-[32px] font-semibold text-white text-center mb-9 lg:text-6xl lg:pb-5 lg:mt-5">
-                {homePageTextLabel}{' '}
+                {heroSectionTitle}{' '}
                 <span className="font-normal ml-[-6px] align-super text-sm ">
                   ®
                 </span>
