@@ -37,6 +37,7 @@ import Popper from 'components/global/Popper/Popper';
 import TravelersSelect from '../TravelersSelect/TravelersSelect';
 import DropdownMenu from '../FlightSelect/DropDownMenu';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
+import SearchAirport from '../SearchAirport/SearchAirport';
 
 type Direction = 'round_trip' | 'one_way' | 'multicity';
 const FlightSearchForm = () => {
@@ -325,11 +326,11 @@ const FlightSearchForm = () => {
 
   const rerouteToSearchPage = () => {
     const _address = address.toString().split('(').pop();
-    const startAirport = _address ? _address.toString().split(')')[0] : '';
+    const startAirport = _address ? _address.toString().split(' - ')[0] : '';
     if (!startAirport || startAirport.length !== 3)
       return alert('Can not find leaving from Airport Code');
     const _address2 = address2.toString().split('(').pop();
-    const endAirport = _address2 ? _address2.toString().split(')')[0] : '';
+    const endAirport = _address2 ? _address2.toString().split(' - ')[0] : '';
     if (!endAirport || endAirport.length !== 3)
       return alert('Can not find going to Airport Code');
 
@@ -339,7 +340,7 @@ const FlightSearchForm = () => {
     if (direction === 'multicity') {
       addresses.forEach((addr: string, index: number) => {
         const _addr = addr.toString().split('(').pop();
-        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
+        const airportCode = _addr ? _addr.toString().split(' - ')[0] : '';
         if (!airportCode || airportCode.length !== 3)
           return alert(
             `Can not find leaving from Airport Code for flight #${index + 1}`,
@@ -348,7 +349,7 @@ const FlightSearchForm = () => {
       });
       addresses2.forEach((addr: string, index: number) => {
         const _addr = addr.toString().split('(').pop();
-        const airportCode = _addr ? _addr.toString().split(')')[0] : '';
+        const airportCode = _addr ? _addr.toString().split(' - ')[0] : '';
         if (!airportCode || airportCode.length !== 3)
           return alert(
             `Can not find leaving from Airport Code for flight #${index + 1}`,
@@ -441,12 +442,6 @@ const FlightSearchForm = () => {
       // got here by switching tabs --> perform an auto-search
     }
   }, []);
-
-  const filterByAirport = (description: string) => {
-    const indexOne = description.indexOf('(');
-    const indexTwo = description.indexOf(')');
-    return !(indexTwo - indexOne === 4);
-  };
 
   const travelerLabelText = usePlural(
     parseInt(adults) + parseInt(children) + parseInt(infants),
@@ -612,7 +607,31 @@ const FlightSearchForm = () => {
               >
                 <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
                   <section className={classNameInputSection}>
-                    <LocationInput
+                    <SearchAirport
+                      label={t('locationInputLabel')}
+                      defaultValue={
+                        direction === 'multicity'
+                          ? addresses[flightIndex]
+                          : address
+                      }
+                      onSelect={(value) => {
+                        if (value === null) {
+                          cleanSelectLocation(flightIndex);
+                        } else {
+                          handleSelectLocation(
+                            {
+                              lat: value.geoCode.latitude,
+                              lng: value.geoCode.longitude,
+                            },
+                            value.name,
+                            flightIndex,
+                            '',
+                          );
+                        }
+                      }}
+                      placeholder={locationPlaceholder}
+                    />
+                    {/* <LocationInput
                       icon={
                         <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
                       }
@@ -643,7 +662,7 @@ const FlightSearchForm = () => {
                       filter={filterByAirport}
                       addressValue={address}
                       setAddressValue={setAddress}
-                    />
+                    /> */}
                     <div className={classNameSwapButton}>
                       <button
                         onClick={() => swap()}
@@ -665,7 +684,31 @@ const FlightSearchForm = () => {
                         </svg>
                       </button>
                     </div>
-                    <LocationInput
+                    <SearchAirport
+                      label={t('location2InputLabel')}
+                      defaultValue={
+                        direction === 'multicity'
+                          ? addresses2[flightIndex]
+                          : address2
+                      }
+                      onSelect={(value) => {
+                        if (value === null) {
+                          cleanSelectLocation2(flightIndex);
+                        } else {
+                          handleSelectLocation2(
+                            {
+                              lat: value.geoCode.latitude,
+                              lng: value.geoCode.longitude,
+                            },
+                            value.name,
+                            flightIndex,
+                            '',
+                          );
+                        }
+                      }}
+                      placeholder={location2Placeholder}
+                    />
+                    {/* <LocationInput
                       icon={
                         <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
                       }
@@ -698,7 +741,7 @@ const FlightSearchForm = () => {
                       filter={filterByAirport}
                       addressValue={address2}
                       setAddressValue={setAddress2}
-                    />
+                    /> */}
                   </section>
                   <DatePicker
                     showDatePicker={showDatePicker}
