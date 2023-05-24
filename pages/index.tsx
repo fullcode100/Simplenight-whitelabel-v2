@@ -129,7 +129,7 @@ const Home: NextPageWithLayout = () => {
                 </span>
               </p>
               <Panel className="z-50 grid-flow-col mt-6">
-                <section className="pt-3 lg:pt-6">
+                <section>
                   <SearchCategoryForm
                     activeTab={tab ? tab : categoriesTabs?.[0]}
                   />

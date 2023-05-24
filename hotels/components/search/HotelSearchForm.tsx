@@ -29,6 +29,7 @@ import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Label from 'components/global/Label/Label';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
+import { Paragraph } from '@simplenight/ui';
 
 const HotelSearchForm = ({
   setIsSearching,
@@ -198,104 +199,110 @@ const HotelSearchForm = ({
   const isHomePage = router.pathname === '/';
 
   return (
-    <section
-      className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
-    >
-      <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-        <LocationInput
-          icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
-          label={locationInputLabel}
-          name="location"
-          placeholder={locationPlaceholder}
-          routeParams={['address']}
-          onSelect={handleSelectLocation}
-          error={showLocationError}
-          onChange={handleChangeLocation}
-        />
-        <TravelersInput
-          showTravelersInput={showTravelersInput}
-          onClose={() => setShowTravelersInput(false)}
-          rooms={roomsData}
-          setRooms={setRoomsData}
-        />
-        <section className="lg:mt-0 lg:w-full">
-          <Label value={guestsAndRoomsLabel} />
-          <button
-            onClick={() => setShowTravelersInput(true)}
-            className="bg-white mt-2 grid grid-cols-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
-          >
-            <section className="flex items-center gap-2">
-              <MultiplePersons className="text-dark-700" />
-              {parseInt(adults) + parseInt(children)}{' '}
-              {usePlural(
-                parseInt(adults) + parseInt(children),
-                guestLabel,
-                guestsLabel,
-              )}
-            </section>
-            <section className="flex items-center gap-2">
-              <Bed className="text-dark-700" />
-              {rooms} {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
-            </section>
-          </button>
-        </section>
+    <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+      {isHomePage && (
+        <Paragraph fontWeight="semibold" size="large" className="capitalize">
+          Book the perfect hotel by comparing prices and reading reviews.
+        </Paragraph>
+      )}
+      <div
+        className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
+      >
+        <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
+          <LocationInput
+            icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
+            label={locationInputLabel}
+            name="location"
+            placeholder={locationPlaceholder}
+            routeParams={['address']}
+            onSelect={handleSelectLocation}
+            error={showLocationError}
+            onChange={handleChangeLocation}
+          />
+          <TravelersInput
+            showTravelersInput={showTravelersInput}
+            onClose={() => setShowTravelersInput(false)}
+            rooms={roomsData}
+            setRooms={setRoomsData}
+          />
+          <section className="lg:mt-0 lg:w-full">
+            <Label value={guestsAndRoomsLabel} />
+            <button
+              onClick={() => setShowTravelersInput(true)}
+              className="bg-white mt-2 grid grid-cols-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
+            >
+              <section className="flex items-center gap-2">
+                <MultiplePersons className="text-dark-700" />
+                {parseInt(adults) + parseInt(children)}{' '}
+                {usePlural(
+                  parseInt(adults) + parseInt(children),
+                  guestLabel,
+                  guestsLabel,
+                )}
+              </section>
+              <section className="flex items-center gap-2">
+                <Bed className="text-dark-700" />
+                {rooms} {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
+              </section>
+            </button>
+          </section>
 
-        <section className="relative flex gap-4 lg:mt-0 lg:w-full">
-          <IconInput
-            label={checkInText}
-            name="Check-in"
-            placeholder={checkInText}
-            className="lg:mt-0"
-            orientation="left"
-            icon={<Calendar className="w-5 h-5 text-dark-700" />}
-            value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
-            onChange={(event) => handleStartDateChange(event.target.value)}
-            onClick={() => {
-              setClickOnStart(true);
-              setShowDatePicker(true);
-              isHomePage && scrollTopSmoothly();
-            }}
-          />
-          <IconInput
-            label={checkOutText}
-            name="Check-out"
-            placeholder={checkOutText}
-            orientation="left"
-            className="lg:mt-0"
-            icon={<Calendar className="w-5 h-5 text-dark-700" />}
-            value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
-            onChange={(event) => handleEndDateChange(event.target.value)}
-            onClick={() => {
-              setClickOnStart(false);
-              setShowDatePicker(true);
-              isHomePage && scrollTopSmoothly();
-            }}
-          />
-          <DatePicker
-            showDatePicker={showDatePicker}
-            onClose={() => setShowDatePicker(false)}
-            startDateLabel={checkInText}
-            endDateLabel={checkOutText}
-            initialStartDate={startDate}
-            initialEndDate={endDate}
-            onStartDateChange={handleStartDateChange}
-            onEndDateChange={handleEndDateChange}
-            openOnStart={clickOnStart ? true : false}
-            maxRange={28}
-            maxMonthsDisplayed={13}
+          <section className="relative flex gap-4 lg:mt-0 lg:w-full">
+            <IconInput
+              label={checkInText}
+              name="Check-in"
+              placeholder={checkInText}
+              className="lg:mt-0"
+              orientation="left"
+              icon={<Calendar className="w-5 h-5 text-dark-700" />}
+              value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
+              onChange={(event) => handleStartDateChange(event.target.value)}
+              onClick={() => {
+                setClickOnStart(true);
+                setShowDatePicker(true);
+                isHomePage && scrollTopSmoothly();
+              }}
+            />
+            <IconInput
+              label={checkOutText}
+              name="Check-out"
+              placeholder={checkOutText}
+              orientation="left"
+              className="lg:mt-0"
+              icon={<Calendar className="w-5 h-5 text-dark-700" />}
+              value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
+              onChange={(event) => handleEndDateChange(event.target.value)}
+              onClick={() => {
+                setClickOnStart(false);
+                setShowDatePicker(true);
+                isHomePage && scrollTopSmoothly();
+              }}
+            />
+            <DatePicker
+              showDatePicker={showDatePicker}
+              onClose={() => setShowDatePicker(false)}
+              startDateLabel={checkInText}
+              endDateLabel={checkOutText}
+              initialStartDate={startDate}
+              initialEndDate={endDate}
+              onStartDateChange={handleStartDateChange}
+              onEndDateChange={handleEndDateChange}
+              openOnStart={clickOnStart ? true : false}
+              maxRange={28}
+              maxMonthsDisplayed={13}
+            />
+          </section>
+        </section>
+        <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+          <Button
+            key="hotels.searchBtn"
+            size="full"
+            className="min-w-full text-base"
+            value={textSearch}
+            onClick={handleSearchClick}
           />
         </section>
-      </section>
-
-      <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
-        <Button
-          key="hotels.searchBtn"
-          size="full"
-          className="min-w-full text-base"
-          value={textSearch}
-          onClick={handleSearchClick}
-        />
-      </section>
+      </div>
     </section>
   );
 };

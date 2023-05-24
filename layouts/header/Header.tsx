@@ -74,13 +74,15 @@ const Header = ({ color }: HeaderProps) => {
       if (data?.status === 'BOOKED' || !data) {
         localStorage.removeItem('cart');
         setCartQty(0);
-      } else if (data) {
+        return null;
+      } else {
         setCartQty(data.total_item_qty);
         setCart(data);
+        return data;
       }
-      return data;
     } catch (e) {
       console.error(e);
+      return null;
     }
   };
 
@@ -89,10 +91,6 @@ const Header = ({ color }: HeaderProps) => {
     staleTime: Infinity,
     refetchOnWindowFocus: true,
   });
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
 
   return (
     <>
