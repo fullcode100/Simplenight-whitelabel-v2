@@ -316,7 +316,6 @@ const FlightResultsDisplay = ({
       setSelectedFlights((flights) => [...flights, flight]);
     } else {
       setFlightsStore([...selectedFlights, flight]);
-      setSelectedFlights((flights) => [...flights, flight]);
       setPassengersQuantity(
         parseInt(adults as string, 10) +
           parseInt(children as string, 10) +
