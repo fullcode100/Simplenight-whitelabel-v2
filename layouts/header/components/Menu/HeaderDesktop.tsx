@@ -83,7 +83,7 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
             <CustomLink href={'/lookup'}>
               <SearchIcon /> {orderLookupText}
             </CustomLink>
-            <ButtonDropdown
+            {/* <ButtonDropdown
               icon={<LanguageIcon />}
               value={currentLanguage}
               titleDropdown={languageText}
@@ -98,7 +98,7 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
               disabled={isBog}
             >
               <CurrencySelect />
-            </ButtonDropdown>
+            </ButtonDropdown> */}
             {showCart && (
               <button
                 onClick={onOpen}
