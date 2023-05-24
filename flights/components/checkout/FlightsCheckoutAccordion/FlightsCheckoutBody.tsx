@@ -28,7 +28,7 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
   const { direction, startAirport, endAirport, adults, children, infants } =
     search;
 
-  const totalFlightAmount = flight.offer?.totalAmount || '0';
+  const totalFlightAmount = flight.offer?.totalFareAmount || '0';
 
   const adultsAmount = Number(adults);
   const adultsText = usePlural(

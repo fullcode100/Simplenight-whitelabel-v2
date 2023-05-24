@@ -223,10 +223,10 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   useEffect(() => {
     // analyze flights response
     let flightsMinPrice: number = parseFloat(
-      flights?.[0]?.offer?.totalAmount || '100',
+      flights?.[0]?.offer?.totalFareAmount || '100',
     );
     let flightsMaxPrice: number = parseFloat(
-      flights?.[0]?.offer?.totalAmount || '5000',
+      flights?.[0]?.offer?.totalFareAmount || '5000',
     );
     const flightsStopsList: number[] = [];
     const flightsAirlines: string[] = [];
@@ -235,7 +235,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     if (flights && flights.length) {
       flights.forEach((item) => {
         const itemFlight = item;
-        const totalAmount = itemFlight?.offer?.totalAmount;
+        const totalAmount = itemFlight?.offer?.totalFareAmount;
         const segmentsCollection = itemFlight?.segments?.collection;
         const totalStops = segmentsCollection.length - 1;
         // price
