@@ -5,6 +5,9 @@ import EmptyImage from '../../../components/global/EmptyImage/EmptyImage';
 import Rating from '../../../components/global/Rating/Rating';
 import Link from 'next/link';
 import CategoryTags from '../../../components/global/CategoryTags/CategoryTags';
+import ReactStars from 'react-rating-stars-component';
+import EmptyDollar from 'public/icons/assets/EmptyDollar.svg';
+import FilledDollar from 'public/icons/assets/FilledDollar.svg';
 
 interface CardProps<T extends WithId> {
   item: T;
@@ -24,6 +27,7 @@ interface CardProps<T extends WithId> {
   url?: string;
   categoryTags?: string[];
   imageBackgroundSize?: string;
+  priceNumber: number;
 }
 
 function HorizontalItemCard<T extends WithId>({
@@ -44,6 +48,7 @@ function HorizontalItemCard<T extends WithId>({
   url = '/',
   categoryTags = [],
   imageBackgroundSize,
+  priceNumber,
 }: CardProps<T>) {
   const [t, i18next] = useTranslation('global');
   const [invalidImage, setInvalidImage] = useState(false);
@@ -125,19 +130,27 @@ function HorizontalItemCard<T extends WithId>({
                 ) : null}
               </section>
             )}
-            <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
+            <section className="flex flex-col justify-between p-5 space-y-2 lg:justify-start lg:w-full">
               <TitleSection />
-              <section className="mt-4">
+              <section>
                 {rating && <Rating value={rating} reviews={ratingCount} />}
               </section>
-              <section className="mt-4">
+              <section>
                 <AddressSection />
               </section>
-              {categoryTags && (
-                <section className="flex flex-row gap-2 mt-4 lg:justify-start">
-                  <CategoryTags tags={categoryTags} />
-                </section>
-              )}
+              <section className="flex flex-row items-center gap-2 lg:justify-start">
+                <div className="flex">
+                  <ReactStars
+                    value={priceNumber}
+                    size={16}
+                    edit={false}
+                    count={4}
+                    emptyIcon={<EmptyDollar className="w-4 h-4" />}
+                    filledIcon={<FilledDollar className="w-4 h-4" />}
+                  />
+                </div>
+                {categoryTags && <CategoryTags tags={categoryTags} />}
+              </section>
             </section>
             <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
               <section className="text-left">{cancellable}</section>

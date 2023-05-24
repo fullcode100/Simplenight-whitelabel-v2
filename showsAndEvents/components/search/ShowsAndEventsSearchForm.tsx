@@ -22,20 +22,11 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import { SHOWS_AND_EVENTS } from 'showsAndEvents';
-import SearchInput from 'components/global/Input/SearchInput';
-import SingleSelectDropdown from 'components/global/SingleSelectDropdown/SingleSelectDropdown';
-import { DATES_OPTIONS, TIME_OPTIONS } from 'hotels/constants/amenities';
-import { Radio, RadioGroup } from 'components/global/Radio/Radio';
-import { SORT_BY_OPTIONS } from 'hotels/constants/sortByOptions';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
+import { Paragraph } from '@simplenight/ui';
 export interface Option {
   value: string;
   label: string;
-}
-interface AmenitiesFilterProps {
-  selectedAmenities: Option[];
-  onChangeAmenities: (value: Option) => void;
-  handleDeleteAmenity: (value: Option) => void;
 }
 
 const ShowsAndEvents = ({
@@ -148,96 +139,96 @@ const ShowsAndEvents = ({
   const isHomePage = router.pathname === '/';
 
   return (
-    <section
-      className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
-    >
-      <section className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
-        {/* <SingleSelectDropdown
-          translation="hotels"
-        />
-        <SingleSelectDropdown options={TIME_OPTIONS} translation="hotels" /> */}
-      </section>
-
-      <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-        <IconInput
-          icon={<SearchIcon className="w-5 h-5 text-dark-700 " />}
-          label="Search"
-          name="search"
-          placeholder="Search Shows & Events"
-          autoFocus
-          onChange={(e) => handleSearchEventsChanges(e.target.value)}
-          value={query}
-        />
-
-        <LocationInput
-          icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
-          name="location"
-          label={'City'}
-          placeholder={'Where are you going?'}
-          routeParams={['address']}
-          onSelect={handleSelectLocation}
-          error={showLocationError}
-          onChange={handleChangeLocation}
-        />
-        <section className="relative flex gap-4 lg:mt-0 lg:w-full">
+    <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+      {isHomePage && (
+        <Paragraph fontWeight="semibold" size="large" className="capitalize">
+          Get memorable experiences with secure event ticketing.
+        </Paragraph>
+      )}
+      <div
+        className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
+      >
+        <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
           <IconInput
-            label={startDateText}
-            name="Check-in"
-            placeholder={startDateText}
-            className="lg:mt-0"
-            customInputClassName="cursor-pointer"
-            orientation="left"
-            icon={<Calendar className="w-5 h-5 text-dark-700" />}
-            value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
-            onChange={(event) => handleStartDateChange(event.target.value)}
-            onClick={() => {
-              setClickOnStart(true);
-              setShowDatePicker(true);
-              isHomePage && scrollTopSmoothly();
-            }}
-            disabled
+            icon={<SearchIcon className="w-5 h-5 text-dark-700 " />}
+            label="Search"
+            name="search"
+            placeholder="Search Shows & Events"
+            autoFocus
+            onChange={(e) => handleSearchEventsChanges(e.target.value)}
+            value={query}
           />
-          <IconInput
-            label={endDateText}
-            name="Check-out"
-            placeholder={endDateText}
-            orientation="left"
-            className="lg:mt-0"
-            customInputClassName="cursor-pointer"
-            icon={<Calendar className="h-5 w-5 text-dark-700" />}
-            value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
-            onChange={(event) => handleEndDateChange(event.target.value)}
-            onClick={() => {
-              setClickOnStart(false);
-              setShowDatePicker(true);
-              isHomePage && scrollTopSmoothly();
-            }}
-            disabled
+
+          <LocationInput
+            icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
+            name="location"
+            label={'City'}
+            placeholder={'Where are you going?'}
+            routeParams={['address']}
+            onSelect={handleSelectLocation}
+            error={showLocationError}
+            onChange={handleChangeLocation}
           />
-          <DatePicker
-            showDatePicker={showDatePicker}
-            onClose={() => setShowDatePicker(false)}
-            startDateLabel={startDateText}
-            endDateLabel={endDateText}
-            initialStartDate={startDate}
-            initialEndDate={endDate}
-            onStartDateChange={handleStartDateChange}
-            onEndDateChange={handleEndDateChange}
-            openOnStart={clickOnStart ? true : false}
-            restricted={false}
+          <section className="relative flex gap-4 lg:mt-0 lg:w-full">
+            <IconInput
+              label={startDateText}
+              name="Check-in"
+              placeholder={startDateText}
+              className="lg:mt-0"
+              customInputClassName="cursor-pointer"
+              orientation="left"
+              icon={<Calendar className="w-5 h-5 text-dark-700" />}
+              value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
+              onChange={(event) => handleStartDateChange(event.target.value)}
+              onClick={() => {
+                setClickOnStart(true);
+                setShowDatePicker(true);
+                isHomePage && scrollTopSmoothly();
+              }}
+              disabled
+            />
+            <IconInput
+              label={endDateText}
+              name="Check-out"
+              placeholder={endDateText}
+              orientation="left"
+              className="lg:mt-0"
+              customInputClassName="cursor-pointer"
+              icon={<Calendar className="h-5 w-5 text-dark-700" />}
+              value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
+              onChange={(event) => handleEndDateChange(event.target.value)}
+              onClick={() => {
+                setClickOnStart(false);
+                setShowDatePicker(true);
+                isHomePage && scrollTopSmoothly();
+              }}
+              disabled
+            />
+            <DatePicker
+              showDatePicker={showDatePicker}
+              onClose={() => setShowDatePicker(false)}
+              startDateLabel={startDateText}
+              endDateLabel={endDateText}
+              initialStartDate={startDate}
+              initialEndDate={endDate}
+              onStartDateChange={handleStartDateChange}
+              onEndDateChange={handleEndDateChange}
+              openOnStart={clickOnStart ? true : false}
+              restricted={false}
+            />
+          </section>
+        </section>
+
+        <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+          <Button
+            key="hotels.searchBtn"
+            size="full"
+            className="min-w-full text-base"
+            value={textSearch}
+            onClick={handleSearchClick}
           />
         </section>
-      </section>
-
-      <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
-        <Button
-          key="hotels.searchBtn"
-          size="full"
-          className="min-w-full text-base"
-          value={textSearch}
-          onClick={handleSearchClick}
-        />
-      </section>
+      </div>
     </section>
   );
 };

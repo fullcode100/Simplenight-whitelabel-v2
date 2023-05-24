@@ -8,10 +8,10 @@ const CategoryTags = ({ tags }: CategoryTagProps) => {
   return (
     <>
       {tags.map((label, index) => (
-        <div key={index} className="bg-teal-100 w-fit rounded">
-          <label className="text-[#0DADB9] text-[14px] p-2 leading-[20px] font-semibold">
+        <div key={index} className="bg-teal-100 rounded max-w-[115px]">
+          <p className="text-[#0DADB9] p-1 text-xs font-semibold truncate">
             {label}
-          </label>
+          </p>
         </div>
       ))}
     </>

@@ -25,6 +25,7 @@ import Select from '../SelectTime/SelectTime';
 import Checkbox from 'components/global/Checkbox/Checkbox';
 import { useSearchStore } from 'hooks/cars/useSearchStore';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
+import { Paragraph } from '@simplenight/ui';
 
 export const defaultDriverAge = 25;
 export const minDriverAge = 18;
@@ -154,29 +155,11 @@ const CarSearchForm = ({
   const geolocationIsNull = geolocation === `${NaN},${NaN}`;
 
   const handleSearchClick = () => {
-    // if (hasReRoute) {
     if (geolocationIsNull) {
       setShowLocationError(true);
       return;
     }
     rerouteToSearchPage();
-    //  return;
-    // }
-    /*
-    setQueryParam({
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      address: address as string,
-      address2: address2 as string,
-      geolocation: geolocation ?? '',
-      geolocation2: geolocation2 ?? '',
-      latitude2: geolocation2?.split(',')[LATITUDE_INDEX] ?? '',
-      longitude2: geolocation2?.split(',')[LONGITUDE_INDEX] ?? '',
-    });
-    if (setIsSearching) setIsSearching(false);
-    */
   };
 
   const handleSelectLocation = (latLng: latLngProp, address: string) => {
@@ -221,114 +204,125 @@ const CarSearchForm = ({
 
   return (
     <section className="flex flex-col">
-      <section
-        className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
-      >
-        <section className="flex flex-col gap-2 lg:gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-end">
-          <LocationInput
-            icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
-            label={locationInputLabel}
-            name="location"
-            placeholder={locationPlaceholder}
-            routeParams={['address']}
-            defaultAddress={address}
-            onSelect={handleSelectLocation}
-            onChange={handleChangeLocation}
-            autoFocus={!address ? true : false}
-          />
-          <section className="relative pt-4">
+      <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+        {isHomePage && (
+          <Paragraph fontWeight="semibold" size="large" className="capitalize">
+            Rent a car for your trip with ease.
+          </Paragraph>
+        )}
+        <div
+          className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
+        >
+          <section className="flex flex-col gap-2 lg:gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-end">
+            <LocationInput
+              icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
+              label={locationInputLabel}
+              name="location"
+              placeholder={locationPlaceholder}
+              routeParams={['address']}
+              defaultAddress={address}
+              onSelect={handleSelectLocation}
+              onChange={handleChangeLocation}
+              autoFocus={!address ? true : false}
+            />
+            <section className="relative pt-4">
+              <section className="w-full flex flex-row gap-2 items-end">
+                <IconInput
+                  placeholder={dateInputLabel}
+                  className="lg:mt-0 min-w-[170px]"
+                  orientation="left"
+                  icon={<Calendar className="h-5 w-5 text-dark-700" />}
+                  value={fromLowerCaseToCapitilize(
+                    formatAsDisplayDate(startDate),
+                  )}
+                  onChange={(event) =>
+                    handleStartDateChange(event.target.value)
+                  }
+                  onClick={() => {
+                    setClickOnStart(true);
+                    setShowDatePicker(true);
+                    isHomePage && scrollTopSmoothly();
+                  }}
+                />
+                <Select
+                  options={timeOptions}
+                  value={startTime}
+                  onChange={(value) => setStartTime(value)}
+                />
+              </section>
+
+              <section className="lg:hidden w-full flex items-center justify-start mt-3 text-gray-500 mb-3">
+                <Checkbox
+                  checked={showLocation2}
+                  onChange={handleCheckLocation}
+                  className="sm"
+                >
+                  {textReturnDifferentLocation}
+                </Checkbox>
+              </section>
+
+              <DatePicker
+                showDatePicker={showDatePicker}
+                onClose={() => setShowDatePicker(false)}
+                startDateLabel={locationInputLabel}
+                endDateLabel={locationInputLabel2}
+                initialStartDate={startDate}
+                initialEndDate={endDate}
+                onStartDateChange={handleStartDateChange}
+                onEndDateChange={handleEndDateChange}
+                openOnStart={clickOnStart ? true : false}
+                maxMonthsDisplayed={13}
+              />
+            </section>
+
+            {showLocation2 && (
+              <LocationInput
+                icon={
+                  <LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />
+                }
+                label={locationInputLabel2}
+                name="location2"
+                placeholder={locationPlaceholder2}
+                routeParams={['address2']}
+                defaultAddress={address2}
+                onSelect={handleSelectLocation2}
+                error={showLocationError}
+                onChange={handleChangeLocation}
+              />
+            )}
             <section className="w-full flex flex-row gap-2 items-end">
               <IconInput
+                label={showLocation2 ? '' : locationInputLabel2}
                 placeholder={dateInputLabel}
-                className="lg:mt-0 min-w-[170px]"
                 orientation="left"
+                className="lg:mt-0 min-w-[170px]"
                 icon={<Calendar className="h-5 w-5 text-dark-700" />}
-                value={fromLowerCaseToCapitilize(
-                  formatAsDisplayDate(startDate),
-                )}
-                onChange={(event) => handleStartDateChange(event.target.value)}
+                value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
+                onChange={(event) => handleEndDateChange(event.target.value)}
                 onClick={() => {
-                  setClickOnStart(true);
+                  setClickOnStart(false);
                   setShowDatePicker(true);
                   isHomePage && scrollTopSmoothly();
                 }}
               />
               <Select
                 options={timeOptions}
-                value={startTime}
-                onChange={(value) => setStartTime(value)}
+                value={endTime}
+                onChange={(value) => setEndTime(value)}
               />
             </section>
-
-            <section className="lg:hidden w-full flex items-center justify-start mt-3 text-gray-500 mb-3">
-              <Checkbox
-                checked={showLocation2}
-                onChange={handleCheckLocation}
-                className="sm"
-              >
-                {textReturnDifferentLocation}
-              </Checkbox>
-            </section>
-
-            <DatePicker
-              showDatePicker={showDatePicker}
-              onClose={() => setShowDatePicker(false)}
-              startDateLabel={locationInputLabel}
-              endDateLabel={locationInputLabel2}
-              initialStartDate={startDate}
-              initialEndDate={endDate}
-              onStartDateChange={handleStartDateChange}
-              onEndDateChange={handleEndDateChange}
-              openOnStart={clickOnStart ? true : false}
-              maxMonthsDisplayed={13}
-            />
           </section>
 
-          {showLocation2 && (
-            <LocationInput
-              icon={<LocationPin className="h-5 w-5 text-dark-700 lg:w-full" />}
-              label={locationInputLabel2}
-              name="location2"
-              placeholder={locationPlaceholder2}
-              routeParams={['address2']}
-              defaultAddress={address2}
-              onSelect={handleSelectLocation2}
-              error={showLocationError}
-              onChange={handleChangeLocation}
-            />
-          )}
-          <section className="w-full flex flex-row gap-2 items-end">
-            <IconInput
-              label={showLocation2 ? '' : locationInputLabel2}
-              placeholder={dateInputLabel}
-              orientation="left"
-              className="lg:mt-0 min-w-[170px]"
-              icon={<Calendar className="h-5 w-5 text-dark-700" />}
-              value={fromLowerCaseToCapitilize(formatAsDisplayDate(endDate))}
-              onChange={(event) => handleEndDateChange(event.target.value)}
-              onClick={() => {
-                setClickOnStart(false);
-                setShowDatePicker(true);
-                isHomePage && scrollTopSmoothly();
-              }}
-            />
-            <Select
-              options={timeOptions}
-              value={endTime}
-              onChange={(value) => setEndTime(value)}
+          <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+            <Button
+              key="cars.searchBtn"
+              size="full"
+              className="min-w-full text-base"
+              value={textSearch}
+              onClick={handleSearchClick}
             />
           </section>
-        </section>
-
-        <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
-          <Button
-            key="cars.searchBtn"
-            size="full"
-            className="min-w-full text-base"
-            value={textSearch}
-            onClick={handleSearchClick}
-          />
-        </section>
+        </div>
       </section>
 
       <section className="hidden lg:block w-full flex items-center justify-start mt-3 text-gray-500">

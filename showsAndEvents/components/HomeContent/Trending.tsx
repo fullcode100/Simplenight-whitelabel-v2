@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 
 import CardShow from './components/CardShow';
 import { useTranslation } from 'react-i18next';
@@ -32,23 +33,28 @@ const TrendingCarousel = ({ Category }: TrendingCarouselProps) => {
 
   const apiUrl = useCategorySlug('shows-events')?.apiUrl ?? '';
 
-  useEffect(() => {
-    const params: ShowsSearchRequest = {
-      start_date: formatAsSearchDate(dayjs.utc()),
-      end_date: formatAsSearchDate(dayjs.utc().add(30, 'day')),
-      dst_geolocation: '0,0',
-      rsp_fields_set: 'basic',
-      is_trending_req: true,
-      apiUrl,
-    };
-    Searcher?.request?.(params, i18next)
-      .then((data) => {
-        setItems(data);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  const params: ShowsSearchRequest = {
+    start_date: formatAsSearchDate(dayjs.utc()),
+    end_date: formatAsSearchDate(dayjs.utc().add(30, 'day')),
+    dst_geolocation: '0,0',
+    rsp_fields_set: 'basic',
+    is_trending_req: true,
+    apiUrl,
+  };
+
+  const fetchTrending = async () => {
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const { data, isLoading } = useReactQuery(
+    ['showsandevents-trending', params],
+    fetchTrending,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
 
   return (
     <section className="flex flex-col w-full max-w-xs gap-4 lg:mx-auto lg:max-w-7xl lg:gap-4 lg:flex-col">

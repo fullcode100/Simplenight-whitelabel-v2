@@ -52,7 +52,7 @@ const Menu = ({ onCloseModal, handleTabClick, activeTab }: MenuProps) => {
           </section>
         </section>
       )}
-      <section className="p-4">
+      {/* <section className="p-4">
         <TitleDrop title={languageText}>
           <LanguageSelect />
         </TitleDrop>
@@ -60,7 +60,7 @@ const Menu = ({ onCloseModal, handleTabClick, activeTab }: MenuProps) => {
         <TitleDrop title={currencyText}>
           <CurrencySelect />
         </TitleDrop>
-      </section>
+      </section> */}
     </section>
   );
 };

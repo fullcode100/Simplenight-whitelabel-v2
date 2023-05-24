@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 import IconInput from 'components/global/Input/IconInput';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
+import { Paragraph } from '@simplenight/ui';
 
 const DiningSearchForm = ({
   setIsSearching,
@@ -117,60 +118,67 @@ const DiningSearchForm = ({
   const isHomePage = router.pathname === '/';
 
   return (
-    <section
-      className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
-    >
-      <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-        <LocationInput
-          icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
-          label={t('locationInputLabel')}
-          name="location"
-          placeholder={t('locationInputLabelPlaceholder')}
-          routeParams={['address']}
-          onSelect={handleSelectLocation}
-          error={showLocationError}
-          onChange={handleChangeLocation}
-        />
-        <section className="relative flex gap-4 lg:mt-0 lg:w-full">
-          <IconInput
-            label={t('startDate')}
-            name="Check-in"
-            placeholder={t('startDatePlaceholder')}
-            className="lg:mt-0"
-            orientation="left"
-            icon={<Calendar className="w-5 h-5 text-dark-700" />}
-            value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
-            onChange={(event) => handleStartDateChange(event.target.value)}
-            onClick={() => {
-              setClickOnStart(true);
-              setShowDatePicker(true);
-              isHomePage && scrollTopSmoothly();
-            }}
-            disabled
+    <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+      {isHomePage && (
+        <Paragraph fontWeight="semibold" size="large" className="capitalize">
+          Indulge in the finest dining experiences in town.
+        </Paragraph>
+      )}
+      <div
+        className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
+      >
+        <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
+          <LocationInput
+            icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
+            label={t('locationInputLabel')}
+            name="location"
+            placeholder={t('locationInputLabelPlaceholder')}
+            routeParams={['address']}
+            onSelect={handleSelectLocation}
+            error={showLocationError}
+            onChange={handleChangeLocation}
           />
-          <DatePicker
-            showDatePicker={showDatePicker}
-            onClose={() => setShowDatePicker(false)}
-            startDateLabel={t('startDate')}
-            endDateLabel={t('endDate')}
-            initialStartDate={startDate}
-            initialEndDate={endDate}
-            onStartDateChange={handleStartDateChange}
-            onEndDateChange={handleEndDateChange}
-            openOnStart={clickOnStart ? true : false}
-            isRange={false}
+          <section className="relative flex gap-4 lg:mt-0 lg:w-full">
+            <IconInput
+              label={t('startDate')}
+              name="Check-in"
+              placeholder={t('startDatePlaceholder')}
+              className="lg:mt-0"
+              orientation="left"
+              icon={<Calendar className="w-5 h-5 text-dark-700" />}
+              value={fromLowerCaseToCapitilize(formatAsDisplayDate(startDate))}
+              onChange={(event) => handleStartDateChange(event.target.value)}
+              onClick={() => {
+                setClickOnStart(true);
+                setShowDatePicker(true);
+                isHomePage && scrollTopSmoothly();
+              }}
+              disabled
+            />
+            <DatePicker
+              showDatePicker={showDatePicker}
+              onClose={() => setShowDatePicker(false)}
+              startDateLabel={t('startDate')}
+              endDateLabel={t('endDate')}
+              initialStartDate={startDate}
+              initialEndDate={endDate}
+              onStartDateChange={handleStartDateChange}
+              onEndDateChange={handleEndDateChange}
+              openOnStart={clickOnStart ? true : false}
+              isRange={false}
+            />
+          </section>
+        </section>
+        <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
+          <Button
+            key="hotels.searchBtn"
+            size="full"
+            className="min-w-full text-base"
+            value={t('search')}
+            onClick={handleSearchClick}
           />
         </section>
-      </section>
-      <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
-        <Button
-          key="hotels.searchBtn"
-          size="full"
-          className="min-w-full text-base"
-          value={t('search')}
-          onClick={handleSearchClick}
-        />
-      </section>
+      </div>
     </section>
   );
 };
