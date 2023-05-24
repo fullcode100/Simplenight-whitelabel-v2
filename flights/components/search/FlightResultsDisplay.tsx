@@ -84,7 +84,7 @@ const FlightResultsDisplay = ({
     cabinType,
     // Query filter
     isFiltersOpen,
-    // sortBy,
+    sortBy,
     minPrice,
     maxPrice,
     departureTimes,
@@ -214,7 +214,7 @@ const FlightResultsDisplay = ({
           const totalStops = segmentsCollection.length - 1;
           if (stops && !stops.includes(`${totalStops}`)) isValid = false;
           // price
-          const totalAmount = +flight?.offer.totalAmount;
+          const totalAmount = +flight?.offer.totalFareAmount;
           if (minPrice && parseFloat(minPrice as string) > totalAmount)
             isValid = false;
           if (maxPrice && parseFloat(maxPrice as string) < totalAmount)
@@ -278,6 +278,30 @@ const FlightResultsDisplay = ({
           // Keep origin value for create UI filters
           _flightsSearched.push(flight);
         });
+
+      // sort by price
+      if (sortBy && sortBy === 'sortByPriceDesc') {
+        _flightsFiltered.sort((a, b) =>
+          parseFloat(a?.offer?.totalFareAmount) >
+          parseFloat(b?.offer?.totalFareAmount)
+            ? -1
+            : Number(
+                parseFloat(a?.offer?.totalFareAmount) <
+                  parseFloat(b?.offer?.totalFareAmount),
+              ),
+        );
+      } else {
+        _flightsFiltered.sort((a, b) =>
+          parseFloat(a?.offer?.totalFareAmount) <
+          parseFloat(b?.offer?.totalFareAmount)
+            ? -1
+            : Number(
+                parseFloat(a?.offer?.totalFareAmount) >
+                  parseFloat(b?.offer?.totalFareAmount),
+              ),
+        );
+      }
+
       setFlightsFiltered(_flightsFiltered);
       setFlightsSearched(_flightsSearched);
       localStorage.setItem('flightsSearched', JSON.stringify(_flightsSearched));
@@ -305,10 +329,10 @@ const FlightResultsDisplay = ({
   const FlightList = () => (
     <ul role="list" className="space-y-4">
       {flightsFiltered.map((flight: FlightItem, index) => {
-        let price = flight.offer?.totalAmount;
+        let price = flight.offer?.totalFareAmount;
         if (selectedFlights[currentIndex - 1]) {
           const lastPrice =
-            selectedFlights[currentIndex - 1].offer?.totalAmount;
+            selectedFlights[currentIndex - 1].offer?.totalFareAmount;
           price = `+US$${(+price - +lastPrice).toFixed(2)}`;
         } else {
           price = `US$${(+price).toFixed(2)}`;

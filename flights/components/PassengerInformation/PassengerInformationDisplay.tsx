@@ -46,7 +46,9 @@ const PassengerInformationDisplay = ({
 
   const getPricing = () => (
     <Pricing>
-      <Pricing.Total totalAmount={`US$${flight.offer?.totalAmount || '0'}`} />
+      <Pricing.Total
+        totalAmount={`US$${flight.offer?.totalFareAmount || '0'}`}
+      />
       <Pricing.TaxesAndFees />
     </Pricing>
   );

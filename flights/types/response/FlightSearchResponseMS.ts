@@ -80,7 +80,7 @@ export type OffersCollection = {
 };
 export type OfferLegRefsEntity = {
   id: string;
-  totalAmount: string;
+  totalFareAmount: string;
   baseFare: string;
   bookingClass: string;
   legRef?: string[];
