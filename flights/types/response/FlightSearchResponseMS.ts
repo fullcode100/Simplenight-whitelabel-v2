@@ -26,7 +26,6 @@ export type Leg = {
   legId: string;
   legDuration: string;
   segments: SegmentItem;
-  _meta: Meta;
 };
 
 export type SegmentItem = {
@@ -79,12 +78,15 @@ export type OffersCollection = {
   offerLegRefs?: Array<OfferLegRefsEntity>;
 };
 export type OfferLegRefsEntity = {
-  id: string;
-  totalAmount: string;
-  baseFare: string;
   bookingClass: string;
-  legRef?: string[];
+  cabinCode: string;
+  cabinName: string;
   fareDetails?: Array<string>;
+  id: string;
+  legRef?: string[];
+  totalFareAmount: string;
+  totalTaxAmount: string;
+  validatingCarrier: string;
 };
 export type WarningCollection = {
   _meta: Meta;

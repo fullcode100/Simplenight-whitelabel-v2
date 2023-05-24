@@ -314,16 +314,14 @@ const FlightResultsDisplay = ({
           price = `US$${(+price).toFixed(2)}`;
         }
 
-        if (index < page * pageItems) {
-          return (
-            <HorizontalItemCard
-              key={`flight_${flight.legId}_${flight.offer.id}`}
-              item={flight}
-              price={price}
-              selectFlight={selectFlight}
-            />
-          );
-        }
+        return (
+          <HorizontalItemCard
+            key={`flight_${flight.legId}_${flight.offer.id}`}
+            item={flight}
+            price={price}
+            selectFlight={selectFlight}
+          />
+        );
       })}
       {/* {flightsFiltered.length > page * pageItems && (
         <section className="w-full mx-auto lg:w-fit">
@@ -336,10 +334,10 @@ const FlightResultsDisplay = ({
   return (
     <>
       <section className="lg:flex lg:w-full">
-        {!isLoading && flights.length > 0 && (
-          <FlightsBreadcrumbs
-            step={1}
-            content={
+        <FlightsBreadcrumbs
+          step={1}
+          content={
+            !isLoading && flights.length > 0 ? (
               <>
                 {selectedFlights.map((flight, idx) => {
                   const flightSegments = flight.segments.collection || [];
@@ -390,9 +388,9 @@ const FlightResultsDisplay = ({
                   </span>
                 </span>
               </>
-            }
-          />
-        )}
+            ) : null
+          }
+        />
         {isFiltersOpen && (
           <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%]">
             <FlightFilterFormDesktop flights={flightsSearched} />
@@ -400,9 +398,14 @@ const FlightResultsDisplay = ({
         )}
         <section className="lg:flex-1 lg:w-[75%] h-full pt-9">
           {isLoading ? (
-            <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
-              <HorizontalSkeletonList />
-            </section>
+            <>
+              <div className="w-[83px] h-6 ml-5 mt-14 overflow-hidden rounded">
+                <div className="h-full w-full relative before:absolute before:inset-0 before:bg-gradient-to-r before:from-dark-100 before:via-dark-300 before:to-dark-100 before:animate-[skeleton_800ms_infinite]" />
+              </div>
+              <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
+                <HorizontalSkeletonList />
+              </section>
+            </>
           ) : (
             <>
               <section className="w-full h-full px-5 pb-6">
