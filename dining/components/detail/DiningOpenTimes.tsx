@@ -12,17 +12,18 @@ const DiningOpenTimes = ({
 
   return (
     <>
-      <h5 className="pb-6 text-lg pt-9 text-dark-800">{t('openingTimes')}</h5>
-      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-y-9 gap-x-11">
+      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-y-6 gap-x-8">
         {hoursByDay?.map((day, index) =>
           day ? (
-            <div key={index.toString()} className="flex justify-between">
-              <p className="text-lg text-dark-800">{t(`day${index}`)}</p>
+            <div key={index.toString()}>
+              <p className="text-sm font-semibold text-dark-800">
+                {t(`day${index}`)}
+              </p>
               <div>
                 {day.map((times) => (
                   <p
                     key={`${times.start}${times.end}`}
-                    className="py-1 text-sm text-dark-800"
+                    className="text-sm text-dark-700"
                   >
                     {transformTo12hours(times.start)} -{' '}
                     {transformTo12hours(times.end)}

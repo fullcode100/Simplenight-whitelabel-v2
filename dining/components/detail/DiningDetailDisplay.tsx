@@ -34,6 +34,8 @@ import DiningAboutDetail from './DiningAboutDetail';
 import DiningSummaryDetail from './DiningSummaryDetail';
 import { notification } from 'components/global/Notification/Notification';
 import { Item } from 'types/cart/CartType';
+import DiningOpenTimes from './DiningOpenTimes';
+import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
 
 type DiningDetailDisplayProps = CategoryPageComponentProps;
 
@@ -326,8 +328,13 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
               defaultTime={time}
               onChangeCovers={(newCovers) => setCovers(newCovers)}
               defaultCovers={covers}
-              hoursByDay={availableHoursByDay}
             />
+          </section>
+        </section>
+        <section className="flex justify-center border-b-2 border-dark-300">
+          <section className="lg:max-w-[904px] lg:px-0 px-4 w-full py-8 relative space-y-6">
+            <SectionTitle title={t('openingTimes')} />
+            <DiningOpenTimes hoursByDay={availableHoursByDay} />
           </section>
         </section>
         <section

@@ -21,6 +21,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 const ThingsSearchForm = ({
   setIsSearching,
@@ -117,6 +118,8 @@ const ThingsSearchForm = ({
     'Where do you like to go?',
   );
 
+  const isHomePage = router.pathname === '/';
+
   return (
     <section
       className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
@@ -146,6 +149,7 @@ const ThingsSearchForm = ({
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
+              isHomePage && scrollTopSmoothly();
             }}
             disabled
           />
@@ -161,6 +165,7 @@ const ThingsSearchForm = ({
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
+              isHomePage && scrollTopSmoothly();
             }}
             disabled
           />

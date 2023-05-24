@@ -28,6 +28,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import Label from 'components/global/Label/Label';
+import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 const HotelSearchForm = ({
   setIsSearching,
@@ -194,6 +195,8 @@ const HotelSearchForm = ({
     setRooms(roomsData.length.toString());
   }, [roomsData]);
 
+  const isHomePage = router.pathname === '/';
+
   return (
     <section
       className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
@@ -250,6 +253,7 @@ const HotelSearchForm = ({
             onClick={() => {
               setClickOnStart(true);
               setShowDatePicker(true);
+              isHomePage && scrollTopSmoothly();
             }}
           />
           <IconInput
@@ -264,6 +268,7 @@ const HotelSearchForm = ({
             onClick={() => {
               setClickOnStart(false);
               setShowDatePicker(true);
+              isHomePage && scrollTopSmoothly();
             }}
           />
           <DatePicker

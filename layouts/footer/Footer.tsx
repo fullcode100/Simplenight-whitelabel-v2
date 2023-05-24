@@ -5,6 +5,7 @@ import BrandingHOC from 'layouts/helpers/components/BrandingHOC';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import { useSettings } from 'hooks/services/useSettings';
+import Link from 'next/link';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -30,6 +31,7 @@ const Footer = () => {
   const termsOfServiceText = t({ translationKey: 'termsOfService' });
   const privacyPolicyText = t({ translationKey: 'privacyPolicy' });
   const poweredByText = t({ translationKey: 'poweredBy', value: 'Powered by' });
+  const env = process.env.NODE_ENV;
 
   return (
     <footer
@@ -89,6 +91,9 @@ const Footer = () => {
             >
               Simplenight {privacyPolicyText}
             </ExternalLink>
+            {env !== 'production' && (
+              <Link href={'/variables'}>Show enviroment variables</Link>
+            )}
           </section>
         </section>
         <p className="pt-6 pb-2 lg:hidden">

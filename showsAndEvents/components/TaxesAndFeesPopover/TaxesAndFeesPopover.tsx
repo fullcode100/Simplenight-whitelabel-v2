@@ -3,7 +3,7 @@ import Popover from 'components/global/Popover/Popover';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 
 const TaxesAndFeesPopover = () => {
-  const [t] = useTranslation('hotels');
+  const [t] = useTranslation('events');
   const taxesAndFeesDisclaimer = t('taxesAndFeesDisclaimer');
 
   const PopoverContent = () => (

@@ -19,6 +19,12 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
 
   const currentItem = items?.[activeItem];
   const coordinates = currentItem?.location;
+  const locations = items?.map((i) => {
+    return {
+      latitude: i.location.latitude,
+      longitude: i.location.longitude,
+    };
+  });
 
   const responsive = {
     superLargeDesktop: {
@@ -43,7 +49,7 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
       <section className="relative">
         <LocationMap
           center={{
-            latitude: coordinates?.latitude - 0.0013,
+            latitude: coordinates?.latitude,
             longitude: coordinates?.longitude,
           }}
           coords={[
@@ -54,8 +60,9 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
           ]}
           zoom={17}
           height={575}
+          locations={locations}
         />
-        <section className="absolute w-full bottom-0">
+        <section className="absolute bottom-0 w-full">
           <Carousel
             partialVisbile={false}
             responsive={responsive}
@@ -65,13 +72,13 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
             beforeChange={handleBefreCorouselChange}
             customLeftArrow={
               <CustomArrow
-                className="z-10 absolute left-0 -translate-y-7"
+                className="absolute left-0 z-10 -translate-y-7"
                 position="left"
               />
             }
             customRightArrow={
               <CustomArrow
-                className="z-10 absolute right-0 -translate-y-7"
+                className="absolute right-0 z-10 -translate-y-7"
                 position="right"
               />
             }

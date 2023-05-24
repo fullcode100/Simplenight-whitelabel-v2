@@ -34,7 +34,7 @@ const Select = ({ options, value, label = '', onChange }: SelectProps) => {
                   aria-hidden="true"
                 />
               </span>
-              <span className="block truncate">{selected}</span>
+              <span className="block truncate pl-6">{selected}</span>
             </Listbox.Button>
 
             <Transition

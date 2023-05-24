@@ -217,7 +217,7 @@ const ReactDatepicker = ({
       selected={selected}
       onChange={onChange}
       onCalendarClose={() => setShowYearModal(false)}
-      className="text-dark-1000 border-dark-300 focus:border-primary-1000 rounded "
+      className="text-dark-1000 border-dark-300 focus:border-primary-1000 rounded w-full"
       showPopperArrow={false}
       renderCustomHeader={({
         date,

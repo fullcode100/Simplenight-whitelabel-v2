@@ -59,7 +59,7 @@ export const useClientQuestionsCheckoutFormSchema = (schemas: any[]) => {
     // })
     bookingSchema?.schema?.required?.forEach((value: string) => {
       let zCopy;
-      switch (bookingSchema?.schema?.properties[value]!.type) {
+      switch (bookingSchema?.schema?.properties[value]?.type) {
         case 'string':
           zCopy = z.string();
           break;
@@ -69,7 +69,7 @@ export const useClientQuestionsCheckoutFormSchema = (schemas: any[]) => {
       }
       baseValidationSchema[`root_${value}`] = zCopy
         .min(1, fillOutThisFieldLabel)
-        .max(bookingSchema?.schema?.properties[value]!.maxLength);
+        .max(bookingSchema?.schema?.properties[value]?.maxLength);
     });
   });
   return z.object(baseValidationSchema);
