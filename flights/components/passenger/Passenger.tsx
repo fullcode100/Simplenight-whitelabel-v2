@@ -24,6 +24,7 @@ import countryList from 'country-list';
 import ReactDatepicker from 'components/global/ReactDatepicker/ReactDatepicker';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { usePassengerSchema } from '../../hooks/usePassengerSchema';
+import airlinesList from '../../airlines';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -76,6 +77,18 @@ const Passenger = ({
     { value: '', label: '' },
     ...Object.values(countries).map((label) => {
       return { value: label.code, label: label.name };
+    }),
+  ];
+
+  const airlines = Object.values(airlinesList);
+  airlines.sort(function (a, b) {
+    const textA = a.toUpperCase().split(' ')[0];
+    const textB = b.toUpperCase().split(' ')[0];
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  });
+  const airlinesOptions = [
+    ...airlines.map((name) => {
+      return { value: name, label: name };
     }),
   ];
 
@@ -272,7 +285,7 @@ const Passenger = ({
             {getSelectField(
               loyaltyProgramLabel,
               'loyaltyProgram',
-              countriesOptions,
+              airlinesOptions,
             )}
             {getInputField(loyaltyNumberLabel, 'loyaltyNumber')}
           </section>
