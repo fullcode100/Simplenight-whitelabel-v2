@@ -105,7 +105,7 @@ const SelectedSeatsBar = ({
         currentCartId = item?.cart?.cart_id || null;
       }
     }
-    router.replace(url);
+    router.push(url);
   };
   const [isFreeCacellationPolicy, setIsFreeCacellationPolicy] = useState(false);
 

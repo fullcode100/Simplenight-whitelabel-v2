@@ -291,7 +291,8 @@ const Client = () => {
   };
 
   const redirectToItinerary = () => {
-    router.push(ITINERARY_URI);
+    // router.push(ITINERARY_URI);
+    router.back();
   };
 
   const getAddCustomerRequestBody = (primaryContactData: any) => {

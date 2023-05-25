@@ -64,10 +64,6 @@ declare let window: CustomWindow;
 
 const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   const params = useQuery();
-  console.log(
-    '🚀 ~ file: CarDetailDisplay.tsx:59 ~ CarDetailDisplay ~ params:',
-    params,
-  );
   const { id, roomsData } = params;
   const referralParam = params.referral as string;
   const { setCookie } = useCookies();
