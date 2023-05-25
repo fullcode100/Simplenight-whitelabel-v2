@@ -39,13 +39,13 @@ const PassengerInformationDisplay = ({
 
   const flights = useFlightsStore((state) => state.flights);
   const flight = flights[flights.length - 1];
-  const { passengersQuantity, setPassengers } = usePassengersStore(
+  const { passengersQuantity, setPassengers, passengers } = usePassengersStore(
     (state) => state,
   );
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const getDefaultPassengersInfo = () => {
+  const getDefaultPassengersInfo = (passengers: IPassenger[]) => {
     const defaultValues: IPassenger[] = [];
     const defaultPassengerObject: IPassenger = {
       firstName: '',
@@ -66,7 +66,8 @@ const PassengerInformationDisplay = ({
     };
     for (let i = 0; i < passengersQuantity; i++) {
       defaultPassengerObject.passengerNumber = i;
-      defaultValues.push(defaultPassengerObject);
+      const passegerData = passengers[i] || {};
+      defaultValues.push({ ...defaultPassengerObject, ...passegerData });
     }
     return defaultValues;
   };
@@ -75,7 +76,7 @@ const PassengerInformationDisplay = ({
 
   const methods = useForm({
     defaultValues: {
-      passengers: getDefaultPassengersInfo(),
+      passengers: getDefaultPassengersInfo(passengers),
     },
     resolver: zodResolver(passengerFormSchema),
     mode: 'all',
