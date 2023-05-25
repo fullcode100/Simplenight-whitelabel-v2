@@ -11,14 +11,6 @@ interface PriceChangeModalProps {
 }
 
 const PriceChangeModal = ({ cart, isOpen, onClose }: PriceChangeModalProps) => {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isOpen]);
-
   return (
     <div className="absolute inset-0 h-screen w-screen bg-white/75 z-[100] p-5">
       <section className="h-full w-full bg-white border border-dark-300 rounded overflow-hidden flex flex-col items-stretch">

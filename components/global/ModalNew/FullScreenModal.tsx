@@ -37,14 +37,6 @@ const FullScreenModal = ({
   const renderFooter =
     !!primaryButtonText || !!secondaryButtonText || !!footerSummary;
 
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [open]);
-
   return (
     <Transition.Root show={open}>
       <Dialog

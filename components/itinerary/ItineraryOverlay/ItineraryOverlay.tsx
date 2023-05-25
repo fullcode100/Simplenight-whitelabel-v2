@@ -18,14 +18,6 @@ const ItineraryOverlay = ({ isOpen, onClose, cart }: ItineraryOverlayProps) => {
 
   const showCheckOut = !!itemsQty && itemsQty > 0;
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isOpen]);
-
   return (
     <>
       {isOpen && (
