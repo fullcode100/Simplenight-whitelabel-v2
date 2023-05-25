@@ -1,10 +1,15 @@
 import { Collapse } from 'antd';
 import CollapseBody from 'components/global/CollapseBordered/components/CollapseBody';
 import CollapseHeader from 'components/global/CollapseBordered/components/CollapseHeader';
-import React, { ReactNode, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Person from 'public/icons/assets/person.svg';
-import { Controller, RegisterOptions, useForm } from 'react-hook-form';
-import { IPassenger } from './inputs';
+import {
+  Controller,
+  FieldValues,
+  RegisterOptions,
+  useFormContext,
+} from 'react-hook-form';
+import { IPassenger, IPassengerForm } from './inputs';
 import {
   Button,
   Checkbox,
@@ -16,7 +21,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import countryList from 'country-list';
-import { zodResolver } from '@hookform/resolvers/zod';
 import ReactDatepicker from 'components/global/ReactDatepicker/ReactDatepicker';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { usePassengerSchema } from '../../hooks/usePassengerSchema';
@@ -24,20 +28,14 @@ import { usePassengerSchema } from '../../hooks/usePassengerSchema';
 interface PassengerProps {
   passengerNumber: number;
   open: boolean;
-  setOpen: (value: number) => void;
-  onSubmit: (data: IPassenger, passengerNumber: number) => void;
-  pricing?: ReactNode;
-  passengersData: IPassenger[];
+  toggleOpen: (value: number) => void;
   passengersQuantity: number;
 }
 
 const Passenger = ({
   passengerNumber,
   open,
-  setOpen,
-  onSubmit,
-  pricing,
-  passengersData,
+  toggleOpen,
   passengersQuantity,
 }: PassengerProps) => {
   const [t] = useTranslation('flights');
@@ -63,7 +61,10 @@ const Passenger = ({
   const loyaltyProgramLabel = t('loyaltyProgram', 'Loyalty program');
   const loyaltyNumberLabel = t('loyaltyNumber', 'Loyalty number');
   const requiredLabel = tg('required', 'Required');
-  const isLastPassenger = passengerNumber === passengersQuantity;
+  const isLastPassenger = passengerNumber === passengersQuantity - 1;
+
+  const [enableNextPassengerButton, setEnableNextPassengerButton] =
+    useState(false);
 
   const countries = countryList.getData();
   countries.sort(function (a, b) {
@@ -78,32 +79,37 @@ const Passenger = ({
     }),
   ];
 
-  const { passengerSchema } = usePassengerSchema();
-
   const {
     register,
-    handleSubmit,
-    formState: { isValid, errors },
     setValue,
     control,
-  } = useForm<IPassenger>({
-    mode: 'all',
-    resolver: zodResolver(passengerSchema),
-  });
-
-  const enableBookNow =
-    passengersData.length === passengersQuantity - 1 && isValid;
+    getValues,
+    watch,
+    formState: { errors },
+  } = useFormContext<IPassengerForm>();
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
-      <section className="flex w-[40px] h-[40px] items-center justify-center bg-teal-200 rounded-full">
-        <Person className="text-teal-1000" />
+      <section className="flex w-[40px] h-[40px] items-center justify-center bg-primary-200 rounded-full">
+        <Person className="text-primary-1000" />
       </section>
       <Paragraph size="medium">
-        {passengerLabel} {passengerNumber}
+        {passengerLabel} {passengerNumber + 1}
       </Paragraph>
     </section>
   );
+
+  const { passengerSchema } = usePassengerSchema();
+  useEffect(() => {
+    const result = passengerSchema.safeParse(
+      getValues(`passengers.${passengerNumber}`),
+    );
+    if (result.success) {
+      setEnableNextPassengerButton(true);
+    } else {
+      setEnableNextPassengerButton(false);
+    }
+  }, [watch()]);
 
   const genderOptions = useMemo(
     () => [
@@ -128,12 +134,12 @@ const Passenger = ({
         required: options?.required ? true : false,
         label: requiredLabel,
       }}
-      error={errors[nameInput]?.message}
+      error={errors?.passengers?.[passengerNumber]?.[nameInput]?.message}
     >
       <TextInput
         placeholder={label}
-        {...register(nameInput)}
-        state={errors[nameInput] && 'error'}
+        {...register(`passengers.${passengerNumber}.${nameInput}`)}
+        state={errors?.passengers?.[passengerNumber]?.[nameInput] && 'error'}
       />
     </FormField>
   );
@@ -147,9 +153,11 @@ const Passenger = ({
       <Checkbox
         className=""
         size="small"
-        {...register(nameInput, { ...options })}
+        {...register(`passengers.${passengerNumber}.${nameInput}`, {
+          ...(options as RegisterOptions<FieldValues, `passengers[${number}]`>),
+        })}
         onChange={(value) => {
-          setValue(nameInput, value);
+          setValue(`passengers.${passengerNumber}.${nameInput}`, value);
         }}
         // eslint-disable-next-line react/no-children-prop
         children={label}
@@ -172,11 +180,14 @@ const Passenger = ({
         required: options?.required ? true : false,
         label: requiredLabel,
       }}
-      error={errors[nameInput]?.message}
+      error={errors?.passengers?.[passengerNumber]?.[nameInput]?.message}
     >
       <select
         className="block w-full border-gray-300 rounded-md shadow-sm resize-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-        {...register(nameInput, { ...options, onChange: setSelectValue })}
+        {...register(`passengers.${passengerNumber}.${nameInput}`, {
+          ...(options as RegisterOptions<FieldValues, `passengers[${number}]`>),
+          onChange: setSelectValue,
+        })}
       >
         {selectOptions.map(({ value, label }) => (
           <option key={value} value={value}>
@@ -217,7 +228,7 @@ const Passenger = ({
                 <FormField label={dateOfBirthLabel}>
                   <Controller
                     control={control}
-                    name="dateOfBirth"
+                    name={`passengers.${passengerNumber}.dateOfBirth`}
                     render={({ field }) => (
                       <ReactDatepicker
                         onChange={(date: Date) => {
@@ -301,7 +312,7 @@ const Passenger = ({
                 >
                   <Controller
                     control={control}
-                    name="expiration"
+                    name={`passengers.${passengerNumber}.expiration`}
                     render={({ field }) => (
                       <ReactDatepicker
                         onChange={(date: Date) => {
@@ -320,8 +331,10 @@ const Passenger = ({
         <section className="flex justify-end m-4 md:mx-6 ">
           {!isLastPassenger && (
             <Button
-              disabled={!isValid}
-              onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
+              disabled={!enableNextPassengerButton}
+              onClick={() => {
+                toggleOpen(passengerNumber + 1);
+              }}
             >
               {nextPassengerLabel}
             </Button>
@@ -337,24 +350,10 @@ const Passenger = ({
         <CollapseHeader
           title={getTitle()}
           show={open}
-          setShow={() => setOpen(passengerNumber)}
+          setShow={() => toggleOpen(passengerNumber)}
         />
         {open && <CollapseBody show={open} body={passengerForm()} />}
       </Collapse>
-      {isLastPassenger && open && (
-        <section className="flex flex-col gap-2 md:flex-row md:justify-end md:gap-6">
-          <div className="flex justify-between ">
-            <Paragraph className="md:hidden">Total</Paragraph>
-            {pricing}
-          </div>
-          <Button
-            disabled={!enableBookNow}
-            onClick={handleSubmit((data) => onSubmit(data, passengerNumber))}
-          >
-            Book now
-          </Button>
-        </section>
-      )}
     </>
   );
 };

@@ -1,3 +1,7 @@
+export interface IPassengerForm {
+  passengers: IPassenger[];
+}
+
 export interface IPassenger {
   firstName?: string;
   middleName?: string;
@@ -16,7 +20,7 @@ export interface IPassenger {
   passengerNumber: number;
 }
 
-enum GenderEnum {
+export enum GenderEnum {
   female = 'female',
   male = 'male',
 }
