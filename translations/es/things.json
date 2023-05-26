@@ -35,5 +35,6 @@
   "policies": "Políticas",
   "locaions": "Ubicaciones",
   "updatedCart": "Carrito actualizado",
-  "removedThingItemFromCart": "La reservación para {thing} fue removida."
+  "removedThingItemFromCart": "La reservación para {thing} fue removida.",
+  "discoverAndBookActivities": "Descubra y reserve actividades emocionantes."
 }

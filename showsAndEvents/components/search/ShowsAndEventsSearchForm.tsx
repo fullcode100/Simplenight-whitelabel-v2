@@ -37,7 +37,12 @@ const ShowsAndEvents = ({
   const router = useRouter();
 
   const [t] = useTranslation('things');
+  const [te] = useTranslation('events');
   const locationInputLabel = t('locationInputLabel', 'Destination');
+  const getMemorableExperiencesLabel = te(
+    'getMemorableExperiences',
+    'Get memorable experiences with secure event ticketing.',
+  );
   const textSearch = t('search', 'Search');
   // const startDateText = t('startDate', 'Start Date');
   // const endDateText = t('endDate', 'End Date');
@@ -139,10 +144,10 @@ const ShowsAndEvents = ({
   const isHomePage = router.pathname === '/';
 
   return (
-    <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+    <section className={'flex flex-col lg:gap-4 lg:pb-0 lg:px-0'}>
       {isHomePage && (
         <Paragraph fontWeight="semibold" size="large" className="capitalize">
-          Get memorable experiences with secure event ticketing.
+          {getMemorableExperiencesLabel}
         </Paragraph>
       )}
       <div

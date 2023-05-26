@@ -45,5 +45,6 @@
   "policies": "Policies",
   "locaions": "Locations",
   "updatedCart": "Updated Cart",
-  "removedThingItemFromCart": "Reservation for {thing} was removed"
+  "removedThingItemFromCart": "Reservation for {thing} was removed",
+  "discoverAndBookActivities": "Discover And Book Exciting Activities."
 }

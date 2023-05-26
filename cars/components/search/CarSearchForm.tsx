@@ -49,6 +49,7 @@ const CarSearchForm = ({
     'returnDifferentLocation',
     'Return to a different location',
   );
+  const rentACarLabel = t('rentACar', 'Rent A Car For Your Trip With Ease.');
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
@@ -204,10 +205,10 @@ const CarSearchForm = ({
 
   return (
     <section className="flex flex-col">
-      <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+      <section className={'flex flex-col lg:gap-4 lg:pb-0 lg:px-0'}>
         {isHomePage && (
           <Paragraph fontWeight="semibold" size="large" className="capitalize">
-            Rent a car for your trip with ease.
+            {rentACarLabel}
           </Paragraph>
         )}
         <div

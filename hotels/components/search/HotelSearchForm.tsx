@@ -49,6 +49,10 @@ const HotelSearchForm = ({
   const roomsLabel = t('rooms', 'Rooms');
   const roomLabel = t('room', 'Room');
   const guestsAndRoomsLabel = t('guestsAndRooms', 'Guests & Rooms');
+  const bookThePerfectHotelLabel = t(
+    'bookThePerfectHotel',
+    ' Book the perfect hotel by comparing prices and reading reviews.',
+  );
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
@@ -199,10 +203,10 @@ const HotelSearchForm = ({
   const isHomePage = router.pathname === '/';
 
   return (
-    <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+    <section className={'flex flex-col lg:gap-4 lg:pb-0 lg:px-0'}>
       {isHomePage && (
         <Paragraph fontWeight="semibold" size="large" className="capitalize">
-          Book the perfect hotel by comparing prices and reading reviews.
+          {bookThePerfectHotelLabel}
         </Paragraph>
       )}
       <div

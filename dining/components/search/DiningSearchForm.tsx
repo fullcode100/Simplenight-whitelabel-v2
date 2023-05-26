@@ -31,6 +31,10 @@ const DiningSearchForm = ({
 }: SearchFormProps) => {
   const router = useRouter();
   const [t] = useTranslation('dining');
+  const finestDiningExperienceLabel = t(
+    'finestDiningExperience',
+    'Indulge In The Finest Dining Experiences In Town.',
+  );
 
   const params = useQuery();
   const setQueryParam = useQuerySetter();
@@ -118,10 +122,10 @@ const DiningSearchForm = ({
   const isHomePage = router.pathname === '/';
 
   return (
-    <section className={`flex flex-col lg:gap-4 lg:pb-0 lg:px-0`}>
+    <section className={'flex flex-col lg:gap-4 lg:pb-0 lg:px-0'}>
       {isHomePage && (
         <Paragraph fontWeight="semibold" size="large" className="capitalize">
-          Indulge in the finest dining experiences in town.
+          {finestDiningExperienceLabel}
         </Paragraph>
       )}
       <div
