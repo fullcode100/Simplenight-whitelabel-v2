@@ -25,6 +25,8 @@ import ReactDatepicker from 'components/global/ReactDatepicker/ReactDatepicker';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { usePassengerSchema } from '../../hooks/usePassengerSchema';
 import airlinesList from '../../airlines';
+import CheckIcon from 'public/icons/assets/check.svg';
+import classnames from 'classnames';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -64,8 +66,7 @@ const Passenger = ({
   const requiredLabel = tg('required', 'Required');
   const isLastPassenger = passengerNumber === passengersQuantity - 1;
 
-  const [enableNextPassengerButton, setEnableNextPassengerButton] =
-    useState(false);
+  const [isRequiredInfoComplete, setIsRequiredInfoComplete] = useState(false);
 
   const countries = countryList.getData();
   countries.sort(function (a, b) {
@@ -103,8 +104,17 @@ const Passenger = ({
 
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
-      <section className="flex w-[40px] h-[40px] items-center justify-center bg-primary-200 rounded-full">
-        <Person className="text-primary-1000" />
+      <section
+        className={classnames(
+          'flex h-10 w-10 items-center justify-center rounded-full',
+          isRequiredInfoComplete ? 'bg-green-200' : 'bg-primary-200',
+        )}
+      >
+        {isRequiredInfoComplete ? (
+          <CheckIcon className="text-green-1000" />
+        ) : (
+          <Person className="text-primary-1000" />
+        )}
       </section>
       <Paragraph size="medium">
         {passengerLabel} {passengerNumber + 1}
@@ -118,9 +128,9 @@ const Passenger = ({
       getValues(`passengers.${passengerNumber}`),
     );
     if (result.success) {
-      setEnableNextPassengerButton(true);
+      setIsRequiredInfoComplete(true);
     } else {
-      setEnableNextPassengerButton(false);
+      setIsRequiredInfoComplete(false);
     }
   }, [watch()]);
 
@@ -344,7 +354,7 @@ const Passenger = ({
         <section className="flex justify-end m-4 md:mx-6 ">
           {!isLastPassenger && (
             <Button
-              disabled={!enableNextPassengerButton}
+              disabled={!isRequiredInfoComplete}
               onClick={() => {
                 toggleOpen(passengerNumber + 1);
               }}
