@@ -18,6 +18,9 @@ import { CustomWindow } from 'types/global/CustomWindow';
 import { useQueryShallowSetter } from 'hooks/pageInteraction/useQuerySetter';
 import ChevronRight from 'public/icons/assets/chevron-right.svg';
 
+import FlightIcon from 'public/icons/assets/flights3.svg';
+import Divider from 'components/global/Divider/Divider';
+
 import HorizontalSkeletonList from './HorizontalItemCard/HorizontalSkeletonList';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import FlightsBreadcrumbs from '../FlightsBreadcrumbs/FlightsBreadcrumbs';
@@ -35,6 +38,7 @@ import FiltersIcon from 'public/icons/assets/filters.svg';
 import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
 import FlightFilterFormDesktop from './FlightFilterFormDesktop';
 import moment from 'moment';
+import { formatDate } from 'flights/utils';
 
 declare let window: CustomWindow;
 
@@ -419,10 +423,10 @@ const FlightResultsDisplay = ({
             <FlightFilterFormDesktop flights={flightsSearched} />
           </section>
         )}
-        <section className="lg:flex-1 lg:w-[75%] h-full pt-9">
+        <section className="lg:flex-1 lg:w-[75%] h-full lg:pt-9 pt-4">
           {isLoading ? (
             <>
-              <div className="w-[83px] h-6 ml-5 mt-14 overflow-hidden rounded">
+              <div className="w-[83px] h-6 ml-5 lg:mt-14 overflow-hidden rounded">
                 <div className="h-full w-full relative before:absolute before:inset-0 before:bg-gradient-to-r before:from-dark-100 before:via-dark-300 before:to-dark-100 before:animate-[skeleton_800ms_infinite]" />
               </div>
               <section className="w-full h-full px-5 pb-6 mt-[40px] lg:pt-0">
@@ -431,24 +435,52 @@ const FlightResultsDisplay = ({
             </>
           ) : (
             <>
+              {selectedFlights.length > 0 && (
+                <section className="lg:hidden w-full h-full px-5 pb-6 border-b border-dark-300 mb-4">
+                  <ul role="list" className="space-y-4">
+                    {selectedFlights.map((item) => {
+                      let price = item.offer?.totalFareAmount;
+                      if (selectedFlights[currentIndex - 1]) {
+                        const lastPrice =
+                          selectedFlights[currentIndex - 1].offer
+                            ?.totalFareAmount;
+                        price = `+US$${(+price - +lastPrice).toFixed(2)}`;
+                      } else {
+                        price = `US$${(+price).toFixed(2)}`;
+                      }
+                      return (
+                        <HorizontalItemCard
+                          key={`flight_${item.legId}_${item.offer.id}`}
+                          item={item}
+                          price={price}
+                          directionLabel="Departure flight"
+                        />
+                      );
+                    })}
+                  </ul>
+                </section>
+              )}
               <section className="w-full h-full px-5 pb-6">
                 <section className="lg:py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
                   <section className="flex flex-row items-center lg:pt-8 pb-3 text-base">
                     {!isFiltersOpen && (
                       <button
-                        className="p-2 m-2 border-2 rounded-full text-primary-100 border-primary-100"
+                        className="lg:block hidden p-2 m-2 border-2 rounded-full text-primary-100 border-primary-100"
                         onClick={toggleFilters}
                       >
                         <FiltersIcon className="text-primary-1000" />
                       </button>
                     )}
-                    <span>
+                    <FlightSecondarySearchOptions />
+                    <span className="lg:text-[18px] text-[16px] text-dark-800 lg:pl-0 pl-4">
                       {`${flightsFiltered?.length} ${flightsFoundLabelDesktop}`}{' '}
                     </span>
                   </section>
-                  <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:bg-transparent lg:px-0 lg:mr-0">
-                    <FlightSecondarySearchOptions />
-                  </section>
+                </section>
+                <section className="lg:hidden text-[16px] text-dark-700 mb-4">
+                  {selectedFlights.length > 0
+                    ? 'Choose your Returning Flight'
+                    : 'Choose your Departing Flight'}
                 </section>
                 {flights.length > 0 ? (
                   <FlightList />

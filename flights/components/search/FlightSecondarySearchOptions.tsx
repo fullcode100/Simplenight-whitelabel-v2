@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from 'components/global/Button/Button';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import Checkbox from '../CheckboxGroup/Checkbox';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
 import IconInput from 'components/global/Input/IconInput';
-import ListIcon from 'public/icons/assets/list.svg';
-import FilterIcon from 'public/icons/assets/filter.svg';
+import FiltersIcon from 'public/icons/assets/filters.svg';
+
 import SearchIcon from 'public/icons/assets/magnifier.svg';
 import { useRouter } from 'next/router';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 import RangeSlider from 'flights/components/RangeSlider/RangeSlider';
 import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
+import { Button } from '@simplenight/ui';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -488,17 +488,13 @@ const FlightSecondarySearchOptions = () => {
 
   return (
     <section className="lg:hidden">
-      <button
-        className="flex items-center gap-2 py-1 me-2 lg:hidden"
+      <Button
+        size="small"
+        type="no-background"
+        icon={<FiltersIcon />}
         onClick={handleFilterButtonClick}
-      >
-        <span className="text-primary-1000">
-          <FilterIcon />
-        </span>
-        <span className="text-xs font-semibold text-left text-dark-1000 flex-1">
-          {t('filter', 'Filter')}
-        </span>
-      </button>
+        compact
+      />
       {Modals}
     </section>
   );

@@ -14,7 +14,6 @@ import DurationAndStops from './components/DurationAndStops';
 import InclusionsAndExclusions from './components/InclusionsAndExclusions';
 import Pricing from './components/Pricing';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
-import { useRouter } from 'next/router';
 import FlightDepartureIcon from 'public/icons/assets/flights/flight-departure.svg';
 import dayjs from 'dayjs';
 
@@ -34,8 +33,6 @@ const HorizontalItemCard = ({
   const { isDesktop } = useMediaViewport();
   const [isExpanded, setIsExpanded] = useState(false);
   const segments = item.segments.collection || [];
-  const router = useRouter();
-  const isDetailPage = router.asPath.includes('detail');
 
   const onSelectFlight = () => {
     if (selectFlight) {
@@ -66,7 +63,7 @@ const HorizontalItemCard = ({
       <section>
         <section
           className={classnames(
-            isDetailPage
+            directionLabel
               ? 'flex p-3  gap-2 border-b border-dark-300'
               : 'hidden',
           )}
@@ -112,7 +109,7 @@ const HorizontalItemCard = ({
           <section className="flex items-center justify-between p-4">
             <div
               className={
-                isDetailPage
+                directionLabel
                   ? 'flex flex-row justify-between w-full'
                   : 'space-y-1'
               }
