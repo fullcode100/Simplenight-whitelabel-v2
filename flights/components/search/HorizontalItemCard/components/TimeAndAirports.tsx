@@ -58,7 +58,7 @@ const TimeAndAirports = ({
           </Paragraph>
         </div>
         <IconWrapper size={16}>
-          <ArrowRight className="text-dark-700" />
+          <ArrowRight className="text-dark-700 flex-none" />
         </IconWrapper>
         <div className="w-[45%] pl-2">
           <Paragraph size="xs" fontWeight="semibold">

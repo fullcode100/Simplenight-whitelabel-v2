@@ -66,12 +66,6 @@ const FlightSearchForm = () => {
       isActive: true,
       value: 'round_trip',
     },
-    {
-      label: 'Multi-City',
-      icon: <ArrowMenuMulticity className="w-5 h-5" />,
-      isActive: false,
-      value: 'multicity',
-    },
   ]);
   const [cabinTypeMenuItems, setCabinTypeMenuItems] = useState([
     { label: 'Economy', isActive: false, value: 'economy' },
@@ -129,7 +123,7 @@ const FlightSearchForm = () => {
   const [endDate, setEndDate] = useState<string>(
     params.endDate
       ? params.endDate.toString()
-      : formatAsSearchDate(dayjs().add(8, 'day')),
+      : formatAsSearchDate(dayjs(startDate).add(8, 'day')),
   );
 
   // multi city
@@ -306,6 +300,13 @@ const FlightSearchForm = () => {
     shorts[index] = '';
     setShortNames2(shorts);
   };
+
+  useEffect(() => {
+    if (direction === 'one_way') {
+      const oneWeekAhead = dayjs(startDate).add(8, 'day');
+      setEndDate(dayjs(oneWeekAhead).format('YYYY-MM-DD'));
+    }
+  }, [startDate]);
 
   const handleStartDateChange = (value: string, index: number) => {
     if (index < 1) {
