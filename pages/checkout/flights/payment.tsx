@@ -145,7 +145,7 @@ const Payment = () => {
                         required={{ required: true, label: fullAmountLabel }}
                       >
                         <TextInput
-                          value={`$${flight.offer?.totalFareAmount || '0'}`}
+                          value={`$${flight?.offer?.totalFareAmount || '0'}`}
                           state="disabled"
                         />
                       </FormField>
