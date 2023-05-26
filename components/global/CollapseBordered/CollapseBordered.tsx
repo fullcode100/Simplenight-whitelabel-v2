@@ -29,7 +29,7 @@ const CollapseBordered = ({
       <Collapse isOpened={show}>
         <CollapseBody body={body} show={show} />
       </Collapse>
-      <CollapseFooter footer={footer} show={show} />
+      {footer !== null && <CollapseFooter footer={footer} show={show} />}
     </section>
   );
 };

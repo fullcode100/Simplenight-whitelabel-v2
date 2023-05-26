@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 // Components
-import { Button } from '@simplenight/ui';
+import Button from 'components/global/Button/Button';
 // Layout Components
 import CheckoutMain from 'components/checkout/CheckoutMain/CheckoutMain';
 import CheckoutForm from 'components/checkout/CheckoutForm/CheckoutForm';
@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { createBooking } from 'core/client/services/BookingService';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
-import Loader from '../../components/global/Loader/Loader';
+import Loader from '../../../components/global/Loader/Loader';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import PaymentForm from 'components/global/PaymentForm/PaymentForm';
 import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
@@ -23,7 +23,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { usePaymentFormSchema } from 'hooks/schemas/usePaymentFormSchema';
-import { SelectOption } from '../../components/checkout/Select/Select';
+import { SelectOption } from '../../../components/checkout/Select/Select';
 import { Container, FormField, TextInput } from '@simplenight/ui';
 import { useCustomer } from 'hooks/checkout/useCustomer';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
@@ -36,6 +36,7 @@ import axios from 'axios';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 import dayjs from 'dayjs';
 import { bookingAdapter } from 'flights/adapters/booking.adapter';
+import CheckoutSummary from 'flights/components/CheckoutSummary/CheckoutSummary';
 
 const CONFIRMATION_URI = '/confirmation';
 
@@ -63,6 +64,8 @@ const Payment = () => {
   const flights = useFlightsStore((state) => state.flights);
   const search = useSearchStore((state) => state.search);
   const passengers = usePassengersStore((state) => state.passengers);
+
+  const flight = flights[flights.length - 1];
 
   type PaymentFormSchema = z.infer<typeof paymentFormSchema>;
   const methods = useForm<PaymentFormSchema>({
@@ -141,7 +144,10 @@ const Payment = () => {
                         label={amountForThisCardLabel}
                         required={{ required: true, label: fullAmountLabel }}
                       >
-                        <TextInput value={'$120'} state="disabled" />
+                        <TextInput
+                          value={`$${flight?.offer?.totalFareAmount || '0'}`}
+                          state="disabled"
+                        />
                       </FormField>
                     </section>
 
@@ -171,10 +177,23 @@ const Payment = () => {
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
-              {/* {cart && (
-                <Summary cart={cart} reload={reload} setReload={setReload} />
-              )} */}
-              <section className="w-full lg:w-[145px]">
+              <CheckoutSummary
+                total={`US$${flight?.offer?.totalFareAmount || '0'}`}
+              />
+              <Button
+                value={backLabel}
+                size={'full'}
+                onClick={() => router.back()}
+                color="outlined"
+                className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
+              />
+              <Button
+                value={checkoutLabel}
+                size={'full'}
+                className="lg:w-[35%] text-[18px] font-normal"
+                onClick={methods.handleSubmit(onSubmit)}
+              />
+              {/* <section className="w-full lg:w-[145px]">
                 <Button type="outlined" onClick={() => router.back()}>
                   {backLabel}
                 </Button>
@@ -186,7 +205,7 @@ const Payment = () => {
                 >
                   {checkoutLabel}
                 </Button>
-              </section>
+              </section> */}
             </CheckoutFooter>
           </section>
           <section className="w-full lg:w-[405px] hidden lg:block lg:border lg:border-dark-300 lg:rounded-4 lg:shadow-container">

@@ -134,7 +134,7 @@ const PassengerInformationDisplay = ({
     await validateBooking(bookingParameters, i18next);
     setIsLoading(false);
 
-    router.push('/checkout/flights', undefined, { shallow: true });
+    router.push('/checkout/flights/client', undefined, { shallow: true });
   };
 
   const firstSegment = flight.segments.collection?.[0];

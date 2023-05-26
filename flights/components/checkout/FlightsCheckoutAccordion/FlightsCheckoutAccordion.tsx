@@ -16,7 +16,8 @@ const FlightsCheckoutAccordion = ({ flight, search }: Props) => {
     <CollapseBordered
       title={<FlightsCheckoutHeader search={search} />}
       body={<FlightsCheckoutBody flight={flight} search={search} />}
-      footer={<FlightsCheckoutFooter flight={flight} />}
+      // footer={<FlightsCheckoutFooter flight={flight} />}
+      footer={null}
     />
   );
 };
