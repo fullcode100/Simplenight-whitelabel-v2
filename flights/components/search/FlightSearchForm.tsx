@@ -66,12 +66,6 @@ const FlightSearchForm = () => {
       isActive: true,
       value: 'round_trip',
     },
-    {
-      label: 'Multi-City',
-      icon: <ArrowMenuMulticity className="w-5 h-5" />,
-      isActive: false,
-      value: 'multicity',
-    },
   ]);
   const [cabinTypeMenuItems, setCabinTypeMenuItems] = useState([
     { label: 'Economy', isActive: false, value: 'economy' },
