@@ -3,7 +3,7 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { Item } from 'types/cart/CartType';
 import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstChar';
-import { Quote } from 'transportation/types/response/TransportationSearchResponse';
+import { TransportationItem } from 'transportation/types/response/TransportationSearchResponse';
 
 interface TransportationCheckoutDisplayProps {
   item?: Item;
@@ -16,12 +16,12 @@ const TransportationCheckoutDisplay = ({
 }: TransportationCheckoutDisplayProps) => {
   const [t] = useTranslation('ground-transportation');
 
-  const quote: Quote = item?.booking_data?.transportation;
-  const title = useCapitalizeFirstChar(quote?.service_info?.vehicle_type);
+  const quote: TransportationItem = item?.booking_data?.transportation;
+  const title = useCapitalizeFirstChar(quote?.extra_data?.vehicle_type);
 
   return (
     <header className="flex flex-row gap-3">
-      <IconRoundedContainer className="bg-primary-1000 text-white">
+      <IconRoundedContainer className="text-white bg-primary-1000">
         {Category.icon}
       </IconRoundedContainer>
       <section className="grid gap-1">

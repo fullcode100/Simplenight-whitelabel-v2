@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Quote } from 'transportation/types/response/TransportationSearchResponse';
+import { TransportationItem } from 'transportation/types/response/TransportationSearchResponse';
 import LocationPin from '@/icons/assets/location-pin.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
@@ -9,7 +9,7 @@ import { formatAsDisplayDatetime } from '../../../helpers/dajjsUtils';
 import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstChar';
 
 interface TransportationDetailProps {
-  transportation: Quote;
+  transportation: TransportationItem;
 }
 
 export const TransportationDetailsInformation: FC<
@@ -18,11 +18,11 @@ export const TransportationDetailsInformation: FC<
   const [t] = useTranslation('ground-transportation');
 
   return (
-    <section className="px-5 py-6 flex flex-col justify-start lg:px-12 lg:py-4 lg:flex lg:flex-row lg:w-full lg:justify-center lg:items-center">
+    <section className="flex flex-col justify-start px-5 py-6 lg:px-12 lg:py-4 lg:flex lg:flex-row lg:w-full lg:justify-center lg:items-center">
       <section
         className="min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] lg:flex-1"
         style={{
-          backgroundImage: `url(${transportation?.service_info?.photo_url})`,
+          backgroundImage: `url(${transportation?.extra_data?.photo_urls?.[0]})`,
           backgroundSize: 'contain',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
@@ -31,12 +31,10 @@ export const TransportationDetailsInformation: FC<
       <section className="flex flex-col gap-3 lg:flex lg:flex-col lg:justify-center lg:h-full lg:gap-3 lg:flex-1">
         <section className="lg:flex lg:flex-col lg:gap-1">
           <header className=" font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg break-words">
-            {useCapitalizeFirstChar(transportation?.service_info?.vehicle_type)}
+            {useCapitalizeFirstChar(transportation?.extra_data?.vehicle_type)}
           </header>
           <section className="text-dark-1000">
-            {useCapitalizeFirstChar(
-              transportation?.service_info?.service_class,
-            )}
+            {useCapitalizeFirstChar(transportation?.extra_data?.service_class)}
           </section>
         </section>
         <Summary />
