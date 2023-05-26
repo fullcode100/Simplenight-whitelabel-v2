@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Quote } from 'transportation/types/response/TransportationSearchResponse';
+import { TransportationItem } from 'transportation/types/response/TransportationSearchResponse';
 import { useTranslation } from 'react-i18next';
 import TransportIcon from 'public/icons/categories/Category-Transport.svg';
 import SectionTransportTitle from '../shared/Section/SectionTransportTitle';
@@ -14,7 +14,7 @@ import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstC
 import { hasCartMode } from 'helpers/purchaseModeUtils';
 
 interface TransportationDetailProps {
-  transportation: Quote;
+  transportation: TransportationItem;
 }
 export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
   transportation,
@@ -23,7 +23,7 @@ export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
   const [t] = useTranslation('ground-transportation');
   const transportationTitle = tg(
     'transportationTitle',
-    `${transportation?.service_info?.vehicle_type}`,
+    `${transportation?.extra_data?.vehicle_type}`,
   );
   const transportationSubTitle = tg(
     'transportationSubTitle',
@@ -37,6 +37,8 @@ export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
   const params = useQuery();
   const showAddToItinerary = hasCartMode();
 
+  const amountPrepaid = transportation?.rate?.total?.prepaid?.amount;
+  const currencyAmountPrepaid = transportation?.rate?.total?.prepaid?.currency;
   const cartItem: Item = {
     category: 'GROUND-TRANSPORTATION',
     sector: 'other',
@@ -54,8 +56,8 @@ export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
       rate: {
         total: {
           prepaid: {
-            amount: transportation?.fare?.price,
-            currency: transportation?.fare?.currency_code,
+            amount: amountPrepaid,
+            currency: currencyAmountPrepaid,
           },
         },
       },
@@ -89,8 +91,7 @@ export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
               </p>
             </section>
             <p className="text-lg leading-[18px] text-dark-1000">
-              {transportation?.fare?.currency_code}{' '}
-              {transportation?.fare?.price.toFixed(2)}
+              {currencyAmountPrepaid} {amountPrepaid.toFixed(2)}
             </p>
           </section>
           <hr className="w-full border-t-2" />
@@ -103,8 +104,7 @@ export const TransportationDetailsRightSide: FC<TransportationDetailProps> = ({
               {totalText}
             </p>
             <p className="text-lg leading-[18px] text-dark-1000">
-              {transportation?.fare?.currency_code}{' '}
-              {transportation?.fare?.price?.toFixed(2)}
+              {currencyAmountPrepaid} {amountPrepaid.toFixed(2)}
             </p>
           </section>
           {showAddToItinerary && (

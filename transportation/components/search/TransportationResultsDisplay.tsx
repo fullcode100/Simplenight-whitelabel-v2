@@ -15,10 +15,8 @@ import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStat
 import { EmptyState } from '@simplenight/ui';
 
 import {
-  Item,
-  Quote,
-  Response,
-  TransportationSearchResponseItemResult,
+  TransportationItem,
+  TransportationData,
 } from '../../types/response/TransportationSearchResponse';
 import { useFilter } from 'transportation/hooks/useFilter';
 import { getMetadata } from 'transportation/helpers/getMetadata';
@@ -39,7 +37,9 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
   const [tg] = useTranslation('global');
   const [isOpen, onOpen, onClose] = useModal();
   const [showSortModal, setShowSortModal] = useState(false);
-  const [transportationList, setTransportationList] = useState<Quote[]>([]);
+  const [transportationList, setTransportationList] = useState<
+    TransportationItem[]
+  >([]);
   const resultsLabel = tg('results', 'Results');
   const sortLabel = tg('sort', 'Sort');
   const filterLabel = tg('filter', 'Filter');
@@ -106,12 +106,12 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
     }
 
     const params = {
-      pickup_datetime: `${startDate}T${dayjs(
+      pickup_datetime: `${startDate} ${dayjs(
         startTime as string,
         TIME_SELECTION_FORMAT,
       ).format('HH:mm')}`,
       ...(trip === 'roundTrip' && {
-        return_datetime: `${endDate}T${dayjs(
+        return_datetime: `${endDate} ${dayjs(
           endTime as string,
           TIME_SELECTION_FORMAT,
         ).format('HH:mm')}`,
@@ -125,19 +125,18 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
       passenger_count: passengers,
       from_description: `${address}`,
       to_description: `${address2}`,
-      rsp_fields_set: 'extended',
-      inventory_ids: ' ',
-      apiUrl: '/categories/ground-transportation/items/details',
+      apiUrl: '/categories/ground-transportation',
     };
 
     setLoaded(false);
     Searcher?.request(params, i18next)
-      .then((results: Item) => {
+      .then((results) => {
+        console.log('results =-> ', results);
         setLoaded(true);
-        const metadata = getMetadata(results?.response?.results?.quotes);
-        setTransportationList(results?.response?.results?.quotes);
-        setQuoteRequestId(results?.response?.quote_request_id);
-        setMetadata(metadata);
+        const metadata = getMetadata(results);
+        setTransportationList(results);
+        // setQuoteRequestId(results?.response?.quote_request_id);
+        // setMetadata(metadata);
         onFilterValuesChanged({
           minPrice: metadata.minPrice,
           maxPrice: metadata.maxPrice,
@@ -154,9 +153,9 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
       });
   }, [latitude, longitude]);
 
-  const TransportationList: FC<{ transportationList: Quote[] }> = ({
-    transportationList,
-  }) => {
+  const TransportationList: FC<{
+    transportationList: TransportationItem[];
+  }> = ({ transportationList }) => {
     return (
       <section className="flex flex-col gap-4">
         {transportationList?.map((transportationItem) => (

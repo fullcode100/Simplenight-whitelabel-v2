@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { removeFromCart } from '../../../core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import TaxesAndFeesPopover from '../../../hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
-import { Quote } from '../../types/response/TransportationSearchResponse';
+import { TransportationItem } from '../../types/response/TransportationSearchResponse';
 import useLocalStorage from '../../../hooks/localStorage/useLocalStorage';
 
 interface TransportationItineraryFooterProps {
@@ -22,10 +22,10 @@ export const TransportationItineraryFooter: FC<
 > = ({ item, reload, setReload, checkout = false }) => {
   const router = useRouter();
   const [tg, i18g] = useTranslation('global');
-  const quote: Quote = item.booking_data?.transportation;
+  const quote: TransportationItem = item.booking_data?.transportation;
 
-  const currencyCode = quote?.fare?.currency_code;
-  const price = quote?.fare?.price;
+  const currencyCode = quote?.rate?.total?.full?.currency;
+  const price = quote?.rate?.total?.full.amount;
   const [lastSearch] = useLocalStorage('lastSearch', '/');
 
   const removeTransportationFromShoppingCart = () => {

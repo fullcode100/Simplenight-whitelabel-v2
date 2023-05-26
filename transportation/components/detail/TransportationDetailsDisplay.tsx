@@ -6,7 +6,7 @@ import { TransportationDetailsLeftSide } from './TransportationDetailsLeftSide';
 import { TransportationDetailsRightSide } from './TransportationDetailsRightSide';
 import Loader from '../../../components/global/Loader/Loader';
 import Script from 'next/script';
-import { Quote } from 'transportation/types/response/TransportationSearchResponse';
+import { TransportationItem } from 'transportation/types/response/TransportationSearchResponse';
 
 export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({
   Category,
@@ -27,7 +27,7 @@ export const TransportationDetailsDisplay: FC<CategoryPageComponentProps> = ({
 
   const [t, i18next] = useTranslation('ground-transportation');
 
-  const [qoute, setQoute] = useState<Quote>();
+  const [qoute, setQoute] = useState<TransportationItem>();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [tg] = useTranslation('global');
 

@@ -1,4 +1,4 @@
-import { Quote } from './TransportationSearchResponse';
+import { TransportationItem } from './TransportationSearchResponse';
 
 export interface TransportationDetailsResponse {
   items: TransportationDetailsResponseItem[];
@@ -9,5 +9,5 @@ interface TransportationDetailsResponseItem {
 }
 
 export interface TransportationDetailsResponseItemResult {
-  features: [Quote];
+  features: [TransportationItem];
 }

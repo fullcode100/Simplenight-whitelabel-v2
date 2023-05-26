@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { Item } from '../../../types/cart/CartType';
 import IconRoundedContainer from '../../../components/global/IconRoundedContainer/IconRoundedContainer';
-import { Quote } from '../../types/response/TransportationSearchResponse';
+import { TransportationItem } from '../../types/response/TransportationSearchResponse';
 import { useTranslation } from 'react-i18next';
 import { useCapitalizeFirstChar } from 'transportation/hooks/useCapitalizeFirstChar';
 
@@ -15,12 +15,12 @@ export const TransportationItineraryHeader: FC<
 > = ({ item, icon }) => {
   const [t] = useTranslation('ground-transportation');
 
-  const quote: Quote = item.booking_data?.transportation;
-  const title = useCapitalizeFirstChar(quote?.service_info?.vehicle_type);
+  const quote: TransportationItem = item.booking_data?.transportation;
+  const title = useCapitalizeFirstChar(quote?.extra_data?.vehicle_type);
 
   return (
     <header className="flex flex-row gap-3">
-      <IconRoundedContainer className="bg-primary-1000 text-white">
+      <IconRoundedContainer className="text-white bg-primary-1000">
         {icon}
       </IconRoundedContainer>
       <section className="grid gap-1">
