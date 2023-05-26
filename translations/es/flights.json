@@ -119,6 +119,7 @@
   "loyaltyNumber": "Número de lealtad",
   "departure": "Partida",
   "departureFlight": "Vuelo de partida",
+  "arrivalFlight": "Vuelo de retorno",
   "male": "Masculino",
   "female": "Femenino",
   "findThePerfectFlightForYou": "Encuentra el vuelo perfecto para ti"

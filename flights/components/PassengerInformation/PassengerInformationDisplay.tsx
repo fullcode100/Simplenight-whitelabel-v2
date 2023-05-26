@@ -26,6 +26,7 @@ import { bookingAdapter } from 'flights/adapters/booking.adapter';
 import { validateBooking } from 'core/client/services/BookingService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePassengerSchema } from 'flights/hooks/usePassengerSchema';
+import { useSearchStore } from 'hooks/flights/useSearchStore';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -36,6 +37,12 @@ const PassengerInformationDisplay = ({
   const router = useRouter();
   const [t, i18next] = useTranslation('flights');
   const [passengerForm, setPassengerForm] = useState<number | null>(0);
+
+  const search = useSearchStore((store) => store.search);
+  const direction = search?.direction;
+
+  const departureLabel = t('departureFlight', 'Departure Flight');
+  const arrivalLabel = t('arrivalFlight', 'Arrival Flight');
 
   const flights = useFlightsStore((state) => state.flights);
   const flight = flights[flights.length - 1];
@@ -163,9 +170,27 @@ const PassengerInformationDisplay = ({
       </section>
       <section className="mx-auto mt-3 max-w-7xl p-4 md:p-0">
         <ul role="list" className="w-full space-y-4 md:space-y-0">
-          {flights?.map((itemFlight, index) => (
-            <HorizontalItemCard key={index} item={itemFlight} />
-          ))}
+          {flights?.map((itemFlight, index) => {
+            const directionLabelMapper = {
+              one_way: [departureLabel],
+              round_trip: [departureLabel, arrivalLabel],
+              multicity: ['Flight'],
+            };
+            let directionLabel;
+            if (direction) {
+              direction !== 'multicity'
+                ? (directionLabel = directionLabelMapper[direction][index])
+                : (directionLabel = directionLabelMapper[direction][0]);
+            }
+
+            return (
+              <HorizontalItemCard
+                key={index}
+                item={itemFlight}
+                directionLabel={directionLabel}
+              />
+            );
+          })}
         </ul>
       </section>
       <Divider className="py-12" />

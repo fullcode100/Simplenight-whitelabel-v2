@@ -121,6 +121,7 @@
   "loyaltyNumber": "Loyalty number",
   "departure": "Departure",
   "departureFlight": "Departure Flight",
+  "arrivalFlight": "Arrival Flight",
   "male": "Male",
   "female": "Female",
   "findThePerfectFlightForYou": "Find the perfect flight for you"
