@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button, Paragraph } from '@simplenight/ui';
@@ -19,9 +19,15 @@ interface CardProps {
   item: FlightItem;
   price?: string;
   selectFlight?: (flight: FlightItem) => void;
+  headerContent?: ReactNode;
 }
 
-const HorizontalItemCard = ({ item, price, selectFlight }: CardProps) => {
+const HorizontalItemCard = ({
+  item,
+  price,
+  headerContent,
+  selectFlight,
+}: CardProps) => {
   const { isDesktop } = useMediaViewport();
   const [isExpanded, setIsExpanded] = useState(false);
   const segments = item.segments.collection || [];
@@ -56,6 +62,7 @@ const HorizontalItemCard = ({ item, price, selectFlight }: CardProps) => {
         className="flex flex-col w-full"
         onClick={() => setIsExpanded((expanded) => !expanded)}
       >
+        {headerContent}
         <section className="flex items-center gap-2 p-4 ">
           <div className="flex items-start grow">
             <FlightAirlines segments={segments} />
@@ -79,7 +86,11 @@ const HorizontalItemCard = ({ item, price, selectFlight }: CardProps) => {
 
         <Divider className="w-full" />
         <section className="flex items-center justify-between p-4">
-          <div className="space-y-1">
+          <div
+            className={classnames('space-y-2', {
+              'flex w-full justify-between items-center': !selectFlight,
+            })}
+          >
             <Paragraph size="xxsmall" textColor="text-dark-700">
               Includes
             </Paragraph>

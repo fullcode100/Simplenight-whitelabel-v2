@@ -3,14 +3,20 @@ import React, { useEffect } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
-import Button from 'components/global/Button/Button';
-import { formatAsDisplayDate, SEARCH_DATE_FORMAT } from 'helpers/dajjsUtils';
+import {
+  formatAsDisplayDate,
+  formatAsMonthDay,
+  SEARCH_DATE_FORMAT,
+} from 'helpers/dajjsUtils';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import useQuery from 'hooks/pageInteraction/useQuery';
 
-import LocationPin from 'public/icons/assets/location-pin.svg';
-import CalendarIcon from 'public/icons/assets/calendar.svg';
-import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
+import FlightIcon from 'public/icons/assets/flights.svg';
+import CalendarIcon from 'public/icons/assets/calendar2.svg';
+import PassengersIcon from 'public/icons/assets/passengers.svg';
+import ArrowIcon from 'public/icons/assets/arrow2.svg';
+import SeachIcon from 'public/icons/assets/search2.svg';
+import { Button, Paragraph } from '@simplenight/ui';
 
 interface FlightSearchFormReadStateProps {
   setIsSearching?: (isReading: boolean) => void;
@@ -31,8 +37,8 @@ const FlightSearchFormReadState = ({
 
   const editLabel = tg('edit', 'Edit');
   const toLabel = tg('to', 'to');
-  const guestLabel = th('traveler', 'Traveler');
-  const guestsLabel = th('travelers', 'Travelers');
+  const guestLabel = th('traveler', 'Paseenger');
+  const guestsLabel = th('travelers', 'Paseengers');
 
   const {
     direction,
@@ -49,8 +55,8 @@ const FlightSearchFormReadState = ({
     addresses2,
   } = useQuery();
 
-  const location = `${address ? address?.toString().split(',')[0] : ''} - ${
-    address2 ? address2?.toString().split(',')[0] : ''
+  const location = `${address ? address?.toString().split('(')[0] : ''} - ${
+    address2 ? address2?.toString().split('(')[0] : ''
   }`;
   const locations: string[] = [];
   if (direction === 'multicity' && addresses && addresses2) {
@@ -86,31 +92,44 @@ const FlightSearchFormReadState = ({
     guestsLabel,
   );
 
-  const formattedStartDate = startDateQuery
-    ? formatAsDisplayDate(startDate)
-    : '-';
-  const formattedEndDate = endDateQuery ? formatAsDisplayDate(endDate) : '-';
+  const formattedStartDate = startDateQuery ? formatAsMonthDay(startDate) : '-';
+  const formattedEndDate = endDateQuery ? formatAsMonthDay(endDate) : '-';
 
-  const LocationSection = () => <span>{location}</span>;
+  const LocationSection = () => (
+    <Paragraph size="xxsmall" className="flex items-center">
+      Flights from{' '}
+      <span className="font-bold pl-1">
+        {location.split('-')[0]}
+        <span className="inline-flex px-1">
+          <ArrowIcon className="inline-flex" />
+        </span>{' '}
+        {location.split('-')[1]}
+      </span>
+    </Paragraph>
+  );
 
   const OccupancySection = () => (
-    <section className="flex flex-row gap-1">
+    <Paragraph
+      size="xxsmall"
+      textColor="text-dark-700"
+      className="flex flex-row gap-1"
+    >
       <span>{guests ?? ' - '} </span>
       <span>{GUEST_TEXT} </span>
-    </section>
+    </Paragraph>
   );
 
   const DatesSection = () =>
     direction === 'round_trip' ? (
-      <section>
+      <Paragraph size="xxsmall" textColor="text-dark-700">
         <span>{formattedStartDate}</span>
         <span> {toLabel} </span>
         <span>{formattedEndDate}</span>
-      </section>
+      </Paragraph>
     ) : (
-      <section>
+      <Paragraph size="xxsmall" textColor="text-dark-700">
         <span>{formattedStartDate}</span>
-      </section>
+      </Paragraph>
     );
 
   const OccupancyAndDatesSection = () => (
@@ -121,7 +140,7 @@ const FlightSearchFormReadState = ({
             <section key={`location_label_${index}`}>
               <section className="flex gap-2">
                 <section className="w-6 grid place-items-center">
-                  <LocationPin className="text-primary-1000" />
+                  <FlightIcon className="text-primary-1000" />
                 </section>
                 <span>{_location}</span>
               </section>
@@ -130,13 +149,13 @@ const FlightSearchFormReadState = ({
                   <CalendarIcon className="text-primary-1000" />
                 </section>
                 <section>
-                  <span>
+                  <Paragraph size="xxsmall">
                     {startDates && startDates.toString().split('|')[index]
                       ? formatAsDisplayDate(
                           startDates.toString().split('|')[index],
                         )
                       : ''}
-                  </span>
+                  </Paragraph>
                 </section>
               </section>
             </section>
@@ -145,25 +164,27 @@ const FlightSearchFormReadState = ({
       ) : (
         <>
           <section className="flex gap-2">
-            <section className="w-6 grid place-items-center">
-              <LocationPin className="text-primary-1000" />
+            <section className="grid place-items-center">
+              <FlightIcon className="text-primary-1000" />
             </section>
             <LocationSection />
           </section>
-          <section className="flex gap-2">
-            <section className="w-6 grid place-items-center">
-              <CalendarIcon className="text-primary-1000" />
+          <section className="flex gap-3">
+            <section className="flex gap-2">
+              <section className="grid place-items-center">
+                <PassengersIcon className="text-primary-1000" />
+              </section>
+              <OccupancySection />
             </section>
-            <DatesSection />
+            <section className="flex gap-2">
+              <section className="grid place-items-center">
+                <CalendarIcon className="text-primary-1000" />
+              </section>
+              <DatesSection />
+            </section>
           </section>
         </>
       )}
-      <section className="flex gap-2">
-        <section className="w-6 grid place-items-center">
-          <MultiplePersonsIcon className="text-primary-1000" />
-        </section>
-        <OccupancySection />
-      </section>
     </section>
   );
 
@@ -171,17 +192,14 @@ const FlightSearchFormReadState = ({
     setIsSearching(true);
   };
   return (
-    <section className="flex font-lato items-center justify-between text-sm px-4 z-0 pb-4">
+    <section className="flex font-lato items-center justify-between text-sm px-4 z-0">
       <section className="flex flex-col w-[100%]">
         <OccupancyAndDatesSection />
       </section>
-      <section className="flex items-center justify-center w-[25%]">
+      <section className="flex items-center justify-center w-[25%] text-primary-1000">
         <Button
-          value={editLabel}
-          translationKey="edit"
-          type="contained"
-          className="text-[14px] leading-[14px]"
-          size="full-sm"
+          type="no-background"
+          icon={<SeachIcon />}
           onClick={handleSearchClick}
         />
       </section>
