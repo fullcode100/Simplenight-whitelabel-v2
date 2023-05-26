@@ -110,7 +110,13 @@ const HorizontalItemCard = ({
 
           <Divider className="w-full" />
           <section className="flex items-center justify-between p-4">
-            <div className="space-y-1">
+            <div
+              className={
+                isDetailPage
+                  ? 'flex flex-row justify-between w-full'
+                  : 'space-y-1'
+              }
+            >
               <Paragraph size="xxsmall" textColor="text-dark-700">
                 Includes
               </Paragraph>
