@@ -453,25 +453,7 @@ const FlightResultsDisplay = ({
                           key={`flight_${item.legId}_${item.offer.id}`}
                           item={item}
                           price={price}
-                          headerContent={
-                            <>
-                              <section className="flex justify-between gap-2 p-4 ">
-                                <div className="flex items-center gap-2">
-                                  <FlightIcon />
-                                  <span className="text-[14px] font-semibold">
-                                    Departure flight
-                                  </span>
-                                </div>
-                                <div className="text-[14px]">
-                                  {formatDate(
-                                    item.segments.collection[0]
-                                      .departureDateTime,
-                                  )}
-                                </div>
-                              </section>
-                              <Divider className="w-full" />
-                            </>
-                          }
+                          directionLabel="Departure flight"
                         />
                       );
                     })}
