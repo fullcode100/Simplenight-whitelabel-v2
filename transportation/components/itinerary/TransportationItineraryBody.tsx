@@ -3,7 +3,7 @@ import { Item } from '../../../types/cart/CartType';
 import LocationPinIcon from '@/icons/assets/location-pin.svg';
 import PlusIcon from '@/icons/assets/plusIcon.svg';
 import Divider from '../../../components/global/Divider/Divider';
-import { Quote } from '../../types/response/TransportationSearchResponse';
+import { TransportationItem } from '../../types/response/TransportationSearchResponse';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
@@ -41,12 +41,12 @@ export const TransportationItineraryBody: FC<
   );
 
   const search = item?.booking_data?.search;
-  const quote: Quote = item?.booking_data?.transportation;
+  const quote: TransportationItem = item?.booking_data?.transportation;
   const location1 = search?.location1;
   const location2 = search?.location2;
 
-  const currencyCode = quote?.fare?.currency_code;
-  const price = quote?.fare?.price;
+  const currencyCode = quote?.rate?.total?.full?.currency;
+  const price = quote?.rate?.total?.full?.amount;
 
   const startDate = dayjs(
     `${search?.start_date} ${search?.start_time}`,
@@ -97,7 +97,7 @@ export const TransportationItineraryBody: FC<
       <section className="flex flex-col gap-6 px-4 py-4">
         <section className="flex flex-col gap-3">
           <section className="font-semibold text-dark-1000 text-[18px] leading-[24px]">
-            {useCapitalizeFirstChar(quote?.service_info?.vehicle_type)}
+            {useCapitalizeFirstChar(quote?.extra_data?.vehicle_type)}
           </section>
           <section className="flex items-center justify-between">
             <section className="flex items-center gap-2">
@@ -116,11 +116,11 @@ export const TransportationItineraryBody: FC<
 
           <ItemDetails
             title={priceIncludesText}
-            label={quote?.luggage?.inclusive_allowance}
+            label={quote?.extra_data?.luggage?.inclusive_allowance}
           />
           <ItemDetails
             title={cancellationPolicyText}
-            label={quote?.fare?.refund_cancellation_policy}
+            label={quote?.cancellation_policy?.[0]?.details}
           />
         </section>
 
