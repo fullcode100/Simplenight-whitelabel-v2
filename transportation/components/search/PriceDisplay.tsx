@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import TaxesAndFeesPopover from '../../../hotels/components/TaxesAndFeesPopover/TaxesAndFeesPopover';
-import { Quote } from '../../types/response/TransportationSearchResponse';
+import { TransportationItem } from '../../types/response/TransportationSearchResponse';
 import { useTranslation } from 'react-i18next';
 
 interface PriceDisplayProps {
-  transportaion: Quote;
+  transportaion: TransportationItem;
 }
 
 export const TransportaionDisplay: FC<PriceDisplayProps> = ({
@@ -12,13 +12,13 @@ export const TransportaionDisplay: FC<PriceDisplayProps> = ({
 }) => {
   const { t } = useTranslation('ground-transportation');
 
-  const currencyCode = transportaion.fare.currency_code;
-  const price = transportaion.fare.price || 0;
+  const currencyCode = transportaion.rate.total.full.currency;
+  const price = transportaion.rate.total.full.amount || 0;
 
   return (
-    <section className="text-right flex flex-col gap-2">
+    <section className="flex flex-col gap-2 text-right">
       {currencyCode && (
-        <section className="flex flex-col gap-1 items-end">
+        <section className="flex flex-col items-end gap-1">
           <p className="text-lg leading-[18px] text-dark-1000">
             {price > 0 ? (
               <>
@@ -31,7 +31,7 @@ export const TransportaionDisplay: FC<PriceDisplayProps> = ({
         </section>
       )}
       {price > 0 && (
-        <section className="flex flex-row gap-1 justify-end">
+        <section className="flex flex-row justify-end gap-1">
           <p className="text-[12px] leading-[15px] text-dark-800">
             Includes Taxes and Fees
           </p>
