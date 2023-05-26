@@ -49,7 +49,7 @@ const TimeAndAirports = ({
         </Paragraph>
       </div>
       <div className="flex items-center gap-1 text-center lg:hidden justify-evenly ">
-        <div>
+        <div className="w-full">
           <Paragraph size="xs" fontWeight="semibold">
             {departureTime}
           </Paragraph>
@@ -58,9 +58,9 @@ const TimeAndAirports = ({
           </Paragraph>
         </div>
         <IconWrapper size={16}>
-          <ArrowRight className="text-dark-700" />
+          <ArrowRight className="text-dark-700 flex-none" />
         </IconWrapper>
-        <div>
+        <div className="w-full">
           <Paragraph size="xs" fontWeight="semibold">
             {arrivalTime}
           </Paragraph>
