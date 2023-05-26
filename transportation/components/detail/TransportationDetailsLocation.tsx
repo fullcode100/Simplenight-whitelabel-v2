@@ -1,7 +1,7 @@
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Quote } from 'transportation/types/response/TransportationSearchResponse';
+import { TransportationItem } from 'transportation/types/response/TransportationSearchResponse';
 import LocationPin from '@/icons/assets/location-pin.svg';
 import LocationMap from 'components/global/LocationMap/LocationMap';
 import Calendar from 'public/icons/assets/calendar.svg';
@@ -23,7 +23,7 @@ type SearchDetails = {
   dropOffCoordinates: Coordinates;
 };
 interface TransportationDetailProps {
-  transportation: Quote;
+  transportation: TransportationItem;
   searchDetails: SearchDetails;
 }
 
@@ -47,7 +47,7 @@ export const TransportationDetailsLocation: FC<TransportationDetailProps> = ({
   );
 
   return (
-    <section className="px-5 py-6 lg:px-12 flex flex-col gap-6 lg:py-8 lg:flex-1 lg:flex lg:flex-col lg:gap-4">
+    <section className="flex flex-col gap-6 px-5 py-6 lg:px-12 lg:py-8 lg:flex-1 lg:flex lg:flex-col lg:gap-4">
       <SectionTitle title={locationLabel} icon={<LocationPin />} />
       <LocationMap
         height={200}
@@ -63,8 +63,8 @@ export const TransportationDetailsLocation: FC<TransportationDetailProps> = ({
         ]}
       />
       <section className="flex flex-row w-full">
-        <section className="flex-1 flex flex-col gap-3">
-          <section className="flex flex-row gap-2 items-center">
+        <section className="flex flex-col flex-1 gap-3">
+          <section className="flex flex-row items-center gap-2">
             <input
               type="radio"
               checked={checked.pickUp}
@@ -84,11 +84,11 @@ export const TransportationDetailsLocation: FC<TransportationDetailProps> = ({
               checked.pickUp ? 'visible' : 'invisible'
             }`}
           />
-          <section className="flex flex-row gap-2 justify-start items-start">
+          <section className="flex flex-row items-start justify-start gap-2">
             <Calendar className="w-4 h-4 text-primary-1000" />
             <span>{fromLowerCaseToCapitilize(startDate)}</span>
           </section>
-          <section className="flex flex-row gap-2 justify-start items-start">
+          <section className="flex flex-row items-start justify-start gap-2">
             <LocationPin className="text-primary-1000" />
             <span>
               {searchDetails.pickUpAddress?.toString().split(', ')[0]}
@@ -96,8 +96,8 @@ export const TransportationDetailsLocation: FC<TransportationDetailProps> = ({
           </section>
         </section>
 
-        <section className="flex-1 flex flex-col gap-3">
-          <section className="flex flex-row gap-2 items-center">
+        <section className="flex flex-col flex-1 gap-3">
+          <section className="flex flex-row items-center gap-2">
             <input
               type="radio"
               checked={checked.dropOff}
@@ -117,11 +117,11 @@ export const TransportationDetailsLocation: FC<TransportationDetailProps> = ({
               checked.dropOff ? 'visible' : 'invisible'
             }`}
           />
-          <section className="flex flex-row gap-2 justify-start items-start">
+          <section className="flex flex-row items-start justify-start gap-2">
             <Calendar className="w-4 h-4 text-primary-1000" />
             <span>{fromLowerCaseToCapitilize(endDate)}</span>
           </section>
-          <section className="flex flex-row gap-2 justify-start items-start">
+          <section className="flex flex-row items-start justify-start gap-2">
             <LocationPin className="text-primary-1000" />
             <span>
               {searchDetails.dropOffAddress?.toString().split(', ')[0]}

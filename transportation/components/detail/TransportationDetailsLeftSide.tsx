@@ -3,7 +3,7 @@ import { TransportationDetailsInformation } from './TransportationDetailsInforma
 import { TransportationDetailsDescription } from './TransportationDetailsDescription';
 import { TransportationDetailsPolicies } from './TransportationDetailsPolicies';
 import { TransportationDetailsLocation } from './TransportationDetailsLocation';
-import { Quote } from 'transportation/types/response/TransportationSearchResponse';
+import { TransportationItem } from 'transportation/types/response/TransportationSearchResponse';
 
 type Coordinates = {
   latitude: number;
@@ -21,7 +21,7 @@ type SearchDetails = {
   dropOffCoordinates: Coordinates;
 };
 interface TransportationDetailProps {
-  transportation: Quote;
+  transportation: TransportationItem;
   searchDetails: SearchDetails;
 }
 
@@ -37,7 +37,7 @@ export const TransportationDetailsLeftSide: FC<TransportationDetailProps> = ({
       <hr className="lg:border-t-2" />
       <section className="lg:flex lg:flex-row">
         <TransportationDetailsPolicies transportation={transportation} />
-        <hr className="lg:border-l-2 h-full" />
+        <hr className="h-full lg:border-l-2" />
         <TransportationDetailsLocation
           transportation={transportation}
           searchDetails={searchDetails}

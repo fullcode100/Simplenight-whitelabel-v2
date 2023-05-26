@@ -1,12 +1,12 @@
 export interface TransportationSearchResponse {
-  echo_request: EchoRequest;
+  echo_request: TransportationEchoRequest;
   status_code: number;
-  data: TransportationSearchResponseItemResult;
+  data: TransportationData;
   total_qty: number;
   timestamp: string;
 }
 
-export interface EchoRequest {
+export interface TransportationEchoRequest {
   pickup_datetime: string;
   pickup_context: string;
   pickup_location: string;
@@ -17,117 +17,128 @@ export interface EchoRequest {
   passenger_count: string;
   from_description: string;
   to_description: string;
-  rsp_fields_set: string;
-  inventory_ids: string;
   correlation_id: string;
   user_ip: string;
   user_agent: string;
+  sandbox_mode: boolean;
 }
 
-export interface TransportationSearchResponseItemResult {
-  items: Item[];
+export interface TransportationData {
+  items: TransportationItem[][];
 }
 
-export interface Item {
-  response: Response;
-}
-
-export interface Response {
-  quote_request: QuoteRequest;
-  quote_request_datetime_utc: string;
-  quote_request_id: string;
-  quote_request_url: string;
-  results: Results;
-  message: any;
-  status: string;
-}
-
-export interface QuoteRequest {
-  flight: Flight;
-  from_location: FromLocation;
-  include_return_trip: boolean;
-  passenger: Passenger;
-  to_location: ToLocation;
-  metadata: any;
-}
-
-export interface Flight {
-  departure_datetime_local: any;
-  landing_datetime_local: any;
-}
-
-export interface FromLocation {
-  description: string;
-  lat: number;
-  lng: number;
-  type: string;
-}
-
-export interface Passenger {
-  count: number;
-}
-
-export interface ToLocation {
-  description: string;
-  lat: number;
-  lng: number;
-  type: string;
-}
-
-export interface Results {
-  quotes: Quote[];
-}
-
-export interface Quote {
-  book_url: string;
-  expire_datetime_utc: string;
-  fare: Fare;
-  luggage: Luggage;
+export interface TransportationItem {
   quote_id: string;
-  quote_url: string;
-  service_info: ServiceInfo;
-  status: string;
+  quote_request_id: string;
+  book_url: string;
+  category: string;
+  rate: TransportationRate;
+  cancellation_policy: CancellationPolicy[];
+  extra_data: ExtraData;
 }
 
-export interface Fare {
-  currency_code: string;
-  price: number;
-  refund_cancellation_policy: string;
-  type: string;
-  refund_policies: RefundPolicy[];
+export interface TransportationRate {
+  taxes: TransportationTaxes;
+  fees: any; // TODO: Change it
+  total: TransportationTotal;
+  discounts: Discounts;
 }
 
-export interface RefundPolicy {
-  minute_prior: number;
-  percent: number;
-  method: string;
+export interface TransportationTaxes {
+  prepaid: any[];
+  postpaid: any[];
+  full: any; // TODO: Change it
+  total_postpaid: any; // TODO: Change it
 }
 
-export interface Luggage {
-  inclusive_allowance: string;
+interface TransportationTotal {
+  prepaid: TrasnportationPrepaid;
+  postpaid: TransportationPostpaid;
+  net: TransportationNet;
+  full: Full2;
 }
 
-export interface ServiceInfo {
-  description: any;
-  passenger_reviews: PassengerReviews;
-  photo_url: string;
+interface TrasnportationPrepaid {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface TransportationPostpaid {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface TransportationNet {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface Full2 {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface Discounts {
+  amount_to_apply: AmountToApply;
+  breakdown: Breakdown[];
+  total_amount_before_apply: TotalAmountBeforeApply;
+  net_amount_before_apply: NetAmountBeforeApply;
+  percentage_to_apply: string;
+}
+
+interface AmountToApply {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface Breakdown {
+  amount: Amount;
+  description: string;
+  percentage: number;
+  source: string;
+}
+
+interface Amount {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface TotalAmountBeforeApply {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface NetAmountBeforeApply {
+  amount: number;
+  formatted: string;
+  currency: string;
+}
+
+interface CancellationPolicy {
+  cancellation_type: string;
+  details: string;
+}
+
+interface ExtraData {
+  avg_rating: number;
+  review_amount: number;
+  description?: string;
   photo_urls: string[];
   vehicle_type: string;
   service_class: string;
-  min_pax: number;
-  max_pax: number;
-  supplier: Supplier;
+  min_capacity: number;
+  max_capacity: number;
   type: string;
+  luggage: Luggage;
 }
 
-export interface PassengerReviews {
-  average_rating: number;
-  count: number;
-}
-
-export interface Supplier {
-  description: string;
-  id: string;
-  name: string;
-  photo_url: string;
+interface Luggage {
+  inclusive_allowance: string;
 }

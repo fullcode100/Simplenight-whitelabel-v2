@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
-import { Quote } from 'transportation/types/response/TransportationSearchResponse';
+import { TransportationItem } from 'transportation/types/response/TransportationSearchResponse';
 import {
   TransportationFilter,
   TransportationListMetaData,
@@ -8,13 +8,13 @@ import {
 
 interface UseFilter {
   (
-    transportationList: Quote[],
+    transportationList: TransportationItem[],
     metadata: TransportationListMetaData,
   ): UseFilterReturnType;
 }
 
 interface UseFilterReturnType {
-  filteredList: Quote[];
+  filteredList: TransportationItem[];
   onFilterValuesChanged: UpdateFilterFn;
   filter: TransportationFilter;
 }
@@ -34,12 +34,10 @@ export const useFilter: UseFilter = (transportationList, metadata) => {
   });
 
   const transportationFilterFn = useCallback(
-    (transportation: Quote) => {
+    (transportation: TransportationItem) => {
       let match = true;
       if (filter.carType.length > 0) {
-        match = filter.carType.includes(
-          transportation.service_info.vehicle_type,
-        );
+        match = filter.carType.includes(transportation.extra_data.vehicle_type);
 
         if (!match) return false;
       }
@@ -51,12 +49,12 @@ export const useFilter: UseFilter = (transportationList, metadata) => {
         minRating,
         maxRating,
       } = filter;
-      const price = Math.max(transportation?.fare?.price || 0, 0);
-      const passenger = Math.max(transportation?.service_info?.max_pax || 0, 0);
-      const rating = Math.max(
-        transportation?.service_info?.passenger_reviews?.average_rating || 0,
+      const price = Math.max(transportation?.rate?.total?.full.amount || 0, 0);
+      const passenger = Math.max(
+        transportation?.extra_data?.max_capacity || 0,
         0,
       );
+      const rating = Math.max(transportation?.extra_data?.avg_rating || 0, 0);
 
       if (price < minPrice || price > maxPrice) {
         return false;
@@ -79,10 +77,10 @@ export const useFilter: UseFilter = (transportationList, metadata) => {
   );
 
   const transportationSortFn = useCallback(
-    (quote1: Quote, quote2: Quote) => {
+    (quote1: TransportationItem, quote2: TransportationItem) => {
       if (filter.sortBy === 'sortByPriceAsc') {
-        const price1 = quote1.fare.price || 0;
-        const price2 = quote2.fare.price || 0;
+        const price1 = quote1?.rate?.total?.full.amount || 0;
+        const price2 = quote2?.rate?.total?.full.amount || 0;
 
         if (price1 < price2) {
           return -1;
@@ -90,8 +88,8 @@ export const useFilter: UseFilter = (transportationList, metadata) => {
           return 1;
         } else return 0;
       } else if (filter.sortBy === 'sortByPriceDesc') {
-        const price1 = quote1.fare.price || 0;
-        const price2 = quote2.fare.price || 0;
+        const price1 = quote1?.rate?.total?.full.amount || 0;
+        const price2 = quote2?.rate?.total?.full.amount || 0;
 
         if (price1 > price2) {
           return -1;
@@ -99,10 +97,8 @@ export const useFilter: UseFilter = (transportationList, metadata) => {
           return 1;
         } else return 0;
       } else if (filter.sortBy === 'sortByRatingAsc') {
-        const rate1 =
-          quote1?.service_info?.passenger_reviews?.average_rating || 0;
-        const rate2 =
-          quote2?.service_info?.passenger_reviews?.average_rating || 0;
+        const rate1 = quote1?.extra_data?.avg_rating || 0;
+        const rate2 = quote2?.extra_data?.avg_rating || 0;
 
         if (rate1 < rate2) {
           return -1;
@@ -110,10 +106,8 @@ export const useFilter: UseFilter = (transportationList, metadata) => {
           return 1;
         } else return 0;
       } else {
-        const rate1 =
-          quote1?.service_info?.passenger_reviews?.average_rating || 0;
-        const rate2 =
-          quote2?.service_info?.passenger_reviews?.average_rating || 0;
+        const rate1 = quote1?.extra_data?.avg_rating || 0;
+        const rate2 = quote2?.extra_data?.avg_rating || 0;
 
         if (rate1 > rate2) {
           return -1;
