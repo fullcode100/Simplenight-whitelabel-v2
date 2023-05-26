@@ -178,7 +178,7 @@ const Payment = () => {
             </CheckoutMain>
             <CheckoutFooter type="payment">
               <CheckoutSummary
-                total={`US$${flight.offer?.totalFareAmount || '0'}`}
+                total={`US$${flight?.offer?.totalFareAmount || '0'}`}
               />
               <Button
                 value={backLabel}

@@ -191,7 +191,7 @@ const Client = () => {
                     </section>
                     <CheckoutFooter type="client">
                       <CheckoutSummary
-                        total={`US$${flight.offer?.totalFareAmount || '0'}`}
+                        total={`US$${flight?.offer?.totalFareAmount || '0'}`}
                       />
                       <Button
                         value={cancelButton}
