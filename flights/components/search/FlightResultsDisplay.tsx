@@ -358,6 +358,12 @@ const FlightResultsDisplay = ({
     </ul>
   );
 
+  const clearFlightsSelected = () => {
+    setSelectedFlights([]);
+    const previusIndex = selectedFlights.length - 1;
+    setCurrentIndex(previusIndex);
+  };
+
   return (
     <>
       <section className="lg:flex lg:w-full">
@@ -381,6 +387,7 @@ const FlightResultsDisplay = ({
                         airline={airline}
                         departure={departure}
                         arrival={arrival}
+                        onClick={clearFlightsSelected}
                       />
                       {!isLastFlight && (
                         <IconWrapper size={20}>
@@ -454,6 +461,7 @@ const FlightResultsDisplay = ({
                           item={item}
                           price={price}
                           directionLabel="Departure flight"
+                          onClose={clearFlightsSelected}
                         />
                       );
                     })}
