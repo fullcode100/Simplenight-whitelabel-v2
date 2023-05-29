@@ -14,6 +14,7 @@ steps:
         --build-arg NEXT_PUBLIC_PURCHASE_MODE=${_NEXT_PUBLIC_PURCHASE_MODE}
         --build-arg NEXT_PUBLIC_KOUNT_CLIENT=${_NEXT_PUBLIC_KOUNT_CLIENT}
         --build-arg NEXT_PUBLIC_KOUNT_ENVIRONMENT=${_NEXT_PUBLIC_KOUNT_ENVIRONMENT}
+        --build-arg VERSION=$REF_NAME-$SHORT_SHA
     entrypoint: bash
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
