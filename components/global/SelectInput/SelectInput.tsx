@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form';
+
 interface Option {
   label: string;
   value: string | number;
@@ -20,8 +22,10 @@ const SelectInput = ({
   id,
   ...others
 }: SelectInputProps) => {
+  const { register } = useFormContext();
   return (
     <select
+      {...register('root_DELIVERY_METHOD')}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       autoFocus={true}
