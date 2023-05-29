@@ -28,8 +28,7 @@ const TicketActions = ({
   const showAddToItinerary = hasCartMode();
 
   const router = useRouter();
-
-  const [url, setUrl] = useState<string>('/itinerary');
+  let url = '/itinerary';
 
   const handleAction = async () => {
     await addToCart(itemToBook, i18next);
@@ -57,7 +56,7 @@ const TicketActions = ({
         width="w-full"
         disabled={timeNotSelected || isLoading}
         onClick={() => {
-          setUrl('/checkout/client');
+          url = '/checkout/client';
           mutate();
         }}
       >
