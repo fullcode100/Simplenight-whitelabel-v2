@@ -146,20 +146,13 @@ const Passenger = ({
     setValue(event.target.name, event.target.value);
   };
 
-  const capitalizeLabel = (label: string) => {
-    const words = label.split(' ');
-    const capitalizedWords = words.map((word) => {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    });
-    return capitalizedWords.join(' ');
-  };
   const getInputField = (
     label: string,
     nameInput: keyof IPassenger,
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
     <FormField
-      label={capitalizeLabel(label)}
+      label={label}
       required={{
         required: options?.required ? true : false,
         label: requiredLabel,
@@ -205,7 +198,7 @@ const Passenger = ({
     options?: RegisterOptions<IPassenger, keyof IPassenger>,
   ) => (
     <FormField
-      label={capitalizeLabel(label)}
+      label={label}
       required={{
         required: options?.required ? true : false,
         label: requiredLabel,
@@ -255,7 +248,7 @@ const Passenger = ({
             })}
             <section className="flex flex-row gap-2">
               <section className="w-full ">
-                <FormField label={capitalizeLabel(dateOfBirthLabel)}>
+                <FormField label={dateOfBirthLabel}>
                   <Controller
                     control={control}
                     name={`passengers.${passengerNumber}.dateOfBirth`}
@@ -334,7 +327,7 @@ const Passenger = ({
               </section>
               <section className="w-full">
                 <FormField
-                  label={capitalizeLabel(expirationLabel)}
+                  label={expirationLabel}
                   required={{
                     required: true,
                     label: requiredLabel,
