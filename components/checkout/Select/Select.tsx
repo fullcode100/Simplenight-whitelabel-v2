@@ -9,6 +9,7 @@ import React, {
   ForwardedRef,
   forwardRef,
   ComponentPropsWithRef,
+  useEffect,
 } from 'react';
 import classnames from 'classnames';
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
@@ -88,6 +89,10 @@ const Select = forwardRef(
       ${error && errorColors}
       ${rest.disabled && disabledColors}`;
 
+    useEffect(() => {
+      console.log(defaultValue, 'form select');
+    }, [defaultValue]);
+
     return (
       <section ref={selectRef} className="relative mt-2">
         <section
@@ -155,7 +160,7 @@ const Select = forwardRef(
                 setOpen(false);
                 onChange?.(option);
               }}
-              className="block w-full p-2 border-b border-solid cursor-pointer select-none border-dark-200 hover:bg-dark-100 last:border-b-0"
+              className="block w-full text-left p-2 border-b border-solid cursor-pointer select-none border-dark-200 hover:bg-dark-100 last:border-b-0"
             >
               {option.label}
             </button>
