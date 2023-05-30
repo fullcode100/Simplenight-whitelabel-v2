@@ -20,7 +20,7 @@ export const bookingAdapter = ({
   passengers,
   apiUrl,
 }: IBookingAdapter): any => {
-  const segments = flights[0].segments.collection?.[0];
+  const totalFlights = flights.length;
   const passenger = passengers.map((passenger, idx) => {
     return {
       id: `${idx + 1}`,
@@ -39,23 +39,12 @@ export const bookingAdapter = ({
 
   const bookingParameters = {
     passenger,
-    segments: [
-      {
-        collection: [
-          {
-            departureAirport: segments?.departureAirport,
-            departureDateTime: segments?.departureDateTime,
-            arrivalAirport: segments?.arrivalAirport,
-            arrivalDateTime: segments?.arrivalDateTime,
-            marketingCarrier: segments?.marketingCarrier,
-            marketingCarrierName: segments?.marketingCarrierName,
-            marketingFlightNumber: segments?.marketingFlightNumber,
-          },
-        ],
-      },
-    ],
+    segments: flights.map((item) => {
+      const { collection } = item.segments;
+      return { collection };
+    }),
     offer: {
-      bookingClass: flights[0].offer?.bookingClass,
+      bookingClass: flights[totalFlights - 1].offer?.bookingClass,
     },
     creditCardInfo: {},
     apiUrl,
