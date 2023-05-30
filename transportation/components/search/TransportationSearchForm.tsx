@@ -32,6 +32,7 @@ import { TRIP_OPTIONS } from 'transportation/constants/tripOptions';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import { notification } from 'components/global/Notification/Notification';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
+import { handleError } from 'helpers/errorUtils';
 
 const ceilToNextHalfHour = (date: dayjs.Dayjs): dayjs.Dayjs => {
   const minutes = date.get('minutes');

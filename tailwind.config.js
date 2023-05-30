@@ -20,6 +20,7 @@ module.exports = {
     { pattern: /dark/, variants: ['hover', 'focus', 'active'] },
     { pattern: /error/, variants: ['hover', 'focus', 'active'] },
     { pattern: /fill/ },
+    { pattern: /opacity/ },
     'bg-transparent',
     'text-h1',
     'text-h1-lg',
