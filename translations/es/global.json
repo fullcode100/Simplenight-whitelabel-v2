@@ -70,7 +70,7 @@
   "cancelReservation": "Cancelar Reserva",
   "night": "Noche",
   "country": "País",
-  "countryOfResidence": "País de residencia",
+  "countryOfResidence": "País de Residencia",
   "clearFilters": "Limpiar filtros",
   "supplierReferenceID": "ID De Referencia Del Proveedor",
   "priceBreakdown": "Desglose de Precios",
@@ -229,8 +229,13 @@
   "enterValidZIPCode": "Por favor ingrese un Codigo Postal válido",
   "stateShouldHaveAtMost2Characters": "Provincia/Estado debe tener como máximo 2 caracteres",
   "passport": "Pasaporte",
-  "passportIDNumber": "Número de identificación del pasaporte",
+  "passportIDNumber": "Número De Identificación Del Pasaporte",
   "expiration": "Vencimiento",
   "25maxCharacters": "25 es el número máximo de caracteres permitidos",
-  "needsNameAndLastName": "Por favor ingresa el nombre y apellido de la tarjeta"
+  "needsNameAndLastName": "Por favor ingresa el nombre y apellido de la tarjeta",
+  "first_name": "Nombre",
+  "middle_name": "Segundo Nombre",
+  "last_name": "Apellido",
+  "date_of_birth": "Fecha De Nacimiento",
+  "gender": "Género"
 }
