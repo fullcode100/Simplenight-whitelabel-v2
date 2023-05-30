@@ -13,6 +13,7 @@ export default async function handler(
   req: NextApiRequestWithSession,
   res: NextApiResponse<FlightResponse>,
 ) {
+  // TODO: Add validation
   const passenger = [];
   const adults = req.query?.adults ? Number(req.query?.adults) : 1;
   for (let i = 0; i < adults; i += 1) {
@@ -33,8 +34,8 @@ export default async function handler(
 
   const direction =
     typeof req.query?.direction === 'string' ? req.query.direction : '';
-  // TODO: Add validation
-
+  // TODO: Reason why toAirportCityQualifier and fromAirportCityQualifier is because we are filtering them in /v1/airports
+  // TODO: If we want to change that filter in our endpoint
   let itemDetails;
   if (direction === 'one_way') {
     itemDetails = [
