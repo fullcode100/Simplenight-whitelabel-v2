@@ -19,3 +19,16 @@ export const checkBog = (url: string) => {
 
   return isBog;
 };
+
+const demoDomains = [
+  'localhost', // Check localhost
+  'dev-v2.simplenight', // Check on dev
+  'tst-v2.simplenight', // Check on tst
+  'hermesdemo.simplenight', // Check on demo site
+];
+
+export const checkDemo = (url: string) => {
+  const isDemo = demoDomains.some((i) => url.includes(i));
+
+  return isDemo;
+};

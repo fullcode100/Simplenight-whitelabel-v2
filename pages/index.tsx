@@ -9,13 +9,15 @@ import HelpSection from 'components/global/HelpSection/HelpSection';
 import { getHomepageScrollHandler } from '../store/selectors/core';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
-import { OrderLookupIcon } from '@simplenight/ui';
+import { Container, OrderLookupIcon } from '@simplenight/ui';
 import useCategories from 'hooks/category/useCategories';
 import HomeCategoryContent from 'components/global/HomeCategoryContent/HomeCategoryContent';
 import homePageText from 'translations/en/global.json';
 import { useSettings } from 'hooks/services/useSettings';
 import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import useMediaViewport from 'hooks/media/useMediaViewport';
+import Image from 'next/image';
+import { checkDemo } from 'helpers/urlUtils';
 
 const UpperSectionBackground = ({ children }: { children?: ReactNode }) => {
   const { data: brandConfig } = useSettings();
@@ -43,6 +45,11 @@ const Home: NextPageWithLayout = () => {
   const tab = useTabStore((state) => state.tab);
   const { data: brandConfig } = useSettings();
   const { heroSectionTitle } = brandConfig?.homepage || {};
+
+  const currentUrl =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : '';
 
   const [t, i18next] = useTranslation('global');
   const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
@@ -146,6 +153,35 @@ const Home: NextPageWithLayout = () => {
             <HelpSection />
           </section>
         </section>
+        {checkDemo(currentUrl) && (
+          <section className="banner relative bg-center bg-no-repeat bg-cover bg-banner h-1/4">
+            <div className="h-full w-full bg-primary-1000 opacity-50"></div>
+            <Container className="h-full w-full mx-auto max-w-7xl absolute inset-0 flex flex-col justify-center lg:flex-row lg:justify-between items-center px-0 py-6 lg:px-0 lg:py-12">
+              <div
+                className="w-60 h-12 lg:w-80 lg:h-40 aspect-video"
+                style={{ position: 'relative' }}
+              >
+                <Image
+                  src={'/images/banner/gep.svg'}
+                  alt="Global Experience Platform"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+              <div
+                className="w-32 h-24 -mt-8 lg:mt-0 lg:w-40 lg:h-40 aspect-video"
+                style={{ position: 'relative' }}
+              >
+                <Image
+                  src={'/images/banner/gep.png'}
+                  alt="Global Experience Platform"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </Container>
+          </section>
+        )}
       </main>
     </>
   );

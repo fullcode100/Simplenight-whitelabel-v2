@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -19,6 +20,7 @@ module.exports = {
     { pattern: /dark/, variants: ['hover', 'focus', 'active'] },
     { pattern: /error/, variants: ['hover', 'focus', 'active'] },
     { pattern: /fill/ },
+    { pattern: /opacity/ },
     'bg-transparent',
     'text-h1',
     'text-h1-lg',
@@ -165,6 +167,9 @@ module.exports = {
           '0%': { width: '1%' },
           '100%': { width: '98%' },
         },
+      },
+      backgroundImage: {
+        banner: "url('./assets/banner-bg.jpg')",
       },
     },
     fontFamily: {

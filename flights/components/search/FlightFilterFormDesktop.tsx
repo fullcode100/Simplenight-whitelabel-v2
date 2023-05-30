@@ -254,15 +254,23 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
           }
         });
         // cities
+        const departureAirport = segmentsCollection[0]?.departureAirportName;
+        const arrivalAirport =
+          segmentsCollection[segmentsCollection.length - 1]?.arrivalAirportName;
+
         segmentsCollection.forEach((segment) => {
           if (
-            !flightsCities.includes(segmentsCollection[0]?.departureAirportName)
-          )
-            flightsCities.push(segmentsCollection[0]?.departureAirportName);
+            segment.departureAirportName !== departureAirport &&
+            !flightsCities.includes(segment.departureAirportName)
+          ) {
+            flightsCities.push(segment.departureAirportName);
+          }
           if (
-            !flightsCities.includes(segmentsCollection[0]?.arrivalAirportName)
-          )
-            flightsCities.push(segmentsCollection[0]?.arrivalAirportName);
+            segment.arrivalAirportName !== arrivalAirport &&
+            !flightsCities.includes(segment.arrivalAirportName)
+          ) {
+            flightsCities.push(segment.arrivalAirportName);
+          }
         });
       });
 
@@ -278,6 +286,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
       // airlines
       setAirlinesOptions(flightsAirlines.sort(Intl.Collator().compare));
       // cities
+
       setCitiesOptions(flightsCities.sort(Intl.Collator().compare));
     }
   }, [flights]);

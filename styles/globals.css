@@ -246,3 +246,9 @@ input[type='range']::-webkit-slider-thumb {
 .active .pin-circle {
   fill: white;
 }
+
+/* Banner */
+
+.banner {
+  height: 25vh;
+}

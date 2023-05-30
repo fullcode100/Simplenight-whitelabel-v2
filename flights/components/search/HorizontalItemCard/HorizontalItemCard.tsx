@@ -15,6 +15,7 @@ import InclusionsAndExclusions from './components/InclusionsAndExclusions';
 import Pricing from './components/Pricing';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import FlightDepartureIcon from 'public/icons/assets/flights/flight-departure.svg';
+import CloseIcon from 'public/icons/assets/close.svg';
 import dayjs from 'dayjs';
 
 interface CardProps {
@@ -22,6 +23,7 @@ interface CardProps {
   price?: string;
   selectFlight?: (flight: FlightItem) => void;
   directionLabel?: string;
+  onClose?: () => void;
 }
 
 const HorizontalItemCard = ({
@@ -29,6 +31,7 @@ const HorizontalItemCard = ({
   price,
   selectFlight,
   directionLabel,
+  onClose,
 }: CardProps) => {
   const { isDesktop } = useMediaViewport();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -62,11 +65,11 @@ const HorizontalItemCard = ({
     return (
       <section>
         <section
-          className={classnames(
-            directionLabel
-              ? 'flex p-3  gap-2 border-b border-dark-300'
-              : 'hidden',
-          )}
+          className={classnames({
+            'flex p-3  gap-2 border-b border-dark-300': directionLabel,
+            hidden: !directionLabel,
+            'relative pr-12': onClose,
+          })}
         >
           <IconWrapper size={16}>
             <FlightDepartureIcon />
@@ -79,6 +82,14 @@ const HorizontalItemCard = ({
               'MMM D, YYYY',
             )}
           </Paragraph>
+          {onClose && (
+            <section
+              className="absolute right-2 inset-y-0 flex items-center z-10 w-[30px]"
+              onClick={onClose}
+            >
+              <CloseIcon className="text-dark-700" />
+            </section>
+          )}
         </section>
         <section
           className="flex flex-col w-full"
