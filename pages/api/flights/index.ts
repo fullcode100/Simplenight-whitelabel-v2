@@ -5,7 +5,6 @@ import {
   FlightItem,
   FlightResponse,
   FlightsSearchResponseMS,
-  Leg,
   OfferLegRefsEntity,
 } from 'flights/types/response/FlightSearchResponseMS';
 
@@ -42,7 +41,9 @@ export default async function handler(
       {
         from: req.query?.start_airport as string,
         to: req.query?.end_airport as string,
+        toAirportCityQualifier: 'A',
         departureDate: req.query?.start_date,
+        fromAirportCityQualifier: 'A',
         direction: 'outbound',
       },
     ];
@@ -51,12 +52,16 @@ export default async function handler(
       {
         from: req.query?.start_airport as string,
         to: req.query?.end_airport as string,
+        toAirportCityQualifier: 'A',
         departureDate: req.query?.start_date,
+        fromAirportCityQualifier: 'A',
         direction: 'outbound',
       },
       {
         from: req.query?.end_airport as string,
+        fromAirportCityQualifier: 'A',
         to: req.query?.start_airport as string,
+        toAirportCityQualifier: 'A',
         departureDate: req.query?.end_date,
         direction: 'inbound',
       },
@@ -76,8 +81,10 @@ export default async function handler(
       if (startAirports[index] && endAirports[index] && startDates[index]) {
         itemDetails.push({
           from: startAirports[index],
+          fromAirportCityQualifier: 'A',
           to: endAirports[index],
           departureDate: startDates[index],
+          toAirportCityQualifier: 'A',
           direction: 'outbound',
         });
       }
