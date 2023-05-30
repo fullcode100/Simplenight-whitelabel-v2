@@ -48,7 +48,7 @@ const DropdownMenu = ({
   return (
     <section className="relative justify-start tems-center">
       <button
-        className="flex items-center whitespace-nowrap bg-white rounded border border-gray-300 focus:border-teal-1000 w-full h-8 p-[8px] text-sm text-dark-1000"
+        className="flex items-center whitespace-nowrap bg-white rounded border border-gray-300 hover:border-dark-500 focus:border-dark-1000 w-full h-8 p-[8px] text-sm text-dark-1000"
         onClick={() => setShowMenu((p) => !p)}
         onBlur={() => setShowMenu(false)}
       >
@@ -68,10 +68,10 @@ const DropdownMenu = ({
             className={classnames(
               'flex items-center border-b border-gray-300 w-full h-11 py-2 px-[13px] text-sm',
               {
-                'bg-primary-400 text-primary-1000': isActive,
+                'bg-primary-100 text-primary-1000 fill-primary-1000': isActive,
               },
               {
-                'bg-white text-dark-1000 hover:bg-teal-100 hover:text-teal-1000 hover:fill-teal-1000':
+                'bg-white text-dark-1000 hover:bg-primary-100 hover:text-primary-1000 hover:fill-primary-1000':
                   !isActive,
               },
             )}

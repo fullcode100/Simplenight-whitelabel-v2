@@ -165,14 +165,16 @@ const FlightSearchForm = () => {
 
   const handleDirectionChange = useCallback((value: string) => {
     setDirection(value as Direction);
-    setDirectionsMenuItems((directions) =>
-      [...directions].map((direction) => ({
+    const updatedDirections = directionsMenuItems.map((direction) => {
+      if (direction.value === value) {
+        return { ...direction, isActive: true };
+      }
+      return {
         ...direction,
-        isActive: params?.direction?.toString()
-          ? params?.direction?.toString() === direction.value
-          : value === direction.value,
-      })),
-    );
+        isActive: false,
+      };
+    });
+    setDirectionsMenuItems(updatedDirections);
     if (value === 'multicity') {
       setFlights(['one_way']);
       setStartDates([startDate]);
