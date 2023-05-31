@@ -80,43 +80,10 @@ const FlightsCheckoutBody = ({ flights, search }: Props) => {
     },
   };
 
-  const firstSegment = flights[0].segments.collection?.[0];
-  const lastSegment =
-    flights[flights.length - 1].segments.collection?.[
-      flights[flights.length - 1].segments.collection?.length - 1
-    ];
-
-  const FlightItinerary = () => {
-    const departureLabel = t('departure', 'Departure');
-    const returnLabel = t('return', 'Return');
-    const departureDate = dayjs(firstSegment?.departureDateTime).format(
-      'MMM D, YYYY',
-    );
-    const departureTime = dayjs(firstSegment?.departureDateTime).format(
-      'HH:MM A',
-    );
-    const arrivalDate = dayjs(lastSegment?.arrivalDateTime).format(
-      'MMM D, YYYY',
-    );
-    const arrivalTime = dayjs(lastSegment?.arrivalDateTime).format('HH:MM A');
-    return (
-      <div className="space-y-2">
-        <IconAndLabel
-          Icon={IconCalendar}
-          label={`${departureDate} at ${departureTime} `}
-          sublabel={departureLabel}
-        />
-        {direction === 'round_trip' && (
-          <IconAndLabel
-            Icon={IconCalendar}
-            label={`${arrivalDate} at ${arrivalTime} `}
-            sublabel={returnLabel}
-          />
-        )}
-      </div>
-    );
-  };
-
+  const firstFlightFare = Number(flights[0].offer.totalFareAmount);
+  const lastFlightFare =
+    Number(flights[flights.length - 1].offer.totalFareAmount) -
+    Number(flights[0].offer.totalFareAmount);
   interface IconsAndLabelProps {
     Icon: any;
     label: string;
@@ -205,7 +172,7 @@ const FlightsCheckoutBody = ({ flights, search }: Props) => {
           label={flights[0].offer.cabinName}
           sublabel={departureFlightLabel}
         />
-        <Pricing totalAmount={`US$${flights[0].offer.totalFareAmount}`} />
+        <Pricing totalAmount={`US$${firstFlightFare.toFixed(2)}`} />
       </section>
       {flights.length === 2 ? (
         <section className="flex justify-between">
@@ -214,37 +181,10 @@ const FlightsCheckoutBody = ({ flights, search }: Props) => {
             label={flights[0].offer.cabinName}
             sublabel={returnFlightLabel}
           />
-          <Pricing
-            totalAmount={`US$${
-              Number(flights[flights.length - 1].offer.totalFareAmount) -
-              Number(flights[0].offer.totalFareAmount)
-            }`}
-          />
+          <Pricing totalAmount={`US$${lastFlightFare.toFixed(2)}`} />
         </section>
       ) : null}
 
-      {/*  Currently we are not receiveing rates per fare or additional fares (ie: Special Baggage)
-      when we do we can use the components commented below
-      */}
-      {/*
-      <section className="space-y-2">
-        <section className="flex justify-between">
-          <IconAndLabel
-            Icon={PlusIcon}
-            label={fare}
-            sublabel={departureFlightLabel}
-          />
-          <Pricing
-            totalAmount={totalFareAmount}
-            percentageOff={hasDiscount ? percentageOff : undefined}
-            fullAmount={fullFareAmount}
-          />
-        </section>
-        <section className="flex justify-between">
-          <IconAndLabel Icon={PlusIcon} label={specialBaggage} />
-          <Pricing totalAmount={fullFareAmount} />
-        </section>
-      </section> */}
       <Divider></Divider>
       <section className="flex justify-between py-2">
         <Paragraph size="small" fontWeight="semibold">
