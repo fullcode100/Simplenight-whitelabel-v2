@@ -58,12 +58,12 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   const [departureTimes, setDepartureTimes] = useState<string[]>(
     queryFilter?.departureTimes
       ? queryFilter.departureTimes.toString().split(',')
-      : ['0', '23'],
+      : ['0', '24'],
   );
   const [arrivalTimes, setArrivalTimes] = useState<string[]>(
     queryFilter?.arrivalTimes
       ? queryFilter.arrivalTimes.toString().split(',')
-      : ['0', '23'],
+      : ['0', '24'],
   );
   const [stops, setStops] = useState<string[]>([]);
 
@@ -88,8 +88,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   const handleClearFilters = () => {
     setMinPrice(initialPriceRange.min);
     setMaxPrice(initialPriceRange.max);
-    setDepartureTimes(['0', '23']);
-    setArrivalTimes(['0', '23']);
+    setDepartureTimes(['0', '24']);
+    setArrivalTimes(['0', '24']);
     setStops([]);
     setQueryParams({
       ...queryFilter,
@@ -97,8 +97,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
       sortBy: 'sortByPriceAsc',
       minPrice: `${initialPriceRange.min}`,
       maxPrice: `${initialPriceRange.max}`,
-      departureTimes: '0,23',
-      arrivalTimes: '0,23',
+      departureTimes: '0,24',
+      arrivalTimes: '0,24',
       stops: '',
       airlines: '',
       cities: '',
@@ -331,7 +331,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         initialMin={parseInt(departureTimes[0])}
         initialMax={parseInt(departureTimes[1])}
         min={0}
-        max={23}
+        max={24}
         step={1}
         minDifference={1}
         type="hour"
@@ -348,7 +348,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         initialMin={parseInt(arrivalTimes[0])}
         initialMax={parseInt(arrivalTimes[1])}
         min={0}
-        max={23}
+        max={24}
         step={1}
         minDifference={1}
         type="hour"
