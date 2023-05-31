@@ -156,7 +156,7 @@ const Home: NextPageWithLayout = () => {
         {checkDemo(currentUrl) && (
           <section className="banner relative bg-center bg-no-repeat bg-cover bg-banner h-1/4">
             <div className="h-full w-full bg-primary-1000 opacity-50"></div>
-            <Container className="h-full w-full mx-auto max-w-7xl absolute inset-0 flex flex-col justify-center lg:flex-row lg:justify-between items-center px-0 py-6 lg:px-0 lg:py-12">
+            <Container className="h-full w-full mx-auto max-w-7xl absolute inset-0 flex flex-col justify-center lg:flex-row lg:justify-between items-center px-0 py-6 lg:px-20 lg:py-12">
               <div
                 className="w-60 h-12 lg:w-80 lg:h-40 aspect-video"
                 style={{ position: 'relative' }}
