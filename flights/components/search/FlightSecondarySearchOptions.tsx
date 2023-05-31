@@ -16,6 +16,7 @@ import RangeSlider from 'flights/components/RangeSlider/RangeSlider';
 import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { Button } from '@simplenight/ui';
+import Selector from 'components/global/Select/Selector';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -34,20 +35,14 @@ const FlightSecondarySearchOptions = () => {
   const [keywordSearch, setKeywordSearch] = useState<string>(
     (queryFilter?.keywordSearch as string) || '',
   );
-  const [sortBy, setSortBy] = useState<string>(
-    (queryFilter?.sortBy as string) || 'sortByPriceAsc',
-  );
+  const [sortBy, setSortBy] = useState<string>('');
 
   const [initialPriceRange, setInitialPriceRange] = useState({
     min: '0',
     max: '10000',
   });
-  const [minPrice, setMinPrice] = useState<string>(
-    (queryFilter?.minPrice as string) || initialPriceRange.min,
-  );
-  const [maxPrice, setMaxPrice] = useState<string>(
-    (queryFilter?.maxPrice as string) || initialPriceRange.max,
-  );
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
 
   const [t, i18n] = useTranslation('flights');
   const filtersLabel = t('filters', 'Filters');
@@ -61,8 +56,8 @@ const FlightSecondarySearchOptions = () => {
   const sortByPriceAsc = t('sortByPriceAsc', 'Lowest Price');
   const sortByPriceDesc = t('sortByPriceDesc', 'Highest Price');
   const SORT_BY_OPTIONS = [
-    { value: 'sortByPriceAsc', label: sortByPriceAsc },
-    { value: 'sortByPriceDesc', label: sortByPriceDesc },
+    { id: 'sortByPriceAsc', name: sortByPriceAsc },
+    { id: 'sortByPriceDesc', name: sortByPriceDesc },
   ];
 
   const priceRangeLabel = t('priceRange', 'Price Range');
@@ -80,16 +75,8 @@ const FlightSecondarySearchOptions = () => {
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
 
-  const [departureTimes, setDepartureTimes] = useState<string[]>(
-    queryFilter?.departureTimes
-      ? queryFilter.departureTimes.toString().split(',')
-      : ['0', '23'],
-  );
-  const [arrivalTimes, setArrivalTimes] = useState<string[]>(
-    queryFilter?.arrivalTimes
-      ? queryFilter.arrivalTimes.toString().split(',')
-      : ['0', '23'],
-  );
+  const [departureTimes, setDepartureTimes] = useState<string[]>([]);
+  const [arrivalTimes, setArrivalTimes] = useState<string[]>([]);
 
   const [stops, setStops] = useState<string[]>([]);
   const [airlines, setAirlines] = useState<string[]>([]);
@@ -156,14 +143,9 @@ const FlightSecondarySearchOptions = () => {
       });
 
       // price
-      if (!queryFilter?.minPrice) setMinPrice(`${flightsMinPrice}`);
-      if (!queryFilter?.maxPrice) setMaxPrice(`${flightsMaxPrice}`);
-      /*
-      setInitialPriceRange({
-        min: `${flightsMinPrice}`,
-        max: `${flightsMaxPrice}`,
-      });
-      */
+      setMinPrice(`${queryFilter?.minPrice || flightsMinPrice}`);
+      setMaxPrice(`${queryFilter?.maxPrice || flightsMaxPrice}`);
+
       // stops
       setStops(
         queryFilter?.stops ? queryFilter.stops.toString().split(',') : [],
@@ -186,6 +168,22 @@ const FlightSecondarySearchOptions = () => {
         Intl.Collator().compare,
       ) as string[];
       setCitiesOptions(defineCitiesOptions(citiesList));
+
+      // sort
+      setSortBy((queryFilter?.sortBy as string) || 'sortByPriceAsc');
+
+      // Departure times
+      setDepartureTimes(
+        queryFilter?.departureTimes
+          ? queryFilter.departureTimes.toString().split(',')
+          : ['0', '23'],
+      );
+      // Arrival times
+      setArrivalTimes(
+        queryFilter?.arrivalTimes
+          ? queryFilter.arrivalTimes.toString().split(',')
+          : ['0', '23'],
+      );
     }
   };
 
@@ -222,8 +220,26 @@ const FlightSecondarySearchOptions = () => {
     setSortBy('sortByPriceAsc');
     setDepartureTimes(['0', '23']);
     setArrivalTimes(['0', '23']);
+    setStopsOptions(
+      stopsOptions.map((item) => ({
+        ...item,
+        selected: false,
+      })),
+    );
     setStops([]);
+    setAirlinesOptions(
+      airlinesOptions.map((item) => ({
+        ...item,
+        selected: false,
+      })),
+    );
     setAirlines([]);
+    setCitiesOptions(
+      citiesOptions.map((item) => ({
+        ...item,
+        selected: false,
+      })),
+    );
     setCities([]);
   };
 
@@ -347,14 +363,13 @@ const FlightSecondarySearchOptions = () => {
 
   const SortByFilter = () => (
     <FilterContainer>
-      <FilterTitle label={sortByLabel} className="mb-3" />
-      <RadioGroup onChange={onChangeSortBy} value={sortBy}>
-        {SORT_BY_OPTIONS.map((option, i) => (
-          <Radio key={i} value={option?.value} containerClass="mb-4">
-            {option.label}
-          </Radio>
-        ))}
-      </RadioGroup>
+      <Selector
+        options={SORT_BY_OPTIONS}
+        onChange={(i) => {
+          onChangeSortBy(i);
+        }}
+        idSelected={sortBy}
+      />
     </FilterContainer>
   );
 
@@ -419,13 +434,11 @@ const FlightSecondarySearchOptions = () => {
   );
 
   const FilterForm = (
-    <section className="py-4 h-full overflow-y-scroll">
+    <section className="pb-4 h-full overflow-y-scroll">
       {/* <KeywordSearchFilter /> */}
-      <PriceRangeFilter />
-      <Divider className="my-4 opacity-0" />
-      {/*
       <SortByFilter />
-      */}
+      <Divider className="my-6" />
+      <PriceRangeFilter />
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={stopsLabel} />
