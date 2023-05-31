@@ -46,18 +46,11 @@ const InfantsAges = ({
       <section className="flex flex-wrap gap-3">
         {traveler.infantsAges.map((age, indexAge) => (
           <section key={indexAge}>
-            <BaseInput
+            <input
               type="number"
-              value={validateAge(age)}
-              onChange={(e) =>
-                handleInfantsAgesChange(
-                  validateAge(parseInt(e.target.value)),
-                  indexAge,
-                  travelerNumber,
-                )
-              }
-              min={0}
-              max={1}
+              value="1"
+              className="focus:ring-primary-500 focus:border-primary-500 block w-full h-11 w-11 sm:text-sm border-gray-300 rounded text-center"
+              disabled
             />
           </section>
         ))}
