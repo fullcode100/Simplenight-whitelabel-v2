@@ -8,11 +8,23 @@ import {
   OfferLegRefsEntity,
 } from 'flights/types/response/FlightSearchResponseMS';
 
+const getPlaceType = (place: string) => {
+  if (place === 'AIRPORT') {
+    return 'A';
+  } else if (place === 'CITY') {
+    return 'C';
+  } else {
+    return null;
+  }
+};
+
 const MAX_OFFERS = 100;
 export default async function handler(
   req: NextApiRequestWithSession,
   res: NextApiResponse<FlightResponse>,
 ) {
+  const placeType = getPlaceType(req.query?.place_type as string);
+  const placeType2 = getPlaceType(req.query?.place_type2 as string);
   // TODO: Add validation
   const passenger = [];
   const adults = req.query?.adults ? Number(req.query?.adults) : 1;
@@ -34,17 +46,15 @@ export default async function handler(
 
   const direction =
     typeof req.query?.direction === 'string' ? req.query.direction : '';
-  // TODO: Reason why toAirportCityQualifier and fromAirportCityQualifier is because we are filtering them in /v1/airports
-  // TODO: If we want to change that filter in our endpoint
   let itemDetails;
   if (direction === 'one_way') {
     itemDetails = [
       {
         from: req.query?.start_airport as string,
         to: req.query?.end_airport as string,
-        toAirportCityQualifier: 'A',
+        toAirportCityQualifier: placeType,
         departureDate: req.query?.start_date,
-        fromAirportCityQualifier: 'A',
+        fromAirportCityQualifier: placeType2,
         direction: 'outbound',
       },
     ];
@@ -53,16 +63,16 @@ export default async function handler(
       {
         from: req.query?.start_airport as string,
         to: req.query?.end_airport as string,
-        toAirportCityQualifier: 'A',
+        toAirportCityQualifier: placeType,
         departureDate: req.query?.start_date,
-        fromAirportCityQualifier: 'A',
+        fromAirportCityQualifier: placeType2,
         direction: 'outbound',
       },
       {
         from: req.query?.end_airport as string,
-        fromAirportCityQualifier: 'A',
+        fromAirportCityQualifier: placeType2,
         to: req.query?.start_airport as string,
-        toAirportCityQualifier: 'A',
+        toAirportCityQualifier: placeType,
         departureDate: req.query?.end_date,
         direction: 'inbound',
       },
@@ -82,10 +92,10 @@ export default async function handler(
       if (startAirports[index] && endAirports[index] && startDates[index]) {
         itemDetails.push({
           from: startAirports[index],
-          fromAirportCityQualifier: 'A',
+          fromAirportCityQualifier: 'A', // TODO: Change it
           to: endAirports[index],
           departureDate: startDates[index],
-          toAirportCityQualifier: 'A',
+          toAirportCityQualifier: 'A', // TODO: Change it
           direction: 'outbound',
         });
       }

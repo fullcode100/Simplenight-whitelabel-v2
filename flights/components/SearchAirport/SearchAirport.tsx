@@ -61,7 +61,7 @@ const SearchAirportProps = ({
       onChange={setSearchTerm}
       icon={
         <LocationPin
-          className="h-5 w-5 text-dark-700 lg:w-full"
+          className="w-5 h-5 text-dark-700 lg:w-full"
           aria-hidden="true"
         />
       }

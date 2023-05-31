@@ -31,7 +31,7 @@ export const createBooking = (paymentParameters: any, i18next: i18n) => {
 
   const bookingRequest: CreateBookingRequest = {
     ...paymentParameters,
-    customer_time_created_at: customerTimeCreatedAt,
+    // customer_time_created_at: customerTimeCreatedAt,
   };
 
   return tryCreateBooking(bookingRequest, i18next);

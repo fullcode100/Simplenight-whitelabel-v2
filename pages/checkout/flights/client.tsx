@@ -82,6 +82,7 @@ const Client = () => {
     const primaryContactCopy = deepCopy(primaryContactData);
     const request: any = { customer: primaryContactCopy };
     const phone = JSON?.parse?.(primaryContactCopy.phoneNumber || '{}');
+    console.log('phone => ', phone);
     request.customer.phone_number =
       phone?.phone_number || customer?.phone_number;
     request.customer.phone_prefix =
@@ -90,6 +91,8 @@ const Client = () => {
 
     delete request.customer.phone;
     delete request.customer.primary_contact;
+    delete request.customer.phoneNumber;
+    console.log('request => ', request);
 
     return { ...request };
   };
@@ -101,9 +104,10 @@ const Client = () => {
       email: requestBody.customer.email,
       first_name: requestBody.customer.firstName,
       last_name: requestBody.customer.lastName,
-      phone_number: requestBody.customer.phoneNumber,
+      phone_number: requestBody.customer.phone_number,
       phone_prefix: requestBody.customer.phone_prefix,
     };
+    console.log('customer ', customer);
     updateCustomer(customer);
 
     router.push('/checkout/flights/payment');
