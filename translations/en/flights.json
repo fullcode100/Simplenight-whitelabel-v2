@@ -122,6 +122,7 @@
   "departure": "Departure",
   "arrival": "Arrival",
   "departureFlight": "Departure Flight",
+  "returnFlight": "Return Flight",
   "arrivalFlight": "Arrival Flight",
   "male": "Male",
   "female": "Female",

@@ -12,23 +12,27 @@ import dayjs from 'dayjs';
 import { Search } from 'hooks/flights/useSearchStore';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
+import { PlusIcon } from '@heroicons/react/outline';
 
 interface Props {
-  flight: FlightItem;
+  flights: FlightItem[];
   search: Search;
 }
-const FlightsCheckoutBody = ({ flight, search }: Props) => {
+const FlightsCheckoutBody = ({ flights, search }: Props) => {
   const [t] = useTranslation('flights');
-  const segmentsLength = flight.segments.collection?.length || 0;
+  const segmentsLength = flights[0].segments.collection.length;
   const stops = segmentsLength - 1;
   const stopsLabel = usePlural(stops, t('stop', 'Stop'), t('stops', 'Stops'));
+  const departureFlightLabel = t('departureFlight', 'Departure Flight');
+  const returnFlightLabel = t('returnFlight', 'Return Flight');
 
   const payNowLabel = t('payNow', 'Pay Now');
 
   const { direction, startAirport, endAirport, adults, children, infants } =
     search;
 
-  const totalFlightAmount = flight.offer?.totalFareAmount || '0';
+  const totalFlightAmount =
+    flights[flights.length - 1].offer?.totalFareAmount || '0';
 
   const adultsAmount = Number(adults);
   const adultsText = usePlural(
@@ -76,8 +80,12 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
     },
   };
 
-  const firstSegment = flight.segments.collection?.[0];
-  const lastSegment = flight.segments.collection?.[segmentsLength - 1];
+  const firstSegment = flights[0].segments.collection?.[0];
+  const lastSegment =
+    flights[flights.length - 1].segments.collection?.[
+      flights[flights.length - 1].segments.collection?.length - 1
+    ];
+
   const FlightItinerary = () => {
     const departureLabel = t('departure', 'Departure');
     const returnLabel = t('return', 'Return');
@@ -164,10 +172,7 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
   };
 
   return (
-    <div className="px-5 py-4 space-y-4">
-      <Paragraph size="medium" fontWeight="semibold">
-        {tickets}x {directionMapper[direction].label}
-      </Paragraph>
+    <div className="space-y-4">
       <IconAndLabel Icon={IconTravelers} label={paxMix} />
 
       <section className="flex gap-2 ">
@@ -182,17 +187,41 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
             </IconWrapper>
             <Paragraph size="small">{endAirport}</Paragraph>
           </section>
-          <Paragraph
-            size="small"
-            fontWeight="semibold"
-            textColor="text-dark-800"
-          >
-            {stops} {stopsLabel}
-          </Paragraph>
+          {stops ? (
+            <Paragraph
+              size="small"
+              fontWeight="semibold"
+              textColor="text-dark-800"
+            >
+              {stops} {stopsLabel}
+            </Paragraph>
+          ) : null}
         </section>
         {/* TO DO : MODAL  Flight Details */}
       </section>
-      <FlightItinerary />
+      <section className="flex justify-between">
+        <IconAndLabel
+          Icon={PlusIcon}
+          label={flights[0].offer.cabinName}
+          sublabel={departureFlightLabel}
+        />
+        <Pricing totalAmount={`US$${flights[0].offer.totalFareAmount}`} />
+      </section>
+      {flights.length === 2 ? (
+        <section className="flex justify-between">
+          <IconAndLabel
+            Icon={PlusIcon}
+            label={flights[0].offer.cabinName}
+            sublabel={returnFlightLabel}
+          />
+          <Pricing
+            totalAmount={`US$${
+              Number(flights[flights.length - 1].offer.totalFareAmount) -
+              Number(flights[0].offer.totalFareAmount)
+            }`}
+          />
+        </section>
+      ) : null}
 
       {/*  Currently we are not receiveing rates per fare or additional fares (ie: Special Baggage)
       when we do we can use the components commented below
@@ -217,7 +246,7 @@ const FlightsCheckoutBody = ({ flight, search }: Props) => {
         </section>
       </section> */}
       <Divider></Divider>
-      <section className="flex justify-between pt-2">
+      <section className="flex justify-between py-2">
         <Paragraph size="small" fontWeight="semibold">
           {payNowLabel}
         </Paragraph>

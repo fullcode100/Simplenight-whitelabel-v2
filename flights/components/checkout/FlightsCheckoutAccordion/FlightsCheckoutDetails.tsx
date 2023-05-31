@@ -3,9 +3,12 @@ import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import dayjs from 'dayjs';
 
-import { Paragraph } from '@simplenight/ui';
+import { IconWrapper, Paragraph } from '@simplenight/ui';
 import SeatIcon from 'public/icons/assets/flights/seat.svg';
 import { useTranslation } from 'react-i18next';
+import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
+import FlightIcon from 'public/icons/assets/flights.svg';
+import { formatDate } from '../../../utils/index';
 
 const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
   const formatDate = (date: string) => {
@@ -58,7 +61,7 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
           date={formatDate(
             firstFlight.segments.collection[0].departureDateTime,
           )}
-          fare={'Classic Fare'}
+          fare={firstFlight.offer.cabinName}
         />
         <MobileFlightInfo
           title={arrivalLabel}
@@ -67,8 +70,63 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
               lastFlight.segments.collection.length - 1
             ].departureDateTime,
           )}
-          fare={'Classic Fare'}
+          fare={lastFlight.offer.cabinName}
         />
+      </div>
+      <div className="hidden lg:block space-y-4">
+        <table className="w-full">
+          <thead className="text-dark-700">
+            <th className="text-left pl-4">Cities</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th className="text-right">Fare</th>
+          </thead>
+          <tbody>
+            {flights.map((flight) => (
+              <tr key={flight.legId}>
+                <td>
+                  <div className="flex items-center gap-1">
+                    <FlightIcon className="text-primary-700" />
+                    <Paragraph size="xs" fontWeight="semibold">
+                      {flight.segments.collection[0].departureAirport}
+                    </Paragraph>
+                    <IconWrapper size={16}>
+                      <ArrowRight />
+                    </IconWrapper>
+                    <Paragraph size="xs" fontWeight="semibold">
+                      {
+                        flight.segments.collection[
+                          flight.segments.collection.length - 1
+                        ].arrivalAirport
+                      }
+                    </Paragraph>
+                  </div>
+                </td>
+                <td>
+                  <Paragraph
+                    size="xs"
+                    fontWeight="semibold"
+                    className="text-center"
+                  >
+                    {formatDate(
+                      flight.segments.collection[0].departureDateTime,
+                    )}
+                  </Paragraph>
+                </td>
+                <td>
+                  <Paragraph
+                    size="xs"
+                    fontWeight="semibold"
+                    className="text-center"
+                  >
+                    {formatDate(flight.segments.collection[0].arrivalDateTime)}
+                  </Paragraph>
+                </td>
+                <td className="text-right">{flight.offer.cabinName}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

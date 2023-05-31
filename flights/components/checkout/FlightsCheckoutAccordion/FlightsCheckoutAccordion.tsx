@@ -4,7 +4,7 @@ import FlightsCheckoutBody from './FlightsCheckoutBody';
 import { Search } from 'hooks/flights/useSearchStore';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
-import { IconWrapper, Paragraph } from '@simplenight/ui';
+import { Heading } from '@simplenight/ui';
 
 import FlightsCheckoutDetails from './FlightsCheckoutDetails';
 
@@ -20,8 +20,8 @@ const FlightsCheckoutAccordion = ({ flights, search }: Props) => {
       <FlightsCheckoutDetails flights={flights} />
       <div className="px-4">
         <CollapseUnbordered
-          title={<Paragraph fontWeight="semibold">Price Breakdown</Paragraph>}
-          body={<div>hola</div>}
+          title={<Heading tag="h5">Price Breakdown</Heading>}
+          body={<FlightsCheckoutBody flights={flights} search={search} />}
           // footer={<FlightsCheckoutFooter flight={flight} />}
         />
       </div>
