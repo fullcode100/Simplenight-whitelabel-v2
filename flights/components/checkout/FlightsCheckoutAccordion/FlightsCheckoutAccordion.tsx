@@ -1,25 +1,36 @@
 import React from 'react';
-import CollapseBordered from 'components/global/CollapseBordered/CollapseBordered';
 import FlightsCheckoutHeader from './FlightsCheckoutHeader';
 import FlightsCheckoutBody from './FlightsCheckoutBody';
-import FlightsCheckoutFooter from './FlightsCheckoutFooter';
 import { Search } from 'hooks/flights/useSearchStore';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
+import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
+import { IconWrapper, Paragraph } from '@simplenight/ui';
+
+import FlightsCheckoutDetails from './FlightsCheckoutDetails';
 
 interface Props {
-  flight: FlightItem;
+  flights: FlightItem[];
   search: Search;
 }
 
-const FlightsCheckoutAccordion = ({ flight, search }: Props) => {
+const FlightsCheckoutAccordion = ({ flights, search }: Props) => {
   return (
-    <CollapseBordered
-      title={<FlightsCheckoutHeader search={search} />}
-      body={<FlightsCheckoutBody flight={flight} search={search} />}
-      // footer={<FlightsCheckoutFooter flight={flight} />}
-      footer={null}
-    />
+    <div className="border border-dark-300 rounded">
+      <FlightsCheckoutHeader search={search} />
+      <FlightsCheckoutDetails flights={flights} />
+      <div className="px-4">
+        <CollapseUnbordered
+          title={<Paragraph fontWeight="semibold">Price Breakdown</Paragraph>}
+          body={<div>hola</div>}
+          // footer={<FlightsCheckoutFooter flight={flight} />}
+        />
+      </div>
+    </div>
   );
 };
 
 export default FlightsCheckoutAccordion;
+
+{
+  /* <FlightsCheckoutBody flight={flight} search={search} /> */
+}

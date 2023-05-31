@@ -221,15 +221,13 @@ const Client = () => {
                     <ClientFormContent passenger={selectedPassenger} />
                     <BlockDivider className="mt-5" />
                     <section className="py-4">
-                      {flights &&
-                        search &&
-                        flights.map((flight) => (
-                          <FlightsCheckoutAccordion
-                            key={flight.legId}
-                            flight={flight}
-                            search={search}
-                          />
-                        ))}
+                      {flights && search && (
+                        <FlightsCheckoutAccordion
+                          key={flight.legId}
+                          flights={flights}
+                          search={search}
+                        />
+                      )}
                     </section>
                     <CheckoutFooter type="client">
                       <CheckoutSummary

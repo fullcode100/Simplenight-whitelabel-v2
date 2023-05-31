@@ -35,7 +35,7 @@ const FlightsCheckoutHeader = ({ search }: Props) => {
   const ticketsLabel = usePlural(passengers, 'Ticket', 'Tickets');
 
   return (
-    <section className="flex flex-row gap-3">
+    <section className="flex flex-row gap-3 p-4">
       <IconRoundedContainer className="bg-primary-1000">
         <div className="text-white">
           <FlightsIcon className={'h-5 w-5'} />
