@@ -74,16 +74,15 @@ const Client = () => {
   const { setValue } = methods;
 
   useEffect(() => {
-    console.log(selectedPassenger);
     if (selectedPassenger) {
       setValue('firstName', selectedPassenger.firstName);
       setValue('lastName', selectedPassenger.lastName);
     }
   }, [selectedPassenger]);
 
-  const handleChangePassenger = (selected: SelectOption) => {
+  const handleChangePassenger = (selected: string) => {
     const selectedPassenger = passengers.find(
-      ({ firstName, lastName }) => `${firstName}${lastName}` === selected.value,
+      ({ firstName, lastName }) => `${firstName}${lastName}` === selected,
     );
     setSelectedPassenger(selectedPassenger || null);
   };
@@ -206,10 +205,16 @@ const Client = () => {
                     Use the information of the following passenger in the Order
                     Name:
                   </Paragraph>
-                  <Select
-                    options={passengerOptions}
-                    onChange={(selected) => handleChangePassenger(selected)}
-                  />
+                  <select
+                    className="block w-full border-gray-300 rounded shadow-sm resize-none  focus:ring-0 focus:outline-0 focus:border-primary-1000 text-dark-1000 text-base h-11"
+                    onChange={(e) => handleChangePassenger(e.target.value)}
+                  >
+                    {passengerOptions.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
                 </section>
                 <section className="p-4">
                   <FormProvider {...methods}>
