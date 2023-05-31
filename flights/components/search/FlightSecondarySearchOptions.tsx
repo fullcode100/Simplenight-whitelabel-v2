@@ -176,13 +176,13 @@ const FlightSecondarySearchOptions = () => {
       setDepartureTimes(
         queryFilter?.departureTimes
           ? queryFilter.departureTimes.toString().split(',')
-          : ['0', '23'],
+          : ['0', '24'],
       );
       // Arrival times
       setArrivalTimes(
         queryFilter?.arrivalTimes
           ? queryFilter.arrivalTimes.toString().split(',')
-          : ['0', '23'],
+          : ['0', '24'],
       );
     }
   };
@@ -218,8 +218,8 @@ const FlightSecondarySearchOptions = () => {
     setMinPrice(initialPriceRange.min);
     setMaxPrice(initialPriceRange.max);
     setSortBy('sortByPriceAsc');
-    setDepartureTimes(['0', '23']);
-    setArrivalTimes(['0', '23']);
+    setDepartureTimes(['0', '24']);
+    setArrivalTimes(['0', '24']);
     setStopsOptions(
       stopsOptions.map((item) => ({
         ...item,
@@ -394,7 +394,7 @@ const FlightSecondarySearchOptions = () => {
         initialMin={parseInt(departureTimes[0])}
         initialMax={parseInt(departureTimes[1])}
         min={0}
-        max={23}
+        max={24}
         step={1}
         minDifference={1}
         type="hour"
@@ -411,7 +411,7 @@ const FlightSecondarySearchOptions = () => {
         initialMin={parseInt(arrivalTimes[0])}
         initialMax={parseInt(arrivalTimes[1])}
         min={0}
-        max={23}
+        max={24}
         step={1}
         minDifference={1}
         type="hour"
