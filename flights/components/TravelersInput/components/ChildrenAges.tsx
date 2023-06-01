@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import BaseInput from 'components/global/Input/BaseInput';
 import { Traveler } from 'flights/helpers/traveler';
 import { changeArraySize } from 'helpers/arrayUtils';
 import classnames from 'classnames';
@@ -62,37 +61,6 @@ const ChildrenAges = ({
       />
     );
   };
-
-  /*  return (
-            <section key={indexAge}>
-              <input
-                type="number"
-                value={childAge}
-                className="focus:ring-primary-500 focus:border-primary-500 block w-full h-11 w-11 sm:text-sm border-gray-300 rounded text-center"
-                onBlur={(e) =>
-                  handleChildrenAgesChange(
-                    validateAge(parseInt(e.target.value)),
-                    indexAge,
-                    travelerNumber,
-                  )
-                }
-                onChange={(e) => setChildAge(Number(e.target.value))}
-              />
-              {/* <BaseInput
-              type="number"
-              value={validateAge(age)}
-              onChange={(e) =>
-                handleChildrenAgesChange(
-                  validateAge(parseInt(e.target.value)),
-                  indexAge,
-                  travelerNumber,
-                )
-              }
-              min={2}
-              max={11}
-            /> */
-
-  console.log(traveler.childrenAges);
 
   return (
     <section className={classnames('flex flex-col gap-2', className)}>
