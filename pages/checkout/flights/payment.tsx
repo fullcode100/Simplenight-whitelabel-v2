@@ -165,15 +165,13 @@ const Payment = () => {
               </section>
               <Divider />
               <section className="px-5 py-4">
-                {flights &&
-                  search &&
-                  flights.map((flight) => (
-                    <FlightsCheckoutAccordion
-                      key={flight.legId}
-                      flight={flight}
-                      search={search}
-                    />
-                  ))}
+                {flights && search && (
+                  <FlightsCheckoutAccordion
+                    key={flight.legId}
+                    flights={flights}
+                    search={search}
+                  />
+                )}
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
