@@ -6,9 +6,14 @@ import countryList from 'country-list';
 
 import { useCustomer } from 'hooks/checkout/useCustomer';
 import Select from '../Select/Select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { IPassenger } from '../../../flights/components/passenger/inputs';
 
-export const ClientFormContent = () => {
+export const ClientFormContent = ({
+  passenger,
+}: {
+  passenger?: IPassenger | null;
+}) => {
   const [g] = useTranslation('global');
   const [customer] = useCustomer((state) => [state.customer]);
 
@@ -30,17 +35,40 @@ export const ClientFormContent = () => {
   const countryOptions = Object.values(countries).map((label) => {
     return { value: label.code, label: label.name };
   });
+  const passengerCountry = countryOptions.find(
+    (option) =>
+      option.value.toUpperCase() === passenger?.country?.toUpperCase(),
+  );
   const customerCountry = countryOptions.find(
     (option) => option.value.toUpperCase() === customer?.country.toUpperCase(),
   );
-  const defaultCountry = customerCountry || countryOptions[235];
+
+  useEffect(() => {
+    const passengerCountry = countryOptions.find(
+      (option) =>
+        option.value.toUpperCase() === passenger?.country?.toUpperCase(),
+    );
+    if (passengerCountry) {
+      setSelectedCountry(passengerCountry);
+    }
+  }, [passenger]);
+
+  const defaultCountry =
+    customerCountry || passengerCountry || countryOptions[235];
+
   const [selectedCountry, setSelectedCountry] = useState(defaultCountry);
   const methods = useFormContext();
   const {
     register,
     formState: { errors },
     control,
+    setValue,
+    getValues,
   } = methods;
+
+  useEffect(() => {
+    console.log('country', selectedCountry);
+  }, [selectedCountry]);
 
   const { field } = useController({
     name: 'phoneNumber',
@@ -80,7 +108,24 @@ export const ClientFormContent = () => {
           />
         </FormField>
         <FormField label={countryLabel}>
-          <Controller
+          <select
+            className="block w-full border-gray-300 rounded shadow-sm resize-none  focus:ring-0 focus:outline-0 focus:border-primary-1000 text-dark-1000 text-base h-11"
+            {...register('country')}
+            onChange={(evt) => {
+              const country = countryOptions.find(
+                (c) => c.value === evt.target.value,
+              );
+              if (country) setSelectedCountry(country);
+            }}
+            value={selectedCountry.value}
+          >
+            {countryOptions.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+          {/*  <Controller
             name="country"
             control={control}
             render={({ field }) => (
@@ -93,7 +138,7 @@ export const ClientFormContent = () => {
                 }}
               />
             )}
-          />
+          /> */}
         </FormField>
         <FormField label={phoneNumber} error={getErrors('phoneNumber')}>
           <NewPhoneNumberInput
