@@ -64,7 +64,6 @@ const Client = () => {
     state.customer,
     state.updateCustomer,
   ]);
-  console.log('🚀 ~ file: client.tsx:84 ~ Client ~ customer:', customer);
 
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(true);
@@ -82,7 +81,6 @@ const Client = () => {
     const primaryContactCopy = deepCopy(primaryContactData);
     const request: any = { customer: primaryContactCopy };
     const phone = JSON?.parse?.(primaryContactCopy.phoneNumber || '{}');
-    console.log('phone => ', phone);
     request.customer.phone_number =
       phone?.phone_number || customer?.phone_number;
     request.customer.phone_prefix =
@@ -92,7 +90,6 @@ const Client = () => {
     delete request.customer.phone;
     delete request.customer.primary_contact;
     delete request.customer.phoneNumber;
-    console.log('request => ', request);
 
     return { ...request };
   };
@@ -107,7 +104,6 @@ const Client = () => {
       phone_number: requestBody.customer.phone_number,
       phone_prefix: requestBody.customer.phone_prefix,
     };
-    console.log('customer ', customer);
     updateCustomer(customer);
 
     router.push('/checkout/flights/payment');
