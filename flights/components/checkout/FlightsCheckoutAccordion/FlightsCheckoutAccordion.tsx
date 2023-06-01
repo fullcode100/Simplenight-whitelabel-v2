@@ -29,7 +29,3 @@ const FlightsCheckoutAccordion = ({ flights, search }: Props) => {
 };
 
 export default FlightsCheckoutAccordion;
-
-{
-  /* <FlightsCheckoutBody flight={flight} search={search} /> */
-}
