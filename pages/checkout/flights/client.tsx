@@ -28,6 +28,9 @@ import { useSearchStore } from 'hooks/flights/useSearchStore';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 import CheckoutSummary from 'flights/components/CheckoutSummary/CheckoutSummary';
+import { Paragraph } from '@simplenight/ui';
+import Select, { SelectOption } from 'components/checkout/Select/Select';
+import { IPassenger } from '../../../flights/components/passenger/inputs';
 
 interface LayoutProps {
   children: ReactNode;
@@ -45,6 +48,15 @@ const Client = () => {
   const search = useSearchStore((state) => state.search);
   const passengers = usePassengersStore((state) => state.passengers);
 
+  const passengerOptions = passengers.map((pass) => ({
+    label: `${pass.firstName} ${pass.lastName}`,
+    value: `${pass.firstName}${pass.lastName}`,
+  }));
+
+  const [selectedPassenger, setSelectedPassenger] = useState<IPassenger | null>(
+    null,
+  );
+
   const flight = flights[flights.length - 1];
 
   const [cart, setCart] = useState<any>();
@@ -59,6 +71,21 @@ const Client = () => {
     resolver: zodResolver(formSchema),
     mode: 'onSubmit',
   });
+  const { setValue } = methods;
+
+  useEffect(() => {
+    if (selectedPassenger) {
+      setValue('firstName', selectedPassenger.firstName);
+      setValue('lastName', selectedPassenger.lastName);
+    }
+  }, [selectedPassenger]);
+
+  const handleChangePassenger = (selected: string) => {
+    const selectedPassenger = passengers.find(
+      ({ firstName, lastName }) => `${firstName}${lastName}` === selected,
+    );
+    setSelectedPassenger(selectedPassenger || null);
+  };
 
   const [customer, updateCustomer] = useCustomer((state) => [
     state.customer,
@@ -165,29 +192,44 @@ const Client = () => {
   }, [cart, travelersFormSchema]);
 
   return (
-    <>
+    <div className="pt-[60px]">
       <CheckoutHeader step="client" itemsNumber={itemsNumber} />
       {loaded ? (
         <section className="lg:px-20 lg:py-12">
           <section className="mx-auto lg:flex lg:gap-8 lg:justify-start max-w-7xl">
-            <section className="lg:w-[68%]">
+            <section className="lg:w-[68%] pt-6 lg:pt-0">
               <InactiveCartMessage />
               <Card>
                 <Title>{primaryContactText}</Title>
+                <section className=" px-4 pt-6 lg:hidden">
+                  <Paragraph fontWeight="semibold">
+                    Use the information of the following passenger in the Order
+                    Name:
+                  </Paragraph>
+                  <select
+                    className="block w-full border-gray-300 rounded shadow-sm resize-none  focus:ring-0 focus:outline-0 focus:border-primary-1000 text-dark-1000 text-base h-11"
+                    onChange={(e) => handleChangePassenger(e.target.value)}
+                  >
+                    <option value=""></option>
+                    {passengerOptions.map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </section>
                 <section className="p-4">
                   <FormProvider {...methods}>
-                    <ClientFormContent />
+                    <ClientFormContent passenger={selectedPassenger} />
                     <BlockDivider className="mt-5" />
                     <section className="py-4">
-                      {flights &&
-                        search &&
-                        flights.map((flight) => (
-                          <FlightsCheckoutAccordion
-                            key={flight.legId}
-                            flight={flight}
-                            search={search}
-                          />
-                        ))}
+                      {flights && search && (
+                        <FlightsCheckoutAccordion
+                          key={flight.legId}
+                          flights={flights}
+                          search={search}
+                        />
+                      )}
                     </section>
                     <CheckoutFooter type="client">
                       <CheckoutSummary
@@ -219,7 +261,7 @@ const Client = () => {
       ) : (
         <Loader />
       )}
-    </>
+    </div>
   );
 };
 
