@@ -22,7 +22,6 @@ const FlightsCheckoutAccordion = ({ flights, search }: Props) => {
         <CollapseUnbordered
           title={<Heading tag="h5">Price Breakdown</Heading>}
           body={<FlightsCheckoutBody flights={flights} search={search} />}
-          // footer={<FlightsCheckoutFooter flight={flight} />}
         />
       </div>
     </div>

@@ -89,10 +89,6 @@ const Select = forwardRef(
       ${error && errorColors}
       ${rest.disabled && disabledColors}`;
 
-    useEffect(() => {
-      console.log(defaultValue, 'form select');
-    }, [defaultValue]);
-
     return (
       <section ref={selectRef} className="relative mt-2">
         <section
