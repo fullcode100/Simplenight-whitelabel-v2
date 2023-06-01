@@ -42,7 +42,11 @@ export default async function handler(
         );
 
         res.status(200).json({
-          booking: data,
+          booking: {
+            booking_id: data.booking?.bookingId,
+            ...data,
+            ticket: data1,
+          },
         });
       } catch (error) {
         res.status(400).json({ booking: {} });
