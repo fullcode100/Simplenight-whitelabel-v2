@@ -9,11 +9,10 @@ interface LabelProps {
 const LabelSlider = ({ type, value, isMaxLabel = false }: LabelProps) => {
   return (
     <>
-      {type == 'hour' && (
-        <span>
-          {value < 10 ? '0' + value : value}:00
-        </span>
+      {type == 'hour' && value < 24 && (
+        <span>{value < 10 ? '0' + value : value}:00</span>
       )}
+      {type == 'hour' && value === 24 && <span>23:59</span>}
     </>
   );
 };
