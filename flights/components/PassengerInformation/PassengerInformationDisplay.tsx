@@ -27,6 +27,7 @@ import { validateBooking } from 'core/client/services/BookingService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePassengerSchema } from 'flights/hooks/usePassengerSchema';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
+import { useCustomer } from 'hooks/checkout/useCustomer';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -36,6 +37,7 @@ const PassengerInformationDisplay = ({
   const { id } = useQuery();
   const router = useRouter();
   const [t, i18next] = useTranslation('flights');
+  const [customer] = useCustomer((state) => [state.customer]);
   const [passengerForm, setPassengerForm] = useState<number | null>(0);
 
   const search = useSearchStore((store) => store.search);
@@ -125,6 +127,7 @@ const PassengerInformationDisplay = ({
     const { passengers } = data;
     setPassengers(passengers);
     const bookingParameters = bookingAdapter({
+      customer,
       flights,
       passengers,
       apiUrl: '/flights/bookings/validate',
@@ -146,7 +149,7 @@ const PassengerInformationDisplay = ({
       <FlightsBreadcrumbs
         step={2}
         content={
-          <div className="px-4 md:p-0 flex gap-2 items-center">
+          <div className="flex items-center gap-2 px-4 md:p-0">
             <button className="md:hidden" onClick={() => router.back()}>
               <IconWrapper size={24}>
                 <ArrowLeft />
@@ -168,7 +171,7 @@ const PassengerInformationDisplay = ({
         </section>
         <section className="hidden md:block">{getPricing()}</section>
       </section>
-      <section className="mx-auto mt-3 max-w-7xl p-4 md:p-0">
+      <section className="p-4 mx-auto mt-3 max-w-7xl md:p-0">
         <ul role="list" className="w-full space-y-4 md:space-y-0">
           {flights?.map((itemFlight, index) => {
             const directionLabelMapper = {
@@ -195,7 +198,7 @@ const PassengerInformationDisplay = ({
       </section>
       <Divider className="py-12" />
       <FormProvider {...methods}>
-        <form className="flex flex-col w-full gap-6 pb-12 mx-auto max-w-7xl px-5 md:px-0 ">
+        <form className="flex flex-col w-full gap-6 px-5 pb-12 mx-auto max-w-7xl md:px-0 ">
           {fields.map((field, index) => (
             <Passenger
               key={field.id}

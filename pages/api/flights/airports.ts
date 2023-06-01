@@ -13,7 +13,7 @@ export default async function handler(
     const { data } = await axios.get<AirportResponse>(
       'http://api-test.simplenight.com/v1/airports',
       {
-        params: { keyword },
+        params: { keyword, subType: 'AIRPORT,CITY' },
         headers: {
           Accept: 'application/json',
         },

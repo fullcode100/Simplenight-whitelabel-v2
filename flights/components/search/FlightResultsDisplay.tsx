@@ -96,6 +96,8 @@ const FlightResultsDisplay = ({
     stops,
     airlines,
     cities,
+    placeType,
+    placeType2,
   } = useQuery();
 
   const [flights, setFlights] = useState<Array<Array<FlightItem>>>([]);
@@ -136,6 +138,8 @@ const FlightResultsDisplay = ({
     start_dates: startDates as unknown as string,
     start_date: formatAsSearchDate(startDate as unknown as string),
     end_date: formatAsSearchDate(endDate as unknown as string),
+    place_type: placeType as unknown as string,
+    place_type2: placeType2 as unknown as string,
 
     currency: currency as unknown as string,
     apiUrl,
@@ -443,7 +447,7 @@ const FlightResultsDisplay = ({
           ) : (
             <>
               {selectedFlights.length > 0 && (
-                <section className="lg:hidden w-full h-full px-5 pb-6 border-b border-dark-300 mb-4">
+                <section className="w-full h-full px-5 pb-6 mb-4 border-b lg:hidden border-dark-300">
                   <ul role="list" className="space-y-4">
                     {selectedFlights.map((item) => {
                       let price = item.offer?.totalFareAmount;
@@ -470,10 +474,10 @@ const FlightResultsDisplay = ({
               )}
               <section className="w-full h-full px-5 pb-6">
                 <section className="lg:py-6 text-dark-1000 font-semibold text-[20px] leading-[20px] flex justify-between items-center">
-                  <section className="flex flex-row items-center lg:pt-8 pb-3 text-base">
+                  <section className="flex flex-row items-center pb-3 text-base lg:pt-8">
                     {!isFiltersOpen && (
                       <button
-                        className="lg:block hidden p-2 m-2 border-2 rounded-full text-primary-100 border-primary-100"
+                        className="hidden p-2 m-2 border-2 rounded-full lg:block text-primary-100 border-primary-100"
                         onClick={toggleFilters}
                       >
                         <FiltersIcon className="text-primary-1000" />

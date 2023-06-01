@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface Customer {
+export interface Customer {
   country: string;
   email: string;
   first_name: string;

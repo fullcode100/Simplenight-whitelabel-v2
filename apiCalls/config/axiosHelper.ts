@@ -88,6 +88,7 @@ export const createServerAxiosInstance = (req: any) => {
       'Content-Type': 'application/json',
       'Accept-Encoding': 'gzip, deflate, br',
       [apiHeader.header]: apiHeader.key,
+      'X-API-KEY': apiHeader.key,
     },
   });
 

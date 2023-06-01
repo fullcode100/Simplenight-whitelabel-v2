@@ -116,6 +116,7 @@ const Client = () => {
 
     delete request.customer.phone;
     delete request.customer.primary_contact;
+    delete request.customer.phoneNumber;
 
     return { ...request };
   };
@@ -127,7 +128,7 @@ const Client = () => {
       email: requestBody.customer.email,
       first_name: requestBody.customer.firstName,
       last_name: requestBody.customer.lastName,
-      phone_number: requestBody.customer.phoneNumber,
+      phone_number: requestBody.customer.phone_number,
       phone_prefix: requestBody.customer.phone_prefix,
     };
     updateCustomer(customer);
