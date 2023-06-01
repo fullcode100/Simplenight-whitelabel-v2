@@ -1,6 +1,13 @@
 export interface FlightBookingResponse {
-  errorMessage: null;
+  errorMessage?: {
+    timestamp?: string;
+    httpStatus?: string;
+    error?: string;
+  };
   pnrReply: PnrReply;
+  booking?: {
+    bookingId: string;
+  };
 }
 
 export interface PnrReply {

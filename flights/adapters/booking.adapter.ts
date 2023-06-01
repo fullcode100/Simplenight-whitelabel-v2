@@ -1,8 +1,10 @@
 import dayjs from 'dayjs';
 import { IPassenger } from 'flights/components/passenger/inputs';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
+import { Customer } from 'hooks/checkout/useCustomer';
 
 interface IBookingAdapter {
+  customer: Customer | null;
   paymentFormData?: {
     creditCardName: string;
     creditCardNumber: string;
@@ -15,6 +17,7 @@ interface IBookingAdapter {
 }
 
 export const bookingAdapter = ({
+  customer,
   paymentFormData,
   flights,
   passengers,
@@ -38,6 +41,7 @@ export const bookingAdapter = ({
   });
 
   const bookingParameters = {
+    customer,
     passenger,
     segments: flights.map((item) => {
       const { collection } = item.segments;

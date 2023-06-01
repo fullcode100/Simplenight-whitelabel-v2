@@ -98,6 +98,8 @@ const FlightSearchForm = () => {
   const [address, setAddress] = useState<string>(
     params.address ? (params.address as string) : '',
   );
+  const [placeType, setPlaceType] = useState<string>();
+  const [placeType2, setPlaceType2] = useState<string>();
   const [geolocation, setGeolocation] = useState<StringGeolocation>(
     `${parseFloat(params.latitude as string)},${parseFloat(
       params.longitude as string,
@@ -243,11 +245,13 @@ const FlightSearchForm = () => {
     addr: string,
     index: number,
     shortName: string,
+    subType: string,
   ) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     if (index < 1) {
       setGeolocation(newGeolocation);
       setAddress(addr);
+      setPlaceType(subType);
     }
     const addrs: string[] = Object.assign([], addresses);
     addrs[index] = addr;
@@ -271,11 +275,13 @@ const FlightSearchForm = () => {
     addr: string,
     index: number,
     shortName: string,
+    subType: string,
   ) => {
     const newGeolocation: StringGeolocation = `${latLng.lat},${latLng.lng}`;
     if (index < 1) {
       setGeolocation2(newGeolocation);
       setAddress2(addr);
+      setPlaceType2(subType);
     }
     const addrs2: string[] = Object.assign([], addresses2);
     addrs2[index] = addr;
@@ -370,7 +376,9 @@ const FlightSearchForm = () => {
       geolocation2?.toString().split(',')[LATITUDE_INDEX]
     }&longitude2=${
       geolocation2?.toString().split(',')[LONGITUDE_INDEX]
-    }&address2=${address2}&travelersData=${JSON.stringify(travelersData)}`;
+    }&address2=${address2}&placeType=${placeType}&placeType2=${placeType2}&travelersData=${JSON.stringify(
+      travelersData,
+    )}`;
     if (direction === 'multicity')
       route = `${route}&startAirports=${startAirports.join(
         '|',
@@ -568,7 +576,7 @@ const FlightSearchForm = () => {
                   >
                     <button
                       onClick={() => setShowTravelersInput(true)}
-                      className="border border-gray-300 rounded text-gray-600 text-p-xxs h-8 px-2 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+                      className="h-8 px-2 text-gray-600 bg-white border border-gray-300 rounded text-p-xxs hover:border-gray-400 focus:outline-none" // grid grid-cols-2
                     >
                       <section className="flex items-center gap-2">
                         <IconWrapper size={20}>
@@ -629,6 +637,7 @@ const FlightSearchForm = () => {
                             value.name,
                             flightIndex,
                             '',
+                            value.subType,
                           );
                         }
                       }}
@@ -706,6 +715,7 @@ const FlightSearchForm = () => {
                             value.name,
                             flightIndex,
                             '',
+                            value.subType,
                           );
                         }
                       }}
