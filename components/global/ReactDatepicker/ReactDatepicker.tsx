@@ -1,8 +1,8 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
 import dayjs from 'dayjs';
 import { range } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import DatePicker, { ReactDatePickerCustomHeaderProps } from 'react-datepicker';
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import classnames from 'classnames';
@@ -11,6 +11,7 @@ import ChevronRight from 'public/icons/assets/chevron-right.svg';
 interface DatepickerProps {
   onChange: (date: Date) => void;
   selected?: Date;
+  minDate?: Date;
   maxDate?: Date;
 }
 
@@ -27,6 +28,7 @@ const ReactDatepicker = ({
   onChange,
   selected,
   maxDate = new Date(),
+  minDate = dayjs(maxDate).subtract(79, 'years').toDate(),
 }: DatepickerProps) => {
   const [showYearModal, setShowYearModal] = useState(false);
 
@@ -34,15 +36,28 @@ const ReactDatepicker = ({
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
   const itemsPerPage = 20;
-  const numberOfPages = 8;
-  const endYear = dayjs(maxDate).year();
-  const startYear = endYear - itemsPerPage * numberOfPages + 1;
-  const years = range(startYear, endYear + 1, 1);
-  const yearsToShow: number[][] = [];
 
-  for (let i = 0; i < years.length; i += itemsPerPage) {
-    yearsToShow.push(years.slice(i, i + itemsPerPage));
-  }
+  const endYear = dayjs(maxDate).year();
+  const startYear = dayjs(minDate).year();
+
+  const years = range(startYear, endYear + 1, 1);
+
+  const groupArrayFromEnd = (array: number[], groupSize: number) => {
+    const result = [];
+    let tempArray = [];
+
+    for (let i = array.length - 1; i >= 0; i--) {
+      tempArray.unshift(array[i]);
+
+      if (tempArray.length === groupSize || i === 0) {
+        result.unshift(tempArray);
+        tempArray = [];
+      }
+    }
+
+    return result;
+  };
+  const yearsToShow: number[][] = groupArrayFromEnd(years, itemsPerPage);
 
   const currentYearIndex = yearsToShow.findIndex(
     (years) => years.indexOf(currentYear) !== -1,
@@ -82,7 +97,9 @@ const ReactDatepicker = ({
         <Paragraph size="small" fontWeight="semibold">
           {showYearModal
             ? `${yearsToShow[currentYearPage][0]} - ${
-                yearsToShow[currentYearPage][itemsPerPage - 1]
+                yearsToShow[currentYearPage][
+                  yearsToShow[currentYearPage].length - 1
+                ]
               }`
             : `${currentMonth} ${currentYear}`}
         </Paragraph>
@@ -105,7 +122,7 @@ const ReactDatepicker = ({
     }
   };
 
-  const canMoveYearsForward = currentYearPage < numberOfPages - 1;
+  const canMoveYearsForward = currentYearPage < yearsToShow.length - 1;
   const canMoveYearsBack = currentYearPage > 0;
 
   const handleChangeYear = (
@@ -188,7 +205,10 @@ const ReactDatepicker = ({
   };
   const renderDayContents = (day: number, date?: Date) => {
     const isDaySelected = dayjs(date).isSame(selected, 'day');
-    const isDayDisabled = dayjs(date).isAfter(maxDate, 'day');
+    const isDayDisabled =
+      dayjs(date).isBefore(minDate, 'day') ||
+      dayjs(date).isAfter(maxDate, 'day');
+
     return (
       <div
         className={classnames(
@@ -213,6 +233,7 @@ const ReactDatepicker = ({
       renderDayContents={(dayOfTheMonth, date) =>
         renderDayContents(dayOfTheMonth, date)
       }
+      minDate={minDate}
       maxDate={maxDate}
       selected={selected}
       onChange={onChange}
