@@ -38,7 +38,7 @@ import dayjs from 'dayjs';
 import { bookingAdapter } from 'flights/adapters/booking.adapter';
 import CheckoutSummary from 'flights/components/CheckoutSummary/CheckoutSummary';
 
-const CONFIRMATION_URI = '/confirmation';
+const CONFIRMATION_URI = '/confirmation/flights';
 
 const Payment = () => {
   const router = useRouter();
