@@ -20,4 +20,5 @@ export const useSettings = () =>
     staleTime: Infinity,
     cacheTime: Infinity,
     refetchOnWindowFocus: false,
+    retry: 1,
   });

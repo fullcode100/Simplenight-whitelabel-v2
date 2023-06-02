@@ -49,6 +49,7 @@ const Payment = () => {
     'I have reviewed and agree to the ',
   );
   const { paymentFormSchema } = usePaymentFormSchema();
+  const [customer] = useCustomer((state) => [state.customer]);
 
   const amountForThisCardLabel = t('amountForThisCard', 'Amount For This Card');
   const fullAmountLabel = t('fullAmount', 'Full Amount');
@@ -88,6 +89,7 @@ const Payment = () => {
     }
 
     const bookingParameters = bookingAdapter({
+      customer,
       paymentFormData,
       flights,
       passengers,
@@ -95,10 +97,11 @@ const Payment = () => {
     });
 
     try {
+      // delete bookingParameters.customer;
       const data = await createBooking(bookingParameters, i18next);
       const bookingId = data?.booking.booking_id;
       setLoading(false);
-      // router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
+      router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
     } catch (error) {
       setLoading(false);
       console.error(error);
@@ -165,15 +168,13 @@ const Payment = () => {
               </section>
               <Divider />
               <section className="px-5 py-4">
-                {flights &&
-                  search &&
-                  flights.map((flight) => (
-                    <FlightsCheckoutAccordion
-                      key={flight.legId}
-                      flight={flight}
-                      search={search}
-                    />
-                  ))}
+                {flights && search && (
+                  <FlightsCheckoutAccordion
+                    key={flight.legId}
+                    flights={flights}
+                    search={search}
+                  />
+                )}
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">

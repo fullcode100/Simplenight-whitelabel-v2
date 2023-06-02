@@ -33,5 +33,8 @@ export interface FlightSearchRequest extends SearchRequest {
   start_airport?: string;
   end_airport?: string;
 
+  place_type?: string;
+  place_type2?: string;
+
   currency?: string;
 }

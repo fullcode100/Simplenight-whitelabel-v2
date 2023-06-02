@@ -120,6 +120,8 @@
   "departure": "Partida",
   "departureFlight": "Vuelo de partida",
   "arrivalFlight": "Vuelo de retorno",
+  "returnFlight": "Vuelo de retorno",
+  "arrival": "Retorno",
   "male": "Masculino",
   "female": "Femenino",
   "findThePerfectFlightForYou": "Encuentra el vuelo perfecto para ti"
