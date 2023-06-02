@@ -29,11 +29,11 @@ export default async function handler(
   const passenger = [];
   const adults = req.query?.adults ? Number(req.query?.adults) : 1;
   for (let i = 0; i < adults; i += 1) {
-    passenger.push({ id: `${i + 1}.0`, code: 'ADT' });
+    passenger.push({ id: `${i + 1}`, code: 'ADT' });
   }
   const children = req.query?.children ? Number(req.query?.children) : 0;
   for (let i = 0; i < children; i += 1) {
-    passenger.push({ id: `${adults + i + 1}.0`, code: 'CHD' }); // CNN
+    passenger.push({ id: `${adults + i + 1}`, code: 'CNN' });
   }
   const infants = req.query?.infants ? Number(req.query?.infants) : 0;
   for (let i = 0; i < infants; i += 1) {
@@ -119,6 +119,7 @@ export default async function handler(
         first: cabinType === 'first_class',
       },
       itemDetails: itemDetails,
+      excludeLCC: true,
     },
     currency: currency,
     maxOffers: MAX_OFFERS,
