@@ -343,7 +343,7 @@ const Passenger = ({
                         }}
                         selected={field.value || new Date()}
                         minDate={dayjs().toDate()}
-                        maxDate={dayjs().add(2, 'years').toDate()}
+                        maxDate={dayjs().add(19, 'years').toDate()}
                       />
                     )}
                   />
