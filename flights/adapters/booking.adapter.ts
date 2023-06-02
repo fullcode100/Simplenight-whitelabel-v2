@@ -47,9 +47,7 @@ export const bookingAdapter = ({
       const { collection } = item.segments;
       return { collection };
     }),
-    offer: {
-      bookingClass: flights[totalFlights - 1].offer?.bookingClass,
-    },
+    offer: { ...flights[totalFlights - 1].offer },
     creditCardInfo: {},
     apiUrl,
   };

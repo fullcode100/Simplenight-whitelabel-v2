@@ -10,7 +10,7 @@ import FlightResultsDisplay from 'flights/components/search/FlightResultsDisplay
 import FlightDetailDisplay from './components/detail/FlightDetailDisplay';
 import FlightItineraryDisplay from './components/itinerary/FlightItineraryDisplay';
 import FlightBreakdownDisplay from './components/checkout/FlightBreakdownDisplay';
-import FlightConfirmationDisplay from './components/confirmation/FlightConfirmationDisplay';
+import FlightsConfirmationAccordion from './components/confirmation/FlightsConfirmationAccordion/FlightsConfirmationAccordion';
 import FlightCancelledDisplay from './components/confirmation/FlightCancelledDisplay';
 import { FlightClientSearcher } from './core/search/FlightClientSearcher';
 import { FlightServerSearcher } from './core/search/FlightServerSearcher';
@@ -73,7 +73,7 @@ Category.checkoutItemDisplay = (
   <FlightCheckoutItemDisplay Category={Category} />
 );
 Category.confirmationDisplay = (
-  <FlightConfirmationDisplay Category={Category} />
+  <FlightsConfirmationAccordion Category={Category} />
 );
 Category.cancelledDisplay = <FlightCancelledDisplay Category={Category} />;
 
