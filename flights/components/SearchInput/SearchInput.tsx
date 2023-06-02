@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import CloseIcon from 'public/icons/assets/close.svg';
 import classNames from 'classnames';
@@ -33,6 +33,10 @@ const SearchInput = ({
   placeholder,
 }: SearchInputProps) => {
   const [selected, setSelected] = useState(value);
+
+  useEffect(() => {
+    setSelected(value);
+  }, [value]);
 
   const handleChange = (value: OptionItem | null) => {
     setSelected(value);
