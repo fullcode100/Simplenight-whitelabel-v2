@@ -111,6 +111,7 @@ const FlightSearchForm = () => {
       ? (params.address2 as string)
       : '',
   );
+
   const [geolocation2, setGeolocation2] = useState<StringGeolocation>(
     `${parseFloat(params.latitude2 as string)},${parseFloat(
       params.longitude2 as string,
@@ -264,6 +265,7 @@ const FlightSearchForm = () => {
   const cleanSelectLocation = (index: number) => {
     const addrs: string[] = Object.assign([], addresses);
     addrs[index] = '';
+    setAddress('');
     setAddresses(addrs);
     const shorts: string[] = Object.assign([], shortNames);
     shorts[index] = '';
@@ -303,6 +305,7 @@ const FlightSearchForm = () => {
   const cleanSelectLocation2 = (index: number) => {
     const addrs2: string[] = Object.assign([], addresses2);
     addrs2[index] = '';
+    setAddress2('');
     setAddresses2(addrs2);
     const shorts: string[] = Object.assign([], shortNames2);
     shorts[index] = '';
@@ -461,10 +464,23 @@ const FlightSearchForm = () => {
   );
 
   const swap = () => {
-    const from = address;
-    const to = address2;
-    setAddress(to);
-    setAddress2(from);
+    const geo1 = geolocation.split(',');
+    const geo2 = geolocation2.split(',');
+
+    handleSelectLocation2(
+      { lat: Number(geo1[0]), lng: Number(geo1[1]) },
+      address,
+      0,
+      '',
+      placeType!,
+    );
+    handleSelectLocation(
+      { lat: Number(geo2[0]), lng: Number(geo2[1]) },
+      address2,
+      0,
+      '',
+      placeType2!,
+    );
   };
 
   const [isOpen, setIsOpen] = useState(true);
