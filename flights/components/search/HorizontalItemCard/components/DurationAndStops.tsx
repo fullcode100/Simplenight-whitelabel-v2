@@ -1,15 +1,16 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
-import { SegmentInfo } from 'flights/types/response/FlightSearchResponse';
-import { SegmentItem } from 'flights/types/response/FlightSearchResponseMS';
-import { getDuration } from 'flights/utils';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
+import { getTextDuration } from 'flights/utils';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import ClockIcon from 'public/icons/assets/clock-icon.svg';
 import { useTranslation } from 'react-i18next';
 
-const DurationAndStops = ({ segmentInfo }: { segmentInfo: SegmentItem }) => {
-  const duration = getDuration(segmentInfo?.totalFlightTimeInMinutes || 0);
+const DurationAndStops = ({ item }: { item: FlightItem }) => {
+  const duration = getTextDuration(item.legDuration);
   const [t] = useTranslation('flights');
-  const stops = segmentInfo.collection ? segmentInfo.collection.length - 1 : 0;
+  const stops = item.segments.collection
+    ? item.segments.collection.length - 1
+    : 0;
   const stopsTranslation = t('stops', 'Stops');
   const stopTranslation = t('stop', 'Stop');
   const stopsLabel = usePlural(stops, stopTranslation, stopsTranslation);

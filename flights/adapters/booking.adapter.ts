@@ -24,14 +24,23 @@ export const bookingAdapter = ({
   apiUrl,
 }: IBookingAdapter): any => {
   const totalFlights = flights.length;
-  const passenger = passengers.map((passenger, idx) => {
+  let adultsCount = 0;
+  let noAdultsCount = 0;
+  const passenger = passengers.map((passenger) => {
+    let finalId = '';
+    if (passenger.passengerType === 'ADT') {
+      adultsCount++;
+      finalId = `${adultsCount}`;
+    } else {
+      noAdultsCount++;
+      finalId = `${noAdultsCount}.1`;
+    }
     return {
-      id: `${idx + 1}`,
+      id: finalId,
       dateOfBirth: passenger.dateOfBirth
         ? dayjs(passenger.dateOfBirth).format('DDMMMYY').toUpperCase()
         : '',
-      /* TODO: we currently dont associate age band to passengers */
-      code: 'ADT',
+      code: passenger.passengerType,
       firstName: passenger.firstName,
       lastName: passenger.lastName,
       /* TODO: remove hardcoded into */

@@ -9,7 +9,7 @@ import {
   RegisterOptions,
   useFormContext,
 } from 'react-hook-form';
-import { IPassenger, IPassengerForm } from './inputs';
+import { IPassenger, IPassengerForm, PassengerTypeList } from './inputs';
 import {
   Button,
   Checkbox,
@@ -33,6 +33,7 @@ interface PassengerProps {
   open: boolean;
   toggleOpen: (value: number) => void;
   passengersQuantity: number;
+  passengersType: PassengerTypeList;
 }
 
 const Passenger = ({
@@ -40,6 +41,7 @@ const Passenger = ({
   open,
   toggleOpen,
   passengersQuantity,
+  passengersType,
 }: PassengerProps) => {
   const [t] = useTranslation('flights');
   const [tg] = useTranslation('global');
@@ -63,6 +65,14 @@ const Passenger = ({
   const nextPassengerLabel = t('nextPassenger', 'Next passenger');
   const loyaltyProgramLabel = t('loyaltyProgram', 'Loyalty program');
   const loyaltyNumberLabel = t('loyaltyNumber', 'Loyalty number');
+  const adultLabel = t('adult', 'Adult');
+  const childrenLabel = t('children', 'Children');
+  const infantLabel = t('infant', 'Infat');
+  const passengerTypeLabelMap: Record<PassengerTypeList, string> = {
+    ADT: adultLabel,
+    CNN: childrenLabel,
+    INF: infantLabel,
+  };
   const requiredLabel = tg('required', 'Required');
   const isLastPassenger = passengerNumber === passengersQuantity - 1;
 
@@ -117,7 +127,8 @@ const Passenger = ({
         )}
       </section>
       <Paragraph size="medium">
-        {passengerLabel} {passengerNumber + 1}
+        {passengerLabel} {passengerNumber + 1}{' '}
+        {`(${passengerTypeLabelMap[passengersType]})`}
       </Paragraph>
     </section>
   );
@@ -316,23 +327,14 @@ const Passenger = ({
           <section className="border-t md:border-t-0 md:border-l-2 md:h-80 border-dark-300" />
           <section className="flex flex-col gap-4 md:w-1/3">
             {getInputField(passportIDNumberLabel, 'passportIdNumber', {
-              required: true,
               valueAsNumber: true,
             })}
             <section className="flex flex-row gap-2">
               <section className="w-full">
-                {getSelectField(countryLabel, 'country', countriesOptions, {
-                  required: true,
-                })}
+                {getSelectField(countryLabel, 'country', countriesOptions)}
               </section>
               <section className="w-full">
-                <FormField
-                  label={expirationLabel}
-                  required={{
-                    required: true,
-                    label: requiredLabel,
-                  }}
-                >
+                <FormField label={expirationLabel}>
                   <Controller
                     control={control}
                     name={`passengers.${passengerNumber}.expiration`}

@@ -14,6 +14,11 @@ export const getDuration = (durationInMinutes: number) => {
   return ` ${flightInHours}h ${flightInMinutes}m`;
 };
 
+export const getTextDuration = (legDuration: string) => {
+  const arr = legDuration.match(/.{1,2}/g) || [];
+  return `${arr[0]}h ${arr[1]}m`;
+};
+
 export const getAirlineIconUrl = (airlineCode: string) => {
   let url = ''; // `http://pics.avs.io/200/200/${airlineCode}.png`;
   const icons: string[] = [

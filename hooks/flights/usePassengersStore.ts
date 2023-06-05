@@ -1,20 +1,32 @@
 import { IPassenger } from 'flights/components/passenger/inputs';
 import { create } from 'zustand';
+
+interface PassengersQuantity {
+  adults: number;
+  children: number;
+  infants: number;
+}
 export interface PassengersStore {
   passengers: Array<IPassenger>;
-  passengersQuantity: number;
-  setPassengersQuantity(quatity: number): void;
+  passengersQuantity: PassengersQuantity & { total: number };
+  setPassengersQuantity(value: PassengersQuantity): void;
   setPassengers(passengers: Array<IPassenger>): void;
   clear(): void;
 }
 
 export const usePassengersStore = create<PassengersStore>()((set) => ({
   passengers: [],
-  passengersQuantity: 0,
-  setPassengersQuantity: (quatity: number) => {
+  passengersQuantity: {
+    adults: 0,
+    children: 0,
+    infants: 0,
+    total: 0,
+  },
+  setPassengersQuantity: (values: PassengersQuantity) => {
+    const total = Object.values(values).reduce((a, b) => a + b, 0);
     set((state: PassengersStore) => ({
       ...state,
-      passengersQuantity: quatity,
+      passengersQuantity: { ...values, total },
     }));
   },
   setPassengers: (passengers: Array<IPassenger>) => {
@@ -24,5 +36,14 @@ export const usePassengersStore = create<PassengersStore>()((set) => ({
     }));
   },
   clear: () =>
-    set((state) => ({ ...state, passengers: [], passengersQuantity: 0 })),
+    set((state) => ({
+      ...state,
+      passengers: [],
+      passengersQuantity: {
+        adults: 0,
+        children: 0,
+        infants: 0,
+        total: 0,
+      },
+    })),
 }));
