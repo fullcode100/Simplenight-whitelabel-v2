@@ -555,60 +555,46 @@ const FlightSearchForm = () => {
               {findThePerfectFlightLabel}
             </Paragraph>
           )}
-          <section
-            className={
-              'hidden lg:flex flex-col justify-start lg:flex-row lg:items-end lg:gap-2 lg:pb-0 lg:px-0 mt-3'
-            }
-          >
-            {isDesktop && (
-              <>
-                <DropdownMenu
-                  items={directionsMenuItems}
-                  onChange={handleDirectionChange}
-                  alingDirection="left"
+          <section className={'flex flex-row gap-2 mt-3'}>
+            <DropdownMenu
+              items={directionsMenuItems}
+              onChange={handleDirectionChange}
+              alingDirection="left"
+            />
+
+            <Popper
+              open={showTravelersInput}
+              onClose={() => setShowTravelersInput(false)}
+              content={
+                <TravelersSelect
+                  travelers={travelersData}
+                  setTravelers={setTravelersData}
                 />
-                <section>
-                  <Label
-                    value={travelersLabel}
-                    className="block my-3 lg:hidden lg:mb-0"
-                  />
-                  <Popper
-                    open={showTravelersInput}
-                    onClose={() => setShowTravelersInput(false)}
-                    content={
-                      <TravelersSelect
-                        travelers={travelersData}
-                        setTravelers={setTravelersData}
-                      />
-                    }
-                    placement="left"
-                  >
-                    <button
-                      onClick={() => setShowTravelersInput(true)}
-                      className="h-8 px-2 text-gray-600 bg-white border border-gray-300 rounded text-p-xxs hover:border-gray-400 focus:outline-none" // grid grid-cols-2
-                    >
-                      <section className="flex items-center gap-2">
-                        <IconWrapper size={20}>
-                          <MultiplePersons className="text-dark-1000" />
-                        </IconWrapper>
-                        <Paragraph fontWeight="semibold">
-                          {parseInt(adults) +
-                            parseInt(children) +
-                            parseInt(infants)}{' '}
-                          {travelerLabelText}
-                        </Paragraph>
-                      </section>
-                    </button>
-                  </Popper>
+              }
+              placement="left"
+            >
+              <button
+                onClick={() => setShowTravelersInput(true)}
+                className="h-8 px-2 text-gray-600 bg-white border border-gray-300 rounded text-p-xxs hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+              >
+                <section className="flex items-center gap-2">
+                  <IconWrapper size={20}>
+                    <MultiplePersons className="text-dark-1000" />
+                  </IconWrapper>
+                  <Paragraph fontWeight="semibold">
+                    {parseInt(adults) + parseInt(children) + parseInt(infants)}{' '}
+                    {isDesktop ? travelerLabelText : ''}
+                  </Paragraph>
                 </section>
-                <DropdownMenu
-                  items={cabinTypeMenuItems}
-                  onChange={handleCabineTypeChange}
-                  alingDirection="left"
-                  menuIcon={<Seat className="w-5 h-5" />}
-                />
-              </>
-            )}
+              </button>
+            </Popper>
+
+            <DropdownMenu
+              items={cabinTypeMenuItems}
+              onChange={handleCabineTypeChange}
+              alingDirection="left"
+              menuIcon={<Seat className="w-5 h-5" />}
+            />
           </section>
           {flights.map((item: string, flightIndex: number) => (
             <section key={flightIndex} className="flex flex-col">
@@ -796,47 +782,6 @@ const FlightSearchForm = () => {
                     {t('addFlight')}
                   </Button>
                 </section>
-              )}
-              {!isDesktop && (
-                <>
-                  <section className="">
-                    <DropdownMenu
-                      items={directionsMenuItems}
-                      onChange={handleDirectionChange}
-                      alingDirection="left"
-                    />
-                  </section>
-                  <TravelersInput
-                    showTravelersInput={showTravelersInput}
-                    onClose={() => setShowTravelersInput(false)}
-                    travelers={travelersData}
-                    setTravelers={setTravelersData}
-                  />
-                  <section>
-                    <Label
-                      value={travelersLabel}
-                      className="block my-3 lg:hidden lg:mb-0"
-                    />
-                    <button
-                      onClick={() => setShowTravelersInput(true)}
-                      className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
-                    >
-                      <section className="flex items-center gap-2">
-                        <MultiplePersons className="text-dark-700" />
-                        {parseInt(adults) +
-                          parseInt(children) +
-                          parseInt(infants)}{' '}
-                        {travelerLabelText}
-                      </section>
-                    </button>
-                  </section>
-                  <DropdownMenu
-                    items={cabinTypeMenuItems}
-                    onChange={handleCabineTypeChange}
-                    alingDirection="left"
-                    menuIcon={<Seat className="w-5 h-5" />}
-                  />
-                </>
               )}
             </section>
             {flights.length !== 1 && (
