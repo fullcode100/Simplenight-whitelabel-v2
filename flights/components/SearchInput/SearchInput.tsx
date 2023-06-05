@@ -3,6 +3,7 @@ import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import CloseIcon from 'public/icons/assets/close.svg';
 import classNames from 'classnames';
+import classnames from 'classnames';
 
 export interface OptionItem {
   id: string;
@@ -51,7 +52,7 @@ const SearchInput = ({
             <Combobox.Label className="block text-sm font-semibold text-dark-800 hover:cursor-pointer">
               {label}
             </Combobox.Label>
-            <div className="mt-2 relative">
+            <div className={classnames(!!label && 'mt-2 ', 'relative')}>
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 {icon}
               </span>
