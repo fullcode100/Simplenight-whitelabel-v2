@@ -50,8 +50,18 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   const sortByReviewCount = t('sortByReviewCount', 'Review Count');
   const sortByDistance = t('sortByDistance', 'Distance');
   const setQueryParams = useQuerySetter();
-  const { startDate, endDate, latitude, longitude, price, sort_by, slug } =
-    useQuery();
+  const {
+    lang,
+    covers,
+    startDate,
+    endDate,
+    latitude,
+    longitude,
+    price,
+    sort_by,
+    slug,
+    keyword,
+  } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
   const [sortByVal, setSortByVal] = useState(
     sort_by
@@ -73,7 +83,8 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     cancellation_type: '',
     supplier_ids: '',
     apiUrl,
-    time: '23:00',
+    time: '21:00',
+    keyword: keyword as string,
   };
 
   const fetchDining = async () => {

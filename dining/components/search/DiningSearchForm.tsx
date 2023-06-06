@@ -4,6 +4,7 @@ import LocationInput from 'components/global/Input/LocationInput';
 import React, { useEffect, useState } from 'react';
 import { SearchFormProps } from 'types/search/SearchFormProps';
 import LocationPin from 'public/icons/assets/location-pin.svg';
+import SearchIcon from 'public/icons/assets/Search.svg';
 import { useTranslation } from 'react-i18next';
 import Calendar from 'public/icons/assets/calendar.svg';
 import {
@@ -59,8 +60,16 @@ const DiningSearchForm = ({
       params.longitude as string,
     )}`,
   );
+  const [keyword, setKeyword] = useState(
+    params.keyword ? params.keyword.toString() : '',
+  );
+
   const handleSaveLastSearch = (value: string): void => {
     localStorage.setItem('lastSearch', value);
+  };
+
+  const handleSearchDiningChanges = (value: string) => {
+    setKeyword(value);
   };
 
   const handleStartDateChange = (value: string) => {
@@ -84,7 +93,9 @@ const DiningSearchForm = ({
       dayjs(startDate).add(1, 'day'),
     ).toString()}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
-    }&longitude=${geolocation?.split(',')[LONGITUDE_INDEX]}&address=${address}`;
+    }&longitude=${
+      geolocation?.split(',')[LONGITUDE_INDEX]
+    }&address=${address}&keyword=${keyword}`;
     handleSaveLastSearch(route);
     router.push(route);
   };
@@ -99,6 +110,7 @@ const DiningSearchForm = ({
       return;
     }
     setQueryParam({
+      keyword,
       startDate,
       endDate: dayjs(startDate).add(1, 'day').toString(),
       address: address as string,
@@ -132,6 +144,15 @@ const DiningSearchForm = ({
         className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
       >
         <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
+          <IconInput
+            icon={<SearchIcon className="w-5 h-5 text-dark-700 " />}
+            label="Search"
+            name="search"
+            placeholder="Greek food"
+            autoFocus
+            onChange={(e) => handleSearchDiningChanges(e.target.value)}
+            value={keyword}
+          />
           <LocationInput
             icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
             label={t('locationInputLabel')}
