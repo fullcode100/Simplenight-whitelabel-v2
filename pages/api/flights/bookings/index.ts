@@ -35,8 +35,6 @@ export default async function handler(
         body,
       );
 
-      console.log('body => ', body);
-
       if (reservation.data.errorMessage?.error) {
         res.status(400).json({
           message: 'Reservation failed',
@@ -53,7 +51,6 @@ export default async function handler(
       reservation?.data.pnrReply.pnrHeader[0].reservationInfo.reservation[0]
         .controlNumber;
 
-    console.log('control number ', controlNumber);
     if (reservation && controlNumber) {
       try {
         const { data: data1 } = await axios.post(
