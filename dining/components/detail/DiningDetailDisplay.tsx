@@ -36,6 +36,7 @@ import { notification } from 'components/global/Notification/Notification';
 import { Item } from 'types/cart/CartType';
 import DiningOpenTimes from './DiningOpenTimes';
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
+import dayjs from 'dayjs';
 
 type DiningDetailDisplayProps = CategoryPageComponentProps;
 
@@ -56,7 +57,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   const router = useRouter();
   const data = restaurant;
   const selectedOpeningTime = data?.openings.filter(
-    (item) => item.date === selectedDate,
+    (item) => item.date === dayjs(selectedDate).format('YYYY-MM-DD'),
   );
   const openingTime = selectedOpeningTime?.[0];
   const isOpened = !!openingTime?.times?.length;
