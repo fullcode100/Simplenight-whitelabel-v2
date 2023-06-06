@@ -72,10 +72,27 @@ const PassengerInformationDisplay = ({
       vaccinationRecords: false,
       knownTravelerNumber: false,
       passengerNumber: 0,
+      passengerType: 'ADT',
     };
-    for (let i = 0; i < passengersQuantity; i++) {
+    let passegerCount = 0;
+    for (let i = 0; i < passengersQuantity.adults; i++) {
+      passegerCount++;
+      defaultPassengerObject.passengerNumber = passegerCount;
+      const passegerData = passengers[passegerCount - 1] || {};
+      defaultValues.push({ ...defaultPassengerObject, ...passegerData });
+    }
+    for (let i = 0; i < passengersQuantity.children; i++) {
+      passegerCount++;
+      defaultPassengerObject.passengerNumber = passegerCount;
+      defaultPassengerObject.passengerType = 'CNN';
+      const passegerData = passengers[passegerCount - 1] || {};
+      defaultValues.push({ ...defaultPassengerObject, ...passegerData });
+    }
+    for (let i = 0; i < passengersQuantity.infants; i++) {
+      passegerCount++;
       defaultPassengerObject.passengerNumber = i;
-      const passegerData = passengers[i] || {};
+      defaultPassengerObject.passengerType = 'INF';
+      const passegerData = passengers[passegerCount - 1] || {};
       defaultValues.push({ ...defaultPassengerObject, ...passegerData });
     }
     return defaultValues;
@@ -207,10 +224,11 @@ const PassengerInformationDisplay = ({
               toggleOpen={(passengerNumber) =>
                 handlePassengerAccordion(passengerNumber)
               }
-              passengersQuantity={passengersQuantity}
+              passengersQuantity={passengersQuantity.total}
+              passengersType={field.passengerType}
             />
           ))}
-          {passengerForm === passengersQuantity - 1 && (
+          {passengerForm === passengersQuantity.total - 1 && (
             <section className="flex flex-col gap-2 md:flex-row md:justify-end md:gap-6">
               <div className="flex justify-between ">
                 <Paragraph className="md:hidden">Total</Paragraph>

@@ -17,6 +17,7 @@ import TimeRangeSlider from '../TimeRangeSlider/TimeRangeSlider';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { Button } from '@simplenight/ui';
 import Selector from 'components/global/Select/Selector';
+import TabSelector from 'components/global/TabSelector';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -442,7 +443,7 @@ const FlightSecondarySearchOptions = () => {
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={stopsLabel} />
-        <Checkbox options={stopsOptions} onChange={onChangeStops} />
+        <TabSelector options={stopsOptions} onChangeStop={onChangeStops} />
       </FilterContainer>
 
       <Divider className="my-6" />

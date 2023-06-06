@@ -18,9 +18,12 @@ export interface IPassenger {
   vaccinationRecords?: boolean;
   knownTravelerNumber?: boolean;
   passengerNumber: number;
+  passengerType: PassengerTypeList;
 }
 
 export enum GenderEnum {
   female = 'female',
   male = 'male',
 }
+
+export type PassengerTypeList = 'ADT' | 'CNN' | 'INF';
