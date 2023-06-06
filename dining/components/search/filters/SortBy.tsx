@@ -3,16 +3,16 @@ import FilterContainer from './FilterContainer';
 import Sort from 'public/icons/assets/sort.svg';
 import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import { useTranslation } from 'react-i18next';
-import { SORT_BY_OPTIONS } from 'thingsToDo/constants/sortByOptions';
+import { SORT_BY_OPTIONS } from '../../../constants/sortByOptions';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
 
 export interface SortByProps {
   sortBy: string;
-  onChangeSortBy: any;
+  onChangeSortBy: (value: string) => void;
 }
 
 const SortBy = ({ sortBy, onChangeSortBy }: SortByProps) => {
-  const [tg] = useTranslation('global');
+  const [t] = useTranslation('dining');
   const [showSortModal, setShowSortModal] = useState(false);
   return (
     <FilterContainer>
@@ -26,12 +26,12 @@ const SortBy = ({ sortBy, onChangeSortBy }: SortByProps) => {
             {SORT_BY_OPTIONS.map((option, i) => (
               <Radio
                 key={i}
-                value={option?.value}
+                value={option?.label}
                 containerClass={`px-3 py-2 ${
                   i < SORT_BY_OPTIONS.length - 1 && 'border-b border-dark-200'
                 }`}
               >
-                {tg(option.label)}
+                {t(option.label)}
               </Radio>
             ))}
           </RadioGroup>
@@ -47,9 +47,9 @@ const SortBy = ({ sortBy, onChangeSortBy }: SortByProps) => {
                 <Sort />
               </span>
               <span className="text-sm font-normal text-dark-1000 flex leading-[22px]">
-                {tg(
-                  SORT_BY_OPTIONS.find((option) => option.value == sortBy)
-                    ?.label ?? '',
+                {t(
+                  SORT_BY_OPTIONS.find((option) => option.label === sortBy)
+                    ?.label ?? SORT_BY_OPTIONS[0].label,
                 )}
               </span>
             </section>

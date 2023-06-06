@@ -4,12 +4,18 @@ import FilterContainer from './filters/FilterContainer';
 import PriceRangeFilter from './filters/PriceRangeFilter';
 import FilterCollapseTitle from './filters/FilterCollapseTitle';
 import { useFilterDining } from 'dining/hooks/useFilterDining';
+import SortBy from './filters/SortBy';
+import { SortBySelect } from 'dining/constants/sortByOptions';
+
+interface DiningFilterFormProps {
+  sortBySelect: SortBySelect;
+}
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 
-function DiningFilterFormDesktop() {
+const DiningFilterFormDesktop = ({ sortBySelect }: DiningFilterFormProps) => {
   const [t] = useTranslation('dining');
   const priceText = t('price', 'Price');
   const { clearFilters, changePrice, minPrice, maxPrice } = useFilterDining();
@@ -31,6 +37,10 @@ function DiningFilterFormDesktop() {
     <section className="h-full py-4">
       <section className="pr-4">
         <FilterHeader />
+        <SortBy
+          sortBy={sortBySelect.sortBy ?? ''}
+          onChangeSortBy={sortBySelect.onChangeSortBy}
+        />
         <Divider className="my-6" />
         <FilterCollapseTitle title={priceText}>
           <PriceRangeFilter
@@ -44,6 +54,6 @@ function DiningFilterFormDesktop() {
       </section>
     </section>
   );
-}
+};
 
 export default DiningFilterFormDesktop;
