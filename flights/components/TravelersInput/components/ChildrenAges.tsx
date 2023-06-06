@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Traveler } from 'flights/helpers/traveler';
 import { changeArraySize } from 'helpers/arrayUtils';
 import classnames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ChildrenAgesProps {
   traveler: Traveler;
@@ -40,6 +40,10 @@ const ChildrenAges = ({
     age: number;
   }) => {
     const [childAge, setChildAge] = useState<number | ''>(age);
+
+    useEffect(() => {
+      setChildAge(2);
+    }, []);
 
     const validateAge = (age: number) => {
       let _age = age;
