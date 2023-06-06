@@ -44,8 +44,11 @@ const FlightSearchForm = () => {
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
   const [t] = useTranslation('flights');
-  const travelersLabel = t('travelers', 'Travelers');
+
   const travelerLabel = t('traveler', 'Traveler');
+  const travelersLabel = t('travelers', 'Travelers');
+  const cabinLabel = t('cabin', 'Cabin');
+  const tripTypeLabel = t('tripType', 'Trip Type');
   const findThePerfectFlightLabel = t(
     'findThePerfectFlightForYou',
     'Find the perfect flight for you',
@@ -494,13 +497,6 @@ const FlightSearchForm = () => {
     flex: direction !== 'multicity',
   });
 
-  const classNameInputSection = classnames(
-    'w-full flex flex-col lg:flex-row lg:w-[90%] lg:justify-between lg:items-center justify-center',
-    {
-      'gap-4': direction === 'multicity',
-    },
-  );
-
   const classNameChevron = classnames('fill-current h-4 w-4', {
     'rotate-180': isOpen,
   });
@@ -566,60 +562,48 @@ const FlightSearchForm = () => {
               {findThePerfectFlightLabel}
             </Paragraph>
           )}
-          <section
-            className={
-              'flex flex-col justify-start lg:flex-row lg:items-end lg:gap-2 lg:pb-0 lg:px-0 mt-3'
-            }
-          >
-            {isDesktop && (
-              <>
-                <DropdownMenu
-                  items={directionsMenuItems}
-                  onChange={handleDirectionChange}
-                  alingDirection="left"
+          <section className={'flex flex-row gap-2 mt-3'}>
+            <DropdownMenu
+              items={directionsMenuItems}
+              label={tripTypeLabel}
+              onChange={handleDirectionChange}
+              alingDirection="left"
+            />
+
+            <Popper
+              open={showTravelersInput}
+              onClose={() => setShowTravelersInput(false)}
+              content={
+                <TravelersSelect
+                  travelers={travelersData}
+                  setTravelers={setTravelersData}
                 />
-                <section>
-                  <Label
-                    value={travelersLabel}
-                    className="block my-3 lg:hidden lg:mb-0"
-                  />
-                  <Popper
-                    open={showTravelersInput}
-                    onClose={() => setShowTravelersInput(false)}
-                    content={
-                      <TravelersSelect
-                        travelers={travelersData}
-                        setTravelers={setTravelersData}
-                      />
-                    }
-                    placement="left"
-                  >
-                    <button
-                      onClick={() => setShowTravelersInput(true)}
-                      className="h-8 px-2 text-gray-600 bg-white border border-gray-300 rounded text-p-xxs hover:border-gray-400 focus:outline-none" // grid grid-cols-2
-                    >
-                      <section className="flex items-center gap-2">
-                        <IconWrapper size={20}>
-                          <MultiplePersons className="text-dark-1000" />
-                        </IconWrapper>
-                        <Paragraph fontWeight="semibold">
-                          {parseInt(adults) +
-                            parseInt(children) +
-                            parseInt(infants)}{' '}
-                          {travelerLabelText}
-                        </Paragraph>
-                      </section>
-                    </button>
-                  </Popper>
+              }
+              placement="left"
+            >
+              <button
+                onClick={() => setShowTravelersInput(true)}
+                className="h-8 px-2 text-gray-600 bg-white border border-gray-300 rounded text-p-xxs hover:border-gray-400 focus:outline-none" // grid grid-cols-2
+              >
+                <section className="flex items-center gap-2">
+                  <IconWrapper size={20}>
+                    <MultiplePersons className="text-dark-1000" />
+                  </IconWrapper>
+                  <Paragraph fontWeight="semibold">
+                    {parseInt(adults) + parseInt(children) + parseInt(infants)}{' '}
+                    {isDesktop ? travelerLabelText : ''}
+                  </Paragraph>
                 </section>
-                <DropdownMenu
-                  items={cabinTypeMenuItems}
-                  onChange={handleCabineTypeChange}
-                  alingDirection="left"
-                  menuIcon={<Seat className="w-5 h-5" />}
-                />
-              </>
-            )}
+              </button>
+            </Popper>
+
+            <DropdownMenu
+              items={cabinTypeMenuItems}
+              onChange={handleCabineTypeChange}
+              alingDirection="left"
+              menuIcon={<Seat className="w-5 h-5" />}
+              label={cabinLabel}
+            />
           </section>
           {flights.map((item: string, flightIndex: number) => (
             <section key={flightIndex} className="flex flex-col">
@@ -637,9 +621,13 @@ const FlightSearchForm = () => {
                 }
               >
                 <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-                  <section className={classNameInputSection}>
+                  <section
+                    className={classnames(
+                      'w-full flex flex-col items-center lg:flex-row lg:w-[90%] lg:justify-between lg:items-center',
+                    )}
+                  >
                     <SearchAirport
-                      label={t('locationInputLabel')}
+                      label={isDesktop ? t('locationInputLabel') : ''}
                       defaultValue={
                         direction === 'multicity'
                           ? addresses[flightIndex]
@@ -663,61 +651,19 @@ const FlightSearchForm = () => {
                       }}
                       placeholder={locationPlaceholder}
                     />
-                    {/* <LocationInput
-                      icon={
-                        <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
-                      }
-                      label={t('locationInputLabel')}
-                      name="location"
-                      placeholder={locationPlaceholder}
-                      routeParams={['address']}
-                      defaultAddress={
-                        direction === 'multicity'
-                          ? addresses[flightIndex]
-                          : address
-                      }
-                      onSelect={(
-                        latLng: latLngProp,
-                        address: string,
-                        shortName: string,
-                      ) =>
-                        handleSelectLocation(
-                          latLng,
-                          address,
-                          flightIndex,
-                          shortName,
-                        )
-                      }
-                      onChange={() => setShowLocationError(false)}
-                      autoFocus={!address ? true : false}
-                      clearShortNames={() => cleanSelectLocation(flightIndex)}
-                      filter={filterByAirport}
-                      addressValue={address}
-                      setAddressValue={setAddress}
-                    /> */}
-                    <div className={classNameSwapButton}>
-                      <button
-                        onClick={() => swap()}
-                        className="w-8 h-8 p-0.5 mt-[-0.25rem] mb-[-1.75rem] lg:mt-6 lg:mb-0 lg:mx-[-0.75rem] rounded-full flex justify-center items-center border border-gray-300  hover:bg-gray-400 bg-white z-10 text-dark-700"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 1rem 1rem"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="w-6 h-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-                          />
-                        </svg>
-                      </button>
-                    </div>
+
+                    <button
+                      onClick={() => swap()}
+                      className={classnames(
+                        classNameSwapButton,
+                        'w-8 h-8 rounded-full border border-dark-300 flex flex-none -my-2 items-center justify-center bg-white hover:bg-gray-400 lg:mt-6 lg:-mx-2 lg:my-0 z-10',
+                      )}
+                    >
+                      <ArrowMenuRoudTrip className="w-4 h-4 fill-dark-700" />
+                    </button>
+
                     <SearchAirport
-                      label={t('location2InputLabel')}
+                      label={isDesktop ? t('location2InputLabel') : ''}
                       defaultValue={
                         direction === 'multicity'
                           ? addresses2[flightIndex]
@@ -741,40 +687,6 @@ const FlightSearchForm = () => {
                       }}
                       placeholder={location2Placeholder}
                     />
-                    {/* <LocationInput
-                      icon={
-                        <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
-                      }
-                      label={t('location2InputLabel')}
-                      name="location2"
-                      placeholder={location2Placeholder}
-                      routeParams={['address2']}
-                      defaultAddress={
-                        direction === 'multicity'
-                          ? addresses2[flightIndex]
-                          : address2
-                      }
-                      onSelect={(
-                        latLng: latLngProp,
-                        address: string,
-                        shortName: string,
-                      ) =>
-                        handleSelectLocation2(
-                          latLng,
-                          address,
-                          flightIndex,
-                          shortName,
-                        )
-                      }
-                      onChange={() => setShowLocationError(false)}
-                      autoFocus={address && !address2 ? true : false}
-                      clearShortNames={() => {
-                        cleanSelectLocation2(flightIndex);
-                      }}
-                      filter={filterByAirport}
-                      addressValue={address2}
-                      setAddressValue={setAddress2}
-                    /> */}
                   </section>
                   <DatePicker
                     showDatePicker={showDatePicker}
@@ -882,47 +794,6 @@ const FlightSearchForm = () => {
                     {t('addFlight')}
                   </Button>
                 </section>
-              )}
-              {!isDesktop && (
-                <>
-                  <section className="">
-                    <DropdownMenu
-                      items={directionsMenuItems}
-                      onChange={handleDirectionChange}
-                      alingDirection="left"
-                    />
-                  </section>
-                  <TravelersInput
-                    showTravelersInput={showTravelersInput}
-                    onClose={() => setShowTravelersInput(false)}
-                    travelers={travelersData}
-                    setTravelers={setTravelersData}
-                  />
-                  <section>
-                    <Label
-                      value={travelersLabel}
-                      className="block my-3 lg:hidden lg:mb-0"
-                    />
-                    <button
-                      onClick={() => setShowTravelersInput(true)}
-                      className="border border-gray-300 rounded-md text-gray-600 text-p-xxs h-8 pl-3.5 py-0 pr-7 bg-white hover:border-gray-400 focus:outline-none" // grid grid-cols-2
-                    >
-                      <section className="flex items-center gap-2">
-                        <MultiplePersons className="text-dark-700" />
-                        {parseInt(adults) +
-                          parseInt(children) +
-                          parseInt(infants)}{' '}
-                        {travelerLabelText}
-                      </section>
-                    </button>
-                  </section>
-                  <DropdownMenu
-                    items={cabinTypeMenuItems}
-                    onChange={handleCabineTypeChange}
-                    alingDirection="left"
-                    menuIcon={<Seat className="w-5 h-5" />}
-                  />
-                </>
               )}
             </section>
             {flights.length !== 1 && (

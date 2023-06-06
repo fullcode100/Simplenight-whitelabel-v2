@@ -126,5 +126,6 @@
   "arrivalFlight": "Arrival Flight",
   "male": "Male",
   "female": "Female",
-  "findThePerfectFlightForYou": "Find the perfect flight for you"
+  "findThePerfectFlightForYou": "Find the perfect flight for you",
+  "tripType": "Trip Type"
 }

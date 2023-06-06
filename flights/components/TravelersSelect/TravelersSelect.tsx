@@ -74,7 +74,7 @@ const TravelersSelect = ({ travelers, setTravelers }: TravelersSelectProps) => {
   );
 
   return (
-    <section className="h-full min-w-[400px] px-2 pt-2">
+    <section className="h-full w-full lg:min-w-[400px] p-6 lg:p-2 ">
       {newTravelers.map((traveler: Traveler, index) => {
         return (
           <Fragment key={index}>
