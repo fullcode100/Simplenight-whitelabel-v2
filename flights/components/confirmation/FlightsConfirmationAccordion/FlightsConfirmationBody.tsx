@@ -20,7 +20,7 @@ interface Props {
 }
 const FlightsConfirmationBody = ({ item }: Props) => {
   const [t] = useTranslation('flights');
-  const flights = item?.item_data.segments;
+  const flights = item?.item_data.booking.segments;
   const segmentsLength = flights[0].collection.length;
   const stops = segmentsLength - 1;
   const stopsLabel = usePlural(stops, t('stop', 'Stop'), t('stops', 'Stops'));
@@ -30,22 +30,22 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const payNowLabel = t('payNow', 'Pay Now');
 
   const direction =
-    item?.item_data.segments.lenght === 1 ? 'one_way' : 'round_trip';
+    item?.item_data.booking.segments.lenght === 1 ? 'one_way' : 'round_trip';
   const firstFlight = flights[0];
   const lastFlight = flights[flights.length - 1];
   const startAirport = firstFlight.collection[0].departureAirport;
   const endAirport = lastFlight.collection[0].arrivalAirport;
 
   const totalFlightAmount = item?.rate.total.full;
-  const offer = item?.item_data.offer;
+  const offer = item?.item_data.booking.offer;
 
-  const adults = item?.item_data.passengers.filter(
+  const adults = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'ADT',
   ).length;
-  const children = item?.item_data.passengers.filter(
+  const children = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'CNN',
   ).length;
-  const infants = item?.item_data.passengers.filter(
+  const infants = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'INF',
   ).length;
 

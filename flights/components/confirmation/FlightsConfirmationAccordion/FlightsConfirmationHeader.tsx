@@ -29,13 +29,13 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
     },
   };
 
-  const adults = item?.item_data.passengers.filter(
+  const adults = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'ADT',
   ).length;
-  const children = item?.item_data.passengers.filter(
+  const children = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'CNN',
   ).length;
-  const infants = item?.item_data.passengers.filter(
+  const infants = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'INF',
   ).length;
 
@@ -43,8 +43,8 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
   const ticketsLabel = usePlural(passengers, 'Ticket', 'Tickets');
 
   const direction =
-    item?.item_data.segments.lenght === 1 ? 'one_way' : 'round_trip';
-  const flights = item?.item_data.segments;
+    item?.item_data.booking.segments.lenght === 1 ? 'one_way' : 'round_trip';
+  const flights = item?.item_data.booking.segments;
   const firstFlight = flights[0];
   const lastFlight = flights[flights.length - 1];
   const startAirport = firstFlight.collection[0].departureAirport;
