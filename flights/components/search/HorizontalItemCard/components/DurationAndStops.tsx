@@ -14,6 +14,7 @@ const DurationAndStops = ({ item }: { item: FlightItem }) => {
   const stopsTranslation = t('stops', 'Stops');
   const stopTranslation = t('stop', 'Stop');
   const stopsLabel = usePlural(stops, stopTranslation, stopsTranslation);
+  const directTranslation = t('direct', 'Direct');
 
   return (
     <section className="flex flex-col items-end justify-center mr-2 shrink-0 lg:items-start">
@@ -27,7 +28,7 @@ const DurationAndStops = ({ item }: { item: FlightItem }) => {
       </div>
       <div className="flex items-center text-dark-700">
         <Paragraph size="xxs">
-          {stops} {stopsLabel}
+          {stops ? `${stops} ${stopsLabel}` : directTranslation}
         </Paragraph>
       </div>
     </section>

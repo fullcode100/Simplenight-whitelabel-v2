@@ -25,6 +25,7 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const stops = segmentsLength - 1;
   const stopsLabel = usePlural(stops, t('stop', 'Stop'), t('stops', 'Stops'));
   const basePriceLabel = t('basePrice', 'Base Price');
+  const directLabel = t('directLabel', 'Direct');
 
   const payNowLabel = t('payNow', 'Pay Now');
 
@@ -163,17 +164,13 @@ const FlightsConfirmationBody = ({ item }: Props) => {
             </IconWrapper>
             <Paragraph size="small">{endAirport}</Paragraph>
           </section>
-          {stops ? (
-            <Paragraph
-              size="small"
-              fontWeight="semibold"
-              textColor="text-dark-800"
-            >
-              {stops} {stopsLabel}
-            </Paragraph>
-          ) : (
-            'Direct'
-          )}
+          <Paragraph
+            size="small"
+            fontWeight="semibold"
+            textColor="text-dark-800"
+          >
+            {stops ? `${stops} ${stopsLabel}` : directLabel}
+          </Paragraph>
         </section>
         {/* TO DO : MODAL  Flight Details */}
       </section>
