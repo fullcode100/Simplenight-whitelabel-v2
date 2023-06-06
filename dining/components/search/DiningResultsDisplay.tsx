@@ -3,13 +3,9 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { DiningCategory } from '../../index';
 import { DiningSearchRequest } from 'dining/types/request/DiningSearchRequest';
-import {
-  Dining,
-  DiningSearchResponse,
-} from 'dining/types/response/SearchResponse';
-import React, { useState, ReactNode, useEffect } from 'react';
+import { Dining } from 'dining/types/response/SearchResponse';
+import React, { useState, useEffect } from 'react';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import DiningFilterFormDesktop from './DiningFilterFormDesktop';
 import SearchViewSelectorFixed from 'components/global/SearchViewSelector/SearchViewSelectorFixed';
 import HorizontalItemCard from './HorizontalItemCard';
 import MapIcon from 'public/icons/assets/map-ok.svg';
@@ -17,7 +13,6 @@ import ListIcon from 'public/icons/assets/list-ok.svg';
 import classnames from 'classnames';
 import MapView from './MapView/MapView';
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
-import { checkIfAnyNull } from 'helpers/arrayUtils';
 import {
   EmptyState as EmptyStateIllustration,
   IconWrapper,
@@ -25,11 +20,8 @@ import {
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
-import EmptyState from 'components/global/EmptyState/EmptyState';
 import { useTranslation } from 'react-i18next';
-import DiningSecondarySearchOptions from './DiningSecondarySearchOptions';
 import DiningItemPriceInfo from './DiningItemPriceInfo';
-import { DropdownRadio } from 'components/global/DropdownRadio';
 import {
   AltRadioButtonGroup,
   RadioItemType,
@@ -37,11 +29,10 @@ import {
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
-
-interface ViewButtonProps {
-  children: ReactNode;
-  viewParam: 'list' | 'map';
-}
+import { SORT_BY_OPTIONS } from 'dining/constants/sortByOptions';
+import FilterSidebarDining from './filters/FilterSidebarDining';
+import useModal from 'hooks/layoutAndUITooling/useModal';
+import FiltersIcon from 'public/icons/assets/filters.svg';
 
 type sortByFilters = 'Best Match' | 'Rating' | 'Review Count' | 'Distance';
 
@@ -50,8 +41,9 @@ interface DiningResultsDisplayProps {
 }
 
 const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
-  const [loaded, setLoaded] = useState(false);
   const [t, i18next] = useTranslation('dining');
+  const [isOpen, onOpen, onClose] = useModal();
+  const [filtersCount, setFiltersCount] = useState(0);
   const noResultsLabel = t('noResultsSearch');
   const sortByBestMatch = t('sortByBestMatch', 'Best Match');
   const sortByRating = t('sortByRating', 'Rating');
@@ -68,31 +60,16 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     price,
     sort_by,
     slug,
+    keyword,
   } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
-  const [sortByVal, setSortByVal] = useState(sortByBestMatch);
+  const [sortByVal, setSortByVal] = useState(
+    sort_by
+      ? SORT_BY_OPTIONS.find((o) => o.param == sort_by)?.label
+      : sortByBestMatch,
+  );
   const [restaurants, setRestaurants] = useState<Dining[]>([]);
   const { ClientSearcher: Searcher } = Category.core;
-
-  const setSortState = (value: unknown) => {
-    switch (value) {
-      case 'best_match':
-        setSortByVal(sortByBestMatch);
-        break;
-      case 'rating':
-        setSortByVal(sortByRating);
-        break;
-      case 'review_count':
-        setSortByVal(sortByReviewCount);
-        break;
-      case 'distance':
-        setSortByVal(sortByDistance);
-        break;
-      default:
-        setSortByVal(sortByBestMatch);
-        break;
-    }
-  };
 
   const params: DiningSearchRequest = {
     covers: '2',
@@ -106,7 +83,8 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     cancellation_type: '',
     supplier_ids: '',
     apiUrl,
-    time: '23:00',
+    time: '21:00',
+    keyword: keyword as string,
   };
 
   const fetchDining = async () => {
@@ -201,29 +179,6 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     </ul>
   );
 
-  const ViewButton = ({ children, viewParam }: ViewButtonProps) => {
-    const active = viewParam === 'list' ? isListView : !isListView;
-    const onClick = () => {
-      setQueryParams({
-        view: viewParam,
-      });
-    };
-    return (
-      <button
-        onClick={onClick}
-        className={classnames(
-          'grid h-[2.75rem] w-[2.75rem] place-content-center',
-          {
-            'bg-white text-primary-1000': !active,
-            'bg-primary-1000 text-white': active,
-          },
-        )}
-      >
-        {children}
-      </button>
-    );
-  };
-
   const viewTypeFilterItems: RadioItemType[] = [
     {
       value: 'list',
@@ -245,12 +200,28 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
 
   const hasNoRestaurants = restaurants.length === 0;
 
+  const sortBySelect = {
+    sortBy: sortByVal,
+    onChangeSortBy: onChangeSortBy,
+  };
+
+  useEffect(() => {
+    if (price) setFiltersCount(1);
+  }, [price]);
+
   return (
     <>
       <section className="lg:flex lg:w-full">
-        <section className="lg:max-w[18rem] hidden lg:mr-8 lg:block lg:w-[25%] lg:min-w-[16rem]">
-          <DiningFilterFormDesktop />
-        </section>
+        {isOpen && (
+          <section>
+            <FilterSidebarDining
+              filtersCount={filtersCount}
+              onClose={onClose}
+              isOpen={isOpen}
+              sortBySelect={sortBySelect}
+            />
+          </section>
+        )}
         <section className="relative h-full lg:mt-6 lg:w-[75%] lg:flex-1">
           {!isLoading && hasNoRestaurants ? (
             <EmptyStateContainer
@@ -273,32 +244,32 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
               >
                 <section className="py-6 text-[20px] font-semibold leading-[24px] text-dark-1000 lg:flex lg:items-center lg:justify-between">
                   {data ? (
-                    <span>
-                      {restaurants.length}{' '}
-                      <span className="lg:hidden">{t('results')}</span>
-                      <span className="hidden lg:inline"> {t('results')}</span>
-                    </span>
+                    <>
+                      {!isOpen && (
+                        <button
+                          className="p-2 mx-2 border-2 rounded-full hover:bg-primary-800 hover:text-white text-primary-1000 border-primary-100"
+                          onClick={() => {
+                            onOpen();
+                          }}
+                        >
+                          <FiltersIcon />
+                        </button>
+                      )}
+                      <span>
+                        {restaurants.length}{' '}
+                        <span className="lg:hidden">{t('results')}</span>
+                        <span className="hidden lg:inline">
+                          {' '}
+                          {t('results')}
+                        </span>
+                      </span>
+                    </>
                   ) : (
                     <div className="w-40 h-8 rounded animate-pulse bg-dark-200"></div>
                   )}
                 </section>
                 <section className="relative flex gap-1 px-3 py-1 rounded bg-primary-100 lg:mr-0 lg:bg-transparent lg:px-0">
                   <section className="flex items-center gap-4">
-                    {isListView && (
-                      <DropdownRadio
-                        translation="dining"
-                        sortByVal={sortByVal}
-                        showFilter={false}
-                        setSortByVal={setSortByVal}
-                        onClickOption={onChangeSortBy}
-                        options={[
-                          sortByBestMatch,
-                          sortByRating,
-                          sortByReviewCount,
-                          sortByDistance,
-                        ]}
-                      />
-                    )}
                     <section className="hidden h-[32px] w-[110px] items-center justify-start lg:flex">
                       <AltRadioButtonGroup
                         items={viewTypeFilterItems}
@@ -308,7 +279,6 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
                         square={true}
                       />
                     </section>
-                    <DiningSecondarySearchOptions />
                   </section>
                 </section>
               </section>

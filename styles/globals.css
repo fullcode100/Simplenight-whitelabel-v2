@@ -183,6 +183,14 @@ label {
     -webkit-appearance: none;
     margin: 0;
   }
+  /* Results Bar Background */
+  .backdrop-blur-6 {
+    backdrop-filter: blur(6px);
+  }
+  /* search form shadow */
+  .shadow-custom {
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  }
 }
 
 /* Range Slider */

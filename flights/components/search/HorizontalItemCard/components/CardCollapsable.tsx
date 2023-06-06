@@ -97,7 +97,7 @@ const CardCollapsable = ({ segments }: { segments: SegmentCollection[] }) => {
                   · Airport City
                 </Paragraph>
               </div>
-              {duration && (
+              {!!duration && (
                 <div className="flex items-center gap-2 lg:pl-[68px] mb-3 text-dark-700 text-p-xs">
                   <IconWrapper size={12} desktop={16}>
                     <ClockIcon />

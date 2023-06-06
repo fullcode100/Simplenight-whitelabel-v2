@@ -12,11 +12,9 @@ const ConfirmationPriceBreakdown = ({ booking }: ConfirmationFooterProps) => {
   const taxes = t('taxesAndFees', 'Taxes And Fees');
   const payAtProperty = t('Payatproperty', 'Pay at property');
 
-  const {
-    sub_total: orderSubTotal,
-    tax_total: taxTotal,
-    tax_total_postpaid: taxTotalPostpaid,
-  } = booking;
+  const { sub_total: orderSubTotal, tax_total: taxTotal } = booking;
+
+  const taxTotalPostpaid = booking.items[0].rate.total.postpaid;
 
   return (
     <section className="flex flex-col">

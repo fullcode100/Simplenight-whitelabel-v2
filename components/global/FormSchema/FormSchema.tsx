@@ -12,6 +12,7 @@ import {
   CustomEmail,
   CustomTextArea,
   CustomToggle,
+  CustomTimeSelect,
 } from './CustomFields';
 import {
   CheckBoxTemplate,
@@ -50,6 +51,7 @@ const FormSchema = ({
     PickupPoint: CustomPickupPoint,
     NumberUnit: CustomNumberUnit,
     LanguageGuide: CustomLanguageGuide,
+    TimeSelect: CustomTimeSelect,
   };
 
   const CustomFieldTemplate = (props: any) => {

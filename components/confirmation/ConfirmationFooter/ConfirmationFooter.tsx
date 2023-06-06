@@ -24,7 +24,7 @@ const ConfirmationFooter = ({
   const [t, i18next] = useTranslation('global');
   const orderTotalLabel = t('orderTotal', 'Order Total');
 
-  const { order_total: orderTotal } = booking;
+  const orderTotal = booking.items[0].rate.total.full;
 
   return (
     <section className="flex flex-col px-5 py-6 border-b bg-dark-100 lg:bg-white lg:shadow-container lg:border lg:rounded border-dark-300">

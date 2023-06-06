@@ -36,9 +36,9 @@ export const usePassengerSchema = () => {
       .optional(),
     passportIdNumber: z
       .string()
-      .min(1, { message: fillOutThisFieldLabel })
-      .max(25, { message: maxCharacters25Label }),
-    country: z.string().min(1, { message: fillOutThisFieldLabel }),
+      .max(25, { message: maxCharacters25Label })
+      .optional(),
+    country: z.string().optional(),
     expiration: z.date().optional(),
     wheelChair: z.boolean().optional(),
     vaccinationRecords: z.boolean().optional(),

@@ -8,6 +8,7 @@ import NewPhoneNumberInput from '../PhoneNumberInput/NewPhoneNumberInput';
 import SelectInput from '../SelectInput/SelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
+import { WidgetProps } from '@rjsf/core';
 
 export const CustomText = (props: any) => {
   const { value, onChange, placeholder, required, id, schema } = props;
@@ -76,6 +77,33 @@ export const CustomPhoneNumber = (props: any) => {
   );
 };
 
+const getAllTimes = () => {
+  const times = [];
+  for (let i = 0; i < 24; i++) {
+    const hour = i < 10 ? `0${i}` : `${i}`;
+    times.push(`${hour}:00`);
+    times.push(`${hour}:30`);
+  }
+  return times;
+};
+
+export const CustomTimeSelect = (props: WidgetProps) => {
+  const { value, onChange, required, id } = props;
+  const options = getAllTimes().map((time) => ({ label: time, value: time }));
+  return (
+    <SelectInput
+      value={value}
+      onChange={onChange}
+      required={required}
+      options={options}
+      id={id}
+      {...{
+        autoFocus: true,
+      }}
+    />
+  );
+};
+
 export const CustomSelect = (props: any) => {
   const { options, value, onChange, required, id } = props;
   return (
@@ -106,7 +134,7 @@ export const CustomTextArea = (props: any) => {
   );
 };
 
-export const CustomCheckbox = (props: any) => {
+export const CustomCheckbox = (props: WidgetProps) => {
   const { onChange, value, id } = props;
   return (
     <section className="flex items-center h-5">
@@ -122,7 +150,7 @@ export const CustomCheckbox = (props: any) => {
   );
 };
 
-export const CustomToggle = (props: any) => {
+export const CustomToggle = (props: WidgetProps) => {
   const { onChange, value, id } = props;
   return (
     <ToggleSwitch
@@ -132,7 +160,7 @@ export const CustomToggle = (props: any) => {
     />
   );
 };
-export const CustomCountry = (props: any) => {
+export const CustomCountry = (props: WidgetProps) => {
   const { value, onChange, required } = props;
   return (
     <CountrySelect value={value} onChange={onChange} required={required} />

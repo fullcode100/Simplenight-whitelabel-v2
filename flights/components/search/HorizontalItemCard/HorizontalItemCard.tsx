@@ -50,7 +50,7 @@ const HorizontalItemCard = ({
           <div className="flex flex-1 gap-4 px-4 py-2 overflow-hidden">
             <FlightAirlines segments={segments} />
             <TimeAndAirports segments={segments} />
-            <DurationAndStops segmentInfo={item.segments} />
+            <DurationAndStops item={item} />
             <InclusionsAndExclusions item={item.segments} />
           </div>
           {selectFlight && <Pricing price={price} onClick={onSelectFlight} />}
@@ -99,7 +99,7 @@ const HorizontalItemCard = ({
             <div className="flex items-start grow">
               <FlightAirlines segments={segments} />
             </div>
-            <DurationAndStops segmentInfo={item.segments} />
+            <DurationAndStops item={item} />
             <ChevronDownIcon
               className={classnames(
                 'text-dark-700 h-6 transition-all',

@@ -56,20 +56,6 @@ const FlightSearchForm = () => {
 
   const params = useQuery();
   const setSearch = useSearchStore((state) => state.setSearch);
-  const [directionsMenuItems, setDirectionsMenuItems] = useState([
-    {
-      label: 'One-Way',
-      icon: <ArrowMenuRight className="w-5 h-5" />,
-      isActive: false,
-      value: 'one_way',
-    },
-    {
-      label: 'Roundtrip',
-      icon: <ArrowMenuRoudTrip className="w-5 h-5" />,
-      isActive: true,
-      value: 'round_trip',
-    },
-  ]);
   const [cabinTypeMenuItems, setCabinTypeMenuItems] = useState([
     { label: 'Economy', isActive: false, value: 'economy' },
     { label: 'Premium Economy', isActive: false, value: 'premium_economy' },
@@ -79,6 +65,20 @@ const FlightSearchForm = () => {
   const [direction, setDirection] = useState<Direction>(
     (params?.direction?.toString() as Direction) || 'round_trip',
   );
+  const [directionsMenuItems, setDirectionsMenuItems] = useState([
+    {
+      label: 'One-Way',
+      icon: <ArrowMenuRight className="w-5 h-5" />,
+      isActive: direction === 'one_way',
+      value: 'one_way',
+    },
+    {
+      label: 'Roundtrip',
+      icon: <ArrowMenuRoudTrip className="w-5 h-5" />,
+      isActive: direction === 'round_trip',
+      value: 'round_trip',
+    },
+  ]);
 
   const [travelersData, setTravelersData] = useState<Traveler[]>(
     params.travelersData
@@ -101,8 +101,12 @@ const FlightSearchForm = () => {
   const [address, setAddress] = useState<string>(
     params.address ? (params.address as string) : '',
   );
-  const [placeType, setPlaceType] = useState<string>();
-  const [placeType2, setPlaceType2] = useState<string>();
+  const [placeType, setPlaceType] = useState<string>(
+    params.placeType ? (params.placeType as string) : '',
+  );
+  const [placeType2, setPlaceType2] = useState<string>(
+    params.placeType2 ? (params.placeType2 as string) : '',
+  );
   const [geolocation, setGeolocation] = useState<StringGeolocation>(
     `${parseFloat(params.latitude as string)},${parseFloat(
       params.longitude as string,

@@ -324,11 +324,11 @@ const FlightResultsDisplay = ({
       setSelectedFlights((flights) => [...flights, flight]);
     } else {
       setFlightsStore([...selectedFlights, flight]);
-      setPassengersQuantity(
-        parseInt(adults as string, 10) +
-          parseInt(children as string, 10) +
-          parseInt(infants as string, 10),
-      );
+      setPassengersQuantity({
+        adults: parseInt(adults as string, 10),
+        children: parseInt(children as string, 10),
+        infants: parseInt(infants as string, 10),
+      });
       router.push(`/detail/flights/${direction}`);
     }
   };
