@@ -29,15 +29,15 @@ export default async function handler(
   const passenger = [];
   const adults = req.query?.adults ? Number(req.query?.adults) : 1;
   for (let i = 0; i < adults; i += 1) {
-    passenger.push({ id: `${i + 1}`, code: 'ADT' });
+    passenger.push({ id: `${i + 1}`, type: 'ADT' });
   }
   const children = req.query?.children ? Number(req.query?.children) : 0;
   for (let i = 0; i < children; i += 1) {
-    passenger.push({ id: `${adults + i + 1}`, code: 'CNN' });
+    passenger.push({ id: `${adults + i + 1}`, type: 'CNN' });
   }
   const infants = req.query?.infants ? Number(req.query?.infants) : 0;
   for (let i = 0; i < infants; i += 1) {
-    passenger.push({ id: `1.${i + 1}`, code: 'INF' });
+    passenger.push({ id: `${i + 1}.1`, type: 'INF' });
   }
   const currency = req.query?.currency
     ? (req.query?.currency as string)
@@ -104,12 +104,16 @@ export default async function handler(
 
   let cabinType = 'economy';
   const queryParamCabinType = req.query?.cabin_type?.toString();
-  if (['economy', 'business', 'first_class'].includes(queryParamCabinType)) {
+  if (
+    ['economy', 'premium_economy', 'business', 'first_class'].includes(
+      queryParamCabinType,
+    )
+  ) {
     cabinType = queryParamCabinType;
   }
 
   const postData = {
-    passenger: passenger,
+    passengers: passenger,
     airTravel: {
       direction: direction,
       cabin: {
@@ -135,7 +139,7 @@ export default async function handler(
 
   try {
     const rawResults = await fetch(
-      'https://dev-ms.simplenight.com/sn-booking-service/airsearch',
+      'https://api-dev.simplenight.com/sn-booking-service/airsearch',
       requestOptions,
     );
     const response: FlightsSearchResponseMS = await rawResults.json();
