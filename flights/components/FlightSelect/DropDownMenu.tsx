@@ -15,6 +15,7 @@ interface DropdowMenuProps {
   onChange: (value: string) => void;
   alingDirection: 'left' | 'right';
   menuIcon?: any;
+  label: string;
 }
 
 const DropdownMenu = ({
@@ -22,6 +23,7 @@ const DropdownMenu = ({
   onChange,
   alingDirection,
   menuIcon,
+  label,
 }: DropdowMenuProps) => {
   const ref = useRef<HTMLElement>(null);
   const [activeItem, setActiveItem] = useState(
@@ -106,7 +108,7 @@ const DropdownMenu = ({
         <FullScreenModal
           open={showMenu}
           closeModal={() => setShowMenu(false)}
-          title={'passengersText'}
+          title={label}
           primaryButtonText={applyText}
           primaryButtonAction={() => setShowMenu(false)}
           hasMultipleActions={false}

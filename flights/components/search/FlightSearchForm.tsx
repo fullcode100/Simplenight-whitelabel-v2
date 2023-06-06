@@ -44,8 +44,11 @@ const FlightSearchForm = () => {
   const router = useRouter();
   const { isDesktop } = useMediaViewport();
   const [t] = useTranslation('flights');
-  const travelersLabel = t('travelers', 'Travelers');
+
   const travelerLabel = t('traveler', 'Traveler');
+  const travelersLabel = t('travelers', 'Travelers');
+  const cabinLabel = t('cabin', 'Cabin');
+  const tripTypeLabel = t('tripType', 'Trip Type');
   const findThePerfectFlightLabel = t(
     'findThePerfectFlightForYou',
     'Find the perfect flight for you',
@@ -558,6 +561,7 @@ const FlightSearchForm = () => {
           <section className={'flex flex-row gap-2 mt-3'}>
             <DropdownMenu
               items={directionsMenuItems}
+              label={tripTypeLabel}
               onChange={handleDirectionChange}
               alingDirection="left"
             />
@@ -594,6 +598,7 @@ const FlightSearchForm = () => {
               onChange={handleCabineTypeChange}
               alingDirection="left"
               menuIcon={<Seat className="w-5 h-5" />}
+              label={cabinLabel}
             />
           </section>
           {flights.map((item: string, flightIndex: number) => (

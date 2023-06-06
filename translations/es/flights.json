@@ -124,5 +124,6 @@
   "arrival": "Retorno",
   "male": "Masculino",
   "female": "Femenino",
-  "findThePerfectFlightForYou": "Encuentra el vuelo perfecto para ti"
+  "findThePerfectFlightForYou": "Encuentra el vuelo perfecto para ti",
+  "tripType": "Tipo De Viaje"
 }
