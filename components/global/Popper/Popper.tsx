@@ -27,7 +27,7 @@ const Popper = ({
   const [t] = useTranslation('flights');
   const [tg] = useTranslation('global');
   const applyText = tg('apply', 'Apply');
-  const passengersText = tg('passengers', 'Passengers');
+  const passengersText = t('passengers', 'Passengers');
   const { isDesktop } = useMediaViewport();
 
   return (
