@@ -8,6 +8,7 @@ import NewPhoneNumberInput from '../PhoneNumberInput/NewPhoneNumberInput';
 import SelectInput from '../SelectInput/SelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
+import { WidgetProps } from '@rjsf/core';
 
 export const CustomText = (props: any) => {
   const { value, onChange, placeholder, required, id, schema } = props;
@@ -72,6 +73,33 @@ export const CustomPhoneNumber = (props: any) => {
       required={required}
       defaultCode={schema.defaultCode}
       defaultPhoneNumber={schema.default}
+    />
+  );
+};
+
+const getAllTimes = () => {
+  const times = [];
+  for (let i = 0; i < 24; i++) {
+    const hour = i < 10 ? `0${i}` : `${i}`;
+    times.push(`${hour}:00`);
+    times.push(`${hour}:30`);
+  }
+  return times;
+};
+
+export const CustomTimeSelect = (props: WidgetProps) => {
+  const { value, onChange, required, id } = props;
+  const options = getAllTimes().map((time) => ({ label: time, value: time }));
+  return (
+    <SelectInput
+      value={value}
+      onChange={onChange}
+      required={required}
+      options={options}
+      id={id}
+      {...{
+        autoFocus: true,
+      }}
     />
   );
 };

@@ -2,6 +2,7 @@ export const widgets: any = {
   PICKUP_POINT: 'PickupPoint',
   NUMBER_AND_UNIT: 'NumberUnit',
   LANG_GUIDE: 'LanguageGuide',
+  TIME: 'TimeSelect',
 };
 
 export const defaultPickup = {
