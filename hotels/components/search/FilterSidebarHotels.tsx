@@ -39,6 +39,7 @@ export interface FilterSidebarHotelsProps {
   setMinStarRating: React.Dispatch<React.SetStateAction<string>>;
   maxStarRating: string;
   setMaxStarRating: React.Dispatch<React.SetStateAction<string>>;
+  isListView: boolean;
 }
 
 const FilterSidebarHotels = ({
@@ -65,6 +66,7 @@ const FilterSidebarHotels = ({
   setMinStarRating,
   maxStarRating,
   setMaxStarRating,
+  isListView,
 }: FilterSidebarHotelsProps) => {
   const [t] = useTranslation('hotels');
   const filtersText = t('filters', 'Filters');
@@ -189,7 +191,11 @@ const FilterSidebarHotels = ({
 
   return (
     <>
-      <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative">
+      <section
+        className={`hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative ${
+          !isListView ? 'ml-20' : ''
+        }`}
+      >
         <FilterHeader />
         <FilterFormHotels
           limitsPrice={limitsPrice}

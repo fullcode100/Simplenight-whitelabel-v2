@@ -10,6 +10,8 @@ const DISPLAY_DATE_FORMAT = 'MMM DD YYYY';
 
 export const SEARCH_DATE_FORMAT = 'YYYY-MM-DD';
 
+export const NEW_SEARCH_DATE_FORMAT = 'MM/DD';
+
 const DISPLAY_HOUR_FORMAT = 'h:mm A';
 
 const EXACT_HOUR_FORMAT = 'HH:MM:SS';

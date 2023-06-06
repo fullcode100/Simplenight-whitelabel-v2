@@ -3,15 +3,19 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
-import { formatAsDisplayDate, SEARCH_DATE_FORMAT } from 'helpers/dajjsUtils';
+import {
+  formatAsDisplayDate,
+  NEW_SEARCH_DATE_FORMAT,
+} from 'helpers/dajjsUtils';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 import { decodeAddressQueryParam } from 'hotels/helpers/urlHelper';
 
-import LocationPin from 'public/icons/assets/location-pin.svg';
-import CalendarIcon from 'public/icons/assets/calendar.svg';
-import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
+import LocationPin from 'public/icons/assets/location-pin_small.svg';
+import CalendarIcon from 'public/icons/assets/calendar_small.svg';
+import MultiplePersonsIcon from 'public/icons/assets/multiple-persons-small.svg';
+import SearchIcon from 'public/icons/assets/search_small.svg';
 
 interface HotelSearchFormReadStateProps {
   setIsSearching?: (isReading: boolean) => void;
@@ -52,10 +56,10 @@ const HotelSearchFormReadState = ({
   const guests = adults + children;
 
   const startDate = dayjs(startDateQuery as unknown as string).format(
-    SEARCH_DATE_FORMAT,
+    NEW_SEARCH_DATE_FORMAT,
   );
   const endDate = dayjs(endDateQuery as unknown as string).format(
-    SEARCH_DATE_FORMAT,
+    NEW_SEARCH_DATE_FORMAT,
   );
 
   const GUEST_TEXT = usePlural(
@@ -70,33 +74,30 @@ const HotelSearchFormReadState = ({
     roomsLabel,
   );
 
-  const formattedStartDate = startDateQuery
-    ? formatAsDisplayDate(startDate)
-    : '-';
-  const formattedEndDate = endDateQuery ? formatAsDisplayDate(endDate) : '-';
+  const formattedStartDate = startDateQuery ? startDate : '-';
+  const formattedEndDate = endDateQuery ? endDate : '-';
+  const HotelAdress =
+    address
+      ?.toString()
+      .split(', ')
+      .map((item) => decodeAddressQueryParam(item))
+      .join(', ') || '';
 
   const LocationSection = () => (
-    <span>
-      {address
-        ?.toString()
-        .split(', ')
-        .map((item) => decodeAddressQueryParam(item))
-        .join(', ') || ''}
-    </span>
+    <span className="text-xs">{`Hotels in ${HotelAdress.split(
+      ',',
+    )[0].trim()}`}</span>
   );
 
   const OccupancySection = () => (
-    <section className="flex flex-row gap-1">
+    <section className="flex flex-row gap-1 text-xs">
       <span>{guests ?? ' - '} </span>
       <span>{GUEST_TEXT} </span>
-      <Divider />
-      <span>{rooms ?? ' - '}</span>
-      <span>{ROOM_TEXT}</span>
     </section>
   );
 
   const DatesSection = () => (
-    <section>
+    <section className="text-xs">
       <span>{fromLowerCaseToCapitilize(formattedStartDate)}</span>
       <span> {toLabel} </span>
       <span>{fromLowerCaseToCapitilize(formattedEndDate)}</span>
@@ -107,21 +108,19 @@ const HotelSearchFormReadState = ({
     <section className="grid gap-2 font-normal text-dark-1000">
       <section className="flex gap-2">
         <section className="grid w-6 place-items-center">
-          <LocationPin className="text-primary-1000" />
+          <LocationPin />
         </section>
         <LocationSection />
       </section>
       <section className="flex gap-2">
         <section className="grid w-6 place-items-center">
-          <CalendarIcon className="text-primary-1000" />
-        </section>
-        <DatesSection />
-      </section>
-      <section className="flex gap-2">
-        <section className="grid w-6 place-items-center">
-          <MultiplePersonsIcon className="text-primary-1000" />
+          <MultiplePersonsIcon />
         </section>
         <OccupancySection />
+        <section className="grid w-6 place-items-center">
+          <CalendarIcon />
+        </section>
+        <DatesSection />
       </section>
     </section>
   );
@@ -130,19 +129,14 @@ const HotelSearchFormReadState = ({
     setIsSearching(true);
   };
   return (
-    <section className="z-0 flex items-center justify-between px-4 text-sm font-lato">
+    <section className="z-0 flex items-centers justify-between px-4 text-sm font-lato">
       <section className="flex flex-col w-[90%]">
         <OccupancyAndDatesSection />
       </section>
       <section className="flex items-center justify-center w-[25%]">
-        <Button
-          value={editLabel}
-          translationKey="edit"
-          type="contained"
-          className="text-[14px] leading-[14px]"
-          size="full-sm"
-          onClick={handleSearchClick}
-        />
+        <section onClick={handleSearchClick}>
+          <SearchIcon className="text-primary-1000" />
+        </section>
       </section>
     </section>
   );

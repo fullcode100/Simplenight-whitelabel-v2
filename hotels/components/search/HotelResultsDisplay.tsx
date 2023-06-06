@@ -10,6 +10,7 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
 import Button from 'components/global/Button/Button';
 import FiltersIcon from 'public/icons/assets/filters.svg';
+import classNames from 'classnames';
 
 import HotelMapView from './HotelResultsMapView';
 import { EmptyState } from '@simplenight/ui';
@@ -25,7 +26,7 @@ import HorizontalSkeletonCard from 'components/global/HorizontalItemCard/Horizon
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import { useFilterHotels } from '../../hooks/useFilterHotels';
 import { ViewActions } from './ViewActions';
-import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/ListMapMobileBottomTabs';
+import { ListMapMobileBottomTabs } from 'components/global/SearchViewSelector/NewListMapMobileBottomTabs';
 import { HotelResultFallbackImage } from 'hotels/helpers/HotelResultFallbackImage';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import dayjs from 'dayjs';
@@ -214,6 +215,52 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   };
   const hasNoHotels = data?.length === 0;
 
+  const ResultsAndControls = () => (
+    <section className="w-full px-5 z-[1] right-0 block lg:mt-0 lg:absolute lg:px-0">
+      <div
+        className={`${
+          !isOpen && !isListView ? 'px-0 lg:px-60' : 'px-0 lg:px-4'
+        } flex  bg-white mt-2 lg:mt-0 bg-opacity-80 backdrop-blur-6 justify-between pt-4 pb-4 ${
+          !isListView ? ' lg:shadow-container pb-4' : ''
+        }`}
+      >
+        <section className=" text-dark-1000 font-semibold text-[16px] lg:text-[18px] lg:flex lg:justify-between lg:items-center">
+          {!isLoading ? (
+            <>
+              {!isOpen && (
+                <button
+                  className="p-2 mx-2 border-2 rounded-full hover:bg-primary-800 hover:text-white text-primary-1000 border-primary-100"
+                  onClick={() => {
+                    onOpen();
+                  }}
+                >
+                  <FiltersIcon />
+                </button>
+              )}
+              <span>
+                {filteredHotels.length}
+                <span className="lg:hidden"> {hotelsFoundLabel}</span>
+                <span className="hidden lg:inline">
+                  {' '}
+                  {hotelsFoundLabelDesktop}
+                </span>
+              </span>
+            </>
+          ) : (
+            <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
+          )}
+        </section>
+        <section
+          className={`flex items-center gap-4 absolute ${
+            isOpen && !isListView && 'bottom-2'
+          } ${isListView ? 'right-0' : 'right-[194px]'}`}
+        >
+          <ViewActions view={view} setview={setview} />
+        </section>
+      </div>
+    </section>
+  );
+
   const HotelList = () => (
     <ul role="list" className="space-y-4">
       {isLoading ? (
@@ -270,121 +317,90 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   );
 
   return (
-    <>
-      <section className="relative lg:flex lg:w-full">
-        {isOpen && (
-          <section>
-            <FilterSidebarHotels
-              keywordState={keywordState}
-              setKeywordState={setKeywordState}
-              limitsPrice={limitsPrice}
-              filtersCount={filtersCount}
-              setCriteria={setCriteria}
-              keywordSearchData={keywordSearchData}
-              keywordSearch={keywordSearch}
-              setKeywordSearch={setKeywordSearch}
-              sortByVal={sortByVal}
-              setSortByVal={setSortByVal}
-              onClose={onClose}
-              isOpen={isOpen}
-              loading={isLoading}
-              handleFilterHotels={setCriteria}
-              resetFilters={resetCriteria}
-              criteria={criteria}
-              minPrice={minPriceFilter}
-              setMinPrice={setMinPriceFilter}
-              maxPrice={maxPriceFilter}
-              setMaxPrice={setMaxPriceFilter}
-              minStarRating={minStarRating}
-              setMinStarRating={setMinStarRating}
-              maxStarRating={maxStarRating}
-              setMaxStarRating={setMaxStarRating}
-            />
-          </section>
-        )}
-        <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
-          {!isLoading && hasNoHotels ? (
-            <EmptyStateContainer
-              text={noResultsLabel}
-              Icon={EmptyState}
-              width={114}
-              desktopWidth={223}
-            />
-          ) : (
-            <>
-              <section className=" w-full px-5 z-[1] right-0 block my-1 lg:mt-0 lg:absolute lg:top-6  lg:px-0 ">
-                <div
-                  className={`flex bg-white  rounded justify-between py-4 ${
-                    !isListView ? 'px-4 lg:shadow-container' : ''
-                  }`}
-                >
-                  <section className=" text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
+    <div className={classNames({ 'lg:px-20 flex justify-center': isListView })}>
+      <div className={classNames({ 'max-w-7xl': isListView })}>
+        <section className="relative lg:flex lg:w-full">
+          {isOpen && (
+            <section>
+              <FilterSidebarHotels
+                isListView={isListView}
+                keywordState={keywordState}
+                setKeywordState={setKeywordState}
+                limitsPrice={limitsPrice}
+                filtersCount={filtersCount}
+                setCriteria={setCriteria}
+                keywordSearchData={keywordSearchData}
+                keywordSearch={keywordSearch}
+                setKeywordSearch={setKeywordSearch}
+                sortByVal={sortByVal}
+                setSortByVal={setSortByVal}
+                onClose={onClose}
+                isOpen={isOpen}
+                loading={isLoading}
+                handleFilterHotels={setCriteria}
+                resetFilters={resetCriteria}
+                criteria={criteria}
+                minPrice={minPriceFilter}
+                setMinPrice={setMinPriceFilter}
+                maxPrice={maxPriceFilter}
+                setMaxPrice={setMaxPriceFilter}
+                minStarRating={minStarRating}
+                setMinStarRating={setMinStarRating}
+                maxStarRating={maxStarRating}
+                setMaxStarRating={setMaxStarRating}
+              />
+            </section>
+          )}
+          <section className="relative lg:flex-1 h-full lg:mt-0">
+            {!isLoading && hasNoHotels ? (
+              <EmptyStateContainer
+                text={noResultsLabel}
+                Icon={EmptyState}
+                width={114}
+                desktopWidth={300}
+              />
+            ) : (
+              <>
+                <ResultsAndControls />
+                {isListView && (
+                  <section className="w-full h-full px-5 pb-6 lg:px-0 mt-0 lg:mt-16">
+                    <HotelList />
+                  </section>
+                )}
+                {!isListView && (
+                  <section className="w-full h-full">
                     {!isLoading ? (
-                      <>
-                        {!isOpen && (
-                          <button
-                            className="p-2 mx-2 border-2 rounded-full hover:bg-primary-800 hover:text-white text-primary-1000 border-primary-100"
-                            onClick={() => {
-                              onOpen();
-                            }}
-                          >
-                            <FiltersIcon />
-                          </button>
-                        )}
-                        <span>
-                          {filteredHotels.length}
-                          <span className="lg:hidden"> {hotelsFoundLabel}</span>
-                          <span className="hidden lg:inline">
-                            {' '}
-                            {hotelsFoundLabelDesktop}
-                          </span>
-                        </span>
-                      </>
+                      <HotelMapView
+                        HotelCategory={HotelCategory}
+                        items={filteredHotels}
+                        createUrl={urlDetail}
+                      />
                     ) : (
-                      <div className="w-40 h-8 rounded bg-dark-200 animate-pulse"></div>
+                      <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
+                        <HorizontalSkeletonCard />
+                      </div>
                     )}
                   </section>
-                  <section className="flex items-center gap-4">
-                    <ViewActions view={view} setview={setview} />
-                  </section>
-                </div>
-              </section>
-              {isListView && (
-                <section className="w-full h-full px-5 pb-6 lg:px-0 lg:mt-24 ">
-                  <HotelList />
-                </section>
-              )}
-              {!isListView && (
-                <section className="w-full h-full">
-                  {!isLoading ? (
-                    <HotelMapView
-                      HotelCategory={HotelCategory}
-                      items={filteredHotels}
-                      createUrl={urlDetail}
+                )}
+                {filteredHotels.length > next && isListView && (
+                  <section className="text-center">
+                    <Button
+                      onClick={loadMoreResults}
+                      value={'Load More'}
+                      size="w-60 h-11 text-base leading-[18px]"
+                      className="mt-4 mb-12"
                     />
-                  ) : (
-                    <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
-                      <HorizontalSkeletonCard />
-                    </div>
-                  )}
-                </section>
-              )}
-              {filteredHotels.length > next && (
-                <section className="text-center">
-                  <Button
-                    onClick={loadMoreResults}
-                    value={'Load More'}
-                    size="w-60 h-11 text-base leading-[18px]"
-                    className="mt-4 mb-12"
-                  />
-                </section>
-              )}
-            </>
-          )}
+                  </section>
+                )}
+              </>
+            )}
+          </section>
         </section>
-      </section>
-      <ListMapMobileBottomTabs view={view} setview={setview} />
-    </>
+        <section className="w-full bg-red-400">
+          <ListMapMobileBottomTabs view={view} setview={setview} />
+        </section>
+      </div>
+    </div>
   );
 };
 

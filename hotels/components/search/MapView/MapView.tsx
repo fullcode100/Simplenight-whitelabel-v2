@@ -4,7 +4,7 @@ import Carousel from 'react-multi-carousel';
 import { useTranslation } from 'react-i18next';
 
 import CustomArrow from '../../../../components/global/CarouselNew/components/CustomArrow';
-import HorizontalItemCard from '../../../../components/global/HorizontalItemCard/HorizontalItemCard';
+import HorizontalItemCard from '../../../../components/global/HorizontalItemCard/NewHorizontalItemCard';
 import LocationMap from '../../../../components/global/LocationMap/LocationMap';
 import { MapViewProps } from './MapViewTypes';
 import HotelItemRateInfo from 'hotels/components/search/HotelItemRateInfo';
@@ -51,7 +51,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
     },
   };
   return (
-    <>
+    <div className="w-full h-full">
       <section className="relative">
         <LocationMap
           center={{
@@ -65,10 +65,10 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
             },
           ]}
           zoom={17}
-          height={575}
+          height={675}
           locations={locations}
         />
-        <section className="absolute bottom-0 w-full">
+        <section className="absolute bottom-16 w-full">
           <Carousel
             partialVisible={false}
             responsive={responsive}
@@ -143,7 +143,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
           </Carousel>
         </section>
       </section>
-    </>
+    </div>
   );
 };
 
