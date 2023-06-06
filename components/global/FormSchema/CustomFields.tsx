@@ -134,7 +134,7 @@ export const CustomTextArea = (props: any) => {
   );
 };
 
-export const CustomCheckbox = (props: any) => {
+export const CustomCheckbox = (props: WidgetProps) => {
   const { onChange, value, id } = props;
   return (
     <section className="flex items-center h-5">
@@ -150,7 +150,7 @@ export const CustomCheckbox = (props: any) => {
   );
 };
 
-export const CustomToggle = (props: any) => {
+export const CustomToggle = (props: WidgetProps) => {
   const { onChange, value, id } = props;
   return (
     <ToggleSwitch
@@ -160,7 +160,7 @@ export const CustomToggle = (props: any) => {
     />
   );
 };
-export const CustomCountry = (props: any) => {
+export const CustomCountry = (props: WidgetProps) => {
   const { value, onChange, required } = props;
   return (
     <CountrySelect value={value} onChange={onChange} required={required} />
