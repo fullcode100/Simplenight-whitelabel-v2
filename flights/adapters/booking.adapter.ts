@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { IPassenger } from 'flights/components/passenger/inputs';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { Customer } from 'hooks/checkout/useCustomer';
+import valid from 'card-validator';
 
 interface IBookingAdapter {
   customer: Customer | null;
@@ -15,6 +16,34 @@ interface IBookingAdapter {
   flightpassengers: IPassenger[];
   apiUrl: string;
 }
+
+type CreditCardTypes = keyof typeof creditCardTypeCodeMap;
+
+const creditCardTypeCodeMap = {
+  visa: 'VI',
+  'american-express': 'AX',
+  // '': 'BC', (BC Card)
+  mastercard: 'CA',
+  // '': 'CB', (Carte Blanche)
+  unionpay: 'CU',
+  discover: 'DS',
+  'diners-club': 'DC',
+  // '': 'T', (Carta Si)
+  // '': 'R', (Carte Bleue)
+  // '': 'N', (Dankort)
+  // '': 'L', (Delta)
+  // '': 'E', (Electron)
+  jcb: 'JC', // Japan Credit Bureau
+  maestro: 'TO',
+  // '': 'S', (S	Switch)
+  // '': 'EC', (EC	Electronic Cash)
+  // '': 'EU', (EU	EuroCard)
+  // '': 'TP', (Universal air travel card)
+  // '': 'OP', (optima)
+  // '': 'ER', (Air Canada/RnRoute)
+  // '': 'XS', (Access)
+  others: 'O',
+};
 
 export const bookingAdapter = ({
   customer,
@@ -68,10 +97,18 @@ export const bookingAdapter = ({
       creditCardExpiration,
       creditCardCVV,
     } = paymentFormData;
+    const cardData = valid.number(creditCardNumber);
+    let cardType = '';
+    if (cardData.isPotentiallyValid && cardData.card) {
+      cardType = cardData.card.type;
+    }
+    const vendorCode =
+      creditCardTypeCodeMap[cardType as CreditCardTypes] ||
+      creditCardTypeCodeMap.others;
     bookingParameters.creditCardInfo = {
       /* TODO: remove hardcoded data */
       name: creditCardName,
-      vendorCode: 'CA',
+      vendorCode,
       cardNumber: creditCardNumber,
       securityId: creditCardCVV,
       expiryDate: creditCardExpiration.replace('/', ''),
