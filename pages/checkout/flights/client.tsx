@@ -95,7 +95,7 @@ const Client = () => {
   const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(true);
 
-  const primaryContactText = t('orderName', 'Order Name');
+  const primaryContactText = t('passengerName', 'Passenger Name');
   const cancelButton = t('cancel', 'Cancel');
   const continueButton = t('continue', 'Continue');
   const continueShoppingText = t('continueShopping', 'Continue Shopping');

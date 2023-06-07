@@ -19,7 +19,7 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
 
   const [t] = useTranslation('flights');
   const departureLabel = t('departure', 'Departure');
-  const arrivalLabel = t('arrival', 'Arrival');
+  const arrivalLabel = t('return', 'Return');
   const MobileFlightInfo = ({
     title,
     fare,
