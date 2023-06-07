@@ -39,26 +39,26 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
         >
           {title}
         </Paragraph>
-        <div className="flex gap-1 items-center">
-          <CalendarIcon className="h-4 w-4 text-primary-600" />
+        <div className="flex items-center gap-1">
+          <CalendarIcon className="w-4 h-4 text-primary-600" />
           <Paragraph>{date}</Paragraph>
         </div>
-        <div className="flex gap-1 items-center">
-          <SeatIcon className="h-4 w-4 text-primary-600" />
+        <div className="flex items-center gap-1">
+          <SeatIcon className="w-4 h-4 text-primary-600" />
           <Paragraph>{fare}</Paragraph>
         </div>
       </div>
     );
   };
 
-  const offer = item?.item_data.offer;
-  const flights = item?.item_data.segments;
+  const offer = item?.item_data.booking.offer;
+  const flights = item?.item_data.booking.segments;
   const firstFlight = flights[0];
   const lastFlight = flights[flights.length - 1];
 
   return (
     <div className="p-4 border-y border-dark-300">
-      <div className="block lg:hidden space-y-4">
+      <div className="block space-y-4 lg:hidden">
         <MobileFlightInfo
           title={departureLabel}
           date={formatDate(firstFlight.collection[0].departureDateTime)}
@@ -73,10 +73,10 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
           fare={lastFlight.offer?.cabinName}
         />
       </div>
-      <div className="hidden lg:block space-y-4">
+      <div className="hidden space-y-4 lg:block">
         <table className="w-full">
           <thead className="text-dark-700">
-            <th className="text-left pl-4">Cities</th>
+            <th className="pl-4 text-left">Cities</th>
             <th>Departure</th>
             <th>Arrival</th>
             <th className="text-right">Fare</th>
