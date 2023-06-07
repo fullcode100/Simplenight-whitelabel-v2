@@ -505,8 +505,8 @@ const FlightSearchForm = () => {
     hidden: direction !== 'multicity' || router.pathname === '/' || !isDesktop,
   });
 
-  const classNameDatepicker = classnames('flex gap-4 lg:mt-0 lg:w-full', {
-    'max-w-xs': direction !== 'round_trip',
+  const classNameDatepicker = classnames('flex gap-4 lg:mt-0 w-full', {
+    'lg:max-w-xs': direction !== 'round_trip',
   });
 
   const fisrtLeavingFrom =

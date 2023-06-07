@@ -26,7 +26,7 @@ export const bookingAdapter = ({
   const totalFlights = flights.length;
   let adultsCount = 0;
   let noAdultsCount = 0;
-  const passenger = passengers.map((passenger) => {
+  const passengers = passengers.map((passenger) => {
     let finalId = '';
     if (passenger.passengerType === 'ADT') {
       adultsCount++;
@@ -51,7 +51,7 @@ export const bookingAdapter = ({
 
   const bookingParameters = {
     customer,
-    passenger,
+    passengers,
     segments: flights.map((item) => {
       const { collection } = item.segments;
       return { collection };
