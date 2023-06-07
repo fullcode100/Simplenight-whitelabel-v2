@@ -31,6 +31,7 @@ import {
   CancelationPolicy,
   Sector,
   Rate,
+  Row,
 } from 'showsAndEvents/types/response/ShowsDetailResponse';
 import {
   formatAsDisplayDatetime,
@@ -96,11 +97,12 @@ const ShowAndEventsDetailDisplay = ({
   const sectorLabel = t('sector', 'Sector');
   const thingsToDoLabel = t('shows', 'Shows');
   const resultsLabel = t('results', 'Results');
+  const rowLabel = t('row', 'Row');
 
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
   useEffect(() => {
-    if (sectors?.length) {
+    if (sectors) {
       const newSortedSectors = [...sectors];
       newSortedSectors.forEach(({ rows }) =>
         rows.sort(
@@ -446,10 +448,13 @@ const ShowAndEventsDetailDisplay = ({
   const filterSectorsSearch = (e: any) => {
     const { value } = e.target;
     if (value) {
-      const searchSectors = groupBySectors(data?.seats)?.filter(({ title }) =>
-        title.toLowerCase().includes(value.toLowerCase()),
-      );
-      setSectors(searchSectors);
+      const searchSectors = data?.seats.filter((seat: Row) => {
+        const section = seat.section;
+        const row = seat.row;
+        const titleLine = `${rowLabel} ${row} ${sectorLabel} ${section}`;
+        return titleLine.toLowerCase().includes(value.toLowerCase());
+      });
+      setSectors(groupBySectors(searchSectors));
     } else {
       setSectors(groupBySectors(data?.seats));
     }
