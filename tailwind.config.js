@@ -110,6 +110,9 @@ module.exports = {
           1000: '#0DADB9',
         },
         'primary-light': 'var(--primary-light-color)',
+        header: '#FBFBFB',
+        'sub-header': '#183159',
+        footer: '#FCFCFC',
       },
       fontSize: {
         '0xs': '0.75rem',
