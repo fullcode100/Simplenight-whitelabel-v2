@@ -51,8 +51,7 @@ const FilterForm = ({
         keywordSearchPlaceholder={keywordSearchFilter.keywordSearchPlaceholder}
         onChangeKeywordSearch={keywordSearchFilter.onChangeKeywordSearch}
         keywordSearchData={keywordSearchFilter.keywordSearchData}
-        keywordState={keywordSearchFilter.keywordState}
-        setKeywordState={keywordSearchFilter.setKeywordState}
+        setKeywordSearch={keywordSearchFilter.setKeywordSearch}
       />
       <div className="w-full h-px bg-dark-300" />
 

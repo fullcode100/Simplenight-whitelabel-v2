@@ -35,6 +35,12 @@ import useModal from 'hooks/layoutAndUITooling/useModal';
 import getKeywordSearchListHotels from '../helpers/getKeywordSearchListHotels';
 import { getPriceLimits } from 'hotels/helpers/getPriceLimits';
 import useMediaViewport from 'hooks/media/useMediaViewport';
+import { Option } from 'components/global/MultipleSelect/MultipleSelect';
+import { getAmenitiesOptions } from 'hotels/helpers/getAmenitiesOptions';
+import getFilterCountHotels from 'hotels/helpers/getFilterCountHotels';
+import { getInitialPriceLimits } from 'hotels/helpers/getInitialPriceLimits';
+import { useFilterAppliedStore } from 'hooks/hotels/useFilterAppliedStore';
+import VerticalSkeletonCard from 'components/global/VerticalItemCard/VerticalSkeletonCard';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -65,6 +71,22 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   const { clear, criteria, setCriteria } = useSearchFilterStore(
     (state) => state,
   );
+  const {
+    sortByVal,
+    keywordSearch,
+    minPriceFilter,
+    maxPriceFilter,
+    minStarRating,
+    maxStarRating,
+    selectedAmenities,
+    setSortByVal,
+    setKeywordSearch,
+    setMinPriceFilter,
+    setMaxPriceFilter,
+    setMinStarRating,
+    setMaxStarRating,
+    setSelectedAmenities,
+  } = useFilterAppliedStore((state) => state);
   const { ClientSearcher: Searcher } = HotelCategory.core;
   const [t, i18next] = useTranslation('hotels');
   const hotelsFoundLabel = t('hotelsFound', 'Hotels Found');
@@ -85,7 +107,6 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     slug,
   } = useQuery();
 
-  const [sortByVal, setSortByVal] = useState<string>('recommended');
   const [hotels, setHotels] = useState<SearchItem[]>([]);
   const [view, setview] = useState('list');
   const isListView = view === 'list';
@@ -93,39 +114,28 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const [isOpen, onOpen, onClose] = useModal();
   const [keywordSearchData, setKeywordSearchData] = useState<string[]>([]);
-  const [keywordState, setKeywordState] = useState<string>(
-    criteria.keywordSearch,
-  );
+  const [amenitiesOptions, setAmenitiesOptions] = useState<Option[]>([]);
 
   useEffect(() => {
     isDesktop && onOpen();
   }, [isDesktop]);
-
-  const [minPriceFilter, setMinPriceFilter] = useState<number>(
-    parseInt(criteria.MinPrice),
-  );
-  const [maxPriceFilter, setMaxPriceFilter] = useState<number>(
-    parseInt(criteria.MaxPrice),
-  );
-  const [minStarRating, setMinStarRating] = useState<string>(criteria.MinRange);
-  const [maxStarRating, setMaxStarRating] = useState<string>(criteria.MaxRange);
-  const [keywordSearch, setKeywordSearch] = useState<string>(
-    criteria.keywordSearch,
-  );
-
   const [filtersCount, setFiltersCount] = useState(0);
 
   const [next, setNext] = useState(RESULTS_PER_PAGE);
 
-  const [limitsPrice, setLimitsPrice] = useState<number[]>([0, 5000]);
+  const [limitsPrice, setLimitsPrice] = useState<number[]>([]);
 
   const loadMoreResults = () => {
     setNext(next + RESULTS_PER_PAGE);
   };
 
   const resetCriteria = () => {
-    clear();
-    setLimitsPrice(getPriceLimits(data as SearchItem[]));
+    let amenitiesOptions: Option[] = [];
+    const initialPriceLimits = getInitialPriceLimits(data as SearchItem[]);
+    if (data) {
+      amenitiesOptions = getAmenitiesOptions(data);
+    }
+    clear(amenitiesOptions, initialPriceLimits);
   };
 
   const paramRoomsData = roomsData
@@ -169,12 +179,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
   );
 
-  const filteredHotels = useFilterHotels(
-    hotels,
-    criteria,
-    setFiltersCount,
-    limitsPrice,
-  );
+  const filteredHotels = useFilterHotels(hotels, criteria);
 
   useEffect(() => {
     if (data) {
@@ -183,31 +188,71 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   }, [data]);
 
   useEffect(() => {
+    if (data) {
+      const initialPriceLimits = getInitialPriceLimits(data);
+      const initialAmenitiesOptions = getAmenitiesOptions(data);
+      setAmenitiesOptions(initialAmenitiesOptions);
+      setCriteria({
+        keywordSearch: keywordSearch,
+        MaxPrice: initialPriceLimits[1].toString(),
+        MinPrice: initialPriceLimits[0].toString(),
+        MaxRange: maxStarRating,
+        MinRange: minStarRating,
+        sortCriteria: sortByVal,
+        selectedAmenities:
+          selectedAmenities.length > 0
+            ? selectedAmenities
+            : initialAmenitiesOptions,
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (selectedAmenities.length === 0) {
+      setSelectedAmenities(amenitiesOptions);
+    }
+  }, [amenitiesOptions, criteria]);
+
+  useEffect(() => {
     getKeywordSearchListHotels(filteredHotels, setKeywordSearchData);
   }, [filteredHotels]);
 
   useEffect(() => {
-    if (data) {
-      setLimitsPrice(getPriceLimits(data));
+    if (data && criteria.selectedAmenities.length > 0) {
+      setLimitsPrice(getPriceLimits(data, criteria));
     }
-  }, [data, criteria.MaxRange, criteria.MinRange, criteria.keywordSearch]);
+  }, [
+    data,
+    criteria.MaxRange,
+    criteria.MinRange,
+    criteria.keywordSearch,
+    criteria.selectedAmenities,
+  ]);
 
   useEffect(() => {
-    if (parseInt(criteria.MinPrice) < limitsPrice[0]) {
-      setMinPriceFilter(limitsPrice[0]);
-      setCriteria({
-        ...criteria,
-        MinPrice: String(limitsPrice[0]),
-      });
+    let newMinPrice = minPriceFilter;
+    let newMaxPrice = maxPriceFilter;
+    if (minPriceFilter <= limitsPrice[0] || minPriceFilter >= limitsPrice[1]) {
+      newMinPrice = limitsPrice[0];
     }
-    if (parseInt(criteria.MaxPrice) > limitsPrice[1]) {
-      setMaxPriceFilter(limitsPrice[1]);
-      setCriteria({
-        ...criteria,
-        MaxPrice: String(limitsPrice[1]),
-      });
+    if (maxPriceFilter >= limitsPrice[1] || maxPriceFilter <= limitsPrice[0]) {
+      newMaxPrice = limitsPrice[1];
     }
+    setMinPriceFilter(newMinPrice);
+    setMaxPriceFilter(newMaxPrice);
+    setCriteria({
+      ...criteria,
+      MinPrice: String(newMinPrice),
+      MaxPrice: String(newMaxPrice),
+    });
   }, [limitsPrice]);
+
+  useEffect(() => {
+    if (limitsPrice.length === 0) return;
+    setFiltersCount(
+      getFilterCountHotels(criteria, limitsPrice, amenitiesOptions.length),
+    );
+  }, [criteria, limitsPrice]);
 
   const urlDetail = (hotel: SearchItem) => {
     const { id } = hotel;
@@ -317,38 +362,47 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   );
 
   return (
-    <div className={classNames({ 'lg:px-20 flex justify-center': isListView })}>
+    <div
+      className={classNames({
+        'lg:px-20 flex justify-center': isListView,
+      })}
+    >
       <div className={classNames({ 'max-w-7xl': isListView })}>
         <section className="relative lg:flex lg:w-full">
           {isOpen && (
             <section>
-              <FilterSidebarHotels
-                isListView={isListView}
-                keywordState={keywordState}
-                setKeywordState={setKeywordState}
-                limitsPrice={limitsPrice}
-                filtersCount={filtersCount}
-                setCriteria={setCriteria}
-                keywordSearchData={keywordSearchData}
-                keywordSearch={keywordSearch}
-                setKeywordSearch={setKeywordSearch}
-                sortByVal={sortByVal}
-                setSortByVal={setSortByVal}
-                onClose={onClose}
-                isOpen={isOpen}
-                loading={isLoading}
-                handleFilterHotels={setCriteria}
-                resetFilters={resetCriteria}
-                criteria={criteria}
-                minPrice={minPriceFilter}
-                setMinPrice={setMinPriceFilter}
-                maxPrice={maxPriceFilter}
-                setMaxPrice={setMaxPriceFilter}
-                minStarRating={minStarRating}
-                setMinStarRating={setMinStarRating}
-                maxStarRating={maxStarRating}
-                setMaxStarRating={setMaxStarRating}
-              />
+              {isLoading ? (
+                <VerticalSkeletonCard />
+              ) : (
+                <FilterSidebarHotels
+                  isListView={isListView}
+                  limitsPrice={limitsPrice}
+                  filtersCount={filtersCount}
+                  setCriteria={setCriteria}
+                  keywordSearchData={keywordSearchData}
+                  keywordSearch={keywordSearch}
+                  setKeywordSearch={setKeywordSearch}
+                  sortByVal={sortByVal}
+                  setSortByVal={setSortByVal}
+                  onClose={onClose}
+                  isOpen={isOpen}
+                  loading={isLoading}
+                  handleFilterHotels={setCriteria}
+                  resetFilters={resetCriteria}
+                  criteria={criteria}
+                  minPrice={minPriceFilter}
+                  setMinPrice={setMinPriceFilter}
+                  maxPrice={maxPriceFilter}
+                  setMaxPrice={setMaxPriceFilter}
+                  minStarRating={minStarRating}
+                  setMinStarRating={setMinStarRating}
+                  maxStarRating={maxStarRating}
+                  setMaxStarRating={setMaxStarRating}
+                  amenitiesOptions={amenitiesOptions}
+                  selectedAmenities={selectedAmenities}
+                  setSelectedAmenities={setSelectedAmenities}
+                />
+              )}
             </section>
           )}
           <section className="relative lg:flex-1 h-full lg:mt-0">

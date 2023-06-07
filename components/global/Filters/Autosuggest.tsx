@@ -7,16 +7,15 @@ interface AutosuggestProps {
   onChangeKeywordSearch: any;
   keywordSearchPlaceholder: string;
   keywordSearch: string;
-  keywordState: string;
-  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
+  setKeywordSearch: (newKeywordSearch: string) => void;
 }
 
 const Autosuggest = ({
   keywordSearchData,
   onChangeKeywordSearch,
   keywordSearchPlaceholder,
-  keywordState,
-  setKeywordState,
+  keywordSearch,
+  setKeywordSearch,
 }: AutosuggestProps) => {
   const suggestions: string[] = keywordSearchData || [];
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -27,17 +26,17 @@ const Autosuggest = ({
       (suggestion) => suggestion.toLowerCase().indexOf(input) > -1,
     );
     setFilteredSuggestions(filtered);
-    setKeywordState(event.target.value);
+    setKeywordSearch(event.target.value);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     onChangeKeywordSearch(suggestion);
-    setKeywordState(suggestion);
+    setKeywordSearch(suggestion);
     setFilteredSuggestions([]);
   };
 
   const renderSuggestions = () => {
-    if (keywordState.length <= 2) return;
+    if (keywordSearch.length <= 2) return;
     if (filteredSuggestions.length === 0) {
       return null;
     }
@@ -58,12 +57,12 @@ const Autosuggest = ({
 
   return (
     <div className="relative">
-      {keywordState && (
+      {keywordSearch && (
         <section
           className="absolute z-10 right-2 top-2"
           onClick={() => {
             onChangeKeywordSearch('');
-            setKeywordState('');
+            setKeywordSearch('');
           }}
         >
           <CloseIcon className="text-dark-700 cursor-pointer" />
@@ -73,7 +72,7 @@ const Autosuggest = ({
       <input
         type="text"
         className="focus:ring-primary-500 focus:border-primary-500 block w-full h-11 sm:text-sm border-gray-300 rounded pl-10 pr-9 truncate "
-        value={keywordState}
+        value={keywordSearch}
         onChange={handleChange}
         placeholder={keywordSearchPlaceholder}
       />

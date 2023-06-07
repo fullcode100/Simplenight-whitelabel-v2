@@ -60,7 +60,6 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
     (item) => item.date === dayjs(selectedDate).format('YYYY-MM-DD'),
   );
   const openingTime = selectedOpeningTime?.[0];
-  const isOpened = !!openingTime?.times?.length;
   const [t, i18n] = useTranslation('dining');
   const overviewLabel = t('overview');
   const locationLabel = t('location');
@@ -72,6 +71,8 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   const reviewsRef = useRef<HTMLDivElement>(null);
 
   const selectedDay = new Date(selectedDate).getDay();
+  const hasHours = data?.hours[0].open.find((i) => i.day === selectedDay);
+  const isOpened = hasHours ? true : false;
 
   const available = data?.hours?.[0]?.open;
   const availableHours: string[] | undefined = available?.reduce(

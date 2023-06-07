@@ -51,8 +51,6 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   const sortByDistance = t('sortByDistance', 'Distance');
   const setQueryParams = useQuerySetter();
   const {
-    lang,
-    covers,
     startDate,
     endDate,
     latitude,
@@ -61,6 +59,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     sort_by,
     slug,
     keyword,
+    address,
   } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
   const [sortByVal, setSortByVal] = useState(
@@ -70,6 +69,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   );
   const [restaurants, setRestaurants] = useState<Dining[]>([]);
   const { ClientSearcher: Searcher } = Category.core;
+  const isPhilippines = address?.toString().endsWith('Philippines');
 
   const params: DiningSearchRequest = {
     covers: '2',
@@ -102,9 +102,13 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
 
   useEffect(() => {
     if (data) {
-      setRestaurants(data.items);
+      setRestaurants(
+        isPhilippines
+          ? data.items.filter((i: Dining) => i.allows_reservation === false)
+          : data.items,
+      );
     }
-  }, [data]);
+  }, [data, isPhilippines]);
 
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';

@@ -1,4 +1,4 @@
-import getFilterCountHotels from 'hotels/helpers/getFilterCountHotels';
+import { Option } from 'components/global/MultipleSelect/MultipleSelect';
 import { SearchItem } from 'hotels/types/adapters/SearchItem';
 import { useEffect, useState } from 'react';
 
@@ -8,19 +8,15 @@ export interface FilterCriteria {
   MaxRange: string;
   MinRange: string;
   keywordSearch: string;
-  sortCriteria?:
-    | 'priceLowFirst'
-    | 'priceHighFirst'
-    | 'ratingLowFirst'
-    | 'ratingHighFirst'
-    | 'recommended';
+  sortCriteria: string;
+  selectedAmenities: Option[];
 }
 
 type FilterFunction = (list: SearchItem[], value: any) => SearchItem[];
 
-type FilterFunctionKeys = keyof typeof criteriaFilterFunctions;
+export type FilterFunctionKeys = keyof typeof criteriaFilterFunctions;
 
-const criteriaFilterFunctions: {
+export const criteriaFilterFunctions: {
   [key in keyof FilterCriteria]: FilterFunction;
 } = {
   MinPrice: (list, value) =>
@@ -39,25 +35,33 @@ const criteriaFilterFunctions: {
     list.filter((hotel) =>
       hotel.details.name.toUpperCase().match(value.toUpperCase()),
     ),
+  selectedAmenities: (list, value) =>
+    list.filter((hotel) => {
+      return Boolean(
+        value.find((option: Option) =>
+          hotel.details.sn_amenities?.includes(option.value),
+        ),
+      );
+    }),
   sortCriteria: (list, value) => {
     switch (value) {
-      case 'priceLowFirst':
+      case 'sortByPriceAsc':
         return list.sort(
           (a, b) =>
             a.minRate.avg_amount.avg_amount.amount -
             b.minRate.avg_amount.avg_amount.amount,
         );
-      case 'priceHighFirst':
+      case 'sortByPriceDesc':
         return list.sort(
           (a, b) =>
             b.minRate.avg_amount.avg_amount.amount -
             a.minRate.avg_amount.avg_amount.amount,
         );
-      case 'ratingHighFirst':
+      case 'sortByStarRatingDesc':
         return list.sort(
           (a, b) => Number(b.details.starRating) - Number(a.details.starRating),
         );
-      case 'ratingLowFirst':
+      case 'sortByStarRatingAsc':
         return list.sort(
           (a, b) => Number(a.details.starRating) - Number(b.details.starRating),
         );
@@ -71,8 +75,6 @@ const criteriaFilterFunctions: {
 export const useFilterHotels = (
   hotels: SearchItem[],
   criteria: FilterCriteria,
-  setFiltersCount: any,
-  limits: number[],
 ) => {
   const [filteredArray, setFilteredArray] = useState(hotels);
 
@@ -90,7 +92,6 @@ export const useFilterHotels = (
     });
 
     setFilteredArray(filtered);
-    setFiltersCount(getFilterCountHotels(criteria, limits));
   }, [hotels, criteria]);
 
   return filteredArray;

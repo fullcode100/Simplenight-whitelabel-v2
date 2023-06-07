@@ -23,9 +23,10 @@ const SelectInput = ({
   ...others
 }: SelectInputProps) => {
   const { register } = useFormContext();
+  const registeredId = id ?? 'root_DELIVERY_METHOD';
   return (
     <select
-      {...register('root_DELIVERY_METHOD')}
+      {...register(registeredId)}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       autoFocus={true}
