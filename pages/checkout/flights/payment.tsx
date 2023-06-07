@@ -92,7 +92,7 @@ const Payment = () => {
       customer,
       paymentFormData,
       flights,
-      passengers,
+      flightpassengers: passengers,
       apiUrl: '/flights/bookings',
     });
 
