@@ -146,7 +146,7 @@ const PassengerInformationDisplay = ({
     const bookingParameters = bookingAdapter({
       customer,
       flights,
-      passengers,
+      flightpassengers: passengers,
       apiUrl: '/flights/bookings/validate',
     });
 
