@@ -12,7 +12,7 @@ interface IBookingAdapter {
     creditCardCVV: string;
   };
   flights: FlightItem[];
-  passengers: IPassenger[];
+  flightpassengers: IPassenger[];
   apiUrl: string;
 }
 
@@ -20,13 +20,13 @@ export const bookingAdapter = ({
   customer,
   paymentFormData,
   flights,
-  passengers,
+  flightpassengers,
   apiUrl,
 }: IBookingAdapter): any => {
   const totalFlights = flights.length;
   let adultsCount = 0;
   let noAdultsCount = 0;
-  const passengers = passengers.map((passenger) => {
+  const passengers = flightpassengers.map((passenger) => {
     let finalId = '';
     if (passenger.passengerType === 'ADT') {
       adultsCount++;
