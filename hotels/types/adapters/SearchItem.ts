@@ -14,6 +14,7 @@ export interface Details {
   name: string;
   fullAddress: Address;
   starRating: string;
+  sn_amenities?: string[];
 }
 
 export interface Address {

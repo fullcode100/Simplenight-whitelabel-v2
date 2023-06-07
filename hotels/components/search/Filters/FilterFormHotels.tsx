@@ -11,12 +11,15 @@ import StarRangeFilter, {
   StarRangeFilterProps,
 } from 'components/global/Filters/StarRange';
 import { useTranslation } from 'react-i18next';
+import { Option } from 'components/global/MultipleSelect/MultipleSelect';
+import AmenitiesFilter, { AmenitiesFilterProps } from './AmenitiesFilter';
 
 interface Props {
   limitsPrice: number[];
   priceRangeFilter: PriceRangeFilterProps;
   starRangeFilter: StarRangeFilterProps;
   keywordSearchFilter: KeywordSearchFilterProps;
+  amenitiesFilter: AmenitiesFilterProps;
   sortBySelect: any;
   className?: string;
 }
@@ -31,11 +34,13 @@ const FilterFormHotels = ({
   starRangeFilter,
   keywordSearchFilter,
   sortBySelect,
+  amenitiesFilter,
   className,
 }: Props) => {
   const [t] = useTranslation('global');
   const priceLabel = t('price', 'Price');
   const ratingLabel = t('rating', 'Rating');
+  const amenitiesLabel = t('amenities', 'Amenities');
   return (
     <div className={`h-full w-full overflow-hidden ${className}`}>
       <SortBy
@@ -44,12 +49,11 @@ const FilterFormHotels = ({
       />
       <KeywordSearchFilter
         keywordSearch={keywordSearchFilter.keywordSearch}
+        setKeywordSearch={keywordSearchFilter.setKeywordSearch}
         keywordSearchLabel={keywordSearchFilter.keywordSearchLabel}
         keywordSearchPlaceholder={keywordSearchFilter.keywordSearchPlaceholder}
         onChangeKeywordSearch={keywordSearchFilter.onChangeKeywordSearch}
         keywordSearchData={keywordSearchFilter.keywordSearchData}
-        keywordState={keywordSearchFilter.keywordState}
-        setKeywordState={keywordSearchFilter.setKeywordState}
       />
       <Divider className="my-6" />
       <CollapseUnbordered
@@ -80,6 +84,18 @@ const FilterFormHotels = ({
         initialState
       />
       <Divider className="my-6" />
+      <CollapseUnbordered
+        title={<Heading tag="h5">{amenitiesLabel}</Heading>}
+        body={
+          <AmenitiesFilter
+            amenitiesOptions={amenitiesFilter.amenitiesOptions}
+            selectedAmenities={amenitiesFilter.selectedAmenities}
+            onChangeAmenities={amenitiesFilter.onChangeAmenities}
+            handleDeleteAmenity={amenitiesFilter.handleDeleteAmenity}
+          />
+        }
+        initialState
+      />
     </div>
   );
 };

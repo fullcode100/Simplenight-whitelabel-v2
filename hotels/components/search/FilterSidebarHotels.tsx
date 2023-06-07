@@ -13,18 +13,17 @@ import {
 } from './HotelResultsDisplay';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import FilterFormHotels from './Filters/FilterFormHotels';
+import { Option } from 'components/global/MultipleSelect/MultipleSelect';
 
 export interface FilterSidebarHotelsProps {
-  keywordState: string;
-  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
   limitsPrice: number[];
   filtersCount: number;
   setCriteria: (criteria: FilterCriteria) => void;
   keywordSearchData: string[];
   keywordSearch: string;
-  setKeywordSearch: React.Dispatch<React.SetStateAction<string>>;
+  setKeywordSearch: (newKeywordSearch: string) => void;
   sortByVal: string;
-  setSortByVal: React.Dispatch<React.SetStateAction<string>>;
+  setSortByVal: (newSortByVal: string) => void;
   isOpen: any;
   onClose: any;
   handleFilterHotels: (criteria: FilterCriteria) => void;
@@ -32,19 +31,20 @@ export interface FilterSidebarHotelsProps {
   resetFilters: () => void;
   criteria: FilterCriteria;
   minPrice: number;
-  setMinPrice: React.Dispatch<React.SetStateAction<number>>;
+  setMinPrice: (newMinPrice: number) => void;
   maxPrice: number;
-  setMaxPrice: React.Dispatch<React.SetStateAction<number>>;
+  setMaxPrice: (newMaxPrice: number) => void;
   minStarRating: string;
-  setMinStarRating: React.Dispatch<React.SetStateAction<string>>;
+  setMinStarRating: (newMinStarRating: string) => void;
   maxStarRating: string;
-  setMaxStarRating: React.Dispatch<React.SetStateAction<string>>;
+  setMaxStarRating: (newMaxStarRating: string) => void;
+  amenitiesOptions: Option[];
+  selectedAmenities: Option[];
+  setSelectedAmenities: (newSelectedAmenities: Option[]) => void;
   isListView: boolean;
 }
 
 const FilterSidebarHotels = ({
-  keywordState,
-  setKeywordState,
   limitsPrice,
   filtersCount,
   setCriteria,
@@ -66,6 +66,9 @@ const FilterSidebarHotels = ({
   setMinStarRating,
   maxStarRating,
   setMaxStarRating,
+  amenitiesOptions,
+  selectedAmenities,
+  setSelectedAmenities,
   isListView,
 }: FilterSidebarHotelsProps) => {
   const [t] = useTranslation('hotels');
@@ -81,11 +84,17 @@ const FilterSidebarHotels = ({
     setMaxStarRating(MAX_STAR_RATING_INITIAL_VALUE);
     setSortByVal(SORTBY_INITIAL_VALUE);
     setKeywordSearch('');
-    setKeywordState('');
+    setSelectedAmenities([]);
+    setMinPrice(0);
+    setMaxPrice(5000);
   };
 
   const handleCloseModal = () => {
     onClose();
+  };
+
+  const handleDeleteAmenity = () => {
+    setSelectedAmenities([]);
   };
 
   const onChangeMinPrice = (value: string) => {
@@ -113,16 +122,16 @@ const FilterSidebarHotels = ({
     setSortByVal(value);
     switch (typedValue) {
       case 'sortByStarRatingAsc':
-        setCriteria({ ...criteria, sortCriteria: 'ratingLowFirst' });
+        setCriteria({ ...criteria, sortCriteria: 'sortByStarRatingAsc' });
         break;
       case 'sortByStarRatingDesc':
-        setCriteria({ ...criteria, sortCriteria: 'ratingHighFirst' });
+        setCriteria({ ...criteria, sortCriteria: 'sortByStarRatingDesc' });
         break;
       case 'sortByPriceAsc':
-        setCriteria({ ...criteria, sortCriteria: 'priceLowFirst' });
+        setCriteria({ ...criteria, sortCriteria: 'sortByPriceAsc' });
         break;
       case 'sortByPriceDesc':
-        setCriteria({ ...criteria, sortCriteria: 'priceHighFirst' });
+        setCriteria({ ...criteria, sortCriteria: 'sortByPriceDesc' });
         break;
       case 'recommended':
         setCriteria({ ...criteria, sortCriteria: 'recommended' });
@@ -135,14 +144,31 @@ const FilterSidebarHotels = ({
     setCriteria({ ...criteria, keywordSearch: value });
   };
 
+  const onChangeAmenities = (newOption: Option) => {
+    if (selectedAmenities.includes(newOption)) {
+      if (selectedAmenities.length === 1) return;
+      const amenitiesChanged = selectedAmenities.filter(
+        (option) => option.value !== newOption.value,
+      );
+      setSelectedAmenities(amenitiesChanged);
+      setCriteria({ ...criteria, selectedAmenities: amenitiesChanged });
+    } else {
+      const newSelectedAmenities = [...selectedAmenities, newOption];
+      setCriteria({
+        ...criteria,
+        selectedAmenities: newSelectedAmenities,
+      });
+      setSelectedAmenities(newSelectedAmenities);
+    }
+  };
+
   const keywordSearchFilter = {
     keywordSearchLabel: keywordSearchLabel,
     keywordSearch,
+    setKeywordSearch,
     onChangeKeywordSearch,
     keywordSearchPlaceholder: searchKeywordPlaceholder,
     keywordSearchData,
-    setKeywordState,
-    keywordState,
   };
 
   const sortByselect = {
@@ -163,6 +189,13 @@ const FilterSidebarHotels = ({
     onChangeMinRating,
     onChangeMaxRating,
     starRatingLabel,
+  };
+
+  const amenitiesFilter = {
+    selectedAmenities,
+    onChangeAmenities,
+    handleDeleteAmenity,
+    amenitiesOptions,
   };
 
   const FilterHeader = () => (
@@ -192,7 +225,7 @@ const FilterSidebarHotels = ({
   return (
     <>
       <section
-        className={`hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative ${
+        className={`hidden lg:block lg:min-w-[16rem] lg:max-w-[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative ${
           !isListView ? 'ml-20' : ''
         }`}
       >
@@ -203,6 +236,7 @@ const FilterSidebarHotels = ({
           priceRangeFilter={priceRangeFilter}
           starRangeFilter={starRangeFilter}
           keywordSearchFilter={keywordSearchFilter}
+          amenitiesFilter={amenitiesFilter}
         />
       </section>
       <section className="lg:hidden">
@@ -222,6 +256,7 @@ const FilterSidebarHotels = ({
             priceRangeFilter={priceRangeFilter}
             starRangeFilter={starRangeFilter}
             keywordSearchFilter={keywordSearchFilter}
+            amenitiesFilter={amenitiesFilter}
             className="px-5 py-6"
           />
         </FullScreenModal>

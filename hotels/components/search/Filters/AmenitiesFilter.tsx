@@ -10,30 +10,30 @@ import { AMENITIES_OPTIONS } from 'hotels/constants/amenities';
 
 import CloseIcon from 'public/icons/assets/close.svg';
 
-interface AmenitiesFilterProps {
+export interface AmenitiesFilterProps {
   selectedAmenities: Option[];
   onChangeAmenities: (value: Option) => void;
   handleDeleteAmenity: (value: Option) => void;
+  amenitiesOptions: Option[];
 }
 
 const AmenitiesFilter = ({
   selectedAmenities,
   onChangeAmenities,
   handleDeleteAmenity,
+  amenitiesOptions,
 }: AmenitiesFilterProps) => {
   const [t, i18n] = useTranslation('hotels');
-  const amenitiesText = t('amenities', 'Amenities');
 
   return (
     <FilterContainer>
-      <FilterTitle label={amenitiesText} />
       <MultipleSelect
-        options={AMENITIES_OPTIONS}
+        options={amenitiesOptions}
         values={selectedAmenities}
         onChange={onChangeAmenities}
         translation="hotels"
       />
-      <section className="flex flex-wrap gap-3 mt-6">
+      <section className="flex flex-wrap gap-3 mt-6 pb-6">
         {selectedAmenities.map((amenity) => (
           <section
             key={amenity.value}
@@ -42,7 +42,7 @@ const AmenitiesFilter = ({
             {t(amenity.label)}
             <button
               className="text-base text-dark-1000"
-              onClick={() => handleDeleteAmenity(amenity)}
+              onClick={() => onChangeAmenities(amenity)}
             >
               <CloseIcon className="text-dark-800" />
             </button>

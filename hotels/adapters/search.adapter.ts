@@ -18,6 +18,7 @@ export const searchAdapter = (items: Hotel[]) => {
           postalCode: item.details.address.postal_code,
         },
         starRating: item.details.star_rating,
+        sn_amenities: item.details.sn_amenities,
       },
       minRate: item.min_rate_room.rates,
       thumbnail: item.thumbnail,

@@ -6,13 +6,12 @@ import Autosuggest from './Autosuggest';
 export interface KeywordSearchFilterProps {
   keywordSearchLabel: string;
   keywordSearch: string;
+  setKeywordSearch: (newKeywordSearch: string) => void;
   keywordSearchPlaceholder: string;
   keywordSearchData: string[];
   onChangeKeywordSearch:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
-  keywordState: string;
-  setKeywordState: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const KeywordSearchFilter = ({
@@ -21,8 +20,7 @@ const KeywordSearchFilter = ({
   onChangeKeywordSearch,
   keywordSearchData,
   keywordSearch,
-  keywordState,
-  setKeywordState,
+  setKeywordSearch,
 }: KeywordSearchFilterProps) => {
   return (
     <FilterContainer>
@@ -34,8 +32,7 @@ const KeywordSearchFilter = ({
         onChangeKeywordSearch={onChangeKeywordSearch}
         keywordSearchPlaceholder={keywordSearchPlaceholder}
         keywordSearch={keywordSearch}
-        keywordState={keywordState}
-        setKeywordState={setKeywordState}
+        setKeywordSearch={setKeywordSearch}
       />
     </FilterContainer>
   );

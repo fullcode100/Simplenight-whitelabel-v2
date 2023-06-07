@@ -1,37 +1,38 @@
 import { SearchItem } from 'hotels/types/adapters/SearchItem';
-import { FilterCriteria } from '../hooks/useFilterHotels';
+import {
+  FilterCriteria,
+  FilterFunctionKeys,
+  criteriaFilterFunctions,
+} from '../hooks/useFilterHotels';
 
-interface FilterCriteriaForPriceLimits {
-  MaxRange: string;
-  MinRange: string;
-  keywordSearch: string;
-}
-
-type FilterFunction = (list: SearchItem[], value: any) => SearchItem[];
-
-type FilterFunctionKeysForPriceLimits =
-  keyof typeof criteriaFilterFunctionsForPriceLimits;
-
-const criteriaFilterFunctionsForPriceLimits: {
-  [key in keyof FilterCriteriaForPriceLimits]: FilterFunction;
-} = {
-  MinRange: (list, value) =>
-    list.filter((hotel) => Number(hotel.details.starRating) >= Number(value)),
-  MaxRange: (list, value) =>
-    list.filter((hotel) => Number(hotel.details.starRating) <= Number(value)),
-  keywordSearch: (list, value) =>
-    list.filter((hotel) =>
-      hotel.details.name.toUpperCase().match(value.toUpperCase()),
-    ),
-};
-
-export const getPriceLimits = (hotels: SearchItem[]) => {
+export const getPriceLimits = (
+  hotels: SearchItem[],
+  criteria: FilterCriteria,
+) => {
   const limits = [0, 5000];
+  let filtered = [...hotels];
+  Object.entries(criteria).forEach(([key, value]) => {
+    key = key || 'sortCriteria';
+    if (criteriaFilterFunctions[key as FilterFunctionKeys]) {
+      if (
+        key !== 'MinPrice' &&
+        key !== 'MaxPrice' &&
+        key !== 'sortCriteria' &&
+        value
+      ) {
+        const filterFunc = criteriaFilterFunctions[key as FilterFunctionKeys];
+        if (typeof filterFunc === 'function') {
+          filtered = filterFunc(filtered, value);
+        }
+      }
+    }
+  });
+  if (filtered.length === 0) return limits;
   limits[0] = Math.floor(
-    Math.min(...hotels.map((h) => h.minRate.avg_amount.avg_amount.amount)),
+    Math.min(...filtered.map((h) => h.minRate.avg_amount.avg_amount.amount)),
   );
   limits[1] = Math.ceil(
-    Math.max(...hotels.map((h) => h.minRate.avg_amount.avg_amount.amount)),
+    Math.max(...filtered.map((h) => h.minRate.avg_amount.avg_amount.amount)),
   );
   return limits;
 };
