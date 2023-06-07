@@ -61,7 +61,7 @@ const HorizontalTabs = ({
     <div
       className={`sticky ${
         pathname === '/' ? 'z-30' : 'z-0'
-      } lg:z-30 bg-dark-900 block ${className}`}
+      } lg:z-30 bg-sub-header hidden lg:block ${className}`}
     >
       <nav
         className="flex justify-start w-full mx-auto overflow-scroll scrollbar-hide max-w-7xl"
@@ -75,7 +75,7 @@ const HorizontalTabs = ({
             className={classNames(
               tab.name === activeTab?.name
                 ? `border-white ${hoverCss}`
-                : 'border-transparent text-dark-400 hover:text-dark-300 hover:border-gray-300',
+                : 'border-transparent text-dark-200 hover:text-white hover:border-white',
               'whitespace-nowrap p-3 flex flex-col lg:flex-row gap-1 lg:gap-2 items-center justify-center border-b-2 text-xs font-semibold',
             )}
             aria-current={tab.current ? 'page' : undefined}
@@ -92,7 +92,7 @@ const HorizontalTabs = ({
             key={'more'}
             onClick={() => setIsModalOpen(true)}
             className={classNames(
-              'border-transparent text-dark-400 hover:text-dark-300 hover:border-gray-300',
+              'border-transparent text-dark-200 hover:text-white hover:border-gray-400',
               'whitespace-nowrap p-3 flex gap-2 items-center justify-center border-b-2 text-xs font-semibold',
             )}
             aria-current={undefined}

@@ -113,6 +113,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
   const doSearch = () => {
+    // console.log('Search Cars');
     const hasEmptyValues = checkIfAnyNull([
       startDate,
       endDate,

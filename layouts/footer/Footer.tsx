@@ -36,7 +36,7 @@ const Footer = () => {
   return (
     <footer
       className={classNames(
-        'bg-dark-200 text-dark-1000 p-4 w-full text-center text-sm lg:px-24 lg:py-9',
+        'bg-footer text-dark-1000 p-4 w-full text-center text-sm lg:px-24 lg:py-9',
         {
           'hidden lg:block': isSearchPage,
         },

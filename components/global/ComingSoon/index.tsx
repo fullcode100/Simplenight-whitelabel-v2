@@ -1,4 +1,6 @@
 import CategoryTab from './CategoryTab';
+import { IconContainer } from './IconContainer';
+import IconWrapper from './IconWrapper';
 
 export default function ComingSoon() {
   return (
@@ -10,7 +12,7 @@ export default function ComingSoon() {
     >
       <div className="pt-5 bg-white gap-2.5 flex flex-col items-start w-full"></div>
       <div className="w-full">
-        <div className="w-full pb-10 gap-10 flex flex-col items-start self-stretch">
+        <div className="flex flex-col items-start self-stretch w-full gap-10 pb-10">
           <div className="px-6 w-full gap-3 flex flex-col items-start self-stretch text-center text-[rgba(69,69,69,1)]">
             <p className="w-full font-semibold capitalize m-0 text-[32px] leading-[38px]">
               Endless Bookable Experiences For Your Customers
@@ -20,8 +22,8 @@ export default function ComingSoon() {
               your customers.
             </p>
           </div>
-          <div className="pr-6 pl-6 w-full flex flex-col items-start self-stretch text-white text-left font-semibold">
-            <div className="w-full gap-3 flex flex-col items-center self-stretch">
+          <div className="flex flex-col items-start self-stretch w-full pl-6 pr-6 font-semibold text-left text-white">
+            <div className="flex flex-col items-center self-stretch w-full gap-3">
               <div
                 className="w-full"
                 style={{
@@ -52,10 +54,9 @@ export default function ComingSoon() {
                 <CategoryTab type="OFF_PHARMACY_OFF_TYPE" />
                 <CategoryTab type="OFF_MEDICAL_OFF_TYPE" />
                 <CategoryTab type="OFF_INSURANCE_OFF_TYPE" />
-                <div className="px-3 py-2 flex-1 h-20 gap-1 flex flex-col justify-center items-center flex-grow rounded bg-[rgba(13,173,185,1)]">
-                  <p className="text-xs leading-tight capitalize m-0">
-                    AND MORE
-                  </p>
+                <div className="flex flex-col items-center justify-center flex-1 flex-grow h-20 gap-1 px-3 py-2 rounded bg-primary-1000">
+                  <IconWrapper type="PLUS" />
+                  <p className="m-0 text-sm leading-5">And More</p>
                 </div>
               </div>
             </div>

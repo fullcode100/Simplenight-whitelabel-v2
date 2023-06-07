@@ -113,11 +113,11 @@ const Header = ({ color }: HeaderProps) => {
       </FullScreenModal>
       <header
         className={
-          'flex items-center justify-between p-3 z-40 bg-dark-1000 fixed w-full lg:hidden'
+          'flex items-center justify-between p-3 z-40 bg-header fixed w-full lg:hidden'
         }
       >
         <HamburgerMenuButton
-          className="mr-2 text-white cursor-pointer"
+          className="mr-2 text-dark-1000 cursor-pointer"
           onClick={handleOpenMenu}
         />
         <section className="flex items-center gap-5">
@@ -133,10 +133,10 @@ const Header = ({ color }: HeaderProps) => {
         </section>
         {showCart ? (
           <button onClick={onOpen} className="relative w-8 h-8 gap-2 px-2 py-1">
-            <span className="absolute w-4 h-4 font-semibold text-white rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
+            <span className="absolute w-4 h-4 font-semibold text-dark-1000 rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
               {cartQty ?? 0}
             </span>
-            <ShoppingCart className="text-white" />
+            <ShoppingCart className="text-dark-1000" />
           </button>
         ) : (
           <>&nbsp;</>

@@ -6,9 +6,7 @@ export default function InlineFeatureRow(props: InlineFeatureRowProps) {
     <>
       <div
         className={`gap-2 inline-flex items-center text-left font-['Lato'] transition-all ${
-          props.type === 'XS_TYPE'
-            ? 'font-semibold text-[rgba(102,102,102,1)]'
-            : ''
+          props.type === 'XS_TYPE' ? 'font-semibold text-dark-800' : ''
         } ${
           props.type === 'XS_TYPE1' ? 'font-normal text-[rgba(69,69,69,1)]' : ''
         }`}

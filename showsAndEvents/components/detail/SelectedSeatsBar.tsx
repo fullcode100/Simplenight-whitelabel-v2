@@ -183,10 +183,9 @@ const SelectedSeatsBar = ({
             <div className="flex justify-between">
               <div className="flex items-center text-primary-1000 max-w-[60%]">
                 <PlusIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
-                <p className="pl-2 text-gray-800 truncate">
+                <p className="pl-2 text-gray-800">
                   x{item.quantity}{' '}
                   {item.quantity > 1 ? ticketsLabel : ticketLabel}
-                  {`, ${item.row} ${item.sector}`}
                 </p>
               </div>
               {item.discountAmount ? (

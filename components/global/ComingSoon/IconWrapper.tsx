@@ -21,35 +21,14 @@ import Hiking from './assets/Hiking';
 import Attractions from './assets/Attractions';
 import Nightlife from './assets/Nightlife';
 import Movies from './assets/Movies';
+import { PlusIcon } from '@heroicons/react/solid';
 
 export default function IconWrapper(props: IconWrapperProps) {
   return (
     <>
       <div
         className={`relative overflow-clip transition-all ${
-          props.type === 'PX_TYPE' ? 'w-6 h-6' : ''
-        } ${props.type === 'PX_TYPE13' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE14' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE15' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE16' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE17' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE18' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE19' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE20' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE21' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE22' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE1' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE2' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE3' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE4' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE5' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE6' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE7' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE8' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE9' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE10' ? 'w-5 h-5' : ''
-        } ${props.type === 'PX_TYPE11' ? 'w-5 h-5' : ''} ${
-          props.type === 'PX_TYPE12' ? 'w-5 h-5' : ''
+          props.type === 'PX_TYPE' ? 'w-6 h-6' : 'w-5 h-5'
         }`}
       >
         {props.type === 'PX_TYPE' && <UserInterfaceClose />}
@@ -75,6 +54,7 @@ export default function IconWrapper(props: IconWrapperProps) {
         {props.type === 'PX_TYPE10' && <Attractions />}
         {props.type === 'PX_TYPE11' && <Nightlife />}
         {props.type === 'PX_TYPE12' && <Movies />}
+        {props.type === 'PLUS' && <PlusIcon />}
       </div>
     </>
   );
@@ -108,5 +88,6 @@ interface IconWrapperProps {
     | 'PX_TYPE19'
     | 'PX_TYPE20'
     | 'PX_TYPE21'
-    | 'PX_TYPE22';
+    | 'PX_TYPE22'
+    | 'PLUS';
 }

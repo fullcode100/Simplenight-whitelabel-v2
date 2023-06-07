@@ -12,6 +12,9 @@ import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useState } from 'react';
 import { getIsMapLoaded } from 'store/selectors/core';
+import { setIsMapsLoaded } from 'store/actions/core';
+import { useDispatch } from 'react-redux';
+import Script from 'next/script';
 
 interface LocationInputProps {
   icon: any;
@@ -73,8 +76,21 @@ const LocationInput = ({
     'Pick your destination',
   );
 
+  const dispatch = useDispatch();
+
+  const handleMapsLoaded = () => {
+    dispatch(setIsMapsLoaded(true));
+  };
+
+  const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
+
   return (
     <>
+      <Script
+        onLoad={handleMapsLoaded}
+        src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
+        strategy="lazyOnload"
+      />
       {isMapLoaded && (
         <PlacesAutocomplete
           value={address}

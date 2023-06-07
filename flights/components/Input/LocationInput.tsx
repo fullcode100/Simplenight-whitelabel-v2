@@ -11,6 +11,9 @@ import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import { useEffect } from 'react';
 import { getIsMapLoaded } from 'store/selectors/core';
+import { setIsMapsLoaded } from 'store/actions/core';
+import { useDispatch } from 'react-redux';
+import Script from 'next/script';
 
 interface LocationInputProps {
   icon: any;
