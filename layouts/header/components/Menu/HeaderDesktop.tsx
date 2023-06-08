@@ -62,7 +62,7 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
     <>
       <header
         className={
-          'hidden px-4 py-4 z-40 bg-header sticky top-0 w-full lg:flex lg:px-20 shadow-container'
+          'hidden px-4 py-4 z-40 bg-dark-1000 sticky top-0 w-full lg:flex lg:px-20 shadow-container'
         }
       >
         <section className="items-center justify-between w-full mx-auto max-w-7xl lg:flex">
@@ -104,10 +104,10 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
                 onClick={onOpen}
                 className="relative w-8 h-8 gap-2 px-2 py-1"
               >
-                <span className="absolute w-4 h-4 font-semibold text-dark-1000 rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
+                <span className="absolute w-4 h-4 font-semibold text-white rounded-full text-p-xxs bg-primary-1000 -top-px font-lato">
                   {cartQty ?? 0}
                 </span>
-                <ShoppingCart className="text-dark-1000" />
+                <ShoppingCart className="text-white" />
               </button>
             )}
           </section>
