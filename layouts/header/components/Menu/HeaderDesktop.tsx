@@ -52,7 +52,7 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
   const CustomLink = ({ href = '', children }: CustomLinkProps) => (
     <Link href={href}>
       <a className="flex items-center">
-        <span className="flex items-center gap-3 text-xs text-dark-1000">
+        <span className="flex items-center gap-3 text-xs text-white">
           {children}
         </span>
       </a>
