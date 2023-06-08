@@ -77,6 +77,7 @@ const Client = () => {
   const currency = getCurrency();
 
   const bookingAnswerData: any = {};
+  const [bookingAnswerDataState, setBookingAnswerDataState] = useState<any>({});
   let itemsForm: any[] | undefined = [];
   let hasAdditionalRequests = false;
 
@@ -288,6 +289,7 @@ const Client = () => {
         );
       }
     });
+    setBookingAnswerDataState(bookingAnswerData);
   };
 
   const redirectToItinerary = () => {
@@ -328,11 +330,11 @@ const Client = () => {
     };
     updateCustomer(customer);
 
-    Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
+    Object.keys(bookingAnswerDataState)?.forEach(async (itemId) => {
       const itemData: any = {
         cartId: cart.cart_id,
         itemId,
-        bookingAnswers: bookingAnswerData[itemId],
+        bookingAnswers: bookingAnswerDataState[itemId],
       };
 
       await updateCartItem(i18n, itemData);
