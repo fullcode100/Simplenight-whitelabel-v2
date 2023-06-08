@@ -31,7 +31,7 @@ export default async function handler(
       const { body } = req;
 
       reservation = await axios.post<FlightBookingResponse>(
-        'https://dev-ms.simplenight.com/sn-booking-service/reservation',
+        `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/reservation`,
         body,
       );
 
@@ -54,7 +54,7 @@ export default async function handler(
     if (reservation && controlNumber) {
       try {
         const { data: data1 } = await axios.post(
-          `https://dev-ms.simplenight.com/sn-booking-service/ticket/${controlNumber}`,
+          `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${controlNumber}`,
         );
 
         res.status(200).json({

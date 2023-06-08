@@ -11,7 +11,7 @@ export default async function handler(
     const { controlNumber } = req.query;
 
     const { data } = await axios.patch(
-      `https://api-dev.simplenight.com/sn-booking-service/reservation/${controlNumber}`,
+      `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/reservation/${controlNumber}`,
       body,
       {
         headers: {

@@ -14,6 +14,7 @@ steps:
         --build-arg NEXT_PUBLIC_PURCHASE_MODE=${_NEXT_PUBLIC_PURCHASE_MODE}
         --build-arg NEXT_PUBLIC_KOUNT_CLIENT=${_NEXT_PUBLIC_KOUNT_CLIENT}
         --build-arg NEXT_PUBLIC_KOUNT_ENVIRONMENT=${_NEXT_PUBLIC_KOUNT_ENVIRONMENT}
+        --build-arg NEXT_PUBLIC_FLIGHTS_MS=${_NEXT_PUBLIC_FLIGHTS_MS}
         --build-arg SN_NODE_ENV=${_SN_NODE_ENV}
         --build-arg VERSION=$REF_NAME-$SHORT_SHA
     entrypoint: bash
@@ -51,7 +52,7 @@ substitutions:
   _NEXT_PUBLIC_PURCHASE_MODE: 'single'
   _NEXT_PUBLIC_KOUNT_CLIENT: '100982'
   _NEXT_PUBLIC_KOUNT_ENVIRONMENT: 'TEST'
+  _NEXT_PUBLIC_FLIGHTS_MS: 'https://dev-ms.simplenight.com'
   _SN_NODE_ENV: development
   _X_API_KEY: ''
   _API_URL: 'https://dev-api.simplenight.com/v2'
-

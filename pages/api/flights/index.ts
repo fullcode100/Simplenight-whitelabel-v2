@@ -139,7 +139,7 @@ export default async function handler(
 
   try {
     const rawResults = await fetch(
-      'https://api-dev.simplenight.com/sn-booking-service/airsearch',
+      `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/airsearch`,
       requestOptions,
     );
     const response: FlightsSearchResponseMS = await rawResults.json();

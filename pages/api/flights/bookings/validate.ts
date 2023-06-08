@@ -11,7 +11,7 @@ export default async function handler(
   try {
     const { body } = req;
     const { data, status } = await axios.post(
-      'https://api-dev.simplenight.com/sn-booking-service/reservation/price',
+      `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/reservation/price`,
       body,
       {
         headers: {
