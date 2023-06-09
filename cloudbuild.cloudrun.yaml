@@ -39,6 +39,7 @@ steps:
       - '--update-env-vars=NEXT_ENCRYPT_KEY=${_NEXT_ENCRYPT_KEY}'
       - '--update-env-vars=X_API_KEY=${_X_API_KEY}'
       - '--update-env-vars=API_URL=${_API_URL}'
+      - '--update-env-vars=NEXT_PUBLIC_FLIGHTS_MS=${_NEXT_PUBLIC_FLIGHTS_MS}'
 images:
   - 'gcr.io/$PROJECT_ID/sn-web-v2-${_ENV}:$BUILD_ID'
 options:
