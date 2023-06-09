@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import classnames from 'classnames';
 import Carousel from 'react-multi-carousel';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,8 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
   const hotelLabel = t('hotel', 'Hotel');
   const fromLabel = t('from', 'From');
 
+  const carouselRef = useRef<Carousel>(null);
+
   const [activeItem, setActiveItem] = useState(0);
   const nextItem = activeItem + 1;
   const handleBeforeCarouselChange = (prev: number) => {
@@ -31,6 +33,10 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
       longitude: i.details.fullAddress.coordinates.longitude,
     };
   });
+
+  const handleOnClickMarkerMap = (lat: number, lng: number, index: number) => {
+    carouselRef.current?.goToSlide(index);
+  };
 
   const responsive = {
     superLargeDesktop: {
@@ -67,6 +73,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
           zoom={17}
           height={675}
           locations={locations}
+          onClickMarker={handleOnClickMarkerMap}
         />
         <section className="absolute bottom-16 w-full">
           <Carousel
@@ -88,6 +95,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
                 position="right"
               />
             }
+            ref={carouselRef}
           >
             {items.map((item, index) => {
               const {
