@@ -360,7 +360,13 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
         </section>
       </main>
       {!!time && (
-        <DiningItineraryDetail name={data.name} handleAction={handleAction} />
+        <DiningItineraryDetail
+          name={data.name}
+          handleAction={handleAction}
+          time={time}
+          date={dayjs(selectedDate).format('MMM DD, YYYY')}
+          covers={covers}
+        />
       )}
       {!!time && (
         <div className="fixed bottom-0 w-full px-3 py-5 bg-white lg:hidden drop-shadow">

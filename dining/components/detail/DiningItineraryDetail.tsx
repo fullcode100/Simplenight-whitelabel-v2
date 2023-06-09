@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Dining from 'public/icons/categories/Category-Dining.svg';
-import BlockDivider from 'components/global/Divider/BlockDivider';
 import DiningDetailActions from './DiningDetailActions';
+import BlockDivider from 'components/global/Divider/BlockDivider';
+import { transformTo12hours } from 'dining/helpers/time';
 
 const DiningIconCircle = () => {
   return (
@@ -14,32 +15,18 @@ const DiningIconCircle = () => {
   );
 };
 
-const ItemItinerary = ({ label }: { label: string }) => {
-  return (
-    <div className="flex justify-between py-1 text-xs">
-      <p>
-        <span className="pr-3 text-lg leading-3 text-primary-1000">+</span>
-        {label}
-      </p>
-      <p>$0.00</p>
-    </div>
-  );
-};
-
-const TotalItinerary = ({ label }: { label: string }) => {
-  return (
-    <div className="flex justify-between text-xs">
-      <p>{label}</p>
-      <p className="text-lg">$0.00</p>
-    </div>
-  );
-};
 const DiningItineraryDetail = ({
   name,
   handleAction,
+  time,
+  date,
+  covers = 2,
 }: {
   name: string;
   handleAction: (path: string) => void;
+  time: string;
+  date: string;
+  covers?: number;
 }) => {
   const [t] = useTranslation('dining');
   return (
@@ -48,12 +35,17 @@ const DiningItineraryDetail = ({
         <DiningIconCircle />
         <h6 className="pl-3">{name}</h6>
       </div>
+      <BlockDivider />
+      <div className="px-5 py-6">
+        <p className="text-lg text-dark-700">
+          <span className="mr-2 font-semibold text-dark-1000">{date}</span>
+          {transformTo12hours(time)}
+        </p>
+        <p className="text-sm text-dark-1000">Table for {covers}</p>
+      </div>
+      <BlockDivider />
       <div className="flex flex-col content-between flex-1 p-6">
         <div className="flex-1">
-          <ItemItinerary label={t('basePrice')} />
-          <ItemItinerary label={t('taxes')} />
-          <BlockDivider className="my-3" />
-          <TotalItinerary label={t('payNow')} />
           <a
             href="https://terms.yelp.com/tos/en_us/20200101_en_us/"
             className="border-b-[1px] border-primary-1000 text-primary-1000 hover:text-primary-1000 visited:text-primary-1000"

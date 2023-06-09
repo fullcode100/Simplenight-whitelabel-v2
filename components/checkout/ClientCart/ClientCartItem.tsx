@@ -201,21 +201,23 @@ const ClientCartItem = ({
             </section>
           ),
         )}
-      <section>
-        <Label
-          value="Additional Requests"
-          className="mt-5 mb-2"
-          translationKey="additionalRequests"
-        />
-        <Textarea
-          value={additionalRequest}
-          onChange={handleChangeAdditionalRequest}
-          placeholder={additionalRequestsPlaceholder}
-          {...{
-            id: `text-area-${index}`,
-          }}
-        />
-      </section>
+      {item.category !== 'DINING' && (
+        <section>
+          <Label
+            value="Additional Requests"
+            className="mt-5 mb-2"
+            translationKey="additionalRequests"
+          />
+          <Textarea
+            value={additionalRequest}
+            onChange={handleChangeAdditionalRequest}
+            placeholder={additionalRequestsPlaceholder}
+            {...{
+              id: `text-area-${index}`,
+            }}
+          />
+        </section>
+      )}
       {/*  {termsAndConditions && (
         <>
           <section className="flex items-center w-full gap-3 mt-2">

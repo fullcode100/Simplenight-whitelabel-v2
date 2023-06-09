@@ -12,7 +12,7 @@ const CheckoutInfo = ({ checkoutDate, checkoutTime }: CheckoutInfoProps) => {
   const formatedCheckoutHour = checkoutTime;
 
   return (
-    <section className="flex flex-row gap-2 pb-3 lg:w-1/2 ">
+    <section className="flex flex-row gap-2 lg:w-1/2 ">
       <CalendarIcon className="h-3.5 lg:h-5 lg:w-5 mt-1 lg:mt-0 text-primary-1000" />
       {checkoutDate && checkoutTime && (
         <section className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px]">

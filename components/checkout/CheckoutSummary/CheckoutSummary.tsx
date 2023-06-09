@@ -20,20 +20,24 @@ const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
 
   return (
     <section className="flex items-center justify-between w-full lg:w-full">
-      <section>
-        <p className="text-sm">Total</p>
-      </section>
-      <section className="flex flex-col justify-end text-right font-lato">
-        <p className="text-[18px] leading-6 font-semibold text-dark-1000">
-          {cart?.rate.total.full.formatted}
-        </p>
-        <section className="flex flex-row gap-1">
-          <p className="text-[14px] leading-5 text-dark-800">
-            {taxesAndFeesLabel}
-          </p>
-          <TaxesAndFeesPopover />
-        </section>
-      </section>
+      {cart?.items[0].category !== 'DINING' && (
+        <>
+          <section>
+            <p className="text-sm">Total</p>
+          </section>
+          <section className="flex flex-col justify-end text-right font-lato">
+            <p className="text-[18px] leading-6 font-semibold text-dark-1000">
+              {cart?.rate.total.full.formatted}
+            </p>
+            <section className="flex flex-row gap-1">
+              <p className="text-[14px] leading-5 text-dark-800">
+                {taxesAndFeesLabel}
+              </p>
+              <TaxesAndFeesPopover />
+            </section>
+          </section>
+        </>
+      )}
     </section>
   );
 };

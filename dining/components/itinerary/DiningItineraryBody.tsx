@@ -61,21 +61,23 @@ const DiningItineraryBody = ({
             </div>
           </section>
         ) : null}
-        <section className="flex justify-between py-2">
-          <section className="flex flex-row gap-1">
-            <section className="flex flex-row items-baseline gap-1 lg:gap-3">
-              <PlusIcon className="h-3.5 lg:h-4 lg:w-4 ml-0.5 mr-1 mt-1 text-primary-1000" />
+        {item?.category !== 'DINING' && (
+          <section className="flex justify-between py-2">
+            <section className="flex flex-row gap-1">
+              <section className="flex flex-row items-baseline gap-1 lg:gap-3">
+                <PlusIcon className="h-3.5 lg:h-4 lg:w-4 ml-0.5 mr-1 mt-1 text-primary-1000" />
+                <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
+                  {basePriceLabel}
+                </p>
+              </section>
+            </section>
+            <section className="text-right">
               <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-                {basePriceLabel}
+                {'$0.00'}
               </p>
             </section>
           </section>
-          <section className="text-right">
-            <p className="font-semibold text-xs lg:text-sm leading-lg lg:leading-[22px] text-dark-1000">
-              {'$0.00'}
-            </p>
-          </section>
-        </section>
+        )}
       </section>
     </>
   );
