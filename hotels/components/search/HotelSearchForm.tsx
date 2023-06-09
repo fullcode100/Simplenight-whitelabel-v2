@@ -48,7 +48,6 @@ const HotelSearchForm = ({
   const guestLabel = t('guest', 'Guest');
   const roomsLabel = t('rooms', 'Rooms');
   const roomLabel = t('room', 'Room');
-  const guestsAndRoomsLabel = t('guestsAndRooms', 'Guests & Rooms');
   const bookThePerfectHotelLabel = t(
     'bookThePerfectHotel',
     ' Book the perfect hotel by comparing prices and reading reviews.',
@@ -60,7 +59,9 @@ const HotelSearchForm = ({
     params.roomsData ? JSON.parse(params.roomsData as string) : [createRoom()],
   );
   const [adults, setAdults] = useState(roomsData[0].adults.toString());
-  const [children, setChildren] = useState(roomsData[0].children.toString());
+  const [children, setChildren] = useState(
+    roomsData[0].children.toString() + roomsData[0].infants.toString(),
+  );
   const [rooms, setRooms] = useState(roomsData.length.toString());
   const [childrenAges, setChildrenAges] = useState(
     roomsData[0].childrenAges.toString(),
@@ -153,7 +154,7 @@ const HotelSearchForm = ({
 
   const locationPlaceholder = t(
     'locationInputPlaceholder',
-    'Where would you like to go?',
+    'Where are you going?',
   );
 
   if (params.endDate && params.startDate && !params.roomsData) {
@@ -213,6 +214,17 @@ const HotelSearchForm = ({
         className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
       >
         <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
+          <section className="lg:hidden relative lg:mt-0 lg:w-[50%]">
+            <button
+              onClick={() => setShowTravelersInput(true)}
+              className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
+            >
+              <section className="flex items-center gap-2">
+                <MultiplePersons className="text-dark-700" />
+                {parseInt(adults) + parseInt(children)}{' '}
+              </section>
+            </button>
+          </section>
           <LocationInput
             icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
             label={locationInputLabel}
@@ -229,11 +241,11 @@ const HotelSearchForm = ({
             rooms={roomsData}
             setRooms={setRoomsData}
           />
-          <section className="lg:mt-0 lg:w-full">
-            <Label value={guestsAndRoomsLabel} />
+          <section className="hidden lg:relative lg:mt-0 lg:w-[50%]">
+            <Label value={guestsLabel} />
             <button
               onClick={() => setShowTravelersInput(true)}
-              className="bg-white mt-2 grid grid-cols-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
+              className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
             >
               <section className="flex items-center gap-2">
                 <MultiplePersons className="text-dark-700" />
@@ -243,10 +255,6 @@ const HotelSearchForm = ({
                   guestLabel,
                   guestsLabel,
                 )}
-              </section>
-              <section className="flex items-center gap-2">
-                <Bed className="text-dark-700" />
-                {rooms} {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
               </section>
             </button>
           </section>

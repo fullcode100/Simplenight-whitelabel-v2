@@ -17,6 +17,8 @@ const TravelersCount = ({
   const [t, i18next] = useTranslation('global');
   const adultsLabel = t('adults', 'Adults');
   const childrenLabel = t('children', 'Children');
+  const infantsLabel = t('infants', 'Infants');
+  const infantsAgeRangeLabel = t('infantsRange', 'Under 2 years old');
   const childrenAgeRangeLabel = t('childrenRange', 'Ages 1 to 17');
 
   return (
@@ -34,6 +36,14 @@ const TravelersCount = ({
         sublabel={childrenAgeRangeLabel}
         value={room.children}
         onChange={(value) => handleCountChange(value, index, 'children')}
+        max={10}
+        disabled
+      />
+      <NumberInput
+        label={infantsLabel}
+        sublabel={infantsAgeRangeLabel}
+        value={room.infants}
+        onChange={(value) => handleCountChange(value, index, 'infants')}
         max={10}
         disabled
       />

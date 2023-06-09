@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import BaseInput from 'components/global/Input/BaseInput';
 import { Room } from 'hotels/helpers/room';
@@ -7,56 +7,65 @@ import { changeArraySize } from 'helpers/arrayUtils';
 interface ChildrenAgesProps {
   room: Room;
   roomNumber: number;
+  childrenAges: number[];
   handleAgesChange: (
     value: number,
     indexAge: number,
     roomNumber: number,
   ) => void;
+  setIndexOnFocus: Dispatch<SetStateAction<number>>;
+  indexOnFocus: number;
 }
 
 const ChildrenAges = ({
   room,
   roomNumber,
+  childrenAges,
   handleAgesChange,
+  setIndexOnFocus,
+  indexOnFocus,
 }: ChildrenAgesProps) => {
   const [t, i18next] = useTranslation('global');
   // eslint-disable-next-line quotes
-  const childrenAgesLabel = t('childrenAges', "Children's Ages");
-  const [indexOnFocus, setIndexOnFocus] = useState(0);
+  const childLabel = t('child', 'Child');
 
-  const newChildrenAmount = room.children + room.infants;
-  room.childrenAges =
-    room.childrenAges.length === newChildrenAmount
-      ? room.childrenAges
-      : changeArraySize(room.childrenAges, newChildrenAmount);
+  const newChildrenAmount = room.children;
 
+  childrenAges =
+    childrenAges.length === newChildrenAmount
+      ? childrenAges
+      : changeArraySize(childrenAges, newChildrenAmount);
   return (
-    <section className="flex flex-col gap-2 mb-6">
-      <section className="text-dark-800 text-[16px] leading-[16px]">
-        {childrenAgesLabel}
-      </section>
-      <section className="flex flex-wrap gap-3">
-        {room.childrenAges.map((age, indexAge) => (
-          <section key={indexAge}>
-            <BaseInput
-              type="number"
-              value={age}
-              onChange={(e) =>
-                handleAgesChange(
-                  parseInt(e.target.value) >= 17
-                    ? 17
-                    : parseInt(e.target.value) === 0
-                    ? 1
-                    : parseInt(e.target.value),
-                  indexAge,
-                  roomNumber,
-                )
-              }
-              onClick={() => setIndexOnFocus(indexAge)}
-              max={17}
-              min={1}
-              autoFocus={indexOnFocus == indexAge ? true : false}
-            />
+    <section className="flex w-full align-center gap-2 mb-6">
+      <section className="flex w-full flex-col flex-wrap gap-3">
+        {childrenAges.map((age, indexAge) => (
+          <section className="flex justify-between w-full" key={indexAge}>
+            <div className="text-dark-800 text-[16px] leading-[16px] w-[50%] flex items-center">
+              {`${childLabel} ${indexAge + 1}`}
+            </div>
+            <div className="w-[50%] flex justify-start">
+              <BaseInput
+                type="number"
+                value={age}
+                onChange={(e) =>
+                  handleAgesChange(
+                    parseInt(e.target.value) >= 11
+                      ? 11
+                      : parseInt(e.target.value) === 0
+                      ? 1
+                      : parseInt(e.target.value),
+                    indexAge,
+                    roomNumber,
+                  )
+                }
+                onClick={() => setIndexOnFocus(indexAge)} // Set the indexOnFocus for ChildrenAges
+                autoFocus={indexOnFocus === indexAge} // Set autoFocus based on indexOnFocus
+                max={11}
+                min={1}
+                inputClassName="w-[150px]"
+                externalWidth
+              />
+            </div>
           </section>
         ))}
       </section>

@@ -24,6 +24,7 @@ export interface BaseInputProps {
   clearable?: boolean;
   onClear?: () => void;
   defaultValue?: string;
+  externalWidth?: boolean;
 }
 
 type InputType = 'text' | 'number' | 'date' | 'select' | 'email';
@@ -57,6 +58,7 @@ const BaseInput = ({
   clearable,
   onClear,
   defaultValue,
+  externalWidth = false,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,7 +76,11 @@ const BaseInput = ({
           {sublabel}
         </div>
       </section>
-      <div className="max-w-[44px] max-h-[44px] relative">
+      <div
+        className={`max-h-[44px] relative ${
+          externalWidth ? '' : 'max-w-[44px]'
+        }`}
+      >
         {children}
         {leftIcon}
         {Input}

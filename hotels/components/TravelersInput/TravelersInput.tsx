@@ -9,9 +9,8 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
-import RoomHeader from './components/RoomHeader';
-import AddRoomButton from './components/AddRoomButton';
 import ChildrenAges from './components/ChildrenAges';
+import InfantsAges from './components/InfantsAges';
 import TravelersCount from './components/TravelersCount';
 import { Room, createRoom } from 'hotels/helpers/room';
 
@@ -30,19 +29,12 @@ const TravelersInput = ({
 }: TravelersInputProps) => {
   const [t, i18next] = useTranslation('global');
   const applyLabel = t('apply', 'Apply');
-  const roomsLabel = t('rooms', 'Rooms');
+  const guestsLabel = t('guests', 'Guests');
 
   const [newRooms, setNewRooms] = useState<Room[]>(rooms);
-
-  const handleAddRoom = () => {
-    setNewRooms([...newRooms, createRoom()]);
-  };
-
-  const handleDeleteRoom = (room: Room) => {
-    const updatedRooms = newRooms.filter((r) => r !== room);
-    setNewRooms(updatedRooms);
-  };
-
+  const [childrenAges, setchildrenAges] = useState<number[]>([]);
+  const [infantAges, setinfantAges] = useState<number[]>([]);
+  const [indexOnFocus, setIndexOnFocus] = useState<number>(0);
   const handleCountChange = (value: number, index: number, type: string) => {
     const updatedRoom = newRooms[index];
     switch (type) {
@@ -51,9 +43,19 @@ const TravelersInput = ({
         break;
       case 'children':
         updatedRoom['children'] = value;
+        const updatedChildrenAges = [...childrenAges];
+        updatedChildrenAges[value - 1] = 1; // Set the value at the specified index
+        setchildrenAges(updatedChildrenAges);
+        break;
+      case 'infants':
+        updatedRoom['infants'] = value;
+        const updatedInfantsAges = [...infantAges];
+        updatedInfantsAges[value - 1] = 1;
+        setinfantAges(updatedInfantsAges);
         break;
     }
-    const isLastChildrenRemoved = type === 'children' && value === 0;
+    const isLastChildrenRemoved =
+      type === 'children' || (type === 'infants' && value === 0);
     if (isLastChildrenRemoved) updatedRoom['childrenAges'] = [];
     const updatedRooms = [...newRooms];
     updatedRooms[index] = updatedRoom;
@@ -66,25 +68,59 @@ const TravelersInput = ({
     roomNumber: number,
   ) => {
     const updatedRoom = newRooms[roomNumber];
-    updatedRoom.childrenAges[indexAge] = value;
+    const updatedChildrenAges = [...childrenAges];
 
+    if (updatedChildrenAges.length <= indexAge) {
+      // If the array is not long enough to accommodate the index, fill it with NaN values
+      updatedChildrenAges.length = indexAge + 1;
+      updatedChildrenAges.fill(NaN, childrenAges.length);
+    }
+
+    updatedChildrenAges[indexAge] = value; // Set the value at the specified index
+
+    setchildrenAges(updatedChildrenAges);
+    /* updatedRoom.childrenAges[indexAge] = value;
     const updatedRooms = [...newRooms];
     updatedRooms[roomNumber] = updatedRoom;
-    setNewRooms(updatedRooms);
+    setNewRooms(updatedRooms); */
+  };
+
+  const handleInfantsAgesChange = (
+    value: number,
+    indexAge: number,
+    roomNumber: number,
+  ) => {
+    const updatedInfantsAges = [...infantAges];
+
+    if (updatedInfantsAges.length <= indexAge) {
+      // If the array is not long enough to accommodate the index, fill it with NaN values
+      updatedInfantsAges.length = indexAge + 1;
+      updatedInfantsAges.fill(NaN, childrenAges.length);
+    }
+
+    updatedInfantsAges[indexAge] = value; // Set the value at the specified index
+
+    setinfantAges(updatedInfantsAges);
+    /* const updatedRoom = newRooms[roomNumber];
+    updatedRoom.childrenAges[indexAge + 1] = value;
+    
+    const updatedRooms = [...newRooms];
+    updatedRooms[roomNumber] = updatedRoom;
+    setNewRooms(updatedRooms); */
   };
 
   const setTravelers = () => {
-    setRooms(newRooms);
+    setRooms([
+      { ...newRooms[0], childrenAges: [...childrenAges, ...infantAges] },
+    ]);
     onClose();
   };
-
-  const Divider = () => <div className="w-full border-t border-gray-300" />;
 
   return (
     <FullScreenModal
       open={showTravelersInput}
       closeModal={onClose}
-      title={roomsLabel}
+      title={guestsLabel}
       primaryButtonText={applyLabel}
       primaryButtonAction={setTravelers}
       className={
@@ -95,13 +131,6 @@ const TravelersInput = ({
         {newRooms.map((room: Room, index) => {
           return (
             <Fragment key={index}>
-              <RoomHeader
-                index={index}
-                room={room}
-                newRooms={newRooms}
-                handleDeleteRoom={handleDeleteRoom}
-              />
-
               <TravelersCount
                 room={room}
                 index={index}
@@ -110,20 +139,28 @@ const TravelersInput = ({
 
               {room.children > 0 && (
                 <ChildrenAges
+                  childrenAges={childrenAges}
                   room={room}
                   roomNumber={index}
                   handleAgesChange={handleAgesChange}
+                  indexOnFocus={indexOnFocus}
+                  setIndexOnFocus={setIndexOnFocus}
                 />
               )}
 
-              <Divider />
+              {room.infants > 0 && (
+                <InfantsAges
+                  infantAges={infantAges}
+                  room={room}
+                  roomNumber={index + 1}
+                  handleInfantsAgesChange={handleInfantsAgesChange}
+                  indexOnFocus={indexOnFocus}
+                  setIndexOnFocus={setIndexOnFocus}
+                />
+              )}
             </Fragment>
           );
         })}
-
-        {newRooms.length < 10 && (
-          <AddRoomButton handleAddRoom={handleAddRoom} />
-        )}
       </section>
     </FullScreenModal>
   );

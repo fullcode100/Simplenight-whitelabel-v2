@@ -12,7 +12,7 @@ export const setTravelersTotals = (
   let ages: number[] = [];
   rooms.forEach((room: Room) => {
     adults += room.adults;
-    children += room.children;
+    children += room.children + room.infants;
     ages = ages.concat(room.childrenAges);
   });
 
