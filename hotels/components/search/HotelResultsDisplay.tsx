@@ -367,7 +367,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
         'lg:px-20 flex justify-center': isListView,
       })}
     >
-      <div className={classNames({ 'max-w-7xl': isListView })}>
+      <div className={classNames({ 'max-w-7xl w-full': isListView })}>
         <section className="relative lg:flex lg:w-full">
           {isOpen && (
             <section>

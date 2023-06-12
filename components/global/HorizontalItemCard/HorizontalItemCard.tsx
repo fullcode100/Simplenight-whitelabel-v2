@@ -47,7 +47,6 @@ function HorizontalItemCard<T extends WithId>({
 }: CardProps<T>) {
   const [t, i18next] = useTranslation('global');
   const [invalidImage, setInvalidImage] = useState(false);
-  const fromLabel = t('from', 'From');
   const [target, setTarget] = useState('');
   const isImageComponent = typeof image !== 'string';
   const ImageComponent = image;
