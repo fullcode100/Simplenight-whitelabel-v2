@@ -103,8 +103,9 @@ const Payment = () => {
       setLoading(false);
       router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
     } catch (error) {
-      setLoading(false);
       console.error(error);
+      const lastSearch = localStorage.getItem('FlightSearch');
+      router.push(lastSearch || '/');
     }
   };
 
