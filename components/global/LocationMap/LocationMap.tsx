@@ -48,7 +48,11 @@ const LocationMap = ({
           lat: center?.latitude as number,
           lng: center?.longitude as number,
         }}
-        options={{ zoomControl: false, fullscreenControl: false }}
+        options={{
+          zoomControl: false,
+          fullscreenControl: false,
+          gestureHandling: 'greedy',
+        }}
       >
         {locations?.map(({ latitude, longitude }, i) => {
           return (
