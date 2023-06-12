@@ -60,7 +60,7 @@ const HorizontalTabs = ({
   return (
     <div
       className={`sticky ${
-        pathname === '/' ? 'z-30' : 'z-0'
+        pathname === '/' ? 'z-30' : 'z-30'
       } lg:z-30 bg-dark-900 block ${className}`}
     >
       <nav
