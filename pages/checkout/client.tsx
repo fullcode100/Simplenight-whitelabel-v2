@@ -60,12 +60,10 @@ const Client = () => {
   const schemas = cart?.items?.map((item: any) => {
     return getItemQuestionSchemas(item);
   });
-  const baseValidationSchema = useClientQuestionsCheckoutFormSchema(schemas);
 
-  const formSchema = checkOutFormSchema.merge(baseValidationSchema);
-  type CheckoutFormSchema = z.infer<typeof formSchema>;
+  type CheckoutFormSchema = z.infer<typeof checkOutFormSchema>;
   const methods = useForm<CheckoutFormSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(checkOutFormSchema),
     mode: 'onSubmit',
   });
 
