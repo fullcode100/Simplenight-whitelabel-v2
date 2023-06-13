@@ -225,7 +225,7 @@ const FilterSidebarHotels = ({
   return (
     <>
       <section
-        className={`hidden lg:block lg:min-w-[16rem] lg:max-w-[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative ${
+        className={`hidden lg:min-h-[1000px] lg:block lg:min-w-[16rem] lg:max-w-[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative ${
           !isListView ? 'ml-20' : ''
         }`}
       >
@@ -237,6 +237,7 @@ const FilterSidebarHotels = ({
           starRangeFilter={starRangeFilter}
           keywordSearchFilter={keywordSearchFilter}
           amenitiesFilter={amenitiesFilter}
+          className="pb-36"
         />
       </section>
       <section className="lg:hidden">

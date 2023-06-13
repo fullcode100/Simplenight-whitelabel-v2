@@ -77,13 +77,13 @@ const MultipleSelect = ({
           >
             <Listbox.Options
               className={classnames(
-                'absolute mt-[-1px] z-10 w-full bg-dark-200 max-h-60 rounded-b-md text-sm font-normal overflow-auto focus:outline-none ',
+                'absolute mt-[-1px] z-10 w-full max-h-60 rounded-b-md text-sm font-normal overflow-auto styled-scrollbar focus:outline-none ',
                 {
                   'border border-primary-1000': open,
                 },
               )}
             >
-              <section className="grid gap-[1px]">
+              <section className="grid gap-[1px] bg-dark-200">
                 {options.map((option) => {
                   const isSelected = selectedOptions.includes(option);
                   return (
