@@ -107,7 +107,9 @@ const TicketCard: React.FC<TicketCard> = ({
                   'bg-red-100 text-red-900': availableSeats <= 5,
                 })}
               >
-                {`${availableSeats} ${availableSeatsLabel} left`}
+                {`${
+                  availableSeats - selectedSeats
+                } ${availableSeatsLabel} left`}
               </div>
             </div>
             <div className="gap-1">
