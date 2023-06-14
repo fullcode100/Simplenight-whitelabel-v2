@@ -7,13 +7,17 @@ import ClearFilterButton from 'components/global/Filters/ClearFilterButton';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import FilterFormDining from './FilterFormDining';
 import { useFilterDining } from 'dining/hooks/useFilterDining';
-import { SortBySelect } from 'dining/constants/sortByOptions';
+import {
+  AllowsReservationFilterProps,
+  SortBySelect,
+} from 'dining/constants/sortByOptions';
 
 export interface FilterSidebarDiningProps {
   filtersCount: number;
   isOpen: any;
   onClose: any;
   sortBySelect: SortBySelect;
+  allowsReservationFilter: AllowsReservationFilterProps;
 }
 
 const FilterSidebarDining = ({
@@ -21,6 +25,7 @@ const FilterSidebarDining = ({
   isOpen,
   onClose,
   sortBySelect,
+  allowsReservationFilter,
 }: FilterSidebarDiningProps) => {
   const [t] = useTranslation('dining');
   const filtersText = t('filters', 'Filters');
@@ -63,7 +68,10 @@ const FilterSidebarDining = ({
     <>
       <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative">
         <FilterHeader />
-        <FilterFormDining sortBySelect={sortBySelect} />
+        <FilterFormDining
+          sortBySelect={sortBySelect}
+          allowsReservationFilter={allowsReservationFilter}
+        />
       </section>
       <section className="lg:hidden">
         <FullScreenModal
@@ -76,7 +84,11 @@ const FilterSidebarDining = ({
             <ClearFilterButton handleClearFilters={handleClearFilters} />
           }
         >
-          <FilterFormDining sortBySelect={sortBySelect} className="px-5 py-6" />
+          <FilterFormDining
+            sortBySelect={sortBySelect}
+            allowsReservationFilter={allowsReservationFilter}
+            className="px-5 py-6"
+          />
         </FullScreenModal>
       </section>
     </>

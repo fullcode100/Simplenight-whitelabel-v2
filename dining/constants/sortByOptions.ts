@@ -9,3 +9,7 @@ export interface SortBySelect {
   sortBy: string | undefined;
   onChangeSortBy: (value: string) => void;
 }
+export interface AllowsReservationFilterProps {
+  allowsReservation: boolean;
+  onChangeAllowsReservation: (value: boolean) => void;
+}

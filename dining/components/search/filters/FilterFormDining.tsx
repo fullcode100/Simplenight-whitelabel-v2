@@ -2,12 +2,17 @@ import SortBy from './SortBy';
 import { Heading } from '@simplenight/ui';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import PriceRangeFilter from './PriceRangeFilter';
-import { SortBySelect } from 'dining/constants/sortByOptions';
+import {
+  AllowsReservationFilterProps,
+  SortBySelect,
+} from 'dining/constants/sortByOptions';
 import { useFilterDining } from 'dining/hooks/useFilterDining';
 import { useTranslation } from 'react-i18next';
+import AllowsReservationFilter from './AllowsReservationFilter';
 
 interface Props {
   sortBySelect: SortBySelect;
+  allowsReservationFilter: AllowsReservationFilterProps;
   className?: string;
 }
 
@@ -15,9 +20,14 @@ const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 
-const FilterFormDining = ({ sortBySelect, className }: Props) => {
+const FilterFormDining = ({
+  sortBySelect,
+  className,
+  allowsReservationFilter,
+}: Props) => {
   const [t] = useTranslation('dining');
   const priceLabel = t('price', 'Price');
+  const allowsReservationLabel = t('allowsReservation', 'Allows Reservation');
   const { changePrice, minPrice, maxPrice } = useFilterDining();
 
   return (
@@ -35,6 +45,19 @@ const FilterFormDining = ({ sortBySelect, className }: Props) => {
             onChangeMaxPrice={(value: string) => changePrice(minPrice, value)}
             minPrice={minPrice}
             maxPrice={maxPrice}
+          />
+        }
+        initialState
+      />
+      <Divider className="my-6" />
+      <CollapseUnbordered
+        title={<Heading tag="h5">{allowsReservationLabel}</Heading>}
+        body={
+          <AllowsReservationFilter
+            allowsReservation={allowsReservationFilter.allowsReservation}
+            onChangeAllowsReservation={
+              allowsReservationFilter.onChangeAllowsReservation
+            }
           />
         }
         initialState
