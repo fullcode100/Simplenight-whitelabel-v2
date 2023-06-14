@@ -124,8 +124,8 @@ const TicketCard: React.FC<TicketCard> = ({
           <div className="flex items-end gap-3 ml-auto w-36">
             <SquareInputLarge value={selectedSeats} />
             <ButtonMinusPlus
-              disabledMinus={isDisabled}
-              disabledPlus={isDisabled}
+              disabledMinus={isDisabled || !selectedSeats}
+              disabledPlus={isDisabled || selectedSeats === availableSeats}
               onClickMinus={(e) => {
                 e?.stopPropagation();
                 decreaseSelectedSeats();
