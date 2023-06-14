@@ -203,7 +203,7 @@ const PriceBreakdownModal = ({
                 </section>
               </section>
               {rateBreakdown.taxes.map((tax, index) => {
-                const taxLabel = t(tax.type, tax.description);
+                const taxLabel = t(tax.description);
 
                 return (
                   <section
