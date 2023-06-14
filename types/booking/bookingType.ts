@@ -65,6 +65,7 @@ export interface Item {
   status: string;
   supplier: string;
   supplier_order_number: string;
+  supplier_reference_id: string;
   total: Amount;
   total_postpaid: Amount;
   total_supplier: Amount;

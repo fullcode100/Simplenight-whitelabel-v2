@@ -32,7 +32,7 @@ const HotelRoomsInfo = ({
   const [t, i18next] = useTranslation('global');
   const cancelLabel = t('cancelReservation', 'Cancel Reservation');
 
-  const supplierReferenceID = item?.supplier_order_number;
+  const supplierReferenceID = item?.supplier_reference_id;
   const vendorConfirmationNumber =
     item?.vendor_confirmation_code && item?.vendor_confirmation_code.length > 0
       ? item?.vendor_confirmation_code
