@@ -107,6 +107,7 @@ const Client = () => {
     data: any,
     cartItemId: string,
     isAddingSpecialRequest?: boolean,
+    useOrderName?: boolean,
   ) => {
     const newItemsForm = cart
       ? cart.items.map((item: { cart_item_id: string }) => {
@@ -117,7 +118,7 @@ const Client = () => {
               ...(isAddingSpecialRequest && {
                 customer_additional_requests: data,
               }),
-              ...(isAddingSpecialRequest && {
+              ...(useOrderName === false && {
                 customer: data.formData,
               }),
             };
@@ -355,9 +356,16 @@ const Client = () => {
 
   useEffect(() => {
     cartId = JSON.parse(window.localStorage.getItem('cart') ?? 'null');
-    handleGetCart()
-      .then(() => handleGetCartAvailability())
-      .catch((error) => console.error(error));
+    const submitFn = async () => {
+      try {
+        await handleGetCart();
+        await handleGetCartAvailability();
+        await handleGetSchema();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    submitFn();
   }, [reload, currency]);
   const Title = ({ children }: LayoutProps) => (
     <p className="px-5 mt-3 mb-2 text-lg lg:mt-0 lg:text-2xl text-dark-800 lg:bg-dark-100 lg:py-6 lg:border-b lg:font-semibold">

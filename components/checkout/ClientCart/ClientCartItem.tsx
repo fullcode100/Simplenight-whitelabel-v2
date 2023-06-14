@@ -32,7 +32,7 @@ const ClientCartItem = ({
     onChange(e.target.value, item.cart_item_id, true);
   };
   const handleChangeCustomer = (data: any) => {
-    onChange(data, item.cart_item_id, false);
+    onChange(data, item.cart_item_id, false, false);
   };
 
   const handleChangeAnswers = (data: any, travelerNum: number | null) => {
@@ -160,7 +160,9 @@ const ClientCartItem = ({
               uiSchema={!usePrimaryContact ? formUiSchema : null}
               // eslint-disable-next-line @typescript-eslint/no-empty-function
               onChange={!usePrimaryContact ? handleChangeCustomer : () => {}}
-            />
+            >
+              <></>
+            </FormSchema>
           )}
         </section>
       ) : null}
