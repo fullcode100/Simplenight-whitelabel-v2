@@ -46,21 +46,24 @@ const FullScreenModal = ({
             className="fixed inset-0 bg-black opacity-20"
             style={{ zIndex: 99 }}
           ></div>
-          <section
-            className={classnames(
-              `h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100] ${className}`,
-              { ['hidden']: !open },
-            )}
-            style={{ width: '100%', zIndex: 100 }}
-          >
-            {!noHeader && (
-              <ModalHeader
-                title={title}
-                onCloseModal={closeModal}
-                headerAction={headerAction}
-              />
-            )}
-            {children}
+          <section className="h-full overflow-y-scroll fixed inset-0 bg-white z-[100]">
+            <section
+              className={classnames(`flex flex-col ${className}`, {
+                ['hidden']: !open,
+              })}
+              style={{ width: '100%', zIndex: 100 }}
+            >
+              {!noHeader && (
+                <ModalHeader
+                  title={title}
+                  onCloseModal={closeModal}
+                  headerAction={headerAction}
+                />
+              )}
+              {children}
+            </section>
+          </section>
+          <section className="fixed z-[110] bottom-0 left-0 w-full">
             {!noFooter && (
               <ModalFooter
                 primaryButtonText={primaryButtonText}

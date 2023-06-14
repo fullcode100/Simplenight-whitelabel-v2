@@ -41,6 +41,7 @@ import getFilterCountHotels from 'hotels/helpers/getFilterCountHotels';
 import { getInitialPriceLimits } from 'hotels/helpers/getInitialPriceLimits';
 import { useFilterAppliedStore } from 'hooks/hotels/useFilterAppliedStore';
 import VerticalSkeletonCard from 'components/global/VerticalItemCard/VerticalSkeletonCard';
+import Head from 'next/head';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -361,100 +362,114 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     </ul>
   );
 
+  const overflowStyles =
+    isOpen && window.innerWidth < 1024
+      ? `
+      body {
+        overflow: hidden;
+      }
+    `
+      : '';
+
   return (
-    <div
-      className={classNames({
-        'lg:px-20 flex justify-center': isListView,
-      })}
-    >
-      <div className={classNames({ 'max-w-7xl w-full': isListView })}>
-        <section className="relative lg:flex lg:w-full">
-          {isOpen && (
-            <section>
-              {isLoading ? (
-                <VerticalSkeletonCard />
-              ) : (
-                <FilterSidebarHotels
-                  isListView={isListView}
-                  limitsPrice={limitsPrice}
-                  filtersCount={filtersCount}
-                  setCriteria={setCriteria}
-                  keywordSearchData={keywordSearchData}
-                  keywordSearch={keywordSearch}
-                  setKeywordSearch={setKeywordSearch}
-                  sortByVal={sortByVal}
-                  setSortByVal={setSortByVal}
-                  onClose={onClose}
-                  isOpen={isOpen}
-                  loading={isLoading}
-                  handleFilterHotels={setCriteria}
-                  resetFilters={resetCriteria}
-                  criteria={criteria}
-                  minPrice={minPriceFilter}
-                  setMinPrice={setMinPriceFilter}
-                  maxPrice={maxPriceFilter}
-                  setMaxPrice={setMaxPriceFilter}
-                  minStarRating={minStarRating}
-                  setMinStarRating={setMinStarRating}
-                  maxStarRating={maxStarRating}
-                  setMaxStarRating={setMaxStarRating}
-                  amenitiesOptions={amenitiesOptions}
-                  selectedAmenities={selectedAmenities}
-                  setSelectedAmenities={setSelectedAmenities}
+    <>
+      <Head>
+        <style>{overflowStyles}</style>
+      </Head>
+      <div
+        className={classNames({
+          'lg:px-20 flex justify-center': isListView,
+        })}
+      >
+        <div className={classNames({ 'max-w-7xl w-full': isListView })}>
+          <section className="relative lg:flex lg:w-full">
+            {isOpen && (
+              <section>
+                {isLoading ? (
+                  <VerticalSkeletonCard />
+                ) : (
+                  <FilterSidebarHotels
+                    isListView={isListView}
+                    limitsPrice={limitsPrice}
+                    filtersCount={filtersCount}
+                    setCriteria={setCriteria}
+                    keywordSearchData={keywordSearchData}
+                    keywordSearch={keywordSearch}
+                    setKeywordSearch={setKeywordSearch}
+                    sortByVal={sortByVal}
+                    setSortByVal={setSortByVal}
+                    onClose={onClose}
+                    isOpen={isOpen}
+                    loading={isLoading}
+                    handleFilterHotels={setCriteria}
+                    resetFilters={resetCriteria}
+                    criteria={criteria}
+                    minPrice={minPriceFilter}
+                    setMinPrice={setMinPriceFilter}
+                    maxPrice={maxPriceFilter}
+                    setMaxPrice={setMaxPriceFilter}
+                    minStarRating={minStarRating}
+                    setMinStarRating={setMinStarRating}
+                    maxStarRating={maxStarRating}
+                    setMaxStarRating={setMaxStarRating}
+                    amenitiesOptions={amenitiesOptions}
+                    selectedAmenities={selectedAmenities}
+                    setSelectedAmenities={setSelectedAmenities}
+                  />
+                )}
+              </section>
+            )}
+            <section className="relative lg:flex-1 h-full lg:mt-0">
+              {!isLoading && hasNoHotels ? (
+                <EmptyStateContainer
+                  text={noResultsLabel}
+                  Icon={EmptyState}
+                  width={114}
+                  desktopWidth={300}
                 />
+              ) : (
+                <>
+                  <ResultsAndControls />
+                  {isListView && (
+                    <section className="w-full h-full px-5 pb-6 lg:px-0 mt-0 lg:mt-16">
+                      <HotelList />
+                    </section>
+                  )}
+                  {!isListView && (
+                    <section className="w-full h-full">
+                      {!isLoading ? (
+                        <HotelMapView
+                          HotelCategory={HotelCategory}
+                          items={filteredHotels}
+                          createUrl={urlDetail}
+                        />
+                      ) : (
+                        <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
+                          <HorizontalSkeletonCard />
+                        </div>
+                      )}
+                    </section>
+                  )}
+                  {filteredHotels.length > next && isListView && (
+                    <section className="text-center">
+                      <Button
+                        onClick={loadMoreResults}
+                        value={'Load More'}
+                        size="w-60 h-11 text-base leading-[18px]"
+                        className="mt-4 mb-12"
+                      />
+                    </section>
+                  )}
+                </>
               )}
             </section>
-          )}
-          <section className="relative lg:flex-1 h-full lg:mt-0">
-            {!isLoading && hasNoHotels ? (
-              <EmptyStateContainer
-                text={noResultsLabel}
-                Icon={EmptyState}
-                width={114}
-                desktopWidth={300}
-              />
-            ) : (
-              <>
-                <ResultsAndControls />
-                {isListView && (
-                  <section className="w-full h-full px-5 pb-6 lg:px-0 mt-0 lg:mt-16">
-                    <HotelList />
-                  </section>
-                )}
-                {!isListView && (
-                  <section className="w-full h-full">
-                    {!isLoading ? (
-                      <HotelMapView
-                        HotelCategory={HotelCategory}
-                        items={filteredHotels}
-                        createUrl={urlDetail}
-                      />
-                    ) : (
-                      <div className="bg-dark-200 w-full h-[400px] lg:h-[580px] p-4 flex flex-col justify-end">
-                        <HorizontalSkeletonCard />
-                      </div>
-                    )}
-                  </section>
-                )}
-                {filteredHotels.length > next && isListView && (
-                  <section className="text-center">
-                    <Button
-                      onClick={loadMoreResults}
-                      value={'Load More'}
-                      size="w-60 h-11 text-base leading-[18px]"
-                      className="mt-4 mb-12"
-                    />
-                  </section>
-                )}
-              </>
-            )}
           </section>
-        </section>
-        <section className="w-full bg-red-400">
-          <ListMapMobileBottomTabs view={view} setview={setview} />
-        </section>
+          <section className="w-full bg-red-400">
+            <ListMapMobileBottomTabs view={view} setview={setview} />
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
