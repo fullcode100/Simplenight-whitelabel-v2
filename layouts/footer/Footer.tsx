@@ -80,13 +80,13 @@ const Footer = () => {
         <section className="flex flex-col gap-3 text-xs underline capitalize lg:flex-row lg:gap-8 lg:text-right">
           <section className="flex flex-col gap-3 lg:gap-2">
             <ExternalLink
-              href={simplenightTermsOfService}
+              href={'/terms'}
               className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
             >
-              Simplenight {termsOfServiceText}
+              <>Simplenight {termsOfServiceText}</>
             </ExternalLink>
             <ExternalLink
-              href={simplenightPrivacyPolicy}
+              href={'/privacy'}
               className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
             >
               Simplenight {privacyPolicyText}
