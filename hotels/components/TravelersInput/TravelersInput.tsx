@@ -37,19 +37,21 @@ const TravelersInput = ({
   const [indexOnFocus, setIndexOnFocus] = useState<number>(0);
   const handleCountChange = (value: number, index: number, type: string) => {
     const updatedRoom = newRooms[index];
+    let updatedChildrenAges = [];
+    let updatedInfantsAges = [];
     switch (type) {
       case 'adults':
         updatedRoom['adults'] = value;
         break;
       case 'children':
         updatedRoom['children'] = value;
-        const updatedChildrenAges = [...childrenAges];
+        updatedChildrenAges = [...childrenAges];
         updatedChildrenAges[value - 1] = 1; // Set the value at the specified index
         setchildrenAges(updatedChildrenAges);
         break;
       case 'infants':
         updatedRoom['infants'] = value;
-        const updatedInfantsAges = [...infantAges];
+        updatedInfantsAges = [...infantAges];
         updatedInfantsAges[value - 1] = 1;
         setinfantAges(updatedInfantsAges);
         break;

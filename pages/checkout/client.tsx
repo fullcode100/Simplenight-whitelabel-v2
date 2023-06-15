@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 // Libraries
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 // Components
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Button from 'components/global/Button/Button';
@@ -60,12 +60,10 @@ const Client = () => {
   const schemas = cart?.items?.map((item: any) => {
     return getItemQuestionSchemas(item);
   });
-  const baseValidationSchema = useClientQuestionsCheckoutFormSchema(schemas);
 
-  const formSchema = checkOutFormSchema.merge(baseValidationSchema);
-  type CheckoutFormSchema = z.infer<typeof formSchema>;
+  type CheckoutFormSchema = z.infer<typeof checkOutFormSchema>;
   const methods = useForm<CheckoutFormSchema>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(checkOutFormSchema),
     mode: 'onSubmit',
   });
 
@@ -76,7 +74,7 @@ const Client = () => {
 
   const currency = getCurrency();
 
-  const bookingAnswerData: any = {};
+  const bookingAnswerData: any = useRef({}).current;
   let itemsForm: any[] | undefined = [];
   let hasAdditionalRequests = false;
 
@@ -328,16 +326,17 @@ const Client = () => {
       phone_prefix: requestBody.customer.phone_prefix,
     };
     updateCustomer(customer);
+    await Promise.all(
+      Object.keys(bookingAnswerData)?.map(async (itemId) => {
+        const itemData: any = {
+          cartId: cart.cart_id,
+          itemId,
+          bookingAnswers: bookingAnswerData[itemId],
+        };
 
-    Object.keys(bookingAnswerData)?.forEach(async (itemId) => {
-      const itemData: any = {
-        cartId: cart.cart_id,
-        itemId,
-        bookingAnswers: bookingAnswerData[itemId],
-      };
-
-      await updateCartItem(i18n, itemData);
-    });
+        await updateCartItem(i18n, itemData);
+      }),
+    );
 
     const data = {
       ...requestBody,

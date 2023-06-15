@@ -20,7 +20,7 @@ export default async function handler(
     applySimplenightApiKey(req, res);
     axios = createServerAxiosInstance(req);
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       errors: [{ message: 'Reservation failed', error: 'Axios failed' }],
     });
   }
@@ -35,7 +35,7 @@ export default async function handler(
       );
 
       if (reservation.data.errorMessage?.error) {
-        res.status(500).json({
+        res.status(400).json({
           errors: [
             {
               message: 'Reservation failed',
@@ -45,18 +45,19 @@ export default async function handler(
         });
       }
     } catch (error) {
-      res.status(500).json({
+      res.status(400).json({
         errors: [
           {
             message: 'We are not able to create a reservation',
           },
         ],
+        supplierError: error,
       });
     }
 
     const controlNumber =
-      reservation?.data.pnrReply.pnrHeader[0].reservationInfo.reservation[0]
-        .controlNumber;
+      reservation?.data?.pnrReply?.pnrHeader?.[0]?.reservationInfo
+        ?.reservation?.[0]?.controlNumber;
 
     if (reservation && controlNumber) {
       try {
@@ -72,16 +73,17 @@ export default async function handler(
           },
         });
       } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
           errors: [
             {
               message: `We are not able to complete ticketing for ${controlNumber}`,
             },
           ],
+          supplierError: error,
         });
       }
     } else {
-      res.status(500).json({
+      res.status(400).json({
         errors: [
           {
             message: 'We are not able to create a reservation currently',
