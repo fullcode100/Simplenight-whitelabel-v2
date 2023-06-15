@@ -250,6 +250,7 @@ const FilterSidebarHotels = ({
           headerAction={
             <ClearFilterButton handleClearFilters={handleClearFilters} />
           }
+          classNameFooterModal="fixed z-[110] bottom-0 left-0 w-full"
         >
           <FilterFormHotels
             limitsPrice={limitsPrice}
