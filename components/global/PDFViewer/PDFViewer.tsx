@@ -4,7 +4,5 @@ interface Props {
 }
 
 export const PDFViewer = ({ pdf }: Props) => {
-  return (
-    <embed src={pdf} type="application/pdf" width="100%" height="1080px" />
-  );
+  return <iframe src={pdf} width="100%" height="1080px" />;
 };
