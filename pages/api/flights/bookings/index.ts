@@ -51,6 +51,7 @@ export default async function handler(
             message: 'We are not able to create a reservation',
           },
         ],
+        supplierError: error,
       });
     }
 
@@ -78,6 +79,7 @@ export default async function handler(
               message: `We are not able to complete ticketing for ${controlNumber}`,
             },
           ],
+          supplierError: error,
         });
       }
     } else {
