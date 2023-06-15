@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
 
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
-import DatePicker from '../Calendar/Calendar';
+import DatePicker from '../../../components/global/Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
 import { Traveler, createTraveler } from 'flights/helpers/traveler';
 import ArrowMenuRight from 'public/icons/assets/flights/arrow_menu_right.svg';
@@ -423,7 +423,6 @@ const FlightSearchForm = () => {
   const geolocation2IsNull = geolocation2 === `${NaN},${NaN}`;
 
   const handleSearchClick = () => {
-    // if (hasReRoute) {
     if (geolocationIsNull) {
       setShowLocationError(true);
       return;
@@ -505,9 +504,12 @@ const FlightSearchForm = () => {
     hidden: direction !== 'multicity' || router.pathname === '/' || !isDesktop,
   });
 
-  const classNameDatepicker = classnames('flex gap-4 lg:mt-0 w-full', {
-    'lg:max-w-xs': direction !== 'round_trip',
-  });
+  const classNameDatepicker = classnames(
+    'flex gap-4 lg:mt-0 lg:w-full relative',
+    {
+      'max-w-xs': direction !== 'round_trip',
+    },
+  );
 
   const fisrtLeavingFrom =
     shortNames[0] || localStorage.getItem('fisrtLeavingFrom');
@@ -623,7 +625,7 @@ const FlightSearchForm = () => {
                 <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
                   <section
                     className={classnames(
-                      'w-full flex flex-col items-center lg:flex-row lg:w-[90%] lg:justify-between lg:items-center',
+                      'lg:w-full flex flex-col lg:flex-row items-center lg:justify-between',
                     )}
                   >
                     <SearchAirport
@@ -688,25 +690,7 @@ const FlightSearchForm = () => {
                       placeholder={location2Placeholder}
                     />
                   </section>
-                  <DatePicker
-                    showDatePicker={showDatePicker}
-                    onClose={() => setShowDatePicker(false)}
-                    startDateLabel={t('checkIn')}
-                    endDateLabel={t('checkOut')}
-                    initialStartDate={
-                      direction === 'multicity'
-                        ? startDates[flightIndex]
-                        : startDate
-                    }
-                    initialEndDate={endDate}
-                    onStartDateChange={(value) =>
-                      handleStartDateChange(value, indexDatePicker)
-                    }
-                    onEndDateChange={handleEndDateChange}
-                    openOnStart={clickOnStart ? true : false}
-                    equal={direction !== 'round_trip'}
-                    // isRange={direction === 'round_trip'}
-                  />
+
                   <section className={classNameDatepicker}>
                     <IconInput
                       label={t('checkIn')}
@@ -751,6 +735,25 @@ const FlightSearchForm = () => {
                         }}
                       />
                     )}
+                    <DatePicker
+                      showDatePicker={showDatePicker}
+                      onClose={() => setShowDatePicker(false)}
+                      startDateLabel={t('checkIn')}
+                      endDateLabel={t('checkOut')}
+                      initialStartDate={
+                        direction === 'multicity'
+                          ? startDates[flightIndex]
+                          : startDate
+                      }
+                      initialEndDate={endDate}
+                      onStartDateChange={(value) =>
+                        handleStartDateChange(value, indexDatePicker)
+                      }
+                      onEndDateChange={handleEndDateChange}
+                      openOnStart={clickOnStart ? true : false}
+                      isRange={direction === 'round_trip'}
+                      // isRange={direction === 'round_trip'}
+                    />
                   </section>
                 </section>
 
