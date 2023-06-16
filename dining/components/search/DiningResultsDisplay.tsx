@@ -33,6 +33,7 @@ import { SORT_BY_OPTIONS } from 'dining/constants/sortByOptions';
 import FilterSidebarDining from './filters/FilterSidebarDining';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import FiltersIcon from 'public/icons/assets/filters.svg';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 type sortByFilters = 'Best Match' | 'Rating' | 'Review Count' | 'Distance';
 
@@ -67,9 +68,13 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
       ? SORT_BY_OPTIONS.find((o) => o.param == sort_by)?.label
       : sortByBestMatch,
   );
+  const [allowsReservation, setAllowsReservation] = useState(false);
   const [restaurants, setRestaurants] = useState<Dining[]>([]);
+  const [restaurantsFiltered, setRestaurantsFiltered] = useState<Dining[]>([]);
   const { ClientSearcher: Searcher } = Category.core;
   const isPhilippines = address?.toString().endsWith('Philippines');
+
+  const { isDesktop } = useMediaViewport();
 
   const params: DiningSearchRequest = {
     covers: '2',
@@ -110,6 +115,16 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     }
   }, [data, isPhilippines]);
 
+  useEffect(() => {
+    if (allowsReservation) {
+      setRestaurantsFiltered(
+        restaurants.filter((i: Dining) => i.allows_reservation === true),
+      );
+    } else {
+      setRestaurantsFiltered(restaurants);
+    }
+  }, [restaurants, allowsReservation]);
+
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
 
@@ -142,9 +157,13 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     }
   };
 
+  const onChangeAllowsReservation = () => {
+    setAllowsReservation(!allowsReservation);
+  };
+
   const DiningData = () => (
     <ul role="list" className="space-y-4">
-      {restaurants.map((dining, index) => {
+      {restaurantsFiltered.map((dining, index) => {
         const {
           id,
           name,
@@ -202,16 +221,24 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     },
   ];
 
-  const hasNoRestaurants = restaurants.length === 0;
+  const hasNoRestaurants = restaurantsFiltered.length === 0;
 
   const sortBySelect = {
     sortBy: sortByVal,
     onChangeSortBy: onChangeSortBy,
   };
+  const allowsReservationFilter = {
+    allowsReservation: allowsReservation,
+    onChangeAllowsReservation: onChangeAllowsReservation,
+  };
 
   useEffect(() => {
     if (price) setFiltersCount(1);
   }, [price]);
+
+  useEffect(() => {
+    isDesktop && onOpen();
+  }, [isDesktop]);
 
   return (
     <>
@@ -223,6 +250,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
               onClose={onClose}
               isOpen={isOpen}
               sortBySelect={sortBySelect}
+              allowsReservationFilter={allowsReservationFilter}
             />
           </section>
         )}
@@ -260,7 +288,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
                         </button>
                       )}
                       <span>
-                        {restaurants.length}{' '}
+                        {restaurantsFiltered.length}{' '}
                         <span className="lg:hidden">{t('results')}</span>
                         <span className="hidden lg:inline">
                           {' '}
@@ -293,7 +321,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
               )}
               {!isListView && (
                 <section className="relative w-full h-full">
-                  <MapView items={restaurants} createUrl={urlDetail} />
+                  <MapView items={restaurantsFiltered} createUrl={urlDetail} />
                 </section>
               )}
             </>
