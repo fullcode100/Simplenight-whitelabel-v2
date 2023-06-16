@@ -18,6 +18,7 @@ interface MultipleSelectProps {
   placeholder?: string;
   values: Option[];
   translation: string;
+  showCountSelected?: boolean;
 }
 
 const MultipleSelect = ({
@@ -26,11 +27,13 @@ const MultipleSelect = ({
   values: selectedOptions,
   placeholder,
   translation,
+  showCountSelected = false,
 }: MultipleSelectProps) => {
   const [t, i18n] = useTranslation(translation);
   const [tg, i18ng] = useTranslation('global');
 
   const selectAnyOption = tg('selectAnyOption', 'Select Any Option');
+  const selectedLabel = tg('selected', 'Selected');
 
   const selectedOptionsLabels = selectedOptions.map((option) =>
     t(option.label),
@@ -50,9 +53,11 @@ const MultipleSelect = ({
             )}
           >
             <span className="block truncate">
-              {selectedOptionsLabels.join(', ') ||
-                placeholder ||
-                selectAnyOption}
+              {showCountSelected
+                ? `${selectedOptions.length} ${selectedLabel}`
+                : selectedOptionsLabels.join(', ') ||
+                  placeholder ||
+                  selectAnyOption}
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               {open ? (
