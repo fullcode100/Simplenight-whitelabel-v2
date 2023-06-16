@@ -17,16 +17,14 @@ const HotelCheckoutDisplay = ({
   Category,
 }: HotelCheckoutDisplayProps) => {
   const [t, i18n] = useTranslation('hotels');
-  const roomText = t('room', 'Room');
-  const roomsText = t('rooms', 'Rooms');
+  const nightText = t('night', 'Nights');
+  const nigthsText = t('nights', 'Nights');
 
   const name = item?.item_data.details.name;
-  const itemsQty = item?.booking_data.room_qty
-    ? item?.booking_data.room_qty
-    : 0;
+  const itemsQty = item?.booking_data.nights ? item?.booking_data.nights : 0;
 
-  const roomsLabel = usePlural(itemsQty, roomText, roomsText);
-  const roomsFormatted = `${itemsQty} ${roomsLabel}`;
+  const nightsLabel = usePlural(itemsQty, nightText, nigthsText);
+  const nightsFormatted = `${itemsQty} ${nightsLabel}`;
 
   return (
     <section className="flex flex-row gap-3">
@@ -38,7 +36,7 @@ const HotelCheckoutDisplay = ({
           {name}
         </section>
         <Paragraph size="small" fontWeight="semibold" textColor="text-dark-800">
-          {roomsFormatted}
+          {nightsFormatted}
         </Paragraph>
       </section>
     </section>

@@ -4,6 +4,7 @@ import { useCategorySlug } from 'hooks/category/useCategory';
 import { useCategory } from 'hooks/categoryInjection/useCategory';
 import BreakdownSummary from '../PriceBreakdownModal/components/BreakdownSummary';
 import { Rates } from '../../types/response/SearchResponse';
+import HotelGeneralInfo from './HotelGeneralInfo';
 
 const HotelCheckoutItemDisplay = (item: any) => {
   const selectedRoom = item.item?.item_data?.room;
@@ -35,11 +36,19 @@ const HotelCheckoutItemDisplay = (item: any) => {
   };
 
   return (
-    <CollapseBordered
-      title={<CartItemHeader />}
-      body={<CartItemBody />}
-      footer={<BreakdownSummary rate={breakDownInfo} showTotal={true} />}
-    />
+    <>
+      <section className="overflow-hidden border rounded-t-lg border-dark-300">
+        <section className="border-b border-dark-300 flex justify-between py-4 px-5border-b border-dark-300 flex justify-between py-4 px-5">
+          <CartItemHeader />
+        </section>
+        <HotelGeneralInfo item={item.item?.item_data} />
+      </section>
+      <CollapseBordered
+        title={<h4>Price Breakdown</h4>}
+        body={<CartItemBody />}
+        footer={<BreakdownSummary rate={breakDownInfo} showTotal={true} />}
+      />
+    </>
   );
 };
 
