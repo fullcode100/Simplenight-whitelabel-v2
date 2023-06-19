@@ -50,8 +50,9 @@ const FullScreenModal = ({
           ></div>
           <section
             className={classnames(
-              `h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100 ${className}`,
+              'h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100]',
               { ['hidden']: !open },
+              className,
             )}
             style={{ width: '100%', zIndex: 100 }}
           >
