@@ -137,9 +137,9 @@ const ClientCartItem = ({
   } = item.extended_data; */
 
   return (
-    <section className="py-6 space-y-5">
+    <section className="py-6">
       <CartItemDetail />
-      <section className="flex items-center">
+      <section className="flex items-center mt-5">
         <ToggleSwitch
           onChange={() => setUsePrimaryContact(!usePrimaryContact)}
           checked={usePrimaryContact}
@@ -166,7 +166,6 @@ const ClientCartItem = ({
           )}
         </section>
       ) : null}
-
       {bookingQuestionSchema && (
         <section className="mt-1.5">
           <FormSchema

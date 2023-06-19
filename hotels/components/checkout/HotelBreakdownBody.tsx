@@ -19,7 +19,6 @@ const HotelBreakdownBody = ({
 }: HotelBreakdownBodyProps) => {
   return (
     <section className={`${useCollapse && 'pl-[52px]'}`}>
-      <HotelGeneralInfo item={item?.item_data} />
       <HotelRoomsInfo item={item} reload={reload} setReload={setReload} />
     </section>
   );
