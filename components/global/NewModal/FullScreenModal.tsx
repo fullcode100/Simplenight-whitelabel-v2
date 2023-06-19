@@ -50,14 +50,14 @@ const FullScreenModal = ({
           ></div>
           <section
             className={classnames(
-              `h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100] ${className}`,
+              `h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100 ${className}`,
               { ['hidden']: !open },
             )}
             style={{ width: '100%', zIndex: 100 }}
           >
             <section
               className={classnames({
-                ['h-full']: classNameFooterModal === '',
+                ['pb-[92px]']: !noFooter,
               })}
             >
               {!noHeader && (
@@ -69,7 +69,12 @@ const FullScreenModal = ({
               )}
               {children}
             </section>
-            <section className={classNameFooterModal}>
+            <section
+              className={classnames(
+                'fixed z-[110] bottom-0 left-0 w-full',
+                classNameFooterModal,
+              )}
+            >
               {!noFooter && (
                 <ModalFooter
                   primaryButtonText={primaryButtonText}
