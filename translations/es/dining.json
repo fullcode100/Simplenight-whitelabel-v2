@@ -68,5 +68,6 @@
   "closed": "Cerrado",
   "diningItineraryDisclaimer": "Finalizar Pedido Ahora para evitar cambios de tarifa",
   "bookTable": "Reservar una Mesa",
-  "finestDiningExperience": "Disfrute de las mejores experiencias gastronómicas de la ciudad."
+  "finestDiningExperience": "Disfrute de las mejores experiencias gastronómicas de la ciudad.",
+  "allowsReservation": "Permite Reserva"
 }

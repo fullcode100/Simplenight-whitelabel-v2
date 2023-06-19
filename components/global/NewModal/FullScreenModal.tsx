@@ -18,6 +18,7 @@ interface FullScreenModalProps {
   noHeader?: boolean;
   containerButtonsClassName?: string;
   className?: string;
+  classNameFooterModal?: string;
   headerAction?: ReactNode;
 }
 
@@ -36,6 +37,7 @@ const FullScreenModal = ({
   noHeader = false,
   containerButtonsClassName,
   className = '',
+  classNameFooterModal = '',
   headerAction,
 }: FullScreenModalProps) => {
   return (
@@ -46,12 +48,18 @@ const FullScreenModal = ({
             className="fixed inset-0 bg-black opacity-20"
             style={{ zIndex: 99 }}
           ></div>
-          <section className="h-full overflow-y-scroll fixed inset-0 bg-white z-[100]">
+          <section
+            className={classnames(
+              'h-full flex flex-col fixed inset-0 overflow-y-auto bg-white z-[100]',
+              { ['hidden']: !open },
+              className,
+            )}
+            style={{ width: '100%', zIndex: 100 }}
+          >
             <section
-              className={classnames(`flex flex-col ${className}`, {
-                ['hidden']: !open,
+              className={classnames({
+                ['pb-[92px]']: !noFooter,
               })}
-              style={{ width: '100%', zIndex: 100 }}
             >
               {!noHeader && (
                 <ModalHeader
@@ -62,19 +70,24 @@ const FullScreenModal = ({
               )}
               {children}
             </section>
-          </section>
-          <section className="fixed z-[110] bottom-0 left-0 w-full">
-            {!noFooter && (
-              <ModalFooter
-                primaryButtonText={primaryButtonText}
-                secondaryButtonText={secondaryButtonText}
-                primaryButtonAction={primaryButtonAction}
-                secondaryButtonAction={secondaryButtonAction}
-                summary={footerSummary}
-                hasMultipleActions={hasMultipleActions}
-                containerButtonsClassName={containerButtonsClassName}
-              />
-            )}
+            <section
+              className={classnames(
+                'fixed z-[110] bottom-0 left-0 w-full',
+                classNameFooterModal,
+              )}
+            >
+              {!noFooter && (
+                <ModalFooter
+                  primaryButtonText={primaryButtonText}
+                  secondaryButtonText={secondaryButtonText}
+                  primaryButtonAction={primaryButtonAction}
+                  secondaryButtonAction={secondaryButtonAction}
+                  summary={footerSummary}
+                  hasMultipleActions={hasMultipleActions}
+                  containerButtonsClassName={containerButtonsClassName}
+                />
+              )}
+            </section>
           </section>
         </>
       )}
