@@ -238,5 +238,6 @@
   "middle_name": "Segundo Nombre",
   "last_name": "Apellido",
   "date_of_birth": "Fecha De Nacimiento",
-  "gender": "Género"
+  "gender": "Género",
+  "selected": "Seleccionados"
 }
