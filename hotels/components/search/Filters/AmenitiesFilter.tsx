@@ -32,6 +32,7 @@ const AmenitiesFilter = ({
         values={selectedAmenities}
         onChange={onChangeAmenities}
         translation="hotels"
+        showCountSelected={true}
       />
       <section className="min-h-[350px]">
         <section className="flex flex-wrap gap-3 mt-6 pb-6">
