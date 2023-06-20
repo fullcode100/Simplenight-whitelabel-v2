@@ -14,7 +14,12 @@ const LocationSection = ({ fullAddress }: LocationSectionProps) => {
   const locationLabel = t('location', 'Location');
   const { coordinates, address, country, countryCode, postalCode } =
     fullAddress;
-
+  const locations = [
+    {
+      latitude: fullAddress.coordinates.latitude,
+      longitude: fullAddress.coordinates.longitude,
+    },
+  ];
   return (
     <section className="px-5 py-6 lg:px-0 lg:py-0">
       <section className="flex justify-between mb-5 place-items-center lg:mb-8">
@@ -37,6 +42,7 @@ const LocationSection = ({ fullAddress }: LocationSectionProps) => {
       </section>
 
       <LocationMap
+        locations={locations}
         height={400}
         center={{
           latitude: coordinates.latitude,
