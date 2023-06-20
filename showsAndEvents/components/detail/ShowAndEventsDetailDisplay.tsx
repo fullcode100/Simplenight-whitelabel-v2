@@ -600,6 +600,12 @@ const ShowAndEventsDetailDisplay = ({
         {getSectionTitle('Location', LocationPin, RightElement)}
         <div className="pt-2">
           <LocationMap
+            locations={[
+              {
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude,
+              },
+            ]}
             center={coordinates}
             coords={[
               {
