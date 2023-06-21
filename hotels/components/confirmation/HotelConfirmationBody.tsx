@@ -10,6 +10,7 @@ interface HotelConfirmationBodyProps {
   payment?: Payment;
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
+  modalMode?: boolean;
 }
 
 const HotelConfirmationBody = ({
@@ -17,12 +18,14 @@ const HotelConfirmationBody = ({
   payment,
   loading,
   setLoading,
+  modalMode = false,
 }: HotelConfirmationBodyProps) => {
   return (
     <section className="ml-[52px] lg:pb-6 border-t lg:border-0 border-dark-300">
       <HotelCustomerInfo item={item} />
       <HotelGeneralInfo item={item} />
       <HotelRoomsInfo
+        modalMode={modalMode}
         item={item}
         payment={payment}
         loading={loading}

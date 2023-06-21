@@ -12,6 +12,7 @@ interface HotelConfirmationDisplayProps {
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
   Category: CategoryOption;
+  modalMode?: boolean;
 }
 
 const HotelConfirmationDisplay = ({
@@ -20,12 +21,14 @@ const HotelConfirmationDisplay = ({
   loading,
   setLoading,
   Category,
+  modalMode = false,
 }: HotelConfirmationDisplayProps) => {
   return (
     <CollapseUnbordered
       title={<HotelConfirmationHeader item={item} icon={Category.icon} />}
       body={
         <HotelConfirmationBody
+          modalMode={modalMode}
           item={item}
           payment={payment}
           loading={loading}

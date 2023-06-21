@@ -10,6 +10,7 @@ interface ConfirmationItemListProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
+  modalMode?: boolean;
 }
 
 const ConfirmationItemList = ({
@@ -19,6 +20,7 @@ const ConfirmationItemList = ({
   setLoading,
   reload,
   setReload,
+  modalMode = false,
 }: ConfirmationItemListProps) => {
   return (
     <section className="grid py-5 divide-y lg:px-6 divide-dark-300">
@@ -28,6 +30,7 @@ const ConfirmationItemList = ({
         return (
           <section key={index}>
             <ConfirmationItem
+              modalMode={modalMode}
               item={item}
               payment={payment}
               loading={loading}

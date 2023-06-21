@@ -18,6 +18,7 @@ interface HotelRoomsInfoProps {
   payment?: Payment;
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
+  modalMode?: boolean;
 }
 
 const HotelRoomsInfo = ({
@@ -25,6 +26,7 @@ const HotelRoomsInfo = ({
   payment,
   loading,
   setLoading,
+  modalMode = false,
 }: HotelRoomsInfoProps) => {
   const router = useRouter();
   const [isOpen, onOpen, onClose] = useModal();
@@ -108,29 +110,30 @@ const HotelRoomsInfo = ({
         termsOfService={termsOfService}
         isPriceBase
       />
-      {item?.cancellation_policy?.cancellation_type !== 'NON_REFUNDABLE' && (
-        <section className="lg:flex lg:justify-end">
-          <section className="lg:w-1/4">
-            <Button
-              value={cancelLabel}
-              size="full-sm"
-              type="outlined"
-              translationKey="cancelReservation"
-              onClick={onOpen}
-            />
-            <CancelModal
-              open={isOpen}
-              onClose={onClose}
-              bookingItemsList={bookingItemsList}
-              payment={payment}
-              loading={loading}
-              setLoading={setLoading}
-              handleCancel={handleItemRemoval}
-              bookingTotalOrder={refundAmount || '$0.00'}
-            />
+      {item?.cancellation_policy?.cancellation_type !== 'NON_REFUNDABLE' &&
+        !modalMode && (
+          <section className="lg:flex lg:justify-end">
+            <section className="lg:w-1/4">
+              <Button
+                value={cancelLabel}
+                size="full-sm"
+                type="outlined"
+                translationKey="cancelReservation"
+                onClick={onOpen}
+              />
+              <CancelModal
+                open={isOpen}
+                onClose={onClose}
+                bookingItemsList={bookingItemsList}
+                payment={payment}
+                loading={loading}
+                setLoading={setLoading}
+                handleCancel={handleItemRemoval}
+                bookingTotalOrder={refundAmount || '$0.00'}
+              />
+            </section>
           </section>
-        </section>
-      )}
+        )}
     </section>
   );
 };

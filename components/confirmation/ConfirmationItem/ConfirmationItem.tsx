@@ -11,6 +11,7 @@ interface ConfirmationItemProps {
   setLoading: Dispatch<SetStateAction<boolean>>;
   reload?: boolean;
   setReload?: Dispatch<SetStateAction<boolean>>;
+  modalMode?: boolean;
 }
 
 const ConfirmationItem = ({
@@ -20,6 +21,7 @@ const ConfirmationItem = ({
   setLoading,
   reload,
   setReload,
+  modalMode = false,
 }: ConfirmationItemProps) => {
   let sectorName = item.sector?.toLowerCase();
   const categoryName = item.category?.toLowerCase();
@@ -58,6 +60,7 @@ const ConfirmationItem = ({
       customer: item.customer,
       reload: reload,
       setReload: setReload,
+      modalMode: modalMode,
     }) ?? null
   );
 };

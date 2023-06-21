@@ -36,6 +36,7 @@ const CancelModal = ({
   const cancelOrder = t('cancelOrder', 'Cancel Order');
   const cancelReservation = t('cancelReservation', 'Cancel Reservation');
   const cancelTitle = isCancelOrder ? cancelOrder : cancelReservation;
+  const modalMode = true;
 
   const questionOrder = t(
     'doYouWishToCancelYourOrder',
@@ -97,6 +98,7 @@ const CancelModal = ({
 
         <section className="px-4 border rounded lg:px-0 bg-dark-100 border-dark-300">
           <ConfirmationItemList
+            modalMode={modalMode}
             bookingItemsList={bookingItemsList}
             payment={payment}
             loading={loading}
