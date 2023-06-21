@@ -568,16 +568,6 @@ const ShowAndEventsDetailDisplay = ({
                               row.booking_code_supplier,
                           )?.quantity || 0
                         }
-                        isDisabled={
-                          (!hasCartMode() &&
-                            selectedSeats.length &&
-                            !selectedSeats.find(
-                              (item) =>
-                                item.bookingCodeSupplier ===
-                                row.booking_code_supplier,
-                            )?.quantity) ||
-                          false
-                        }
                       />
                     );
                   })}
