@@ -48,10 +48,9 @@ const TicketCard: React.FC<TicketCard> = ({
     return purchasableQuantities;
   }, [purchasableQuantities]);
 
+  const seatSplitQuantity = [...purchasableQuantitiesList].shift();
+
   const [seatTogether, setSeatTogether] = useState(false);
-  const [seatSplitQuantity, setSeatSplitQuantity] = useState(
-    [...purchasableQuantitiesList].shift(),
-  );
   const ticketsCountLabel = selectedSeats > 1 ? ticketsLabel : ticketLabel;
   const availableSeatsLabel = availableSeats > 1 ? ticketsLabel : ticketLabel;
 

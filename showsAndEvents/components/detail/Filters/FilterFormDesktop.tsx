@@ -26,6 +26,10 @@ const FilterFormDesktop = ({ onChange, maxPrice }: iDetailFilterFormProps) => {
   const [minSeatsState, setMinSeats] = useState<number>(+initialSeats.min);
   const [maxSeatsState, setMaxSeats] = useState<number>(+initialSeats.max);
 
+  useEffect(() => {
+    setMaxPrice(+initialPriceRange.max);
+  }, [initialPriceRange.max]);
+
   const onChangeUpdate = (data: Partial<filters>) => {
     onChange({
       minPrice: `${minPriceState}`,

@@ -219,12 +219,28 @@ const ShowAndEventsDetailDisplay = ({
   const filterSectors = (filter: filters) => {
     if (data?.seats) {
       const finalData = data?.seats.filter((item: any) => {
+        const minSeats = +filter.minSeats;
+        const maxSeats = +filter.maxSeats;
+        let isValid = false;
+        if (minSeats === maxSeats && minSeats !== 6) {
+          isValid = item.purchasable_quantities.includes(minSeats);
+        } else if (minSeats === maxSeats && minSeats === 6) {
+          isValid = item.purchasable_quantities.some(
+            (quantity: number) => quantity >= minSeats,
+          );
+        } else {
+          isValid = item.purchasable_quantities.some((quantity: number) => {
+            return (
+              Number(quantity) >= Number(filter.minSeats) &&
+              Number(quantity) <=
+                (Number(filter.maxSeats) < 6
+                  ? Number(filter.maxSeats)
+                  : Number(maxAvailableSeats))
+            );
+          });
+        }
         return (
-          Number(item.available_seats) >= Number(filter.minSeats) &&
-          Number(item.available_seats) <=
-            (Number(filter.maxSeats) < 6
-              ? Number(filter.maxSeats)
-              : Number(maxAvailableSeats)) &&
+          isValid &&
           Number(item.rate.total.net.amount) >= Number(filter.minPrice) &&
           Number(item.rate.total.net.amount) <= Number(filter.maxPrice)
         );
@@ -511,16 +527,16 @@ const ShowAndEventsDetailDisplay = ({
               ({ title }) =>
                 selectedTab === 'All sectors' || selectedTab === title,
             )
-            .map(({ title, rows }, id) => {
+            .map(({ title, rows }) => {
               return (
-                <div key={id} className="mt-4">
+                <div key={`${sectorLabel}-${title}`} className="mt-4">
                   <p className="text-lg leading-5 lg:text-[18px] lg:leading-[22px] font-semibold">
                     {`${sectorLabel} ${title}`}
                   </p>
-                  {rows.map((row, idx) => {
+                  {rows.map((row) => {
                     return (
                       <TicketCard
-                        key={idx}
+                        key={title}
                         {...row}
                         add={(value) => {
                           addSelectedSeastsInfo({
