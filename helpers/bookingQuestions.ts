@@ -7,7 +7,7 @@ export const questionsFormDataDestructuring = (data: any) => {
   let destructObject = {};
   Object.keys(data)?.forEach((key: string) => {
     if (data[key][key]) {
-      destructObject = data[key];
+      destructObject = { ...destructObject, ...data[key] };
       delete data[key];
     }
   });
