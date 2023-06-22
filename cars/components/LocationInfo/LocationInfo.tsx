@@ -8,7 +8,7 @@ interface LocationInfoProps {
 const LocationInfo = ({ address, compact }: LocationInfoProps) => {
   return (
     <section className="flex flex-row gap-2">
-      <LocationPin className="h-3.5 lg:h-4 lg:w-4 lg:ml-0 mt-1 lg:mt-0 text-primary-1000" />
+      <LocationPin className="w-8 h-10  text-primary-1000" />
       <Paragraph
         size="small"
         fontWeight="semibold"

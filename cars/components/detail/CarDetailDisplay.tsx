@@ -22,6 +22,7 @@ import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
 import CheckIcon from 'public/icons/assets/check.svg';
 
 import InlineFeature from 'components/global/InlineFeature/InlineFeature';
+import dayjs from 'dayjs';
 type CarDetailDisplayProps = CategoryPageComponentProps;
 
 const data: Car = {
@@ -45,6 +46,8 @@ const data: Car = {
   passenger_quantity: '4',
   baggage_quantity: '3',
   door_count: '4',
+  startDate: '',
+  endDate: '',
   air_condition_ind: true,
 };
 
@@ -83,9 +86,14 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
     <div className="flex items-center">
       <Calendar className="text-primary-1000 h-4 w-4 mr-2" />
       <section className="flex items-center">
-        <span className="capitalize">{fromLowerCaseToCapitilize(toLabel)}</span>
-        <span className="mx-1">{toLabel}</span>
-        <span className="capitalize">{fromLowerCaseToCapitilize(toLabel)}</span>
+        <span className="capitalize">
+          {dayjs(car?.startDate)?.format('MMM DD YYYY')}
+        </span>
+        <span className="mx-1">{fromLowerCaseToCapitilize(toLabel)}</span>
+        <span className="capitalize">
+          {' '}
+          {dayjs(car?.endDate)?.format('MMM DD YYYY')}
+        </span>
       </section>
     </div>
   );
@@ -238,7 +246,7 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
                     Pick Up
                   </Paragraph>
                   <CalendarInfo
-                    date="Mar 25, 2022"
+                    date={dayjs(car?.startDate)?.format('MMM DD YYYY')}
                     time="11:00 AM to 6:00 PM"
                     compact
                   />
@@ -253,7 +261,7 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
                     Drop Off
                   </Paragraph>
                   <CalendarInfo
-                    date="Mar 25, 2022"
+                    date={dayjs(car?.startDate)?.format('MMM DD YYYY')}
                     time="11:00 AM to 6:00 PM"
                     compact
                   />

@@ -142,7 +142,10 @@ const Payment = () => {
                         label={amountForThisCardLabel}
                         required={{ required: true, label: fullAmountLabel }}
                       >
-                        <TextInput value={'$120'} state="disabled" />
+                        <TextInput
+                          value={`$${car?.rate?.totalAmount || '0'}`}
+                          state="disabled"
+                        />
                       </FormField>
                     </section>
 

@@ -22,6 +22,8 @@ export interface Car {
   passenger_quantity: string;
   baggage_quantity: string;
   door_count: string;
+  startDate?: string;
+  endDate?: string;
   air_condition_ind: boolean;
 }
 

@@ -275,7 +275,12 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   };
 
   const goToDetailPage = (carItem: Car) => {
-    setCarStore({ ...carItem });
+    const updatedCarItem = {
+      ...carItem,
+      startDate: formatAsSearchDate(startDate as unknown as string),
+      endDate: formatAsSearchDate(endDate as unknown as string),
+    };
+    setCarStore(updatedCarItem);
     router.push('/detail/car-rental/info');
   };
 
