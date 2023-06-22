@@ -9,13 +9,13 @@ interface DropdowMenuProps {
   items: {
     label: string;
     icon?: any;
-    isActive: boolean;
     value: string;
   }[];
   onChange: (value: string) => void;
   alingDirection: 'left' | 'right';
   menuIcon?: any;
   label: string;
+  active?: string;
 }
 
 const DropdownMenu = ({
@@ -24,13 +24,10 @@ const DropdownMenu = ({
   alingDirection,
   menuIcon,
   label,
+  active,
 }: DropdowMenuProps) => {
   const ref = useRef<HTMLElement>(null);
-  const [activeItem, setActiveItem] = useState(
-    items.find((item) => item.isActive) || items[0],
-  );
-
-  const [itemsState, setItemsState] = useState(items);
+  const activeItem = items?.find((item) => item.value === active);
   const [showMenu, setShowMenu] = useState(false);
   const [tg] = useTranslation('global');
   const applyText = tg('apply', 'Apply');
@@ -40,26 +37,6 @@ const DropdownMenu = ({
   });
   const { isDesktop } = useMediaViewport();
 
-  useEffect(() => {
-    setItemsState(items);
-  }, [items]);
-
-  useEffect(() => {
-    onChange(activeItem.value);
-  }, [activeItem]);
-
-  const updateItemsState = (selectedValue: string) => {
-    setItemsState(
-      [...items].map((item) => ({
-        ...item,
-        isActive: item.value === selectedValue,
-      })),
-    );
-    setActiveItem(
-      items.find(({ value }) => value === selectedValue) || items[0],
-    );
-  };
-
   return (
     <section className="relative justify-start tems-center">
       <button
@@ -67,8 +44,8 @@ const DropdownMenu = ({
         onClick={() => setShowMenu((p) => !p)}
       >
         <span className="flex flex-row items-center gap-1 text-xs font-semibold text-left text-dark-1000">
-          <span>{activeItem.icon || menuIcon}</span>
-          <span>{activeItem.label}</span>
+          <span>{activeItem?.icon || menuIcon}</span>
+          <span>{activeItem?.label}</span>
         </span>
       </button>
       {isDesktop ? (
@@ -78,21 +55,16 @@ const DropdownMenu = ({
           }`}
           ref={ref}
         >
-          {itemsState.map(({ label, icon, isActive, value }, index) => (
+          {items.map(({ label, icon, value }, index) => (
             <button
               className={classnames(
                 'flex items-center border-b border-gray-300 w-full h-11 py-2 px-[13px] text-sm',
-                {
-                  'bg-primary-100 text-primary-1000 fill-primary-1000':
-                    isActive,
-                },
-                {
-                  'bg-white text-dark-1000 hover:bg-primary-100 hover:text-primary-1000 hover:fill-primary-1000':
-                    !isActive,
-                },
+                value === active
+                  ? 'bg-primary-100 text-primary-1000 fill-primary-1000'
+                  : 'bg-white text-dark-1000 hover:bg-primary-100 hover:text-primary-1000 hover:fill-primary-1000',
               )}
               onClick={() => {
-                updateItemsState(value);
+                onChange(value);
                 setShowMenu(false);
               }}
               key={index}
@@ -117,20 +89,15 @@ const DropdownMenu = ({
           }
         >
           <div className="h-full py-6">
-            {itemsState.map(({ label, icon, isActive, value }, index) => (
+            {items.map(({ label, icon, value }, index) => (
               <button
                 className={classnames(
                   'flex items-center border-b border-gray-300 w-full h-11 py-2 px-[13px] text-sm',
-                  {
-                    'bg-primary-100 text-primary-1000 fill-primary-1000':
-                      isActive,
-                  },
-                  {
-                    'bg-white text-dark-1000 hover:bg-primary-100 hover:text-primary-1000 hover:fill-primary-1000':
-                      !isActive,
-                  },
+                  value === active
+                    ? 'bg-primary-100 text-primary-1000 fill-primary-1000'
+                    : 'bg-white text-dark-1000 hover:bg-primary-100 hover:text-primary-1000 hover:fill-primary-1000',
                 )}
-                onClick={() => updateItemsState(value)}
+                onClick={() => onChange(value)}
                 key={index}
               >
                 <span className="flex flex-row items-center gap-1 text-xs font-semibold text-left">

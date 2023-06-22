@@ -16,6 +16,7 @@ export interface Search {
   geolocation2: string;
   address2: string;
   travelersData: Array<Traveler>;
+  cabynType?: string;
 }
 
 export interface SearchStore {

@@ -3,18 +3,14 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import DatePicker from '../../../components/global/Calendar/Calendar';
-import TravelersInput from '../TravelersInput/TravelersInput';
 import { Traveler, createTraveler } from 'flights/helpers/traveler';
 import ArrowMenuRight from 'public/icons/assets/flights/arrow_menu_right.svg';
 import ArrowMenuRoudTrip from 'public/icons/assets/flights/arrow_menu_roundtrip.svg';
-import ArrowMenuMulticity from 'public/icons/assets/flights/arrow_menu_multicity.svg';
 import Seat from 'public/icons/assets/flights/seat.svg';
-import LocationPin from 'public/icons/assets/location-pin.svg';
 import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
 import { Button, IconWrapper, Paragraph } from '@simplenight/ui';
-import LocationInput from '../Input/LocationInput';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { formatAsDisplayDate, formatAsSearchDate } from 'helpers/dajjsUtils';
 import { setTravelersTotals } from 'flights/helpers/travelers';
@@ -53,32 +49,42 @@ const FlightSearchForm = () => {
     'findThePerfectFlightForYou',
     'Find the perfect flight for you',
   );
-
-  const params = useQuery();
-  const setSearch = useSearchStore((state) => state.setSearch);
-  const [cabinTypeMenuItems, setCabinTypeMenuItems] = useState([
-    { label: 'Economy', isActive: false, value: 'economy' },
-    { label: 'Premium Economy', isActive: false, value: 'premium_economy' },
-    { label: 'Business', isActive: false, value: 'business' },
-    { label: 'First Class', isActive: false, value: 'first_class' },
-  ]);
-  const [direction, setDirection] = useState<Direction>(
-    (params?.direction?.toString() as Direction) || 'round_trip',
-  );
-  const [directionsMenuItems, setDirectionsMenuItems] = useState([
+  const cabynTypes: Array<{ label: string; value: string }> = [
     {
-      label: 'One-Way',
+      label: t('economy'),
+      value: 'economy',
+    },
+    {
+      label: t('premium'),
+      value: 'premium_economy',
+    },
+    {
+      label: t('business'),
+      value: 'business',
+    },
+    {
+      label: t('first'),
+      value: 'first_class',
+    },
+  ];
+  const directionTypes = [
+    {
+      label: t('one_way'),
       icon: <ArrowMenuRight className="w-5 h-5" />,
-      isActive: direction === 'one_way',
       value: 'one_way',
     },
     {
-      label: 'Roundtrip',
+      label: t('round_trip'),
       icon: <ArrowMenuRoudTrip className="w-5 h-5" />,
-      isActive: direction === 'round_trip',
       value: 'round_trip',
     },
-  ]);
+  ];
+
+  const params = useQuery();
+  const setSearch = useSearchStore((state) => state.setSearch);
+  const [direction, setDirection] = useState<Direction>(
+    (params?.direction?.toString() as Direction) || 'round_trip',
+  );
 
   const [travelersData, setTravelersData] = useState<Traveler[]>(
     params.travelersData
@@ -148,9 +154,9 @@ const FlightSearchForm = () => {
   );
   const [shortNames, setShortNames] = useState<string[]>([]);
   const [shortNames2, setShortNames2] = useState<string[]>([]);
-  const [selectedCabinType, setSelectedCabinType] = useState<string | null>(
-    params?.cabinType ? params.cabinType.toString() : null,
-  );
+  const [selectedCabinType, setSelectedCabinType] = useState<
+    string | undefined
+  >(params?.cabinType ? params.cabinType.toString() : 'economy');
 
   let _flights: string[] = [];
   if (direction === 'multicity') {
@@ -175,16 +181,6 @@ const FlightSearchForm = () => {
 
   const handleDirectionChange = useCallback((value: string) => {
     setDirection(value as Direction);
-    const updatedDirections = directionsMenuItems.map((direction) => {
-      if (direction.value === value) {
-        return { ...direction, isActive: true };
-      }
-      return {
-        ...direction,
-        isActive: false,
-      };
-    });
-    setDirectionsMenuItems(updatedDirections);
     if (value === 'multicity') {
       setFlights(['one_way']);
       setStartDates([startDate]);
@@ -192,16 +188,6 @@ const FlightSearchForm = () => {
       setAddresses2([address2]);
     } else setFlights([value]);
   }, []);
-
-  const handleCabineTypeChange = (value: string) => {
-    setSelectedCabinType(value);
-    setCabinTypeMenuItems((cabinTypes) =>
-      [...cabinTypes].map((cabinType) => ({
-        ...cabinType,
-        isActive: value === cabinType.value,
-      })),
-    );
-  };
 
   const handleFlightsAdd = () => {
     const _flights = Object.assign([], flights);
@@ -413,6 +399,7 @@ const FlightSearchForm = () => {
       geolocation2,
       address2,
       travelersData,
+      cabynType: selectedCabinType,
     });
     handleSaveLastSearch(route);
 
@@ -566,10 +553,11 @@ const FlightSearchForm = () => {
           )}
           <section className={'flex flex-row gap-2 mt-3'}>
             <DropdownMenu
-              items={directionsMenuItems}
+              items={directionTypes}
               label={tripTypeLabel}
               onChange={handleDirectionChange}
               alingDirection="left"
+              active={direction}
             />
 
             <Popper
@@ -600,11 +588,12 @@ const FlightSearchForm = () => {
             </Popper>
 
             <DropdownMenu
-              items={cabinTypeMenuItems}
-              onChange={handleCabineTypeChange}
+              items={cabynTypes}
+              onChange={setSelectedCabinType}
               alingDirection="left"
               menuIcon={<Seat className="w-5 h-5" />}
               label={cabinLabel}
+              active={selectedCabinType}
             />
           </section>
           {flights.map((item: string, flightIndex: number) => (
