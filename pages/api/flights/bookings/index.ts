@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiResponse } from 'next';
-// import axios from 'axios';
+import axios from 'axios';
 import { FlightBookingResponse } from 'flights/types/response/FlightBookingResponse';
 import {
   applySimplenightApiKey,
@@ -13,26 +13,27 @@ export default async function handler(
   req: NextApiRequestWithSession,
   res: NextApiResponse<any>,
 ) {
-  let axios;
+  let axiosInstance;
   try {
     await setSession(req);
     applySimplenightApiKey(req, res);
-    axios = createServerAxiosInstance(req);
+    axiosInstance = createServerAxiosInstance(req);
   } catch (error) {
     res.status(400).json({
       errors: [{ message: 'Reservation failed', error: 'Axios failed' }],
     });
   }
   try {
-    if (axios) {
+    if (axiosInstance) {
       try {
         console.log('Preparing reservation .....');
         const { body } = req;
         console.log('Starting reservation .....');
-        const { data: reservation } = await axios.post<FlightBookingResponse>(
-          `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/reservation`,
-          body,
-        );
+        const { data: reservation } =
+          await axiosInstance.post<FlightBookingResponse>(
+            `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/reservation`,
+            body,
+          );
 
         console.log('Getting response from /reservation .....');
         if (reservation.errorMessage?.error) {
@@ -54,7 +55,7 @@ export default async function handler(
         console.log('Validating PNR .....', controlNumber);
         if (reservation && controlNumber) {
           try {
-            const { data: data1 } = await axios.post(
+            const { data: data1 } = await axiosInstance.post(
               `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${controlNumber}`,
             );
 
@@ -86,13 +87,21 @@ export default async function handler(
           });
         }
       } catch (error) {
+        let supplierError = null;
+        if (
+          axios.isAxiosError(error) &&
+          error.response &&
+          error.response.data
+        ) {
+          supplierError = error.response.data;
+        }
         res.status(400).json({
           errors: [
             {
               message: 'We are not able to create a reservation',
             },
           ],
-          supplierError: error,
+          supplierError,
         });
       }
     }

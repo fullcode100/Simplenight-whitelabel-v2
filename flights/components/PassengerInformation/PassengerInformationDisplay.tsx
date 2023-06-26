@@ -12,7 +12,6 @@ import {
 import HorizontalItemCard from '../search/HorizontalItemCard/HorizontalItemCard';
 import Divider from 'components/global/Divider/Divider';
 import Passenger from '../passenger/Passenger';
-import { formatDate } from 'flights/utils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useTranslation } from 'react-i18next';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
@@ -180,9 +179,13 @@ const PassengerInformationDisplay = ({
         <section>
           <FlightDetails
             departure={firstSegment?.departureAirport || ''}
-            departureDate={formatDate(firstSegment?.departureDateTime || '')}
+            departureDate={
+              flights[0].segments?.collection[0].departureDateTime || ''
+            }
             arrival={lastSegment?.arrivalAirport || ''}
-            arrivaDate={formatDate(lastSegment?.arrivalDateTime || '')}
+            arrivaDate={
+              flights[1]?.segments?.collection[0].arrivalDateTime || ''
+            }
             type={t(id as string)}
           />
         </section>

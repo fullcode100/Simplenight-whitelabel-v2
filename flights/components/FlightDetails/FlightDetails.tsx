@@ -1,6 +1,7 @@
 import { IconWrapper, Paragraph } from '@simplenight/ui';
 import React from 'react';
 import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
+import { formatDate } from 'flights/utils';
 
 interface FlightDetailsProps {
   departure: string;
@@ -31,7 +32,8 @@ const FlightDetails = ({
       </section>
       <section>
         <Paragraph size="small" fontWeight="semibold">
-          · {`${departureDate} to ${arrivaDate}`}
+          · {`${formatDate(departureDate)}`}{' '}
+          {arrivaDate ? `to ${formatDate(arrivaDate)}` : ''}
         </Paragraph>
       </section>
 
