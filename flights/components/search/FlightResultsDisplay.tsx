@@ -208,9 +208,9 @@ const FlightResultsDisplay = ({
       flights[currentIndex]
         .filter((flight) => {
           if (selectedFlights.length > 0) {
-            return selectedFlights
-              .map((leg) => leg.legId)
-              .every((legId) => flight.offer?.legRef?.includes(legId));
+            return selectedFlights.every(({ legId }) =>
+              flight.offer?.legRef?.includes(legId),
+            );
           }
           return true;
         })
