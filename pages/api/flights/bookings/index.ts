@@ -14,7 +14,6 @@ export default async function handler(
   res: NextApiResponse<any>,
 ) {
   let axios;
-  let reservation;
   try {
     await setSession(req);
     applySimplenightApiKey(req, res);
@@ -27,19 +26,61 @@ export default async function handler(
   try {
     if (axios) {
       try {
+        console.log('Preparing reservation .....');
         const { body } = req;
-
-        reservation = await axios.post<FlightBookingResponse>(
+        console.log('Starting reservation .....');
+        const { data: reservation } = await axios.post<FlightBookingResponse>(
           `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/reservation`,
           body,
         );
 
-        if (reservation.data.errorMessage?.error) {
+        console.log('Getting response from /reservation .....');
+        if (reservation.errorMessage?.error) {
           res.status(400).json({
             errors: [
               {
                 message: 'Reservation failed',
-                error: reservation.data.errorMessage?.error,
+                error: reservation.errorMessage?.error,
+              },
+            ],
+          });
+        }
+
+        console.log('Preparing ticketing .....');
+        const controlNumber =
+          reservation?.pnrReply?.pnrHeader?.[0]?.reservationInfo
+            ?.reservation?.[0]?.controlNumber;
+
+        console.log('Validating PNR .....', controlNumber);
+        if (reservation && controlNumber) {
+          try {
+            const { data: data1 } = await axios.post(
+              `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${controlNumber}`,
+            );
+
+            console.log('Confirming ticketing .....', data1);
+            res.status(200).json({
+              booking: {
+                booking_id: reservation.booking?.bookingId,
+                ...reservation,
+                ticket: data1,
+              },
+            });
+          } catch (error) {
+            res.status(400).json({
+              errors: [
+                {
+                  message: `We are not able to complete ticketing for ${controlNumber}`,
+                },
+              ],
+              supplierError: error,
+            });
+          }
+        } else {
+          res.status(400).json({
+            errors: [
+              {
+                message: 'We are not able to create a reservation currently',
               },
             ],
           });
@@ -52,43 +93,6 @@ export default async function handler(
             },
           ],
           supplierError: error,
-        });
-      }
-
-      const controlNumber =
-        reservation?.data?.pnrReply?.pnrHeader?.[0]?.reservationInfo
-          ?.reservation?.[0]?.controlNumber;
-
-      if (reservation && controlNumber) {
-        try {
-          const { data: data1 } = await axios.post(
-            `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${controlNumber}`,
-          );
-
-          res.status(200).json({
-            booking: {
-              booking_id: reservation.data.booking?.bookingId,
-              ...reservation.data,
-              ticket: data1,
-            },
-          });
-        } catch (error) {
-          res.status(400).json({
-            errors: [
-              {
-                message: `We are not able to complete ticketing for ${controlNumber}`,
-              },
-            ],
-            supplierError: error,
-          });
-        }
-      } else {
-        res.status(400).json({
-          errors: [
-            {
-              message: 'We are not able to create a reservation currently',
-            },
-          ],
         });
       }
     }
