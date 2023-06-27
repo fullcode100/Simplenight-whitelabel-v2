@@ -183,12 +183,12 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     <FilterContainer>
       <FilterTitle label={priceRangeLabel} />
       <RangeSlider
-        initialMin={minPrice ? parseInt(minPrice) : 100}
+        initialMin={minPrice ? parseInt(minPrice) : 10}
         initialMax={maxPrice ? parseInt(maxPrice) : 5000}
         min={parseInt(initialPriceRange.min)}
         max={parseInt(initialPriceRange.max)}
-        step={100}
-        minDifference={100}
+        step={10}
+        minDifference={10}
         type="price"
         setMinState={onChangeMinPrice}
         setMaxState={onChangeMaxPrice}
@@ -275,8 +275,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
       });
 
       // price
-      if (!queryFilter?.minPrice) setMinPrice(`${flightsMinPrice}`);
-      if (!queryFilter?.maxPrice) setMaxPrice(`${flightsMaxPrice}`);
+      // if (!queryFilter?.minPrice) setMinPrice(`${flightsMinPrice}`);
+      // if (!queryFilter?.maxPrice) setMaxPrice(`${flightsMaxPrice}`);
       // stops
       setStops(
         queryFilter?.stops ? queryFilter.stops.toString().split(',') : [],
