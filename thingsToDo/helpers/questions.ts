@@ -96,7 +96,7 @@ export const getQuestionsSchema = (
       const getDefaultAnswer = defaultData.find(
         (item: any) => item.question_id === id,
       );
-      property.default = getDefaultAnswer.value;
+      property.default = getDefaultAnswer?.value || answerOptions?.[0]?.answer;
     }
 
     if (hasRelatedQuestions) {
