@@ -73,7 +73,9 @@ export const bookingAdapter = ({
       firstName: passenger.firstName,
       lastName: passenger.lastName,
       /* TODO: remove hardcoded into */
-      phoneNumber: '817-706-9009',
+      phoneNumber: customer
+        ? `${customer.phone_prefix}${customer.phone_number}`
+        : '',
       gender: passenger.gender?.[0].toUpperCase(),
     };
   });
