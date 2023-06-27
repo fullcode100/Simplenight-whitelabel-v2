@@ -27,6 +27,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { usePassengerSchema } from 'flights/hooks/usePassengerSchema';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
 import { useCustomer } from 'hooks/checkout/useCustomer';
+import { forEach } from 'lodash';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -80,13 +81,15 @@ const PassengerInformationDisplay = ({
       const passegerData = passengers[passegerCount - 1] || {};
       defaultValues.push({ ...defaultPassengerObject, ...passegerData });
     }
-    for (let i = 0; i < passengersQuantity.children; i++) {
+    passengersQuantity.childrenAges.forEach((age) => {
       passegerCount++;
       defaultPassengerObject.passengerNumber = passegerCount;
       defaultPassengerObject.passengerType = 'CNN';
+      defaultPassengerObject.passengerAge = age;
       const passegerData = passengers[passegerCount - 1] || {};
       defaultValues.push({ ...defaultPassengerObject, ...passegerData });
-    }
+    });
+
     for (let i = 0; i < passengersQuantity.infants; i++) {
       passegerCount++;
       defaultPassengerObject.passengerNumber = i;
@@ -229,6 +232,7 @@ const PassengerInformationDisplay = ({
               }
               passengersQuantity={passengersQuantity.total}
               passengersType={field.passengerType}
+              passengerAge={field.passengerAge}
             />
           ))}
           {passengerForm === passengersQuantity.total - 1 && (

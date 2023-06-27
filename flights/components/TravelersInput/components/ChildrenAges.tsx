@@ -4,6 +4,7 @@ import { Traveler } from 'flights/helpers/traveler';
 import { changeArraySize } from 'helpers/arrayUtils';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
+import { maxChildrenAge, minChildrenAge } from 'flights';
 
 interface ChildrenAgesProps {
   traveler: Traveler;
@@ -30,7 +31,11 @@ const ChildrenAges = ({
   traveler.childrenAges =
     traveler.childrenAges.length === newChildrenAmount
       ? traveler.childrenAges
-      : changeArraySize(traveler.childrenAges, newChildrenAmount);
+      : changeArraySize(
+          traveler.childrenAges,
+          newChildrenAmount,
+          minChildrenAge,
+        );
 
   const ChildrenAgesInput = ({
     indexAge,
@@ -41,14 +46,10 @@ const ChildrenAges = ({
   }) => {
     const [childAge, setChildAge] = useState<number | ''>(age);
 
-    useEffect(() => {
-      setChildAge(2);
-    }, []);
-
     const validateAge = (age: number) => {
       let _age = age;
-      if (_age > 11) _age = 11;
-      if (_age < 2) _age = 2;
+      if (_age > maxChildrenAge) _age = maxChildrenAge;
+      if (_age < minChildrenAge) _age = minChildrenAge;
       setChildAge(_age);
 
       handleChildrenAgesChange(_age, indexAge, travelerNumber);

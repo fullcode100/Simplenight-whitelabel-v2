@@ -19,6 +19,7 @@ export interface IPassenger {
   knownTravelerNumber?: boolean;
   passengerNumber: number;
   passengerType: PassengerTypeList;
+  passengerAge?: number;
 }
 
 export enum GenderEnum {

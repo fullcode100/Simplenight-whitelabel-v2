@@ -43,6 +43,8 @@ export const usePassengerSchema = () => {
     wheelChair: z.boolean().optional(),
     vaccinationRecords: z.boolean().optional(),
     knownTravelerNumber: z.boolean().optional(),
+    passengerType: z.string().optional(),
+    passengerAge: z.number().optional(),
   });
 
   const passengerFormSchema = z.object({

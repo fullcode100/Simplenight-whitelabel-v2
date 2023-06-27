@@ -13,11 +13,12 @@ export const checkIfAnyNull = (array: any[]): boolean =>
 export const changeArraySize = (
   array: number[],
   newLength: number,
+  fillValue?: number,
 ): number[] => {
   const oldArrayLength = array.length;
 
   if (oldArrayLength < newLength) {
-    const newItems = Array(newLength - oldArrayLength).fill(1);
+    const newItems = Array(newLength - oldArrayLength).fill(fillValue || 1);
     return array.concat(newItems);
   }
 

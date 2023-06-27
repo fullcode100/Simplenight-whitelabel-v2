@@ -18,9 +18,9 @@ const TravelersCount = ({
 }: TravelersCountProps) => {
   const [t, i18next] = useTranslation('flights');
   const adultsLabel = t('adults', 'Adults');
-  const adultsAgeRangeLabel = t('adultsRange', 'Over 12 Years Old');
+  const adultsAgeRangeLabel = t('adultsRange', 'Over 18 Years Old');
   const childrenLabel = t('children', 'Children');
-  const childrenAgeRangeLabel = t('childrenRange', 'Ages 2 to 11');
+  const childrenAgeRangeLabel = t('childrenRange', 'Ages 2 to 17');
   const infantsLabel = t('infants', 'Infants');
   const infantsAgeRangeLabel = t('infantsRange', 'Under 2 Years Old');
 

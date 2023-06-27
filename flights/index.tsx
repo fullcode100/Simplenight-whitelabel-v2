@@ -25,6 +25,10 @@ import PassengerInformationDisplay from './components/PassengerInformation/Passe
 
 export const FLIGHT_CATEGORY = 'flights';
 
+export const minAdultAge = 18;
+export const minChildrenAge = 2;
+export const maxChildrenAge = 17;
+
 const Category: CategoryOption = {
   id: 2,
   name: FLIGHT_CATEGORY,

@@ -323,12 +323,18 @@ const FlightResultsDisplay = ({
       setCurrentIndex(nextIndex);
       setSelectedFlights((flights) => [...flights, flight]);
     } else {
+      const childrenAgesList = childrenAges as string;
       setFlightsStore([...selectedFlights, flight]);
-      setPassengersQuantity({
-        adults: parseInt(adults as string, 10),
-        children: parseInt(children as string, 10),
-        infants: parseInt(infants as string, 10),
-      });
+      setPassengersQuantity(
+        {
+          adults: parseInt(adults as string, 10),
+          children: parseInt(children as string, 10),
+          infants: parseInt(infants as string, 10),
+        },
+        (childrenAgesList || null)
+          ?.split(',')
+          ?.map((item) => parseInt(item as string, 10)) || [],
+      );
       router.push(`/detail/flights/${direction}`);
     }
   };

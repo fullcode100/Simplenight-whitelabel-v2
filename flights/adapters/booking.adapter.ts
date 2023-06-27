@@ -57,7 +57,10 @@ export const bookingAdapter = ({
   let noAdultsCount = 0;
   const passengers = flightpassengers.map((passenger) => {
     let finalId = '';
-    if (passenger.passengerType === 'ADT') {
+    const age = passenger.passengerAge || 0;
+    let type = passenger.passengerType;
+    if (type === 'ADT' || age >= 12) {
+      type = 'ADT';
       adultsCount++;
       finalId = `${adultsCount}`;
     } else {
@@ -69,7 +72,7 @@ export const bookingAdapter = ({
       dateOfBirth: passenger.dateOfBirth
         ? dayjs(passenger.dateOfBirth).format('DDMMMYY').toUpperCase()
         : '',
-      code: passenger.passengerType,
+      code: type,
       firstName: passenger.firstName,
       lastName: passenger.lastName,
       /* TODO: remove hardcoded into */

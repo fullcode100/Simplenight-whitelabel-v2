@@ -27,6 +27,7 @@ import { usePassengerSchema } from '../../hooks/usePassengerSchema';
 import airlinesList from '../../airlines';
 import CheckIcon from 'public/icons/assets/check.svg';
 import classnames from 'classnames';
+import { maxChildrenAge, minChildrenAge } from 'flights';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -34,6 +35,7 @@ interface PassengerProps {
   toggleOpen: (value: number) => void;
   passengersQuantity: number;
   passengersType: PassengerTypeList;
+  passengerAge?: number;
 }
 
 const Passenger = ({
@@ -42,6 +44,7 @@ const Passenger = ({
   toggleOpen,
   passengersQuantity,
   passengersType,
+  passengerAge,
 }: PassengerProps) => {
   const [t] = useTranslation('flights');
   const [tg] = useTranslation('global');
@@ -112,6 +115,12 @@ const Passenger = ({
     formState: { errors },
   } = useFormContext<IPassengerForm>();
 
+  const getChildAgeLabel = () => {
+    if (!passengerAge || passengersType !== 'CNN') return '';
+    if (passengerAge > 11) return `, 12 - ${maxChildrenAge}`;
+    return `, ${minChildrenAge} - 11`;
+  };
+
   const getTitle = () => (
     <section className="flex flex-row items-center gap-3">
       <section
@@ -128,7 +137,7 @@ const Passenger = ({
       </section>
       <Paragraph size="medium">
         {passengerLabel} {passengerNumber + 1}{' '}
-        {`(${passengerTypeLabelMap[passengersType]})`}
+        {`(${passengerTypeLabelMap[passengersType]}${getChildAgeLabel()})`}
       </Paragraph>
     </section>
   );

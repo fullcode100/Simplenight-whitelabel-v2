@@ -25,6 +25,6 @@ export const setTravelersTotals = (
   setAdultsCount(adults.toString());
   setChildrenCount(children.toString());
   setInfantsCount(infants.toString());
-  setChildrenAges(JSON.stringify(childrenAges));
-  setInfantsAges(JSON.stringify(infantsAges));
+  setChildrenAges(childrenAges.join());
+  setInfantsAges(infantsAges.join());
 };

@@ -98,10 +98,10 @@ const FlightSearchForm = () => {
   const [infants, setInfants] = useState(travelersData[0].infants.toString());
   const [rooms, setRooms] = useState(travelersData.length.toString());
   const [childrenAges, setChildrenAges] = useState(
-    travelersData[0].childrenAges.toString(),
+    travelersData[0].childrenAges.join(),
   );
   const [infantsAges, setInfantsAges] = useState(
-    travelersData[0].infantsAges.toString(),
+    travelersData[0].infantsAges.join(),
   );
 
   const [address, setAddress] = useState<string>(

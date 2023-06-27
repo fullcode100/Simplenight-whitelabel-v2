@@ -8,8 +8,14 @@ interface PassengersQuantity {
 }
 export interface PassengersStore {
   passengers: Array<IPassenger>;
-  passengersQuantity: PassengersQuantity & { total: number };
-  setPassengersQuantity(value: PassengersQuantity): void;
+  passengersQuantity: PassengersQuantity & {
+    childrenAges: number[];
+    total: number;
+  };
+  setPassengersQuantity(
+    value: PassengersQuantity,
+    childrenAges: number[],
+  ): void;
   setPassengers(passengers: Array<IPassenger>): void;
   clear(): void;
 }
@@ -19,14 +25,15 @@ export const usePassengersStore = create<PassengersStore>()((set) => ({
   passengersQuantity: {
     adults: 0,
     children: 0,
+    childrenAges: [],
     infants: 0,
     total: 0,
   },
-  setPassengersQuantity: (values: PassengersQuantity) => {
+  setPassengersQuantity: (values: PassengersQuantity, childrenAges) => {
     const total = Object.values(values).reduce((a, b) => a + b, 0);
     set((state: PassengersStore) => ({
       ...state,
-      passengersQuantity: { ...values, total },
+      passengersQuantity: { ...values, childrenAges, total },
     }));
   },
   setPassengers: (passengers: Array<IPassenger>) => {
@@ -42,6 +49,7 @@ export const usePassengersStore = create<PassengersStore>()((set) => ({
       passengersQuantity: {
         adults: 0,
         children: 0,
+        childrenAges: [],
         infants: 0,
         total: 0,
       },
