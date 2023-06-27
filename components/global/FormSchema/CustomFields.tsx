@@ -5,7 +5,7 @@ import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
 import NumberUnitInput from '../NumberUnitInput/NumberUnitInput';
 import NewPhoneNumberInput from '../PhoneNumberInput/NewPhoneNumberInput';
-import SelectInput from '../SelectInput/SelectInput';
+import SelectInput from '../SelectInput/OldSelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
 import { WidgetProps } from '@rjsf/core';

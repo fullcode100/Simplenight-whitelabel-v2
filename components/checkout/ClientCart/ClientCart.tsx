@@ -14,6 +14,7 @@ interface ClientCartProps {
     isAddingSpecialRequest: boolean,
   ) => void;
   onChangeAnswers?: (value: IChangeEvent<FormData>, cartItemId: string) => void;
+  bookingAnswerData: any;
 }
 
 const ClientCart = ({
@@ -22,6 +23,7 @@ const ClientCart = ({
   uiSchema,
   onChange,
   onChangeAnswers,
+  bookingAnswerData,
 }: ClientCartProps) => {
   return (
     <>
@@ -37,6 +39,7 @@ const ClientCart = ({
               formUiSchema={uiSchema}
               onChange={onChange}
               onChangeAnswers={onChangeAnswers}
+              bookingAnswerData={bookingAnswerData}
             />
             {showDivider && <Divider />}
           </section>

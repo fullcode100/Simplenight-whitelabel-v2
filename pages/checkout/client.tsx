@@ -12,7 +12,6 @@ import {
 } from 'core/client/services/CartClientService';
 import { useTranslation } from 'react-i18next';
 import ClientCart from 'components/checkout/ClientCart/ClientCart';
-// import { CartObjectResponse } from 'types/cart/CartType';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
@@ -31,15 +30,9 @@ import {
   questionsFormDataDestructuring,
 } from 'helpers/bookingQuestions';
 import { useCustomer } from 'hooks/checkout/useCustomer';
-import { ClientFormContent } from 'components/checkout/ClientForm/ClientFormContent';
-import { FormProvider, useForm } from 'react-hook-form';
-import {
-  useCheckoutFormSchema,
-  useClientQuestionsCheckoutFormSchema,
-} from 'hooks/schemas/useCheckoutFormSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { getItemQuestionSchemas } from 'thingsToDo/helpers/questions';
+import ClientForm from 'components/checkout/ClientForm/ClientForm';
+import countryList from 'country-list';
 
 interface LayoutProps {
   children: ReactNode;
@@ -54,17 +47,10 @@ const Client = () => {
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
   const [travelersUiSchema, setTravelersUiSchema] = useState<any>();
   const [isRemoved, setIsRemoved] = useState(false);
-  const { checkOutFormSchema } = useCheckoutFormSchema();
 
   const [cart, setCart] = useState<any>();
   const schemas = cart?.items?.map((item: any) => {
     return getItemQuestionSchemas(item);
-  });
-
-  type CheckoutFormSchema = z.infer<typeof checkOutFormSchema>;
-  const methods = useForm<CheckoutFormSchema>({
-    resolver: zodResolver(checkOutFormSchema),
-    mode: 'onSubmit',
   });
 
   const [customer, updateCustomer] = useCustomer((state) => [
@@ -140,6 +126,20 @@ const Client = () => {
     try {
       if (!cartId) throw new Error('Cart ID is not defined');
 
+      const countries = countryList.getData();
+      countries.sort(function (a, b) {
+        const textA = a.name.toUpperCase();
+        const textB = b.name.toUpperCase();
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      });
+      const countryOptions = Object.values(countries).map((label) => {
+        return { value: label.code, label: label.name };
+      });
+      const customerCountry = countryOptions.find(
+        (option) =>
+          option.value.toUpperCase() === customer?.country.toUpperCase(),
+      );
+      const defaultCountry = customerCountry || countryOptions[235];
       // const schemas = await getCartSchema(i18n, cartId);
       // TODO: Move this static schema to backend if it is necessary
       const mockSchema = {
@@ -156,6 +156,11 @@ const Client = () => {
               type: 'string',
               title: 'Last Name',
               default: customer?.last_name || '',
+            },
+            country: {
+              type: 'string',
+              title: 'Country',
+              default: defaultCountry.value,
             },
             phone: {
               type: 'string',
@@ -178,12 +183,16 @@ const Client = () => {
           last_name: {
             'ui:placeholder': 'Name',
           },
-          email: {
-            'ui:placeholder': 'Email',
+          country: {
+            'ui:widget': 'CountryWidget',
           },
           phone: {
             'ui:widget': 'PhoneWidget',
             'ui:placeholder': 'Phone Number',
+          },
+          email: {
+            'ui:placeholder': 'Email',
+            classNames: 'col-span-2',
           },
         },
       };
@@ -294,18 +303,25 @@ const Client = () => {
     router.back();
   };
 
-  const getAddCustomerRequestBody = (primaryContactData: any) => {
+  const getAddCustomerRequestBody = (primaryContactData: {
+    customer: AddCustomerRequest;
+  }) => {
     const primaryContactCopy = deepCopy(primaryContactData);
+
     const requestItems = itemsForm?.map(createAdditionalItem);
     const request: any = hasAdditionalRequests
       ? { customer: primaryContactCopy, items: requestItems }
       : { customer: primaryContactCopy };
-    const phone = JSON?.parse?.(primaryContactCopy.phoneNumber || '{}');
+    const phone = JSON?.parse?.(primaryContactCopy.phone || '{}');
     request.customer.phone_number =
-      phone?.phone_number || customer?.phone_number;
+      phone?.phone_number ||
+      cart.customer.phone_number ||
+      customer?.phone_number;
     request.customer.phone_prefix =
-      phone?.phone_prefix || customer?.phone_prefix;
-    request.customer.country = phone?.country || customer?.country;
+      phone?.phone_prefix ||
+      cart.customer.phone_prefix ||
+      customer?.phone_prefix;
+    request.customer.country = primaryContactCopy?.country || customer?.country;
 
     delete request.customer.phone;
     delete request.customer.primary_contact;
@@ -313,19 +329,26 @@ const Client = () => {
     return { ...request };
   };
 
+  const checkFormsBeforeContinue = () => {
+    const forms = document?.forms;
+    if (forms) {
+      for (let i = 0; i < forms.length; i++) {
+        const form = forms[i];
+        if (!form?.checkValidity()) {
+          form?.reportValidity();
+          return false;
+        }
+      }
+      return true;
+    }
+  };
+
   const continueToPayment = async (values: any) => {
+    if (!checkFormsBeforeContinue()) return;
     if (!cart || cart.total_item_qty <= 0) return;
     const customerUpdater = new ClientCartCustomerUpdater();
-    const requestBody = getAddCustomerRequestBody(values);
-    const customer = {
-      country: requestBody.customer.country,
-      email: requestBody.customer.email,
-      first_name: requestBody.customer.firstName,
-      last_name: requestBody.customer.lastName,
-      phone_number: requestBody.customer.phoneNumber,
-      phone_prefix: requestBody.customer.phone_prefix,
-    };
-    updateCustomer(customer);
+    const requestBody = getAddCustomerRequestBody(values.formData);
+    updateCustomer(requestBody.customer);
     await Promise.all(
       Object.keys(bookingAnswerData)?.map(async (itemId) => {
         const itemData: any = {
@@ -342,7 +365,7 @@ const Client = () => {
       ...requestBody,
       customer: {
         ...cart.customer,
-        ...customer,
+        ...requestBody.customer,
       },
     };
 
@@ -390,6 +413,28 @@ const Client = () => {
     </FullScreenModal>
   );
 
+  const handleClientFormChange = (data: any) => {
+    const values = data.formData;
+    const newCountry = values.country;
+    const currentCountry = travelersFormSchema?.properties.country.default;
+    if (travelersFormSchema && newCountry !== currentCountry) {
+      setTravelersFormSchema({
+        ...travelersFormSchema,
+        properties: {
+          ...travelersFormSchema.properties,
+          country: {
+            ...travelersFormSchema.properties.country,
+            default: newCountry,
+          },
+          phone: {
+            ...travelersFormSchema.properties.phone,
+            defaultCode: newCountry,
+          },
+        },
+      });
+    }
+  };
+
   const itemsNumber = cart?.items?.length;
 
   useEffect(() => {
@@ -421,6 +466,13 @@ const Client = () => {
     }
   }, [cart, travelersFormSchema]);
 
+  let travelersFormSchemaWithClass;
+  travelersFormSchema &&
+    (travelersFormSchemaWithClass = {
+      ...(travelersFormSchema as any),
+      className: 'lg:grid lg:grid-cols-2 lg:gap-x-4',
+    });
+
   return (
     <>
       <CheckoutHeader step="client" itemsNumber={itemsNumber} />
@@ -432,14 +484,19 @@ const Client = () => {
               <Card>
                 <Title>{primaryContactText}</Title>
                 <section className="p-4">
-                  <FormProvider {...methods}>
-                    <ClientFormContent />
+                  <ClientForm
+                    schema={travelersFormSchemaWithClass}
+                    uiSchema={travelersUiSchema}
+                    onSubmit={continueToPayment}
+                    onChange={handleClientFormChange}
+                  >
                     <ClientCart
                       items={cart?.items}
                       schema={travelersFormSchema}
                       uiSchema={travelersUiSchema}
                       onChange={handleAdditionalRequestChange}
                       onChangeAnswers={handleTravelerAnswerChange}
+                      bookingAnswerData={bookingAnswerData}
                     />
                     <CheckoutFooter type="client">
                       <CheckoutSummary
@@ -458,10 +515,9 @@ const Client = () => {
                         value={continueButton}
                         size={'full'}
                         className="lg:w-[35%] text-[18px] font-normal"
-                        onClick={methods.handleSubmit(continueToPayment)}
                       />
                     </CheckoutFooter>
-                  </FormProvider>
+                  </ClientForm>
                 </section>
               </Card>
             </section>

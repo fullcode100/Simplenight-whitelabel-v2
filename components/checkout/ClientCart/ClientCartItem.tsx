@@ -21,6 +21,7 @@ const ClientCartItem = ({
   formUiSchema,
   onChange,
   onChangeAnswers,
+  bookingAnswerData,
 }: any) => {
   const [t] = useTranslation('global');
   const guestText = t('guest', 'Guest');
@@ -110,10 +111,15 @@ const ClientCartItem = ({
     });
   };
 
+  const bookingAnswers = item?.booking_data?.booking_answers;
+
   const {
     travelerSchema: travelerQuestionSchema,
     bookingSchema: bookingQuestionSchema,
-  } = getItemQuestionSchemas(item);
+  } = getItemQuestionSchemas(
+    item,
+    bookingAnswerData?.[item.cart_item_id] || bookingAnswers,
+  );
 
   const getTicketsQuantity = () => {
     const itemTravelers: any = [];
@@ -188,8 +194,8 @@ const ClientCartItem = ({
               <Divider className="py-1" />
               <section className="mt-1.5">
                 <FormSchema
-                  schema={travelerQuestionSchema.schema}
-                  uiSchema={travelerQuestionSchema.uiSchema}
+                  schema={travelerQuestionSchema?.schema}
+                  uiSchema={travelerQuestionSchema?.uiSchema}
                   onChange={(data) => {
                     const copyData = deepCopy(data);
                     copyData.formData['AGEBAND'] = ticket.ticket_type_id;

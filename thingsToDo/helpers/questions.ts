@@ -5,13 +5,21 @@ import {
 } from 'thingsToDo/types/response/ThingsDetailResponse';
 import { defaultPickup, widgets } from './questionDefaults';
 
-export const getItemQuestionSchemas = (item: any) => {
+export const getItemQuestionSchemas = (item: any, defaultData?: any) => {
   const travelerSchema = getQuestionSchemaByGrouping(item, 'PER_TRAVELER');
-  const bookingSchema = getQuestionSchemaByGrouping(item, 'PER_BOOKING');
+  const bookingSchema = getQuestionSchemaByGrouping(
+    item,
+    'PER_BOOKING',
+    defaultData,
+  );
   return { travelerSchema, bookingSchema };
 };
 
-export const getQuestionSchemaByGrouping = (item: any, grouping?: string) => {
+export const getQuestionSchemaByGrouping = (
+  item: any,
+  grouping?: string,
+  defaultData?: any,
+) => {
   const questions = item?.item_data?.extra_data?.booking_questions;
   const pickupPoints = item?.item_data?.extra_data?.pickup;
   const productCode = item?.booking_data?.product_code;
@@ -28,13 +36,18 @@ export const getQuestionSchemaByGrouping = (item: any, grouping?: string) => {
       question?.option_code === productCode,
   );
   if (itemQuestionLanguage) questionsByGrouping.push(itemQuestionLanguage);
-  const schema = getQuestionsSchema(questionsByGrouping, pickupPoints);
+  const schema = getQuestionsSchema(
+    questionsByGrouping,
+    pickupPoints,
+    defaultData,
+  );
   return questionsByGrouping?.length ? schema : null;
 };
 
 export const getQuestionsSchema = (
   questions: BookingQuestion[],
   pickupPoints?: LocationPoints,
+  defaultData?: any,
 ) => {
   const schema: any = {
     type: 'object',
@@ -78,6 +91,13 @@ export const getQuestionsSchema = (
 
     property.enum = answerOptions?.map((option) => option.answer);
     property.default = answerOptions?.[0]?.answer;
+
+    if (defaultData) {
+      const getDefaultAnswer = defaultData.find(
+        (item: any) => item.question_id === id,
+      );
+      property.default = getDefaultAnswer.value;
+    }
 
     if (hasRelatedQuestions) {
       property.properties = getRelatedQuestionProperties(question);

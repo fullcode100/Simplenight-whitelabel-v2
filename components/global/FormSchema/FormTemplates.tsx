@@ -105,11 +105,18 @@ export const ObjectFieldTemplate = (props: any) => {
         </>
       )}
       <section className={`${contentClass}`}>
-        {properties.map((element: any, i: number) => (
-          <section key={`s${i}`} className="mt-4 property-wrapper">
-            {element.content}
-          </section>
-        ))}
+        {properties.map((element: any, i: number) => {
+          const elmProps = element.content.props;
+          const { uiSchema } = elmProps;
+          return (
+            <section
+              key={`s${i}`}
+              className={`mt-4 property-wrapper ${uiSchema.classNames}`}
+            >
+              {element.content}
+            </section>
+          );
+        })}
       </section>
     </section>
   );
