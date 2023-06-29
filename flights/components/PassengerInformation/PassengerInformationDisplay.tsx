@@ -169,7 +169,7 @@ const PassengerInformationDisplay = ({
         step={2}
         content={
           <div className="flex items-center gap-2 px-4 md:p-0">
-            <button className="md:hidden" onClick={() => router.back()}>
+            <button onClick={() => router.back()}>
               <IconWrapper size={24}>
                 <ArrowLeft />
               </IconWrapper>
