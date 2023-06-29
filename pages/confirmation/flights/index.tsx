@@ -49,7 +49,6 @@ const Confirmation: NextPage = () => {
       controlNumber,
       '/flights/bookings/cancellation',
     );
-    await cancelBooking(i18next, bookingId);
     router.reload();
     setLoading(false);
   };
