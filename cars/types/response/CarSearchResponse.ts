@@ -25,6 +25,11 @@ export interface Car {
   startDate?: string;
   endDate?: string;
   air_condition_ind: boolean;
+  reference?: {
+    identification: string;
+    secondary_identification: string;
+  };
+  inventory_id?: string;
 }
 
 export interface CompanyPicture {

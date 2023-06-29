@@ -2,8 +2,6 @@ import { ReactElement } from 'react';
 import { Item } from 'types/booking/bookingType';
 import { useTranslation } from 'react-i18next';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
-import ExternalLink from 'components/global/ExternalLink/ExternalLink';
-import CarCustomerInfo from './CarCustomerInfo';
 import CarGeneralInfo from './CarGeneralInfo';
 
 interface CarConfirmationHeaderProps {
@@ -12,7 +10,7 @@ interface CarConfirmationHeaderProps {
 }
 
 const CarConfirmationHeader = ({ item, icon }: CarConfirmationHeaderProps) => {
-  const [t, i18next] = useTranslation('cars');
+  const [t] = useTranslation('cars');
   const carName = item?.booking_data?.car_model;
   const duration = item?.booking_data?.duration;
   const dayText = t('day', 'Day');

@@ -1,9 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { Item, PrimaryContact } from 'types/booking/bookingType';
-import CarGeneralInfo from './CarGeneralInfo';
-import CarCustomerInfo from './CarCustomerInfo';
-import CarRoomsInfo from './CarRoomsInfo';
+import { Item } from 'types/booking/bookingType';
+import CarRentalInfo from './CarRentalInfo';
 
 interface CarConfirmationBodyProps {
   item?: Item;
@@ -18,7 +16,7 @@ const CarConfirmationBody = ({
 }: CarConfirmationBodyProps) => {
   return (
     <section className="border-t lg:border-0 border-dark-300">
-      <CarRoomsInfo item={item} loading={loading} setLoading={setLoading} />
+      <CarRentalInfo item={item} loading={loading} setLoading={setLoading} />
     </section>
   );
 };

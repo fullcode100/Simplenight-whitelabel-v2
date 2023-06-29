@@ -1,32 +1,26 @@
 import { Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-
-import Button from 'components/global/Button/Button';
-import RoomTitle from '../RoomTitle/RoomTitle';
-import RoomPriceBreakdown from '../RoomPriceBreakdown/RoomPriceBreakdown';
+import CarPriceBreakdown from '../CarPriceBreakdown/CarPriceBreakdown';
 import SupplierReference from '../SupplierReference/SupplierReference';
-
 import { ClientBookingItemRemover } from 'core/client/ClientBookingItemRemover';
 import { DeleteBookingItemRequest } from 'types/confirmation/DeleteBookingRequest';
-import { diffDays } from 'helpers/dajjsUtils';
 import { Item } from 'types/booking/bookingType';
 
-interface CarRoomsInfoProps {
+interface CarRentalInfoProps {
   item?: Item;
   loading?: boolean;
   setLoading?: Dispatch<SetStateAction<boolean>>;
 }
 
-const CarRoomsInfo = ({ item, loading, setLoading }: CarRoomsInfoProps) => {
+const CarRentalInfo = ({ item, loading, setLoading }: CarRentalInfoProps) => {
   const router = useRouter();
 
   const [t, i18next] = useTranslation('global');
-  const cancelLabel = t('cancelReservation', 'Cancel Reservation');
 
   const supplierReferenceID = item?.booking_data?.supplier_order_number;
 
-  const total = item?.total.formatted;
+  const total = item?.booking_data?.rate.totalAmount;
 
   const handleItemRemoval = async () => {
     const itemRemover = new ClientBookingItemRemover();
@@ -50,20 +44,9 @@ const CarRoomsInfo = ({ item, loading, setLoading }: CarRoomsInfoProps) => {
         <SupplierReference supplierReferenceID={supplierReferenceID} />
       )}
 
-      <RoomPriceBreakdown total={total} />
-      {/* <section className="lg:flex lg:justify-end">
-        <section className="lg:w-1/4">
-          <Button
-            value={cancelLabel}
-            size="full-sm"
-            type="outlined"
-            translationKey="cancelReservation"
-            onClick={handleItemRemoval}
-          ></Button>
-        </section>
-      </section> */}
+      <CarPriceBreakdown total={total} />
     </section>
   );
 };
 
-export default CarRoomsInfo;
+export default CarRentalInfo;

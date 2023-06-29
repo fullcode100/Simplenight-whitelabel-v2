@@ -1,15 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
 import AmountDetailItem from './components/AmountDetailItem';
-import ExtraDetailItem from './components/ExtraDataItem';
-import { Paragraph, Pricing } from '@simplenight/ui';
+import { Pricing } from '@simplenight/ui';
 
-interface RoomPriceBreakdownProps {
+interface CarPriceBreakdownProps {
   total?: string;
 }
 
-const RoomPriceBreakdown = ({ total }: RoomPriceBreakdownProps) => {
-  const [t, i18next] = useTranslation('flights');
+const CarPriceBreakdown = ({ total }: CarPriceBreakdownProps) => {
+  const [t] = useTranslation('flights');
   const basePriceLabel = t('basePrice', 'Base Price');
   const taxesLabel = t('taxes', 'Taxes');
   const otherFeesLabel = t('otherFees', 'Other Fees');
@@ -33,4 +32,4 @@ const RoomPriceBreakdown = ({ total }: RoomPriceBreakdownProps) => {
   );
 };
 
-export default RoomPriceBreakdown;
+export default CarPriceBreakdown;

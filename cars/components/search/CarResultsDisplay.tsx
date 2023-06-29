@@ -1,5 +1,6 @@
 import { formatAsDateAndTime, formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
+import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { CarSearchRequest } from 'cars/types/request/CarSearchRequest';
 import { Car, CarSearchResponse } from 'cars/types/response/CarSearchResponse';
 import React, { ReactNode, useEffect, useState } from 'react';
@@ -8,7 +9,6 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 import HorizontalItemCard from './HorizontalItemCard/HorizontalItemCard';
 import { useRouter } from 'next/router';
 import CarMapView from './CarResultsMapView';
-import { checkIfAnyNull } from 'helpers/arrayUtils';
 import { haveKeyword } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
 import { useSelector } from 'react-redux';
@@ -53,17 +53,16 @@ interface ViewButtonProps {
   viewParam: 'list' | 'map';
 }
 
+type FetchCars = () => Promise<CarSearchResponse>;
+
 const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
-  const [loaded, setLoaded] = useState(false);
+  // const [loaded, setLoaded] = useState(false);
   const { ClientSearcher: Searcher } = CarCategory.core;
   const [t, i18next] = useTranslation('cars');
   const carsFoundLabel = t('carsFound', 'Cars Found');
   const carsFoundLabelDesktop = t('results', 'Results');
-  const carLabel = t('carRental', 'Car Rental');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
-  const fromLabel = t('from', 'From');
   const loadMoreLabel = t('loadMore', 'Load More');
-  const { language } = i18next;
   const router = useRouter();
   const setQueryParams = useQuerySetter();
 
@@ -112,89 +111,52 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
-  const doSearch = () => {
-    // console.log('Search Cars');
-    const hasEmptyValues = checkIfAnyNull([
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      latitude,
-      longitude,
-      latitude2,
-      longitude2,
-    ]);
-    if (hasEmptyValues) return;
+  const geolocation = `${latitude},${longitude}`;
+  const geolocation2 = `${latitude2},${longitude2}`;
 
-    const geolocation = `${latitude},${longitude}`;
-    const geolocation2 = `${latitude2},${longitude2}`;
+  const params: CarSearchRequest = {
+    pickup_datetime: formatAsDateAndTime(
+      startDate as unknown as string,
+      startTime as unknown as string,
+    ),
+    return_datetime: formatAsDateAndTime(
+      endDate as unknown as string,
+      endTime as unknown as string,
+    ),
+    pickup_context: 'GEO',
+    pickup_location: geolocation as unknown as StringGeolocation,
+    return_context: 'GEO',
+    return_location: geolocation2 as unknown as StringGeolocation,
+    driver_age: parseInt(driverAge as string) || defaultDriverAge,
+    apiUrl,
+  };
 
-    const params: CarSearchRequest = {
-      pickup_datetime: formatAsDateAndTime(
-        startDate as unknown as string,
-        startTime as unknown as string,
-      ),
-      return_datetime: formatAsDateAndTime(
-        endDate as unknown as string,
-        endTime as unknown as string,
-      ),
-      pickup_context: 'GEO',
-      pickup_location: geolocation as unknown as StringGeolocation,
-      return_context: 'GEO',
-      return_location: geolocation2 as unknown as StringGeolocation,
-      driver_age: parseInt(driverAge as string) || defaultDriverAge,
-      apiUrl,
-    };
-
-    if (
-      // sortBy ||
-      keywordSearch ||
-      minPrice ||
-      maxPrice ||
-      passengers ||
-      types ||
-      companies
-    ) {
-      // if (filters changed) use last cached API search response
-      const response = JSON.parse(
-        localStorage.getItem('CarSearchResponse') as string,
-      );
-      if (response && response.items) {
-        setCars(response.items);
-        filterCars(response.items);
-      }
-      setLoaded(true);
-    } else {
-      // new API search
-      Searcher?.request(params, i18next)
-        .then((response: CarSearchResponse) => {
-          localStorage.setItem('CarSearchResponse', JSON.stringify(response));
-          if (response && response.items) {
-            setCars(response.items);
-            filterCars(response.items);
-          }
-        })
-        .catch((error) => console.error(error))
-        .then(() => setLoaded(true));
+  const fetchCars: FetchCars = async () => {
+    try {
+      return await Searcher?.request?.(params, i18next);
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
+  const { data, isLoading } = useReactQuery(
+    ['cars-search', params],
+    fetchCars,
+    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+  );
 
   useEffect(() => {
-    doSearch();
+    if (data) {
+      setCarsFiltered(data.items);
+      setCars(data.items);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      filterCars(data.items);
+    }
   }, [
-    startDate,
-    endDate,
-    startTime,
-    endTime,
-    latitude,
-    longitude,
-    latitude2,
-    longitude2,
-
     keywordSearch,
     sortBy,
     types,
@@ -202,13 +164,12 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     passengers,
     minPrice,
     maxPrice,
-
     currency,
   ]);
 
   useEffect(() => {
-    // doSearch();
-  }, []);
+    if (currency !== storeCurrency) setCurrency(storeCurrency);
+  }, [storeCurrency]);
 
   const filterCars = (_cars: Car[]) => {
     const _carsFiltered: Car[] = [];
@@ -428,7 +389,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
           <CarFilterFormDesktop cars={cars} />
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full">
-          {loaded && hasNoCars ? (
+          {!isLoading && hasNoCars ? (
             <div>
               <EmptyStateContainer
                 text={noResultsLabel}
@@ -450,7 +411,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
                 )}
               >
                 <section className="py-6 text-dark-1000 font-semibold text-[20px] leading-[24px] lg:flex lg:justify-between lg:items-center">
-                  {loaded ? (
+                  {!isLoading ? (
                     <span>
                       {carsFiltered.length}
                       <span className="lg:hidden"> {carsFoundLabel}</span>
@@ -528,13 +489,13 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
 
               {isListView && (
                 <section className="w-full h-full px-5 pb-6 lg:px-0">
-                  {loaded ? <CarList /> : <HorizontalSkeletonList />}
+                  {!isLoading ? <CarList /> : <HorizontalSkeletonList />}
                 </section>
               )}
 
               {!isListView && (
                 <section className="relative w-full h-full">
-                  {loaded ? (
+                  {!isLoading ? (
                     <CarMapView
                       CarCategory={CarCategory}
                       items={carsFiltered}

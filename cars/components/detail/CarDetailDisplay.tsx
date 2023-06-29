@@ -272,13 +272,7 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
           </section>
         </section>
       </main>
-      {car?.car_model && (
-        <CarItineraryDetail
-          name={car?.car_model}
-          rate={car?.rate}
-          handleAction={goCheckout}
-        />
-      )}
+      {car?.car_model && <CarItineraryDetail car={car} />}
     </div>
   );
 };

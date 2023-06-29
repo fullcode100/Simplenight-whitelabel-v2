@@ -33,11 +33,15 @@ import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import { bookingAdapter } from 'cars/adapters/booking.adapter';
 import PaymentCartItem from 'components/checkout/PaymentCart/PaymentCartItem';
 import { carBookingItemAdapter } from 'cars/adapters/carBookingItem.adapter';
+import { bookingMSAdapter } from 'cars/adapters/bookingMS.adapter';
+import { getCart } from 'core/client/services/CartClientService';
+import useCookies from 'hooks/localStorage/useCookies';
 
 const CONFIRMATION_URI = '/confirmation/car-rental';
 
 const Payment = () => {
   const router = useRouter();
+  const { getCookie } = useCookies();
 
   const [t, i18next] = useTranslation('global');
   const iHaveReviewedLabel = t(
@@ -77,7 +81,6 @@ const Payment = () => {
     }
     if (loading) return;
     setLoading(true);
-
     bookItem(data);
   };
 
@@ -86,13 +89,52 @@ const Payment = () => {
       return;
     }
 
-    const bookingParameters = bookingAdapter({
-      paymentFormData,
+    const cartData = await getCart(i18next);
+    const sessionID = `sn2-${cartData?.cart_id}`;
+    const customerData = cartData?.customer;
+    const referral = getCookie('referral')?.split('=') || 'no-refferal';
+    const referralCompany = referral[0];
+    const bookingBody = bookingMSAdapter({
       car,
+      customerData,
+      paymentFormData,
+      search,
       apiUrl: '/cars/bookings',
     });
 
+    const {
+      address1,
+      address2,
+      city,
+      state,
+      postalCode,
+      creditCardName,
+      creditCardNumber,
+      creditCardExpiration,
+      creditCardCVV,
+    } = paymentFormData;
+    const bookingParameters = {
+      cart_id: cartData?.cart_id,
+      referral: referralCompany,
+      payment_request: {
+        name_on_card: creditCardName,
+        credit_card_number: creditCardNumber,
+        cvv: creditCardCVV,
+        expiry_date: creditCardExpiration,
+        billing_address: {
+          address2: address1,
+          address3: address2,
+          city: city,
+          province: state,
+          postal_code: postalCode,
+          country: customerData?.country,
+        },
+        session_id: sessionID,
+      },
+    };
+
     try {
+      const createBookingMS = await createBooking(bookingBody, i18next);
       const data = await createBooking(bookingParameters, i18next);
       const bookingId = data?.booking.booking_id;
       setLoading(false);
@@ -142,10 +184,7 @@ const Payment = () => {
                         label={amountForThisCardLabel}
                         required={{ required: true, label: fullAmountLabel }}
                       >
-                        <TextInput
-                          value={`$${car?.rate?.totalAmount || '0'}`}
-                          state="disabled"
-                        />
+                        <TextInput value={'$120'} state="disabled" />
                       </FormField>
                     </section>
 
@@ -167,9 +206,6 @@ const Payment = () => {
               </section>
             </CheckoutMain>
             <CheckoutFooter type="payment">
-              {/* {cart && (
-                <Summary cart={cart} reload={reload} setReload={setReload} />
-              )} */}
               <section className="w-full lg:w-[145px]">
                 <Button type="outlined" onClick={() => router.back()}>
                   {backLabel}

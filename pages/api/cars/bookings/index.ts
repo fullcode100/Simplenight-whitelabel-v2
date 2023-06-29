@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { CarBookingResponseMs } from 'cars/types/response/CarBookingResponseMs';
-import { bookingMock } from 'mocks/carBookingMock';
 import { bookingResponseAdapter } from 'cars/adapters/bookingResponseMs.adapter';
 
 export default async function handler(
@@ -11,24 +10,24 @@ export default async function handler(
 ) {
   try {
     const { body } = req;
+    const urlRequest = 'https://sn-cars-booking-dev-rsk7bmoira-uc.a.run.app';
 
-    // const { data } = await axios.post<CarBookingResponseMs>(
-    //   'https://sn-cars-booking-dev-rsk7bmoira-uc.a.run.app/v1/cars/booking',
-    //   body,
-    //   {
-    //     headers: {
-    //       Accept: 'application/json',
-    //     },
-    //   },
-    // );
-    const data = bookingMock;
+    const { data } = await axios.post<CarBookingResponseMs>(
+      `${urlRequest}/v1/cars/booking`,
+      body,
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
     const identification = data.Data.Identification;
 
     if (identification) {
       try {
-        // const { data } = await axios.get(
-        //   `https://sn-cars-booking-dev-rsk7bmoira-uc.a.run.app/v1/cars/booking/${identification}`,
-        // );
+        const { data } = await axios.get(
+          `https://sn-cars-booking-dev-rsk7bmoira-uc.a.run.app/v1/cars/booking/${identification}`,
+        );
 
         res.status(200).json({ booking: bookingResponseAdapter({ ...data }) });
       } catch (error) {
@@ -43,6 +42,7 @@ export default async function handler(
     if (!data) throw new Error('Car booking error');
     res.status(200).json({ booking: bookingResponseAdapter({ ...data }) });
   } catch (error) {
+    console.log(error);
     if (axios.isAxiosError(error)) {
       res.status(400).json({ booking: {} });
     } else {

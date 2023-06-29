@@ -50,16 +50,10 @@ const TotalItinerary = ({
     </div>
   );
 };
-const CarItineraryDetail = ({
-  name,
-  rate,
-  handleAction,
-}: {
-  name: string;
-  rate: Rate;
-  handleAction: (path: string) => void;
-}) => {
+const CarItineraryDetail = ({ car }: any) => {
   const [t] = useTranslation('cars');
+  const rate = car?.rate;
+  const name = car?.car_model;
   return (
     <div className="lg:flex flex-col hidden min-w-[376px] border-[1px] h-[90vh] sticky col-span-1 lg:top-20">
       <div className="flex items-center px-5 py-6 text-xs border-b-[1px]">
@@ -85,10 +79,7 @@ const CarItineraryDetail = ({
             {t('Terms Of Service')}
           </a>
         </div>
-        <CarDetailActions
-          total={rate?.totalAmount}
-          handleAction={handleAction}
-        />
+        <CarDetailActions car={car} />
       </div>
     </div>
   );

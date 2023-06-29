@@ -16,16 +16,12 @@ export const carBookingItemAdapter = (car: Car, search: Search): any => {
     end_date: endDateTime,
     pickup_name: search.address,
     return_name: search.address,
+    inventory_id: car.inventory_id,
   };
 
   return {
-    sector: 'car-rental',
-    categoryName: 'cars',
-    total: {
-      amount: +car.rate.totalAmount,
-      formatted: `$${car.rate.totalAmount}`,
-      currency: car.rate.currencyCode,
-    },
+    category: 'car-rental',
+    sector: 'transportation',
     booking_data: bookingExtraData,
   };
 };
