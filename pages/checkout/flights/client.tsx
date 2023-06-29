@@ -201,7 +201,7 @@ const Client = () => {
               <InactiveCartMessage />
               <Card>
                 <Title>{primaryContactText}</Title>
-                <section className=" px-4 pt-6 lg:hidden">
+                <section className=" px-4 pt-6">
                   <Paragraph fontWeight="semibold">
                     Use the information of the following passenger in the Order
                     Name:

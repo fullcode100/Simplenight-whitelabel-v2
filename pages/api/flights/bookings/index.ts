@@ -68,13 +68,21 @@ export default async function handler(
               },
             });
           } catch (error) {
+            let supplierError = null;
+            if (
+              axios.isAxiosError(error) &&
+              error.response &&
+              error.response.data
+            ) {
+              supplierError = error.response.data;
+            }
             res.status(400).json({
               errors: [
                 {
                   message: `We are not able to complete ticketing for ${controlNumber}`,
                 },
               ],
-              supplierError: error,
+              supplierError,
             });
           }
         } else {
