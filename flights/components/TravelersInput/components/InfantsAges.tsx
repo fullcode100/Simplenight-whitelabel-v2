@@ -4,6 +4,8 @@ import BaseInput from 'components/global/Input/BaseInput';
 import { Traveler } from 'flights/helpers/traveler';
 import { changeArraySize } from 'helpers/arrayUtils';
 import classnames from 'classnames';
+import Select from 'components/global/Select/Select';
+import { minChildrenAge } from 'flights';
 interface InfantsAgesProps {
   traveler: Traveler;
   travelerNumber: number;
@@ -29,13 +31,12 @@ const InfantsAges = ({
   traveler.infantsAges =
     traveler.infantsAges.length === newInfantsAmount
       ? traveler.infantsAges
-      : changeArraySize(traveler.infantsAges, newInfantsAmount);
+      : changeArraySize(traveler.infantsAges, newInfantsAmount, 0);
 
-  const validateAge = (age: number) => {
-    let _age = age;
-    if (_age > 1) _age = 1;
-    if (_age < 0) _age = 0;
-    return _age;
+  const generateOptions = () => {
+    return Array(minChildrenAge)
+      .fill(1)
+      .map((_, idx) => `${idx}`);
   };
 
   return (
@@ -46,11 +47,13 @@ const InfantsAges = ({
       <section className="flex flex-wrap gap-3">
         {traveler.infantsAges.map((age, indexAge) => (
           <section key={indexAge}>
-            <input
-              type="number"
-              value="1"
-              className="focus:ring-primary-500 focus:border-primary-500 block w-full h-11 w-11 sm:text-sm border-gray-300 rounded text-center"
-              disabled
+            <Select
+              options={generateOptions()}
+              onChange={(value) =>
+                handleInfantsAgesChange(+value, indexAge, travelerNumber)
+              }
+              defaultValue={age !== 0 ? Number(age).toString() : ''}
+              selectedIcon={false}
             />
           </section>
         ))}

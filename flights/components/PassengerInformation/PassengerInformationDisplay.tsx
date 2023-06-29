@@ -181,11 +181,11 @@ const PassengerInformationDisplay = ({
       <section className="flex w-full justify-between max-w-7xl mx-auto mt-[64px] pt-6">
         <section>
           <FlightDetails
-            departure={firstSegment?.departureAirport || ''}
+            departure={flights[0].segments?.collection[0].departureAirport}
             departureDate={
               flights[0].segments?.collection[0].departureDateTime || ''
             }
-            arrival={lastSegment?.arrivalAirport || ''}
+            arrival={flights[1]?.segments?.collection[0].departureAirport}
             arrivaDate={
               flights[1]?.segments?.collection[0].arrivalDateTime || ''
             }

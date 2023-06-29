@@ -48,7 +48,7 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
   const firstFlight = flights[0];
   const lastFlight = flights[flights.length - 1];
   const startAirport = firstFlight.collection[0].departureAirport;
-  const endAirport = lastFlight.collection[0].arrivalAirport;
+  const endAirport = lastFlight.collection[0].departureAirport;
 
   return (
     <section className="flex flex-row gap-3 p-4">

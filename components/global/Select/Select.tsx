@@ -9,6 +9,7 @@ interface SelectProps {
   label?: string;
   onChange?: (value: string) => void;
   defaultValue?: string;
+  selectedIcon?: boolean;
 }
 
 const Select = ({
@@ -16,6 +17,7 @@ const Select = ({
   label = '',
   onChange,
   defaultValue,
+  selectedIcon = true,
 }: SelectProps) => {
   const [selected, setSelected] = useState(defaultValue ?? options[0] ?? '');
 
@@ -28,9 +30,11 @@ const Select = ({
     <Listbox value={selected} onChange={handleChange}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block mb-2 text-sm font-semibold text-gray-700">
-            {label}
-          </Listbox.Label>
+          {label && (
+            <Listbox.Label className="block mb-2 text-sm font-semibold text-gray-700">
+              {label}
+            </Listbox.Label>
+          )}
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
               <span className="block truncate">{selected}</span>
@@ -55,8 +59,12 @@ const Select = ({
                     key={option}
                     className={({ active }) =>
                       classNames(
-                        active ? 'text-white bg-primary-600' : 'text-gray-900',
-                        'cursor-default select-none relative py-2 pl-3 pr-9',
+                        'cursor-default select-none relative py-2 pl-3',
+                        {
+                          'text-white bg-primary-600': active,
+                          'text-gray-900': !active,
+                          'pr-9': selectedIcon,
+                        },
                       )
                     }
                     value={option}
@@ -72,7 +80,7 @@ const Select = ({
                           {option}
                         </span>
 
-                        {isSelected ? (
+                        {isSelected && selectedIcon ? (
                           <span
                             className={classNames(
                               active ? 'text-white' : 'text-primary-600',

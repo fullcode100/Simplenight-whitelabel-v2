@@ -5,6 +5,7 @@ import { changeArraySize } from 'helpers/arrayUtils';
 import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import { maxChildrenAge, minChildrenAge } from 'flights';
+import Select from 'components/global/Select/Select';
 
 interface ChildrenAgesProps {
   traveler: Traveler;
@@ -44,25 +45,19 @@ const ChildrenAges = ({
     indexAge: number;
     age: number;
   }) => {
-    const [childAge, setChildAge] = useState<number | ''>(age);
-
-    const validateAge = (age: number) => {
-      let _age = age;
-      if (_age > maxChildrenAge) _age = maxChildrenAge;
-      if (_age < minChildrenAge) _age = minChildrenAge;
-      setChildAge(_age);
-
-      handleChildrenAgesChange(_age, indexAge, travelerNumber);
+    const generateOptions = () => {
+      return Array(maxChildrenAge - minChildrenAge + 1)
+        .fill(1)
+        .map((_, idx) => `${idx + minChildrenAge}`);
     };
     return (
-      <input
-        type="number"
-        className="focus:ring-primary-500 focus:border-primary-500 block w-full h-11 w-11 sm:text-sm border-gray-300 rounded text-center"
-        value={childAge !== 0 ? Number(childAge).toString() : ''}
-        onChange={(e) =>
-          setChildAge(e.target.value !== '' ? Number(e.target.value) : '')
+      <Select
+        options={generateOptions()}
+        onChange={(value) =>
+          handleChildrenAgesChange(+value, indexAge, travelerNumber)
         }
-        onBlur={(e) => validateAge(Number(e.target.value))}
+        defaultValue={age !== 0 ? Number(age).toString() : ''}
+        selectedIcon={false}
       />
     );
   };

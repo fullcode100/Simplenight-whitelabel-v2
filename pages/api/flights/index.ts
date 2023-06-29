@@ -176,8 +176,25 @@ export default async function handler(
           return acum;
         }, [] as Array<Array<FlightItem>>);
 
+      const data = resultFlights.map((flightList, idx) => {
+        const nextFlightList = resultFlights[idx + 1];
+        if (nextFlightList) {
+          return flightList.filter((flight) => {
+            const legId = flight.legId;
+            const legIdList: string[] = [];
+            nextFlightList.forEach((val) => {
+              const newData = val.offer.legRef || [];
+              legIdList.push(...newData);
+            });
+            const dataList = new Set(legIdList);
+            return Array.from(dataList).includes(legId);
+          });
+        }
+        return flightList;
+      });
+
       res.status(200).json({
-        flights: resultFlights,
+        flights: data,
       });
     } else {
       res.status(400).json({

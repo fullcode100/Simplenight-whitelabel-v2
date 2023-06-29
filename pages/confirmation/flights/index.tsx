@@ -10,6 +10,7 @@ import { cancelBooking } from 'core/client/services/BookingService';
 
 import { useRouter } from 'next/router';
 import ConfirmationPage from 'components/confirmation/ConfirmationPage/ConfirmationPage';
+import { Booking } from 'types/booking/bookingType';
 
 const Confirmation: NextPage = () => {
   const router = useRouter();
@@ -25,7 +26,10 @@ const Confirmation: NextPage = () => {
     ['booking', bookingId],
     async () => {
       const data = await getBookingId(i18next, bookingId);
-      return data?.booking;
+      const bookingData = data?.booking;
+      return bookingData
+        ? { ...bookingData, sn_order_number: bookingId }
+        : bookingData;
     },
     {
       retry: false,
