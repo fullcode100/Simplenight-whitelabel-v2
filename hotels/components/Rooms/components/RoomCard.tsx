@@ -83,7 +83,11 @@ const RoomCard = ({
           <section className="flex flex-col gap-2 p-4">
             {amenities.map((amenity, index) => {
               const icon = amenitiesIcons.find((amenityOption) => {
-                amenityOption.options.includes(amenity);
+                return amenityOption.options.some(
+                  (amenityKeyword) =>
+                    amenityKeyword.toLowerCase().trim() ==
+                    amenity.toLowerCase().trim(),
+                );
               });
               const amenityIcon = icon ? icon : AmenityDefaultIcon;
               if (index <= 2) {

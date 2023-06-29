@@ -1,32 +1,90 @@
-import BreakfastIcon from 'public/icons/assets/amenities/breakfast-small.svg';
-import PoolIcon from 'public/icons/assets/amenities/pool-small.svg';
-import CasinoIcon from 'public/icons/assets/amenities/casino-small.svg';
-import AirIcon from 'public/icons/assets/amenities/air-small.svg';
-import RestaurantIcon from 'public/icons/assets/amenities/restaurant-small.svg';
-import WifiIcon from 'public/icons/assets/amenities/wifi-small.svg';
-import GymIcon from 'public/icons/assets/amenities/gym-small.svg';
-import BarIcon from 'public/icons/assets/amenities/bar-small.svg';
-import HotTubIcon from 'public/icons/assets/amenities/hot-tub-small.svg';
-import SpaIcon from 'public/icons/assets/amenities/spa-small.svg';
-import SaunaIcon from 'public/icons/assets/amenities/sauna-small.svg';
-import LaundryIcon from 'public/icons/assets/amenities/laundry-small.svg';
+import AirSmallIcon from 'public/icons/assets/amenities/air-small.svg';
+import AirLargeIcon from 'public/icons/assets/amenities/air-large.svg';
+import AllInclusiveSmallIcon from 'public/icons/assets/amenities/all-inclusive-small.svg';
+import AllInclusiveIcon from 'public/icons/assets/amenities/icon_amenities_all_inclusive.svg';
+import BarIcon from 'public/icons/assets/amenities/icon_amenities_bar.svg';
+import BreakfastLargeIcon from 'public/icons/assets/amenities/breakfast-large.svg';
+import BreakfastSmallIcon from 'public/icons/assets/amenities/breakfast-small.svg';
+import BedsheetsProvidedIcon from 'public/icons/assets/amenities/icon_amenities_bedsheets_provided.svg';
+import CableSatelliteTVIcon from 'public/icons/assets/amenities/icon_amenities_cable_satellite_tv_service.svg';
+import CableTVIcon from 'public/icons/assets/amenities/icon_amenities_cable_tv_service.svg';
+import CasinoIcon from 'public/icons/assets/amenities/icon_amenities_casino.svg';
+import CoffeeTeaMakerIcon from 'public/icons/assets/amenities/icon_amenities_coffee_tea_maker.svg';
+import DailyHousekeepingIcon from 'public/icons/assets/amenities/icon_amenities_daily_housekeeping.svg';
+import EcoFriendlyToiletriesIcon from 'public/icons/assets/amenities/icon_amenities_eco_friendly_toiletries.svg';
+import FlatPanelTVIcon from 'public/icons/assets/amenities/icon_amenities_flat_panel_tv.svg';
+import FreeBreakfastIcon from 'public/icons/assets/amenities/icon_amenities_free_breakfast.svg';
+import FreeCribsIcon from 'public/icons/assets/amenities/icon_amenities_free_cribs_infant_beds.svg';
+import FreeLocalCallsIcon from 'public/icons/assets/amenities/icon_amenities_free_local_calls.svg';
+import FreeToiletriesIcon from 'public/icons/assets/amenities/icon_amenities_free_toiletries.svg';
+import GymIcon from 'public/icons/assets/amenities/icon_amenities_gym.svg';
+import HairDryerIcon from 'public/icons/assets/amenities/icon_amenities_hair_dryer.svg';
+import HighSpeedInternetIcon from 'public/icons/assets/amenities/icon_amenities_high_speed_internet_access.svg';
+import HotTubLargeIcon from 'public/icons/assets/amenities/hot-tub-large.svg';
+import HotTubIcon from 'public/icons/assets/amenities/icon_amenities_hot_tub.svg';
+import InternetAccessIcon from 'public/icons/assets/amenities/icon_amenities_internet_access.svg';
+import InRoomClimateControlIcon from 'public/icons/assets/amenities/icon_amenities_in_room_climate_control.svg';
+import InRoomSafeIcon from 'public/icons/assets/amenities/icon_amenities_in_room_safe.svg';
+import IroningBoardIcon from 'public/icons/assets/amenities/icon_amenities_ironing_board.svg';
+import KingBedSmallIcon from 'public/icons/assets/amenities/king-bed-small.svg';
+import LaundryIcon from 'public/icons/assets/amenities/icon_amenities_laundry.svg';
+import LaundryLargeIcon from 'public/icons/assets/amenities/laundry-large.svg';
+import NonSmokingIcon from 'public/icons/assets/amenities/icon_amenities_non_smoking.svg';
+import PayMoviesIcon from 'public/icons/assets/amenities/icon_amenities_pay_movies.svg';
+import PetFriendlyIcon from 'public/icons/assets/amenities/icon_amenities_pet_friendly.svg';
 import PetIcon from 'public/icons/assets/amenities/pet-small.svg';
+import PoolIcon from 'public/icons/assets/amenities/icon_amenities_pool.svg';
+import PrivateBathroomIcon from 'public/icons/assets/amenities/icon_amenities_private_bathroom.svg';
+import RefrigeratorIcon from 'public/icons/assets/amenities/icon_amenities_refrigerator.svg';
+import RestaurantIcon from 'public/icons/assets/amenities/icon_amenities_restaurant.svg';
+import RollawayExtraBedsIcon from 'public/icons/assets/amenities/icon_amenities_rollaway_extra_beds.svg';
+import RoomOnlyIcon from 'public/icons/assets/amenities/icon_amenities_room_only.svg';
+import RoomServiceIcon from 'public/icons/assets/amenities/icon_amenities_room_service.svg';
+import SaunaIcon from 'public/icons/assets/amenities/icon_amenities_shower_tub_combination.svg';
+import SpaIcon from 'public/icons/assets/amenities/icon_amenities_spa.svg';
+import SpaLargeIcon from 'public/icons/assets/amenities/spa-large.svg';
+import TelevisionIcon from 'public/icons/assets/amenities/icon_amenities_television.svg';
+import TowelsProvidedIcon from 'public/icons/assets/amenities/icon_amenities_towels_provided.svg';
+import TVSizeIcon from 'public/icons/assets/amenities/icon_amenities_tv_size.svg';
+import TVSizeMeasurementIcon from 'public/icons/assets/amenities/icon_amenities_tv_size_measurement.svg';
+import WifiLargeIcon from 'public/icons/assets/amenities/wifi-large.svg';
+import WifiIcon from 'public/icons/assets/amenities/icon_amenities_wifi.svg';
 
 const amenitiesIcons = [
   {
-    options: ['Fitness', 'Gym'],
-    iconLarge: <GymIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <GymIcon />,
+    options: ['A.C.', 'Air Conditioning'],
+    iconLarge: <AirLargeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <AirSmallIcon />,
+  },
+  {
+    options: ['All Inclusive'],
+    iconLarge: <AllInclusiveIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <AllInclusiveSmallIcon />,
+  },
+  {
+    options: ['Bar', 'Minibar'],
+    iconLarge: <BarIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <BarIcon />,
   },
   {
     options: ['Breakfast'],
-    iconLarge: <BreakfastIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <BreakfastIcon />,
+    iconLarge: <BreakfastLargeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <BreakfastSmallIcon />,
   },
   {
-    options: ['Pool'],
-    iconLarge: <PoolIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <PoolIcon />,
+    options: ['Bedsheets provided'],
+    iconLarge: <BedsheetsProvidedIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <BedsheetsProvidedIcon />,
+  },
+  {
+    options: ['Premium TV channels'],
+    iconLarge: <CableSatelliteTVIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <CableSatelliteTVIcon />,
+  },
+  {
+    options: ['Cable TV service'],
+    iconLarge: <CableTVIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <CableTVIcon />,
   },
   {
     options: ['Casino'],
@@ -34,9 +92,127 @@ const amenitiesIcons = [
     iconSmall: <CasinoIcon />,
   },
   {
-    options: ['A.C.', 'Air Conditioning'],
-    iconLarge: <AirIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <AirIcon />,
+    options: ['Coffee/tea maker'],
+    iconLarge: <CoffeeTeaMakerIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <CoffeeTeaMakerIcon />,
+  },
+  {
+    options: ['Daily housekeeping'],
+    iconLarge: <DailyHousekeepingIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <DailyHousekeepingIcon />,
+  },
+  {
+    options: ['Designer toiletries'],
+    iconLarge: <EcoFriendlyToiletriesIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <EcoFriendlyToiletriesIcon />,
+  },
+  {
+    options: ['Flat-panel TV'],
+    iconLarge: <FlatPanelTVIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <FlatPanelTVIcon />,
+  },
+  {
+    options: ['Free Breakfast'],
+    iconLarge: <FreeBreakfastIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <FreeBreakfastIcon />,
+  },
+  {
+    options: ['Free cribs/infant beds'],
+    iconLarge: <FreeCribsIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <FreeCribsIcon />,
+  },
+  {
+    options: ['Free Local Calls'],
+    iconLarge: <FreeLocalCallsIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <FreeLocalCallsIcon />,
+  },
+  {
+    options: ['Designer toiletries'],
+    iconLarge: <FreeToiletriesIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <FreeToiletriesIcon />,
+  },
+  {
+    options: ['Fitness', 'Gym'],
+    iconLarge: <GymIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <GymIcon />,
+  },
+  {
+    options: ['Hair Dryer'],
+    iconLarge: <HairDryerIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <HairDryerIcon />,
+  },
+  {
+    options: ['High Speed Internet', 'Free wired internet'],
+    iconLarge: <HighSpeedInternetIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <HighSpeedInternetIcon />,
+  },
+  {
+    options: ['Hot Tub'],
+    iconLarge: <HotTubLargeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <HotTubIcon />,
+  },
+  {
+    options: [
+      'Room Climate Control',
+      'In-room climate control (air conditioning)',
+    ],
+    iconLarge: <InRoomClimateControlIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <InRoomClimateControlIcon />,
+  },
+  {
+    options: ['In Room Safe', 'In-room safe'],
+    iconLarge: <InRoomSafeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <InRoomSafeIcon />,
+  },
+  {
+    options: ['Internet Access', 'Free wired internet'],
+    iconLarge: <InternetAccessIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <InternetAccessIcon />,
+  },
+  {
+    options: ['Ironing Board', 'Iron/ironing board'],
+    iconLarge: <IroningBoardIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <IroningBoardIcon />,
+  },
+  {
+    options: ['King Bed'],
+    iconLarge: <KingBedSmallIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <KingBedSmallIcon />,
+  },
+  {
+    options: ['Laundry'],
+    iconLarge: <LaundryLargeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <LaundryIcon />,
+  },
+  {
+    options: ['Non Smoking', 'Non-Smoking'],
+    iconLarge: <NonSmokingIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <NonSmokingIcon />,
+  },
+  {
+    options: ['Pay Movies'],
+    iconLarge: <PayMoviesIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <PayMoviesIcon />,
+  },
+  {
+    options: ['Pet Friendly', 'Pet-friendly room'],
+    iconLarge: <PetFriendlyIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <PetIcon />,
+  },
+  {
+    options: ['Pool'],
+    iconLarge: <PoolIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <PoolIcon />,
+  },
+  {
+    options: ['Private Bathroom'],
+    iconLarge: <PrivateBathroomIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <PrivateBathroomIcon />,
+  },
+  {
+    options: ['Refrigerator'],
+    iconLarge: <RefrigeratorIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <RefrigeratorIcon />,
   },
   {
     options: ['Restaurant'],
@@ -44,24 +220,19 @@ const amenitiesIcons = [
     iconSmall: <RestaurantIcon />,
   },
   {
-    options: ['WiFi', 'Wi-Fi'],
-    iconLarge: <WifiIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <WifiIcon />,
+    options: ['Rollaway Extra Beds'],
+    iconLarge: <RollawayExtraBedsIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <RollawayExtraBedsIcon />,
   },
   {
-    options: ['Bar'],
-    iconLarge: <BarIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <BarIcon />,
+    options: ['Room Only'],
+    iconLarge: <RoomOnlyIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <RoomOnlyIcon />,
   },
   {
-    options: ['Hot Tub'],
-    iconLarge: <HotTubIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <HotTubIcon />,
-  },
-  {
-    options: ['Spa'],
-    iconLarge: <SpaIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <SpaIcon />,
+    options: ['Room Service'],
+    iconLarge: <RoomServiceIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <RoomServiceIcon />,
   },
   {
     options: ['Sauna'],
@@ -69,14 +240,34 @@ const amenitiesIcons = [
     iconSmall: <SaunaIcon />,
   },
   {
-    options: ['Laundry'],
-    iconLarge: <LaundryIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <LaundryIcon />,
+    options: ['Spa'],
+    iconLarge: <SpaLargeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <SpaIcon />,
   },
   {
-    options: ['Pet Friendly'],
-    iconLarge: <PetIcon className="h-12 w-12 mx-auto" />,
-    iconSmall: <PetIcon />,
+    options: ['Television', 'HDTV'],
+    iconLarge: <TelevisionIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <TelevisionIcon />,
+  },
+  {
+    options: ['TV Size Measurement'],
+    iconLarge: <TVSizeMeasurementIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <TVSizeMeasurementIcon />,
+  },
+  {
+    options: ['Towels Provided', 'Free toiletries'],
+    iconLarge: <TowelsProvidedIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <TowelsProvidedIcon />,
+  },
+  {
+    options: ['TV size measurement', 'TV size', 'TV size measurement: inch'],
+    iconLarge: <TVSizeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <TVSizeIcon />,
+  },
+  {
+    options: ['WiFi', 'Wi-Fi'],
+    iconLarge: <WifiLargeIcon className="h-12 w-12 mx-auto" />,
+    iconSmall: <WifiIcon />,
   },
 ];
 
