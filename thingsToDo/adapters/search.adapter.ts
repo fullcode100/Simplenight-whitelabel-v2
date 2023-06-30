@@ -1,8 +1,8 @@
 import { SearchItem } from 'thingsToDo/types/adapters/SearchItem';
-import { ThingsSearchItem } from 'thingsToDo/types/response/ThingsSearchResponse';
+import { ThingsSearchResponse } from 'thingsToDo/types/response/ThingsSearchResponse';
 
-export const searchAdapter = (items: ThingsSearchItem[]) => {
-  const adaptedSearchResponse = items.map((item) => {
+export const searchAdapter = (response: ThingsSearchResponse) => {
+  const items = response.items.map((item) => {
     const i: SearchItem = {
       id: item.id,
       name: item.name,
@@ -20,5 +20,10 @@ export const searchAdapter = (items: ThingsSearchItem[]) => {
     return i;
   });
 
-  return adaptedSearchResponse;
+  const data = {
+    items: items,
+    timezone: response.timezone,
+  };
+
+  return data;
 };

@@ -122,12 +122,13 @@ const getSessionKey = () => {
 export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
   const Window = tryGetWindow();
   const sessionkey = getSessionKey();
-
+  const zone = localStorage.getItem('timezone');
   const axiosInstance = axios.create({
     baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
     headers: {
       'Content-Type': 'application/json',
       'x-session': sessionkey,
+      timezone: zone ? zone : '',
     },
   });
 

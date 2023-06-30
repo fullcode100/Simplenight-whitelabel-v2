@@ -16,7 +16,7 @@ export class ThingsServerSearcher extends ServerSearcher<ThingsSearchResponse> {
     result: ThingsSearchResponse,
   ): void {
     if (result) {
-      const adaptedResult = searchAdapter(result.items);
+      const adaptedResult = searchAdapter(result);
       sendSuccess(response, adaptedResult);
       return;
     }

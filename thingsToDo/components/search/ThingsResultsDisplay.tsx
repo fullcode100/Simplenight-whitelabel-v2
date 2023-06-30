@@ -127,9 +127,12 @@ const ThingsResultsDisplay = ({
 
   const mapCategoryFilters = (items: SearchItem[]) => {
     if (items) {
-      getAllCategories(items, categoryFilters);
-      orderFiltersAlphabetically(categoryFilters);
+      const mappedCategories: Category[] = [];
+      getAllCategories(items, mappedCategories);
+      orderFiltersAlphabetically(mappedCategories);
+      return mappedCategories;
     }
+    return [];
   };
 
   const params: ThingsSearchRequest = {
@@ -143,7 +146,13 @@ const ThingsResultsDisplay = ({
 
   const fetchThingsToDo = async () => {
     try {
-      return await Searcher?.request?.(params, i18next);
+      const response = await Searcher?.request?.(params, i18next);
+      setEntertainmentItems(response.items);
+
+      if (response.items) {
+        localStorage.setItem('timezone', JSON.stringify(response.timezone));
+      }
+      return response;
     } catch (e) {
       console.error(e);
     }
@@ -155,24 +164,20 @@ const ThingsResultsDisplay = ({
     { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
   );
 
-  mapCategoryFilters(data);
-
   useEffect(() => {
     if (data) {
-      setEntertainmentItems(data);
+      mapCategoryFilters(data.items);
     }
   }, [data]);
 
   useEffect(() => {
-    getKeywordSearchList(data, setKeywordSearchData);
+    if (data) getKeywordSearchList(data.items, setKeywordSearchData);
   }, [data]);
 
   const urlDetail = (thingsItem: SearchItem) => {
     const { id } = thingsItem;
     return `/detail/${slug}/${id}?startDate=${startDate}&endDate=${endDate}&mainCategory=${thingsItem.mainCategory}`;
   };
-
-  const noResults = entertainmentItems?.length === 0;
 
   const { isDesktop } = useMediaViewport();
 
@@ -204,9 +209,13 @@ const ThingsResultsDisplay = ({
   };
 
   useEffect(() => {
-    let filteredData = data;
+    let filteredData = [];
+    if (data) filteredData = data.items;
     if (appliedCategoryFilters.length > 0) {
-      filteredData = filterResultsByCategory(data, appliedCategoryFilters);
+      filteredData = filterResultsByCategory(
+        data.items,
+        appliedCategoryFilters,
+      );
     }
     filteredData = filterByFilters(filteredData, appliedSearchFilters);
     setEntertainmentItems(filteredData);
@@ -317,7 +326,7 @@ const ThingsResultsDisplay = ({
         </section>
       )}
 
-      {!isLoading && !noResults && (
+      {!isLoading && !(data.items?.length === 0) && (
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           <ResultsAmountSort />
 
@@ -338,7 +347,7 @@ const ThingsResultsDisplay = ({
           <HorizontalSkeletonList />
         </section>
       )}
-      {!isLoading && noResults && (
+      {!isLoading && data.items?.length === 0 && (
         <EmptyStateContainer
           text={noResultsLabel}
           Icon={EmptyStateIllustration}

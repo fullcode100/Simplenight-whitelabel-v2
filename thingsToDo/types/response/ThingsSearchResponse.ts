@@ -2,6 +2,7 @@ import { Discounts } from './ThingsDetailResponse';
 
 export interface ThingsSearchResponse {
   items: ThingsSearchItem[];
+  timezone: string;
 }
 
 export interface ThingsSearchItem {
