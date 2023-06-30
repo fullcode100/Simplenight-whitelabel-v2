@@ -19,7 +19,7 @@ const TravelersCount = ({
   const childrenLabel = t('children', 'Children');
   const infantsLabel = t('infants', 'Infants');
   const infantsAgeRangeLabel = t('infantsRange', 'Under 2 years old');
-  const childrenAgeRangeLabel = t('childrenRange', 'Ages 1 to 17');
+  const childrenAgeRangeLabel = t('childrenRange', 'Ages 2 to 17');
 
   return (
     <section className="flex flex-col gap-y-6 mb-6">
@@ -28,7 +28,7 @@ const TravelersCount = ({
         value={room.adults}
         onChange={(value) => handleCountChange(value, index, 'adults')}
         min={1}
-        max={10}
+        max={14}
         disabled
       />
       <NumberInput
@@ -36,7 +36,7 @@ const TravelersCount = ({
         sublabel={childrenAgeRangeLabel}
         value={room.children}
         onChange={(value) => handleCountChange(value, index, 'children')}
-        max={10}
+        max={6}
         disabled
       />
       <NumberInput
@@ -44,7 +44,7 @@ const TravelersCount = ({
         sublabel={infantsAgeRangeLabel}
         value={room.infants}
         onChange={(value) => handleCountChange(value, index, 'infants')}
-        max={10}
+        max={6}
         disabled
       />
     </section>

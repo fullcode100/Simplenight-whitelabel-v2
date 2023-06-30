@@ -1,14 +1,11 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import DatePicker from '../../../components/global/Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
 import { Room, createRoom } from 'hotels/helpers/room';
 
-import Bed from 'public/icons/assets/bed.svg';
 import LocationPin from 'public/icons/assets/location-pin.svg';
-import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
 import Button from 'components/global/Button/Button';
@@ -45,9 +42,7 @@ const HotelSearchForm = ({
   const checkInText = t('checkIn');
   const checkOutText = t('checkOut');
   const guestsLabel = t('guests', 'Guests');
-  const guestLabel = t('guest', 'Guest');
-  const roomsLabel = t('rooms', 'Rooms');
-  const roomLabel = t('room', 'Room');
+
   const bookThePerfectHotelLabel = t(
     'bookThePerfectHotel',
     ' Book the perfect hotel by comparing prices and reading reviews.',
@@ -75,6 +70,7 @@ const HotelSearchForm = ({
       params.longitude as string,
     )}`,
   );
+
   const [startDate, setStartDate] = useState<string>(
     params.startDate
       ? params.startDate.toString()
@@ -214,49 +210,29 @@ const HotelSearchForm = ({
         className={`flex flex-col justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
       >
         <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
-          <section className="lg:hidden relative lg:mt-0 lg:w-[50%]">
-            <button
-              onClick={() => setShowTravelersInput(true)}
-              className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
-            >
-              <section className="flex items-center gap-2">
-                <MultiplePersons className="text-dark-700" />
-                {parseInt(adults) + parseInt(children)}{' '}
-              </section>
-            </button>
-          </section>
-          <LocationInput
-            icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
-            label={locationInputLabel}
-            name="location"
-            placeholder={locationPlaceholder}
-            routeParams={['address']}
-            onSelect={handleSelectLocation}
-            error={showLocationError}
-            onChange={handleChangeLocation}
-          />
-          <TravelersInput
-            showTravelersInput={showTravelersInput}
-            onClose={() => setShowTravelersInput(false)}
-            rooms={roomsData}
-            setRooms={setRoomsData}
-          />
-          <section className="hidden lg:relative lg:mt-0 lg:w-[50%]">
-            <Label value={guestsLabel} />
-            <button
-              onClick={() => setShowTravelersInput(true)}
-              className="bg-white mt-2 rounded border border-gray-300 w-full h-11 py-2 px-[13px] text-sm text-dark-1000 cursor-default"
-            >
-              <section className="flex items-center gap-2">
-                <MultiplePersons className="text-dark-700" />
-                {parseInt(adults) + parseInt(children)}{' '}
-                {usePlural(
-                  parseInt(adults) + parseInt(children),
-                  guestLabel,
-                  guestsLabel,
-                )}
-              </section>
-            </button>
+          <section className="flex flex-col-reverse lg:lg:flex-row gap-4 lg:w-[100%]">
+            <LocationInput
+              icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
+              label={locationInputLabel}
+              name="location"
+              placeholder={locationPlaceholder}
+              routeParams={['address']}
+              onSelect={handleSelectLocation}
+              error={showLocationError}
+              onChange={handleChangeLocation}
+            />
+            <section className="lg:mt-0 lg:w-[50%]">
+              <Label className="hidden lg:block" value={guestsLabel} />
+              <TravelersInput
+                showTravelersInput={showTravelersInput}
+                onClose={() => setShowTravelersInput(false)}
+                rooms={roomsData}
+                setRooms={setRoomsData}
+                setShowTravelersInput={setShowTravelersInput}
+                adults={adults}
+                children={children}
+              />
+            </section>
           </section>
 
           <section className="relative flex gap-4 lg:mt-0 lg:w-full">

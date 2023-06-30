@@ -32,6 +32,9 @@ const GuestsRoomsInput = ({
   return (
     <>
       <TravelersInput
+        setShowTravelersInput={setShowTravelersInout}
+        adults={adults}
+        children={childrens}
         showTravelersInput={showTravelersInput}
         onClose={() => setShowTravelersInout(false)}
         rooms={roomsData}

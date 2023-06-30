@@ -143,6 +143,9 @@ const HotelRoomAvailabilityForm = ({
           onClose={() => setShowTravelersInput(false)}
           rooms={roomsData}
           setRooms={setRoomsData}
+          adults={adults}
+          children={children}
+          setShowTravelersInput={setShowTravelersInput}
         />
         <section className="mt-4 lg:mt-0 lg:w-full">
           <p className="text-sm font-semibold text-dark-800">

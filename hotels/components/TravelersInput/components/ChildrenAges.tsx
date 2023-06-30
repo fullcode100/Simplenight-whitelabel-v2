@@ -4,6 +4,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import BaseInput from 'components/global/Input/BaseInput';
 import { Room } from 'hotels/helpers/room';
 import { changeArraySize } from 'helpers/arrayUtils';
+import Select from 'components/global/Select/Select';
+
 interface ChildrenAgesProps {
   room: Room;
   roomNumber: number;
@@ -28,9 +30,25 @@ const ChildrenAges = ({
   const [t, i18next] = useTranslation('global');
   // eslint-disable-next-line quotes
   const childLabel = t('child', 'Child');
-
+  const ChildrenAges = [
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+  ];
   const newChildrenAmount = room.children;
-
   childrenAges =
     childrenAges.length === newChildrenAmount
       ? childrenAges
@@ -43,28 +61,20 @@ const ChildrenAges = ({
             <div className="text-dark-800 text-[16px] leading-[16px] w-[50%] flex items-center">
               {`${childLabel} ${indexAge + 1}`}
             </div>
-            <div className="w-[50%] flex justify-start">
-              <BaseInput
-                type="number"
-                value={age}
-                onChange={(e) =>
-                  handleAgesChange(
-                    parseInt(e.target.value) >= 11
-                      ? 11
-                      : parseInt(e.target.value) === 0
-                      ? 1
-                      : parseInt(e.target.value),
-                    indexAge,
-                    roomNumber,
-                  )
-                }
-                onClick={() => setIndexOnFocus(indexAge)} // Set the indexOnFocus for ChildrenAges
-                autoFocus={indexOnFocus === indexAge} // Set autoFocus based on indexOnFocus
-                max={11}
-                min={1}
-                inputClassName="w-[150px]"
-                externalWidth
-              />
+            <div className="w-[50%] flex justify-end">
+              <div className="w-full lg:w-[150px] mt-6 md:mt-0">
+                <Select
+                  options={ChildrenAges}
+                  onChange={(value) =>
+                    handleAgesChange(
+                      ChildrenAges.findIndex((p) => p === value) + 2,
+                      indexAge,
+                      roomNumber,
+                    )
+                  }
+                  defaultValue={'2'}
+                />
+              </div>
             </div>
           </section>
         ))}

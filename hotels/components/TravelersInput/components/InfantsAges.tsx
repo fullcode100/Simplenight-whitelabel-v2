@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
-import BaseInput from 'components/global/Input/BaseInput';
 import { Room } from 'hotels/helpers/room';
 import { changeArraySize } from 'helpers/arrayUtils';
+import Select from 'components/global/Select/Select';
 interface InfantsAgesProps {
   room: Room;
   infantAges: number[];
@@ -30,7 +30,7 @@ const InfantsAges = ({
   const infantLabel = t('infant', 'Infant');
   console.log('indexOnFocus infant', indexOnFocus);
   const newChildrenAmount = room.infants;
-
+  const InfantsAges = ['<1', '1'];
   infantAges =
     infantAges.length === newChildrenAmount
       ? infantAges
@@ -46,28 +46,20 @@ const InfantsAges = ({
               <div className="text-dark-800 text-[16px] leading-[16px] w-[50%] flex items-center">
                 {`${infantLabel} ${indexAge + 1}`}
               </div>
-              <div className="w-[50%] flex justify-start">
-                <BaseInput
-                  type="number"
-                  value={age}
-                  onChange={(e) =>
-                    handleInfantsAgesChange(
-                      parseInt(e.target.value) >= 2
-                        ? 2
-                        : parseInt(e.target.value) === 0
-                        ? 1
-                        : parseInt(e.target.value),
-                      newIndex - 10,
-                      roomNumber,
-                    )
-                  }
-                  onClick={() => setIndexOnFocus(newIndex)} // Set the indexOnFocus for InfantsAges
-                  autoFocus={indexOnFocus === newIndex} // Set autoFocus based on indexOnFocus
-                  max={2}
-                  min={0}
-                  inputClassName="w-[150px]"
-                  externalWidth
-                />
+              <div className="w-[50%] flex justify-end">
+                <div className="w-full lg:w-[150px] mt-6 md:mt-0">
+                  <Select
+                    options={InfantsAges}
+                    onChange={(value) =>
+                      handleInfantsAgesChange(
+                        InfantsAges.findIndex((p) => p === value),
+                        indexAge,
+                        roomNumber,
+                      )
+                    }
+                    defaultValue={'<1'}
+                  />
+                </div>
               </div>
             </section>
           );
