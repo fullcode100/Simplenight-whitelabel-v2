@@ -216,6 +216,7 @@ const HotelSearchForm = ({
               label={locationInputLabel}
               name="location"
               placeholder={locationPlaceholder}
+              restrictToCities={true}
               routeParams={['address']}
               onSelect={handleSelectLocation}
               error={showLocationError}

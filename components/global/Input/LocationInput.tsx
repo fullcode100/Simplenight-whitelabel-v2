@@ -19,6 +19,7 @@ interface LocationInputProps {
   routeParams?: string[];
   onChange?: (value: string) => void;
   onSelect?: (value: latLngProp, address: string) => void;
+  restrictToCities?: boolean;
 }
 
 const LocationInput = ({
@@ -27,6 +28,7 @@ const LocationInput = ({
   onChange,
   onSelect,
   onClear,
+  restrictToCities = false,
   ...others
 }: LocationInputProps & BaseInputProps) => {
   const params = useQuery();
@@ -74,6 +76,7 @@ const LocationInput = ({
           value={address}
           onChange={handleChange}
           onSelect={handleSelect}
+          searchOptions={restrictToCities ? { types: ['(cities)'] } : {}}
         >
           {({
             getInputProps,
