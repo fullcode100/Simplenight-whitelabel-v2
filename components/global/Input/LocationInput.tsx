@@ -108,7 +108,7 @@ const LocationInput = ({
                 />
                 <section
                   className={classnames(
-                    'autocomplete-dropdown-container rounded absolute z-10 w-full block',
+                    'autocomplete-dropdown-container rounded absolute z-10 w-full block divide-y bg-white',
                     {
                       'shadow-md': suggestions[0],
                     },
@@ -126,7 +126,7 @@ const LocationInput = ({
                     // inline style for demonstration purpose
                     const style = active
                       ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                      : { cursor: 'pointer' };
 
                     const suggestionKey = index + suggestion.placeId;
 
