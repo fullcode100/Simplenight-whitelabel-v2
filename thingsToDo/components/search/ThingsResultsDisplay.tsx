@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
 
 import PillContainer from './SubCategoryFilter/PillContainer/PillContainer';
@@ -45,9 +45,6 @@ const ThingsResultsDisplay = ({
   const [isOpen, onOpen, onClose] = useModal();
   const [t, i18next] = useTranslation('things');
   const [tg] = useTranslation('global');
-  const [entertainmentItems, setEntertainmentItems] = useState<SearchItem[]>(
-    [],
-  );
 
   const [keywordSearchData, setKeywordSearchData] = useState({});
 
@@ -61,7 +58,7 @@ const ThingsResultsDisplay = ({
   const resultsLabel = tg('results', 'Results');
   const noResultsLabel = tg('noResultsSearch', 'No Results Match Your Search');
 
-  const categoryFilters: Category[] = [];
+  const [categoryFilters, setCategoryFilters] = useState<Array<Category>>([]);
   const [appliedCategoryFilters, setAppliedCategoryFilters] = useState<
     string[]
   >([]);
@@ -102,39 +99,6 @@ const ThingsResultsDisplay = ({
   const { startDate, endDate, latitude, longitude } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
 
-  const getAllCategories = (
-    items: SearchItem[],
-    mappedCategories: Category[],
-  ) => {
-    items.forEach((item) =>
-      item.categories.forEach((category) => {
-        if (
-          !mappedCategories.some(
-            (mappedCategory) => mappedCategory.id === category.id,
-          )
-        ) {
-          mappedCategories.push(category);
-        }
-      }),
-    );
-  };
-
-  const orderFiltersAlphabetically = (categories: Category[]) => {
-    categories.sort((a: Category, b: Category) => {
-      return a.label.localeCompare(b.label);
-    });
-  };
-
-  const mapCategoryFilters = (items: SearchItem[]) => {
-    if (items) {
-      const mappedCategories: Category[] = [];
-      getAllCategories(items, mappedCategories);
-      orderFiltersAlphabetically(mappedCategories);
-      return mappedCategories;
-    }
-    return [];
-  };
-
   const params: ThingsSearchRequest = {
     start_date: formatAsSearchDate(startDate as string),
     end_date: formatAsSearchDate(endDate as string),
@@ -147,7 +111,6 @@ const ThingsResultsDisplay = ({
   const fetchThingsToDo = async () => {
     try {
       const response = await Searcher?.request?.(params, i18next);
-      setEntertainmentItems(response.items);
 
       if (response.items) {
         localStorage.setItem('timezone', JSON.stringify(response.timezone));
@@ -161,13 +124,50 @@ const ThingsResultsDisplay = ({
   const { data, isLoading } = useReactQuery(
     ['thingstodo-search', params],
     fetchThingsToDo,
-    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+    {
+      retry: false,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+    },
   );
 
-  useEffect(() => {
-    if (data) {
-      mapCategoryFilters(data.items);
+  const entertainmentItems = useMemo(() => {
+    let result: SearchItem[] = data;
+    if (appliedCategoryFilters.length > 0) {
+      result = data.filter((item: SearchItem) => {
+        return item.categories.some((category) =>
+          appliedCategoryFilters.some(
+            (appliedFilter) => category.id === appliedFilter,
+          ),
+        );
+      });
     }
+
+    return filterByFilters(result, appliedSearchFilters);
+  }, [data, appliedCategoryFilters, appliedSearchFilters]);
+
+  useEffect(() => {
+    const items: Array<SearchItem> = data;
+    let categories: Array<Category> = [];
+    if (items?.length > 0) {
+      const uniqueIds = new Set();
+      categories = items
+        .reduce((acum, item) => {
+          item.categories.forEach((category) => {
+            if (!uniqueIds.has(category.id)) {
+              uniqueIds.add(category.id);
+              acum.push(category);
+            }
+          });
+
+          return acum;
+        }, [] as Array<Category>)
+        .sort((a: Category, b: Category) => {
+          return a.label.localeCompare(b.label);
+        });
+    }
+
+    setCategoryFilters(categories);
   }, [data]);
 
   useEffect(() => {
@@ -187,38 +187,7 @@ const ThingsResultsDisplay = ({
     if (isDesktop) setIsFilterOpen(true);
   }, [isDesktop]);
 
-  const filterResultsByCategory = (
-    items: SearchItem[] | undefined,
-    appliedFilters: string[],
-  ) => {
-    const filteredItems: SearchItem[] = [];
-    if (items) {
-      items.forEach((item: SearchItem) => {
-        if (
-          item.categories.some((category) =>
-            appliedFilters.some(
-              (appliedFilter) => category.id === appliedFilter,
-            ),
-          )
-        ) {
-          filteredItems.push(item);
-        }
-      });
-    }
-    return filteredItems;
-  };
-
   useEffect(() => {
-    let filteredData = [];
-    if (data) filteredData = data.items;
-    if (appliedCategoryFilters.length > 0) {
-      filteredData = filterResultsByCategory(
-        data.items,
-        appliedCategoryFilters,
-      );
-    }
-    filteredData = filterByFilters(filteredData, appliedSearchFilters);
-    setEntertainmentItems(filteredData);
     setFiltersCount(getFilterCount(appliedSearchFilters));
   }, [appliedCategoryFilters, appliedSearchFilters, data]);
 
