@@ -57,7 +57,7 @@ const DatePicker = ({
   onEndDateChange,
   openOnStart,
   maxRange = 14,
-  minRange = 1,
+  minRange = 0,
   setIsEditing,
   restricted = true,
   isRange = true,
