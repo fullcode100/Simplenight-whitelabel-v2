@@ -7,11 +7,9 @@ import flightActions from './redux/actions';
 
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import FlightResultsDisplay from 'flights/components/search/FlightResultsDisplay';
-import FlightDetailDisplay from './components/detail/FlightDetailDisplay';
 import FlightItineraryDisplay from './components/itinerary/FlightItineraryDisplay';
 import FlightBreakdownDisplay from './components/checkout/FlightBreakdownDisplay';
 import FlightsConfirmationAccordion from './components/confirmation/FlightsConfirmationAccordion/FlightsConfirmationAccordion';
-import FlightCancelledDisplay from './components/confirmation/FlightCancelledDisplay';
 import { FlightClientSearcher } from './core/search/FlightClientSearcher';
 import { FlightServerSearcher } from './core/search/FlightServerSearcher';
 import { FlightClientDetailer } from './core/detail/FlightClientDetailer';
@@ -22,6 +20,7 @@ import FlightSecondarySearchOptions from './components/search/FlightSecondarySea
 import FlightCheckoutDisplay from './components/checkout/FlightCheckoutDisplay';
 import FlightCheckoutItemDisplay from './components/checkout/FlightCheckoutItemDesplay';
 import PassengerInformationDisplay from './components/PassengerInformation/PassengerInformationDisplay';
+import FlightsCancelledAccordion from './components/Cancelled/FlightsCancelledAccordion';
 
 export const FLIGHT_CATEGORY = 'flights';
 
@@ -79,7 +78,7 @@ Category.checkoutItemDisplay = (
 Category.confirmationDisplay = (
   <FlightsConfirmationAccordion Category={Category} />
 );
-Category.cancelledDisplay = <FlightCancelledDisplay Category={Category} />;
+Category.cancelledDisplay = <FlightsCancelledAccordion Category={Category} />;
 
 Category.core.ClientSearcher = new FlightClientSearcher(Category);
 Category.core.ServerSearcher = new FlightServerSearcher(Category);

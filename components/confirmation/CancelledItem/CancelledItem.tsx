@@ -16,6 +16,10 @@ const CancelledItem = ({ item }: CancelledItemProps) => {
   if (sectorName === 'accommodations' || categoryName === 'hotels') {
     sectorName = 'hotels';
   }
+  if (sectorName === 'flights' || categoryName === 'flights') {
+    sectorName = 'flights';
+  }
+
   const sector = useCategory(sectorName || '');
 
   return (
