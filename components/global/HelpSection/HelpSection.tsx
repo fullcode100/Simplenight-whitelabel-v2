@@ -19,7 +19,7 @@ const HelpSection = ({
 }: HelpSectionProps) => {
   const [t, i18next] = useTranslation('global');
   const helpTitle = t('needHelpTitle', 'Need Some Help?');
-  const helpDescription = t('needHelpDescription', 'Contact Us For Support.');
+  const helpDescription = t('needHelpDescription', 'Contact Us For Support');
 
   const { data: brandConfig } = useSettings();
   const { information } = brandConfig;

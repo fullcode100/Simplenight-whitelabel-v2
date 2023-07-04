@@ -55,7 +55,7 @@ const Home: NextPageWithLayout = () => {
   const lookupYourOrder = t('lookupYourOrder', 'Look Up Your Order');
   const reviewAndManageYourOrder = t(
     'reviewAndManageYourOrder',
-    'Review and manage your order',
+    'Review and Manage your order',
   );
   const goToOrderLookup = t('goToOrderLookup', 'Go to Order Lookup');
 

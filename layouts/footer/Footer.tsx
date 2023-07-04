@@ -49,7 +49,7 @@ const Footer = () => {
             alt="Branch Logo"
             width="156px"
             height="60px"
-            className="mx-auto lg:mx-0 object-fit"
+            className="mx-auto lg:mx-0 object-fit mb-2"
           />
           <p className="font-semibold pt-3 text-[12px] lg:mt-2 uppercase">
             {poweredByText}{' '}
@@ -81,7 +81,7 @@ const Footer = () => {
           <section className="flex flex-col gap-3 lg:gap-2">
             <ExternalLink
               href={'/terms'}
-              className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
+              className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000  mb-2"
             >
               <>Simplenight {termsOfServiceText}</>
             </ExternalLink>
