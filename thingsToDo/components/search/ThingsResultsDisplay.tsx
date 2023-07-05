@@ -132,9 +132,9 @@ const ThingsResultsDisplay = ({
   );
 
   const entertainmentItems = useMemo(() => {
-    let result: SearchItem[] = data;
+    let result: SearchItem[] = data?.items;
     if (appliedCategoryFilters.length > 0) {
-      result = data.filter((item: SearchItem) => {
+      result = data?.items.filter((item: SearchItem) => {
         return item.categories.some((category) =>
           appliedCategoryFilters.some(
             (appliedFilter) => category.id === appliedFilter,

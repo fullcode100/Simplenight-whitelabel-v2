@@ -3,13 +3,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 
 import { allCountries, iso2Lookup } from 'country-telephone-data';
-import InputMask from 'react-input-mask';
 
 import ChevronDown from 'public/icons/assets/chevron-down-arrow.svg';
 import ChevronUp from 'public/icons/assets/chevron-up-arrow.svg';
 
 import { useOnOutsideClick } from 'hooks/windowInteraction/useOnOutsideClick';
 import useBog from 'hooks/bog/useBog';
+import { createDefaultMaskGenerator, MaskedInput } from 'react-hook-mask';
 
 export interface CountryCodeOption {
   name: string;
@@ -150,8 +150,8 @@ const PhoneNumberInput = ({
     updatePhoneMasks(option);
   };
 
-  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const phone = e.target.value;
+  const handleChangePhone = (e: any) => {
+    const phone = e;
     setPhoneNumber(phone);
     onChange(
       JSON.stringify({
@@ -166,6 +166,7 @@ const PhoneNumberInput = ({
     setCountryCode(getDefaultCountryCode(defaultCode.toLowerCase()));
     handleChangeCode(getDefaultCountryCode(defaultCode.toLowerCase()));
   }, [defaultCode]);
+  const maskGenerator = createDefaultMaskGenerator(phoneNumberMask);
   return (
     <section ref={inputRef} className=" relative  mt-2 ">
       <section
@@ -195,14 +196,13 @@ const PhoneNumberInput = ({
             {countryCode?.dialCode && formattedDialCode}
           </span>
         </section>
-        <InputMask
-          mask={phoneNumberMask || ''}
+        <MaskedInput
+          maskGenerator={maskGenerator}
           onChange={handleChangePhone}
           onFocus={() => setPhoneInputIsFocused(true)}
           onBlur={() => setPhoneInputIsFocused(false)}
           value={phoneNumber}
           disabled={isDisabled}
-          maskChar={null}
           placeholder={placeholder}
           className={`px-0 pl-2 ${textSize} ${colors[state]} w-full h-full bg-transparent border-none focus:shadow-none focus:inset-0 focus:ring-0 focus:outline-none focus:border-transparent`}
           name={name}

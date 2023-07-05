@@ -8553,6 +8553,11 @@ react-hook-form@^7.43.9:
   resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.43.9.tgz"
   integrity sha512-AUDN3Pz2NSeoxQ7Hs6OhQhDr6gtF9YRuutGDwPQqhSUAHJSgGl2VeY3qN19MG0SucpjgDiuMJ4iC5T5uB+eaNQ==
 
+react-hook-mask@^1.1.16:
+  version "1.1.16"
+  resolved "https://registry.yarnpkg.com/react-hook-mask/-/react-hook-mask-1.1.16.tgz#1260619942531ad449ea068905eb7cd6e838fa01"
+  integrity sha512-uw1f8IRC70s6kCg17lPaQed9ZFH30hPJgIFHHhciE/4lRBuqnQJB5P7rk6tjOu6be1ZQS5Y/ACv0oMrET9WoCw==
+
 react-hot-toast@^2.2.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/react-hot-toast/-/react-hot-toast-2.3.0.tgz"
