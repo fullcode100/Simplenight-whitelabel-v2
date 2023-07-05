@@ -725,6 +725,7 @@ const FlightSearchForm = () => {
                       />
                     )}
                     <DatePicker
+                      minRange={0}
                       showDatePicker={showDatePicker}
                       onClose={() => setShowDatePicker(false)}
                       startDateLabel={t('checkIn')}
