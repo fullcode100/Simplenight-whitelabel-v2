@@ -88,24 +88,36 @@ const getAllTimes = () => {
 };
 
 export const CustomTimeSelect = (props: WidgetProps) => {
-  const { value, onChange, required, id } = props;
+  const { value, onChange, id, required, autofocus } = props;
+  const [selectedItem, setSelectedItem] = useState<{
+    label: string;
+    value: string;
+  }>();
+  const [t] = useTranslation('things');
+  const pickupPlaceholder = t('TimeSelectPlaceholder', 'Choose A Time');
   const options = getAllTimes().map((time) => ({ label: time, value: time }));
+  const onChangeHandler = (data: { label: string; value: string }) => {
+    setSelectedItem(data);
+    onChange(data.value);
+  };
   return (
-    <SelectInput
-      value={value}
-      onChange={onChange}
-      required={required}
-      options={options}
+    <Combobox
+      width="w-full"
+      placeholder={pickupPlaceholder}
+      items={options}
+      selectedItem={selectedItem}
+      setSelectedItem={onChangeHandler}
       id={id}
       {...{
-        autoFocus: true,
+        required,
+        autoFocus: autofocus,
       }}
     />
   );
 };
 
 export const CustomSelect = (props: any) => {
-  const { options, value, onChange, required, id } = props;
+  const { options, value, onChange, required, id, autofocus } = props;
   return (
     <SelectInput
       value={value}
@@ -114,7 +126,7 @@ export const CustomSelect = (props: any) => {
       options={options.enumOptions}
       id={id}
       {...{
-        autoFocus: true,
+        autoFocus: autofocus,
       }}
     />
   );
