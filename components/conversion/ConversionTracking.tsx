@@ -2,16 +2,33 @@ import Head from 'next/head';
 import Script from 'next/script';
 
 import useBog from 'hooks/bog/useBog';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useGA4 } from 'hooks/ga4/useGA4';
 
 export const ConversionTracking = (): JSX.Element | null => {
   const { isBog } = useBog();
+  const { trackPageView, GA4_TRACKING_ID } = useGA4();
+
+  const router = useRouter();
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      trackPageView(url);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events, trackPageView]);
+
   if (!isBog) return null;
+
   return (
     <Head>
       <>
         <Script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-711765415"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_TRACKING_ID}`}
         />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
@@ -21,7 +38,7 @@ export const ConversionTracking = (): JSX.Element | null => {
             }
             gtag("js", new Date());
             gtag("config", "UA-41864771-1");
-            gtag("config", "AW-711765415");
+            gtag("config", ${GA4_TRACKING_ID});
           `}
         </Script>
         <Script id="microsoft-uet">

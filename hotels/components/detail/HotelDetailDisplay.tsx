@@ -46,12 +46,15 @@ import { detailAdapter } from '../../adapters/detail.adapter';
 import { DetailItem } from 'hotels/types/adapters/DetailItem';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import AmenitiesGrid from './AmenitiesGridHotels';
+import { useGA4 } from 'hooks/ga4/useGA4';
+import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 type FetchHotel = () => Promise<DetailItem>;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const params = useQuery();
+  const { trackEvent } = useGA4();
   const { id, roomsData } = params;
   const referralParam = params.referral as string;
   const { setCookie } = useCookies();
@@ -163,6 +166,12 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     if (data) {
       setHotel(data);
       setEmptyState(false);
+      trackEvent({
+        action: TRACK_ACTION.SET,
+        category: TRACK_CATEGORY.HOTELS,
+        label: TRACK_LABEL.ITEM,
+        value: data?.details?.name || 'no_name',
+      });
     }
   }, [data]);
 
@@ -334,7 +343,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   );
   const AmenitiesSection = () => (
     <section className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
-      <section className="mx-auto flex flex-col max-w-7xl">
+      <section className="flex flex-col mx-auto max-w-7xl">
         <p className="flex items-center gap-3 mb-6">
           <IconRoundedContainer isLarge className="bg-primary-1000">
             <CheckIcon className="h-5 w-5 lg:h-[30px] lg:w-[30px]" />
@@ -365,7 +374,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
 
   const Policies = () => (
     <section className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
-      <section className="mx-auto flex flex-col max-w-7xl">
+      <section className="flex flex-col mx-auto max-w-7xl">
         <p className="flex items-center gap-3 mb-6">
           <IconRoundedContainer isLarge className="bg-primary-1000">
             <PoliciesIcon className="h-5 w-5 lg:h-[30px] lg:w-[30px]" />

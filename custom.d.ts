@@ -14,3 +14,7 @@ declare module 'react-collapse';
 declare module 'axios-curlirize';
 
 declare module '@kount/kount-web-client-sdk';
+
+interface Window {
+  gtag: Gtag.Gtag;
+}

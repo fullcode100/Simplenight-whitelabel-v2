@@ -33,6 +33,8 @@ import { useCustomer } from 'hooks/checkout/useCustomer';
 import { getItemQuestionSchemas } from 'thingsToDo/helpers/questions';
 import ClientForm from 'components/checkout/ClientForm/ClientForm';
 import countryList from 'country-list';
+import { useGA4 } from 'hooks/ga4/useGA4';
+import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
 
 interface LayoutProps {
   children: ReactNode;
@@ -42,6 +44,7 @@ const ITINERARY_URI = '/itinerary';
 
 const Client = () => {
   const router = useRouter();
+  const { trackEvent } = useGA4();
   const [t, i18n] = useTranslation('global');
 
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
@@ -298,7 +301,13 @@ const Client = () => {
     });
   };
 
-  const redirectToItinerary = () => {
+  const cancelItinerary = () => {
+    trackEvent({
+      category: TRACK_CATEGORY.ALL,
+      value: `itinerary length ${cart?.items?.length}`,
+      action: TRACK_ACTION.CLICK,
+      label: TRACK_LABEL.CANCEL,
+    });
     // router.push(ITINERARY_URI);
     router.back();
   };
@@ -346,6 +355,14 @@ const Client = () => {
   const continueToPayment = async (values: any) => {
     if (!checkFormsBeforeContinue()) return;
     if (!cart || cart.total_item_qty <= 0) return;
+
+    trackEvent({
+      category: TRACK_CATEGORY.ALL,
+      value: `itinerary length ${cart?.items?.length}`,
+      action: TRACK_ACTION.CLICK,
+      label: TRACK_LABEL.CONTINUE,
+    });
+
     const customerUpdater = new ClientCartCustomerUpdater();
     const requestBody = getAddCustomerRequestBody(values.formData);
     updateCustomer(requestBody.customer);
@@ -507,7 +524,7 @@ const Client = () => {
                       <Button
                         value={cancelButton}
                         size={'full'}
-                        onClick={redirectToItinerary}
+                        onClick={cancelItinerary}
                         color="outlined"
                         className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
                       />

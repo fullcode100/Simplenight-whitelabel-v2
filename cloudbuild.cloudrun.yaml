@@ -16,6 +16,7 @@ steps:
         --build-arg NEXT_PUBLIC_KOUNT_ENVIRONMENT=${_NEXT_PUBLIC_KOUNT_ENVIRONMENT}
         --build-arg NEXT_PUBLIC_FLIGHTS_MS=${_NEXT_PUBLIC_FLIGHTS_MS}
         --build-arg SN_NODE_ENV=${_SN_NODE_ENV}
+        --build-arg GA4_TRACKING_ID=${_GA4_TRACKING_ID}
         --build-arg VERSION=$REF_NAME-$SHORT_SHA
     entrypoint: bash
   # Push the container image to Container Registry
@@ -40,12 +41,14 @@ steps:
       - '--update-env-vars=X_API_KEY=${_X_API_KEY}'
       - '--update-env-vars=API_URL=${_API_URL}'
       - '--update-env-vars=NEXT_PUBLIC_FLIGHTS_MS=${_NEXT_PUBLIC_FLIGHTS_MS}'
+      - '--update-env-vars=GA4_TRACKING_ID=${_GA4_TRACKING_ID}'
 images:
   - 'gcr.io/$PROJECT_ID/sn-web-v2-${_ENV}:$BUILD_ID'
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _ENV: dev
+  _GA4_TRACKING_ID: 'AW-711765415'
   _NEXT_PUBLIC_ADMIN_ENDPOINT_URL: 'https://dev-admin.simplenight.com/client'
   _NEXT_PUBLIC_ADMIN_TOKEN: ''
   _NEXT_ENCRYPT_KEY: ''

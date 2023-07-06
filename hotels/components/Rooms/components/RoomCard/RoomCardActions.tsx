@@ -6,15 +6,19 @@ import { addToCart } from 'core/client/services/CartClientService';
 import { useRouter } from 'next/router';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
+import { useGA4 } from 'hooks/ga4/useGA4';
+import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
 
 interface RoomProps {
   room: Room;
   hotelId: string;
   rooms?: number;
+  name: string;
 }
 
-const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
+const RoomCardActions = ({ room, name, hotelId, rooms = 1 }: RoomProps) => {
   const router = useRouter();
+  const { trackEvent } = useGA4();
 
   const bookingCode = room.rates.min_rate.sn_booking_code;
   const itemToBook = {
@@ -40,6 +44,27 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
     },
   });
 
+  const addRoom = () => {
+    trackEvent({
+      action: TRACK_ACTION.CLICK,
+      category: TRACK_CATEGORY.HOTELS,
+      label: TRACK_LABEL.ADD_ROOM,
+      value: name,
+    });
+    url = '/checkout/client';
+    mutate();
+  };
+
+  const addItinerary = () => {
+    trackEvent({
+      action: TRACK_ACTION.CLICK,
+      category: TRACK_CATEGORY.HOTELS,
+      label: TRACK_LABEL.ADD_ITINERARY,
+      value: name,
+    });
+    mutate();
+  };
+
   return (
     <footer className="px-4 py-4">
       <section className="flex gap-3">
@@ -49,7 +74,7 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
             size="full"
             type="outlined"
             textColor="primary"
-            onClick={() => mutate()}
+            onClick={addItinerary}
             className="text-base font-semibold leading-base"
             disabled={isLoading}
           />
@@ -57,10 +82,7 @@ const RoomCardActions = ({ room, hotelId, rooms = 1 }: RoomProps) => {
         <Button
           value={`${bookText} ${rooms} ${ROOM_TEXT}`}
           size="full"
-          onClick={() => {
-            url = '/checkout/client';
-            mutate();
-          }}
+          onClick={addRoom}
           className="text-base font-semibold leading-base"
           disabled={isLoading}
         />

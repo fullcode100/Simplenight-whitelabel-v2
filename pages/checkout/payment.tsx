@@ -4,8 +4,6 @@
 // Libraries
 import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
-import valid from 'card-validator';
-import dynamic from 'next/dynamic';
 
 // Components
 import { Button } from '@simplenight/ui';
@@ -29,11 +27,8 @@ import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
 import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
-import { Card } from 'types/global/Card';
 import PaymentForm from 'components/global/PaymentForm/PaymentForm';
-import InputWrapper from 'components/checkout/Inputs/InputWrapper';
 import BillingAddressForm from 'components/checkout/BillingAddressForm/BillingAddressForm';
-import { BillingAddress } from '../../components/global/PaymentForm/GooglePayButton/types/PaymentRequest';
 import useBog from 'hooks/bog/useBog';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -42,6 +37,8 @@ import { usePaymentFormSchema } from 'hooks/schemas/usePaymentFormSchema';
 import { SelectOption } from '../../components/checkout/Select/Select';
 import { FormField, TextInput } from '@simplenight/ui';
 import { useCustomer } from 'hooks/checkout/useCustomer';
+import { useGA4 } from 'hooks/ga4/useGA4';
+import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
@@ -60,6 +57,7 @@ type ScriptProps = {
 
 const Payment = () => {
   const router = useRouter();
+  const { trackEvent } = useGA4();
 
   const [t, i18next] = useTranslation('global');
   const iHaveReviewedLabel = t(
@@ -72,7 +70,6 @@ const Payment = () => {
   const fullAmountLabel = t('fullAmount', 'Full Amount');
   const checkoutLabel = t('checkoutTitle', 'Check Out');
   const backLabel = t('back', 'Back');
-  const loadingLabel = t('loading', 'Loading');
 
   const [terms, setTerms] = useState(false);
   const [errorTerms, setErrorTerms] = useState(false);
@@ -243,6 +240,13 @@ const Payment = () => {
       return;
     }
 
+    trackEvent({
+      action: TRACK_ACTION.CLICK,
+      label: TRACK_LABEL.CHECKOUT,
+      value: cart?.cart_id,
+      category: TRACK_CATEGORY.ALL,
+    });
+
     const {
       address1,
       address2,
@@ -283,8 +287,21 @@ const Payment = () => {
       }
       localStorage.removeItem('cart');
       setLoading(false);
+
+      trackEvent({
+        action: TRACK_ACTION.SUCCESS,
+        label: TRACK_LABEL.CHECKOUT,
+        value: 'book',
+        category: TRACK_CATEGORY.ALL,
+      });
       router.push(`${CONFIRMATION_URI}?bookingId=${bookingId}`);
     } catch (error) {
+      trackEvent({
+        action: TRACK_ACTION.ERROR,
+        label: TRACK_LABEL.CHECKOUT,
+        value: 'book',
+        category: TRACK_CATEGORY.ALL,
+      });
       setLoading(false);
       console.error(error);
     }

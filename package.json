@@ -1,6 +1,9 @@
 {
   "name": "simplenight-whitelabel",
   "private": true,
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "dev": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && export NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next dev",
     "dev:win": "SET NODE_TLS_REJECT_UNAUTHORIZED=0 && SET NEXT_PUBLIC_LAST_COMMIT_HASH=$(git rev-parse --short HEAD) && SET NEXT_PUBLIC_LAST_COMMIT_DATE=$(git --no-pager show -s --format=\"%ci\" HEAD) && next dev",
@@ -91,6 +94,7 @@
     "@types/country-telephone-data": "^0.6.1",
     "@types/flat": "^5.0.2",
     "@types/google-map-react": "^2.1.5",
+    "@types/gtag.js": "^0.0.12",
     "@types/lodash": "^4.14.178",
     "@types/node": "17.0.5",
     "@types/react": "17.0.38",
@@ -124,7 +128,7 @@
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.2.0",
     "ts-loader": "^9.2.6",
-    "typescript": "4.5.4"
+    "typescript": "4.7.2"
   },
   "resolutions": {
     "@types/node": "17.0.5",

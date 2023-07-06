@@ -42,6 +42,8 @@ import { getInitialPriceLimits } from 'hotels/helpers/getInitialPriceLimits';
 import { useFilterAppliedStore } from 'hooks/hotels/useFilterAppliedStore';
 import VerticalSkeletonCard from 'components/global/VerticalItemCard/VerticalSkeletonCard';
 import Head from 'next/head';
+import { useGA4 } from 'hooks/ga4/useGA4';
+import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
 
 interface HotelResultsDisplayProps {
   HotelCategory: CategoryOption;
@@ -69,6 +71,7 @@ export const initialPriceRange = {
 const RESULTS_PER_PAGE = 25;
 
 const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
+  const { trackEvent } = useGA4();
   const { clear, criteria, setCriteria } = useSearchFilterStore(
     (state) => state,
   );
@@ -185,8 +188,14 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   useEffect(() => {
     if (data) {
       setHotels(data);
+      trackEvent({
+        action: TRACK_ACTION.SET,
+        category: TRACK_CATEGORY.HOTELS,
+        label: TRACK_LABEL.RESULTS,
+        value: data?.length?.toString(),
+      });
     }
-  }, [data]);
+  }, [data, trackEvent]);
 
   useEffect(() => {
     if (data) {
@@ -419,7 +428,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 )}
               </section>
             )}
-            <section className="relative lg:flex-1 h-full lg:mt-0">
+            <section className="relative h-full lg:flex-1 lg:mt-0">
               {!isLoading && hasNoHotels ? (
                 <EmptyStateContainer
                   text={noResultsLabel}
@@ -431,7 +440,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 <>
                   <ResultsAndControls />
                   {isListView && (
-                    <section className="w-full h-full px-5 pb-6 lg:px-0 mt-0 lg:mt-16">
+                    <section className="w-full h-full px-5 pb-6 mt-0 lg:px-0 lg:mt-16">
                       <HotelList />
                     </section>
                   )}

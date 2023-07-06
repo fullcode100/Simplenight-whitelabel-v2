@@ -60,7 +60,7 @@ const RoomCard = ({
   const NIGHT_TEXT = usePlural(nights, tNight, tNights);
 
   const AmenityDefaultIcon = {
-    iconLarge: <AmenitiesDefaultIcon className="h-12 w-12 mx-auto" />,
+    iconLarge: <AmenitiesDefaultIcon className="w-12 h-12 mx-auto" />,
     iconSmall: <AmenitiesDefaultIcon />,
   };
 
@@ -113,7 +113,7 @@ const RoomCard = ({
   );
 
   const Price = () => (
-    <section className="w-full flex-col py-4 pr-4 justify-end">
+    <section className="flex-col justify-end w-full py-4 pr-4">
       <section className="text-right">
         <PriceDisplay
           rate={rates}
@@ -126,7 +126,7 @@ const RoomCard = ({
   );
 
   return (
-    <section className="flex flex-col lg:flex-row justify-between my-3 mx-3 overflow-hidden border rounded shadow-container lg:my-0 border-dark-200">
+    <section className="flex flex-col justify-between mx-3 my-3 overflow-hidden border rounded lg:flex-row shadow-container lg:my-0 border-dark-200">
       <section className="lg:h-[300px] w-[100%] lg:min-h-[15rem] lg:min-w-[35%] ">
         {images?.length > 0 ? (
           <ImageCarousel
@@ -141,7 +141,7 @@ const RoomCard = ({
         )}
       </section>
       <section className="flex flex-col justify-between lg:justify-start w-[100%] lg:min-w-[65%]">
-        <section className="flex w-full flex-col lg:flex-row">
+        <section className="flex flex-col w-full lg:flex-row">
           <section className="md:w-[100%] sm:w-[100%] lg:w-[50%] ">
             <RoomCardHeader
               roomDescription={roomName}
@@ -158,7 +158,7 @@ const RoomCard = ({
             <Amenities />
           </section>
           <section className="lg:flex lg:justify-between lg:flex-col md:w-[100%] sm:w-[100%] lg:w-[50%]">
-            <section className="flex items-center px-4 lg:pt-4 pb-4 justify-start lg:justify-end">
+            <section className="flex items-center justify-start px-4 pb-4 lg:pt-4 lg:justify-end">
               {cancellable && (
                 <FreeCancellationExtended
                   title={false}
@@ -181,13 +181,18 @@ const RoomCard = ({
         <section className="flex flex-col lg:flex-row w-full items-center h-[100%]">
           <section className="flex justify-between w-[100%] lg:w-[50%] items-center ">
             <section className="p-4">{`${roomsQty} ${ROOM_TEXT}, ${nights} ${NIGHT_TEXT}`}</section>
-            <section className=" block lg:hidden">
+            <section className="block  lg:hidden">
               <Price />
             </section>
           </section>
           <section className="w-[100%] lg:w-[50%] items-center ">
             <Divider className="block lg:hidden" />
-            <RoomCardActions room={room} hotelId={hotelId} rooms={roomsQty} />
+            <RoomCardActions
+              name={hotelName}
+              room={room}
+              hotelId={hotelId}
+              rooms={roomsQty}
+            />
           </section>
         </section>
       </section>
