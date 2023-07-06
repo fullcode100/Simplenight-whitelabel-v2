@@ -8,16 +8,10 @@ import SeatIcon from 'public/icons/assets/flights/seat.svg';
 import { useTranslation } from 'react-i18next';
 import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 import FlightIcon from 'public/icons/assets/flights.svg';
-import { formatDate } from '../../../utils/index';
+import { formatDateTime } from '../../../utils/index';
 import { Item } from 'types/booking/bookingType';
 
 const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
-  const formatDate = (date: string) => {
-    return (
-      dayjs(date).tz('America/New_York').format('MM/DD/YY hh:mm A') + ' EST'
-    );
-  };
-
   const [t] = useTranslation('flights');
   const departureLabel = t('departure', 'Departure');
   const arrivalLabel = t('arrival', 'Arrival');
@@ -61,12 +55,12 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
       <div className="block space-y-4 lg:hidden">
         <MobileFlightInfo
           title={departureLabel}
-          date={formatDate(firstFlight.collection[0].departureDateTime)}
+          date={formatDateTime(firstFlight.collection[0].departureDateTime)}
           fare={offer?.cabinName}
         />
         <MobileFlightInfo
           title={arrivalLabel}
-          date={formatDate(
+          date={formatDateTime(
             lastFlight.collection[lastFlight.collection.length - 1]
               .departureDateTime,
           )}
@@ -107,7 +101,7 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDate(flight.collection[0].departureDateTime)}
+                    {formatDateTime(flight.collection[0].departureDateTime)}
                   </Paragraph>
                 </td>
                 <td>
@@ -116,7 +110,7 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDate(flight.collection[0].arrivalDateTime)}
+                    {formatDateTime(flight.collection[0].arrivalDateTime)}
                   </Paragraph>
                 </td>
                 <td className="text-right">{offer?.cabinName}</td>

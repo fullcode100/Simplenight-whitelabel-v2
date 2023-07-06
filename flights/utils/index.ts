@@ -7,6 +7,13 @@ export const formatDate = (date: string, DATE_FORMAT = 'MMM DD, YYYY') => {
   return dayjs(date).format(DATE_FORMAT);
 };
 
+export const formatDateTime = (
+  date: string,
+  DATE_FORMAT = 'MM/DD/YY hh:mm A',
+) => {
+  return dayjs(date).format(DATE_FORMAT);
+};
+
 export const getDuration = (durationInMinutes: number) => {
   const duration = dayjs.duration(durationInMinutes, 'minutes');
   const flightInHours = duration.hours();

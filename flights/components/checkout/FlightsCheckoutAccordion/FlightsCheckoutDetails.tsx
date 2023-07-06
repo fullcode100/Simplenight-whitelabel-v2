@@ -8,15 +8,9 @@ import SeatIcon from 'public/icons/assets/flights/seat.svg';
 import { useTranslation } from 'react-i18next';
 import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 import FlightIcon from 'public/icons/assets/flights.svg';
-import { formatDate } from '../../../utils/index';
+import { formatDateTime } from '../../../utils/index';
 
 const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
-  const formatDate = (date: string) => {
-    return (
-      dayjs(date).tz('America/New_York').format('MM/DD/YY hh:mm A') + ' EST'
-    );
-  };
-
   const [t] = useTranslation('flights');
   const departureLabel = t('departure', 'Departure');
   const arrivalLabel = t('return', 'Return');
@@ -58,14 +52,14 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
       <div className="block lg:hidden space-y-4">
         <MobileFlightInfo
           title={departureLabel}
-          date={formatDate(
+          date={formatDateTime(
             firstFlight.segments.collection[0].departureDateTime,
           )}
           fare={firstFlight.offer.cabinName}
         />
         <MobileFlightInfo
           title={arrivalLabel}
-          date={formatDate(
+          date={formatDateTime(
             lastFlight.segments.collection[
               lastFlight.segments.collection.length - 1
             ].departureDateTime,
@@ -108,7 +102,7 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDate(
+                    {formatDateTime(
                       flight.segments.collection[0].departureDateTime,
                     )}
                   </Paragraph>
@@ -119,7 +113,9 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDate(flight.segments.collection[0].arrivalDateTime)}
+                    {formatDateTime(
+                      flight.segments.collection[0].arrivalDateTime,
+                    )}
                   </Paragraph>
                 </td>
                 <td className="text-right">{flight.offer.cabinName}</td>
