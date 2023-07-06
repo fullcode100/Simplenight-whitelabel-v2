@@ -115,15 +115,13 @@ const TravelersInput = ({
   };
 
   useEffect(() => {
-    if (!showTravelersInput) {
-      setRooms([
-        {
-          ...newRooms[0],
-          childrenAges: [...childrenAges, ...infantAges],
-        },
-      ]);
-    }
-  }, [showTravelersInput]);
+    setRooms([
+      {
+        ...newRooms[0],
+        childrenAges: [...childrenAges, ...infantAges],
+      },
+    ]);
+  }, [newRooms, childrenAges, infantAges]);
 
   return (
     <Popper
