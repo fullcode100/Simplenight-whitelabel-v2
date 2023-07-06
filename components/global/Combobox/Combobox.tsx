@@ -14,6 +14,7 @@ interface ComboboxProps {
   setSelectedItem: any;
   isSearchable?: boolean;
   id?: string;
+  required?: boolean;
 }
 
 const Combobox = ({
@@ -24,15 +25,16 @@ const Combobox = ({
   setSelectedItem,
   isSearchable = true,
   id,
+  required = false,
 }: ComboboxProps) => {
   const [searchResults, setSearchResults] = useState(items);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-
   const methods = useFormContext();
   const { register = () => ({ id }), setValue = () => ({ id }) } = {
     ...methods,
   };
+
   const selectRef = useRef(null);
   useOnOutsideClick(selectRef, () => setOpen(false));
 
@@ -84,6 +86,7 @@ const Combobox = ({
         className={
           'px-0 w-full text-dark-1000 border-none focus:shadow-none focus:inset-0 focus:ring-0 focus:outline-none focus:border-transparent'
         }
+        required={required}
         placeholder={placeholder}
         value={search}
         disabled={!isSearchable}

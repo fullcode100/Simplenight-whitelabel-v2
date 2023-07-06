@@ -12,6 +12,7 @@ interface PickupPointProps {
   selectedPickup: Location;
   setSelectedPickup: Dispatch<SetStateAction<Location | undefined>>;
   id: string;
+  required?: boolean;
 }
 
 const PickupPoint = ({
@@ -19,6 +20,7 @@ const PickupPoint = ({
   selectedPickup,
   setSelectedPickup,
   id,
+  required = false,
 }: PickupPointProps) => {
   const [t] = useTranslation('things');
   const pickupPlaceholder = t('pickupPlaceholder', 'Choose A Pickup Point');
@@ -96,6 +98,7 @@ const PickupPoint = ({
           selectedPoint={selectedPickup}
           setSelectedPoint={setSelectedPickup}
           id={id}
+          required={required}
         />
       )}
       <PointDetail point={selectedPickup} />

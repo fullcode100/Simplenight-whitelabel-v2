@@ -168,7 +168,7 @@ export const CustomCountry = (props: WidgetProps) => {
 };
 
 export const CustomPickupPoint = (props: any) => {
-  const { value, onChange, schema, id } = props;
+  const { value, onChange, schema, id, required } = props;
   useEffect(() => {
     const locations = schema?.data?.locations?.map?.(
       (location: any) => location.location,
@@ -181,17 +181,24 @@ export const CustomPickupPoint = (props: any) => {
       selectedPickup={value}
       setSelectedPickup={onChange}
       id={id}
+      required={required}
     />
   );
 };
 
 export const CustomNumberUnit = (props: any) => {
-  const { value, onChange, schema } = props;
-  return <NumberUnitInput onChange={onChange} options={schema?.data} />;
+  const { value, onChange, schema, required } = props;
+  return (
+    <NumberUnitInput
+      onChange={onChange}
+      options={schema?.data}
+      required={required}
+    />
+  );
 };
 
 export const CustomLanguageGuide = (props: any) => {
-  const { value, onChange, schema, uiSchema, id } = props;
+  const { value, onChange, schema, uiSchema, id, required } = props;
   const dataByLabel: any = {};
   const data = schema?.data;
   const items: any = [];
@@ -201,7 +208,6 @@ export const CustomLanguageGuide = (props: any) => {
   });
   const [selectedItem, setSelectedItem] = useState<any>(items[0]);
   const placeholder = uiSchema['ui:placeholder'] || 'Language Guide';
-
   useEffect(() => {
     onChangeHandler(items[0]);
   }, []);
@@ -221,6 +227,7 @@ export const CustomLanguageGuide = (props: any) => {
       setSelectedItem={onChangeHandler}
       isSearchable={false}
       id={id}
+      required={required}
     />
   );
 };
