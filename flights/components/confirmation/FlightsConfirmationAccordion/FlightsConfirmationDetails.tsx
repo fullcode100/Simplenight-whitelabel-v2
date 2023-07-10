@@ -110,7 +110,10 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDateTime(flight.collection[0].arrivalDateTime)}
+                    {formatDateTime(
+                      flight.collection[flight.collection.length - 1]
+                        .arrivalDateTime,
+                    )}
                   </Paragraph>
                 </td>
                 <td className="text-right">{offer?.cabinName}</td>

@@ -114,7 +114,9 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
                     className="text-center"
                   >
                     {formatDateTime(
-                      flight.segments.collection[0].arrivalDateTime,
+                      flight.segments.collection[
+                        flight.segments.collection.length - 1
+                      ].arrivalDateTime,
                     )}
                   </Paragraph>
                 </td>
