@@ -56,6 +56,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
       items: 1,
     },
   };
+
   return (
     <div className="w-full h-full">
       <section className="relative">

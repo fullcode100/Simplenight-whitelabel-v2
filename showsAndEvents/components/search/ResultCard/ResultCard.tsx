@@ -27,6 +27,7 @@ interface CardProps<T extends WithId> {
   url?: string;
   isHorizontal?: boolean;
   thumbnail?: string;
+  className?: string;
 }
 
 function ResultCard<T extends WithId>({
@@ -40,6 +41,7 @@ function ResultCard<T extends WithId>({
   url = '/',
   isHorizontal,
   thumbnail,
+  className = '',
 }: CardProps<T>) {
   const [invalidImage, setInvalidImage] = useState(false);
   const target = window.innerWidth < 640 ? '_self' : '_blank';
@@ -78,7 +80,9 @@ function ResultCard<T extends WithId>({
   const partialRefundable = cancellationType === PARTIAL_REFUND;
 
   return (
-    <div className="w-full mt-3 overflow-hidden bg-white border rounded-4 border-dark-300">
+    <div
+      className={`w-full mt-3 overflow-hidden bg-white border rounded-4 border-dark-300 ${className}`}
+    >
       <Link href={url} passHref>
         <a
           target={target}

@@ -6,8 +6,7 @@ import { useQuery as useReactQuery } from '@tanstack/react-query';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
 // components
 import ResultCard from './ResultCard/ResultCard';
-// mocks
-import ShowsCancellable from './ShowsCancellable/ShowsCancellable';
+
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import ShowAndEventsFilterFormDesktop from './ShowAndEventsFilterFormDesktop';
 import { ShowsSearchResponse as iShowAndEventsResult } from '../../types/response/ShowsSearchResponse';
@@ -15,7 +14,6 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import classnames from 'classnames';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 
-import LocationMap from 'components/global/LocationMap/LocationMap';
 import ResultsOptionsBar from '../ResultsOptionsBar/ResultsOptionsBar';
 import { SORT_BY_OPTIONS } from 'showsAndEvents/constants/sortByOptions';
 import Button from 'components/global/Button/Button';
@@ -29,6 +27,8 @@ import { useCategorySlug } from 'hooks/category/useCategory';
 import { useSelector } from 'react-redux';
 import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
 
+import VerticalSkeletonCard from 'components/global/VerticalItemCard/VerticalSkeletonCard';
+import ShowAndEventsResultMapView from './ShowAndEventsResultMapView/ShowAndEventsResultMapView';
 interface ShowsResultsDisplayProps {
   ShowsCategory: CategoryOption;
 }
@@ -40,8 +40,6 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   const { slug } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
-  const { view = 'list' } = useQuery();
-  const isListView = view === 'list';
   const {
     startDate,
     endDate,
@@ -60,7 +58,9 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   const [sortedShowsEvents, setSortedShowsEvents] = useState<SearchItem[]>([]);
   const [sortBy, setSortBy] = useState<any>(SORT_BY_OPTIONS?.[0].value || '');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-
+  const [filterView, setFilterView] = useState('list');
+  const [showFilters, setShowFilters] = useState(true);
+  const isListView = filterView === 'list';
   const [gt] = useTranslation('global');
   const noResultsLabel = gt('noResultsSearch', 'No Results Match Your Search.');
 
@@ -141,7 +141,6 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     city,
     country_code: countryCode,
     postal_code: postalCode,
-    coordinates,
   } = addresObject;
   const [next, setNext] = useState(RESULTS_PER_PAGE);
 
@@ -205,24 +204,41 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     );
   };
 
+  const urlDetail = (showEvent: SearchItem) => {
+    const { id } = showEvent;
+    return `/detail/${slug}/${id}?fromDate=${startDate}&toDate=${endDate}`;
+  };
+
+  const onCloseFilters = () => setShowFilters(false);
+
+  const onOpenFilters = () => setShowFilters(true);
+
   return (
     <div className="px-4 pt-2 lg:pt-6">
       <section className="lg:flex lg:w-full">
-        <section
-          className={classnames(
-            ' lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8',
-            {
-              hidden: !showMobileFilters,
-              block: showMobileFilters,
-            },
-          )}
-        >
-          <ShowAndEventsFilterFormDesktop
-            handleHideFilters={() => setShowMobileFilters(false)}
-            isMobile={showMobileFilters}
-            showsAndEvents={data || []}
-          />
-        </section>
+        {showFilters && (
+          <section
+            className={classnames(
+              ' lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8',
+              {
+                hidden: !showMobileFilters,
+                block: showMobileFilters,
+              },
+            )}
+          >
+            {isLoading ? (
+              <VerticalSkeletonCard />
+            ) : (
+              <ShowAndEventsFilterFormDesktop
+                handleHideFilters={() => setShowMobileFilters(false)}
+                isMobile={showMobileFilters}
+                showsAndEvents={data || []}
+                onClose={onCloseFilters}
+                resultAmount={!!sortedShowsEvents.length}
+              />
+            )}
+          </section>
+        )}
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           {!isLoading && sortedShowsEvents.length ? (
             <>
@@ -234,19 +250,24 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                     onClickSort={setSortBy}
                     onClickFilter={() => setShowMobileFilters(true)}
                     defaultOption={sortBy}
+                    filterView={filterView}
+                    setFilterView={setFilterView}
+                    onOpenFilters={onOpenFilters}
+                    showFilters={showFilters}
                   />{' '}
                 </>
               </section>
-              <ThingsToDoList />
+              {isListView && <ThingsToDoList />}
               {!isListView && (
-                <section className="relative w-full h-full">
-                  {!isLoading ? (
-                    <LocationMap center={coordinates} />
-                  ) : (
-                    <HorizontalSkeletonList />
-                  )}
-                </section>
+                <ShowAndEventsResultMapView
+                  items={sortedShowsEvents}
+                  isLoading={isLoading}
+                  showCategoryIcon={ShowsCategory.icon}
+                  createUrl={urlDetail}
+                  label={thingsToDoLabel}
+                />
               )}
+
               {sortedShowsEvents.length > next && (
                 <section className="text-center">
                   <Button
@@ -270,7 +291,9 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                   />
                 </section>
               ) : (
-                <HorizontalSkeletonList />
+                <div className="pt-3">
+                  <HorizontalSkeletonList />
+                </div>
               )}
             </>
           )}

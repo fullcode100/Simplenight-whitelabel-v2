@@ -16,6 +16,7 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { useDispatch } from 'react-redux';
 import { updateShowsAndEventsFilters } from 'showsAndEvents/redux/actions';
 import { ShowsSearchResponse } from '../../types/response/ShowsSearchResponse';
+import FiltersIcon from 'public/icons/assets/filters.svg';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -25,12 +26,16 @@ interface iShowAndEventsFilterFormDesktop {
   handleHideFilters: () => void;
   isMobile?: boolean;
   showsAndEvents: ShowsSearchResponse[];
+  onClose: () => void;
+  resultAmount: boolean;
 }
 
 const ShowAndEventsFilterFormDesktop = ({
   handleHideFilters,
   isMobile,
   showsAndEvents,
+  onClose,
+  resultAmount,
 }: iShowAndEventsFilterFormDesktop) => {
   const router = useRouter();
   const setQueryParams = useQuerySetter();
@@ -84,6 +89,31 @@ const ShowAndEventsFilterFormDesktop = ({
   const distanceText = t('distance', 'Distance');
   const seatsText = t('seats', 'Seats');
 
+  const getCounter = (): number => {
+    let list: string[] = [];
+    if (minPrice > initialPriceRange.min || maxPrice > initialPriceRange.max) {
+      list.push('price');
+    } else {
+      list = list.filter((e) => e !== 'price');
+    }
+
+    if (minSeats > initialSeatsRange.min || maxPrice > initialSeatsRange.max) {
+      list.push('seats');
+    } else {
+      list = list.filter((e) => e !== 'seats');
+    }
+
+    if (
+      minDistance > initialDistanceRange.min ||
+      maxDistance > initialDistanceRange.max
+    ) {
+      list.push('distance');
+    } else {
+      list = list.filter((e) => e !== 'distance');
+    }
+    return list.length;
+  };
+
   const handleClearFilters = () => {
     setMinPrice((queryFilter?.minPrice as string) || initialPriceRange.min);
     setMinDistance(initialDistanceRange.min);
@@ -132,11 +162,26 @@ const ShowAndEventsFilterFormDesktop = ({
 
   const FilterHeader = () => (
     <FilterContainer>
-      <section className="flex items-center justify-between">
-        <p className="text-lg font-semibold text-dark-1000">{filtersText}</p>
+      <section className="flex items-center justify-between relative">
+        <p className="text-lg font-semibold text-dark-1000">
+          <button
+            onClick={resultAmount ? onClose : () => {}}
+            className="hover:bg-primary-800 hover:text-white hover:border-white flex flex-row items-center px-2 py-1 border-2 rounded-3xl text-xs border-primary-1000 text-primary-1000 pl-[10px] pb-[12px] pr-[10px] pt-[12px]"
+          >
+            <FiltersIcon />
+            <span className="ml-2">{filtersText}</span>
+          </button>
+          <section className="absolute left-16 -top-3">
+            <div className="w-6 h-6 bg-primary-1000 rounded-full flex justify-center items-center">
+              <span className="text-white font-light text-xs">
+                {getCounter()}
+              </span>
+            </div>
+          </section>
+        </p>
         <section className="flex items-center">
           <button
-            className="text-base font-semibold underline capitalize text-primary-1000"
+            className="font-semibold underline capitalize text-primary-1000 text-xs"
             onClick={handleClearFilters}
           >
             {clearFiltersText}

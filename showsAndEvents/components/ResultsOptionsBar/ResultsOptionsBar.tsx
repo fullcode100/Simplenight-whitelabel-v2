@@ -1,9 +1,8 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Sort from 'public/icons/assets/sort.svg';
-import Chevron from 'public/icons/assets/chevron-down-small.svg';
-import Filter from 'public/icons/assets/filter.svg';
 import { RadioGroup, Radio } from 'components/global/Radio/Radio';
+import FiltersIcon from 'public/icons/assets/filters.svg';
+import { ViewActions } from '../search/ViewActions/ViewActions';
 
 interface ResultsOptionsBarProps {
   results?: number | string;
@@ -11,6 +10,10 @@ interface ResultsOptionsBarProps {
   onClickSort?: (event?: MouseEvent<HTMLElement> | string) => void;
   sortByOptions?: Array<{ value: string; label: string }>;
   defaultOption?: string;
+  filterView?: string;
+  setFilterView?: React.Dispatch<React.SetStateAction<string>> | null;
+  onOpenFilters?: ((event?: MouseEvent<HTMLElement>) => void) | null;
+  showFilters?: boolean;
 }
 
 const ResultsOptionsBar = ({
@@ -19,6 +22,10 @@ const ResultsOptionsBar = ({
   onClickSort,
   sortByOptions,
   defaultOption,
+  filterView = 'list',
+  setFilterView = null,
+  onOpenFilters = null,
+  showFilters = false,
 }: ResultsOptionsBarProps) => {
   const [sortBy, setSortBy] = useState<string>(
     defaultOption || sortByOptions?.[0].value || '',
@@ -66,42 +73,22 @@ const ResultsOptionsBar = ({
       </section>
 
       <section className="flex items-center justify-between pt-3 pb-3 lg:mt-1 lg:pb-0">
-        <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
-          {results} {resultsLabel}
-        </p>
+        <div className="flex items-center">
+          {!showFilters && onOpenFilters && (
+            <button
+              className="border-2 p-2 m-2 rounded-full hover:bg-primary-800 hover:text-white text-primary-1000 border-primary-100"
+              onClick={() => onOpenFilters()}
+            >
+              <FiltersIcon />
+            </button>
+          )}
+          <p className="lg:text-[18px] text-[16px] text-dark-800 lg:pl-0 pl-4">
+            {results} {resultsLabel}
+          </p>
+        </div>
+
         <section className="relative flex items-center gap-2 px-2 py-1 rounded bg-primary-100 lg:px-0 lg:bg-white">
-          <button
-            className="flex items-center gap-1"
-            onClick={() => setShowSortModal(!showSortModal)}
-            onBlur={() => setShowSortModal(false)}
-          >
-            <span className="text-primary-1000">
-              <Sort />
-            </span>
-            <span className="text-xs font-semibold text-dark-1000 lg:hidden">
-              {sortLabel}
-            </span>
-            <span className="hidden text-xs font-semibold text-dark-1000 lg:flex">
-              {tg(
-                sortByOptions?.find((option) => option.value == sortBy)
-                  ?.label || '',
-              )}
-            </span>
-            <span className="text-dark-800">
-              <Chevron />
-            </span>
-          </button>
-          <button
-            className="flex items-center gap-1 lg:hidden"
-            onClick={onClickFilter}
-          >
-            <span className="text-primary-1000">
-              <Filter />
-            </span>
-            <span className="text-xs font-semibold text-dark-1000 lg:hidden">
-              {filterLabel}
-            </span>
-          </button>
+          <ViewActions view={filterView} setview={setFilterView} />
         </section>
       </section>
     </section>
