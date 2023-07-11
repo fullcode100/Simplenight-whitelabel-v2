@@ -8,12 +8,12 @@ export interface AirportItem {
   name: string;
   detailedName: string;
   id: string;
-  self: Self;
+  self?: Self;
   timeZoneOffset: string;
   iataCode: string;
   geoCode: GeoCode;
   address: Address;
-  analytics: Analytics;
+  analytics?: Analytics;
 }
 
 interface Analytics {

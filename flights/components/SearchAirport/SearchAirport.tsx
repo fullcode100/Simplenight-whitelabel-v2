@@ -50,9 +50,10 @@ const SearchAirportProps = ({
       options={results.map((item) => {
         return {
           ...item,
-          name: `${fromUpperCaseToCapitilize(item.address.cityName)} (${
+          name: `${fromUpperCaseToCapitilize(item.detailedName)} (${
             item.iataCode
-          } - ${fromUpperCaseToCapitilize(item.name)})`,
+          } - ${fromUpperCaseToCapitilize(item.address.cityName)})`,
+          description: fromUpperCaseToCapitilize(item.address.countryName),
         };
       })}
       label={label}

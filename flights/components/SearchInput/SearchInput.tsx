@@ -8,6 +8,7 @@ import classnames from 'classnames';
 export interface OptionItem {
   id: string;
   name: string;
+  description?: string;
 }
 
 interface SearchInputProps {
@@ -113,6 +114,11 @@ const SearchInput = ({
                       <span className={classNames('block truncate')}>
                         {option.name}
                       </span>
+                      {option.description && (
+                        <span className="block text-p-xxs">
+                          {option.description}
+                        </span>
+                      )}
                     </Combobox.Option>
                   ))}
                 </Combobox.Options>
