@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { AirportResponse } from 'flights/types/response/AirportResponse';
+import { airportsAdapter } from 'flights/adapters/airports.adapter';
+import { AirportsMsResponse } from 'flights/types/response/AirportMSResponse';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,8 +12,8 @@ export default async function handler(
   try {
     const { keyword } = req.query;
 
-    const { data } = await axios.get<AirportResponse>(
-      'http://api-test.simplenight.com/v1/airports',
+    const response = await axios.get<AirportsMsResponse>(
+      'http://api-tst.simplenight.com/v1/airports',
       {
         params: { keyword, subType: 'AIRPORT,CITY' },
         headers: {
@@ -19,6 +21,8 @@ export default async function handler(
         },
       },
     );
+
+    const data = airportsAdapter(response.data);
 
     if (!data) throw new Error('Airports service error');
     res.status(200).json({ data: data?.data || [] });
