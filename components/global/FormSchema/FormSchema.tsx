@@ -20,6 +20,7 @@ import {
   ObjectTemplate,
   TextTemplate,
 } from './FormTemplates';
+import React, { useMemo } from 'react';
 
 interface FormSchemaProps {
   schema: any;
@@ -29,7 +30,45 @@ interface FormSchemaProps {
   onChange?: (data: IChangeEvent<FormData>) => void;
   id?: string;
   ref?: any;
+  formData?: any;
 }
+
+const CustomFieldTemplate = (props: any) => {
+  const { id, classNames, help, errors, schema } = props;
+  const Component = useMemo(() => {
+    switch (schema) {
+      case 'boolean':
+        return CheckBoxTemplate;
+      case 'string':
+        return TextTemplate;
+      case 'object':
+        return ObjectTemplate;
+      default:
+        return TextTemplate;
+    }
+  }, []);
+  return (
+    <section className={`${classNames}`}>
+      <Component {...props}></Component>
+      {help}
+    </section>
+  );
+};
+
+const widgets = {
+  CheckboxWidget: CustomCheckbox,
+  TextWidget: CustomText,
+  EmailWidget: CustomEmail,
+  TextareaWidget: CustomTextArea,
+  SelectWidget: CustomSelect,
+  ToggleWidget: CustomToggle,
+  CountryWidget: CustomCountry,
+  PhoneWidget: CustomPhoneNumber,
+  PickupPoint: CustomPickupPoint,
+  NumberUnit: CustomNumberUnit,
+  LanguageGuide: CustomLanguageGuide,
+  TimeSelect: CustomTimeSelect,
+};
 
 const FormSchema = ({
   schema,
@@ -38,44 +77,8 @@ const FormSchema = ({
   onSubmit,
   onChange,
   id,
+  formData,
 }: FormSchemaProps) => {
-  const widgets = {
-    CheckboxWidget: CustomCheckbox,
-    TextWidget: CustomText,
-    EmailWidget: CustomEmail,
-    TextareaWidget: CustomTextArea,
-    SelectWidget: CustomSelect,
-    ToggleWidget: CustomToggle,
-    CountryWidget: CustomCountry,
-    PhoneWidget: CustomPhoneNumber,
-    PickupPoint: CustomPickupPoint,
-    NumberUnit: CustomNumberUnit,
-    LanguageGuide: CustomLanguageGuide,
-    TimeSelect: CustomTimeSelect,
-  };
-
-  const CustomFieldTemplate = (props: any) => {
-    const { id, classNames, help, errors, schema } = props;
-    const renderTemplate = (schema: string) => {
-      switch (schema) {
-        case 'boolean':
-          return <CheckBoxTemplate {...props} />;
-        case 'string':
-          return <TextTemplate {...props} />;
-        case 'object':
-          return <ObjectTemplate {...props} />;
-        default:
-          return <TextTemplate {...props} />;
-      }
-    };
-    return (
-      <section className={`${classNames}`}>
-        {renderTemplate(schema.type)}
-        {help}
-      </section>
-    );
-  };
-
   const CustomValidate = (formData: any, errors: any) => {
     if (formData.phone === '') {
       errors.phone.addError('Invalid phone number.');
@@ -94,6 +97,7 @@ const FormSchema = ({
       FieldTemplate={CustomFieldTemplate}
       ObjectFieldTemplate={ObjectFieldTemplate}
       validate={CustomValidate}
+      formData={formData}
     >
       {children}
     </Form>

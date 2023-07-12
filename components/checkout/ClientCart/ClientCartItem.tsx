@@ -33,6 +33,7 @@ const ClientCartItem = ({
     onChange(e.target.value, item.cart_item_id, true);
   };
   const handleChangeCustomer = (data: any) => {
+    setPrimaryContactData(data.formValue);
     onChange(data, item.cart_item_id, false, false);
   };
 
@@ -141,7 +142,11 @@ const ClientCartItem = ({
     check_in_instructions: checkInInstructions,
     terms_and_conditions: termsAndConditions,
   } = item.extended_data; */
-
+  const [primaryContactData, setPrimaryContactData] = useState();
+  const [bookingQuestionsData, setBookingQuestionsData] = useState<any>();
+  const [travelerContactData, setTravelerContactData] = useState<
+    Record<string, any>
+  >({});
   return (
     <section className="py-6">
       <CartItemDetail />
@@ -166,6 +171,7 @@ const ClientCartItem = ({
               uiSchema={!usePrimaryContact ? formUiSchema : null}
               // eslint-disable-next-line @typescript-eslint/no-empty-function
               onChange={!usePrimaryContact ? handleChangeCustomer : () => {}}
+              formData={primaryContactData}
             >
               <></>
             </FormSchema>
@@ -177,7 +183,11 @@ const ClientCartItem = ({
           <FormSchema
             schema={bookingQuestionSchema.schema}
             uiSchema={bookingQuestionSchema.uiSchema}
-            onChange={(data) => handleChangeAnswers(data, null)}
+            onChange={(data) => {
+              setBookingQuestionsData(data.formData);
+              handleChangeAnswers(data, null);
+            }}
+            formData={bookingQuestionsData}
           >
             <></>
           </FormSchema>
@@ -185,7 +195,10 @@ const ClientCartItem = ({
       )}
       {travelerQuestionSchema &&
         itemTravelers?.map(
-          ({ travelerNum, ticket }: { travelerNum: any; ticket: any }) => (
+          (
+            { travelerNum, ticket }: { travelerNum: any; ticket: any },
+            index: number,
+          ) => (
             <section key={travelerNum}>
               <p>
                 {guestText} {travelerNum} - {ticket.age_band_label}
@@ -196,7 +209,12 @@ const ClientCartItem = ({
                 <FormSchema
                   schema={travelerQuestionSchema?.schema}
                   uiSchema={travelerQuestionSchema?.uiSchema}
+                  formData={travelerContactData[index]}
                   onChange={(data) => {
+                    setTravelerContactData((prevState) => ({
+                      ...prevState,
+                      [index]: data.formData,
+                    }));
                     const copyData = deepCopy(data);
                     copyData.formData['AGEBAND'] = ticket.ticket_type_id;
                     handleChangeAnswers(copyData, travelerNum);

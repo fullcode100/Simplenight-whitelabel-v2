@@ -434,6 +434,7 @@ const Client = () => {
     const values = data.formData;
     const newCountry = values.country;
     const currentCountry = travelersFormSchema?.properties.country.default;
+    setData(data.formData);
     if (travelersFormSchema && newCountry !== currentCountry) {
       setTravelersFormSchema({
         ...travelersFormSchema,
@@ -489,6 +490,10 @@ const Client = () => {
       ...(travelersFormSchema as any),
       className: 'lg:grid lg:grid-cols-2 lg:gap-x-4',
     });
+  const [data, setData] = useState({});
+  if (!travelersFormSchemaWithClass || !travelersUiSchema) {
+    return null;
+  }
 
   return (
     <>
@@ -506,6 +511,7 @@ const Client = () => {
                     uiSchema={travelersUiSchema}
                     onSubmit={continueToPayment}
                     onChange={handleClientFormChange}
+                    formData={data}
                   >
                     <ClientCart
                       items={cart?.items}

@@ -7,6 +7,7 @@ interface ClientFormProps {
   uiSchema: any;
   onChange?: (data: IChangeEvent<FormData>) => void;
   onSubmit?: (values?: any) => void;
+  formData?: any;
 }
 
 const ClientForm = ({
@@ -15,19 +16,19 @@ const ClientForm = ({
   uiSchema,
   onChange,
   onSubmit,
+  formData,
 }: ClientFormProps) => {
   return (
     <section className="px-4">
-      {schema && uiSchema && (
-        <FormSchema
-          schema={schema}
-          uiSchema={uiSchema}
-          onChange={onChange}
-          onSubmit={onSubmit}
-        >
-          {children || <></>}
-        </FormSchema>
-      )}
+      <FormSchema
+        schema={schema}
+        uiSchema={uiSchema}
+        onChange={onChange}
+        onSubmit={onSubmit}
+        formData={formData}
+      >
+        {children || <></>}
+      </FormSchema>
     </section>
   );
 };
