@@ -18,7 +18,7 @@ export interface ThingsCartRequestDetail extends CartBookingData {
 
 export interface BookingAnswer {
   question_id?: string;
-  value?: string;
+  value?: any;
   unit?: string;
   traveler_num?: string | number;
 }

@@ -11,6 +11,7 @@ import {
 import { BookingQuestion } from 'thingsToDo/types/response/ThingsDetailResponse';
 import { formatObjectToString } from 'helpers/objectUtils';
 import { Heading, Paragraph, Pricing } from '@simplenight/ui';
+import { LANG_GUIDE } from '../../helpers/thingsToDoConstants';
 
 interface Props {
   item: Item;
@@ -165,7 +166,10 @@ const ThingTicketsInfo = ({ item }: Props) => {
         const hasCorrespondingBookingQuestion = bookingQuestions?.find(
           (bookingQuestion) => bookingQuestion.id === bookingAnswer.question_id,
         );
-        let answerValue = formatObjectToString(bookingAnswer.value);
+        let answerValue =
+          bookingAnswer.question_id === LANG_GUIDE
+            ? g(bookingAnswer.value.language as string)
+            : formatObjectToString(bookingAnswer.value);
         if (bookingAnswer.question_id === PICKUP_POINT_ID) {
           answerValue = pickupAddress ? pickupAddressFormatted : pickupName;
         }
@@ -179,7 +183,6 @@ const ThingTicketsInfo = ({ item }: Props) => {
         }
       },
     );
-
     return (
       <div className="text-sm ">
         {transformedAnswers?.map((answer) => {

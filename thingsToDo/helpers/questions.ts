@@ -4,6 +4,7 @@ import {
   LocationPoints,
 } from 'thingsToDo/types/response/ThingsDetailResponse';
 import { defaultPickup, widgets } from './questionDefaults';
+import { LANG_GUIDE } from './thingsToDoConstants';
 
 export const getItemQuestionSchemas = (item: any, defaultData?: any) => {
   const travelerSchema = getQuestionSchemaByGrouping(item, 'PER_TRAVELER');
@@ -26,13 +27,13 @@ export const getQuestionSchemaByGrouping = (
   const questionsByGrouping = questions?.filter(
     (question: any) =>
       question?.grouping === grouping &&
-      question?.id !== 'LANG_GUIDE' &&
+      question?.id !== LANG_GUIDE &&
       question?.id !== 'AGEBAND',
   );
   const itemQuestionLanguage = questions?.find(
     (question: any) =>
       question?.grouping === grouping &&
-      question?.id === 'LANG_GUIDE' &&
+      question?.id === LANG_GUIDE &&
       question?.option_code === productCode,
   );
   if (itemQuestionLanguage) questionsByGrouping.push(itemQuestionLanguage);
