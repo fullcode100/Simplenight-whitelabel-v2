@@ -429,7 +429,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
               </section>
             )}
             <section className="relative h-full lg:flex-1 lg:mt-0">
-              {!isLoading && hasNoHotels ? (
+              {!isLoading && !filteredHotels.length ? (
                 <EmptyStateContainer
                   text={noResultsLabel}
                   Icon={EmptyState}
