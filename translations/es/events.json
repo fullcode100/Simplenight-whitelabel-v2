@@ -6,7 +6,7 @@
   "endDate": "Fecha Final",
   "shows": "Espectáculos",
   "basePrice": "Precio base",
-  "taxesAndFeesDisclaimer": "Este cargo incluye montos estimados que el proveedor de servicios de viaje (es decir, hotel, compañía de alquiler de automóviles) paga por sus impuestos y/o los impuestos que pagamos a las autoridades fiscales en su reserva (incluidos, entre otros, el impuesto sobre las ventas, la ocupación y el valor agregado). ). Esta cantidad también puede incluir cualquier cantidad que se nos cobre por tarifas de resort, tarifas de limpieza y otras tarifas y/o una tarifa que nosotros, el proveedor del hotel y/o el sitio web en el que reservó, retengamos como parte de la compensación por nuestra y/o sus servicios, que varía en función de factores como la ubicación, el importe y la forma de la reserva. Para obtener más detalles, consulte los Términos y condiciones.",
+  "taxesAndFeesDisclaimer": "Los impuestos son cargos de recuperación de impuestos que Simplenight paga a sus proveedores (por ejemplo, hoteles); Para obtener más información, consulte nuestros Términos de uso. Retenemos nuestras tarifas de servicio como compensación por el servicio de su reserva de viaje.",
   "updatedCart": "Carrito actualizado",
   "removedEvenItemFromCart": "La reservación para {event} fue removida.",
   "getMemorableExperiences": "Obtenga experiencias memorables con la emisión segura de entradas para eventos."
