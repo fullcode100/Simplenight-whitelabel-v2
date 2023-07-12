@@ -125,7 +125,7 @@ const Client = () => {
   const continueButton = t('continue', 'Continue');
   const continueShoppingText = t('continueShopping', 'Continue Shopping');
 
-  const handleGetSchema = async () => {
+  const handleGetSchema = () => {
     try {
       if (!cartId) throw new Error('Cart ID is not defined');
 
@@ -366,6 +366,11 @@ const Client = () => {
     const customerUpdater = new ClientCartCustomerUpdater();
     const requestBody = getAddCustomerRequestBody(values.formData);
     updateCustomer(requestBody.customer);
+    setLoaded(false);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
     await Promise.all(
       Object.keys(bookingAnswerData)?.map(async (itemId) => {
         const itemData: any = {
@@ -398,8 +403,8 @@ const Client = () => {
     const submitFn = async () => {
       try {
         await handleGetCart();
+        handleGetSchema();
         await handleGetCartAvailability();
-        await handleGetSchema();
       } catch (error) {
         console.error(error);
       }
