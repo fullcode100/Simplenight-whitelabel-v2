@@ -8,6 +8,7 @@ import {
 } from 'apiCalls/config/middlewares/authHeaderMiddleware';
 import { createServerAxiosInstance } from 'apiCalls/config/axiosHelper';
 import { NextApiRequestWithSession } from 'types/core/server';
+import { sleep } from 'helpers/sleep';
 
 export default async function handler(
   req: NextApiRequestWithSession,
@@ -55,6 +56,8 @@ export default async function handler(
         console.log('Validating PNR .....', controlNumber);
         if (reservation && controlNumber) {
           try {
+            // Temporal sleep function to discard slow connection
+            await sleep(3000);
             const { data: data1 } = await axiosInstance.post(
               `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${controlNumber}`,
             );
