@@ -6,11 +6,15 @@ import {
   FeesInstructions,
 } from '../response/SearchResponse';
 
+export interface Photo {
+  text: string;
+  url: string;
+}
 export interface DetailItem {
   id: string;
   details: Details;
   rooms: Room[];
-  photos: string[];
+  photos: Photo[];
   nights?: number;
   checkInInstructions?: CheckInInstructions;
   roomsQty?: number;

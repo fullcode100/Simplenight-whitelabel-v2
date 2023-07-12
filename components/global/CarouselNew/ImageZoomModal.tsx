@@ -1,13 +1,18 @@
-import React, { MouseEvent } from 'react';
-import Carousel from 'react-multi-carousel';
+import React, { MouseEvent, useMemo, useState } from 'react';
+import Carousel, { StateCallBack } from 'react-multi-carousel';
 import CustomArrow from './components/CustomArrow';
 import CustomDot from './components/CustomDot';
 import classnames from 'classnames';
 import ImageModalHeader from './components/ImageModalHeader';
 import ImageModalComponent from './components/ImageModalComponent';
+import { getCurrentSlideForInfinityCarousel } from './utils';
 
+export interface ImageItem {
+  text: string;
+  url: string;
+}
 interface ImageCarouselProps {
-  images: string[];
+  images: ImageItem[] | string[];
   open: boolean;
   closeModal: (event?: MouseEvent<HTMLElement>) => void;
   title: string;
@@ -19,6 +24,14 @@ const ImageZoomModal = ({
   closeModal,
   title,
 }: ImageCarouselProps) => {
+  const [currentSlide, setCurrentSlide] = useState(() =>
+    images.length > 0 ? 1 : 0,
+  );
+  const imageText = useMemo(() => {
+    if (images.length == 0 || currentSlide > images.length) return '';
+    return (images[currentSlide - 1] as ImageItem)?.text || '';
+  }, [images, currentSlide]);
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -37,7 +50,16 @@ const ImageZoomModal = ({
       items: 1,
     },
   };
-
+  const afterChange = (
+    previousSlide: number,
+    { currentSlide }: StateCallBack,
+  ) => {
+    const result = getCurrentSlideForInfinityCarousel(
+      images.length,
+      currentSlide,
+    );
+    setCurrentSlide(result);
+  };
   return (
     <section
       className={classnames(
@@ -48,6 +70,7 @@ const ImageZoomModal = ({
       <ImageModalHeader title={title} closeModal={closeModal} />
       <section className="h-full">
         <Carousel
+          afterChange={afterChange}
           className="h-full flex justify-items-stretch"
           partialVisible={false}
           responsive={responsive}
@@ -76,7 +99,8 @@ const ImageZoomModal = ({
           }
         >
           {images.map((image, index) => {
-            return <ImageModalComponent image={image} key={index + image} />;
+            const src: string = (image as ImageItem)?.url || (image as string);
+            return <ImageModalComponent image={src} key={index + src} />;
           })}
         </Carousel>
         <section className="w-full px-5 absolute bottom-16">
@@ -85,7 +109,12 @@ const ImageZoomModal = ({
               className="absolute inset-0 flex items-center"
               aria-hidden="true"
             >
-              <div className="w-full border-t border-dark-800" />
+              <div className={'flex flex-col w-full'}>
+                <div className={'pb-2 text-white text-sm font-normal'}>
+                  {imageText}
+                </div>
+                <div className="w-full border-t border-dark-800" />
+              </div>
             </div>
           </div>
         </section>

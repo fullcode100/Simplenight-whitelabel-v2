@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Carousel from 'react-multi-carousel';
-import ImageZoomModal from './ImageZoomModal';
+import ImageZoomModal, { ImageItem } from './ImageZoomModal';
 import CustomArrow from './components/CustomArrow';
 import CustomDot from './components/CustomDot';
 
 interface ImageCarouselProps {
-  images: string[];
+  images: ImageItem[] | string[];
   title: string;
   showDots?: boolean;
   autoPlay?: boolean;
@@ -85,13 +85,14 @@ const ImageCarousel = ({
         }
       >
         {images.map((image, index) => {
+          const src: string = (image as ImageItem)?.url || (image as string);
           return (
             <Image
-              key={index + image}
+              key={index + src}
               width="375px"
               height={height}
               layout="responsive"
-              src={image}
+              src={src}
               alt=""
               onClick={() => setShowImageZoomModal(true)}
               objectFit="cover"

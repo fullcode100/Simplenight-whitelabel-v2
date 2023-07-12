@@ -3,7 +3,6 @@ import { Hotel } from '../types/response/SearchResponse';
 
 export const detailAdapter = (items: Hotel[]): DetailItem => {
   const item = items[0];
-  const photosUrl = item.photos?.map((photo) => photo.url);
   const adaptedDetailResponse: DetailItem = {
     id: item.id,
     details: {
@@ -27,7 +26,7 @@ export const detailAdapter = (items: Hotel[]): DetailItem => {
       fees: item.details.fees,
     },
     rooms: item.rooms,
-    photos: photosUrl,
+    photos: item.photos,
     nights: item.nights,
     checkInInstructions: item.check_in_instructions,
     roomsQty: item.roomsQty,

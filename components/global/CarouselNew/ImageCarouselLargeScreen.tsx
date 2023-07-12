@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Carousel from 'react-multi-carousel';
-import ImageZoomModal from './ImageZoomModal';
+import ImageZoomModal, { ImageItem } from './ImageZoomModal';
 import CustomArrow from './components/CustomArrow';
 import CustomDot from './components/CustomDot';
 import classnames from 'classnames';
 
 interface ImageCarouselLargeScreenProps {
-  images: string[];
+  images: ImageItem[] | string[];
   title: string;
   showDots?: boolean;
   autoPlay?: boolean;
@@ -93,11 +93,12 @@ const ImageCarouselLargeScreen = ({
           const imageClass = classnames(
             'w-[100%] h-[500px] rounded-md bg-dark-500 overflow-hidden flex items-center justify-center',
           );
+          const src: string = (image as ImageItem)?.url || (image as string);
           return (
-            <section key={index + image} className={imageClass}>
+            <section key={index + src} className={imageClass}>
               <div className="w-[752px] h-[100%] flex items-center justify-center">
                 <img
-                  src={image}
+                  src={src}
                   style={{
                     maxWidth: '100%',
                     height: 'auto',

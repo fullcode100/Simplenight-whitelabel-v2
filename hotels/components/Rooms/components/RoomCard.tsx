@@ -49,7 +49,6 @@ const RoomCard = ({
   const cancellable = cancellationPolicy?.cancellation_type === cancellableType;
   const nonRefundable =
     cancellationPolicy?.cancellation_type === nonRefundableType;
-  const images = room?.photos?.map((photo) => photo.url) ?? [];
 
   const tRoom = tg('room', 'Room');
   const tRooms = tg('rooms', 'Rooms');
@@ -128,9 +127,9 @@ const RoomCard = ({
   return (
     <section className="flex flex-col justify-between mx-3 my-3 overflow-hidden border rounded lg:flex-row shadow-container lg:my-0 border-dark-200">
       <section className="lg:h-[300px] w-[100%] lg:min-h-[15rem] lg:min-w-[35%] ">
-        {images?.length > 0 ? (
+        {room?.photos && room.photos.length > 0 ? (
           <ImageCarousel
-            images={images}
+            images={room?.photos}
             title={roomName}
             showDots={true}
             showIndexDot={false}
