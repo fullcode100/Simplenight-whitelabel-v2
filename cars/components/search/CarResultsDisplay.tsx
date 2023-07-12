@@ -56,7 +56,6 @@ interface ViewButtonProps {
 type FetchCars = () => Promise<CarSearchResponse>;
 
 const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
-  // const [loaded, setLoaded] = useState(false);
   const { ClientSearcher: Searcher } = CarCategory.core;
   const [t, i18next] = useTranslation('cars');
   const carsFoundLabel = t('carsFound', 'Cars Found');
@@ -103,11 +102,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     setSortBy(_sortBy);
   };
 
-  const [cars, setCars] = useState<Car[]>([]);
   const [carsFiltered, setCarsFiltered] = useState<Car[]>([]);
-  // It could be useful
-  // const { memoizedFilterCars } = useFilter(cars, keywordSearch as string);
-
   const [currency, setCurrency] = useState<string>(window.currency);
   const storeCurrency = useSelector((state: any) => state.core.currency);
 
@@ -148,7 +143,6 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   useEffect(() => {
     if (data) {
       setCarsFiltered(data.items);
-      setCars(data.items);
     }
   }, [data]);
 
@@ -386,7 +380,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     <>
       <section className="lg:flex lg:w-full">
         <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8">
-          <CarFilterFormDesktop cars={cars} />
+          <CarFilterFormDesktop cars={data?.items || []} />
         </section>
         <section className="relative lg:flex-1 lg:w-[75%] h-full">
           {!isLoading && hasNoCars ? (

@@ -2,31 +2,25 @@ import Divider from 'components/global/Divider/Divider';
 import ClientCartItem from './ClientCartItem';
 import { Item } from '../../../hotels/types/response/CartHotels';
 import BlockDivider from 'components/global/Divider/BlockDivider';
-import { IChangeEvent } from '@rjsf/core';
+import { CarCartItemData } from 'cars/types/response/CarCartItemData';
 
 interface ClientCartProps {
-  items?: Item[];
+  items?: CarCartItemData[];
   schema: any;
   uiSchema: any;
   onChange: (
-    value: string,
+    data: string,
     cartItemId: string,
-    isAddingSpecialRequest: boolean,
+    isAddingSpecialRequest?: boolean,
+    useOrderName?: boolean,
   ) => void;
-  onChangeAnswers?: (value: IChangeEvent<FormData>, cartItemId: string) => void;
 }
 
-const ClientCart = ({
-  items,
-  schema,
-  uiSchema,
-  onChange,
-  onChangeAnswers,
-}: ClientCartProps) => {
+const ClientCart = ({ items, schema, uiSchema, onChange }: ClientCartProps) => {
   return (
     <>
       {items && <BlockDivider className="mt-6" />}
-      {items?.map?.((item: Item, index: number) => {
+      {items?.map?.((item: CarCartItemData, index: number) => {
         const showDivider = index !== items.length - 1;
         return (
           <section key={index}>
@@ -36,7 +30,6 @@ const ClientCart = ({
               formSchema={schema}
               formUiSchema={uiSchema}
               onChange={onChange}
-              onChangeAnswers={onChangeAnswers}
             />
             {showDivider && <Divider />}
           </section>

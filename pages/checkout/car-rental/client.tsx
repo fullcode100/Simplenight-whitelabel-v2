@@ -8,7 +8,6 @@ import {
   deleteCart,
   getCartAvailability,
   getCartId,
-  updateCartItem,
 } from 'core/client/services/CartClientService';
 import { useTranslation } from 'react-i18next';
 import ClientCart from '../../../cars/components/ClientCart/ClientCart';
@@ -16,18 +15,11 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../../components/global/Loader/Loader';
 import { deepCopy } from 'helpers/objectUtils';
-import { IChangeEvent } from '@rjsf/core';
 import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
 import { getCurrency } from 'store/selectors/core';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
-import {
-  FREETEXT_UNIT,
-  PICKUP_POINT_ID,
-  PICKUP_POINT_UNIT,
-  questionsFormDataDestructuring,
-} from 'helpers/bookingQuestions';
 import { useCustomer } from 'hooks/checkout/useCustomer';
 import { ClientFormContent } from 'components/checkout/ClientForm/ClientFormContent';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -63,7 +55,6 @@ const Client = () => {
 
   const currency = getCurrency();
 
-  const bookingAnswerData: any = useRef({}).current;
   let itemsForm: any[] | undefined = [];
   let hasAdditionalRequests = false;
 
@@ -219,67 +210,6 @@ const Client = () => {
     }
   };
 
-  const questions = cart?.items[0]?.item_data?.extra_data?.booking_questions;
-  const hasQuestionPickup = questions?.find(
-    (question: any) => question.id === PICKUP_POINT_ID,
-  );
-  const handleTravelerAnswerChange = (
-    data: IChangeEvent<FormData>,
-    itemId: string,
-    travelerNum?: number,
-  ) => {
-    const formDataCopy = questionsFormDataDestructuring(
-      deepCopy(data.formData),
-    );
-    if (formDataCopy?.[PICKUP_POINT_ID] && !hasQuestionPickup)
-      delete formDataCopy[PICKUP_POINT_ID];
-    Object.keys(formDataCopy).forEach((key) => {
-      if (!bookingAnswerData[itemId]) bookingAnswerData[itemId] = [];
-      const bookingAnswer = bookingAnswerData[itemId].find(
-        (answer: any) =>
-          answer.question_id === key && answer.traveler_num === travelerNum,
-      );
-      if (!bookingAnswer) {
-        const value = formDataCopy[key].ref || formDataCopy[key];
-        const answerItem: any = {
-          question_id: key,
-          value,
-          traveler_num: travelerNum,
-        };
-        if (value.unit) {
-          answerItem.unit = value.unit;
-          answerItem.value = value.number || 0;
-        }
-        if (key === PICKUP_POINT_ID) answerItem.unit = PICKUP_POINT_UNIT;
-        if (key === 'TRANSFER_ARRIVAL_DROP_OFF')
-          answerItem.unit = FREETEXT_UNIT;
-        bookingAnswerData[itemId].push(answerItem);
-      } else {
-        bookingAnswerData[itemId] = bookingAnswerData[itemId]?.map(
-          (answer: any) => {
-            if (
-              answer.question_id === key &&
-              answer.traveler_num === travelerNum
-            ) {
-              const value = formDataCopy[key].ref || formDataCopy[key];
-              const answerItem: any = {
-                ...answer,
-                value,
-              };
-              if (value.unit) {
-                answerItem.unit = value.unit;
-                answerItem.value = value.number || 0;
-              }
-              if (key === PICKUP_POINT_ID) answerItem.unit = PICKUP_POINT_UNIT;
-              return answerItem;
-            }
-            return answer;
-          },
-        );
-      }
-    });
-  };
-
   const redirectToItinerary = () => {
     router.back();
   };
@@ -316,17 +246,6 @@ const Client = () => {
       phone_prefix: requestBody.customer.phone_prefix,
     };
     updateCustomer(customer);
-    await Promise.all(
-      Object.keys(bookingAnswerData)?.map(async (itemId) => {
-        const itemData: any = {
-          cartId: cart.cart_id,
-          itemId,
-          bookingAnswers: bookingAnswerData[itemId],
-        };
-
-        await updateCartItem(i18n, itemData);
-      }),
-    );
 
     const data = {
       ...requestBody,
@@ -430,7 +349,6 @@ const Client = () => {
                       schema={travelersFormSchema}
                       uiSchema={travelersUiSchema}
                       onChange={handleAdditionalRequestChange}
-                      onChangeAnswers={handleTravelerAnswerChange}
                     />
                     <CheckoutFooter type="client">
                       <CheckoutSummary

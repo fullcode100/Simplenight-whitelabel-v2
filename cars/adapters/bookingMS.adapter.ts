@@ -1,4 +1,5 @@
 import { CarItem } from 'cars/types/response/CarSearchResponse';
+import { dateFormatter } from 'cars/utils/dateFormatter';
 
 interface BookingMSAdapter {
   car: CarItem;
@@ -15,16 +16,6 @@ export const bookingMSAdapter = ({
   search,
   apiUrl,
 }: BookingMSAdapter) => {
-  const dateFormatter = (date: string, time: string) => {
-    const DateToFormatt = date;
-    const Time = time.split(/:|\s/);
-    const Hour = Time[2] === 'AM' ? +Time[0] : +Time[0] + 12;
-    const Minute = +Time[1];
-    const DateForFormat = new Date(DateToFormatt + 'T00:00:00Z');
-    DateForFormat.setUTCHours(Hour, Minute, 0);
-    return DateForFormat.toISOString();
-  };
-
   const formattedStartDate = dateFormatter(search.startDate, search.startTime);
 
   const formattedEndDate = dateFormatter(search.endDate, search.endTime);
