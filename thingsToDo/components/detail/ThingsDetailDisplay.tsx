@@ -180,6 +180,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const handleAvailability = (date: string, ticketTypes: TicketType[]) => {
     const queryParams: any = {
       startDate: formatAsSearchDate(date as string),
+      endDate: formatAsSearchDate(dayjs(date as string).add(1, 'day')),
     };
     ticketTypes?.forEach((ticketType) => {
       queryParams[ticketType.ticket_type_id] = ticketType.quantity.toString();
@@ -204,6 +205,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
           setAvailabilityLoading(false);
         })
         .catch((e: any) => {
+          setTickets([]);
           setAvailabilityLoading(false);
           console.error(e);
         });
