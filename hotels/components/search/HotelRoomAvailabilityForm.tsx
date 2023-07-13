@@ -1,13 +1,11 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { usePlural } from '../../../hooks/stringBehavior/usePlural';
 import DatePicker from '../../../components/global/Calendar/Calendar';
 import TravelersInput from '../TravelersInput/TravelersInput';
 import { Room, createRoom } from 'hotels/helpers/room';
 
-import Bed from 'public/icons/assets/bed.svg';
-import MultiplePersons from 'public/icons/assets/multiple-persons.svg';
+import Label from 'components/global/Label/Label';
 import Calendar from 'public/icons/assets/calendar.svg';
 import IconInput from 'components/global/Input/IconInput';
 import Button from 'components/global/Button/Button';
@@ -36,10 +34,6 @@ const HotelRoomAvailabilityForm = ({
   const textCheckAvailability = t('checkAvailability', 'Check Availability');
   const checkInText = t('checkIn');
   const checkOutText = t('checkOut');
-  const guestsLabel = t('guests', 'Guests');
-  const guestLabel = t('guest', 'Guest');
-  const roomsLabel = t('rooms', 'Rooms');
-  const roomLabel = t('room', 'Room');
   const guestsAndRoomsLabel = t('guestsAndRooms', 'Guests & Rooms');
 
   const params = useQuery();
@@ -75,9 +69,6 @@ const HotelRoomAvailabilityForm = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [clickOnStart, setClickOnStart] = useState(false);
   const [showTravelersInput, setShowTravelersInput] = useState(false);
-
-  const [travelersPlaceholder, setTravelersPlaceholder] = useState('');
-  const roomsText = usePlural(parseInt(rooms), roomLabel, roomsLabel);
 
   const handleStartDateChange = (value: string) => {
     setStartDate(value);
@@ -125,53 +116,23 @@ const HotelRoomAvailabilityForm = ({
     setRooms(roomsData.length.toString());
   }, [roomsData]);
 
-  useEffect(() => {
-    setTravelersPlaceholder(
-      `${
-        parseInt(adults) + parseInt(children)
-      } ${guestsLabel}, ${rooms} ${roomsText}`,
-    );
-  }, [adults, children, children]);
-
   return (
     <section
       className={`flex flex-col px-4 pb-4 justify-between ${className} lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0`}
     >
       <section className="lg:flex lg:w-[85%] lg:justify-between lg:items-center lg:gap-4">
-        <TravelersInput
-          showTravelersInput={showTravelersInput}
-          onClose={() => setShowTravelersInput(false)}
-          rooms={roomsData}
-          setRooms={setRoomsData}
-          adults={adults}
-          children={children}
-          setShowTravelersInput={setShowTravelersInput}
-        />
-        <section className="mt-4 lg:mt-0 lg:w-full">
-          <p className="text-sm font-semibold text-dark-800">
-            {guestsAndRoomsLabel}
-          </p>
-          <button
-            onClick={() => setShowTravelersInput(true)}
-            className="bg-white mt-1 grid grid-cols-2 rounded-md border border-gray-300 w-full py-2 px-[13px] text-sm text-dark-1000 cursor-default"
-          >
-            <section className="flex items-center gap-2">
-              <MultiplePersons className="text-dark-700" />
-              {parseInt(adults) + parseInt(children)}{' '}
-              {usePlural(
-                parseInt(adults) + parseInt(children),
-                guestLabel,
-                guestsLabel,
-              )}
-            </section>
-            <section className="flex items-center gap-2">
-              <Bed className="text-dark-700" />
-              {roomsData.length}{' '}
-              {usePlural(parseInt(rooms), roomLabel, roomsLabel)}
-            </section>
-          </button>
+        <section className="lg:mt-0 lg:w-[50%]">
+          <Label className="hidden lg:block" value={guestsAndRoomsLabel} />
+          <TravelersInput
+            showTravelersInput={showTravelersInput}
+            onClose={() => setShowTravelersInput(false)}
+            rooms={roomsData}
+            setRooms={setRoomsData}
+            setShowTravelersInput={setShowTravelersInput}
+            adults={adults}
+            children={children}
+          />
         </section>
-
         <section className="relative flex gap-4 mt-2 lg:mt-0 lg:w-full">
           <IconInput
             label={checkInText}

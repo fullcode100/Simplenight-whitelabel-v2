@@ -1,7 +1,7 @@
 import { Room } from '../../types/response/SearchResponse';
 import RoomSectionTitle from './components/RoomsSectionTitle';
 import RoomsList from './components/RoomsList';
-import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
+import HotelSearchForm from '../search/HotelSearchForm';
 
 interface RoomsProps {
   rooms: Array<Room>;
@@ -26,7 +26,7 @@ const RoomsSection = ({
     <section className="mt-6 px-4 lg:mt-12 lg:px-0" ref={ref}>
       <RoomSectionTitle />
       <section className="hidden lg:block bg-dark-100 p-4 rounded-md my-8">
-        <HotelRoomAvailabilityForm />
+        <HotelSearchForm />
       </section>
       <RoomsList
         rooms={rooms}

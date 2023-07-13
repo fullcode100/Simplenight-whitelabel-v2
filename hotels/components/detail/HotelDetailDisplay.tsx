@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQuery as useReactQuery } from '@tanstack/react-query';
-import Button from 'components/global/Button/Button';
 import Rating from 'components/global/Rating/Rating';
 import {
   fromLowerCaseToCapitilize,
@@ -8,6 +7,7 @@ import {
   parseQueryNumber,
 } from 'helpers/stringUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
+import { useRouter } from 'next/router';
 import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
 import initialState from './utils/initialState';
 import { HotelDetailPreRequest } from 'hotels/types/request/HotelDetailRequest';
@@ -18,6 +18,7 @@ import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
 
 import CalendarIcon from 'public/icons/assets/calendar.svg';
 import MultiplePersonsIcon from 'public/icons/assets/multiple-persons.svg';
+import BackArrow from 'public/icons/assets/goBackArrow.svg';
 import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import { Tab } from 'components/global/Tabs/types';
 import CheckRoomAvailability from 'hotels/components/CheckRoomAvailability/CheckRoomAvailability';
@@ -31,11 +32,11 @@ import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRou
 import InformationIcon from 'public/icons/assets/information.svg';
 import CheckIcon from 'public/icons/assets/check-white.svg';
 import PoliciesIcon from 'public/icons/assets/policies.svg';
+import SearchIcon from 'public/icons/assets/search_small.svg';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import ImageCarouselLargeScreen from 'components/global/CarouselNew/ImageCarouselLargeScreen';
 import { EmptyState } from '@simplenight/ui';
-import HotelRoomAvailabilityForm from '../search/HotelRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { createRoom } from 'hotels/helpers/room';
@@ -48,11 +49,14 @@ import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStat
 import AmenitiesGrid from './AmenitiesGridHotels';
 import { useGA4 } from 'hooks/ga4/useGA4';
 import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
+import HotelSearchForm from '../search/HotelSearchForm';
+import { NEW_SEARCH_DATE_FORMAT } from 'helpers/dajjsUtils';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 type FetchHotel = () => Promise<DetailItem>;
 
 const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
+  const router = useRouter();
   const params = useQuery();
   const { trackEvent } = useGA4();
   const { id, roomsData } = params;
@@ -118,6 +122,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const policiesLabel = t('policies', 'Policies');
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
+  const backToHotelsLabel = t('backToHotels', 'Back to Hotels');
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   useEffect(() => {}, [detailsLabel]);
@@ -130,6 +135,10 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     adults: parseQueryNumber(adults ?? '1') + '',
     children: parseQueryNumber(children ?? '0') + '',
     rooms: parseQueryNumber(rooms ?? '1') + '',
+  };
+
+  const handleGoBack = () => {
+    router.back();
   };
 
   if (parseQueryNumber(occupancy.children) > 0) {
@@ -293,51 +302,39 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const tGuest = tg('guest', 'Guest');
   const tGuests = tg('guests', 'Guests');
   const GUEST_TEXT = usePlural(guests, tGuest, tGuests);
-  const tRoom = tg('room', 'Room');
-  const tRooms = tg('rooms', 'Rooms');
-  const ROOM_TEXT = usePlural(
-    parseInt((rooms && rooms[0]) || '0'),
-    tRoom,
-    tRooms,
-  );
 
   const DatesSection = () => (
     <section>
-      <span>{fromLowerCaseToCapitilize(startDate)}</span>
+      <span>
+        {dayjs(startDate as unknown as string).format(NEW_SEARCH_DATE_FORMAT)}
+      </span>
       <span> {toLabel} </span>
-      <span>{fromLowerCaseToCapitilize(endDate)}</span>
+      <span>
+        {dayjs(endDate as unknown as string).format(NEW_SEARCH_DATE_FORMAT)}
+      </span>
     </section>
-  );
-
-  const VerticalDivider = () => (
-    <div className="px-2">
-      <div className="h-6 border-l border-dark-200" />
-    </div>
   );
 
   const OccupancySection = () => (
     <section className="flex flex-row gap-1">
       <span>{guests ?? ' - '} </span>
       <span>{GUEST_TEXT} </span>
-      <VerticalDivider />
-      <span>{rooms ?? ' - '}</span>
-      <span>{ROOM_TEXT}</span>
     </section>
   );
 
   const OccupancyAndDatesSection = () => (
-    <section className="grid gap-2 text-sm font-lato text-dark-1000">
+    <section className="flex gap-4 font-lato text-dark-1000">
       <section className="flex gap-2">
         <section className="grid w-6 place-items-center">
-          <CalendarIcon className="text-primary-1000" />
+          <MultiplePersonsIcon className="text-primary-1000 text-dark-1000" />
         </section>
-        <DatesSection />
+        <OccupancySection />
       </section>
       <section className="flex gap-2">
         <section className="grid w-6 place-items-center">
-          <MultiplePersonsIcon className="text-primary-1000" />
+          <CalendarIcon className="text-primary-1000 text-dark-1000" />
         </section>
-        <OccupancySection />
+        <DatesSection />
       </section>
     </section>
   );
@@ -398,18 +395,20 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full px-4 pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
-        <section className="flex items-center justify-between h-12">
+      <header className="flex flex-col w-full  pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
+        <section
+          className="flex gap-2 bg-dark-200 py-4 font-lato text-sm text-dark-1000"
+          onClick={handleGoBack}
+        >
+          <section className="ml-4">
+            <BackArrow className="text-xl text-dark-1000" />
+          </section>
+          <section>{backToHotelsLabel}</section>
+        </section>
+        <section className="flex items-center px-4 justify-between h-12">
           <OccupancyAndDatesSection />
-          <section>
-            <Button
-              value="Edit"
-              translationKey="edit"
-              type="contained"
-              className="w-20 text-sm font-normal h-9"
-              size="full"
-              onClick={handleOpenCheckRoom}
-            />
+          <section onClick={handleOpenCheckRoom}>
+            <SearchIcon className="text-primary-1000" />
           </section>
         </section>
       </header>
@@ -418,7 +417,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           <section className="hidden px-20 pt-12 lg:block">
             <RoomSectionTitle />
             <section className="p-4 my-8 rounded-md bg-dark-100">
-              <HotelRoomAvailabilityForm />
+              <HotelSearchForm />
             </section>
           </section>
           <EmptyStateContainer

@@ -35,7 +35,6 @@ const HotelSearchForm = ({
   slug = '',
 }: SearchFormProps) => {
   const router = useRouter();
-
   const [t, i18next] = useTranslation('hotels');
   const locationInputLabel = t('locationInputLabel', 'Destination');
   const textSearch = t('search', 'Search');
@@ -198,6 +197,7 @@ const HotelSearchForm = ({
   }, [roomsData]);
 
   const isHomePage = router.pathname === '/';
+  const isDetailPage = router.pathname === '/detail/[slug]/[id]';
 
   return (
     <section className={'flex flex-col lg:gap-4 lg:pb-0 lg:px-0'}>
@@ -211,18 +211,26 @@ const HotelSearchForm = ({
       >
         <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
           <section className="flex flex-col-reverse lg:lg:flex-row gap-4 lg:w-[100%]">
-            <LocationInput
-              icon={<LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />}
-              label={locationInputLabel}
-              name="location"
-              placeholder={locationPlaceholder}
-              restrictToCities={true}
-              routeParams={['address']}
-              onSelect={handleSelectLocation}
-              error={showLocationError}
-              onChange={handleChangeLocation}
-            />
-            <section className="lg:mt-0 lg:w-[50%]">
+            {!isDetailPage && (
+              <LocationInput
+                icon={
+                  <LocationPin className="w-5 h-5 text-dark-700 lg:w-full" />
+                }
+                label={locationInputLabel}
+                name="location"
+                placeholder={locationPlaceholder}
+                restrictToCities={true}
+                routeParams={['address']}
+                onSelect={handleSelectLocation}
+                error={showLocationError}
+                onChange={handleChangeLocation}
+              />
+            )}
+            <section
+              className={`lg:mt-0 ${
+                isDetailPage ? 'lg:w-[100%]' : 'lg:w-[50%]'
+              }`}
+            >
               <Label className="hidden lg:block" value={guestsLabel} />
               <TravelersInput
                 showTravelersInput={showTravelersInput}
