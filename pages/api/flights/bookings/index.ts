@@ -57,7 +57,7 @@ export default async function handler(
         if (reservation && controlNumber) {
           try {
             // Temporal sleep function to discard slow connection
-            await sleep(3000);
+            await sleep(4000);
             const { data: data1 } = await axiosInstance.post(
               `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${controlNumber}`,
             );

@@ -7,6 +7,7 @@ import {
   FlightsSearchResponseMS,
   OfferLegRefsEntity,
 } from 'flights/types/response/FlightSearchResponseMS';
+import { FLIGHT_DEBUG } from 'flights';
 
 const getPlaceType = (place: string) => {
   if (place === 'AIRPORT') {
@@ -171,7 +172,13 @@ export default async function handler(
             acum[id] = [];
           }
           const offersList = IdWithPrices[current.legId];
-          acum[id].push({ ...current, offer: offersList[0] });
+          if (id === 0) {
+            acum[id].push({ ...current, offer: offersList[0] });
+          } else {
+            offersList.forEach((offerItem) => {
+              acum[id].push({ ...current, offer: offerItem });
+            });
+          }
 
           return acum;
         }, [] as Array<Array<FlightItem>>);
@@ -195,6 +202,7 @@ export default async function handler(
 
       res.status(200).json({
         flights: data,
+        supplier: FLIGHT_DEBUG ? response : null,
       });
     } else {
       res.status(400).json({

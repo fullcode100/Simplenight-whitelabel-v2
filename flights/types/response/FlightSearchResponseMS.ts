@@ -98,4 +98,5 @@ export type FlightItem = Leg & { offer: OfferLegRefsEntity };
 export type FlightResponse = {
   flights?: Array<Array<FlightItem>>;
   errors?: string;
+  supplier?: any;
 };

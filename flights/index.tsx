@@ -23,6 +23,8 @@ import PassengerInformationDisplay from './components/PassengerInformation/Passe
 import FlightsCancelledAccordion from './components/Cancelled/FlightsCancelledAccordion';
 
 export const FLIGHT_CATEGORY = 'flights';
+export const FLIGHT_DEBUG =
+  process.env.NEXT_PUBLIC_FLIGHTS_MS_DEBUG === 'true' ? true : false;
 
 export const minAdultAge = 18;
 export const minChildrenAge = 2;

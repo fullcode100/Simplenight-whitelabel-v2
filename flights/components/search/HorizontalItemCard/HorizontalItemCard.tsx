@@ -17,6 +17,7 @@ import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import FlightDepartureIcon from 'public/icons/assets/flights/flight-departure.svg';
 import CloseIcon from 'public/icons/assets/close.svg';
 import dayjs from 'dayjs';
+import { FLIGHT_DEBUG } from 'flights';
 
 interface CardProps {
   item: FlightItem;
@@ -47,6 +48,8 @@ const HorizontalItemCard = ({
     return (
       <section onClick={() => setIsExpanded((expanded) => !expanded)}>
         <section className="flex">
+          {/* TODO: for debug and testing  */}
+          {FLIGHT_DEBUG && `#${item.legId}`}
           <div className="flex flex-1 gap-4 px-4 py-2 overflow-hidden">
             <FlightAirlines segments={segments} />
             <TimeAndAirports segments={segments} />
