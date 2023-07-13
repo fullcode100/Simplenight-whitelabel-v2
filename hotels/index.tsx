@@ -2,9 +2,6 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 import HotelSearchForm from 'hotels/components/search/HotelSearchForm';
 
-import hotelReducer from './redux/reducer';
-import { hotelsSetInitialState } from './redux/actions';
-
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import HotelResultsDisplay from 'hotels/components/search/HotelResultsDisplay';
 import HotelDetailDisplay from './components/detail/HotelDetailDisplay';
@@ -28,10 +25,6 @@ const Category: CategoryOption = {
   name: HOTEL_CATEGORY,
   value: HOTEL_CATEGORY,
   icon: <CategoryIcon categoryName={HOTEL_CATEGORY} className={'h-5 w-5'} />,
-  store: {
-    reducer: hotelReducer,
-    actions: { hotelsSetInitialState },
-  },
   selectedIcon: <BedFillGray />,
   searchForm: <HotelSearchForm />,
   readStateSearchForm: <HotelSearchFormReadState />,
