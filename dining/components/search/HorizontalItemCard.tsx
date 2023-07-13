@@ -42,7 +42,6 @@ function HorizontalItemCard<T extends WithId>({
   className = '',
   rating,
   ratingCount = undefined,
-  priceDisplay,
   cancellable,
   fallback,
   url = '/',
@@ -154,7 +153,6 @@ function HorizontalItemCard<T extends WithId>({
             </section>
             <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
               <section className="text-left">{cancellable}</section>
-              {priceDisplay}
             </section>
           </section>
           <section className="lg:hidden">{price}</section>
