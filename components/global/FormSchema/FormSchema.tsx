@@ -13,6 +13,7 @@ import {
   CustomTextArea,
   CustomToggle,
   CustomTimeSelect,
+  CustomPassword,
 } from './CustomFields';
 import {
   CheckBoxTemplate,
@@ -68,6 +69,7 @@ const widgets = {
   NumberUnit: CustomNumberUnit,
   LanguageGuide: CustomLanguageGuide,
   TimeSelect: CustomTimeSelect,
+  PasswordWidget: CustomPassword,
 };
 
 const FormSchema = ({

@@ -25,6 +25,7 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { useRouter } from 'next/router';
 import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
+import Authentication from 'profiles/authentication';
 
 interface HeaderProps {
   color: string;
@@ -37,6 +38,7 @@ const Header = ({ color }: HeaderProps) => {
   const { images } = brandConfig;
   const { logo } = images || {};
 
+  const [openAuth, setOpenAuth] = useState(false);
   const [cartQty, setCartQty] = useState(0);
   const [cart, setCart] = useState<CartObjectResponse>();
   const [t, i18next] = useTranslation('global');
@@ -142,7 +144,12 @@ const Header = ({ color }: HeaderProps) => {
           <>&nbsp;</>
         )}
       </header>
-      <HeaderDesktop color={color} cartQty={cartQty} onOpen={onOpen} />
+      <HeaderDesktop
+        color={color}
+        cartQty={cartQty}
+        onOpen={onOpen}
+        openAuth={() => setOpenAuth(true)}
+      />
       {(pathname === '/' || pathname.startsWith('/search')) && (
         <HorizontalTabs
           tabs={categoriesTabs}
@@ -156,6 +163,11 @@ const Header = ({ color }: HeaderProps) => {
           primary
         />
       )}
+      <Authentication
+        open={openAuth}
+        onClose={() => setOpenAuth(false)}
+        type={'login'}
+      />
     </>
   );
 };

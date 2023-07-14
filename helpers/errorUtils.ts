@@ -27,8 +27,8 @@ const defaultMessages: configOptions = {
   408: 'Hang on! The request is taking longer than expected. Please try again in a moment.',
   500: 'Oh no! Something went wrong on our end. We apologize for the inconvenience. Please try again later.',
   502: 'Yikes! Our server encountered a temporary issue. Please give us another shot in a little while.',
-  503: `Whoops! The service is currently unavailable. We're working to fix it. Please try again later.`,
-  504: `Hold tight! We're experiencing a delay in communication. Please refresh the page or try again shortly.`,
+  503: "Whoops! The service is currently unavailable. We're working to fix it. Please try again later.",
+  504: "Hold tight! We're experiencing a delay in communication. Please refresh the page or try again shortly.",
 };
 
 export const getValidatorErrorTitle = (statusCode: string) => {
@@ -50,6 +50,14 @@ export const getValidatorErrorMessage = (statusCode: string) => {
 };
 
 export const handleError = (error: any) => {
+  const { errors, message: serverMessage } = error.data as unknown as {
+    errors: ClientResponseError[];
+    message?: string;
+  };
+  if (serverMessage) {
+    notification('Error', serverMessage, 'error', 4000);
+    return;
+  }
   const title =
     getValidatorErrorTitle(error.status) !== ''
       ? getValidatorErrorTitle(error.status)
@@ -58,10 +66,7 @@ export const handleError = (error: any) => {
     getValidatorErrorMessage(error.status) !== ''
       ? getValidatorErrorMessage(error.status)
       : 'Unknown Error';
-  const { errors } = error.data as unknown as {
-    errors: ClientResponseError[];
-  };
+
   console.warn(title);
-  const errorMessage = errors.map(({ message }) => message).join('\n');
-  notification(title, message, 'error', 4000);
+  notification(title, serverMessage || message, 'error', 4000);
 };

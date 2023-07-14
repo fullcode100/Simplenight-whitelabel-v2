@@ -27,7 +27,7 @@ export interface BaseInputProps {
   externalWidth?: boolean;
 }
 
-type InputType = 'text' | 'number' | 'date' | 'select' | 'email';
+type InputType = 'text' | 'number' | 'date' | 'select' | 'email' | 'password';
 
 interface BaseInputHiddenProps {
   type?: InputType;

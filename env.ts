@@ -18,6 +18,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_KOUNT_CLIENT: stringValidation,
   NEXT_PUBLIC_KOUNT_ENVIRONMENT: stringValidation,
   NEXT_PUBLIC_FLIGHTS_MS: stringValidation,
+  NEXT_PUBLIC_AUTH_API_URL_V1: stringValidation,
 });
 
 type EnvValues = z.infer<typeof envSchema>;

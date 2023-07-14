@@ -39,7 +39,7 @@ export const CheckBoxTemplate = (props: any) => {
 };
 
 export const TextTemplate = (props: any) => {
-  const { id, label, required, children, description } = props;
+  const { id, label, required, children, description, schema } = props;
   const [t] = useTranslation('global');
   const requiredText = t('required', 'Required');
   let currentLabel = label;
@@ -62,7 +62,9 @@ export const TextTemplate = (props: any) => {
     <>
       <section className="flex justify-between mb-[4px]">
         <Label value={currentLabel} />
-        {required && <span className="text-primary-1000">{requiredText}</span>}
+        {required && !schema.hideRequired && (
+          <span className="text-primary-1000">{requiredText}</span>
+        )}
       </section>
       {children}
       {description?.props?.description && (

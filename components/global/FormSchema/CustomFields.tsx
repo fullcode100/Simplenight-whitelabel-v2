@@ -9,6 +9,7 @@ import SelectInput from '../SelectInput/OldSelectInput';
 import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
 import { WidgetProps } from '@rjsf/core';
+import EyeIcon from 'public/icons/assets/eye.svg';
 
 export const CustomText = (props: any) => {
   const { value, onChange, placeholder, required, id, schema } = props;
@@ -59,6 +60,38 @@ export const CustomEmail = (props: any) => {
         maxlength: schema?.maxLength,
       }}
     />
+  );
+};
+
+export const CustomPassword = (props: any) => {
+  const { value, onChange, placeholder, required, id, schema } = props;
+  let currentPlaceHolder = placeholder;
+  const [t] = useTranslation('global');
+  if (placeholder == 'Password') {
+    currentPlaceHolder = t('Password', placeholder);
+  }
+
+  const [showText, setShowText] = useState(false);
+
+  return (
+    <section className="relative flex">
+      <BaseInput
+        type={showText ? 'text' : 'password'}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={currentPlaceHolder}
+        defaultValue={schema.default}
+        {...{
+          required,
+          id,
+          maxlength: schema?.maxLength,
+        }}
+      />
+      <EyeIcon
+        onClick={() => setShowText(!showText)}
+        className="absolute flex self-center mt-2 right-3"
+      />
+    </section>
   );
 };
 

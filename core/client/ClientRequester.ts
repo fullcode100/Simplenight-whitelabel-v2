@@ -21,7 +21,6 @@ export abstract class ClientRequester<Request, Response, PreRequest> {
     const axios = createClientAxiosInstance(currency, i18next);
 
     const request = this.preRequest(preRequest, ...args);
-
     const result = await this.doRequest(request, axios, ...args);
 
     this.setSessionKey(result);

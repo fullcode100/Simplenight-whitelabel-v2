@@ -11,13 +11,17 @@ import { useTranslation } from 'react-i18next';
 import { getCurrency } from 'store/selectors/core';
 import useBog from 'hooks/bog/useBog';
 import SearchIcon from 'public/icons/assets/Search.svg';
+import PersonIcon from 'public/icons/assets/person.svg';
 import { useSettings } from 'hooks/services/useSettings';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
+import { IconWrapper } from '@simplenight/ui';
+import { IconContainer } from 'components/global/ComingSoon/IconContainer';
 
 interface HeaderDesktopProps {
   color?: string;
   cartQty?: number;
   onOpen: () => void;
+  openAuth?: () => void;
 }
 
 interface CustomLinkProps {
@@ -25,7 +29,7 @@ interface CustomLinkProps {
   children: React.ReactNode | React.ReactNode[];
 }
 
-const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
+const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
   const { data: brandConfig } = useSettings();
   const { images } = brandConfig;
   const { logo } = images || {};
@@ -110,6 +114,9 @@ const HeaderDesktop = ({ cartQty, onOpen }: HeaderDesktopProps) => {
                 <ShoppingCart className="text-white" />
               </button>
             )}
+            <IconWrapper size={12}>
+              <PersonIcon className="text-white" onClick={openAuth} />
+            </IconWrapper>
           </section>
         </section>
       </header>
