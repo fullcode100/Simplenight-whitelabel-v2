@@ -57,7 +57,7 @@ const PoliciesSection = ({
           <CheckOutTime time={checkOutTime} />
         </section>
       </section>
-      <Divider className="py-2 block lg:hidden" />
+      <Divider className="py-2" />
       <section>
         {hasPolicies && (
           <section>
