@@ -24,9 +24,9 @@ export default async function handler(
     res.status(200).json({ ...data });
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      res.status(400).json({ booking: {} });
+      res.status(500).json({ booking: {} });
     } else {
-      res.status(400).json({ booking: {} });
+      res.status(500).json({ booking: {} });
     }
   }
 }

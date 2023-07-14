@@ -205,12 +205,12 @@ export default async function handler(
         supplier: FLIGHT_DEBUG ? response : null,
       });
     } else {
-      res.status(400).json({
+      res.status(500).json({
         errors: 'Something went wrong',
       });
     }
   } catch (e) {
-    res.status(400).json({
+    res.status(500).json({
       errors: 'Something went wrong',
     });
   }

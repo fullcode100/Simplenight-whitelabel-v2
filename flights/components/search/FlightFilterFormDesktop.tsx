@@ -223,7 +223,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   useEffect(() => {
     // analyze flights response
     let flightsMinPrice: number = parseFloat(
-      flights?.[0]?.offer?.totalFareAmount || '100',
+      flights?.[0]?.offer?.totalFareAmount || '10',
     );
     let flightsMaxPrice: number = parseFloat(
       flights?.[0]?.offer?.totalFareAmount || '5000',
