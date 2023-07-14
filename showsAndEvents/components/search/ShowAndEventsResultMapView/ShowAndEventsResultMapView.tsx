@@ -28,7 +28,7 @@ const responsive = {
 };
 
 interface IShowAndEventsResultMapViewProps {
-  items: any;
+  items: SearchItem[];
   isLoading: boolean;
   showCategoryIcon: ReactElement;
   createUrl: (item: SearchItem) => string;

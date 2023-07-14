@@ -13,10 +13,9 @@ import Button from 'components/global/Button/Button';
 import Close from 'public/icons/assets/close.svg';
 import { useFilterShowsAndEvents } from 'showsAndEvents/hooks/useFilterShowsAndEvents';
 import useQuery from 'hooks/pageInteraction/useQuery';
-import { useDispatch } from 'react-redux';
-import { updateShowsAndEventsFilters } from 'showsAndEvents/redux/actions';
-import { ShowsSearchResponse } from '../../types/response/ShowsSearchResponse';
 import FiltersIcon from 'public/icons/assets/filters.svg';
+import { useSearchFilterStore } from 'hooks/showsAndEvents/useSearchFilterStore';
+import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -25,7 +24,7 @@ const Divider = ({ className }: { className?: string }) => (
 interface iShowAndEventsFilterFormDesktop {
   handleHideFilters: () => void;
   isMobile?: boolean;
-  showsAndEvents: ShowsSearchResponse[];
+  showsAndEvents: SearchItem[];
   onClose: () => void;
   resultAmount: boolean;
 }
@@ -42,7 +41,9 @@ const ShowAndEventsFilterFormDesktop = ({
   const { latitude, longitude } = useQuery();
   const [queryFilter] = useState(router.query);
 
-  const dispatch = useDispatch();
+  const setShowsAndEvents = useSearchFilterStore(
+    (state) => state.setShowsAndEvents,
+  );
 
   const { handleFilterShowsAndEvents } = useFilterShowsAndEvents(
     latitude as string,
@@ -123,7 +124,7 @@ const ShowAndEventsFilterFormDesktop = ({
       (queryFilter.distance as string) || initialDistanceRange.max,
     );
     setMaxSeats((queryFilter.seats as string) || initialSeatsRange.max);
-    dispatch(updateShowsAndEventsFilters({}));
+    setShowsAndEvents([]);
   };
 
   useEffect(() => {
@@ -165,7 +166,7 @@ const ShowAndEventsFilterFormDesktop = ({
       <section className="flex items-center justify-between relative">
         <p className="text-lg font-semibold text-dark-1000">
           <button
-            onClick={resultAmount ? onClose : () => {}}
+            onClick={resultAmount ? onClose : undefined}
             className="hover:bg-primary-800 hover:text-white hover:border-white flex flex-row items-center px-2 py-1 border-2 rounded-3xl text-xs border-primary-1000 text-primary-1000 pl-[10px] pb-[12px] pr-[10px] pt-[12px]"
           >
             <FiltersIcon />

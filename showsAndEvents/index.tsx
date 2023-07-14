@@ -18,7 +18,6 @@ import ShowsCheckoutDisplay from './components/checkout/ShowsCheckoutDisplay';
 import ShowsCheckoutItemDisplay from './components/checkout/ShowsCheckoutItemDisplay';
 import ShowsBreakdownDisplay from './components/checkout/ShowsBreakdownDisplay';
 import ShowsConfirmationDisplay from './components/confirmation/ShowsConfirmationDisplay';
-import showAndEventsReducer from './redux/reducer';
 
 export const SHOWS_AND_EVENTS = 'shows-events';
 export const categorySectorUUID = '97807fd1-6561-4f3b-a798-42233d9e2b09';
@@ -27,9 +26,6 @@ const Category: CategoryOption = {
   name: SHOWS_AND_EVENTS,
   value: SHOWS_AND_EVENTS,
   icon: <CategoryIcon categoryName={SHOWS_AND_EVENTS} className={'h-5 w-5'} />,
-  store: {
-    reducer: showAndEventsReducer,
-  },
   selectedIcon: <></>,
   searchForm: <ShowsAndEvents />,
   secondarySearchOptions: <ShowsSecondarySearchOptions />,

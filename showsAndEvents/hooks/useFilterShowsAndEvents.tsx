@@ -1,9 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  updateShowsAndEvents,
-  updateShowsAndEventsFilters,
-} from 'showsAndEvents/redux/actions';
 import { useEffect } from 'react';
+import { useSearchFilterStore } from 'hooks/showsAndEvents/useSearchFilterStore';
 import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
 
 export type availableFilters =
@@ -17,11 +13,11 @@ export type availableFilters =
 export const useFilterShowsAndEvents = (
   latitude: string,
   longitude: string,
-  showsAndEvents: any,
+  showsAndEvents: SearchItem[],
 ) => {
-  const { filters } = useSelector(({ showsAndEvents }: any) => showsAndEvents);
-
-  const dispatch = useDispatch();
+  const { setShowsAndEvents, setFilters, filters } = useSearchFilterStore(
+    (state) => state,
+  );
 
   useEffect(() => {
     if (showsAndEvents) {
@@ -63,7 +59,7 @@ export const useFilterShowsAndEvents = (
               break;
             case 'minDistance':
               {
-                filterResults = filterResults.map((filterResult) => {
+                filterResults = filterResults.filter((filterResult) => {
                   const {
                     address: {
                       coordinates: {
@@ -78,19 +74,13 @@ export const useFilterShowsAndEvents = (
                     Number(showAndEventLatitude),
                     Number(showAndEventLongitude),
                   );
-                  return {
-                    ...filterResult,
-                    distance,
-                  };
+                  return distance >= Number(filters[filterToApply]);
                 });
-                filterResults = filterResults.filter(
-                  ({ distance }) => distance >= Number(filters[filterToApply]),
-                );
               }
               break;
             case 'maxDistance':
               {
-                filterResults = filterResults.map((filterResult) => {
+                filterResults = filterResults.filter((filterResult) => {
                   const {
                     address: {
                       coordinates: {
@@ -105,12 +95,6 @@ export const useFilterShowsAndEvents = (
                     Number(showAndEventLatitude),
                     Number(showAndEventLongitude),
                   );
-                  return {
-                    ...filterResult,
-                    distance,
-                  };
-                });
-                filterResults = filterResults.filter(({ distance }) => {
                   return distance <= Number(filters[filterToApply]);
                 });
               }
@@ -120,7 +104,7 @@ export const useFilterShowsAndEvents = (
           }
         }
       }
-      dispatch(updateShowsAndEvents(filterResults));
+      setShowsAndEvents(filterResults);
     }
   }, [filters, showsAndEvents]);
 
@@ -130,57 +114,45 @@ export const useFilterShowsAndEvents = (
   ) => {
     switch (filterToApply) {
       case 'minPrice': {
-        dispatch(
-          updateShowsAndEventsFilters({
-            ...filters,
-            minPrice: Number(valueToFilter),
-          }),
-        );
+        setFilters({
+          ...filters,
+          minPrice: valueToFilter,
+        });
         break;
       }
       case 'maxPrice': {
-        dispatch(
-          updateShowsAndEventsFilters({
-            ...filters,
-            maxPrice: valueToFilter,
-          }),
-        );
+        setFilters({
+          ...filters,
+          maxPrice: valueToFilter,
+        });
         break;
       }
       case 'minSeats': {
-        dispatch(
-          updateShowsAndEventsFilters({
-            ...filters,
-            minSeats: valueToFilter,
-          }),
-        );
+        setFilters({
+          ...filters,
+          minSeats: valueToFilter,
+        });
         break;
       }
       case 'maxSeats': {
-        dispatch(
-          updateShowsAndEventsFilters({
-            ...filters,
-            maxSeats: valueToFilter,
-          }),
-        );
+        setFilters({
+          ...filters,
+          maxSeats: valueToFilter,
+        });
         break;
       }
       case 'minDistance': {
-        dispatch(
-          updateShowsAndEventsFilters({
-            ...filters,
-            minDistance: valueToFilter,
-          }),
-        );
+        setFilters({
+          ...filters,
+          minDistance: valueToFilter,
+        });
         break;
       }
       case 'maxDistance': {
-        dispatch(
-          updateShowsAndEventsFilters({
-            ...filters,
-            maxDistance: valueToFilter,
-          }),
-        );
+        setFilters({
+          ...filters,
+          maxDistance: valueToFilter,
+        });
         break;
       }
       default:

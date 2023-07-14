@@ -9,7 +9,6 @@ import ResultCard from './ResultCard/ResultCard';
 
 import PriceDisplay from '../PriceDisplay/PriceDisplay';
 import ShowAndEventsFilterFormDesktop from './ShowAndEventsFilterFormDesktop';
-import { ShowsSearchResponse as iShowAndEventsResult } from '../../types/response/ShowsSearchResponse';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import classnames from 'classnames';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
@@ -24,11 +23,10 @@ const RESULTS_PER_PAGE = 10;
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import { EmptyState } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
-import { useSelector } from 'react-redux';
 import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
-
 import VerticalSkeletonCard from 'components/global/VerticalItemCard/VerticalSkeletonCard';
 import ShowAndEventsResultMapView from './ShowAndEventsResultMapView/ShowAndEventsResultMapView';
+import { useSearchFilterStore } from 'hooks/showsAndEvents/useSearchFilterStore';
 interface ShowsResultsDisplayProps {
   ShowsCategory: CategoryOption;
 }
@@ -52,9 +50,10 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     query,
   } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
-  const { filteredShowsAndEvents } = useSelector(
-    ({ showsAndEvents }: any) => showsAndEvents,
+  const filteredShowsAndEvents = useSearchFilterStore(
+    (state) => state.showsAndEvents,
   );
+
   const [sortedShowsEvents, setSortedShowsEvents] = useState<SearchItem[]>([]);
   const [sortBy, setSortBy] = useState<any>(SORT_BY_OPTIONS?.[0].value || '');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -98,10 +97,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
 
   const lowestPriceItems = useMemo(() => {
     return [...filteredShowsAndEvents].sort(
-      (
-        { rate: rate1 }: iShowAndEventsResult,
-        { rate: rate2 }: iShowAndEventsResult,
-      ) => {
+      ({ rate: rate1 }: SearchItem, { rate: rate2 }: SearchItem) => {
         return rate1.total.net.amount - rate2.total.net.amount;
       },
     );
@@ -109,10 +105,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
 
   const HighestPriceItems = useMemo(() => {
     return [...filteredShowsAndEvents].sort(
-      (
-        { rate: rate1 }: iShowAndEventsResult,
-        { rate: rate2 }: iShowAndEventsResult,
-      ) => {
+      ({ rate: rate1 }: SearchItem, { rate: rate2 }: SearchItem) => {
         return rate2.total.net.amount - rate1.total.net.amount;
       },
     );
