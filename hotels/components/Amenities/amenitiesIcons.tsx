@@ -52,7 +52,12 @@ import WifiIcon from 'public/icons/assets/amenities/icon_amenities_wifi.svg';
 
 const amenitiesIcons = [
   {
-    options: ['A.C.', 'Air Conditioning'],
+    options: [
+      'A.C.',
+      'Air Conditioning',
+      'Air conditioned',
+      'In-room climate control (heating)',
+    ],
     iconLarge: <AirLargeIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <AirSmallIcon />,
   },
@@ -72,7 +77,13 @@ const amenitiesIcons = [
     iconSmall: <BreakfastSmallIcon />,
   },
   {
-    options: ['Bedsheets provided'],
+    options: [
+      'Bedsheets provided',
+      'Down comforter',
+      'Hypo-allergenic bedding available',
+      'Change of bed sheets (on request)',
+      'Egyptian-cotton sheets',
+    ],
     iconLarge: <BedsheetsProvidedIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <BedsheetsProvidedIcon />,
   },
@@ -97,12 +108,12 @@ const amenitiesIcons = [
     iconSmall: <CoffeeTeaMakerIcon />,
   },
   {
-    options: ['Daily housekeeping'],
+    options: ['Daily housekeeping', 'Housekeeping on request'],
     iconLarge: <DailyHousekeepingIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <DailyHousekeepingIcon />,
   },
   {
-    options: ['Designer toiletries'],
+    options: ['Designer toiletries', 'Eco-friendly toiletries'],
     iconLarge: <EcoFriendlyToiletriesIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <EcoFriendlyToiletriesIcon />,
   },
@@ -117,12 +128,21 @@ const amenitiesIcons = [
     iconSmall: <FreeBreakfastIcon />,
   },
   {
-    options: ['Free cribs/infant beds'],
+    options: [
+      'Free cribs/infant beds',
+      'Cribs/infant beds (surcharge)',
+      'No cribs (infant beds)',
+    ],
     iconLarge: <FreeCribsIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <FreeCribsIcon />,
   },
   {
-    options: ['Free Local Calls'],
+    options: [
+      'Free Local Calls',
+      'Telephone accessibility kit',
+      'Phone',
+      'Telephone accessibility kit',
+    ],
     iconLarge: <FreeLocalCallsIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <FreeLocalCallsIcon />,
   },
@@ -142,7 +162,12 @@ const amenitiesIcons = [
     iconSmall: <HairDryerIcon />,
   },
   {
-    options: ['High Speed Internet', 'Free wired internet'],
+    options: [
+      'High Speed Internet',
+      'Free wired internet',
+      'High-speed internet access',
+      'Internet access (complimentary)',
+    ],
     iconLarge: <HighSpeedInternetIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <HighSpeedInternetIcon />,
   },
@@ -160,7 +185,11 @@ const amenitiesIcons = [
     iconSmall: <InRoomClimateControlIcon />,
   },
   {
-    options: ['In Room Safe', 'In-room safe'],
+    options: [
+      'In Room Safe',
+      'In-room safe',
+      'In-room safe (laptop compatible)',
+    ],
     iconLarge: <InRoomSafeIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <InRoomSafeIcon />,
   },
@@ -175,7 +204,7 @@ const amenitiesIcons = [
     iconSmall: <IroningBoardIcon />,
   },
   {
-    options: ['King Bed'],
+    options: ['King Bed', 'Pillowtop mattress', 'Premium bedding'],
     iconLarge: <KingBedSmallIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <KingBedSmallIcon />,
   },
@@ -185,7 +214,7 @@ const amenitiesIcons = [
     iconSmall: <LaundryIcon />,
   },
   {
-    options: ['Non Smoking', 'Non-Smoking'],
+    options: ['Non Smoking', 'Non-Smoking', 'Smoking and Non-Smoking'],
     iconLarge: <NonSmokingIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <NonSmokingIcon />,
   },
@@ -195,7 +224,7 @@ const amenitiesIcons = [
     iconSmall: <PayMoviesIcon />,
   },
   {
-    options: ['Pet Friendly', 'Pet-friendly room'],
+    options: ['Pet Friendly', 'Pet-friendly room', 'Pets allowed'],
     iconLarge: <PetFriendlyIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <PetIcon />,
   },
@@ -205,22 +234,40 @@ const amenitiesIcons = [
     iconSmall: <PoolIcon />,
   },
   {
-    options: ['Private Bathroom'],
+    options: [
+      'Private Bathroom',
+      'Bathtub only',
+      'Bathtub or shower',
+      'Deep soaking bathtub',
+      'Portable shower seat',
+      'Roll-in shower',
+      'Accessible bathtub',
+    ],
     iconLarge: <PrivateBathroomIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <PrivateBathroomIcon />,
   },
   {
-    options: ['Refrigerator'],
+    options: [
+      'Refrigerator',
+      'Mini-fridge',
+      'Refrigerator (surcharge)',
+      'Refrigerator (on request)',
+    ],
     iconLarge: <RefrigeratorIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <RefrigeratorIcon />,
   },
   {
-    options: ['Restaurant'],
+    options: ['Restaurant', 'Kitchen'],
     iconLarge: <RestaurantIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <RestaurantIcon />,
   },
   {
-    options: ['Rollaway Extra Beds'],
+    options: [
+      'Rollaway Extra Beds',
+      'No rollaway/extra beds',
+      'Rollaway/extra beds (free)',
+      'Rollaway/extra beds (surcharge)',
+    ],
     iconLarge: <RollawayExtraBedsIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <RollawayExtraBedsIcon />,
   },
@@ -230,12 +277,16 @@ const amenitiesIcons = [
     iconSmall: <RoomOnlyIcon />,
   },
   {
-    options: ['Room Service'],
+    options: [
+      'Room Service',
+      'Room service (24 hours)',
+      'Room service (limited hours)',
+    ],
     iconLarge: <RoomServiceIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <RoomServiceIcon />,
   },
   {
-    options: ['Sauna'],
+    options: ['Sauna', 'Shower/tub combination'],
     iconLarge: <SaunaIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <SaunaIcon />,
   },
@@ -245,7 +296,23 @@ const amenitiesIcons = [
     iconSmall: <SpaIcon />,
   },
   {
-    options: ['Television', 'HDTV'],
+    options: [
+      'Television',
+      'HDTV',
+      'Cable/satellite TV service',
+      'Closed captioned TV',
+      'LED TV',
+      'Digital TV service',
+      'LCD TV',
+      'Plasma TV',
+      'Satellite TV service',
+      'Smart TV',
+      'TV size: 40',
+      'TV size: 42',
+      'TV size: 55',
+      'TV size: 60',
+      'TV size: 70',
+    ],
     iconLarge: <TelevisionIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <TelevisionIcon />,
   },
@@ -255,17 +322,35 @@ const amenitiesIcons = [
     iconSmall: <TVSizeMeasurementIcon />,
   },
   {
-    options: ['Towels Provided', 'Free toiletries'],
+    options: [
+      'Towels Provided',
+      'Free toiletries',
+      'Change of towels (on request)',
+    ],
     iconLarge: <TowelsProvidedIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <TowelsProvidedIcon />,
   },
   {
-    options: ['TV size measurement', 'TV size', 'TV size measurement: inch'],
+    options: [
+      'TV size measurement',
+      'TV size',
+      'TV size measurement: inch',
+      'TV size: 32',
+      'TV size: 50',
+    ],
     iconLarge: <TVSizeIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <TVSizeIcon />,
   },
   {
-    options: ['WiFi', 'Wi-Fi'],
+    options: [
+      'WiFi',
+      'Wi-Fi',
+      'Free WiFi',
+      'WiFi (surcharge)',
+      'WiFi speed - 25+ Mbps',
+      'Wireless internet access',
+      'WiFi speed - 50+ Mbps',
+    ],
     iconLarge: <WifiLargeIcon className="h-12 w-12 mx-auto" />,
     iconSmall: <WifiIcon />,
   },

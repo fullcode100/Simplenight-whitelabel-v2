@@ -12,7 +12,6 @@ import AmenitiesModal from 'hotels/components/Amenities/AmenitiesModal';
 import { useTranslation } from 'react-i18next';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import PriceDisplay from 'hotels/components/PriceDisplay/PriceDisplay';
-import AmenitiesDefaultIcon from 'public/icons/assets/amenities/default.svg';
 
 interface RoomsProps {
   room: Room;
@@ -58,11 +57,6 @@ const RoomCard = ({
 
   const NIGHT_TEXT = usePlural(nights, tNight, tNights);
 
-  const AmenityDefaultIcon = {
-    iconLarge: <AmenitiesDefaultIcon className="w-12 h-12 mx-auto" />,
-    iconSmall: <AmenitiesDefaultIcon />,
-  };
-
   const FallbackImage = () => (
     <section
       className="min-w-[45%] min-h-[300px] block"
@@ -75,41 +69,47 @@ const RoomCard = ({
     />
   );
 
-  const Amenities = () => (
-    <section>
-      {amenities?.length > 0 && (
-        <>
-          <section className="flex flex-col gap-2 p-4">
-            {amenities.map((amenity, index) => {
-              const icon = amenitiesIcons.find((amenityOption) => {
-                return amenityOption.options.some(
-                  (amenityKeyword) =>
-                    amenityKeyword.toLowerCase().trim() ==
-                    amenity.toLowerCase().trim(),
-                );
-              });
-              const amenityIcon = icon ? icon : AmenityDefaultIcon;
-              if (index <= 2) {
-                return (
-                  <AmenitiesItem
-                    key={amenity}
-                    view="list"
-                    text={amenity}
-                    icon={amenityIcon && amenityIcon.iconSmall}
-                  />
-                );
-              }
-            })}
-            <AmenitiesModal
-              showAmenitiesModal={showAmenitiesModal}
-              onClose={() => setShowAmenitiesModal(false)}
-              amenities={amenities}
-            />
-          </section>
-        </>
-      )}
-    </section>
-  );
+  const Amenities = () => {
+    let availableIconCounter = 0;
+    return (
+      <section>
+        {amenities?.length > 0 && (
+          <>
+            <section className="flex flex-col gap-2 p-4">
+              {amenities.map((amenity) => {
+                const icon = amenitiesIcons.find((amenityOption) => {
+                  return amenityOption.options.some(
+                    (amenityKeyword) =>
+                      amenityKeyword.toLowerCase().trim() ==
+                      amenity.toLowerCase().trim(),
+                  );
+                });
+                const amenityIcon = icon ? icon : null;
+                if (amenityIcon) {
+                  availableIconCounter += 1;
+                  if (availableIconCounter <= 3) {
+                    return (
+                      <AmenitiesItem
+                        key={amenity}
+                        view="list"
+                        text={amenity}
+                        icon={amenityIcon && amenityIcon.iconSmall}
+                      />
+                    );
+                  }
+                }
+              })}
+              <AmenitiesModal
+                showAmenitiesModal={showAmenitiesModal}
+                onClose={() => setShowAmenitiesModal(false)}
+                amenities={amenities}
+              />
+            </section>
+          </>
+        )}
+      </section>
+    );
+  };
 
   const Price = () => (
     <section className="flex-col justify-end w-full py-4 pr-4">
