@@ -2,5 +2,8 @@
   "forgotPassword": "¿Olvidaste tu contraseña?",
   "dontHaveAccount": "¿No tienes una cuenta?",
   "signUp": "Registrate",
-  "logIn": "Log In"
+  "logIn": "Log In",
+  "alreadyHaveAnAccount": "Ya tienes una cuenta?",
+  "validationEmail": "Correo electronico de validacion enviada a ",
+  "validationMessage": "Se envió un correo electrónico de validación a su dirección de correo electrónico, tenga en cuenta que el enlace del correo electrónico de verificación caducará en 24 horas."
 }

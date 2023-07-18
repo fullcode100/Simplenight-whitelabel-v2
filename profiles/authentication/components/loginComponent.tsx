@@ -1,26 +1,36 @@
-import { ExternalLink, SectionTitle } from '@simplenight/ui';
+import { SectionTitle } from '@simplenight/ui';
 import Button from 'components/global/Button/Button';
-import FormSchema from 'components/global/FormSchema/FormSchema';
 import { useTranslation } from 'react-i18next';
-import { login } from '../../core/services/AuthClientService';
 import React, { useState } from 'react';
-import Loader from '../../../components/global/Loader/Loader';
+import { Controller, useForm } from 'react-hook-form';
+import { CustomPassword } from '../../../components/global/FormSchema/CustomFields';
+import BaseInput from '../../../components/global/Input/BaseInput';
+import { IAuthComponent } from '..';
+import { TextTemplate } from '../../../components/global/FormSchema/FormTemplates';
 
 interface FormData {
   email: string;
   password: string;
 }
 
-interface iLogin {
-  closeModal: () => void;
-}
-
-const Login = ({ closeModal }: iLogin) => {
+const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
   const [t, i18n] = useTranslation('profiles');
   const [loading, setLoading] = useState(false);
 
+  const {
+    formState: { errors },
+    control,
+    handleSubmit,
+  } = useForm<FormData>({
+    mode: 'all',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
   const mockSchema = {
-    travelers_form_schema: {
+    login_form_schema: {
       type: 'object',
       required: ['password', 'email'],
       properties: {
@@ -28,17 +38,15 @@ const Login = ({ closeModal }: iLogin) => {
           type: 'string',
           title: 'Email',
           format: 'email',
-          hideRequired: true,
         },
         password: {
           type: 'string',
           title: 'Password',
           format: 'password',
-          hideRequired: true,
         },
       },
     },
-    travel_form_ui_schema: {
+    login_form_ui_schema: {
       email: {
         'ui:placeholder': 'Email',
         classNames: 'col-span-2',
@@ -50,49 +58,102 @@ const Login = ({ closeModal }: iLogin) => {
     },
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-      const values: FormData = data.formData;
-      await login(values, i18n);
+      // await login(values, i18n);
+      closeModal();
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
-      closeModal();
     }
   };
 
   return (
     <section className="flex h-full flex-col justify-between">
-      <section className="mt-4">
-        <SectionTitle title={t('logIn', 'Log In')} displayIcon={false} />
-      </section>
       <section>
-        <FormSchema
-          schema={mockSchema.travelers_form_schema}
-          uiSchema={mockSchema.travel_form_ui_schema}
-          onSubmit={onSubmit}
-        >
-          <section className="flex justify-end mt-3">
-            <ExternalLink className="underline" href="/">
-              {t('forgotPassword', 'Forgot Your Password?')}
-            </ExternalLink>
-          </section>
-
-          {loading && <Loader></Loader>}
-          {!loading && (
-            <Button
-              value={t('logIn', 'Log In')}
-              size="large"
-              className="w-full py-3 my-5"
-            />
+        <section className="mt-4 mb-8">
+          <SectionTitle title={t('logIn', 'Log In')} displayIcon={false} />
+        </section>
+        <Controller
+          name={'email'}
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: 'This field is required',
+            },
+          }}
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <TextTemplate label={'Email'} className={'mb-6'}>
+              <BaseInput
+                value={value}
+                onChange={onChange}
+                errorMessage={error?.message}
+              />
+            </TextTemplate>
           )}
-        </FormSchema>
+        />
+        <Controller
+          name={'password'}
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: 'Este campo es requerido',
+            },
+          }}
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <TextTemplate label={'Password'}>
+              <CustomPassword
+                value={value}
+                onChange={onChange}
+                errorMessage={error?.message}
+              />
+            </TextTemplate>
+          )}
+        />
+
+        {!loading && (
+          <Button
+            value={t('logIn', 'Log In')}
+            size="large"
+            className="w-full py-3 my-5"
+            onClick={handleSubmit(onSubmit)}
+          />
+        )}
+        {/*
+          <FormSchema
+            schema={mockSchema.login_form_schema}
+            uiSchema={mockSchema.login_form_ui_schema}
+            onSubmit={onSubmit}
+          >
+            <section className="flex justify-end mt-3">
+              <ExternalLink className="underline" href="/">
+                {t('forgotPassword', 'Forgot Your Password?')}
+              </ExternalLink>
+            </section>
+
+            {loading && <Loader></Loader>}
+            {!loading && (
+              <Button
+                value={t('logIn', 'Log In')}
+                size="large"
+                className="w-full py-3 my-5"
+              />
+            )}
+          </FormSchema>
+        */}
       </section>
       <section className="flex justify-center">
-        {t('dontHaveAccount', "Don't have an account?")}
-        <ExternalLink className="underline !text-primary-1000" href="/">
+        {t('dontHaveAccount', "Don't have an account?")}&nbsp;
+        <a
+          className="text-xs font-semibold underline text-primary-1000 hover:text-primary-600"
+          onClick={() => changeAuthType('signUp')}
+        >
           {t('signUp', 'Sign Up')}
-        </ExternalLink>
+        </a>
       </section>
     </section>
   );

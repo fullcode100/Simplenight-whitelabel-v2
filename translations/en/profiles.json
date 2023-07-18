@@ -2,5 +2,8 @@
   "forgotPassword": "Forgot Your Password?",
   "dontHaveAccount": "Don't have an account?",
   "signUp": "Sing Up",
-  "logIn": "Log In"
+  "logIn": "Log In",
+  "alreadyHaveAnAccount": "Already have an account?",
+  "validationEmail": "Validation email sent to ",
+  "validationMessage": "A validation email was sent to your email address, please note that the verification email link will expire in 24 hours."
 }

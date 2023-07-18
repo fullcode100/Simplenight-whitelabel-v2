@@ -1,5 +1,5 @@
 import PickupPoint from 'components/global/PickupPoint/PickupPoint';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Combobox from '../Combobox/Combobox';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import BaseInput from '../Input/BaseInput';
@@ -37,8 +37,17 @@ export const CustomText = (props: any) => {
   );
 };
 
-export const CustomEmail = (props: any) => {
-  const { value, onChange, placeholder, required, id, schema } = props;
+export const CustomEmailSchema = (props: any) => {
+  const {
+    value,
+    onChange,
+    placeholder,
+    required,
+    id,
+    schema,
+    defaultValue,
+    errorMessage,
+  } = props;
   let currentPlaceHolder = placeholder;
   const [t] = useTranslation('hotels');
   if (placeholder == 'Name') {
@@ -53,18 +62,19 @@ export const CustomEmail = (props: any) => {
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={currentPlaceHolder}
-      defaultValue={schema.default}
+      defaultValue={schema?.default || defaultValue}
       {...{
         required,
         id,
         maxlength: schema?.maxLength,
       }}
+      errorMessage={errorMessage}
     />
   );
 };
 
 export const CustomPassword = (props: any) => {
-  const { value, onChange, placeholder, required, id, schema } = props;
+  const { value, onChange, placeholder, required, id, errorMessage } = props;
   let currentPlaceHolder = placeholder;
   const [t] = useTranslation('global');
   if (placeholder == 'Password') {
@@ -80,16 +90,14 @@ export const CustomPassword = (props: any) => {
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={currentPlaceHolder}
-        defaultValue={schema.default}
         {...{
           required,
           id,
-          maxlength: schema?.maxLength,
         }}
-      />
-      <EyeIcon
-        onClick={() => setShowText(!showText)}
-        className="absolute flex self-center mt-2 right-3"
+        errorMessage={errorMessage}
+        rightIcon={
+          <EyeIcon className="absolute flex self-center mt-2 right-3" />
+        }
       />
     </section>
   );

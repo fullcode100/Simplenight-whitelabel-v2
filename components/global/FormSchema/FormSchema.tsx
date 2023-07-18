@@ -9,7 +9,7 @@ import {
   CustomPickupPoint,
   CustomSelect,
   CustomText,
-  CustomEmail,
+  CustomEmailSchema,
   CustomTextArea,
   CustomToggle,
   CustomTimeSelect,
@@ -37,7 +37,7 @@ interface FormSchemaProps {
 const CustomFieldTemplate = (props: any) => {
   const { id, classNames, help, errors, schema } = props;
   const Component = useMemo(() => {
-    switch (schema) {
+    switch (schema.type) {
       case 'boolean':
         return CheckBoxTemplate;
       case 'string':
@@ -59,7 +59,7 @@ const CustomFieldTemplate = (props: any) => {
 const widgets = {
   CheckboxWidget: CustomCheckbox,
   TextWidget: CustomText,
-  EmailWidget: CustomEmail,
+  EmailWidget: CustomEmailSchema,
   TextareaWidget: CustomTextArea,
   SelectWidget: CustomSelect,
   ToggleWidget: CustomToggle,

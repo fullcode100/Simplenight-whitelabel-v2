@@ -23,7 +23,7 @@ export abstract class ServerRequesterAuth<Response> {
     try {
       await setSession(req);
       applySimplenightApiKey(req, res);
-      const axios = createServerAxiosInstance(req);
+      const axios = createServerAxiosInstance(req, { useLang: false });
 
       const [request, response] = this.preRequest(req, res);
 

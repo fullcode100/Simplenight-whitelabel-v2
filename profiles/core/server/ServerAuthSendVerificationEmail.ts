@@ -3,26 +3,23 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ServerRequesterAuth } from '../../../core/server/ServerRequesterAuth';
 import { LoginServerResponse } from '../types/response/LoginServerResponse';
-import { LoginServerRequest } from '../types/request/LoginServerRequest';
 
-export class ServerAuthLogin extends ServerRequesterAuth<LoginServerResponse> {
+export class ServerAuthSendVerificationEmail extends ServerRequesterAuth<null> {
   public constructor() {
     super({
-      name: 'AuthLogin',
-      value: 'AuthLogin',
+      name: 'ServerAuthSendVerificationEmail',
+      value: 'ServerAuthSendVerificationEmail',
     });
   }
 
   protected override doRequest(
     request: NextApiRequest,
-    response: NextApiResponse<LoginServerResponse>,
+    response: NextApiResponse<null>,
     axios: AxiosInstance,
-  ): Promise<AxiosResponse<LoginServerResponse>> {
-    const body: LoginServerRequest = request.body;
-
-    const loginUrl = '/auth/login';
+  ): Promise<AxiosResponse<null>> {
+    const loginUrl = '/auth/send-verification-email';
 
     const url = applyApiAuthUrlV1(loginUrl);
-    return axios.post<LoginServerResponse>(url, body);
+    return axios.post<null>(url);
   }
 }

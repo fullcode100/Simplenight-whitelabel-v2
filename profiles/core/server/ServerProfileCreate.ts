@@ -2,27 +2,27 @@ import { applyApiAuthUrlV1 } from '../../../apiCalls/config/responseHelpers';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ServerRequesterAuth } from '../../../core/server/ServerRequesterAuth';
-import { LoginServerResponse } from '../types/response/LoginServerResponse';
+import { SignUpServerResponse } from '../types/response/SignUpServerResponse';
 import { LoginServerRequest } from '../types/request/LoginServerRequest';
 
-export class ServerAuthLogin extends ServerRequesterAuth<LoginServerResponse> {
+export class ServerProfileCreate extends ServerRequesterAuth<SignUpServerResponse> {
   public constructor() {
     super({
-      name: 'AuthLogin',
-      value: 'AuthLogin',
+      name: 'ServerProfileCreate',
+      value: 'ServerProfileCreate',
     });
   }
 
   protected override doRequest(
     request: NextApiRequest,
-    response: NextApiResponse<LoginServerResponse>,
+    response: NextApiResponse<SignUpServerResponse>,
     axios: AxiosInstance,
-  ): Promise<AxiosResponse<LoginServerResponse>> {
+  ): Promise<AxiosResponse<SignUpServerResponse>> {
     const body: LoginServerRequest = request.body;
 
-    const loginUrl = '/auth/login';
+    const loginUrl = '/profile';
 
     const url = applyApiAuthUrlV1(loginUrl);
-    return axios.post<LoginServerResponse>(url, body);
+    return axios.post<SignUpServerResponse>(url, body);
   }
 }

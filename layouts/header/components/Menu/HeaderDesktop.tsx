@@ -16,12 +16,14 @@ import { useSettings } from 'hooks/services/useSettings';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
 import { IconWrapper } from '@simplenight/ui';
 import { IconContainer } from 'components/global/ComingSoon/IconContainer';
+import { useState } from 'react';
+import { iAuthModalType } from 'profiles/authentication';
 
 interface HeaderDesktopProps {
   color?: string;
   cartQty?: number;
   onOpen: () => void;
-  openAuth?: () => void;
+  openAuth?: (value: iAuthModalType) => void;
 }
 
 interface CustomLinkProps {
@@ -37,6 +39,7 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
   const currentCurrency = getCurrency();
   const { isBog } = useBog();
   const showCart = hasCartMode();
+  const [showAuthMenu, setShowAuthMenu] = useState(false);
 
   const orderLookupText = tg('orderLookup', 'Order Lookup');
   const { language } = i18n;
@@ -61,6 +64,45 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
         </span>
       </a>
     </Link>
+  );
+
+  const handleSelectAuhtModal = (authModalType: iAuthModalType) => {
+    setShowAuthMenu(!showAuthMenu);
+    openAuth && openAuth(authModalType);
+  };
+
+  const AuthMenu = () => (
+    <section className="relative">
+      <section
+        className={`bg-white top-full right-2 absolute z-10 border border-dark-300 rounded shadow-container w-[150px] transition-all duration-500 text-dark-1000 ${
+          !showAuthMenu ? 'hidden' : ''
+        }`}
+      >
+        <button
+          className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
+          onClick={() => handleSelectAuhtModal('login')}
+        >
+          Log in
+        </button>
+        <button
+          className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
+          onClick={() => handleSelectAuhtModal('signUp')}
+        >
+          Sign Up
+        </button>
+      </section>
+      <section>
+        <button
+          className="flex items-center justify-center border border-gray-300 rounded-3xl h-8 w-8 "
+          onClick={() => setShowAuthMenu(!showAuthMenu)}
+        >
+          <PersonIcon
+            className="text-white w-4 h-4 mb-1"
+            onClick={() => setShowAuthMenu(!showAuthMenu)}
+          />
+        </button>
+      </section>
+    </section>
   );
   return (
     <>
@@ -114,9 +156,10 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
                 <ShoppingCart className="text-white" />
               </button>
             )}
-            <IconWrapper size={12}>
+            <AuthMenu />
+            {/* <IconWrapper size={12}>
               <PersonIcon className="text-white" onClick={openAuth} />
-            </IconWrapper>
+            </IconWrapper> */}
           </section>
         </section>
       </header>

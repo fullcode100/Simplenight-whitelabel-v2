@@ -1,8 +1,10 @@
-import { FC, useRef } from 'react';
+import React, { FC, useRef } from 'react';
 import I18nHOC from '../I18nHOC/I18nHOC';
 import Label from '../Label/Label';
 import classnames from 'classnames';
 import ClearIcon from 'public/icons/assets/clear.svg';
+import InputErrorMessage from '../InputErrorMessage';
+import EyeIcon from '@/icons/assets/eye.svg';
 
 export interface BaseInputProps {
   children?: any;
@@ -25,6 +27,7 @@ export interface BaseInputProps {
   onClear?: () => void;
   defaultValue?: string;
   externalWidth?: boolean;
+  errorMessage?: string;
 }
 
 type InputType = 'text' | 'number' | 'date' | 'select' | 'email' | 'password';
@@ -59,6 +62,7 @@ const BaseInput = ({
   onClear,
   defaultValue,
   externalWidth = false,
+  errorMessage,
   ...others
 }: BaseInputProps & BaseInputHiddenProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -91,8 +95,11 @@ const BaseInput = ({
   );
 
   const CustomInput = customInput;
-  const inputBaseClass =
-    'focus:ring-primary-500 focus:border-primary-500 block w-full h-11 sm:text-sm border-gray-300 rounded';
+  const inputBaseClass = `${
+    errorMessage
+      ? 'focus:ring-error-1000 focus:border-error-1000 border-error-1000'
+      : 'focus:ring-primary-500 focus:border-primary-500 border-gray-300'
+  } block w-full h-11 sm:text-sm rounded`;
   const inputDynamicClass = classnames(
     `${inputBaseClass} ${inputClassName} ${internalInputClassName}`,
     {
@@ -138,6 +145,9 @@ const BaseInput = ({
         {rightIcon}
         {!!clearable && !!value && <ClearButton onClick={onClear} />}
       </div>
+      {errorMessage && (
+        <InputErrorMessage message={errorMessage}></InputErrorMessage>
+      )}
     </div>
   );
 };
