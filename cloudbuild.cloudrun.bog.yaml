@@ -44,7 +44,7 @@ steps:
       - '--update-secrets=GA4_TRACKING_ID=GA4_TRACKING_ID:latest'
       - '--update-secrets=NEXT_PUBLIC_GOOGLE_MAP_KEY=NEXT_PUBLIC_GOOGLE_MAP_KEY:latest'
       - '--update-secrets=NEXT_ENCRYPT_KEY=NEXT_ENCRYPT_KEY:latest'
-      - '--update-secrets=X_API_KEY=X_API_KEY:latest'
+      # - '--update-secrets=X_API_KEY=X_API_KEY:latest'
 images:
   - 'gcr.io/$PROJECT_ID/sn-bog-v2-${_ENV}:$BUILD_ID'
 options:
