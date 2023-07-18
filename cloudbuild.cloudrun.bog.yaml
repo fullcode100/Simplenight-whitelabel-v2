@@ -51,7 +51,6 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _ENV: dev
-  _GA4_TRACKING_ID: 'AW-711765415'
   _NEXT_PUBLIC_ADMIN_ENDPOINT_URL: 'https://dev-admin.simplenight.com/client'
   _NEXT_PUBLIC_ADMIN_TOKEN: ''
   _NEXT_PUBLIC_AUTH_API_URL_V1: 'https://dev-api.auth.simplenight.com/v1'
