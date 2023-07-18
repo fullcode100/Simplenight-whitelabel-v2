@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { updateCart } from 'core/client/services/CartClientService';
-import { getCurrency } from 'store/selectors/core';
-import { setCurrency } from 'store/actions/core';
 import classnames from 'classnames';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 const CurrencySelect = () => {
   const [t, i18n] = useTranslation();
-  const currentCurrency = getCurrency();
-  const dispatch = useDispatch();
+  const { setCurrency, currency } = useCoreStore((state) => state);
+  const currentCurrency = currency;
   const currencies = ['USD', 'EUR'];
   let cartId: string;
 
@@ -22,7 +20,7 @@ const CurrencySelect = () => {
     try {
       const data = { currency };
       await updateCart(data, cartId, i18n);
-      dispatch(setCurrency(currency));
+      setCurrency(currency);
     } catch (error) {
       return error;
     }

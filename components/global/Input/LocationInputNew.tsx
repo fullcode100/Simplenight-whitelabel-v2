@@ -2,7 +2,6 @@ import { FC, useState } from 'react';
 import { latLngProp } from '../../../types/search/Geolocation';
 import { BaseInputProps } from './BaseInput';
 import useQuery from '../../../hooks/pageInteraction/useQuery';
-import { getIsMapLoaded } from '../../../store/selectors/core';
 import { useTranslation } from 'react-i18next';
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -13,6 +12,7 @@ import CloseIcon from '@/icons/assets/close.svg';
 import IconInput from './IconInput';
 import LocationPin from '@/icons/assets/location-pin.svg';
 import classnames from 'classnames';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 interface LocationInputProps {
   icon: any;
@@ -40,7 +40,7 @@ export const LocationInput: FC<LocationInputProps & BaseInputProps> = ({
   const [address, setAddress] = useState<string | undefined>(
     param ? decodeURIComponent(param as string) : '',
   );
-  const isMapLoaded = getIsMapLoaded();
+  const isMapsLoaded = useCoreStore((state) => state.isMapsLoaded);
 
   const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
@@ -80,7 +80,7 @@ export const LocationInput: FC<LocationInputProps & BaseInputProps> = ({
 
   return (
     <>
-      {isMapLoaded && (
+      {isMapsLoaded && (
         <PlacesAutocomplete
           value={address}
           onChange={handleChange}

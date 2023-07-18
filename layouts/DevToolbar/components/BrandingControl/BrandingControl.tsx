@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'components/global/Button/Button';
 import Popover from 'components/global/Popover/Popover';
 import { BrandColorSelector } from './components/PrimaryColorSelector';
-import { CoreTheme } from 'types/redux/CoreState';
+import { CoreTheme } from 'types/core/store/CoreState';
 import { useSettings } from 'hooks/services/useSettings';
 
 const BrandingControl = () => {

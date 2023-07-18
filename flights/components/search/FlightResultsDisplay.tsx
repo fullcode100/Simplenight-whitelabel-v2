@@ -32,13 +32,13 @@ import {
   FlightItem,
   FlightResponse,
 } from 'flights/types/response/FlightSearchResponseMS';
-import { useSelector } from 'react-redux';
 import HorizontalSkeletonCard from './HorizontalItemCard/HorizontalSkeletonCard';
 import FiltersIcon from 'public/icons/assets/filters.svg';
 import FlightSecondarySearchOptions from './FlightSecondarySearchOptions';
 import FlightFilterFormDesktop from './FlightFilterFormDesktop';
 import moment from 'moment';
 import { formatDate } from 'flights/utils';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 declare let window: CustomWindow;
 
@@ -106,8 +106,7 @@ const FlightResultsDisplay = ({
   const [flightsFiltered, setFlightsFiltered] = useState<FlightItem[]>([]);
   const [flightsSearched, setFlightsSearched] = useState<FlightItem[]>([]);
 
-  const [currency, setCurrency] = useState<string>(window.currency);
-  const storeCurrency = useSelector((state: any) => state.core.currency);
+  const currency = useCoreStore((state) => state.currency);
 
   const { slug } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
@@ -190,10 +189,6 @@ const FlightResultsDisplay = ({
       isFiltersOpen: queryFilter?.isFiltersOpen ? '' : 'true',
     });
   };
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
 
   useEffect(() => {
     if (data) {

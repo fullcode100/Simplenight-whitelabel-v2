@@ -14,12 +14,12 @@ import ContinueShopping from '../components/itinerary/ContinueShopping/ContinueS
 import classnames from 'classnames';
 import Loader from 'components/global/Loader/Loader';
 import HelpSection from '../components/global/HelpSection/HelpSection';
-import { getCurrency } from 'store/selectors/core';
 import { Itinerary as ItineraryIcon } from '@simplenight/ui';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import useMediaViewport from '../hooks/media/useMediaViewport';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
 import { useRouter } from 'next/router';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 const Itinerary: NextPage = () => {
   const [cart, setCart] = useState<CartObjectResponse | undefined>(undefined);
@@ -31,7 +31,7 @@ const Itinerary: NextPage = () => {
   const itineraryText = t('itineraryEmpty', 'Add Something To Your Itinerary!');
   const footerContainerRef = useRef(null);
   const [staticFooter, setStaticFooter] = useState(false);
-  const currency = getCurrency();
+  const currency = useCoreStore((state) => state.currency);
   const showItinerary = hasCartMode();
 
   const { refetch } = useReactQuery(['get-cart']);

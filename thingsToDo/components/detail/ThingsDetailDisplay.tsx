@@ -37,7 +37,6 @@ import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { ThingsDetailRequest } from 'thingsToDo/types/request/ThingsDetailRequest';
 import { ThingsAvailabilityRequest } from 'thingsToDo/types/request/ThingsAvailabilityRequest';
-import { getCurrency } from 'store/selectors/core';
 import CheckThingsAvailability from '../CheckAvailability/CheckAvailability';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { useQuerySetterNotReload } from 'hooks/pageInteraction/useQuerySetter';
@@ -58,6 +57,7 @@ import {
 } from 'thingsToDo/types/adapters/TicketAvailability';
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import RatingSection from '../RatingSection/RatingSection';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 type ThingsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -107,7 +107,7 @@ const ThingsDetailDisplay = ({ Category }: ThingsDetailDisplayProps) => {
   const [tickets, setTickets] = useState<TicketAvailability[]>([]);
   const [schedule, setSchedule] = useState<ThingsScheduleDetail[]>([]);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
-  const currentCurrency = getCurrency();
+  const currentCurrency = useCoreStore((state) => state.currency);
   const setQueryParam = useQuerySetterNotReload();
 
   const { id, startDate, endDate, slug, mainCategory } = useQuery();

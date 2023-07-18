@@ -9,13 +9,12 @@ import classnames from 'classnames';
 import PriceBreakdown from '../PriceBreakdown/PriceBreakdown';
 import TicketActions from './TicketActions';
 import { formatAsExactHour } from 'helpers/dajjsUtils';
-import { getCurrency } from 'store/selectors/core';
 import { Location } from 'thingsToDo/types/response/ThingsDetailResponse';
 import DurationLabel from '../DurationLabel/DurationLabel';
 import { TicketAvailability } from 'thingsToDo/types/adapters/TicketAvailability';
 import { use } from 'i18next';
 import { CartItemRequest } from 'types/cart/CartType';
-import { useSelector } from 'react-redux';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 const PICKUP_QUESTION_ID = 'PICKUP_POINT';
 const MEETING_QUESTION_ID = 'MEETING_POINT';
@@ -65,7 +64,7 @@ const TicketCard = ({
 
   const [itemToBook, setItemToBook] = useState<CartItemRequest | undefined>();
 
-  const currency = useSelector((state: any) => state.core.currency);
+  const currency = useCoreStore((state) => state.currency);
 
   const addToCartRequest = () => {
     const time = formatAsExactHour(selectedTime);

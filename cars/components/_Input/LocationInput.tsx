@@ -11,10 +11,8 @@ import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useState } from 'react';
-import { getIsMapLoaded } from 'store/selectors/core';
-import { setIsMapsLoaded } from 'store/actions/core';
-import { useDispatch } from 'react-redux';
 import Script from 'next/script';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 interface LocationInputProps {
   icon: any;
@@ -41,7 +39,7 @@ const LocationInput = ({
         ? params[routeParams[0]]?.toString()
         : '';
   const [address, setAddress] = useState(defaultAddress);
-  const isMapLoaded = getIsMapLoaded();
+  const { isMapsLoaded, setIsMapsLoaded } = useCoreStore((state) => state);
 
   const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
@@ -74,10 +72,8 @@ const LocationInput = ({
     'Pick your destination',
   );
 
-  const dispatch = useDispatch();
-
   const handleMapsLoaded = () => {
-    dispatch(setIsMapsLoaded(true));
+    setIsMapsLoaded(true);
   };
 
   const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
@@ -89,7 +85,7 @@ const LocationInput = ({
         src={`https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&libraries=places`}
         strategy="lazyOnload"
       />
-      {isMapLoaded && (
+      {isMapsLoaded && (
         <PlacesAutocomplete
           value={address}
           onChange={handleChange}

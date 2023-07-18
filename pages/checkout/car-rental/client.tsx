@@ -17,7 +17,6 @@ import Loader from '../../../components/global/Loader/Loader';
 import { deepCopy } from 'helpers/objectUtils';
 import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
-import { getCurrency } from 'store/selectors/core';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import { useCustomer } from 'hooks/checkout/useCustomer';
@@ -26,6 +25,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useCheckoutFormSchema } from 'hooks/schemas/useCheckoutFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 interface LayoutProps {
   children: ReactNode;
@@ -53,7 +53,7 @@ const Client = () => {
     state.updateCustomer,
   ]);
 
-  const currency = getCurrency();
+  const currency = useCoreStore((state) => state.currency);
 
   let itemsForm: any[] | undefined = [];
   let hasAdditionalRequests = false;

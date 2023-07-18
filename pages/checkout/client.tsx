@@ -20,7 +20,6 @@ import { IChangeEvent } from '@rjsf/core';
 import { ClientCartCustomerUpdater } from 'core/client/ClientCartCustomerUpdater';
 import { AddCustomerRequest } from 'types/checkout/AddCustomerRequest';
 import CheckoutSummary from 'components/checkout/CheckoutSummary/CheckoutSummary';
-import { getCurrency } from 'store/selectors/core';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import FullScreenModal from 'components/global/NewModal/FullScreenModal';
 import {
@@ -35,6 +34,7 @@ import ClientForm from 'components/checkout/ClientForm/ClientForm';
 import countryList from 'country-list';
 import { useGA4 } from 'hooks/ga4/useGA4';
 import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 interface LayoutProps {
   children: ReactNode;
@@ -61,7 +61,7 @@ const Client = () => {
     state.updateCustomer,
   ]);
 
-  const currency = getCurrency();
+  const currency = useCoreStore((state) => state.currency);
 
   const bookingAnswerData: any = useRef({}).current;
   let itemsForm: any[] | undefined = [];

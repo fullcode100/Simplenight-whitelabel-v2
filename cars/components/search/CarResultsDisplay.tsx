@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import CarMapView from './CarResultsMapView';
 import { haveKeyword } from 'helpers/stringUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
-import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import CarItemRateInfo from './CarItemRateInfo';
 import classnames from 'classnames';
@@ -41,6 +40,7 @@ import { EmptyState, IconWrapper } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
 import { defaultDriverAge } from './CarSearchForm';
 import { useCarsStore } from 'hooks/cars/useCarsStore';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 declare let window: CustomWindow;
 
@@ -103,8 +103,7 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   };
 
   const [carsFiltered, setCarsFiltered] = useState<Car[]>([]);
-  const [currency, setCurrency] = useState<string>(window.currency);
-  const storeCurrency = useSelector((state: any) => state.core.currency);
+  const currency = useCoreStore((state) => state.currency);
 
   const geolocation = `${latitude},${longitude}`;
   const geolocation2 = `${latitude2},${longitude2}`;
@@ -160,10 +159,6 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     maxPrice,
     currency,
   ]);
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
 
   const filterCars = (_cars: Car[]) => {
     const _carsFiltered: Car[] = [];

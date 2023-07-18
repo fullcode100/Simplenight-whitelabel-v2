@@ -2,9 +2,6 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 import FlightSearchForm from 'flights/components/search/FlightSearchForm';
 
-import flightReducer from './redux/reducer';
-import flightActions from './redux/actions';
-
 import BedFillGray from 'public/icons/categories/BedFillGray.svg';
 import FlightResultsDisplay from 'flights/components/search/FlightResultsDisplay';
 import FlightItineraryDisplay from './components/itinerary/FlightItineraryDisplay';
@@ -35,10 +32,6 @@ const Category: CategoryOption = {
   name: FLIGHT_CATEGORY,
   value: FLIGHT_CATEGORY,
   icon: <FlightsIcon categoryName={FLIGHT_CATEGORY} className={'h-5 w-5'} />,
-  store: {
-    reducer: flightReducer,
-    actions: flightActions,
-  },
   selectedIcon: <BedFillGray />,
   searchForm: <FlightSearchForm />,
   secondarySearchOptions: <FlightSecondarySearchOptions />,

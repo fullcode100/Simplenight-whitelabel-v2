@@ -1,16 +1,14 @@
+import { useCoreStore } from 'hooks/core/useCoreStore';
 import Script from 'next/script';
 import React from 'react';
-
-import { setIsMapsLoaded } from 'store/actions/core';
-import { useDispatch } from 'react-redux';
 
 // TODO: Use NEXT_PUBLIC_GOOGLE_MAP_KEY when added in the deployment
 const MAPS_API_KEY = 'AIzaSyB_rHUVDeYtUuQ3fEuuBdmfgVnGuXUnVeU';
 
 const GoogleServices = () => {
-  const dispatch = useDispatch();
+  const setIsMapsLoaded = useCoreStore((state) => state.setIsMapsLoaded);
   const handleMapsLoaded = () => {
-    dispatch(setIsMapsLoaded(true));
+    setIsMapsLoaded(true);
   };
   return (
     <>

@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import Button from 'components/global/Button/Button';
 import SearchCategoryForm from '../components/global/SearchCategoryForm/SearchCategoryForm';
 import HelpSection from 'components/global/HelpSection/HelpSection';
-import { getHomepageScrollHandler } from '../store/selectors/core';
 import { NextPageWithLayout } from 'types/layout/pageTypes';
 import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import { Container, OrderLookupIcon } from '@simplenight/ui';
@@ -18,6 +17,7 @@ import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import useMediaViewport from 'hooks/media/useMediaViewport';
 import Image from 'next/image';
 import { checkDemo } from 'helpers/urlUtils';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 const UpperSectionBackground = ({ children }: { children?: ReactNode }) => {
   const { data: brandConfig } = useSettings();
@@ -60,7 +60,9 @@ const Home: NextPageWithLayout = () => {
   const goToOrderLookup = t('goToOrderLookup', 'Go to Order Lookup');
 
   const mainRef = useRef<HTMLDivElement>(null);
-  const homepageScrollHandler = getHomepageScrollHandler();
+  const homepageScrollHandler = useCoreStore(
+    (state) => state.homepageScrollHandler,
+  );
 
   const categoriesTabs = useCategories();
   // const [activeTab, setActiveTab] = useState<Tab>(categoriesTabs?.[0]);

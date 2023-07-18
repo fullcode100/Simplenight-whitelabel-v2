@@ -9,7 +9,6 @@ import HorizontalTabs from 'components/global/Tabs/HorizontalTabs';
 import ImageCarousel from 'components/global/CarouselNew/ImageCarousel';
 import { useSearchQueries } from 'hotels/hooks/useSearchQueries';
 import { CategoryPageComponentProps } from 'types/global/CategoryPageComponent';
-import { useSelector } from 'react-redux';
 import { DiningDetailPreRequest } from 'dining/types/request/DiningDetailRequest';
 import {
   DiningSearchResponse,
@@ -37,6 +36,7 @@ import { Item } from 'types/cart/CartType';
 import DiningOpenTimes from './DiningOpenTimes';
 import SectionTitle from 'components/global/SectionTitleIcon/SectionTitle';
 import dayjs from 'dayjs';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 type DiningDetailDisplayProps = CategoryPageComponentProps;
 
@@ -45,9 +45,8 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
   const params = useQuery();
   const { startDate, endDate } = useSearchQueries();
   const { id, time: defaultTime, covers: defaultCovers } = params;
-  const storeCurrency = useSelector((state: any) => state.core.currency);
+  const currency = useCoreStore((state) => state.currency);
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
-  const [currency, setCurrency] = useState<string>(storeCurrency);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedDate, setSelectedDate] = useState<string>(startDate);
   const [time, setTime] = useState<string>('');
@@ -107,11 +106,6 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
 
     return acum;
   }, [] as WeekDaysAvailability);
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storeCurrency]);
 
   useEffect(() => {
     const params: DiningDetailPreRequest = {

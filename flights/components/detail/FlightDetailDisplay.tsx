@@ -32,7 +32,6 @@ import {
 import dayjs from 'dayjs';
 import IconRoundedContainer from 'components/global/IconRoundedContainer/IconRoundedContainer';
 import InformationIcon from 'public/icons/assets/information.svg';
-import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
@@ -41,6 +40,7 @@ import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStat
 import { EmptyState } from '@simplenight/ui';
 import FlightRoomAvailabilityForm from '../search/FlightRoomAvailabilityForm';
 import RoomSectionTitle from '../Rooms/components/RoomsSectionTitle';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
@@ -89,12 +89,7 @@ const FlightDetailDisplay = ({ Category }: FlightDetailDisplayProps) => {
   const toLabel = tg('to', 'to');
   const noResultsLabel = t('noResultsSearch', 'No Results Match Your Search.');
 
-  const storeCurrency = useSelector((state: any) => state.core.currency);
-  const [currency, setCurrency] = useState<string>(storeCurrency);
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
+  const currency = useCoreStore((state) => state.currency);
 
   useEffect(() => {
     const occupancy: Occupancy = {

@@ -8,7 +8,6 @@ import LanguageSelect from 'components/global/LanguageSelect/LanguageSelect';
 import ButtonDropdown from './ButtonDropdown';
 import CurrencySelect from 'components/global/CurrencySelect/CurrencySelect';
 import { useTranslation } from 'react-i18next';
-import { getCurrency } from 'store/selectors/core';
 import useBog from 'hooks/bog/useBog';
 import SearchIcon from 'public/icons/assets/Search.svg';
 import PersonIcon from 'public/icons/assets/person.svg';
@@ -36,7 +35,6 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
   const { images } = brandConfig;
   const { logo } = images || {};
   const [tg, i18n] = useTranslation('global');
-  const currentCurrency = getCurrency();
   const { isBog } = useBog();
   const showCart = hasCartMode();
   const [showAuthMenu, setShowAuthMenu] = useState(false);

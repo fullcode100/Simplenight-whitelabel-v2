@@ -11,8 +11,8 @@ import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import { useState } from 'react';
-import { getIsMapLoaded } from 'store/selectors/core';
 import { decodeAddressQueryParam } from '../../../hotels/helpers/urlHelper';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 interface LocationInputProps {
   icon: any;
@@ -36,7 +36,7 @@ const LocationInput = ({
   const [address, setAddress] = useState<string | undefined>(
     param ? decodeAddressQueryParam(param as string) : '',
   );
-  const isMapLoaded = getIsMapLoaded();
+  const isMapsLoaded = useCoreStore((state) => state.isMapsLoaded);
 
   const [t, i18next] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
@@ -71,7 +71,7 @@ const LocationInput = ({
 
   return (
     <>
-      {isMapLoaded && (
+      {isMapsLoaded && (
         <PlacesAutocomplete
           value={address}
           onChange={handleChange}

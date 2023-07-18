@@ -23,7 +23,6 @@ import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../components/global/Loader/Loader';
 import ExternalLink from 'components/global/ExternalLink/ExternalLink';
-import { getCurrency } from 'store/selectors/core';
 import useCookies from 'hooks/localStorage/useCookies';
 import PaymentCart from '../../components/checkout/PaymentCart/PaymentCart';
 import HelpSection from 'components/global/HelpSection/HelpSection';
@@ -39,6 +38,7 @@ import { FormField, TextInput } from '@simplenight/ui';
 import { useCustomer } from 'hooks/checkout/useCustomer';
 import { useGA4 } from 'hooks/ga4/useGA4';
 import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
@@ -100,7 +100,7 @@ const Payment = () => {
     bookItem(data);
   };
 
-  const currency = getCurrency();
+  const currency = useCoreStore((state) => state.currency);
 
   const [cart, setCart] = useState<CartObjectResponse | null>(null);
   const [customer] = useCustomer((state) => [state.customer]);

@@ -10,10 +10,8 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 import { latLngProp } from 'types/search/Geolocation';
 import classnames from 'classnames';
 import { useEffect } from 'react';
-import { getIsMapLoaded } from 'store/selectors/core';
-import { setIsMapsLoaded } from 'store/actions/core';
-import { useDispatch } from 'react-redux';
 import Script from 'next/script';
+import { useCoreStore } from 'hooks/core/useCoreStore';
 
 interface LocationInputProps {
   icon: any;
@@ -37,7 +35,7 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
   setAddressValue,
   ...others
 }) => {
-  const isMapLoaded = getIsMapLoaded();
+  const isMapsLoaded = useCoreStore((state) => state.isMapsLoaded);
 
   const [t] = useTranslation('global');
   const loadingMessage = t('loading', 'Loading');
@@ -71,7 +69,7 @@ const LocationInput: React.FC<LocationInputProps & BaseInputProps> = ({
 
   return (
     <>
-      {isMapLoaded && (
+      {isMapsLoaded && (
         <PlacesAutocomplete
           value={addressValue}
           onChange={handleChange}
