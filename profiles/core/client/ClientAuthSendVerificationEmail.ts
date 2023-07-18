@@ -18,7 +18,7 @@ export class ClientAuthSendVerificationEmail extends ClientRequester<
   ): Promise<AxiosResponse<null, any>> {
     const url = 'auth/sendVerificationEmail';
     return axios.post(url, {
-      token: request,
+      email: request,
     });
   }
 }

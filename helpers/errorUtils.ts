@@ -50,12 +50,7 @@ export const getValidatorErrorMessage = (statusCode: string) => {
 };
 
 export const handleError = (error: any) => {
-  const { errors, message: serverMessage } = error.data as unknown as {
-    errors: ClientResponseError[];
-    message?: string;
-  };
-  if (serverMessage) {
-    notification('Error', serverMessage, 'error', 4000);
+  if (error.status === 401) {
     return;
   }
   const title =
@@ -66,7 +61,9 @@ export const handleError = (error: any) => {
     getValidatorErrorMessage(error.status) !== ''
       ? getValidatorErrorMessage(error.status)
       : 'Unknown Error';
-
+  const { errors } = error.data as unknown as {
+    errors: ClientResponseError[];
+  };
   console.warn(title);
-  notification(title, serverMessage || message, 'error', 4000);
+  notification(title, message, 'error', 4000);
 };

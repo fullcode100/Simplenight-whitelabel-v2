@@ -8,9 +8,12 @@ const SESSION_TOKEN = 'token';
 export const login = async (loginData: LoginServerRequest, i18next: i18n) => {
   const authLogin = new ClientAuthLogin();
   const data = await authLogin.request(loginData, i18next);
-  sessionStorage.setItem(SESSION_TOKEN, data.tokens.access.token);
+  loginWithToken(data.tokens.access.token);
 };
 
+export const loginWithToken = (token: string) => {
+  sessionStorage.setItem(SESSION_TOKEN, token);
+};
 export const sendVerificationEmail = async (email: string, i18next: i18n) => {
   const client = new ClientAuthSendVerificationEmail();
   await client.request(email, i18next);

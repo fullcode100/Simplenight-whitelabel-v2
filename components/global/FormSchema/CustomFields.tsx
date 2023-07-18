@@ -96,7 +96,14 @@ export const CustomPassword = (props: any) => {
         }}
         errorMessage={errorMessage}
         rightIcon={
-          <EyeIcon className="absolute flex self-center mt-2 right-3" />
+          <div
+            className={
+              'flex h-full flex-col flex-1 justify-center pl-2 pr-2 cursor-pointer'
+            }
+            onClick={() => setShowText(!showText)}
+          >
+            <EyeIcon className="flex self-center" />
+          </div>
         }
       />
     </section>

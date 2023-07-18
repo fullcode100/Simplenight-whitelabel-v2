@@ -3,8 +3,7 @@ import I18nHOC from '../I18nHOC/I18nHOC';
 import Label from '../Label/Label';
 import classnames from 'classnames';
 import ClearIcon from 'public/icons/assets/clear.svg';
-import InputErrorMessage from '../InputErrorMessage';
-import EyeIcon from '@/icons/assets/eye.svg';
+import ErrorMessage from '../ErrorMessage';
 
 export interface BaseInputProps {
   children?: any;
@@ -140,14 +139,14 @@ const BaseInput = ({
       <Label value={label} htmlFor={name} />
       <div className="relative mt-2">
         {children}
-        {leftIcon}
-        {Input}
-        {rightIcon}
+        <div className="relative">
+          {leftIcon}
+          <div className={'h-full absolute right-0'}>{rightIcon}</div>
+          {Input}
+        </div>
         {!!clearable && !!value && <ClearButton onClick={onClear} />}
       </div>
-      {errorMessage && (
-        <InputErrorMessage message={errorMessage}></InputErrorMessage>
-      )}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
     </div>
   );
 };

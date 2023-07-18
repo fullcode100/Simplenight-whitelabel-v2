@@ -1,12 +1,19 @@
 import { SectionTitle } from '@simplenight/ui';
 import Button from 'components/global/Button/Button';
-import FormSchema from 'components/global/FormSchema/FormSchema';
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
-import Loader from '../../../components/global/Loader/Loader';
 import { signUp } from '../../core/services/ProfileClientService';
 import { IAuthComponent } from '..';
 import { sendVerificationEmail } from '../../core/services/AuthClientService';
+import { Controller, useForm } from 'react-hook-form';
+import { TextTemplate } from '../../../components/global/FormSchema/FormTemplates';
+import BaseInput from '../../../components/global/Input/BaseInput';
+import DividerSpace from '../../../components/global/Divider/DividerSpace';
+import { CustomPassword } from '../../../components/global/FormSchema/CustomFields';
+import ErrorMessage from '../../../components/global/ErrorMessage';
+import { EmailRegex } from '../../../validations';
+import Loader from 'components/global/Loader/Loader';
+import FormsLoader from '../../../components/global/Loader/FormsLoader';
 
 interface FormData {
   email: string;
@@ -17,63 +24,23 @@ interface FormData {
 
 const SignUp = ({ changeAuthType }: IAuthComponent) => {
   const [t, i18n] = useTranslation('profiles');
+  const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
-
-  const mockSchema = {
-    travelers_form_schema: {
-      type: 'object',
-      required: ['password', 'email'],
-      properties: {
-        email: {
-          type: 'string',
-          title: 'Email',
-          format: 'email',
-          hideRequired: true,
-        },
-        firstName: {
-          type: 'string',
-          title: 'First Name',
-          format: 'text',
-          hideRequired: true,
-        },
-        lastName: {
-          type: 'string',
-          title: 'Last Name',
-          format: 'text',
-          hideRequired: true,
-        },
-        password: {
-          type: 'string',
-          title: 'Password',
-          format: 'password',
-          hideRequired: true,
-        },
-      },
+  const [errorMessage, setErrorMessage] = useState('');
+  const { control, handleSubmit } = useForm<FormData>({
+    mode: 'all',
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
     },
-    travel_form_ui_schema: {
-      email: {
-        'ui:placeholder': 'Email',
-        classNames: 'col-span-2',
-      },
-      firstName: {
-        'ui:placeholder': 'First Name',
-        classNames: 'col-span-2',
-      },
-      lastName: {
-        'ui:placeholder': 'Last Name',
-        classNames: 'col-span-2',
-      },
-      password: {
-        'ui:placeholder': 'Password',
-        classNames: 'col-span-2',
-      },
-    },
-  };
+  });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (values: FormData) => {
     try {
       setLoading(true);
-      const values: FormData = data.formData;
+      setErrorMessage('');
       await signUp(
         {
           email: values.email,
@@ -85,8 +52,10 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
       );
       await sendVerificationEmail(values.email, i18n);
       changeAuthType('emailConfirmation');
-    } catch (e) {
-      console.error(e);
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        setErrorMessage(error?.response?.data?.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -97,27 +66,104 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
       <section className="mt-4">
         <SectionTitle title={t('signUp', 'Sign Up')} displayIcon={false} />
       </section>
-      <section>
-        <FormSchema
-          schema={mockSchema.travelers_form_schema}
-          uiSchema={mockSchema.travel_form_ui_schema}
-          onSubmit={onSubmit}
-        >
-          <section className="flex mt-3">
-            {/* <ExternalLink className="underline" href="/"> */}
-            {t('PasswordRules', 'Must contain at least 5 caracters')}
-            {/* </ExternalLink> */}
-          </section>
-
-          {loading && <Loader></Loader>}
-          {!loading && (
-            <Button
-              value={t('signUp', 'Sign Up')}
-              size="large"
-              className="w-full py-3 my-5"
-            />
+      <section className={'pt-5'}>
+        <Controller
+          name={'email'}
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: g('required', 'Required'),
+            },
+            pattern: {
+              value: EmailRegex,
+              message: g('emailInvalid', 'Invalid Email'),
+            },
+          }}
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <TextTemplate label={'Email'} className={'mb-6'}>
+              <BaseInput
+                value={value}
+                onChange={onChange}
+                errorMessage={error?.message}
+                placeholder={'Email'}
+              />
+            </TextTemplate>
           )}
-        </FormSchema>
+        />
+        <DividerSpace />
+        <Controller
+          name={'firstName'}
+          control={control}
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <TextTemplate label={'First Name'} className={'mb-6'}>
+              <BaseInput
+                value={value}
+                onChange={onChange}
+                errorMessage={error?.message}
+                placeholder={'First Name'}
+              />
+            </TextTemplate>
+          )}
+        />
+        <DividerSpace />
+        <Controller
+          name={'lastName'}
+          control={control}
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <TextTemplate label={'Last Name'} className={'mb-6'}>
+              <BaseInput
+                value={value}
+                onChange={onChange}
+                errorMessage={error?.message}
+                placeholder={'Last Name'}
+              />
+            </TextTemplate>
+          )}
+        />
+        <DividerSpace />
+        <Controller
+          name={'password'}
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: g('required', 'Required'),
+            },
+            minLength: {
+              value: 5,
+              message: g(
+                'passwordMinLength',
+                'Must contain at least 5 characters',
+              ),
+            },
+          }}
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <TextTemplate label={'Password'}>
+              <CustomPassword
+                value={value}
+                onChange={onChange}
+                errorMessage={error?.message}
+                placeholder={'Password'}
+              />
+            </TextTemplate>
+          )}
+        />
+        <div className={'pt-2 text-gray-400'}>
+          Must contain at least 5 characters
+        </div>
+        <ErrorMessage message={errorMessage} />
+        <DividerSpace />
+
+        {!loading && (
+          <Button
+            value={t('signUp', 'Sign Up')}
+            size="large"
+            className="w-full py-3 my-5"
+            onClick={handleSubmit(onSubmit)}
+          />
+        )}
+        {loading && <FormsLoader size={'medium'}></FormsLoader>}
       </section>
       <section className="flex justify-center">
         {t('alreadyHaveAnAccount', 'Already have an account?')}&nbsp;

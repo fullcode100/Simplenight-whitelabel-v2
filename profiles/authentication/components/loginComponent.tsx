@@ -1,13 +1,16 @@
 import { SectionTitle } from '@simplenight/ui';
 import Button from 'components/global/Button/Button';
 import { useTranslation } from 'react-i18next';
+import { login } from '../../core/services/AuthClientService';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { CustomPassword } from '../../../components/global/FormSchema/CustomFields';
 import BaseInput from '../../../components/global/Input/BaseInput';
 import { IAuthComponent } from '..';
 import { TextTemplate } from '../../../components/global/FormSchema/FormTemplates';
-import { login } from '../../core/services/AuthClientService';
+import DividerSpace from '../../../components/global/Divider/DividerSpace';
+import ErrorMessage from '../../../components/global/ErrorMessage';
+import FormsLoader from '../../../components/global/Loader/FormsLoader';
 
 interface FormData {
   email: string;
@@ -16,13 +19,11 @@ interface FormData {
 
 const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
   const [t, i18n] = useTranslation('profiles');
+  const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const {
-    formState: { errors },
-    control,
-    handleSubmit,
-  } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<FormData>({
     mode: 'all',
     defaultValues: {
       email: '',
@@ -30,42 +31,16 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
     },
   });
 
-  const mockSchema = {
-    login_form_schema: {
-      type: 'object',
-      required: ['password', 'email'],
-      properties: {
-        email: {
-          type: 'string',
-          title: 'Email',
-          format: 'email',
-        },
-        password: {
-          type: 'string',
-          title: 'Password',
-          format: 'password',
-        },
-      },
-    },
-    login_form_ui_schema: {
-      email: {
-        'ui:placeholder': 'Email',
-        classNames: 'col-span-2',
-      },
-      password: {
-        'ui:placeholder': 'Password',
-        classNames: 'col-span-2',
-      },
-    },
-  };
-
   const onSubmit = async (data: FormData) => {
     try {
+      setErrorMessage('');
       setLoading(true);
       await login(data, i18n);
       closeModal();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        setErrorMessage(error?.response?.data?.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -83,7 +58,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
           rules={{
             required: {
               value: true,
-              message: 'This field is required',
+              message: g('required', 'Required'),
             },
           }}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
@@ -92,17 +67,19 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
                 value={value}
                 onChange={onChange}
                 errorMessage={error?.message}
+                placeholder={'Email'}
               />
             </TextTemplate>
           )}
         />
+        <DividerSpace />
         <Controller
           name={'password'}
           control={control}
           rules={{
             required: {
               value: true,
-              message: 'Este campo es requerido',
+              message: g('required', 'Required'),
             },
           }}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
@@ -111,11 +88,13 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
                 value={value}
                 onChange={onChange}
                 errorMessage={error?.message}
+                placeholder={'Password'}
               />
             </TextTemplate>
           )}
         />
-
+        <ErrorMessage message={errorMessage} />
+        <DividerSpace />
         {!loading && (
           <Button
             value={t('logIn', 'Log In')}
@@ -124,28 +103,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
             onClick={handleSubmit(onSubmit)}
           />
         )}
-        {/*
-          <FormSchema
-            schema={mockSchema.login_form_schema}
-            uiSchema={mockSchema.login_form_ui_schema}
-            onSubmit={onSubmit}
-          >
-            <section className="flex justify-end mt-3">
-              <ExternalLink className="underline" href="/">
-                {t('forgotPassword', 'Forgot Your Password?')}
-              </ExternalLink>
-            </section>
-
-            {loading && <Loader></Loader>}
-            {!loading && (
-              <Button
-                value={t('logIn', 'Log In')}
-                size="large"
-                className="w-full py-3 my-5"
-              />
-            )}
-          </FormSchema>
-        */}
+        {loading && <FormsLoader size={'medium'}></FormsLoader>}
       </section>
       <section className="flex justify-center">
         {t('dontHaveAccount', "Don't have an account?")}&nbsp;

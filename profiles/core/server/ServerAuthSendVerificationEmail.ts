@@ -2,7 +2,6 @@ import { applyApiAuthUrlV1 } from '../../../apiCalls/config/responseHelpers';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ServerRequesterAuth } from '../../../core/server/ServerRequesterAuth';
-import { LoginServerResponse } from '../types/response/LoginServerResponse';
 
 export class ServerAuthSendVerificationEmail extends ServerRequesterAuth<null> {
   public constructor() {
@@ -17,9 +16,10 @@ export class ServerAuthSendVerificationEmail extends ServerRequesterAuth<null> {
     response: NextApiResponse<null>,
     axios: AxiosInstance,
   ): Promise<AxiosResponse<null>> {
+    const body = request.body;
     const loginUrl = '/auth/send-verification-email';
 
     const url = applyApiAuthUrlV1(loginUrl);
-    return axios.post<null>(url);
+    return axios.post<null>(url, body);
   }
 }
