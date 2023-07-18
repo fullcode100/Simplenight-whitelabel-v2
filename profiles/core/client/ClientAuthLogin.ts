@@ -1,12 +1,12 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { ClientRequester } from '../../../core/client/ClientRequester';
-import { LoginRequest } from '../types/request/loginRequest';
 import { LoginServerResponse } from '../types/response/LoginServerResponse';
+import { LoginServerRequest } from '../types/request/LoginServerRequest';
 
 export class ClientAuthLogin extends ClientRequester<
-  LoginRequest,
+  LoginServerRequest,
   LoginServerResponse,
-  LoginRequest
+  LoginServerRequest
 > {
   constructor() {
     super({
@@ -15,7 +15,7 @@ export class ClientAuthLogin extends ClientRequester<
     });
   }
   protected override doRequest(
-    request: LoginRequest,
+    request: LoginServerRequest,
     axios: AxiosInstance,
   ): Promise<AxiosResponse<LoginServerResponse, any>> {
     const url = 'auth/login';

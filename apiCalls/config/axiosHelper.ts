@@ -18,6 +18,7 @@ import { handleError } from 'helpers/errorUtils';
 import curlirize from 'axios-curlirize';
 
 const X_SESSION = 'x-session';
+const TOKEN = 'token';
 
 export const selectApiUrl = (originUrl?: string) => {
   const hostLevels = getFormattedLevels(originUrl);
@@ -78,10 +79,17 @@ export const axiosServerI18nInterceptor =
     return config;
   };
 
-export const createServerAxiosInstance = (req: any) => {
+interface CreateServerAxiosInstanceOptions {
+  useLang: boolean;
+}
+export const createServerAxiosInstance = (
+  req: any,
+  options: CreateServerAxiosInstanceOptions = { useLang: true },
+) => {
   const apiHeader = getSimplenightApiKey(req);
   const language = req.headers['accept-language'];
   const currency = req.headers.currency;
+  const authorization = req.headers.authorization;
 
   const axiosInstance = axios.create({
     headers: {
@@ -89,6 +97,7 @@ export const createServerAxiosInstance = (req: any) => {
       'Accept-Encoding': 'gzip, deflate, br',
       [apiHeader.header]: apiHeader.key,
       'X-API-KEY': apiHeader.key,
+      authorization: authorization,
     },
   });
 
@@ -99,11 +108,12 @@ export const createServerAxiosInstance = (req: any) => {
       console.log(`Request curl: ${curl}`);
     }
   });
-
-  axiosInstance.interceptors.request.use(
-    axiosServerI18nInterceptor(language),
-    (error) => Promise.reject(error),
-  );
+  if (options.useLang) {
+    axiosInstance.interceptors.request.use(
+      axiosServerI18nInterceptor(language),
+      (error) => Promise.reject(error),
+    );
+  }
 
   axiosInstance.interceptors.request.use(
     axiosServerCurrencyInterceptor(currency),
@@ -123,12 +133,14 @@ export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
   const Window = tryGetWindow();
   const sessionkey = getSessionKey();
   const zone = localStorage.getItem('timezone');
+  const token = sessionStorage.getItem(TOKEN);
   const axiosInstance = axios.create({
     baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
     headers: {
       'Content-Type': 'application/json',
       'x-session': sessionkey,
       timezone: zone ? zone : '',
+      Authorization: token ? `Bearer ${token}` : '',
     },
   });
 
