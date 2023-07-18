@@ -109,6 +109,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
     roomsData,
     supplierIds,
     slug,
+    address,
   } = useQuery();
 
   const [hotels, setHotels] = useState<SearchItem[]>([]);
@@ -266,7 +267,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
 
   const urlDetail = (hotel: SearchItem) => {
     const { id } = hotel;
-    return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}`;
+    return `/detail/${slug}/${id}?adults=${adults}&children=${children}&startDate=${startDate}&endDate=${endDate}&geolocation=${latitude},${longitude}&rooms=${rooms}&roomsData=${roomsData}&address=${address}`;
   };
   const hasNoHotels = data?.length === 0;
 

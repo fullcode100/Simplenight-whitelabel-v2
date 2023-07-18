@@ -51,6 +51,7 @@ import { useGA4 } from 'hooks/ga4/useGA4';
 import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
 import HotelSearchForm from '../search/HotelSearchForm';
 import { NEW_SEARCH_DATE_FORMAT } from 'helpers/dajjsUtils';
+import HotelBackButton from '../detail/HotelBackButton';
 
 type HotelDetailDisplayProps = CategoryPageComponentProps;
 type FetchHotel = () => Promise<DetailItem>;
@@ -396,14 +397,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
       <header className="flex flex-col w-full  pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
-        <section
-          className="flex gap-2 bg-dark-200 py-4 font-lato text-sm text-dark-1000"
-          onClick={handleGoBack}
-        >
-          <section className="ml-4">
-            <BackArrow className="text-xl text-dark-1000" />
-          </section>
-          <section>{backToHotelsLabel}</section>
+        <section className="flex gap-2 bg-dark-200 font-lato text-sm text-dark-1000">
+          <HotelBackButton backLabel={backToHotelsLabel} />
         </section>
         <section className="flex items-center px-4 justify-between h-12">
           <OccupancyAndDatesSection />
@@ -458,6 +453,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
                 nights={nights}
                 guests={guests}
                 roomsQty={roomsQty}
+                backLabel={backToHotelsLabel}
               />
             </section>
           </section>
