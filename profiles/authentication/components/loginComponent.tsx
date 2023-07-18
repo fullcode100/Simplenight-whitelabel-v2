@@ -7,6 +7,7 @@ import { CustomPassword } from '../../../components/global/FormSchema/CustomFiel
 import BaseInput from '../../../components/global/Input/BaseInput';
 import { IAuthComponent } from '..';
 import { TextTemplate } from '../../../components/global/FormSchema/FormTemplates';
+import { login } from '../../core/services/AuthClientService';
 
 interface FormData {
   email: string;
@@ -61,7 +62,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-      // await login(values, i18n);
+      await login(data, i18n);
       closeModal();
     } catch (error) {
       console.error(error);
