@@ -239,5 +239,9 @@
   "last_name": "Apellido",
   "date_of_birth": "Fecha De Nacimiento",
   "gender": "Género",
-  "selected": "Seleccionados"
+  "selected": "Seleccionados",
+  "enterValidEmailAddress": "Por favor, introduce una dirección de correo electrónico válida.",
+  "enterValidPassword": "Please enter a valid password.",
+  "50maxCharacters": "50 es el número máximo de caracteres permitidos",
+  "8minCharacters": "8 es el número minimo de caracteres permitidos"
 }

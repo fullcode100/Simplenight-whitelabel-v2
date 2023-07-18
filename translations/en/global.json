@@ -205,5 +205,9 @@
   "expiration": "Expiration",
   "25maxCharacters": "25 is the maximum number of characters allowed",
   "needsNameAndLastName": "Please enter the name and last name of the card owner",
-  "selected": "Selected"
+  "selected": "Selected",
+  "enterValidEmailAddress": "Please enter a valid email address.",
+  "enterValidPassword": "Please enter a valid password.",
+  "50maxCharacters": "50 is the maximum number of characters allowed",
+  "8minCharacters": "8 is the minimum number of characters allowed."
 }
