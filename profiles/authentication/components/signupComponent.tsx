@@ -11,8 +11,12 @@ import BaseInput from '../../../components/global/Input/BaseInput';
 import DividerSpace from '../../../components/global/Divider/DividerSpace';
 import { CustomPassword } from '../../../components/global/FormSchema/CustomFields';
 import ErrorMessage from '../../../components/global/ErrorMessage';
-import { EmailRegex } from '../../../validations';
-import Loader from 'components/global/Loader/Loader';
+import {
+  EmailRules,
+  LastNamesRules,
+  NamesRules,
+  PasswordRules,
+} from '../../../validations';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
 
 interface FormData {
@@ -28,7 +32,6 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { control, handleSubmit } = useForm<FormData>({
-    mode: 'all',
     defaultValues: {
       email: '',
       firstName: '',
@@ -70,16 +73,7 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
         <Controller
           name={'email'}
           control={control}
-          rules={{
-            required: {
-              value: true,
-              message: g('required', 'Required'),
-            },
-            pattern: {
-              value: EmailRegex,
-              message: g('emailInvalid', 'Invalid Email'),
-            },
-          }}
+          rules={EmailRules(g)}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <TextTemplate label={'Email'} className={'mb-6'}>
               <BaseInput
@@ -95,6 +89,7 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
         <Controller
           name={'firstName'}
           control={control}
+          rules={NamesRules(t)}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <TextTemplate label={'First Name'} className={'mb-6'}>
               <BaseInput
@@ -110,6 +105,7 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
         <Controller
           name={'lastName'}
           control={control}
+          rules={LastNamesRules(t)}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <TextTemplate label={'Last Name'} className={'mb-6'}>
               <BaseInput
@@ -125,19 +121,7 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
         <Controller
           name={'password'}
           control={control}
-          rules={{
-            required: {
-              value: true,
-              message: g('required', 'Required'),
-            },
-            minLength: {
-              value: 5,
-              message: g(
-                'passwordMinLength',
-                'Must contain at least 5 characters',
-              ),
-            },
-          }}
+          rules={PasswordRules(t)}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <TextTemplate label={'Password'}>
               <CustomPassword
@@ -150,7 +134,7 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
           )}
         />
         <div className={'pt-2 text-gray-400'}>
-          Must contain at least 5 characters
+          Must contain at least 8 characters
         </div>
         <ErrorMessage message={errorMessage} />
         <DividerSpace />

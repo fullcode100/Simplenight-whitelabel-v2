@@ -11,7 +11,7 @@ import { TextTemplate } from '../../../components/global/FormSchema/FormTemplate
 import DividerSpace from '../../../components/global/Divider/DividerSpace';
 import ErrorMessage from '../../../components/global/ErrorMessage';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
-import { EmailRegex } from '../../../validations';
+import { EmailRules, PasswordRules } from '../../../validations';
 
 interface FormData {
   email: string;
@@ -55,29 +55,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
         <Controller
           name={'email'}
           control={control}
-          rules={{
-            required: {
-              value: true,
-              message: g(
-                'enterValidEmailAddress',
-                'Please enter a valid email address.',
-              ),
-            },
-            pattern: {
-              value: EmailRegex,
-              message: g(
-                'enterValidEmailAddress',
-                'Please enter a valid email address.',
-              ),
-            },
-            maxLength: {
-              value: 50,
-              message: g(
-                '50maxCharacters',
-                '50 is the maximum number of characters allowed.',
-              ),
-            },
-          }}
+          rules={EmailRules(g)}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <TextTemplate label={'Email'} className={'mb-6'}>
               <BaseInput
@@ -93,45 +71,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
         <Controller
           name={'password'}
           control={control}
-          rules={{
-            required: {
-              value: true,
-              message: g(
-                'enterValidPassword',
-                'Please enter a valid password.',
-              ),
-            },
-            minLength: {
-              value: 8,
-              message: g(
-                '8minCharacters',
-                '8 is the minimum number of characters allowed.',
-              ),
-            },
-            maxLength: {
-              value: 15,
-              message: g(
-                '15maxCharacters',
-                '15 is the maximum number of characters allowed.',
-              ),
-            },
-            validate: {
-              passwordRegex: (value, { email }) => {
-                const regex =
-                  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{0,}$/;
-                const isValid = regex.test(value);
-                if (!isValid) {
-                  return 'Must have at least 1 capital letter, 1 number, 1 symbol';
-                }
-                for (let index = 0; index < email.length; index++) {
-                  const char = email[index];
-                  if (value.includes(char)) {
-                    return 'Cannot contain same characters as in email';
-                  }
-                }
-              },
-            },
-          }}
+          rules={PasswordRules(g)}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <TextTemplate label={'Password'}>
               <CustomPassword

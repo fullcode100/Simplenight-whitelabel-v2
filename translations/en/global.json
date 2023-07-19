@@ -208,6 +208,10 @@
   "selected": "Selected",
   "enterValidEmailAddress": "Please enter a valid email address.",
   "enterValidPassword": "Please enter a valid password.",
+  "enterValidName": "Please enter a valid Name.",
+  "enterValidLastName": "Please enter a valid Last Name.",
   "50maxCharacters": "50 is the maximum number of characters allowed",
-  "8minCharacters": "8 is the minimum number of characters allowed."
+  "8minCharacters": "8 is the minimum number of characters allowed.",
+  "1minCharacters": "1 is the minimum number of characters allowed.",
+  "fieldRequired": "This field is required"
 }

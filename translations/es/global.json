@@ -243,5 +243,7 @@
   "enterValidEmailAddress": "Por favor, introduce una dirección de correo electrónico válida.",
   "enterValidPassword": "Please enter a valid password.",
   "50maxCharacters": "50 es el número máximo de caracteres permitidos",
-  "8minCharacters": "8 es el número minimo de caracteres permitidos"
+  "8minCharacters": "8 es el número minimo de caracteres permitidos",
+  "1minCharacters": "1 es el número minimo de caracteres permitidos",
+  "fieldRequired": "Este campo es requerido"
 }
