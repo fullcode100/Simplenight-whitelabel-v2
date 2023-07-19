@@ -204,6 +204,7 @@ const Passenger = ({
         }}
         // eslint-disable-next-line react/no-children-prop
         children={label}
+        value={nameInput}
       />
     </section>
   );
