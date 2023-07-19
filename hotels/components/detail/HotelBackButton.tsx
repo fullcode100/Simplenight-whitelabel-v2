@@ -16,7 +16,7 @@ const HotelBackButton: React.FC<HotelBackButtonProps> = ({ backLabel }) => {
     longitude: String(params.geolocation)?.split(',')[LONGITUDE_INDEX] ?? '',
   };
   return (
-    <div className="flex gap-2 md:p-0 mb-7">
+    <div className="flex gap-2 md:p-0 mb-4 mt-4">
       <button
         onClick={() =>
           router.push({ pathname: `/search/${params.slug}`, query })

@@ -27,7 +27,9 @@ const RoomsSection = ({
 }: RoomsProps) => {
   return (
     <section className="mt-6 px-4 lg:mt-12 lg:px-0" ref={ref}>
-      <HotelBackButton backLabel={backLabel} />
+      <div className="hidden md:block">
+        <HotelBackButton backLabel={backLabel} />
+      </div>
       <RoomSectionTitle />
       <section className="hidden lg:block bg-dark-100 p-4 rounded-md my-8">
         <HotelSearchForm />

@@ -396,8 +396,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full  pt-3.5 pb-4 bg-dark-100 sticky top-12 z-10 lg:hidden">
-        <section className="flex gap-2 bg-dark-200 font-lato text-sm text-dark-1000">
+      <header className="flex flex-col w-full  pt-3.5 bg-dark-100 sticky top-12 z-10 lg:hidden">
+        <section className=" bg-dark-200 font-lato text-sm text-dark-1000 lg:hidden">
           <HotelBackButton backLabel={backToHotelsLabel} />
         </section>
         <section className="flex items-center px-4 justify-between h-12">
