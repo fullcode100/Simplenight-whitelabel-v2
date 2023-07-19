@@ -18,6 +18,7 @@ import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { Button } from '@simplenight/ui';
 import Selector from 'components/global/Select/Selector';
 import TabSelector from 'components/global/TabSelector';
+import SortIcon from 'public/icons/assets/sort2.svg';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -380,6 +381,7 @@ const FlightSecondarySearchOptions = () => {
           onChangeSortBy(i);
         }}
         idSelected={sortBy}
+        icon={<SortIcon />}
       />
     </FilterContainer>
   );
