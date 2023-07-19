@@ -17,7 +17,7 @@ const FilterMainContainer = ({ children }: { children?: any }) => (
 );
 
 const FilterContainer = ({ children }: { children?: any }) => (
-  <section className="flex flex-col pr-6 my-6">{children}</section>
+  <section className="flex flex-col pr-6 mb-6">{children}</section>
 );
 
 interface FlightFilterFormDesktopProps {
@@ -40,7 +40,6 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   );
 
   const [t] = useTranslation('flights');
-  const [tg] = useTranslation('flights');
   const SORT_BY_OPTIONS = [
     { id: 'sortByPriceAsc', name: t('sortByPriceAsc') },
     { id: 'sortByPriceDesc', name: t('sortByPriceDesc') },
@@ -50,8 +49,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   const stopText = t('stop', 'Stop');
   const stopsText = t('stops', 'Stops');
   const directText = t('direct', 'Direct');
-  const departureTimesLabel = t('departureTimes', 'Departure Times');
-  const arrivalTimesLabel = t('arrivalTimes', 'Arrival Times');
+  const departureTimesLabel = t('departureTimes', 'Departure Time');
+  const arrivalTimesLabel = t('arrivalTimes', 'Arrival Time');
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
 
@@ -181,7 +180,6 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
 
   const PriceRangeFilter = () => (
     <FilterContainer>
-      <FilterTitle label={priceRangeLabel} />
       <RangeSlider
         initialMin={minPrice ? parseInt(minPrice) : 10}
         initialMax={maxPrice ? parseInt(maxPrice) : 5000}
@@ -295,7 +293,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     const currentStopSelected = queryFilter?.stops || [];
     return stps.map((item) => ({
       id: `${item}`,
-      label: item ? `${item} ${stopsText}` : directText,
+      label: item ? `${item} ${item > 1 ? stopsText : stopText}` : directText,
       selected: currentStopSelected.includes(`${item}`),
     }));
   };
@@ -326,7 +324,6 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
 
   const DepartureTimesRangeFilter = () => (
     <FilterContainer>
-      <FilterTitle label={departureTimesLabel} />
       <TimeRangeSlider
         initialMin={parseInt(departureTimes[0])}
         initialMax={parseInt(departureTimes[1])}
@@ -343,7 +340,6 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
 
   const ArrivalTimesRangeFilter = () => (
     <FilterContainer>
-      <FilterTitle label={arrivalTimesLabel} />
       <TimeRangeSlider
         initialMin={parseInt(arrivalTimes[0])}
         initialMax={parseInt(arrivalTimes[1])}
@@ -359,7 +355,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   );
 
   return (
-    <section className="h-full py-2 overflow-y-scroll">
+    <section className="h-full py-2">
       <FilterHeader />
       <Selector
         options={SORT_BY_OPTIONS}
@@ -375,7 +371,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         initialState={true}
         title={
           <label className="text-[18px] font-semibold text-dark-1000">
-            {tg('price')}
+            {t('price')}
           </label>
         }
         body={<PriceRangeFilter />}
@@ -407,7 +403,11 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
           </label>
         }
         body={
-          <TabSelector options={stopsOptions} onChangeStop={onChangeStop} />
+          <TabSelector
+            options={stopsOptions}
+            onChangeStop={onChangeStop}
+            compat
+          />
         }
       />
       <Divider className="my-6" />

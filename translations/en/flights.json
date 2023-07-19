@@ -110,7 +110,7 @@
   "airlinesAndCities": "Airlines & Cities",
   "departureAndArrival": "Departure & Arrival",
   "allAirlines": "All Airlines",
-  "connectingCities": "Connecting Cities",
+  "connectingCities": "All cities",
   "hide": "Hide",
   "show": "Show",
   "passengers": "Passengers",
@@ -127,5 +127,6 @@
   "male": "Male",
   "female": "Female",
   "findThePerfectFlightForYou": "Find the perfect flight for you",
-  "tripType": "Trip Type"
+  "tripType": "Trip Type",
+  "price": "Price"
 }

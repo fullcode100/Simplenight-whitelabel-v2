@@ -608,7 +608,7 @@ const FlightSearchForm = () => {
               )}
               <section
                 className={
-                  'flex flex-col justify-between lg:flex-row lg:items-end lg:gap-4 lg:pb-0 lg:px-0 mt-4 lg:mt-4'
+                  'flex flex-col justify-between lg:flex-row lg:items-end lg:gap-0 lg:pb-0 lg:px-0 mt-4 lg:mt-4'
                 }
               >
                 <section className="flex flex-col gap-4 lg:flex-row lg:w-[90%] lg:justify-between lg:items-center">
@@ -760,7 +760,11 @@ const FlightSearchForm = () => {
                   </section>
                 ) : (
                   <section className="w-full flex items-center justify-center mt-6 lg:w-[10%]">
-                    <Button key="flights.searchBtn" onClick={handleSearchClick}>
+                    <Button
+                      fullWidth={true}
+                      key="flights.searchBtn"
+                      onClick={handleSearchClick}
+                    >
                       {t('search')}
                     </Button>
                   </section>
