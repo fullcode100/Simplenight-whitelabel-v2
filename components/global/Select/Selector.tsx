@@ -9,6 +9,7 @@ interface SelectProps {
   label?: string;
   onChange?: (value: string) => void;
   idSelected?: string;
+  icon?: React.ReactElement;
 }
 
 const Selector = ({
@@ -16,6 +17,7 @@ const Selector = ({
   label = '',
   onChange,
   idSelected,
+  icon,
 }: // defaultValue,
 SelectProps) => {
   const selected = idSelected
@@ -34,7 +36,8 @@ SelectProps) => {
             {label}
           </Listbox.Label>
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <Listbox.Button className="flex gap-2 relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              {icon}
               <span className="block truncate">{selected?.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon

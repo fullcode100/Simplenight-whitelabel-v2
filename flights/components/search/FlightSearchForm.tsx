@@ -539,7 +539,7 @@ const FlightSearchForm = () => {
       <Collapse isOpened={isOpen}>
         <section
           className={
-            'flex flex-col justify-between px-4 lg:px-0 overflow-y-auto lg:overflow-visible'
+            'flex flex-col justify-between px-2 lg:px-0 overflow-y-auto lg:overflow-visible'
           }
         >
           {!isSearchPage && (

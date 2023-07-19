@@ -12,6 +12,8 @@ import TabSelector from 'components/global/TabSelector';
 import Selector from 'components/global/Select/Selector';
 import Divider from 'components/global/Divider/Divider';
 
+import SortIcon from 'public/icons/assets/sort2.svg';
+
 const FilterMainContainer = ({ children }: { children?: any }) => (
   <section className="flex flex-col pr-6 mt-20 mb-6">{children}</section>
 );
@@ -40,6 +42,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   );
 
   const [t] = useTranslation('flights');
+  const [tg] = useTranslation('global');
+
   const SORT_BY_OPTIONS = [
     { id: 'sortByPriceAsc', name: t('sortByPriceAsc') },
     { id: 'sortByPriceDesc', name: t('sortByPriceDesc') },
@@ -365,13 +369,14 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         idSelected={
           queryFilter?.sortBy ? queryFilter.sortBy.toString() : 'sortByPriceAsc'
         }
+        icon={<SortIcon />}
       />
       <Divider className="my-6" />
       <CollapseUnbordered
         initialState={true}
         title={
           <label className="text-[18px] font-semibold text-dark-1000">
-            {t('price')}
+            {tg('price')}
           </label>
         }
         body={<PriceRangeFilter />}
