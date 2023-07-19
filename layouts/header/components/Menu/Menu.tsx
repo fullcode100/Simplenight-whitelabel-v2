@@ -11,14 +11,21 @@ import useDisplayCategory from 'hooks/category/useDisplayCategory';
 import { useSettings } from 'hooks/services/useSettings';
 import { Tab } from 'hooks/layoutAndUITooling/useTabStore';
 import { CategoryInfo } from 'hooks/category/useCategories';
+import { iAuthModalType } from 'profiles/authentication';
 
 interface MenuProps {
   onCloseModal: (event?: MouseEvent<HTMLElement>) => void;
   handleTabClick: (tab: Tab | CategoryInfo) => void;
   activeTab: Tab;
+  openAuth?: (value: iAuthModalType) => void;
 }
 
-const Menu = ({ onCloseModal, handleTabClick, activeTab }: MenuProps) => {
+const Menu = ({
+  onCloseModal,
+  handleTabClick,
+  activeTab,
+  openAuth,
+}: MenuProps) => {
   const [t] = useTranslation('global');
   const displayDropdown = useDisplayCategory();
   const { data: brandConfig } = useSettings();
@@ -50,6 +57,18 @@ const Menu = ({ onCloseModal, handleTabClick, activeTab }: MenuProps) => {
           <section className="px-4">
             <Divider className="py-4" />
           </section>
+          <button
+            className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
+            onClick={() => openAuth && openAuth('login')}
+          >
+            Log in
+          </button>
+          <button
+            className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
+            onClick={() => openAuth && openAuth('signUp')}
+          >
+            Sign Up
+          </button>
         </section>
       )}
       {/* <section className="p-4">

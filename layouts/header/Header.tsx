@@ -117,6 +117,7 @@ const Header = ({ color }: HeaderProps) => {
           activeTab={tab ? tab : categoriesTabs?.[0]}
           handleTabClick={handleTabClick}
           onCloseModal={handleCloseMenu}
+          openAuth={handleOpenAuthModal}
         />
       </FullScreenModal>
       <header

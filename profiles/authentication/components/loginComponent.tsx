@@ -1,4 +1,4 @@
-import { SectionTitle } from '@simplenight/ui';
+import { ExternalLink, SectionTitle } from '@simplenight/ui';
 import Button from 'components/global/Button/Button';
 import { useTranslation } from 'react-i18next';
 import { login } from '../../core/services/AuthClientService';
@@ -86,12 +86,19 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
         <ErrorMessage message={errorMessage} />
         <DividerSpace />
         {!loading && (
-          <Button
-            value={t('logIn', 'Log In')}
-            size="large"
-            className="w-full py-3 my-5"
-            onClick={handleSubmit(onSubmit)}
-          />
+          <>
+            <section className="flex justify-end mt-3">
+              <ExternalLink className="underline" href="/">
+                {t('forgotPassword', 'Forgot Your Password?')}
+              </ExternalLink>
+            </section>
+            <Button
+              value={t('logIn', 'Log In')}
+              size="large"
+              className="w-full py-3 my-5"
+              onClick={handleSubmit(onSubmit)}
+            />
+          </>
         )}
         {loading && <FormsLoader size={'medium'}></FormsLoader>}
       </section>

@@ -155,9 +155,6 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
               </button>
             )}
             <AuthMenu />
-            {/* <IconWrapper size={12}>
-              <PersonIcon className="text-white" onClick={openAuth} />
-            </IconWrapper> */}
           </section>
         </section>
       </header>
