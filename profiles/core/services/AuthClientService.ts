@@ -3,6 +3,9 @@ import { ClientAuthLogin } from '../client/ClientAuthLogin';
 import { ClientAuthSendVerificationEmail } from '../client/ClientAuthSendVerificationEmail';
 import { ClientAuthVerifyEmail } from '../client/ClientAuthVerifyEmail';
 import { LoginServerRequest } from '../types/request/LoginServerRequest';
+import { ClientAuthForgotPassword } from '../client/ClientAuthForgotPassword';
+import { ResetPasswordClientRequest } from '../types/request/ResetPasswordClientRequest';
+import { ClientAuthResetPassword } from '../client/ClientAuthResetPassword';
 
 const SESSION_TOKEN = 'token';
 export const login = async (loginData: LoginServerRequest, i18next: i18n) => {
@@ -22,4 +25,22 @@ export const sendVerificationEmail = async (email: string, i18next: i18n) => {
 export const verifyEmail = async (token: string, i18next: i18n) => {
   const client = new ClientAuthVerifyEmail();
   await client.request(token, i18next);
+};
+
+export const sendForgotPasswordEmail = async (email: string, i18next: i18n) => {
+  const client = new ClientAuthForgotPassword();
+  await client.request(
+    {
+      email: email,
+    },
+    i18next,
+  );
+};
+
+export const resetPassword = async (
+  data: ResetPasswordClientRequest,
+  i18next: i18n,
+) => {
+  const client = new ClientAuthResetPassword();
+  await client.request(data, i18next);
 };
