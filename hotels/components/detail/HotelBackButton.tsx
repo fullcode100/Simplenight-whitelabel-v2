@@ -16,17 +16,19 @@ const HotelBackButton: React.FC<HotelBackButtonProps> = ({ backLabel }) => {
     longitude: String(params.geolocation)?.split(',')[LONGITUDE_INDEX] ?? '',
   };
   return (
-    <div className="flex gap-2 md:p-0 mb-4 mt-4">
-      <button
-        onClick={() =>
-          router.push({ pathname: `/search/${params.slug}`, query })
-        }
-      >
-        <IconWrapper size={24}>
-          <ArrowLeft />
-        </IconWrapper>
-      </button>
-      <Heading tag="h6">{backLabel}</Heading>
+    <div className="flex items-center w-full h-full px-5">
+      <div className="flex gap-2 md:p-0 lg:my-4">
+        <button
+          onClick={() =>
+            router.push({ pathname: `/search/${params.slug}`, query })
+          }
+        >
+          <IconWrapper size={24}>
+            <ArrowLeft />
+          </IconWrapper>
+        </button>
+        <Heading tag="h6">{backLabel}</Heading>
+      </div>
     </div>
   );
 };

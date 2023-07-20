@@ -153,7 +153,7 @@ const PriceBreakdownModal = ({
         headerClassName="bg-white"
         titleClassName="font-normal"
       />
-      <section className="flex flex-col justify-between h-full px-5 overflow-y-scroll">
+      <section className="flex flex-col justify-between h-full px-5 overflow-y-hidden">
         <BreakdownRoomDescription value={description} />
         <Divider className="mt-2" />
         <BreakdownSubtitle

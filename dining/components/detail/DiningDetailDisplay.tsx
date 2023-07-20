@@ -245,6 +245,7 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
             activeTab={activeTab}
             onClick={handleTabClick}
             hideMore
+            className="bg-dark-900"
           />
         </section>
       </section>
