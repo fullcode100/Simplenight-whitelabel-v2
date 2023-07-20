@@ -12,7 +12,7 @@ import TabSelector from 'components/global/TabSelector';
 import Selector from 'components/global/Select/Selector';
 import Divider from 'components/global/Divider/Divider';
 
-import SortIcon from 'public/icons/assets/sort2.svg';
+import SortIcon from 'public/icons/assets/sort.svg';
 
 const FilterMainContainer = ({ children }: { children?: any }) => (
   <section className="flex flex-col pr-6 mt-20 mb-6">{children}</section>
@@ -369,7 +369,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         idSelected={
           queryFilter?.sortBy ? queryFilter.sortBy.toString() : 'sortByPriceAsc'
         }
-        icon={<SortIcon />}
+        icon={<SortIcon className="w-5 h-5" />}
       />
       <Divider className="my-6" />
       <CollapseUnbordered
