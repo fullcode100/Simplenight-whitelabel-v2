@@ -71,7 +71,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
         <Controller
           name={'password'}
           control={control}
-          rules={PasswordRules(g)}
+          rules={PasswordRules(g, { validateWithEmail: false })}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <TextTemplate label={'Password'}>
               <CustomPassword
