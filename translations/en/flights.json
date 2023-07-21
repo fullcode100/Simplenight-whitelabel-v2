@@ -82,8 +82,8 @@
   "stops": "Stops",
   "stop": "Stop",
   "direct": "Direct",
-  "departureTimes": "Departure Times",
-  "arrivalTimes": "Arrival Times",
+  "departureTimes": "Departure Time",
+  "arrivalTimes": "Arrival Time",
   "return": "Return ",
   "airlines": "Airlines",
   "connectingAirports": "Connecting Airports",
@@ -127,6 +127,5 @@
   "male": "Male",
   "female": "Female",
   "findThePerfectFlightForYou": "Find the perfect flight for you",
-  "tripType": "Trip Type",
-  "price": "Price"
+  "tripType": "Trip Type"
 }
