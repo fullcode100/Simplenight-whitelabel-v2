@@ -11,7 +11,7 @@ import { getHomepageLayout } from 'layouts/helpers/getHomepageLayout';
 import { Container, OrderLookupIcon } from '@simplenight/ui';
 import useCategories from 'hooks/category/useCategories';
 import HomeCategoryContent from 'components/global/HomeCategoryContent/HomeCategoryContent';
-import homePageText from 'translations/en/global.json';
+
 import { useSettings } from 'hooks/services/useSettings';
 import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import useMediaViewport from 'hooks/media/useMediaViewport';

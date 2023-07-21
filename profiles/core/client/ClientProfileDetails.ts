@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { ClientRequester } from '../../../core/client/ClientRequester';
-import { SignUpRequest } from '../types/request/SignUpRequest';
+import { SignUpServerRequest } from '../types/request/SignUpServerRequest';
 import { SignUpServerResponse } from '../types/response/SignUpServerResponse';
 
 export class ClientProfileDetails extends ClientRequester<

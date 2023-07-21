@@ -133,7 +133,7 @@ export const createClientAxiosInstance = (currency: string, i18next: i18n) => {
   const Window = tryGetWindow();
   const sessionkey = getSessionKey();
   const zone = localStorage.getItem('timezone');
-  const token = sessionStorage.getItem(TOKEN);
+  const token = localStorage.getItem(TOKEN);
   const axiosInstance = axios.create({
     baseURL: `${Window?.location.protocol}//${Window?.location.host}/api`,
     headers: {
