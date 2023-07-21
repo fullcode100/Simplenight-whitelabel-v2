@@ -91,6 +91,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const roomRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
   const amenitiesRef = useRef<HTMLDivElement>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const policiesRef = useRef<HTMLDivElement>(null);
   const [displaySeeMore, setDisplaySeeMore] = useState(true);
   const [descriptionHeight, setDescriptionHeight] = useState(232);
   const [hotel, setHotel] = useState<DetailItem>(initialStateAdapted);
@@ -185,21 +187,40 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     }
   }, [data]);
 
+  const SECTIONHIGH = 46;
+
   const scrollToRoom = () => {
     if (roomRef.current) {
-      roomRef.current.scrollIntoView({ behavior: 'smooth' });
+      const y = roomRef.current?.offsetTop - SECTIONHIGH;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
   const scrollToLocation = () => {
     if (locationRef.current) {
-      locationRef.current.scrollIntoView({ behavior: 'smooth' });
+      const y = locationRef.current?.offsetTop - SECTIONHIGH;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToDetails = () => {
+    if (detailsRef.current) {
+      const y = detailsRef.current?.offsetTop - SECTIONHIGH;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToPolicies = () => {
+    if (policiesRef.current) {
+      const y = policiesRef.current?.offsetTop - SECTIONHIGH;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
   const scrollToAmeneties = () => {
     if (amenitiesRef.current) {
-      amenitiesRef.current.scrollIntoView({ behavior: 'smooth' });
+      const y = amenitiesRef.current?.offsetTop - SECTIONHIGH;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
@@ -212,13 +233,18 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   const GeneralInformationSection = () => {
     const tabs: Tab[] = [
       { name: roomsLabel, type: roomsLabel },
+      { name: amenitiesLabel, type: amenitiesLabel },
+      { name: detailsLabel, type: detailsLabel },
+      { name: policiesLabel, type: policiesLabel },
       { name: locationLabel, type: locationLabel },
     ];
 
     const scrollFunctions: { [key: string]: () => void } = {
       [roomsLabel]: scrollToRoom,
+      [amenitiesLabel]: scrollToAmeneties,
+      [detailsLabel]: scrollToDetails,
+      [policiesLabel]: scrollToPolicies,
       [locationLabel]: scrollToLocation,
-      Amenities: scrollToAmeneties,
     };
 
     const scrollTo = (tab: string) => {
@@ -247,6 +273,8 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
             activeTab={activeTab}
             onClick={handleTabClick}
             hideMore
+            className="bg-dark-100"
+            boderBottomColor="border-primary-1000"
           />
         </section>
       </section>
@@ -265,7 +293,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           </span>
         </p>
       </section>
-      <section ref={roomRef} className="lg:hidden">
+      <section className="lg:hidden">
         <SeeMore
           textOpened="See less"
           textClosed="See more"
@@ -340,7 +368,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
     </section>
   );
   const AmenitiesSection = () => (
-    <section className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
+    <section ref={amenitiesRef} className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
       <section className="flex flex-col mx-auto max-w-7xl">
         <p className="flex items-center gap-3 mb-6">
           <IconRoundedContainer isLarge className="bg-primary-1000">
@@ -371,7 +399,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   );
 
   const Policies = () => (
-    <section className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
+    <section ref={policiesRef} className="px-5 pt-6 pb-3 lg:px-20 lg:py-12">
       <section className="flex flex-col mx-auto max-w-7xl">
         <p className="flex items-center gap-3 mb-6">
           <IconRoundedContainer isLarge className="bg-primary-1000">
@@ -396,11 +424,11 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
   return (
     <>
       <CheckRoomAvailability open={openCheckRoom} setOpen={setOpenCheckRoom} />
-      <header className="flex flex-col w-full  pt-3.5 bg-dark-100 sticky top-12 z-10 lg:hidden">
-        <section className=" bg-dark-200 font-lato text-sm text-dark-1000 lg:hidden">
+      <header className="flex flex-col w-full py-0 bg-dark-100 sticky top-16 z-40 lg:hidden">
+        <section className=" flex items-center h-12 bg-dark-200 font-lato text-sm text-dark-1000">
           <HotelBackButton backLabel={backToHotelsLabel} />
         </section>
-        <section className="flex items-center px-4 justify-between h-12">
+        <section className="flex items-center px-4 justify-between h-[60px] bg-white">
           <OccupancyAndDatesSection />
           <section onClick={handleOpenCheckRoom}>
             <SearchIcon className="text-primary-1000" />
@@ -444,7 +472,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
               <RatingSection />
             </section>
           </section>
-          <section className="px-12">
+          <section ref={roomRef} className="pt-2 px-0 lg:px-12">
             <section className="mx-auto max-w-7xl">
               <RoomsSection
                 rooms={hotelRooms}
@@ -460,7 +488,7 @@ const HotelDetailDisplay = ({ Category }: HotelDetailDisplayProps) => {
           <Divider />
           <section className="lg:px-20 lg:py-12">
             <section className="mx-auto divide-y divide-dark-300 lg:divide-y-0 lg:divide-x lg:flex max-w-7xl">
-              <section className="lg:w-[50%] lg:pr-12">
+              <section ref={detailsRef} className="lg:w-[50%] lg:pr-12">
                 <DetailsSection />
               </section>
               <section

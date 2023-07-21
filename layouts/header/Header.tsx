@@ -123,7 +123,7 @@ const Header = ({ color }: HeaderProps) => {
       </FullScreenModal>
       <header
         className={
-          'flex items-center justify-between p-3 z-40 bg-header fixed w-full lg:hidden'
+          'flex items-center justify-between h-16 p-3 z-40 bg-header fixed w-full lg:hidden'
         }
       >
         <HamburgerMenuButton
@@ -163,7 +163,7 @@ const Header = ({ color }: HeaderProps) => {
           tabs={categoriesTabs}
           activeTab={tab ? tab : categoriesTabs?.[0]}
           onClick={handleTabClick}
-          className={`${
+          className={`bg-dark-900 ${
             scrollDirection === 'down'
               ? '-top-4 lg:top-0'
               : 'top-[60px] lg:top-[76px]'

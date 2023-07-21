@@ -79,6 +79,7 @@ const TabsSection = ({
         tabs={tabs}
         activeTab={activeTab}
         onClick={handleTabClick}
+        className="bg-dark-900"
       />
     </section>
   );

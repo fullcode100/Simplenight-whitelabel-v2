@@ -40,7 +40,7 @@ const RoomsList = ({
           roomsQty={roomsQty}
         />
       ))}
-      <section className="flex justify-center">
+      <section className="flex justify-center px-3">
         {rooms.length > next && (
           <Button
             value={'Show more'}

@@ -13,6 +13,11 @@ const categoriesDictonary: { [key: string]: string } = {
   Parking: 'ParkingName',
   'Food & Beverage': 'FoodBeverage',
   Other: 'OtherName',
+  Rooms: 'Rooms',
+  Location: 'Location',
+  Details: 'Details',
+  Amenities: 'Amenities',
+  Policies: 'Policies',
 };
 
 export default categoriesDictonary;

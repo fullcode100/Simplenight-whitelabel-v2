@@ -9,7 +9,7 @@ const RoomSectionTitle = () => {
   const roomsText = t('rooms', 'Rooms');
 
   return (
-    <p className="flex items-center gap-3 mb-6">
+    <p className="flex items-center gap-3 mb-6 px-4">
       <IconRoundedContainer isLarge className="bg-primary-1000 ">
         <CategoryIcon
           categoryName={HOTEL_CATEGORY}

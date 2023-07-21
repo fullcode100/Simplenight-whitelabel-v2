@@ -13,6 +13,7 @@ const HorizontalTabs = ({
   activeTab,
   onClick,
   className = '',
+  boderBottomColor = 'border-white',
   primary = false,
   hideMore,
 }: TabsProps) => {
@@ -61,7 +62,7 @@ const HorizontalTabs = ({
     <div
       className={`sticky ${
         pathname === '/' ? 'z-30' : 'z-30'
-      } lg:z-30 bg-dark-900 block ${className}`}
+      } lg:z-30 block ${className}`}
     >
       <nav
         className="flex justify-start w-full mx-auto overflow-scroll scrollbar-hide max-w-7xl"
@@ -74,14 +75,14 @@ const HorizontalTabs = ({
             key={tab.name}
             className={classNames(
               tab.name === activeTab?.name
-                ? `border-white ${hoverCss}`
+                ? `${boderBottomColor} ${hoverCss}`
                 : 'border-transparent text-dark-400 hover:text-dark-300 hover:border-gray-300',
               'whitespace-nowrap p-3 flex flex-col lg:flex-row gap-1 lg:gap-2 items-center justify-center border-b-2 text-xs font-semibold',
             )}
             aria-current={tab.current ? 'page' : undefined}
             onClick={() => onClick(tab)}
           >
-            <div className="flex items-center justify-center w-5 h-5">
+            <div className="flex items-center justify-center w-full h-5">
               {tab.icon}
             </div>
             {t(categoriesDictonary[tab.name], tab.name)}

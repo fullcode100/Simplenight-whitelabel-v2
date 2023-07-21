@@ -14,4 +14,5 @@ export interface TabsProps {
   activeTab: Tab;
   onClick: (tab: Tab) => void;
   hideMore?: boolean;
+  boderBottomColor?: string;
 }

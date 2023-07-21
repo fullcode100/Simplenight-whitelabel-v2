@@ -125,7 +125,7 @@ const RoomCard = ({
   );
 
   return (
-    <section className="flex flex-col justify-between mx-3 my-3 overflow-hidden border rounded lg:flex-row shadow-container lg:my-0 border-dark-200">
+    <section className="flex flex-col justify-between mx-0 lg:mx-3 my-3 overflow-hidden border rounded lg:flex-row shadow-container lg:my-0 border-dark-200">
       <section className="lg:h-[300px] w-[100%] lg:min-h-[15rem] lg:min-w-[35%] ">
         {room?.photos && room.photos.length > 0 ? (
           <ImageCarousel
