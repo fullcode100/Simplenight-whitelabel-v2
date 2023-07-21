@@ -5,5 +5,21 @@
   "logIn": "Log In",
   "alreadyHaveAnAccount": "Ya tienes una cuenta?",
   "validationEmail": "Correo electronico de validacion enviada a ",
-  "validationMessage": "Se envió un correo electrónico de validación a su dirección de correo electrónico, tenga en cuenta que el enlace del correo electrónico de verificación caducará en 24 horas."
+  "validationMessage": "Se envió un correo electrónico de validación a su dirección de correo electrónico, tenga en cuenta que el enlace del correo electrónico de verificación caducará en 24 horas.",
+  "passwordValidation": "Correo electronico validado.\nPor favor ingrese una contraseña:",
+  "updatePassword": "Actualizar contraseña",
+  "linkExpired": "Lo sentimos, su enlace ha caducado",
+  "linkExpiredDescription": "El enlace que le enviamos para confirmar el correo electrónico de su cuenta ha caducado. Por su seguridad, solicite un nuevo enlace.",
+  "requestNewLink": "Solicitar un nuevo enlace",
+  "emailSent": "Email enviado",
+  "passwordUpdated": "¡Contraseña actualiza!",
+  "resetPasswordInstructions": "Las instrucciones para restablecer su contraseña han sido enviadas a",
+  "youWillBeRedirect": "Serás redirigido a casa. Si no eres redirigido haz clic aquí",
+  "backToLogin": "Atrás para iniciar sesión",
+  "passwordSecurityMessage": "Debe tener al menos 1 letra mayúscula, 1 número, 1 símbolo",
+  "passwordsDoNotMatch": "Las contraseñas no coinciden",
+  "email": "Correo Electrónico",
+  "lastName": "Apellidos",
+  "fistName": "Nombre",
+  "password": "Contraseña"
 }

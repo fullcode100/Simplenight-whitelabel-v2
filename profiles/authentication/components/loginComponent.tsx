@@ -12,6 +12,7 @@ import DividerSpace from '../../../components/global/Divider/DividerSpace';
 import ErrorMessage from '../../../components/global/ErrorMessage';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
 import { EmailRules, PasswordRules } from '../../../validations';
+import { useSessionStore } from '../../../hooks/auth/useSessionStore';
 
 interface FormData {
   email: string;
@@ -23,6 +24,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { setToken } = useSessionStore();
 
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -35,11 +37,17 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
     try {
       setErrorMessage('');
       setLoading(true);
-      await login(data, i18n);
+      const token = await login(data, i18n);
+      setToken(token);
       closeModal();
     } catch (error: any) {
       if (error?.response?.data?.message) {
-        setErrorMessage(error?.response?.data?.message);
+        setErrorMessage(
+          t(
+            'invalidEmailOrPassword',
+            'Please enter a valid email address or password',
+          ),
+        );
       }
     } finally {
       setLoading(false);
@@ -52,55 +60,58 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
         <section className="mt-4 mb-8">
           <SectionTitle title={t('logIn', 'Log In')} displayIcon={false} />
         </section>
-        <Controller
-          name={'email'}
-          control={control}
-          rules={EmailRules(g)}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <TextTemplate label={'Email'} className={'mb-6'}>
-              <BaseInput
-                value={value}
-                onChange={onChange}
-                errorMessage={error?.message}
-                placeholder={'Email'}
-              />
-            </TextTemplate>
-          )}
-        />
-        <DividerSpace />
-        <Controller
-          name={'password'}
-          control={control}
-          rules={PasswordRules(g, { validateWithEmail: false })}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <TextTemplate label={'Password'}>
-              <CustomPassword
-                value={value}
-                onChange={onChange}
-                errorMessage={error?.message}
-                placeholder={'Password'}
-              />
-            </TextTemplate>
-          )}
-        />
-        <ErrorMessage message={errorMessage} />
-        <DividerSpace />
-        {!loading && (
-          <>
-            <section className="flex justify-end mt-3">
-              <ExternalLink className="underline" href="/">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name={'email'}
+            control={control}
+            rules={EmailRules(g)}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextTemplate label={'Email'} className={'mb-6'}>
+                <BaseInput
+                  value={value}
+                  onChange={onChange}
+                  errorMessage={error?.message}
+                  placeholder={'Email'}
+                />
+              </TextTemplate>
+            )}
+          />
+          <DividerSpace />
+          <Controller
+            name={'password'}
+            control={control}
+            rules={PasswordRules(g)}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextTemplate label={'Password'}>
+                <CustomPassword
+                  value={value}
+                  onChange={onChange}
+                  errorMessage={error?.message}
+                  placeholder={'Password'}
+                />
+              </TextTemplate>
+            )}
+          />
+          <ErrorMessage message={errorMessage} />
+          <DividerSpace />
+          {!loading && (
+            <>
+              <section
+                onClick={() => changeAuthType('resetPassword')}
+                className="flex cursor-pointer underline justify-end mt-3"
+              >
                 {t('forgotPassword', 'Forgot Your Password?')}
-              </ExternalLink>
-            </section>
-            <Button
-              value={t('logIn', 'Log In')}
-              size="large"
-              className="w-full py-3 my-5"
-              onClick={handleSubmit(onSubmit)}
-            />
-          </>
-        )}
-        {loading && <FormsLoader size={'medium'}></FormsLoader>}
+              </section>
+              <Button
+                value={t('logIn', 'Log In')}
+                size="large"
+                className="w-full py-3 my-5"
+                onClick={handleSubmit(onSubmit)}
+              />
+            </>
+          )}
+          {loading && <FormsLoader size={'medium'}></FormsLoader>}
+        </form>
       </section>
       <section className="flex justify-center">
         {t('dontHaveAccount', "Don't have an account?")}&nbsp;

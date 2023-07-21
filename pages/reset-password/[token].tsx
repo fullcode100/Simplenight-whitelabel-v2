@@ -10,17 +10,7 @@ const ResetPassword = () => {
   const router = useRouter();
   useEffect(() => {
     if (token) {
-      resetPassword(
-        {
-          token,
-          password: 'Control.123',
-        },
-        i18n,
-      )
-        .then(() => {
-          router.push('/');
-        })
-        .catch((e) => console.error(e));
+      router.push(`/?setNewPass=${token}`);
     }
   }, [token]);
   return null;

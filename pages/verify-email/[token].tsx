@@ -1,9 +1,6 @@
 import useQuery from '../../hooks/pageInteraction/useQuery';
 import { useEffect } from 'react';
-import {
-  loginWithToken,
-  verifyEmail,
-} from '../../profiles/core/services/AuthClientService';
+import { verifyEmail } from '../../profiles/core/services/AuthClientService';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
@@ -15,10 +12,9 @@ const VerifyEmail = () => {
     if (token) {
       verifyEmail(token, i18n)
         .then(() => {
-          loginWithToken(token);
-          router.push('/');
+          router.push(`/?confirmPass=${token}`);
         })
-        .catch((e) => console.error(e));
+        .catch(() => router.push('/?confirmPassError=true'));
     }
   }, [token]);
   return null;

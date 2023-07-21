@@ -10,6 +10,7 @@ import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 import { useTranslation } from 'react-i18next';
 import { WidgetProps } from '@rjsf/core';
 import EyeIcon from 'public/icons/assets/eye.svg';
+import EyeHiddenIcon from 'public/icons/assets/eye-hidden.svg';
 
 export const CustomText = (props: any) => {
   const { value, onChange, placeholder, required, id, schema } = props;
@@ -102,7 +103,11 @@ export const CustomPassword = (props: any) => {
             }
             onClick={() => setShowText(!showText)}
           >
-            <EyeIcon className="flex self-center" />
+            {showText ? (
+              <EyeIcon className="flex self-center" />
+            ) : (
+              <EyeHiddenIcon className="flex self-center" />
+            )}
           </div>
         }
       />

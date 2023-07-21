@@ -25,7 +25,7 @@ import useQuery from 'hooks/pageInteraction/useQuery';
 import { useRouter } from 'next/router';
 import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
-import Authentication, { iAuthModalType } from 'profiles/authentication';
+import Authentication, { IAuthModalType } from 'profiles/authentication';
 
 interface HeaderProps {
   color: string;
@@ -39,7 +39,7 @@ const Header = ({ color }: HeaderProps) => {
   const { logo } = images || {};
 
   const [openAuth, setOpenAuth] = useState(false);
-  const [authType, setAuthType] = useState<iAuthModalType>('login');
+  const [authType, setAuthType] = useState<IAuthModalType>('login');
   const [cartQty, setCartQty] = useState(0);
   const [cart, setCart] = useState<CartObjectResponse>();
   const [t, i18next] = useTranslation('global');
@@ -49,7 +49,8 @@ const Header = ({ color }: HeaderProps) => {
   const tab = useTabStore((state) => state.tab);
   const setTab = useTabStore((state) => state.setTab);
   const { pathname } = useRouter();
-  const { slug } = useQuery();
+  const query = useQuery();
+  const { slug } = query;
   const setQueryParams = useQuerySetter();
   const categoriesTabs = useCategories();
   const activeTabIndex = categoriesTabs.findIndex((tab) => tab.slug === slug);
@@ -95,7 +96,7 @@ const Header = ({ color }: HeaderProps) => {
     refetchOnWindowFocus: true,
   });
 
-  const handleOpenAuthModal = (type: iAuthModalType) => {
+  const handleOpenAuthModal = (type: IAuthModalType) => {
     setOpenAuth(!openAuth);
     setAuthType(type);
   };
@@ -175,6 +176,7 @@ const Header = ({ color }: HeaderProps) => {
         onClose={() => setOpenAuth(false)}
         type={authType}
         setAuthType={setAuthType}
+        query={query}
       />
     </>
   );

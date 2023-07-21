@@ -1,9 +1,13 @@
 import { i18n } from 'i18next';
-import { SignUpRequest } from '../types/request/SignUpRequest';
+import { SignUpServerRequest } from '../types/request/SignUpServerRequest';
 import { ClientProfileCreate } from '../client/ClientProfileCreate';
 import { ClientProfileDetails } from '../client/ClientProfileDetails';
+import { SignUpClientRequest } from '../types/request/SignUpClientRequest';
 
-export const signUp = async (signUpData: SignUpRequest, i18next: i18n) => {
+export const signUp = async (
+  signUpData: SignUpClientRequest,
+  i18next: i18n,
+) => {
   const client = new ClientProfileCreate();
   return await client.request(signUpData, i18next);
 };

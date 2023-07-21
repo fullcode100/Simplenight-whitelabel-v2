@@ -9,24 +9,17 @@ import { Controller, useForm } from 'react-hook-form';
 import { TextTemplate } from '../../../components/global/FormSchema/FormTemplates';
 import BaseInput from '../../../components/global/Input/BaseInput';
 import DividerSpace from '../../../components/global/Divider/DividerSpace';
-import { CustomPassword } from '../../../components/global/FormSchema/CustomFields';
 import ErrorMessage from '../../../components/global/ErrorMessage';
-import {
-  EmailRules,
-  LastNamesRules,
-  NamesRules,
-  PasswordRules,
-} from '../../../validations';
+import { EmailRules, LastNamesRules, NamesRules } from '../../../validations';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
 
 interface FormData {
   email: string;
   firstName: string;
   lastName: string;
-  password: string;
 }
 
-const SignUp = ({ changeAuthType }: IAuthComponent) => {
+const SignUp = ({ changeAuthType, setExtraProps }: IAuthComponent) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
@@ -36,7 +29,6 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
       email: '',
       firstName: '',
       lastName: '',
-      password: '',
     },
   });
 
@@ -49,11 +41,16 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
           email: values.email,
           first_name: values.firstName,
           last_name: values.lastName,
-          password: values.password,
         },
         i18n,
       );
       await sendVerificationEmail(values.email, i18n);
+      setExtraProps((props: any) => ({
+        ...props,
+        email: values.email,
+        resetPassword: false,
+        passwordUpdated: false,
+      }));
       changeAuthType('emailConfirmation');
     } catch (error: any) {
       if (error?.response?.data?.message) {
@@ -66,88 +63,76 @@ const SignUp = ({ changeAuthType }: IAuthComponent) => {
 
   return (
     <section className="flex h-full flex-col justify-between">
-      <section className="mt-4">
-        <SectionTitle title={t('signUp', 'Sign Up')} displayIcon={false} />
-      </section>
-      <section className={'pt-5'}>
-        <Controller
-          name={'email'}
-          control={control}
-          rules={EmailRules(g)}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <TextTemplate label={'Email'} className={'mb-6'}>
-              <BaseInput
-                value={value}
-                onChange={onChange}
-                errorMessage={error?.message}
-                placeholder={'Email'}
-              />
-            </TextTemplate>
-          )}
-        />
-        <DividerSpace />
-        <Controller
-          name={'firstName'}
-          control={control}
-          rules={NamesRules(t)}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <TextTemplate label={'First Name'} className={'mb-6'}>
-              <BaseInput
-                value={value}
-                onChange={onChange}
-                errorMessage={error?.message}
-                placeholder={'First Name'}
-              />
-            </TextTemplate>
-          )}
-        />
-        <DividerSpace />
-        <Controller
-          name={'lastName'}
-          control={control}
-          rules={LastNamesRules(t)}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <TextTemplate label={'Last Name'} className={'mb-6'}>
-              <BaseInput
-                value={value}
-                onChange={onChange}
-                errorMessage={error?.message}
-                placeholder={'Last Name'}
-              />
-            </TextTemplate>
-          )}
-        />
-        <DividerSpace />
-        <Controller
-          name={'password'}
-          control={control}
-          rules={PasswordRules(t)}
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <TextTemplate label={'Password'}>
-              <CustomPassword
-                value={value}
-                onChange={onChange}
-                errorMessage={error?.message}
-                placeholder={'Password'}
-              />
-            </TextTemplate>
-          )}
-        />
-        <div className={'pt-2 text-gray-400'}>
-          Must contain at least 8 characters
-        </div>
-        <ErrorMessage message={errorMessage} />
-        <DividerSpace />
-
-        {!loading && (
-          <Button
-            value={t('signUp', 'Sign Up')}
-            size="large"
-            className="w-full py-3 my-5"
-            onClick={handleSubmit(onSubmit)}
+      <section>
+        <section className="mb-4">
+          <SectionTitle title={t('signUp', 'Sign Up')} displayIcon={false} />
+        </section>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name={'email'}
+            control={control}
+            rules={EmailRules(g)}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextTemplate label={t('email', 'Email')} className={'mb-6'}>
+                <BaseInput
+                  value={value}
+                  onChange={onChange}
+                  errorMessage={error?.message}
+                  placeholder={t('email', 'Email')}
+                />
+              </TextTemplate>
+            )}
           />
-        )}
-        {loading && <FormsLoader size={'medium'}></FormsLoader>}
+          <DividerSpace />
+          <Controller
+            name={'firstName'}
+            control={control}
+            rules={NamesRules(t)}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextTemplate
+                label={t('firstName', 'First Name')}
+                className={'mb-6'}
+              >
+                <BaseInput
+                  value={value}
+                  onChange={onChange}
+                  errorMessage={error?.message}
+                  placeholder={t('firstName', 'First Name')}
+                />
+              </TextTemplate>
+            )}
+          />
+          <DividerSpace />
+          <Controller
+            name={'lastName'}
+            control={control}
+            rules={LastNamesRules(t)}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextTemplate
+                label={t('lastName', 'Last Name')}
+                className={'mb-6'}
+              >
+                <BaseInput
+                  value={value}
+                  onChange={onChange}
+                  errorMessage={error?.message}
+                  placeholder={t('lastName', 'Last Name')}
+                />
+              </TextTemplate>
+            )}
+          />
+          <ErrorMessage message={errorMessage} />
+          <DividerSpace />
+
+          {!loading && (
+            <Button
+              value={t('signUp', 'Sign Up')}
+              size="large"
+              className="w-full py-3 my-5"
+            />
+          )}
+          {loading && <FormsLoader></FormsLoader>}
+        </form>
       </section>
       <section className="flex justify-center">
         {t('alreadyHaveAnAccount', 'Already have an account?')}&nbsp;

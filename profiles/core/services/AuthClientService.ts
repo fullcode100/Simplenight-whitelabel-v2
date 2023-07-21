@@ -6,16 +6,33 @@ import { LoginServerRequest } from '../types/request/LoginServerRequest';
 import { ClientAuthForgotPassword } from '../client/ClientAuthForgotPassword';
 import { ResetPasswordClientRequest } from '../types/request/ResetPasswordClientRequest';
 import { ClientAuthResetPassword } from '../client/ClientAuthResetPassword';
+import { ClientAuthConfigurePassword } from '../client/ClientAuthConfigurePassword';
+import {
+  cleanTemporalCredentials,
+  getTemporalCredentials,
+  setTemporalCredentials,
+} from '../utils';
+import { useSessionStore } from '../../../hooks/auth/useSessionStore';
 
-const SESSION_TOKEN = 'token';
-export const login = async (loginData: LoginServerRequest, i18next: i18n) => {
+export const SESSION_TOKEN = 'token';
+interface LoginOptions {
+  setTokenInSessionStorage: boolean;
+}
+export const login = async (
+  loginData: LoginServerRequest,
+  i18next: i18n,
+  options: LoginOptions = { setTokenInSessionStorage: true },
+) => {
   const authLogin = new ClientAuthLogin();
   const data = await authLogin.request(loginData, i18next);
-  loginWithToken(data.tokens.access.token);
+  if (options.setTokenInSessionStorage) {
+    loginWithToken(data.tokens.access.token);
+  }
+  return data.tokens.access.token;
 };
 
 export const loginWithToken = (token: string) => {
-  sessionStorage.setItem(SESSION_TOKEN, token);
+  localStorage.setItem(SESSION_TOKEN, token);
 };
 export const sendVerificationEmail = async (email: string, i18next: i18n) => {
   const client = new ClientAuthSendVerificationEmail();
@@ -25,6 +42,22 @@ export const sendVerificationEmail = async (email: string, i18next: i18n) => {
 export const verifyEmail = async (token: string, i18next: i18n) => {
   const client = new ClientAuthVerifyEmail();
   await client.request(token, i18next);
+};
+
+export const configurePassword = async (password: string, i18next: i18n) => {
+  const temporalCredentials = getTemporalCredentials();
+  if (!temporalCredentials) {
+    throw new Error('Temporal Credentials doesnt exist');
+  }
+  const token = await login(temporalCredentials, i18next);
+  if (temporalCredentials.email && temporalCredentials.password) {
+    const client = new ClientAuthConfigurePassword();
+    await client.request({ password, token: token }, i18next);
+    loginWithToken(token);
+    cleanTemporalCredentials();
+    return token;
+  }
+  return null;
 };
 
 export const sendForgotPasswordEmail = async (email: string, i18next: i18n) => {
@@ -43,4 +76,8 @@ export const resetPassword = async (
 ) => {
   const client = new ClientAuthResetPassword();
   await client.request(data, i18next);
+};
+
+export const logout = () => {
+  localStorage.removeItem(SESSION_TOKEN);
 };

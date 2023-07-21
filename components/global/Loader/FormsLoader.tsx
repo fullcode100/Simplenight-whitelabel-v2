@@ -1,7 +1,7 @@
 import { createRef, useEffect, useMemo, useState } from 'react';
 
 interface FormsLoader {
-  size: 'large' | 'medium' | 'small';
+  size?: 'large' | 'medium' | 'small';
 }
 const FormsLoader = ({ size = 'medium' }: FormsLoader) => {
   const svgSize = useMemo(() => {

@@ -15,14 +15,20 @@ import { useSettings } from 'hooks/services/useSettings';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
 import { IconWrapper } from '@simplenight/ui';
 import { IconContainer } from 'components/global/ComingSoon/IconContainer';
-import { useState } from 'react';
-import { iAuthModalType } from 'profiles/authentication';
+import { useEffect, useState } from 'react';
+import { IAuthModalType } from 'profiles/authentication';
+import useQuery from 'hooks/pageInteraction/useQuery';
+import {
+  logout,
+  SESSION_TOKEN,
+} from 'profiles/core/services/AuthClientService';
+import { useSessionStore } from '../../../../hooks/auth/useSessionStore';
 
 interface HeaderDesktopProps {
   color?: string;
   cartQty?: number;
   onOpen: () => void;
-  openAuth?: (value: iAuthModalType) => void;
+  openAuth?: (value: IAuthModalType) => void;
 }
 
 interface CustomLinkProps {
@@ -38,6 +44,31 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
   const { isBog } = useBog();
   const showCart = hasCartMode();
   const [showAuthMenu, setShowAuthMenu] = useState(false);
+  const { token, setToken, clear } = useSessionStore();
+  const { confirmPass, setNewPass, confirmPassError } = useQuery() as {
+    confirmPass: string;
+    setNewPass: string;
+    confirmPassError: string;
+  };
+
+  useEffect(() => {
+    const sessionToken = localStorage.getItem(SESSION_TOKEN);
+    if (sessionToken) {
+      setToken(sessionToken);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (confirmPass) {
+      openAuth && openAuth('configurePassword');
+    }
+    if (setNewPass) {
+      openAuth && openAuth('newPasswordConfirmationForm');
+    }
+    if (confirmPassError) {
+      openAuth && openAuth('configurePasswordError');
+    }
+  }, [confirmPass, setNewPass]);
 
   const orderLookupText = tg('orderLookup', 'Order Lookup');
   const { language } = i18n;
@@ -64,7 +95,7 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
     </Link>
   );
 
-  const handleSelectAuhtModal = (authModalType: iAuthModalType) => {
+  const handleSelectAuhtModal = (authModalType: IAuthModalType) => {
     setShowAuthMenu(!showAuthMenu);
     openAuth && openAuth(authModalType);
   };
@@ -76,18 +107,37 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
           !showAuthMenu ? 'hidden' : ''
         }`}
       >
-        <button
-          className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
-          onClick={() => handleSelectAuhtModal('login')}
-        >
-          Log in
-        </button>
-        <button
-          className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
-          onClick={() => handleSelectAuhtModal('signUp')}
-        >
-          Sign Up
-        </button>
+        {!token ? (
+          <>
+            <button
+              className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
+              onClick={() => handleSelectAuhtModal('login')}
+            >
+              Log in
+            </button>
+            <button
+              className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
+              onClick={() => handleSelectAuhtModal('signUp')}
+            >
+              Sign Up
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 ">
+              Profile
+            </button>
+            <button
+              className="flex whitespace-nowrap items-center w-full pl-1 pr-6 border border-gray-300 rounded h-11 borderfocus:ring-primary-500 focus:border-primary-500 "
+              onClick={() => {
+                logout();
+                clear();
+              }}
+            >
+              Log Out
+            </button>
+          </>
+        )}
       </section>
       <section>
         <button

@@ -18,6 +18,7 @@ import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { Button } from '@simplenight/ui';
 import Selector from 'components/global/Select/Selector';
 import TabSelector from 'components/global/TabSelector';
+import SortIcon from 'public/icons/assets/sort.svg';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -45,7 +46,9 @@ const FlightSecondarySearchOptions = () => {
   const [minPrice, setMinPrice] = useState<string>('');
   const [maxPrice, setMaxPrice] = useState<string>('');
 
-  const [t, i18n] = useTranslation('flights');
+  const [t] = useTranslation('flights');
+  const [tg] = useTranslation('global');
+
   const filtersLabel = t('filters', 'Filters');
   const applyFiltersLabel = t('applyFilters', 'Apply Filters');
   const keywordSearchLabel = t('keywordSearch', 'Keyword Search');
@@ -61,13 +64,13 @@ const FlightSecondarySearchOptions = () => {
     { id: 'sortByPriceDesc', name: sortByPriceDesc },
   ];
 
-  const priceRangeLabel = t('priceRange', 'Price Range');
+  const priceRangeLabel = tg('price', 'Price');
   const stopsLabel = t('stops', 'Stops');
   const stopText = t('stop', 'Stop');
   const stopsText = t('stops', 'Stops');
   const directText = t('direct', 'Direct');
-  const departureTimesLabel = t('departureTimes', 'Departure Times');
-  const arrivalTimesLabel = t('arrivalTimes', 'Arrival Times');
+  const departureTimesLabel = t('departureTimes', 'Departure Time');
+  const arrivalTimesLabel = t('arrivalTimes', 'Arrival Time');
   const airlinesLabel = t('airlines', 'Airlines');
   const connectingAirportsLabel = t(
     'connectingAirports',
@@ -200,7 +203,7 @@ const FlightSecondarySearchOptions = () => {
     const currentStopSelected = queryFilter?.stops || [];
     return stps.map((item) => ({
       id: `${item}`,
-      label: item ? `${item} ${stopsText}` : directText,
+      label: item ? `${item} ${item > 1 ? stopsText : stopText}` : directText,
       selected: currentStopSelected.includes(`${item}`),
     }));
   };
@@ -378,6 +381,7 @@ const FlightSecondarySearchOptions = () => {
           onChangeSortBy(i);
         }}
         idSelected={sortBy}
+        icon={<SortIcon className="w-5 h-5" />}
       />
     </FilterContainer>
   );
@@ -451,7 +455,11 @@ const FlightSecondarySearchOptions = () => {
       <Divider className="my-6" />
       <FilterContainer>
         <FilterTitle label={stopsLabel} />
-        <TabSelector options={stopsOptions} onChangeStop={onChangeStops} />
+        <TabSelector
+          options={stopsOptions}
+          onChangeStop={onChangeStops}
+          compat
+        />
       </FilterContainer>
 
       <Divider className="my-6" />
