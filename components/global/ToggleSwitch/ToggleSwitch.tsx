@@ -18,22 +18,29 @@ const ToggleSwitch = ({ id, checked, onChange }: ToggleSwitchProps) => {
       'translate-x-[130%] bg-white': checked,
     },
   );
+
   return (
     <label htmlFor={id} className="flex items-center cursor-pointer">
       <section className="relative">
         <Switch
           checked={checked}
           onChange={() => onChange(!checked)}
-          className={`${
-            checked ? 'bg-primary-1000' : 'border border-dark-300'
-          } relative inline-flex flex-shrink-0 h-5 w-9 p-[0.2rem] border border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none`}
+          className={classnames(
+            'relative inline-flex flex-shrink-0 h-5 w-9 p-[0.2rem] border border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none bg-primary-1000',
+            {
+              'border border-dark-1000 bg-dark-800': !checked,
+            },
+          )}
         >
           <span className="sr-only"></span>
           <span
             aria-hidden="true"
-            className={`${
-              checked ? 'translate-x-4 bg-white' : 'translate-x-0 bg-dark-800'
-            } pointer-events-none inline-block h-3 w-3 rounded-full transform ring-0 transition ease-in-out duration-200`}
+            className={classnames(
+              'pointer-events-none inline-block h-3 w-3 rounded-full transform ring-0 transition ease-in-out duration-200 translate-x-4 bg-white',
+              {
+                'translate-x-0 bg-dark-800': !checked,
+              },
+            )}
           />
         </Switch>
       </section>
