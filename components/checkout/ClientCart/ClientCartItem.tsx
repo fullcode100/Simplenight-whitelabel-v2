@@ -178,7 +178,7 @@ const ClientCartItem = ({
           )}
         </section>
       ) : null}
-      {bookingQuestionSchema && (
+      {bookingQuestionSchema && item.category !== 'shows-events' && (
         <section className="mt-1.5">
           <FormSchema
             schema={bookingQuestionSchema.schema}
