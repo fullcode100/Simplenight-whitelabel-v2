@@ -1,8 +1,5 @@
 import { combineReducers } from 'redux';
-import { CarCategory } from 'cars';
 
-const reducers = {
-  cars: CarCategory.store.reducer,
-};
+const reducers = {};
 
 export default combineReducers(reducers);

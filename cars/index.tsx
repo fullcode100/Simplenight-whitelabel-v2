@@ -2,9 +2,6 @@ import { CategoryOption } from 'types/search/SearchTypeOptions';
 
 import CarSearchForm from 'cars/components/search/CarSearchForm';
 
-import carReducer from './redux/reducer';
-import carActions from './redux/actions';
-
 import CategoryCarsIcon from 'public/icons/categories/Category-Cars.svg';
 import CarResultsDisplay from 'cars/components/search/CarResultsDisplay';
 import CarDetailDisplay from './components/detail/CarDetailDisplay';
@@ -26,10 +23,6 @@ const Category: CategoryOption = {
   name: CAR_CATEGORY,
   value: CAR_CATEGORY,
   icon: <CarIcon categoryName={CAR_CATEGORY} className={'h-5 w-5'} />,
-  store: {
-    reducer: carReducer,
-    actions: carActions,
-  },
   selectedIcon: <CategoryCarsIcon />,
   searchForm: <CarSearchForm />,
   secondarySearchOptions: <CarSecondarySearchOptions />,

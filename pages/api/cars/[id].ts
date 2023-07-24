@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiResponse } from 'next';
 import { CarCategory } from 'cars';
-import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event';
 import { NextApiRequestWithSession } from 'types/core/server';
 
 type Data = {
