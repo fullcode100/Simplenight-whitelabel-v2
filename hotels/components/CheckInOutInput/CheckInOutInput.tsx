@@ -96,7 +96,7 @@ export const useCheckInOutInput = () => {
       : formatAsSearchDate(dayjs().add(1, 'day')),
   );
   const handleStartDateChange = (value: string) => {
-    setStartDate(value);
+    setStartDate(value || formatAsSearchDate(dayjs()));
   };
 
   const handleEndDateChange = (value: string) => {
