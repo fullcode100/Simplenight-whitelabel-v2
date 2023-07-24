@@ -41,9 +41,7 @@ const ShowAndEventsFilterFormDesktop = ({
   const { latitude, longitude } = useQuery();
   const [queryFilter] = useState(router.query);
 
-  const setShowsAndEvents = useSearchFilterStore(
-    (state) => state.setShowsAndEvents,
-  );
+  const setFilters = useSearchFilterStore((state) => state.setFilters);
 
   const { handleFilterShowsAndEvents } = useFilterShowsAndEvents(
     latitude as string,
@@ -124,7 +122,7 @@ const ShowAndEventsFilterFormDesktop = ({
       (queryFilter.distance as string) || initialDistanceRange.max,
     );
     setMaxSeats((queryFilter.seats as string) || initialSeatsRange.max);
-    setShowsAndEvents([]);
+    setFilters({});
   };
 
   useEffect(() => {

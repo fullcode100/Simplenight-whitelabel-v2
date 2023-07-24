@@ -112,52 +112,10 @@ export const useFilterShowsAndEvents = (
     filterToApply: availableFilters,
     valueToFilter?: string,
   ) => {
-    switch (filterToApply) {
-      case 'minPrice': {
-        setFilters({
-          ...filters,
-          minPrice: valueToFilter,
-        });
-        break;
-      }
-      case 'maxPrice': {
-        setFilters({
-          ...filters,
-          maxPrice: valueToFilter,
-        });
-        break;
-      }
-      case 'minSeats': {
-        setFilters({
-          ...filters,
-          minSeats: valueToFilter,
-        });
-        break;
-      }
-      case 'maxSeats': {
-        setFilters({
-          ...filters,
-          maxSeats: valueToFilter,
-        });
-        break;
-      }
-      case 'minDistance': {
-        setFilters({
-          ...filters,
-          minDistance: valueToFilter,
-        });
-        break;
-      }
-      case 'maxDistance': {
-        setFilters({
-          ...filters,
-          maxDistance: valueToFilter,
-        });
-        break;
-      }
-      default:
-        break;
-    }
+    setFilters({
+      ...filters,
+      [filterToApply]: valueToFilter,
+    });
   };
   return { handleFilterShowsAndEvents };
 };

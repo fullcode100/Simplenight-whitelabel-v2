@@ -24,6 +24,7 @@ import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import { SHOWS_AND_EVENTS } from 'showsAndEvents';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 import { Paragraph } from '@simplenight/ui';
+import { useSearchFilterStore } from 'hooks/showsAndEvents/useSearchFilterStore';
 export interface Option {
   value: string;
   label: string;
@@ -53,6 +54,7 @@ const ShowsAndEvents = ({
   const [address, setAddress] = useState<string | undefined>(
     params.address ? (params.address as string) : '',
   );
+  const setFilters = useSearchFilterStore((state) => state.setFilters);
 
   const [geolocation, setGeolocation] = useState<StringGeolocation>(
     `${parseFloat(params.latitude as string)},${parseFloat(
@@ -93,12 +95,14 @@ const ShowsAndEvents = ({
   };
 
   const rerouteToSearchPage = () => {
+    setFilters({});
     const route = `/search/${SHOWS_AND_EVENTS}?startDate=${startDate}&endDate=${endDate}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${
       geolocation?.split(',')[LONGITUDE_INDEX]
     }&address=${address}&query=${query}`;
     handleSaveLastSearch(route);
+
     router.push(route);
   };
 
@@ -125,6 +129,7 @@ const ShowsAndEvents = ({
       latitude: geolocation?.split(',')[LATITUDE_INDEX] ?? '',
       longitude: geolocation?.split(',')[LONGITUDE_INDEX] ?? '',
     });
+
     if (setIsSearching) setIsSearching(false);
   };
 
