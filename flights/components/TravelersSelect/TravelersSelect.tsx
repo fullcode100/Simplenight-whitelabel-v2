@@ -12,6 +12,8 @@ import InfantsAges from '../TravelersInput/components/InfantsAges';
 import TravelersCount from '../TravelersInput/components/TravelersCount';
 import { Traveler, createTraveler } from 'flights/helpers/traveler';
 import classnames from 'classnames';
+import { minChildrenAge } from 'flights';
+import { changeArraySize } from 'helpers/arrayUtils';
 
 interface TravelersSelectProps {
   travelers: Traveler[];
@@ -25,13 +27,25 @@ const TravelersSelect = ({ travelers, setTravelers }: TravelersSelectProps) => {
     const updatedTraveler = newTravelers[index];
     switch (type) {
       case 'adults':
-        updatedTraveler['adults'] = value;
+        updatedTraveler.adults = value;
         break;
       case 'children':
-        updatedTraveler['children'] = value;
+        updatedTraveler.children = value;
+        updatedTraveler.childrenAges =
+          updatedTraveler.childrenAges.length === value
+            ? updatedTraveler.childrenAges
+            : changeArraySize(
+                updatedTraveler.childrenAges,
+                value,
+                minChildrenAge,
+              );
         break;
       case 'infants':
-        updatedTraveler['infants'] = value;
+        updatedTraveler.infants = value;
+        updatedTraveler.infantsAges =
+          updatedTraveler.infantsAges.length === value
+            ? updatedTraveler.infantsAges
+            : changeArraySize(updatedTraveler.infantsAges, value, 0);
         break;
     }
 

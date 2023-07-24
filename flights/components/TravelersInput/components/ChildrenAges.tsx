@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Traveler } from 'flights/helpers/traveler';
-import { changeArraySize } from 'helpers/arrayUtils';
 import classnames from 'classnames';
-import { useEffect, useState } from 'react';
 import { maxChildrenAge, minChildrenAge } from 'flights';
 import Select from 'components/global/Select/Select';
 
@@ -27,16 +25,6 @@ const ChildrenAges = ({
   const [t, i18next] = useTranslation('global');
   // eslint-disable-next-line quotes
   const childrenAgesLabel = t('childrenAges', "Children's Ages");
-
-  const newChildrenAmount = traveler.children;
-  traveler.childrenAges =
-    traveler.childrenAges.length === newChildrenAmount
-      ? traveler.childrenAges
-      : changeArraySize(
-          traveler.childrenAges,
-          newChildrenAmount,
-          minChildrenAge,
-        );
 
   const ChildrenAgesInput = ({
     indexAge,
