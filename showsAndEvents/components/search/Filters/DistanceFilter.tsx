@@ -1,9 +1,6 @@
 import { Dispatch } from 'react';
-import { useTranslation } from 'react-i18next';
-
 import RangesliderLegacy from 'components/global/Filters/RangesliderLegacy';
 import FilterContainer from './FilterContainer';
-import FilterTitle from './FilterTitle';
 
 interface DistanceFilterProps {
   value: string;
@@ -27,28 +24,22 @@ const DistanceFilter = ({
   onChangeMaxDistance,
   minValue,
   maxValue,
-}: DistanceFilterProps) => {
-  const [t, i18n] = useTranslation('events');
-  const starRatingLabel = t('distanceRange', 'Distance Range');
-
-  return (
-    <FilterContainer>
-      <FilterTitle label={starRatingLabel} />
-      <RangesliderLegacy
-        initialMin={minValue ? parseInt(minValue) : 0}
-        initialMax={
-          maxValue ? parseInt(maxValue) : value ? parseInt(value) : 3000
-        }
-        min={0}
-        max={3000}
-        step={1}
-        minDifference={0}
-        type="distance"
-        setMinState={onChangeMinDistance}
-        setMaxState={onChangeMaxDistance || onChangeDistance}
-      />
-    </FilterContainer>
-  );
-};
+}: DistanceFilterProps) => (
+  <FilterContainer>
+    <RangesliderLegacy
+      initialMin={minValue ? parseInt(minValue) : 0}
+      initialMax={
+        maxValue ? parseInt(maxValue) : value ? parseInt(value) : 3000
+      }
+      min={0}
+      max={3000}
+      step={1}
+      minDifference={0}
+      type="distance"
+      setMinState={onChangeMinDistance}
+      setMaxState={onChangeMaxDistance || onChangeDistance}
+    />
+  </FilterContainer>
+);
 
 export default DistanceFilter;

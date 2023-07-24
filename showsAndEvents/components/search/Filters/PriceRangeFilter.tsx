@@ -1,9 +1,7 @@
 import { Dispatch } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import RangeSlider from 'components/global/RangeSlider/RangeSlider';
 import FilterContainer from './FilterContainer';
-import FilterTitle from './FilterTitle';
 
 interface PriceRangeFilterProps {
   step?: number;
@@ -31,28 +29,22 @@ const PriceRangeFilter = ({
   onChangeMaxPrice,
   setMinValue,
   setMaxValue,
-}: PriceRangeFilterProps) => {
-  const [t, i18n] = useTranslation('events');
-  const priceRangeLabel = t('priceRange', 'Price Range');
-
-  return (
-    <FilterContainer>
-      <FilterTitle label={priceRangeLabel} />
-      <RangeSlider
-        min={0}
-        max={max}
-        step={step}
-        minDifference={minDifference}
-        type="price"
-        setMinState={onChangeMinPrice}
-        setMaxState={onChangeMaxPrice}
-        setMaxValue={setMaxValue}
-        setMinValue={setMinValue}
-        minValue={minValue}
-        maxValue={maxValue}
-      />
-    </FilterContainer>
-  );
-};
+}: PriceRangeFilterProps) => (
+  <FilterContainer>
+    <RangeSlider
+      min={0}
+      max={max}
+      step={step}
+      minDifference={minDifference}
+      type="price"
+      setMinState={onChangeMinPrice}
+      setMaxState={onChangeMaxPrice}
+      setMaxValue={setMaxValue}
+      setMinValue={setMinValue}
+      minValue={minValue}
+      maxValue={maxValue}
+    />
+  </FilterContainer>
+);
 
 export default PriceRangeFilter;
