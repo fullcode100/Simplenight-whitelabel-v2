@@ -5,7 +5,6 @@ import PriceDisplay from '../../PriceDisplay/PriceDisplay';
 import HorizontalSkeletonList from 'components/global/HorizontalItemCard/HorizontalSkeletonList';
 import CustomArrow from 'components/global/CarouselNew/components/CustomArrow';
 import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
-import classNames from 'classnames';
 import ResultCard from '../ResultCard/ResultCard';
 
 const responsive = {
@@ -135,18 +134,11 @@ const ShowAndEventsResultMapView: React.FC<
 
             const itemKey = id + index;
             const isNext = index === nextItem;
-            const cardClassName = classNames(
-              'flex-0-0-auto transition-all duration-300',
-              {
-                'ml-[-30px]': isNext,
-              },
-            );
-
             return (
               <li key={itemKey}>
                 <ResultCard
                   url={url}
-                  className={cardClassName}
+                  className="flex-0-0-auto transition-all duration-300"
                   icon={showCategoryIcon}
                   categoryName={label}
                   item={showEvent}
