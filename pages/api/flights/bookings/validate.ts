@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
+import { FLIGHT_DEBUG } from 'flights';
 
 const defaultErrorMsg = 'Something went wrong, please try again';
 
@@ -19,15 +20,22 @@ export default async function handler(
         },
       },
     );
-    if (data && data.errorMessage === null) {
-      res.status(200).json({ ...data });
-      return;
-    } else if (data && data.errorMessage) {
+    if (data && data.errorMessage) {
       throw new Error(data.errorMessage.error);
     } else if (status !== 200) {
       throw new Error(defaultErrorMsg);
     }
-    res.status(200).json({ isValid: true });
+    const { offer } = body;
+    const fareAmount =
+      data?.mainGroup?.pricingGroupLevelGroup?.[0]?.fareInfoGroup?.fareAmount
+        ?.otherMonetaryDetails?.[0]?.amount || '0';
+    const offerFareAmount = offer.totalFareAmount;
+    res.status(200).json({
+      priceChanged: offerFareAmount !== fareAmount,
+      offerFareAmount,
+      fareAmount,
+      supplier: FLIGHT_DEBUG ? data : null,
+    });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       res.status(error.response?.status as number).json({
