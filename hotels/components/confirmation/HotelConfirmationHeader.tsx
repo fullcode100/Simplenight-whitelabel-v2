@@ -19,8 +19,11 @@ const HotelConfirmationHeader = ({
   const roomsAmount = item?.booking_data?.room_qty;
   const room = t('room', 'Room');
   const rooms = t('rooms', 'Rooms');
-  const roomsLabel = item?.room_qty == 1 ? room : rooms;
-  const roomsFormatted = `${roomsAmount} ${roomsLabel}`;
+  const roomsLabel = roomsAmount == 1 ? room : rooms;
+  const nightsQty = item?.booking_data?.nights ? item?.booking_data.nights : 0;
+  const nightText = t('night', 'Nights');
+  const nigthsText = t('nights', 'Nights');
+  const nightsLabel = nightsQty == 1 ? nightText : nigthsText;
 
   const hotelId = item?.item_data?.id;
   const startDate = item?.item_data?.start_date;
@@ -42,7 +45,7 @@ const HotelConfirmationHeader = ({
           {hotelName}
         </ExternalLink>
         <section className="font-semibold text-dark-800 text-[16px] leading-[22px]">
-          {roomsFormatted}
+          {`${roomsAmount} ${roomsLabel}, ${nightsQty} ${nightsLabel}`}
         </section>
       </section>
     </section>
