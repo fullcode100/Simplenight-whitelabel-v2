@@ -21,5 +21,7 @@
   "email": "Email",
   "lastName": "Last Name",
   "fistName": "First Name",
-  "password": "Password"
+  "password": "Password",
+  "enterValidEmailAddress": "Please enter a valid email address.",
+  "enterValidPassword": "Please enter a valid password."
 }

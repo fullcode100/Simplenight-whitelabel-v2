@@ -67,7 +67,7 @@ const NewPasswordConfirmationForm = ({
             },
             minLength: {
               value: 8,
-              message: g('passwordMinLength', 'Please enter a valid password'),
+              message: g('passwordMinLength', 'Please enter a valid password.'),
             },
           }}
           render={({ field: { value, onChange }, fieldState: { error } }) => (
@@ -93,7 +93,7 @@ const NewPasswordConfirmationForm = ({
             },
             minLength: {
               value: 8,
-              message: g('passwordMinLength', 'Please enter a valid password'),
+              message: g('passwordMinLength', 'Please enter a valid password.'),
             },
           }}
           render={({ field: { value, onChange }, fieldState: { error } }) => (

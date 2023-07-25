@@ -21,5 +21,7 @@
   "email": "Correo Electrónico",
   "lastName": "Apellidos",
   "fistName": "Nombre",
-  "password": "Contraseña"
+  "password": "Contraseña",
+  "enterValidEmailAddress": "Por favor, introduce una dirección de correo electrónico válida.",
+  "enterValidPassword": "Por favor introduce una contraseña válida."
 }

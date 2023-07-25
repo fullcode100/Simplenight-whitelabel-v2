@@ -26,7 +26,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
   const [errorMessage, setErrorMessage] = useState('');
   const { setToken } = useSessionStore();
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, setError } = useForm<FormData>({
     defaultValues: {
       email: '',
       password: '',
@@ -42,12 +42,15 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
       closeModal();
     } catch (error: any) {
       if (error?.response?.data?.message) {
-        setErrorMessage(
-          t(
-            'invalidEmailOrPassword',
-            'Please enter a valid email address or password',
+        setError('email', {
+          message: t(
+            'enterValidEmailAddress',
+            'Please enter a valid email address.',
           ),
-        );
+        });
+        setError('password', {
+          message: t('enterValidPassword', 'Please enter a valid password.'),
+        });
       }
     } finally {
       setLoading(false);
