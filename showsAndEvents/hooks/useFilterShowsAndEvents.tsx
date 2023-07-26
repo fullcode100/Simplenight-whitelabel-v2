@@ -13,17 +13,15 @@ export type availableFilters =
 export const useFilterShowsAndEvents = (
   latitude: string,
   longitude: string,
-  showsAndEvents: SearchItem[],
 ) => {
-  const { setShowsAndEvents, setFilters, filters } = useSearchFilterStore(
-    (state) => state,
-  );
+  const { setFilteredShowsAndEvents, filters, showsAndEvents } =
+    useSearchFilterStore((state) => state);
 
   useEffect(() => {
     if (showsAndEvents) {
       let filterResults = [...showsAndEvents];
       for (const filterToApply in filters) {
-        if (filters[filterToApply]) {
+        if (Object.prototype.hasOwnProperty.call(filters, filterToApply)) {
           switch (filterToApply) {
             case 'minPrice':
               {
@@ -53,7 +51,7 @@ export const useFilterShowsAndEvents = (
               {
                 filterResults = filterResults.filter(
                   ({ extraData }: SearchItem) =>
-                    extraData.ticket_count <= Number(filters[filterToApply]),
+                    extraData.ticket_count >= Number(filters[filterToApply]),
                 );
               }
               break;
@@ -104,20 +102,9 @@ export const useFilterShowsAndEvents = (
           }
         }
       }
-      setShowsAndEvents(filterResults);
+      setFilteredShowsAndEvents(filterResults);
     }
   }, [filters, showsAndEvents]);
-
-  const handleFilterShowsAndEvents = (
-    filterToApply: availableFilters,
-    valueToFilter?: string,
-  ) => {
-    setFilters({
-      ...filters,
-      [filterToApply]: valueToFilter,
-    });
-  };
-  return { handleFilterShowsAndEvents };
 };
 
 const getDistance = (

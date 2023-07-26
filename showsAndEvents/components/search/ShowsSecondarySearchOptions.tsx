@@ -86,7 +86,7 @@ const ShowsSecondarySearchOptions = () => {
         setMaxValue={setMaxPrice}
       />
       <Divider className="my-6" />
-      <DistanceFilter value={distance} onChangeDistance={setDistance} />
+      <DistanceFilter value={Number(distance)} onChangeDistance={setDistance} />
       <Divider className="my-6" />
       <SeatsFilter
         value={seats}

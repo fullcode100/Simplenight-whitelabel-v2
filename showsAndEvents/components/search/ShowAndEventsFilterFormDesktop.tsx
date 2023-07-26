@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
 
 import SeatsFilter from './Filters/SeatsFilter';
 import PriceRangeFilter from './Filters/PriceRangeFilter';
 import FilterContainer from './Filters/FilterContainer';
 
-import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 import DistanceFilter from './Filters/DistanceFilter';
 import FilterCollapseTitle from './Filters/FilterCollapseTitle';
 import Button from 'components/global/Button/Button';
@@ -14,8 +11,10 @@ import Close from 'public/icons/assets/close.svg';
 import { useFilterShowsAndEvents } from 'showsAndEvents/hooks/useFilterShowsAndEvents';
 import useQuery from 'hooks/pageInteraction/useQuery';
 import FiltersIcon from 'public/icons/assets/filters.svg';
-import { useSearchFilterStore } from 'hooks/showsAndEvents/useSearchFilterStore';
-import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
+import {
+  initialFilters,
+  useSearchFilterStore,
+} from 'hooks/showsAndEvents/useSearchFilterStore';
 
 const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
@@ -24,7 +23,6 @@ const Divider = ({ className }: { className?: string }) => (
 interface iShowAndEventsFilterFormDesktop {
   handleHideFilters: () => void;
   isMobile?: boolean;
-  showsAndEvents: SearchItem[];
   onClose: () => void;
   resultAmount: boolean;
 }
@@ -32,54 +30,15 @@ interface iShowAndEventsFilterFormDesktop {
 const ShowAndEventsFilterFormDesktop = ({
   handleHideFilters,
   isMobile,
-  showsAndEvents,
   onClose,
   resultAmount,
 }: iShowAndEventsFilterFormDesktop) => {
-  const router = useRouter();
-  const setQueryParams = useQuerySetter();
   const { latitude, longitude } = useQuery();
-  const [queryFilter] = useState(router.query);
 
-  const setFilters = useSearchFilterStore((state) => state.setFilters);
+  const { setFilters, filters } = useSearchFilterStore((state) => state);
 
-  const { handleFilterShowsAndEvents } = useFilterShowsAndEvents(
-    latitude as string,
-    longitude as string,
-    showsAndEvents,
-  );
+  useFilterShowsAndEvents(latitude as string, longitude as string);
 
-  const initialPriceRange = {
-    min: '0',
-    max: '5000',
-  };
-  const initialSeatsRange = {
-    min: '1',
-    max: '6',
-  };
-  const initialDistanceRange = {
-    min: '0',
-    max: '3000',
-  };
-  const [minPrice, setMinPrice] = useState<string | number>(
-    (queryFilter?.minPrice as string) || initialPriceRange.min,
-  );
-  const [maxPrice, setMaxPrice] = useState<string | number>(
-    (queryFilter?.maxPrice as string) || initialPriceRange.max,
-  );
-  const [minSeats, setMinSeats] = useState<string | number>(
-    initialSeatsRange.min,
-  );
-  const [maxSeats, setMaxSeats] = useState<string | number>(
-    (queryFilter.seats as string) || initialSeatsRange.max,
-  );
-  const [minDistance, setMinDistance] = useState<string>(
-    initialDistanceRange.min,
-  );
-
-  const [maxDistance, setMaxDistance] = useState<string>(
-    (queryFilter.distance as string) || initialDistanceRange.max,
-  );
   const [t, i18n] = useTranslation('events');
 
   const clearFiltersText = t('clearFilters', 'Clear filters');
@@ -90,21 +49,26 @@ const ShowAndEventsFilterFormDesktop = ({
 
   const getCounter = (): number => {
     let list: string[] = [];
-    if (minPrice > initialPriceRange.min || maxPrice > initialPriceRange.max) {
+    if (
+      filters.minPrice > initialFilters.minPrice ||
+      filters.maxPrice < initialFilters.maxPrice
+    ) {
       list.push('price');
     } else {
       list = list.filter((e) => e !== 'price');
     }
 
-    if (minSeats > initialSeatsRange.min || maxPrice > initialSeatsRange.max) {
+    if (
+      filters.minSeats > initialFilters.minSeats ||
+      filters.maxSeats < initialFilters.maxSeats
+    ) {
       list.push('seats');
     } else {
       list = list.filter((e) => e !== 'seats');
     }
-
     if (
-      minDistance > initialDistanceRange.min ||
-      maxDistance > initialDistanceRange.max
+      filters.minDistance > initialFilters.minDistance ||
+      filters.maxDistance < initialFilters.maxDistance
     ) {
       list.push('distance');
     } else {
@@ -114,50 +78,8 @@ const ShowAndEventsFilterFormDesktop = ({
   };
 
   const handleClearFilters = () => {
-    setMinPrice((queryFilter?.minPrice as string) || initialPriceRange.min);
-    setMinDistance(initialDistanceRange.min);
-    setMinSeats(initialSeatsRange.min);
-    setMaxPrice((queryFilter?.maxPrice as string) || initialPriceRange.max);
-    setMaxDistance(
-      (queryFilter.distance as string) || initialDistanceRange.max,
-    );
-    setMaxSeats((queryFilter.seats as string) || initialSeatsRange.max);
-    setFilters({});
+    setFilters(initialFilters);
   };
-
-  useEffect(() => {
-    handleFilterShowsAndEvents('minPrice', minPrice.toString());
-  }, [minPrice]);
-
-  useEffect(() => {
-    handleFilterShowsAndEvents('maxPrice', maxPrice.toString());
-  }, [maxPrice]);
-
-  useEffect(() => {
-    handleFilterShowsAndEvents('minSeats', minSeats.toString());
-  }, [minSeats]);
-
-  useEffect(() => {
-    const baseMaxSeat = Number(
-      (queryFilter.seats as string) || initialSeatsRange.max,
-    );
-    const newMaxSeatFilter =
-      Number(maxSeats) < baseMaxSeat ? maxSeats.toString() : undefined;
-    handleFilterShowsAndEvents('maxSeats', newMaxSeatFilter);
-  }, [maxSeats]);
-
-  useEffect(() => {
-    handleFilterShowsAndEvents('minDistance', minDistance);
-  }, [minDistance]);
-
-  useEffect(() => {
-    const baseMaxDistance = Number(
-      (queryFilter.distance as string) || initialDistanceRange.max,
-    );
-    const newMaxDistanceFilter =
-      Number(maxDistance) < Number(baseMaxDistance) ? maxDistance : undefined;
-    handleFilterShowsAndEvents('maxDistance', newMaxDistanceFilter);
-  }, [maxDistance]);
 
   const FilterHeader = () => (
     <FilterContainer>
@@ -195,42 +117,62 @@ const ShowAndEventsFilterFormDesktop = ({
     </FilterContainer>
   );
 
+  const setFiltersStore = (filter: string, value: string) => {
+    setFilters({ ...filters, [filter]: value });
+  };
+
   return (
     <section className="h-full pr-4">
       <FilterHeader />
       <Divider className="my-6" />
       <FilterCollapseTitle title={priceText}>
         <PriceRangeFilter
-          minValue={Number(minPrice)}
-          maxValue={Number(maxPrice)}
-          onChangeMinPrice={setMinPrice}
-          onChangeMaxPrice={setMaxPrice}
-          setMinValue={(value) => setMinPrice(Number(value))}
-          setMaxValue={(value) => setMaxPrice(Number(value))}
+          minValue={Number(filters.minPrice)}
+          maxValue={Number(filters.maxPrice)}
+          onChangeMinPrice={(value: string) =>
+            setFiltersStore('minPrice', value.toString())
+          }
+          onChangeMaxPrice={(value: string) =>
+            setFiltersStore('maxPrice', value.toString())
+          }
+          setMinValue={(value) => setFiltersStore('minPrice', value.toString())}
+          setMaxValue={(value) => setFiltersStore('maxPrice', value.toString())}
         />
       </FilterCollapseTitle>
       <Divider className="my-6" />
       <FilterCollapseTitle title={distanceText}>
         <DistanceFilter
-          minValue={minDistance}
-          maxValue={maxDistance}
-          value={maxDistance}
-          onChangeDistance={setMaxDistance}
-          onChangeMinDistance={setMinDistance}
-          onChangeMaxDistance={setMaxDistance}
+          minValue={filters.minDistance}
+          maxValue={filters.maxDistance}
+          value={filters.maxDistance}
+          onChangeDistance={(value: string) =>
+            setFiltersStore('maxDistance', value.toString())
+          }
+          onChangeMinDistance={(value: string) =>
+            setFiltersStore('minDistance', value.toString())
+          }
+          onChangeMaxDistance={(value: string) =>
+            setFiltersStore('maxDistance', value.toString())
+          }
         />
       </FilterCollapseTitle>
       <Divider className="my-6" />
       <FilterCollapseTitle title={seatsText}>
         <SeatsFilter
-          minValue={Number(minSeats)}
-          maxValue={Number(maxSeats)}
-          value={Number(maxSeats)}
-          onChangeMaxSeats={setMaxSeats}
-          onChangeMinSeats={setMinSeats}
-          onChangeSeats={setMaxSeats}
-          setMaxValue={(value) => setMaxSeats(Number(value))}
-          setMinValue={(value) => setMinSeats(Number(value))}
+          minValue={Number(filters.minSeats)}
+          maxValue={Number(filters.maxSeats)}
+          value={Number(filters.maxSeats)}
+          onChangeMaxSeats={(value: string) =>
+            setFiltersStore('maxSeats', value.toString())
+          }
+          onChangeMinSeats={(value: string) =>
+            setFiltersStore('minSeats', value.toString())
+          }
+          onChangeSeats={(value: string) =>
+            setFiltersStore('maxSeats', value.toString())
+          }
+          setMaxValue={(value) => setFiltersStore('maxSeats', value.toString())}
+          setMinValue={(value) => setFiltersStore('minSeats', value.toString())}
         />
       </FilterCollapseTitle>
       <section className="text-center lg:hidden">

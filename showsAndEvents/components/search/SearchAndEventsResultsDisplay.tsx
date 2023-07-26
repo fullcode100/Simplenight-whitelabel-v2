@@ -19,7 +19,6 @@ import Button from 'components/global/Button/Button';
 import { ShowsSearchRequest } from 'showsAndEvents/types/request/ShowsSearchRequest';
 import { formatAsSearchDate } from 'helpers/dajjsUtils';
 import { StringGeolocation } from 'types/search/Geolocation';
-const RESULTS_PER_PAGE = 10;
 import EmptyStateContainer from 'components/global/EmptyStateContainer/EmptyStateContainer';
 import { EmptyState } from '@simplenight/ui';
 import { useCategorySlug } from 'hooks/category/useCategory';
@@ -27,9 +26,12 @@ import { SearchItem } from 'showsAndEvents/types/adapters/SearchItem';
 import VerticalSkeletonCard from 'components/global/VerticalItemCard/VerticalSkeletonCard';
 import ShowAndEventsResultMapView from './ShowAndEventsResultMapView/ShowAndEventsResultMapView';
 import { useSearchFilterStore } from 'hooks/showsAndEvents/useSearchFilterStore';
+
 interface ShowsResultsDisplayProps {
   ShowsCategory: CategoryOption;
 }
+
+const RESULTS_PER_PAGE = 10;
 
 const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   const [t, i18next] = useTranslation('events');
@@ -50,11 +52,12 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     query,
   } = useQuery();
   const dstGeolocation = `${latitude},${longitude}`;
-  const filteredShowsAndEvents = useSearchFilterStore(
-    (state) => state.showsAndEvents,
-  );
+  const {
+    filteredShowsAndEvents,
+    setFilteredShowsAndEvents,
+    setShowsAndEvents,
+  } = useSearchFilterStore((state) => state);
 
-  const [sortedShowsEvents, setSortedShowsEvents] = useState<SearchItem[]>([]);
   const [sortBy, setSortBy] = useState<any>(SORT_BY_OPTIONS?.[0].value || '');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [filterView, setFilterView] = useState('list');
@@ -95,6 +98,11 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
   );
 
+  useEffect(() => {
+    if (!data) return;
+    setShowsAndEvents(data);
+  }, [data]);
+
   const lowestPriceItems = useMemo(() => {
     return [...filteredShowsAndEvents].sort(
       ({ rate: rate1 }: SearchItem, { rate: rate2 }: SearchItem) => {
@@ -114,14 +122,14 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
   useEffect(() => {
     if (filteredShowsAndEvents.length) {
       if (sortBy === SORT_BY_OPTIONS[0].value) {
-        setSortedShowsEvents(lowestPriceItems);
+        setFilteredShowsAndEvents(lowestPriceItems);
       } else if (sortBy === SORT_BY_OPTIONS[1].value) {
-        setSortedShowsEvents(HighestPriceItems);
+        setFilteredShowsAndEvents(HighestPriceItems);
       }
     } else {
-      setSortedShowsEvents([]);
+      setFilteredShowsAndEvents([]);
     }
-  }, [filteredShowsAndEvents, sortBy]);
+  }, [sortBy]);
 
   const [addresObject, setAddressObject] = useState({
     address1: '',
@@ -149,7 +157,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
     };
     return (
       <ul>
-        {sortedShowsEvents?.slice(0, next).map((showEvent: SearchItem) => {
+        {filteredShowsAndEvents?.slice(0, next).map((showEvent: SearchItem) => {
           const url = urlDetail(showEvent);
           const {
             id,
@@ -225,20 +233,19 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
               <ShowAndEventsFilterFormDesktop
                 handleHideFilters={() => setShowMobileFilters(false)}
                 isMobile={showMobileFilters}
-                showsAndEvents={data || []}
                 onClose={onCloseFilters}
-                resultAmount={!!sortedShowsEvents.length}
+                resultAmount={!!filteredShowsAndEvents.length}
               />
             )}
           </section>
         )}
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
-          {!isLoading && sortedShowsEvents.length ? (
+          {!isLoading && filteredShowsAndEvents.length ? (
             <>
               <section className="block">
                 <>
                   <ResultsOptionsBar
-                    results={sortedShowsEvents.length}
+                    results={filteredShowsAndEvents.length}
                     sortByOptions={SORT_BY_OPTIONS}
                     onClickSort={setSortBy}
                     onClickFilter={() => setShowMobileFilters(true)}
@@ -253,7 +260,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
               {isListView && <ThingsToDoList />}
               {!isListView && (
                 <ShowAndEventsResultMapView
-                  items={sortedShowsEvents}
+                  items={filteredShowsAndEvents}
                   isLoading={isLoading}
                   showCategoryIcon={ShowsCategory.icon}
                   createUrl={urlDetail}
@@ -261,7 +268,7 @@ const ThingsResultsDisplay = ({ ShowsCategory }: ShowsResultsDisplayProps) => {
                 />
               )}
 
-              {sortedShowsEvents.length > next && (
+              {filteredShowsAndEvents.length > next && (
                 <section className="text-center">
                   <Button
                     onClick={loadMoreResults}

@@ -3,7 +3,7 @@ import RangesliderLegacy from 'components/global/Filters/RangesliderLegacy';
 import FilterContainer from './FilterContainer';
 
 interface DistanceFilterProps {
-  value: string;
+  value: number;
   onChangeDistance:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
@@ -13,8 +13,8 @@ interface DistanceFilterProps {
   onChangeMaxDistance?:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
-  minValue?: string;
-  maxValue?: string;
+  minValue?: number;
+  maxValue?: number;
 }
 
 const DistanceFilter = ({
@@ -27,10 +27,8 @@ const DistanceFilter = ({
 }: DistanceFilterProps) => (
   <FilterContainer>
     <RangesliderLegacy
-      initialMin={minValue ? parseInt(minValue) : 0}
-      initialMax={
-        maxValue ? parseInt(maxValue) : value ? parseInt(value) : 3000
-      }
+      initialMin={minValue ? minValue : 0}
+      initialMax={maxValue ? maxValue : value ? value : 3000}
       min={0}
       max={3000}
       step={1}

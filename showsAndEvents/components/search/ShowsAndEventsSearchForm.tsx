@@ -24,7 +24,10 @@ import { fromLowerCaseToCapitilize } from '../../../helpers/stringUtils';
 import { SHOWS_AND_EVENTS } from 'showsAndEvents';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 import { Paragraph } from '@simplenight/ui';
-import { useSearchFilterStore } from 'hooks/showsAndEvents/useSearchFilterStore';
+import {
+  initialFilters,
+  useSearchFilterStore,
+} from 'hooks/showsAndEvents/useSearchFilterStore';
 export interface Option {
   value: string;
   label: string;
@@ -36,6 +39,7 @@ const ShowsAndEvents = ({
   hasReRoute = false,
 }: SearchFormProps) => {
   const router = useRouter();
+  const { setFilters } = useSearchFilterStore((state) => state);
 
   const [t] = useTranslation('things');
   const [te] = useTranslation('events');
@@ -54,7 +58,6 @@ const ShowsAndEvents = ({
   const [address, setAddress] = useState<string | undefined>(
     params.address ? (params.address as string) : '',
   );
-  const setFilters = useSearchFilterStore((state) => state.setFilters);
 
   const [geolocation, setGeolocation] = useState<StringGeolocation>(
     `${parseFloat(params.latitude as string)},${parseFloat(
@@ -95,7 +98,7 @@ const ShowsAndEvents = ({
   };
 
   const rerouteToSearchPage = () => {
-    setFilters({});
+    setFilters(initialFilters);
     const route = `/search/${SHOWS_AND_EVENTS}?startDate=${startDate}&endDate=${endDate}&latitude=${
       geolocation?.split(',')[LATITUDE_INDEX]
     }&longitude=${
