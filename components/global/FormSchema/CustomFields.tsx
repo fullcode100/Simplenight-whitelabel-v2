@@ -96,6 +96,7 @@ export const CustomPassword = (props: any) => {
           id,
         }}
         errorMessage={errorMessage}
+        inputClassName={'pr-10'}
         rightIcon={
           <div
             className={

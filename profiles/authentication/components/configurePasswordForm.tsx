@@ -1,7 +1,7 @@
 import { SectionTitle } from '@simplenight/ui';
 import Button from 'components/global/Button/Button';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { IAuthComponent } from '..';
 import { Controller, useForm } from 'react-hook-form';
 import { TextTemplate } from '../../../components/global/FormSchema/FormTemplates';
@@ -46,9 +46,11 @@ const ConfigurePasswordForm = ({
   const {
     control,
     handleSubmit,
-    formState: { isValid },
+    setError,
+    watch,
+    trigger,
+    formState: { isValid, errors },
   } = useForm<FormData>({
-    mode: 'all',
     defaultValues: {
       confirmPassword: '',
       password: '',
@@ -56,8 +58,22 @@ const ConfigurePasswordForm = ({
     },
   });
 
+  const password = watch('password');
+  const confirmPassword = watch('confirmPassword');
+  useEffect(() => {
+    if (confirmPassword != '' && confirmPassword != '') {
+      trigger('confirmPassword');
+    }
+  }, [password, confirmPassword]);
+
   const onSubmit = async (values: FormData) => {
     try {
+      if (values.password !== values.confirmPassword) {
+        return setError(
+          'confirmPassword',
+          t('passwordsDoNotMatch', 'Passwords do not match'),
+        );
+      }
       setLoading(true);
       setErrorMessage('');
       const token = await configurePassword(values.password, i18n);
@@ -106,12 +122,12 @@ const ConfigurePasswordForm = ({
                 },
               },
             }}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
+            render={({ field: { value, onChange } }) => (
               <TextTemplate label={'Password'}>
                 <CustomPassword
                   value={value}
                   onChange={onChange}
-                  errorMessage={error?.message}
+                  errorMessage={errors.password?.message}
                   placeholder={'Password'}
                 />
               </TextTemplate>
@@ -136,12 +152,12 @@ const ConfigurePasswordForm = ({
                 },
               },
             }}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
+            render={({ field: { value, onChange } }) => (
               <TextTemplate label={'Re-Enter Password'}>
                 <CustomPassword
                   value={value}
                   onChange={onChange}
-                  errorMessage={error?.message}
+                  errorMessage={errors.confirmPassword?.message}
                   placeholder={'Re-Enter Password'}
                 />
               </TextTemplate>

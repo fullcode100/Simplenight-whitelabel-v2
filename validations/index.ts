@@ -1,6 +1,7 @@
 type Translations = (text: string, defaultValue: string) => string;
 
-const EmailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+const EmailRegex =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const EmailRules = (t: Translations) => ({
   required: {
     value: true,
@@ -67,7 +68,7 @@ export const PasswordCustomValidationWithEmail = (
   email: string,
 ) => {
   return () => {
-    const regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{0,}$/;
+    const regex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*\W)(?!.* ).{0,}$/;
     const isValid = regex.test(password);
     if (!isValid) {
       return t('enterValidPassword', 'Please enter a valid password.');
