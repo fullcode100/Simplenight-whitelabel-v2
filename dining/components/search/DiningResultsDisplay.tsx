@@ -34,6 +34,7 @@ import FilterSidebarDining from './filters/FilterSidebarDining';
 import useModal from 'hooks/layoutAndUITooling/useModal';
 import FiltersIcon from 'public/icons/assets/filters.svg';
 import useMediaViewport from 'hooks/media/useMediaViewport';
+import useScrollPosition from 'hooks/layoutAndUITooling/useScrollPosition';
 
 type sortByFilters = 'Best Match' | 'Rating' | 'Review Count' | 'Distance';
 
@@ -75,6 +76,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   const isPhilippines = address?.toString().endsWith('Philippines');
 
   const { isDesktop } = useMediaViewport();
+  const { y: yPosition } = useScrollPosition();
 
   const params: DiningSearchRequest = {
     covers: '2',
@@ -242,16 +244,22 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
 
   return (
     <>
-      <section className="lg:flex lg:w-full">
+      <section className="lg:flex lg:w-full relative">
         {isOpen && (
-          <section>
-            <FilterSidebarDining
-              filtersCount={filtersCount}
-              onClose={onClose}
-              isOpen={isOpen}
-              sortBySelect={sortBySelect}
-              allowsReservationFilter={allowsReservationFilter}
-            />
+          <section className="relative w-[25%]">
+            <section
+              className={classnames('relative md:sticky', {
+                'md:top-[7rem]': yPosition > 182,
+              })}
+            >
+              <FilterSidebarDining
+                filtersCount={filtersCount}
+                onClose={onClose}
+                isOpen={isOpen}
+                sortBySelect={sortBySelect}
+                allowsReservationFilter={allowsReservationFilter}
+              />
+            </section>
           </section>
         )}
         <section className="relative h-full lg:mt-6 lg:w-[75%] lg:flex-1">
