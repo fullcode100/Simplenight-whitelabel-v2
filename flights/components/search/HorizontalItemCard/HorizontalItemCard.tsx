@@ -25,6 +25,8 @@ interface CardProps {
   selectFlight?: (flight: FlightItem) => void;
   directionLabel?: string;
   onClose?: () => void;
+  basic?: boolean;
+  newPrice?: string;
 }
 
 const HorizontalItemCard = ({
@@ -33,6 +35,8 @@ const HorizontalItemCard = ({
   selectFlight,
   directionLabel,
   onClose,
+  basic,
+  newPrice,
 }: CardProps) => {
   const { isDesktop } = useMediaViewport();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -53,10 +57,22 @@ const HorizontalItemCard = ({
           <div className="flex flex-1 gap-4 px-4 py-2 overflow-hidden">
             <FlightAirlines segments={segments} />
             <TimeAndAirports segments={segments} />
-            <DurationAndStops item={item} />
-            <InclusionsAndExclusions item={item.segments} />
+            {!basic && (
+              <>
+                <DurationAndStops item={item} />
+                <InclusionsAndExclusions item={item.segments} />
+              </>
+            )}
           </div>
           {selectFlight && <Pricing price={price} onClick={onSelectFlight} />}
+          {!!newPrice && (
+            <div className="flex items-center">
+              <span className="text-error-1000 line-through pr-3">{price}</span>
+              <span className="text-green-1000 text-[18px] pr-3">
+                {newPrice}
+              </span>
+            </div>
+          )}
         </section>
         {isExpanded && <CardCollapsable segments={segments} />}
       </section>
