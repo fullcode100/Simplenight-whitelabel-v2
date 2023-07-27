@@ -24,6 +24,7 @@
   "password": "Password",
   "enterValidEmailAddress": "Please enter a valid email address.",
   "enterValidPassword": "Please enter a valid password.",
+  "passwordValidationsParams": "Password should contain no less than 8 characters and no more than 15. Min. 1 uppercase, 1 number, and 1 symbol. Can’t contain same characters as email.",
   "linkAlreadySent": "We already sent an email to ",
   "troubleSingIn": "Trouble signing in?",
   "troubleSingUp": "Trouble signing up?"

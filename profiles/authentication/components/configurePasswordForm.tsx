@@ -18,6 +18,7 @@ import {
 import { configurePassword } from '../../core/services/AuthClientService';
 import { useRouter } from 'next/router';
 import { useSessionStore } from '../../../hooks/auth/useSessionStore';
+import PasswordHelpTooltip from '../../../components/global/Tooltips/PasswordHelpTooltip';
 
 interface FormData {
   confirmPassword: string;
@@ -131,7 +132,10 @@ const ConfigurePasswordForm = ({
               },
             }}
             render={({ field: { value, onChange } }) => (
-              <TextTemplate label={'Password'}>
+              <TextTemplate
+                label={'Password'}
+                tooltip={<PasswordHelpTooltip />}
+              >
                 <CustomPassword
                   value={value}
                   onChange={onChange}
