@@ -45,10 +45,8 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
   const showCart = hasCartMode();
   const [showAuthMenu, setShowAuthMenu] = useState(false);
   const { token, setToken, clear } = useSessionStore();
-  const { confirmPass, setNewPass, confirmPassError } = useQuery() as {
-    confirmPass: string;
-    setNewPass: string;
-    confirmPassError: string;
+  const { view } = useQuery() as {
+    view: IAuthModalType;
   };
 
   useEffect(() => {
@@ -59,16 +57,10 @@ const HeaderDesktop = ({ cartQty, onOpen, openAuth }: HeaderDesktopProps) => {
   }, []);
 
   useEffect(() => {
-    if (confirmPass) {
-      openAuth && openAuth('configurePassword');
+    if (view) {
+      openAuth && openAuth(view);
     }
-    if (setNewPass) {
-      openAuth && openAuth('newPasswordConfirmationForm');
-    }
-    if (confirmPassError) {
-      openAuth && openAuth('configurePasswordError');
-    }
-  }, [confirmPass, setNewPass]);
+  }, [view]);
 
   const orderLookupText = tg('orderLookup', 'Order Lookup');
   const { language } = i18n;

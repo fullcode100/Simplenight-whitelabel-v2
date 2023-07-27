@@ -1,21 +1,23 @@
 export const generateRandomString = () =>
   `${Math.random().toString(36).slice(-8)}.A123`;
-
-const TEMPORAL_CREDENTIALS = 'temporalCredentials';
-interface TemporalCredentials {
-  email: string;
-  password: string;
-}
-export const setTemporalCredentials = (credentials: TemporalCredentials) => {
-  localStorage.setItem(TEMPORAL_CREDENTIALS, JSON.stringify(credentials));
-};
-export const getTemporalCredentials = (): TemporalCredentials | null => {
-  const value = localStorage.getItem(TEMPORAL_CREDENTIALS);
+export const NEW_EMAIL_VALIDATION_DATE = 'newEmailValidationLinkDate';
+const getNewEmailValidationDateKey = (email: string) =>
+  `${NEW_EMAIL_VALIDATION_DATE}_${email}`;
+export const getNewEmailValidationLinkDate = (email: string) => {
+  const value = localStorage.getItem(getNewEmailValidationDateKey(email));
   if (value) {
-    return JSON.parse(value) as TemporalCredentials;
+    return new Date(JSON.parse(value));
   }
   return null;
 };
-export const cleanTemporalCredentials = () => {
-  localStorage.removeItem(TEMPORAL_CREDENTIALS);
+
+export const setNewEmailValidationLinkDate = (email: string, date: Date) => {
+  localStorage.setItem(
+    getNewEmailValidationDateKey(email),
+    JSON.stringify(date),
+  );
+};
+
+export const cleanNewEmailValidationLinkDate = () => {
+  localStorage.removeItem(NEW_EMAIL_VALIDATION_DATE);
 };

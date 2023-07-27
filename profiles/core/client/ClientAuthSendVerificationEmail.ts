@@ -16,7 +16,7 @@ export class ClientAuthSendVerificationEmail extends ClientRequester<
     request: string,
     axios: AxiosInstance,
   ): Promise<AxiosResponse<null, any>> {
-    const url = 'auth/sendVerificationEmail';
+    const url = 'auth/sendVerificationEmailResetPassword';
     return axios.post(url, {
       email: request,
     });

@@ -23,5 +23,8 @@
   "fistName": "Nombre",
   "password": "Contraseña",
   "enterValidEmailAddress": "Por favor, introduce una dirección de correo electrónico válida.",
-  "enterValidPassword": "Por favor introduce una contraseña válida."
+  "enterValidPassword": "Por favor introduce una contraseña válida.",
+  "linkAlreadySent": "Ya enviamos un correo a ",
+  "troubleSingIn": "¿Problemas para entrar?",
+  "troubleSingUp": "¿Problemas para registrarse?"
 }

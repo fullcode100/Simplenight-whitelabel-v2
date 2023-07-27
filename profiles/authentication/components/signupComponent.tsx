@@ -44,14 +44,13 @@ const SignUp = ({ changeAuthType, setExtraProps }: IAuthComponent) => {
         },
         i18n,
       );
-      await sendVerificationEmail(values.email, i18n);
       setExtraProps((props: any) => ({
         ...props,
         email: values.email,
         resetPassword: false,
         passwordUpdated: false,
       }));
-      changeAuthType('emailConfirmation');
+      changeAuthType('emailValidationSent');
     } catch (error: any) {
       if (error?.response?.data?.message) {
         setErrorMessage(error?.response?.data?.message);

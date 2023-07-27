@@ -23,5 +23,8 @@
   "fistName": "First Name",
   "password": "Password",
   "enterValidEmailAddress": "Please enter a valid email address.",
-  "enterValidPassword": "Please enter a valid password."
+  "enterValidPassword": "Please enter a valid password.",
+  "linkAlreadySent": "We already sent an email to ",
+  "troubleSingIn": "Trouble signing in?",
+  "troubleSingUp": "Trouble signing up?"
 }

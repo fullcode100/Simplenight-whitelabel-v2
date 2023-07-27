@@ -17,7 +17,7 @@ export class ServerAuthSendVerificationEmail extends ServerRequesterAuth<null> {
     axios: AxiosInstance,
   ): Promise<AxiosResponse<null>> {
     const body = request.body;
-    const loginUrl = '/auth/send-verification-email';
+    const loginUrl = '/auth/send-verification-email-reset-password';
 
     const url = applyApiAuthUrlV1(loginUrl);
     return axios.post<null>(url, body);

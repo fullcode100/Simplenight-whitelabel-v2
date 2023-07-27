@@ -1,5 +1,5 @@
 import { Modal } from '@simplenight/ui';
-import {
+import React, {
   Dispatch,
   MouseEvent,
   SetStateAction,
@@ -11,12 +11,14 @@ import Login from './components/loginComponent';
 import ConfigurePasswordForm from './components/configurePasswordForm';
 import SignUp from './components/signupComponent';
 import Close from '/public/icons/assets/close.svg';
-import SNIcon from 'public/icons/logos/sn-mobile-logo.svg';
 import Arrow from 'public/icons/assets/flights/arrow_left.svg';
 import ResetPassword from './components/resetPassword';
 import SetNewPassword from './components/setNewPassword';
 import NewPasswordConfirmationForm from './components/newPasswordConfirmationForm';
 import ConfigurePasswordError from './components/configurePasswordError';
+import ValidationEmailHasAlreadySent from './components/validationEmailHasAlreadySent';
+import EmailValidationSent from './components/emailValidationSent';
+import type { ParsedUrlQuery } from 'querystring';
 
 export interface IExtraProps {
   email?: string;
@@ -28,6 +30,7 @@ export interface IAuthComponent extends IExtraProps {
   changeAuthType: Dispatch<SetStateAction<IAuthModalType>>;
   token?: string;
   setExtraProps: Dispatch<SetStateAction<any>>;
+  query?: Record<string, string>;
 }
 
 export type IAuthModalType =
@@ -38,16 +41,15 @@ export type IAuthModalType =
   | 'newPasswordConfirmationForm'
   | 'setNewPassword'
   | 'configurePassword'
-  | 'configurePasswordError';
+  | 'configurePasswordError'
+  | 'validationEmailHasAlreadySent'
+  | 'emailValidationSent';
 interface IAuthentication {
   open: boolean;
   onClose: (event?: MouseEvent<HTMLElement>) => void;
   type: IAuthModalType;
   setAuthType: Dispatch<SetStateAction<IAuthModalType>>;
-  query: {
-    confirmPass?: string;
-    setNewPass?: string;
-  };
+  query: ParsedUrlQuery;
 }
 
 const Authentication = ({
@@ -58,6 +60,10 @@ const Authentication = ({
   query,
 }: IAuthentication) => {
   const [extraProps, setExtraProps] = useState<IExtraProps>();
+  const { resetPasswordToken, email } = query as {
+    email: string;
+    resetPasswordToken: string;
+  };
 
   const AuthTypeMap = {
     login: (props: any) => <Login {...props} {...extraProps} />,
@@ -66,17 +72,32 @@ const Authentication = ({
       <EmailConfirmation {...props} {...extraProps} />
     ),
     resetPassword: (props: any) => <ResetPassword {...props} {...extraProps} />,
-    newPasswordConfirmationForm: (props: any) => (
+    newPasswordConfirmationForm: (props: IAuthComponent) => (
       <NewPasswordConfirmationForm {...props} />
     ),
-    setNewPassword: (props: any) => (
-      <SetNewPassword {...props} token={query.setNewPass} {...extraProps} />
+    setNewPassword: (props: IAuthComponent) => (
+      <SetNewPassword
+        {...props}
+        token={resetPasswordToken || ''}
+        {...extraProps}
+      />
     ),
-    configurePassword: (props: any) => (
-      <ConfigurePasswordForm {...props} {...extraProps} />
+    configurePassword: (props: IAuthComponent) => (
+      <ConfigurePasswordForm
+        {...props}
+        {...extraProps}
+        resetPasswordToken={resetPasswordToken}
+        email={email}
+      />
     ),
-    configurePasswordError: (props: any) => (
-      <ConfigurePasswordError {...props} />
+    emailValidationSent: (props: any) => (
+      <EmailValidationSent {...props} {...extraProps} />
+    ),
+    configurePasswordError: (props: IAuthComponent) => (
+      <ConfigurePasswordError {...props} email={email} />
+    ),
+    validationEmailHasAlreadySent: (props: IAuthComponent) => (
+      <ValidationEmailHasAlreadySent {...props} email={email} />
     ),
   };
 
@@ -103,11 +124,6 @@ const Authentication = ({
           Back
         </section>
         <section className="w-full h-full lg:w-1/2 p-10 flex-col flex content-center justify-between overflow-y-auto">
-          <SNIcon
-            width={300}
-            height={90}
-            className="flex lg:hidden align-middle self-center"
-          />
           <AuthTypeElement
             closeModal={onClose}
             changeAuthType={setAuthType}

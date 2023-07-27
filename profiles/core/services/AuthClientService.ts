@@ -8,13 +8,14 @@ import { ResetPasswordClientRequest } from '../types/request/ResetPasswordClient
 import { ClientAuthResetPassword } from '../client/ClientAuthResetPassword';
 import { ClientAuthConfigurePassword } from '../client/ClientAuthConfigurePassword';
 import {
-  cleanTemporalCredentials,
-  getTemporalCredentials,
-  setTemporalCredentials,
+  cleanNewEmailValidationLinkDate,
+  getNewEmailValidationLinkDate,
+  setNewEmailValidationLinkDate,
 } from '../utils';
-import { useSessionStore } from '../../../hooks/auth/useSessionStore';
+import moment from 'moment';
 
 export const SESSION_TOKEN = 'token';
+
 interface LoginOptions {
   setTokenInSessionStorage: boolean;
 }
@@ -35,8 +36,18 @@ export const loginWithToken = (token: string) => {
   localStorage.setItem(SESSION_TOKEN, token);
 };
 export const sendVerificationEmail = async (email: string, i18next: i18n) => {
+  const lastRequestNewLink = getNewEmailValidationLinkDate(email);
+  if (lastRequestNewLink) {
+    const diffHours = moment(lastRequestNewLink).diff(moment(), 'hours');
+    if (diffHours < 24) {
+      return false;
+    }
+  }
+
   const client = new ClientAuthSendVerificationEmail();
   await client.request(email, i18next);
+  setNewEmailValidationLinkDate(email, new Date());
+  return true;
 };
 
 export const verifyEmail = async (token: string, i18next: i18n) => {
@@ -44,20 +55,26 @@ export const verifyEmail = async (token: string, i18next: i18n) => {
   await client.request(token, i18next);
 };
 
-export const configurePassword = async (password: string, i18next: i18n) => {
-  const temporalCredentials = getTemporalCredentials();
-  if (!temporalCredentials) {
-    throw new Error('Temporal Credentials doesnt exist');
-  }
-  const token = await login(temporalCredentials, i18next);
-  if (temporalCredentials.email && temporalCredentials.password) {
-    const client = new ClientAuthConfigurePassword();
-    await client.request({ password, token: token }, i18next);
-    loginWithToken(token);
-    cleanTemporalCredentials();
-    return token;
-  }
-  return null;
+interface ConfigurePasswordParams {
+  email: string;
+  password: string;
+  resetPasswordToken: string;
+}
+
+export const configurePassword = async (
+  { password, resetPasswordToken, email }: ConfigurePasswordParams,
+  i18next: i18n,
+) => {
+  await resetPassword(
+    { password: password, token: resetPasswordToken },
+    i18next,
+  );
+  const token = await login({ email: email, password: password }, i18next);
+  const client = new ClientAuthConfigurePassword();
+  await client.request({ password, token: token }, i18next);
+  loginWithToken(token);
+  cleanNewEmailValidationLinkDate();
+  return token;
 };
 
 export const sendForgotPasswordEmail = async (email: string, i18next: i18n) => {

@@ -16,7 +16,6 @@ import {
   PasswordRules,
 } from '../../../validations';
 import { configurePassword } from '../../core/services/AuthClientService';
-import { getTemporalCredentials } from '../../core/utils';
 import { useRouter } from 'next/router';
 import { useSessionStore } from '../../../hooks/auth/useSessionStore';
 
@@ -26,23 +25,23 @@ interface FormData {
   email: string;
 }
 
+interface IConfigurePasswordForm extends IAuthComponent {
+  resetPasswordToken: string;
+  email: string;
+}
 const ConfigurePasswordForm = ({
   changeAuthType,
   closeModal,
-}: IAuthComponent) => {
+  resetPasswordToken,
+  email,
+}: IConfigurePasswordForm) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
   const { setToken } = useSessionStore();
-  const email = useMemo(() => {
-    const value = getTemporalCredentials();
-    if (value) {
-      return value.email;
-    }
-    return '';
-  }, []);
+
   const {
     control,
     handleSubmit,
@@ -76,12 +75,21 @@ const ConfigurePasswordForm = ({
       }
       setLoading(true);
       setErrorMessage('');
-      const token = await configurePassword(values.password, i18n);
-      if (token) {
-        setToken(token);
+      if (resetPasswordToken) {
+        const token = await configurePassword(
+          {
+            email,
+            password: values.password,
+            resetPasswordToken: resetPasswordToken,
+          },
+          i18n,
+        );
+        if (token) {
+          setToken(token);
+        }
+        router.push('/');
+        closeModal();
       }
-      router.push('/');
-      closeModal();
     } catch (error: any) {
       if (error?.response?.data?.message) {
         setErrorMessage(error?.response?.data?.message);
