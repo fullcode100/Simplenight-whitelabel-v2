@@ -25,6 +25,7 @@ interface ButtonProps {
     | 'square-outlined'
     | 'square-no-bg';
   [key: string]: any;
+  handleType?: 'submit' | 'button';
 }
 
 /* eslint new-cap: ["off"] */
@@ -39,6 +40,7 @@ const Button = ({
   disabledRight = false,
   className = '',
   leftIcon,
+  handleType = 'submit',
   ...others
 }: ButtonProps) => {
   const colors = useColor(color, type);
@@ -91,6 +93,7 @@ const Button = ({
           disabled={disabled}
           className={className}
           leftIcon={leftIcon}
+          handleType={handleType}
           {...others}
         />
       );

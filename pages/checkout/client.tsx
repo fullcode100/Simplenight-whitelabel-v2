@@ -39,9 +39,6 @@ import { useCoreStore } from 'hooks/core/useCoreStore';
 interface LayoutProps {
   children: ReactNode;
 }
-
-const ITINERARY_URI = '/itinerary';
-
 const Client = () => {
   const router = useRouter();
   const { trackEvent } = useGA4();
@@ -308,7 +305,6 @@ const Client = () => {
       action: TRACK_ACTION.CLICK,
       label: TRACK_LABEL.CANCEL,
     });
-    // router.push(ITINERARY_URI);
     router.back();
   };
 
@@ -537,6 +533,7 @@ const Client = () => {
                         size={'full'}
                         onClick={cancelItinerary}
                         color="outlined"
+                        handleType="button"
                         className="lg:w-[35%] text-[18px] bg-white border border-dark-1000 text-dark-1000 font-normal hover:text-white hover:bg-dark-1000"
                       />
                       <Button

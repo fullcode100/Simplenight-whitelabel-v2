@@ -9,4 +9,5 @@ export interface ButtonVariantProp {
   className: string;
   leftIcon?: React.ReactNode;
   [key: string]: any;
+  handleType?: 'submit' | 'button';
 }

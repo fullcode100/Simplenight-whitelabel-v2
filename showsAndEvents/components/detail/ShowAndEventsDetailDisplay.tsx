@@ -321,7 +321,7 @@ const ShowAndEventsDetailDisplay = ({
             />
           }
         >
-          {similarShowEventItems?.map((showEvent: any) => {
+          {similarShowEventItems?.map((showEvent: any, i: number) => {
             const url = urlDetail(showEvent);
             const {
               id,
@@ -345,7 +345,7 @@ const ShowAndEventsDetailDisplay = ({
             } ${[state, countryCode].filter((item) => item).join(', ')}`;
 
             return (
-              <div key={id} className="w-full mb-8 pr-[10px]">
+              <div key={i} className="w-full mb-8 pr-[10px]">
                 <ResultCard
                   url={url}
                   icon={ThingsCategory.icon}
@@ -533,10 +533,10 @@ const ShowAndEventsDetailDisplay = ({
                   <p className="text-lg leading-5 lg:text-[18px] lg:leading-[22px] font-semibold">
                     {`${sectorLabel} ${title}`}
                   </p>
-                  {rows.map((row) => {
+                  {rows.map((row, i: number) => {
                     return (
                       <TicketCard
-                        key={title}
+                        key={i}
                         {...row}
                         add={(value) => {
                           addSelectedSeastsInfo({

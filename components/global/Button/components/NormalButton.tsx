@@ -8,6 +8,7 @@ const NormalButton = ({
   disabled,
   className,
   leftIcon,
+  handleType,
   ...others
 }: ButtonVariantProp) => {
   const buttonIconClassNames = 'flex w-full gap-1 justify-center items-center';
@@ -23,6 +24,7 @@ const NormalButton = ({
         },
         className,
       )}
+      type={handleType}
       {...others}
     >
       {leftIcon}
