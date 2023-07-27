@@ -27,8 +27,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { usePassengerSchema } from 'flights/hooks/usePassengerSchema';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
 import { useCustomer } from 'hooks/checkout/useCustomer';
-import { forEach } from 'lodash';
-import PriceChangeModal from './priceChangeModal/priceChangeModal';
+import PriceChangeModal from 'components/global/PriceChangeModal/PriceChangeModal';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 
