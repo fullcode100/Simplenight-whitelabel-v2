@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import Sort from 'public/icons/assets/sort.svg';
+import { useTranslation } from 'react-i18next';
 import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 
 interface TabItemProps {
@@ -22,6 +22,8 @@ const TicketTabs = ({
   selectedTab,
   setSelectedTab,
 }: TicketTabsProps) => {
+  const [t] = useTranslation('events');
+  const allSectorsLabel = t('allSectors');
   const TabItem = ({ children, isActive }: TabItemProps) => {
     return (
       <button onClick={() => setSelectedTab(children)}>
@@ -38,14 +40,19 @@ const TicketTabs = ({
   return (
     <section className="overflow-x-scroll scrollbar-hide">
       <div className="flex gap-2 border-b-2 text-dark-700">
-        <TabItem
-          isActive={sectorsInfo.every(({ title }) => title !== selectedTab)}
-        >
-          All sectors
-        </TabItem>
+        {sectorsInfo.length > 1 && (
+          <TabItem
+            isActive={sectorsInfo.every(({ title }) => title !== selectedTab)}
+          >
+            {allSectorsLabel}
+          </TabItem>
+        )}
         {sectorsInfo.map(({ title }, id) => {
           return (
-            <TabItem key={id} isActive={title === selectedTab}>
+            <TabItem
+              key={id}
+              isActive={title === selectedTab || sectorsInfo.length === 1}
+            >
               {title}
             </TabItem>
           );

@@ -9,5 +9,6 @@
   "taxesAndFeesDisclaimer": "Los impuestos son cargos de recuperación de impuestos que Simplenight paga a sus proveedores (por ejemplo, hoteles); Para obtener más información, consulte nuestros Términos de uso. Retenemos nuestras tarifas de servicio como compensación por el servicio de su reserva de viaje.",
   "updatedCart": "Carrito actualizado",
   "removedEvenItemFromCart": "La reservación para {event} fue removida.",
-  "getMemorableExperiences": "Obtenga experiencias memorables con la emisión segura de entradas para eventos."
+  "getMemorableExperiences": "Obtenga experiencias memorables con la emisión segura de entradas para eventos.",
+  "allSectors": "Todos los sectores"
 }
