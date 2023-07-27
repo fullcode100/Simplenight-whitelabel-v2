@@ -7,7 +7,7 @@ interface Props {
 
 const CardLogo = ({ cardBrand }: Props) => {
   const icon = brandsList.find((brand) => {
-    if (brand.name.includes(cardBrand)) {
+    if (cardBrand && brand.name.includes(cardBrand.toUpperCase())) {
       return true;
     }
     return false;
