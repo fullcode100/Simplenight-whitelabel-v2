@@ -10,7 +10,9 @@ const ResetPassword = () => {
   const router = useRouter();
   useEffect(() => {
     if (token) {
-      router.push(`/?view=setNewPass&resetPasswordToken=${token}`);
+      router.push(
+        `/?view=newPasswordConfirmationForm&resetPasswordToken=${token}`,
+      );
     }
   }, [token]);
   return null;

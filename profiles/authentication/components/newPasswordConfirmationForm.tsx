@@ -10,16 +10,22 @@ import { CustomPassword } from '../../../components/global/FormSchema/CustomFiel
 import ErrorMessage from '../../../components/global/ErrorMessage';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
 import AuthenticationContainer from '../../../components/authenticationContainer';
+import { resetPassword } from '../../core/services/AuthClientService';
 
 interface FormData {
   confirmPassword: string;
   password: string;
 }
 
+interface INewPasswordConfirmationForm extends IAuthComponent {
+  resetPasswordToken: string;
+}
+
 const NewPasswordConfirmationForm = ({
   changeAuthType,
   setExtraProps,
-}: IAuthComponent) => {
+  resetPasswordToken,
+}: INewPasswordConfirmationForm) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
@@ -36,6 +42,13 @@ const NewPasswordConfirmationForm = ({
     try {
       setLoading(true);
       setErrorMessage('');
+      await resetPassword(
+        {
+          password: values.password,
+          token: resetPasswordToken,
+        },
+        i18n,
+      );
       setExtraProps((props: any) => ({
         ...props,
         email: undefined,

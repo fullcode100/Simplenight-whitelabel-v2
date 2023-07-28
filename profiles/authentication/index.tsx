@@ -73,7 +73,10 @@ const Authentication = ({
     ),
     resetPassword: (props: any) => <ResetPassword {...props} {...extraProps} />,
     newPasswordConfirmationForm: (props: IAuthComponent) => (
-      <NewPasswordConfirmationForm {...props} />
+      <NewPasswordConfirmationForm
+        {...props}
+        resetPasswordToken={resetPasswordToken}
+      />
     ),
     setNewPassword: (props: IAuthComponent) => (
       <SetNewPassword
