@@ -178,10 +178,10 @@ const FlightResultsDisplay = ({
     }
   };
 
-  const { data, isLoading } = useReactQuery(
+  const { data, isFetching } = useReactQuery(
     ['flights-search', params],
     fetchFligths,
-    { retry: false, staleTime: Infinity, refetchOnWindowFocus: false },
+    { retry: false, refetchOnWindowFocus: false },
   );
 
   const toggleFilters = () => {
@@ -375,7 +375,7 @@ const FlightResultsDisplay = ({
         <FlightsBreadcrumbs
           step={1}
           content={
-            !isLoading && flights.length > 0 ? (
+            !isFetching && flights.length > 0 ? (
               <>
                 {selectedFlights.map((flight, idx) => {
                   const flightSegments = flight.segments.collection || [];
@@ -436,7 +436,7 @@ const FlightResultsDisplay = ({
           </section>
         )}
         <section className="lg:flex-1 lg:w-[75%] h-full lg:pt-9 pt-4">
-          {isLoading ? (
+          {isFetching ? (
             <>
               <div className="w-[83px] h-6 ml-5 lg:mt-14 overflow-hidden rounded">
                 <div className="h-full w-full relative before:absolute before:inset-0 before:bg-gradient-to-r before:from-dark-100 before:via-dark-300 before:to-dark-100 before:animate-[skeleton_800ms_infinite]" />

@@ -27,9 +27,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { usePassengerSchema } from 'flights/hooks/usePassengerSchema';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
 import { useCustomer } from 'hooks/checkout/useCustomer';
-import { forEach } from 'lodash';
+import PriceChangeModal from 'components/global/PriceChangeModal/PriceChangeModal';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
+
+type PriceValidationResponse = {
+  fareAmount: string;
+  offerFareAmount: string;
+  priceChanged: boolean;
+};
 
 const PassengerInformationDisplay = ({
   Category,
@@ -51,8 +57,13 @@ const PassengerInformationDisplay = ({
   const { passengersQuantity, setPassengers, passengers } = usePassengersStore(
     (state) => state,
   );
+  const updatePriceFlights = useFlightsStore(
+    (state) => state.updatePriceFlights,
+  );
 
   const [isLoading, setIsLoading] = useState(false);
+  const [openPriceChangedModal, setOpenPriceChangedModal] = useState(false);
+  const [newPrice, setNewPrice] = useState('0');
 
   const getDefaultPassengersInfo = (passengers: IPassenger[]) => {
     const defaultValues: IPassenger[] = [];
@@ -134,6 +145,35 @@ const PassengerInformationDisplay = ({
     </Pricing>
   );
 
+  const getFlightsItems = (basicDetails = false) => (
+    <ul role="list" className="w-full space-y-4 md:space-y-0">
+      {flights?.map((itemFlight, index) => {
+        const directionLabelMapper = {
+          one_way: [departureLabel],
+          round_trip: [departureLabel, arrivalLabel],
+          multicity: ['Flight'],
+        };
+        let directionLabel;
+        if (direction) {
+          direction !== 'multicity'
+            ? (directionLabel = directionLabelMapper[direction][index])
+            : (directionLabel = directionLabelMapper[direction][0]);
+        }
+
+        return (
+          <HorizontalItemCard
+            key={index}
+            item={itemFlight}
+            directionLabel={directionLabel}
+            basic={basicDetails}
+            price={`US$${flight.offer?.totalFareAmount}`}
+            newPrice={index || !basicDetails ? undefined : `US$${newPrice}`}
+          />
+        );
+      })}
+    </ul>
+  );
+
   const handlePassengerAccordion = (i: number) => {
     if (passengerForm !== null && passengerForm === i) {
       setPassengerForm(null);
@@ -153,15 +193,26 @@ const PassengerInformationDisplay = ({
     });
 
     setIsLoading(true);
-    await validateBooking(bookingParameters, i18next);
-    setIsLoading(false);
+    const res = (await validateBooking(
+      bookingParameters,
+      i18next,
+    )) as unknown as PriceValidationResponse;
+    if (res && res.priceChanged) {
+      setNewPrice(res.fareAmount);
+      setOpenPriceChangedModal(true);
+    } else {
+      setIsLoading(false);
+      goToCheckoutPage();
+    }
+  };
 
+  const goToCheckoutPage = () => {
     router.push('/checkout/flights/client', undefined, { shallow: true });
   };
 
-  const firstSegment = flight.segments.collection?.[0];
-  const lastSegment =
-    flight.segments.collection?.[flight.segments.collection.length - 1];
+  const goToResultPage = () => {
+    router.back();
+  };
 
   return (
     <>
@@ -169,7 +220,7 @@ const PassengerInformationDisplay = ({
         step={2}
         content={
           <div className="flex items-center gap-2 px-4 md:p-0">
-            <button onClick={() => router.back()}>
+            <button onClick={() => goToResultPage()}>
               <IconWrapper size={24}>
                 <ArrowLeft />
               </IconWrapper>
@@ -195,29 +246,7 @@ const PassengerInformationDisplay = ({
         <section className="hidden md:block">{getPricing()}</section>
       </section>
       <section className="p-4 mx-auto mt-3 max-w-7xl md:p-0">
-        <ul role="list" className="w-full space-y-4 md:space-y-0">
-          {flights?.map((itemFlight, index) => {
-            const directionLabelMapper = {
-              one_way: [departureLabel],
-              round_trip: [departureLabel, arrivalLabel],
-              multicity: ['Flight'],
-            };
-            let directionLabel;
-            if (direction) {
-              direction !== 'multicity'
-                ? (directionLabel = directionLabelMapper[direction][index])
-                : (directionLabel = directionLabelMapper[direction][0]);
-            }
-
-            return (
-              <HorizontalItemCard
-                key={index}
-                item={itemFlight}
-                directionLabel={directionLabel}
-              />
-            );
-          })}
-        </ul>
+        {getFlightsItems()}
       </section>
       <Divider className="py-12" />
       <FormProvider {...methods}>
@@ -251,6 +280,18 @@ const PassengerInformationDisplay = ({
             </section>
           )}
         </form>
+        <PriceChangeModal
+          open={openPriceChangedModal}
+          content={getFlightsItems(true)}
+          onConfirm={() => {
+            updatePriceFlights(newPrice);
+            goToCheckoutPage();
+          }}
+          onCancel={() => {
+            goToResultPage();
+            setOpenPriceChangedModal(false);
+          }}
+        />
       </FormProvider>
     </>
   );
