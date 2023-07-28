@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import Button from 'components/global/Button/Button';
@@ -38,7 +37,6 @@ const ThingConfirmationFooter = ({
   customer,
   payment,
 }: ThingConfirmationFooterProps) => {
-  const dispatch = useDispatch();
   const [g, i18g] = useTranslation('global');
   const [isOpen, onOpen, onClose] = useModal();
 

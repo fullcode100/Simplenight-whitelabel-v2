@@ -14,8 +14,6 @@ import DiningSearchFormReadState from './components/search/DiningSearchFormReadS
 import DiningSecondarySearchOptions from './components/search/DiningSecondarySearchOptions';
 import CategoryIcon from 'components/global/CategoryIcon/CategoryIcon';
 import DiningItineraryDisplay from './components/itinerary/DiningItineraryDisplay';
-import diningReducer from './redux/reducer';
-import diningActions from './redux/actions';
 import DiningCheckoutItemDisplay from './components/checkout/DiningCheckoutItemDisplay';
 import DiningConfirmationDisplay from './components/confirmation/DiningConfirmationDisplay';
 import DiningCancelledDisplay from './components/confirmation/DiningCancelledDisplay';
@@ -28,10 +26,6 @@ const Category: CategoryOption = {
   name: DINING_CATEGORY,
   value: DINING_CATEGORY,
   icon: <CategoryIcon categoryName={DINING_CATEGORY} className={'h-5 w-5'} />,
-  store: {
-    reducer: diningReducer,
-    actions: diningActions,
-  },
   selectedIcon: <DiningCategoryIcon />,
   searchForm: <DiningSearchForm />,
   secondarySearchOptions: <DiningSecondarySearchOptions />,

@@ -3,7 +3,6 @@ import { ClientSearcher } from 'core/client/ClientSearcher';
 import { ServerDetailer } from 'core/server/ServerDetailer';
 import { ServerSearcher } from 'core/server/ServerSearcher';
 import { ReactElement } from 'react';
-import { CategoryStoreActions } from 'types/redux/categories/CategoryStoreActions';
 import { SearchRequest } from './SearchRequest';
 
 export type CategoryOptions = CategoryOption[];
@@ -20,7 +19,6 @@ export interface CategoryOption {
   value: string;
   icon: ReactElement;
   selectedIcon: ReactElement;
-  store?: CategoryStore;
   core: CategoryCore<any>;
   searchForm?: ReactElement;
   secondarySearchOptions?: ReactElement;
@@ -36,11 +34,6 @@ export interface CategoryOption {
   homeDisplay?: ReactElement;
   confirmationBreakdownDisplay?: ReactElement;
   filterOptions?: ReactElement;
-}
-
-export interface CategoryStore {
-  actions?: CategoryStoreActions;
-  reducer: any;
 }
 
 export interface CategoryCore<SearchResponse> {

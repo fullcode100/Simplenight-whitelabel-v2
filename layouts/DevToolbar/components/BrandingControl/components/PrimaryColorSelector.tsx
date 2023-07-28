@@ -1,10 +1,7 @@
 import { getRGBFromHex } from 'helpers/stringUtils';
-import { useAppDispatch } from 'hooks/redux/useAppDispatch';
 import { useState } from 'react';
 
 const PrimaryColorSelector = () => {
-  const dispatch = useAppDispatch();
-
   const handlePrimaryColorChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -29,7 +26,6 @@ export const BrandColorSelector = ({
   cssVariable,
   initialValue,
 }: BrandColorSelectorProps) => {
-  const dispatch = useAppDispatch();
   const [colorValue, setColorValue] = useState(initialValue ?? '');
 
   const handlePrimaryColorChange = (

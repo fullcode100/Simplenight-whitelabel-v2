@@ -43,7 +43,6 @@ import TransmissionIcon from 'public/icons/assets/cars/transmission.svg';
 import FuelIcon from 'public/icons/assets/cars/fuel.svg';
 import SizeIcon from 'public/icons/assets/cars/size.svg';
 import LocationIcon from 'public/icons/assets/cars/location.svg';
-import { useSelector } from 'react-redux';
 import { CustomWindow } from 'types/global/CustomWindow';
 import Loader from '../../../components/global/Loader/Loader';
 import BlockDivider from 'components/global/Divider/BlockDivider';
@@ -128,13 +127,6 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
   const checkoutTimeLabel = t('checkOutTime', 'Check-Out Time');
   const checkinFromLabel = t('from', 'From');
   const checkoutBeforeLabel = t('before', 'Before');
-
-  const storeCurrency = useSelector((state: any) => state.core.currency);
-  const [currency, setCurrency] = useState<string>(storeCurrency);
-
-  useEffect(() => {
-    if (currency !== storeCurrency) setCurrency(storeCurrency);
-  }, [storeCurrency]);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   useEffect(() => {}, [detailsLabel]);
@@ -394,7 +386,7 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
 
   const DatesSection = () => (
     <div className="flex items-center">
-      <Calendar className="text-primary-1000 h-4 w-4 mr-2" />
+      <Calendar className="w-4 h-4 mr-2 text-primary-1000" />
       <section className="flex items-center">
         <span className="capitalize">
           {fromLowerCaseToCapitilize(startDate)}
@@ -446,17 +438,17 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
         <main className="relative">
           {/* <ImagesSection /> */}
           <section className="lg:px-20 lg:py-12">
-            <div className="flex flex-col md:flex-row items-center  p-8">
-              <div className="w-full md:w-1/4 mb-4 md:mb-0">
+            <div className="flex flex-col items-center p-8 md:flex-row">
+              <div className="w-full mb-4 md:w-1/4 md:mb-0">
                 <img
                   src="https://ctimg-fleet.cartrawler.com/chevrolet/tahoe/primary.png"
                   alt="Your Image"
-                  className="w-full h-auto object-cover"
+                  className="object-cover w-full h-auto"
                 />
               </div>
               <div className="w-full md:w-1/2 md:pl-8">
-                <h2 className="text-3xl font-bold mb-2">Midsize SUV</h2>
-                <p className="text-gray-500 mb-4">Jeep Compass or similar</p>
+                <h2 className="mb-2 text-3xl font-bold">Midsize SUV</h2>
+                <p className="mb-4 text-gray-500">Jeep Compass or similar</p>
                 <DatesSection />
                 <div className="flex items-center">
                   <LocationPin className="text-primary-1000 h-4 w-4 mr-2.5" />
@@ -481,23 +473,23 @@ const CarDetailDisplay = ({ Category }: CarDetailDisplayProps) => {
           </section> */}
           <Divider />
 
-          <div className="flex flex-wrap justify-between max-w-7xl mx-auto py-10">
-            <div className="w-16 h-16 flex items-center justify-center">
+          <div className="flex flex-wrap justify-between py-10 mx-auto max-w-7xl">
+            <div className="flex items-center justify-center w-16 h-16">
               <LocationIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
             </div>
-            <div className="w-16 h-16 flex items-center justify-center">
+            <div className="flex items-center justify-center w-16 h-16">
               <SizeIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
             </div>
-            <div className="w-16 h-16 flex items-center justify-center">
+            <div className="flex items-center justify-center w-16 h-16">
               <BaggageIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
             </div>
-            <div className="w-16 h-16 flex items-center justify-center">
+            <div className="flex items-center justify-center w-16 h-16">
               <PassengersIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
             </div>
-            <div className="w-16 h-16 flex items-center justify-center">
+            <div className="flex items-center justify-center w-16 h-16">
               <TransmissionIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
             </div>
-            <div className="w-16 h-16 flex items-center justify-center">
+            <div className="flex items-center justify-center w-16 h-16">
               <FuelIcon className="text-primary-1000 h-8 w-8 lg:h-[30px] lg:w-[30px]" />
             </div>
           </div>
