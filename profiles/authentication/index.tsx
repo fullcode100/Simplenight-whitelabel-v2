@@ -126,7 +126,7 @@ const Authentication = ({
           />
           Back
         </section>
-        <section className="w-full h-full lg:w-1/2 p-10 flex-col flex content-center justify-between overflow-y-auto">
+        <section className="w-full h-full lg:w-1/2 lg:p-8 p-5 flex-col flex content-center justify-between overflow-y-auto">
           <AuthTypeElement
             closeModal={onClose}
             changeAuthType={setAuthType}

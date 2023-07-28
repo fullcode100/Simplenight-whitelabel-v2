@@ -46,7 +46,7 @@ const ConfigurePasswordError = ({
               'text-[2rem] font-bold text-dark-800 leading-8 text-ellipsis '
             }
           >
-            {t('linkExpired', 'Sorry, Your link has expired')}
+            {t('linkExpired', 'Sorry, Your Link Has Expired')}
           </section>
           <section className={'text-lg leading-6 text-dark-800  mt-10 mb-20'}>
             {t(

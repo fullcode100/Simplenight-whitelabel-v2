@@ -20,14 +20,14 @@ const EmailValidationSent = ({ email }: IEmailValidationSent) => {
         <section className="flex flex-col text-center">
           <section
             className={
-              'text-[2rem] font-bold text-dark-800 leading-8 text-ellipsis '
+              'text-[2rem] font-semibold text-dark-800 leading-8 text-ellipsis '
             }
           >
             {t('validationEmail', 'Validation Email Sent To')}
           </section>
           <section
             className={
-              'text-[2rem] font-bold text-dark-800 leading-8 truncate '
+              'text-[2rem] font-semibold text-dark-800 leading-8 truncate '
             }
           >
             {`${email}`}
@@ -39,11 +39,16 @@ const EmailValidationSent = ({ email }: IEmailValidationSent) => {
               'A validation email was sent to your email address, please note that the verification email link will expire in 24 hours.',
             )}
           </section>
+          <section className={'lg:hidden  mt-10'}>
+            <ContactSupport text={t('troubleSingIn', 'Trouble signing in?')} />
+          </section>
         </section>
       </AuthenticationContainer.Body>
-      <AuthenticationContainer.Footer>
-        <ContactSupport text={t('troubleSingIn', 'Trouble signing in?')} />
-      </AuthenticationContainer.Footer>
+      <section className={'hidden lg:block'}>
+        <AuthenticationContainer.Footer>
+          <ContactSupport text={t('troubleSingIn', 'Trouble signing in?')} />
+        </AuthenticationContainer.Footer>
+      </section>
     </AuthenticationContainer>
   );
 };

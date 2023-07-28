@@ -23,11 +23,7 @@ interface FormData {
   email: string;
 }
 
-const SetNewPassword = ({
-  closeModal,
-  changeAuthType,
-  token = '',
-}: IAuthComponent) => {
+const SetNewPassword = ({ changeAuthType, token = '' }: IAuthComponent) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);

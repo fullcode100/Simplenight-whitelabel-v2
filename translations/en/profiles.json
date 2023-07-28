@@ -6,9 +6,9 @@
   "alreadyHaveAnAccount": "Already have an account?",
   "validationEmail": "Validation email sent to ",
   "validationMessage": "A validation email was sent to your email address, please note that the verification email link will expire in 24 hours.",
-  "passwordValidation": "Email successfully Validated.\nPlease enter a password:",
+  "passwordValidation": "Email Successfully Verified.\nPlease Enter A Password:",
   "updatePassword": "Update password",
-  "linkExpired": "Sorry, Your link has expired",
+  "linkExpired": "Sorry, Your Link Has Expired",
   "linkExpiredDescription": "The link we sent you to confirm your account email has expired. For your security, please request a new link.",
   "requestNewLink": "Request a new link",
   "emailSent": "Email Sent",
@@ -27,5 +27,6 @@
   "passwordValidationsParams": "Password should contain no less than 8 characters and no more than 15. Min. 1 uppercase, 1 number, and 1 symbol. Can’t contain same characters as email.",
   "linkAlreadySent": "We already sent an email to ",
   "troubleSingIn": "Trouble signing in?",
-  "troubleSingUp": "Trouble signing up?"
+  "troubleSingUp": "Trouble signing up?",
+  "createAccount": "Create Account"
 }

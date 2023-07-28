@@ -19,6 +19,7 @@ import { configurePassword } from '../../core/services/AuthClientService';
 import { useRouter } from 'next/router';
 import { useSessionStore } from '../../../hooks/auth/useSessionStore';
 import PasswordHelpTooltip from '../../../components/global/Tooltips/PasswordHelpTooltip';
+import AuthenticationContainer from 'components/authenticationContainer';
 
 interface FormData {
   confirmPassword: string;
@@ -102,96 +103,99 @@ const ConfigurePasswordForm = ({
   };
 
   return (
-    <section className="flex h-full flex-col justify-between">
-      <section>
-        <section className="mb-4">
-          <SectionTitle
-            title={t(
-              'passwordValidation',
-              'Email successfully Validated.\nPlease enter a password:',
-            )}
-            displayIcon={false}
-          />
-        </section>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name={'password'}
-            control={control}
-            rules={{
-              ...PasswordRules(t),
-              validate: {
-                custom: (value, formValues) => {
-                  return MultipleValidationsExecutor([
-                    PasswordCustomValidationWithEmail(
-                      t,
-                      value,
-                      formValues.email,
-                    ),
-                  ]);
-                },
-              },
-            }}
-            render={({ field: { value, onChange } }) => (
-              <TextTemplate
-                label={'Password'}
-                tooltip={<PasswordHelpTooltip />}
-              >
-                <CustomPassword
-                  value={value}
-                  onChange={onChange}
-                  errorMessage={errors.password?.message}
-                  placeholder={'Password'}
-                />
-              </TextTemplate>
-            )}
-          />
-          <ErrorMessage message={errorMessage} />
-          <DividerSpace />
-          <Controller
-            name={'confirmPassword'}
-            control={control}
-            rules={{
-              ...PasswordRules(t),
-              validate: {
-                custom: (value, formValues) => {
-                  return MultipleValidationsExecutor([
-                    PasswordCustomValidationWithConfirmPassword(
-                      t,
-                      formValues.password,
-                      value,
-                    ),
-                  ]);
-                },
-              },
-            }}
-            render={({ field: { value, onChange } }) => (
-              <TextTemplate label={'Re-Enter Password'}>
-                <CustomPassword
-                  value={value}
-                  onChange={onChange}
-                  errorMessage={errors.confirmPassword?.message}
-                  placeholder={'Re-Enter Password'}
-                />
-              </TextTemplate>
-            )}
-          />
-          <ErrorMessage message={errorMessage} />
-          <DividerSpace />
-
-          {!loading && (
-            <Button
-              value={t('confirmAccount', 'Confirm Account')}
-              size="large"
-              className="w-full py-3 my-5"
-              onClick={handleSubmit(onSubmit)}
-              disabled={!isValid}
+    <AuthenticationContainer>
+      <AuthenticationContainer.SimpleNightLogo />
+      <section className="flex h-full flex-col justify-between">
+        <section>
+          <section className="mb-4">
+            <SectionTitle
+              title={t(
+                'passwordValidation',
+                'Email Successfully Verified.\nPlease Enter A Password:',
+              )}
+              displayIcon={false}
             />
-          )}
-          {loading && <FormsLoader size={'medium'}></FormsLoader>}
-        </form>
+          </section>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name={'password'}
+              control={control}
+              rules={{
+                ...PasswordRules(t),
+                validate: {
+                  custom: (value, formValues) => {
+                    return MultipleValidationsExecutor([
+                      PasswordCustomValidationWithEmail(
+                        t,
+                        value,
+                        formValues.email,
+                      ),
+                    ]);
+                  },
+                },
+              }}
+              render={({ field: { value, onChange } }) => (
+                <TextTemplate
+                  label={'Password'}
+                  tooltip={<PasswordHelpTooltip />}
+                >
+                  <CustomPassword
+                    value={value}
+                    onChange={onChange}
+                    errorMessage={errors.password?.message}
+                    placeholder={'Password'}
+                  />
+                </TextTemplate>
+              )}
+            />
+            <ErrorMessage message={errorMessage} />
+            <DividerSpace />
+            <Controller
+              name={'confirmPassword'}
+              control={control}
+              rules={{
+                ...PasswordRules(t),
+                validate: {
+                  custom: (value, formValues) => {
+                    return MultipleValidationsExecutor([
+                      PasswordCustomValidationWithConfirmPassword(
+                        t,
+                        formValues.password,
+                        value,
+                      ),
+                    ]);
+                  },
+                },
+              }}
+              render={({ field: { value, onChange } }) => (
+                <TextTemplate label={'Re-Enter Password'}>
+                  <CustomPassword
+                    value={value}
+                    onChange={onChange}
+                    errorMessage={errors.confirmPassword?.message}
+                    placeholder={'Re-Enter Password'}
+                  />
+                </TextTemplate>
+              )}
+            />
+            <ErrorMessage message={errorMessage} />
+            <DividerSpace />
+
+            {!loading && (
+              <Button
+                value={t('createAccount', 'Create Account')}
+                size="large"
+                className="w-full py-3 my-5"
+                onClick={handleSubmit(onSubmit)}
+                disabled={!isValid}
+              />
+            )}
+            {loading && <FormsLoader size={'medium'}></FormsLoader>}
+          </form>
+        </section>
+        <section />
       </section>
-      <section />
-    </section>
+    </AuthenticationContainer>
   );
 };
 

@@ -27,5 +27,6 @@
   "passwordValidationsParams": "La contraseña debe contener no menos de 8 caracteres y no más de 15. Min. 1 mayúscula, 1 número y 1 símbolo. No puede contener los mismos caracteres que el correo electrónico.",
   "linkAlreadySent": "Ya enviamos un correo a ",
   "troubleSingIn": "¿Problemas para entrar?",
-  "troubleSingUp": "¿Problemas para registrarse?"
+  "troubleSingUp": "¿Problemas para registrarse?",
+  "createAccount": "Crear cuenta"
 }
