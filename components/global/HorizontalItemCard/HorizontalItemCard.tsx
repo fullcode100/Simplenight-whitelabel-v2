@@ -50,7 +50,6 @@ function HorizontalItemCard<T extends WithId>({
   const [target, setTarget] = useState('');
   const isImageComponent = typeof image !== 'string';
   const ImageComponent = image;
-
   useEffect(() => {
     const target = window.innerWidth < 640 ? '_self' : '_blank';
     setTarget(target);
@@ -69,7 +68,7 @@ function HorizontalItemCard<T extends WithId>({
   );
 
   const TitleSection = () => (
-    <header className=" font-semibold text-dark-1000 text-base leading-[22px] lg:text-lg break-words">
+    <header className=" font-semibold text-dark-1000 text-base leading-[20px] lg:leading-[22px] lg:text-lg break-words">
       {title}
     </header>
   );
@@ -97,14 +96,14 @@ function HorizontalItemCard<T extends WithId>({
     >
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
-          <section className="flex min-[300px]:flex-col md:flex-row lg:flex-row">
+          <section className="flex flex-row h-32 lg:h-48">
             {isImageComponent ? (
               <section className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] flex justify-center items-center text-primary-1000">
                 {ImageComponent}
               </section>
             ) : (
               <section
-                className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] "
+                className="w-32 h-full lg:min-w-[15rem] lg:min-h-[11.3rem] "
                 style={{
                   backgroundImage: `url(${image})`,
                   backgroundSize: imageBackgroundSize
@@ -127,15 +126,15 @@ function HorizontalItemCard<T extends WithId>({
             )}
             <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
               <TitleSection />
-              <section className="mt-4">
+              <section className="mt-0 lg:mt-4">
                 <AddressSection />
               </section>
-              <section className="mt-4">
+              <section className="mt-0 lg:mt-4">
                 {rating && (
                   <Rating value={rating} reviews={ratingCount} isHotelRating />
                 )}
               </section>
-              {categoryTags && (
+              {categoryTags.length != 0 && (
                 <section className="flex flex-row lg:justify-start gap-2 mt-4">
                   <CategoryTags tags={categoryTags} />
                 </section>
