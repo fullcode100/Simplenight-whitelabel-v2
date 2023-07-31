@@ -68,6 +68,7 @@ export interface Dining extends Restaurant {
   location: Location;
   phone: string;
   allows_reservation: boolean;
+  transactions: string[];
 }
 
 export interface Location {

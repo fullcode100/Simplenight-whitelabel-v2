@@ -62,6 +62,8 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     slug,
     keyword,
     address,
+    categories_list,
+    attributes,
   } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
   const [sortByVal, setSortByVal] = useState(
@@ -69,7 +71,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
       ? SORT_BY_OPTIONS.find((o) => o.param == sort_by)?.label
       : sortByBestMatch,
   );
-  const [allowsReservation, setAllowsReservation] = useState(false);
+
   const [restaurants, setRestaurants] = useState<Dining[]>([]);
   const [restaurantsFiltered, setRestaurantsFiltered] = useState<Dining[]>([]);
   const { ClientSearcher: Searcher } = Category.core;
@@ -92,6 +94,8 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     apiUrl,
     time: '21:00',
     keyword: keyword as string,
+    categories_list: categories_list as string,
+    attributes: attributes as string,
   };
 
   const fetchDining = async () => {
@@ -118,14 +122,8 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   }, [data, isPhilippines]);
 
   useEffect(() => {
-    if (allowsReservation) {
-      setRestaurantsFiltered(
-        restaurants.filter((i: Dining) => i.allows_reservation === true),
-      );
-    } else {
-      setRestaurantsFiltered(restaurants);
-    }
-  }, [restaurants, allowsReservation]);
+    setRestaurantsFiltered(restaurants);
+  }, [restaurants]);
 
   const { view = 'list' } = useQuery();
   const isListView = view === 'list';
@@ -135,7 +133,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
 
   const urlDetail = (dining: Dining) => {
     const { id } = dining;
-    return `/detail/${slug}/${id}?covers=${params.covers}&time=${params.time}&startDate=${startDate}&geolocation=${latitude},${longitude}`;
+    return `/detail/${slug}/${id}?covers=${params.covers}&time=${params.time}&startDate=${startDate}&geolocation=${latitude},${longitude}&categories_list=${params.categories_list}&attributes=${params.attributes}`;
   };
 
   const onChangeSortBy = (value: string) => {
@@ -157,10 +155,6 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
       default:
         break;
     }
-  };
-
-  const onChangeAllowsReservation = () => {
-    setAllowsReservation(!allowsReservation);
   };
 
   const DiningData = () => (
@@ -229,14 +223,26 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     sortBy: sortByVal,
     onChangeSortBy: onChangeSortBy,
   };
-  const allowsReservationFilter = {
-    allowsReservation: allowsReservation,
-    onChangeAllowsReservation: onChangeAllowsReservation,
-  };
 
   useEffect(() => {
-    if (price) setFiltersCount(1);
-  }, [price]);
+    let list: string[] = [];
+    if (typeof price === 'string' && price?.startsWith('2')) {
+      list.push('price');
+    } else {
+      list = list.filter((e) => e !== 'price');
+    }
+    if (categories_list?.includes(',')) {
+      list.push('categories_list');
+    } else {
+      list = list.filter((e) => e !== 'categories_list');
+    }
+    if (attributes) {
+      list.push('attributes');
+    } else {
+      list = list.filter((e) => e !== 'attributes');
+    }
+    setFiltersCount(list.length);
+  }, [price, categories_list, attributes]);
 
   useEffect(() => {
     isDesktop && onOpen();
@@ -257,7 +263,6 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
                 onClose={onClose}
                 isOpen={isOpen}
                 sortBySelect={sortBySelect}
-                allowsReservationFilter={allowsReservationFilter}
               />
             </section>
           </section>

@@ -8,6 +8,8 @@ export interface DiningSearchRequest extends SearchRequest {
   sort_by: string;
   time: string;
   keyword: string;
+  categories_list: string;
+  attributes: string;
 }
 
 export interface DiningSearchPreRequest {

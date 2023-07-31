@@ -68,5 +68,16 @@
   "diningItineraryDisclaimer": "Check Out Now to avoid rate changes",
   "bookTable": "Book A Table",
   "finestDiningExperience": "Indulge In The Finest Dining Experiences In Town.",
-  "allowsReservation": "Allows Reservation"
+  "allowsReservation": "Allows Reservation",
+  "pickup": "Pickup",
+  "delivery": "Delivery",
+  "acceptsReservation": "Accepts Reservation",
+  "burger": "Burger",
+  "chinese": "Chinese",
+  "italian": "Italian",
+  "japanese": "Japanese",
+  "mexican": "Mexican",
+  "thai": "Thai",
+  "suggested": "Suggested",
+  "restaurantType": "Restaurant Type"
 }

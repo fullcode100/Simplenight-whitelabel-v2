@@ -69,5 +69,16 @@
   "diningItineraryDisclaimer": "Finalizar Pedido Ahora para evitar cambios de tarifa",
   "bookTable": "Reservar una Mesa",
   "finestDiningExperience": "Disfrute de las mejores experiencias gastronómicas de la ciudad.",
-  "allowsReservation": "Permite Reserva"
+  "allowsReservation": "Permite Reserva",
+  "pickup": "Punto De Recogida",
+  "delivery": "Domicilio",
+  "acceptsReservation": "Acepta Reservaciones",
+  "burger": "Hamburguesa",
+  "chinese": "Chino",
+  "italian": "Italiano",
+  "japanese": "Japones",
+  "mexican": "Mexicano",
+  "thai": "Thailandes",
+  "suggested": "Sugerido",
+  "restaurantType": "Tipo de Restaurant"
 }
