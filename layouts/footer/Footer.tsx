@@ -83,13 +83,13 @@ const Footer = () => {
               href={'/terms'}
               className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000  mb-2"
             >
-              <>Simplenight {termsOfServiceText}</>
+              <>{termsOfServiceText}</>
             </ExternalLink>
             <ExternalLink
               href={'/privacy'}
               className="font-semibold underline hover:underline focus:underline focus:text-primary-1000 hover:text-primary-1000"
             >
-              Simplenight {privacyPolicyText}
+              {privacyPolicyText}
             </ExternalLink>
             {env !== 'production' && (
               <Link href={'/variables'}>Show enviroment variables</Link>
