@@ -19,7 +19,7 @@ import curlirize from 'axios-curlirize';
 
 const X_SESSION = 'x-session';
 const TOKEN = 'token';
-const URLS_DISABLED_INTERCEPTOR_ERROR = ['profile'];
+const URLS_DISABLED_INTERCEPTOR_ERROR = ['profile', 'auth/forgotPassword'];
 
 export const selectApiUrl = (originUrl?: string) => {
   const hostLevels = getFormattedLevels(originUrl);

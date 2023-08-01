@@ -25,9 +25,8 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, setError } = useForm<FormData>({
     defaultValues: {
       email: '',
     },
@@ -35,7 +34,6 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      setErrorMessage('');
       setLoading(true);
       await sendForgotPasswordEmail(data.email, i18n);
       setExtraProps((props: any) => ({
@@ -46,9 +44,12 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
       }));
       changeAuthType('emailConfirmation');
     } catch (error: any) {
-      if (error?.response?.data?.message) {
-        setErrorMessage(error?.response?.data?.message);
-      }
+      setError('email', {
+        message: t(
+          'enterValidEmailAddress',
+          'Please enter a valid email address.',
+        ),
+      });
     } finally {
       setLoading(false);
     }
