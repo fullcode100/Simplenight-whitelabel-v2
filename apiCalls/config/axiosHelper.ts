@@ -19,6 +19,7 @@ import curlirize from 'axios-curlirize';
 
 const X_SESSION = 'x-session';
 const TOKEN = 'token';
+const URLS_DISABLED_INTERCEPTOR_ERROR = ['profile'];
 
 export const selectApiUrl = (originUrl?: string) => {
   const hostLevels = getFormattedLevels(originUrl);
@@ -68,7 +69,9 @@ export const axiosServerCurrencyInterceptor =
   };
 
 const axiosClientErrorInterceptor = (error: any) => {
-  handleError(error.response);
+  if (!URLS_DISABLED_INTERCEPTOR_ERROR.includes(error.config.url)) {
+    handleError(error.response);
+  }
   return Promise.reject(error);
 };
 

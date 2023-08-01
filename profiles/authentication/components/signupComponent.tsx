@@ -25,7 +25,7 @@ const SignUp = ({ changeAuthType, setExtraProps }: IAuthComponent) => {
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, setError } = useForm<FormData>({
     defaultValues: {
       email: '',
       firstName: '',
@@ -53,9 +53,12 @@ const SignUp = ({ changeAuthType, setExtraProps }: IAuthComponent) => {
       }));
       changeAuthType('emailValidationSent');
     } catch (error: any) {
-      if (error?.response?.data?.message) {
-        setErrorMessage(error?.response?.data?.message);
-      }
+      setError('email', {
+        message: t(
+          'enterValidEmailAddress',
+          'Please enter a valid email address.',
+        ),
+      });
     } finally {
       setLoading(false);
     }

@@ -27,9 +27,7 @@ export const forwardError = (err: any, res: any) => {
 
   return res
     .status(err.response?.status ?? 500)
-    .json(
-      { errors: apiErrors, ...(err.response.data || {}) } ?? axiosErrorMessage,
-    );
+    .json({ errors: apiErrors ?? axiosErrorMessage });
 };
 
 export const sendSuccess = (res: any, data: any) => res.status(200).json(data);

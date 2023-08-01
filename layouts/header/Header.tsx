@@ -21,7 +21,7 @@ import useScrollDirection from 'hooks/layoutAndUITooling/useScrollDirection';
 import { Tab } from 'components/global/Tabs/types';
 import useCategories, { CategoryInfo } from 'hooks/category/useCategories';
 import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
-import useQuery from 'hooks/pageInteraction/useQuery';
+import useQuery, { useQueryAsPath } from 'hooks/pageInteraction/useQuery';
 import { useRouter } from 'next/router';
 import { useTabStore } from 'hooks/layoutAndUITooling/useTabStore';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
@@ -50,6 +50,7 @@ const Header = ({ color }: HeaderProps) => {
   const setTab = useTabStore((state) => state.setTab);
   const { pathname } = useRouter();
   const query = useQuery();
+  const queryAsPath = useQueryAsPath();
   const { slug } = query;
   const setQueryParams = useQuerySetter();
   const categoriesTabs = useCategories();
@@ -176,7 +177,7 @@ const Header = ({ color }: HeaderProps) => {
         onClose={() => setOpenAuth(false)}
         type={authType}
         setAuthType={setAuthType}
-        query={query}
+        query={queryAsPath}
       />
     </>
   );
