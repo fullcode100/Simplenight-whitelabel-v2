@@ -43,6 +43,7 @@ const ConfigurePasswordForm = ({
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
   const { setToken } = useSessionStore();
+  const reEnterPasswordText = t('reEnterPassword', 'Re-Enter Password');
 
   const {
     control,
@@ -168,12 +169,12 @@ const ConfigurePasswordForm = ({
                 },
               }}
               render={({ field: { value, onChange } }) => (
-                <TextTemplate label={'Re-Enter Password'}>
+                <TextTemplate label={reEnterPasswordText}>
                   <CustomPassword
                     value={value}
                     onChange={onChange}
                     errorMessage={errors.confirmPassword?.message}
-                    placeholder={'Re-Enter Password'}
+                    placeholder={reEnterPasswordText}
                   />
                 </TextTemplate>
               )}

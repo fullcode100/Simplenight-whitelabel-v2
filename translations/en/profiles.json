@@ -28,5 +28,6 @@
   "linkAlreadySent": "We already sent an email to ",
   "troubleSingIn": "Trouble signing in?",
   "troubleSingUp": "Trouble signing up?",
-  "createAccount": "Create Account"
+  "createAccount": "Create Account",
+  "reEnterPassword": "Re-Enter Password"
 }
