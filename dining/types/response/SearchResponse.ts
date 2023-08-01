@@ -15,6 +15,7 @@ export type Restaurant = {
   review_count: number;
   reviews: Review[];
   openings: OpeningDate[];
+  allows_reservation: boolean;
 };
 
 export type OpeningDate = {

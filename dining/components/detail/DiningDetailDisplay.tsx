@@ -310,24 +310,26 @@ const DiningDetailDisplay = ({ Category }: DiningDetailDisplayProps) => {
             reviewsLength={data.review_count}
           />
         </section>
-        <section
-          ref={overviewRef}
-          className="flex justify-center border-dark-300 border-y-2"
-        >
-          <section className="lg:max-w-[904px] lg:px-0 px-4 w-full py-8 relative">
-            <DiningAboutDetail
-              phone={data.display_phone}
-              categories={data.categories}
-              times={openingTime?.times}
-              onSelectDate={onSelectDate}
-              isOpen={isOpened}
-              onChange={onChangeTime}
-              defaultTime={time}
-              onChangeCovers={(newCovers) => setCovers(newCovers)}
-              defaultCovers={covers}
-            />
+        {data.allows_reservation && (
+          <section
+            ref={overviewRef}
+            className="flex justify-center border-dark-300 border-y-2"
+          >
+            <section className="lg:max-w-[904px] lg:px-0 px-4 w-full py-8 relative">
+              <DiningAboutDetail
+                phone={data.display_phone}
+                categories={data.categories}
+                times={openingTime?.times}
+                onSelectDate={onSelectDate}
+                isOpen={isOpened}
+                onChange={onChangeTime}
+                defaultTime={time}
+                onChangeCovers={(newCovers) => setCovers(newCovers)}
+                defaultCovers={covers}
+              />
+            </section>
           </section>
-        </section>
+        )}
         <section className="flex justify-center border-b-2 border-dark-300">
           <section className="lg:max-w-[904px] lg:px-0 px-4 w-full py-8 relative space-y-6">
             <SectionTitle title={t('openingTimes')} />
