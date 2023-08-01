@@ -54,25 +54,24 @@ export const bookingAdapter = ({
 }: IBookingAdapter): any => {
   const totalFlights = flights.length;
   let adultsCount = 0;
-  let noAdultsCount = 0;
+  let infantCount = 0;
   const passengers = flightpassengers.map((passenger) => {
     let finalId = '';
     const age = passenger.passengerAge || 0;
-    let type = passenger.passengerType;
-    if (type === 'ADT' || age >= 12) {
-      type = 'ADT';
+    const type = passenger.passengerType;
+    if (type === 'ADT' || type === 'CNN' || age >= 12) {
       adultsCount++;
       finalId = `${adultsCount}`;
     } else {
-      noAdultsCount++;
-      finalId = `${noAdultsCount}.1`;
+      infantCount++;
+      finalId = `${infantCount}.1`;
     }
     return {
       id: finalId,
       dateOfBirth: passenger.dateOfBirth
         ? dayjs(passenger.dateOfBirth).format('DDMMMYY').toUpperCase()
         : '',
-      code: type,
+      type: type,
       firstName: passenger.firstName,
       lastName: passenger.lastName,
       /* TODO: remove hardcoded into */

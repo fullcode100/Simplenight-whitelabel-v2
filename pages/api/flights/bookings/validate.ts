@@ -26,14 +26,62 @@ export default async function handler(
       throw new Error(defaultErrorMsg);
     }
     const { offer } = body;
-    const fareAmount =
-      data?.mainGroup?.pricingGroupLevelGroup?.[0]?.fareInfoGroup?.fareAmount
-        ?.otherMonetaryDetails?.[0]?.amount || '0';
+
+    const pricingGroupLevelGroupList =
+      data?.mainGroup?.pricingGroupLevelGroup || [];
+
+    const newFareDetails = pricingGroupLevelGroupList.map((item: any) => {
+      const passengerType =
+        item?.fareInfoGroup?.segmentLevelGroup?.[0]?.ptcSegment?.quantityDetails
+          ?.unitQualifier;
+      const amount =
+        item?.fareInfoGroup?.fareAmount?.otherMonetaryDetails?.[0]?.amount || 0;
+      const taxDetailsList =
+        item?.fareInfoGroup?.surchargesGroup?.taxesAmount?.taxDetails || [];
+      const tax = taxDetailsList.reduce((a: any, b: any) => {
+        return Number(a) + Number(b['rate']);
+      }, 0);
+      const numberOfUnits =
+        item?.numberOfPax?.segmentControlDetails?.[0]?.numberOfUnits || 0;
+      const totalFareAmount = Number(amount) * Number(numberOfUnits);
+      const totalTaxAmount = Number(tax) * Number(numberOfUnits);
+      return {
+        amount: `${Number(amount).toFixed(2)}`,
+        passengerType,
+        tax: `${Number(tax).toFixed(2)}`,
+        numberOfUnits,
+        totalFareAmount,
+        totalTaxAmount,
+      };
+    });
+
+    const total = newFareDetails.reduce((a: any, b: any) => {
+      return Number(a) + Number(b['totalFareAmount']);
+    }, 0);
+
+    const totalFareAmount = `${total.toFixed(2)}`;
+
+    const totalTax = newFareDetails.reduce((a: any, b: any) => {
+      return Number(a) + Number(b['totalTaxAmount']);
+    }, 0);
+
+    const totalTaxAmount = `${totalTax.toFixed(2)}`;
+
     const offerFareAmount = offer.totalFareAmount;
     res.status(200).json({
-      priceChanged: offerFareAmount !== fareAmount,
+      priceChanged: offerFareAmount !== totalTaxAmount,
       offerFareAmount,
-      fareAmount,
+      newOffer: {
+        totalFareAmount,
+        totalTaxAmount,
+        fareDetails: newFareDetails.map((item: any) => {
+          return {
+            passengerType: item.passengerType,
+            amount: item.amount,
+            tax: item.tax,
+          };
+        }),
+      },
       supplier: FLIGHT_DEBUG ? data : null,
     });
   } catch (error) {

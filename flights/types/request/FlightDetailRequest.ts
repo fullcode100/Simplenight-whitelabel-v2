@@ -17,3 +17,19 @@ export interface FlightDetailRequest {
   num_rooms: string;
   children_ages?: number[] | null;
 }
+
+export type FareDetailsItem = {
+  amount: string;
+  passengerType: string;
+  tax: string;
+};
+export type NewOffer = {
+  totalFareAmount: string;
+  totalTaxAmount: string;
+  fareDetails: FareDetailsItem[];
+};
+export type PriceValidationResponse = {
+  offerFareAmount: string;
+  priceChanged: boolean;
+  newOffer: NewOffer;
+};

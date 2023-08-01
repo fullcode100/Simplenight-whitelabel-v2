@@ -1,5 +1,7 @@
 // TODO: Change all null values
 
+import { FareDetailsItem } from '../request/FlightDetailRequest';
+
 export type FlightsSearchResponseMS = {
   errorMessage: ErrorMessage;
   _meta: Meta;
@@ -81,7 +83,7 @@ export type OfferLegRefsEntity = {
   bookingClass: string;
   cabinCode: string;
   cabinName: string;
-  fareDetails?: Array<string>;
+  fareDetails?: FareDetailsItem[];
   id: string;
   legRef?: string[];
   totalFareAmount: string;
