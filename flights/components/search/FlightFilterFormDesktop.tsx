@@ -328,6 +328,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
 
   const DepartureTimesRangeFilter = () => (
     <FilterContainer>
+      <FilterTitle label={departureTimesLabel} />
       <TimeRangeSlider
         initialMin={parseInt(departureTimes[0])}
         initialMax={parseInt(departureTimes[1])}
@@ -344,6 +345,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
 
   const ArrivalTimesRangeFilter = () => (
     <FilterContainer>
+      <FilterTitle label={arrivalTimesLabel} />
       <TimeRangeSlider
         initialMin={parseInt(arrivalTimes[0])}
         initialMax={parseInt(arrivalTimes[1])}
