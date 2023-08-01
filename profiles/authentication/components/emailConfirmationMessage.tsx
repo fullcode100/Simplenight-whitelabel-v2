@@ -52,8 +52,11 @@ const EmailConfirmation = ({
               {resetPassword
                 ? `${t(
                     'resetPasswordInstructions',
-                    'Instructions for resetting you password have been sent to',
-                  )} ${email}`
+                    'If there is an account associated with',
+                  )} ${email}, ${t(
+                    'youWillGetAnEmail',
+                    'you’ll receive an email with instructions to reset your password.',
+                  )}`
                 : passwordUpdated
                 ? t(
                     'youWillBeRedirect',

@@ -36,6 +36,8 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
     try {
       setLoading(true);
       await sendForgotPasswordEmail(data.email, i18n);
+    } catch (error: any) {
+    } finally {
       setExtraProps((props: any) => ({
         ...props,
         email: data.email,
@@ -43,14 +45,6 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
         passwordUpdated: false,
       }));
       changeAuthType('emailConfirmation');
-    } catch (error: any) {
-      setError('email', {
-        message: t(
-          'enterValidEmailAddress',
-          'Please enter a valid email address.',
-        ),
-      });
-    } finally {
       setLoading(false);
     }
   };
