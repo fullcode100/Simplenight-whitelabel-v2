@@ -6,7 +6,6 @@ import { LoginServerRequest } from '../types/request/LoginServerRequest';
 import { ClientAuthForgotPassword } from '../client/ClientAuthForgotPassword';
 import { ResetPasswordClientRequest } from '../types/request/ResetPasswordClientRequest';
 import { ClientAuthResetPassword } from '../client/ClientAuthResetPassword';
-import { ClientAuthConfigurePassword } from '../client/ClientAuthConfigurePassword';
 import {
   cleanNewEmailValidationLinkDate,
   getNewEmailValidationLinkDate,
@@ -15,25 +14,28 @@ import {
 import moment from 'moment';
 
 export const SESSION_TOKEN = 'token';
+export const REFRESH_TOKEN = 'refresh_token';
 
-interface LoginOptions {
-  setTokenInSessionStorage: boolean;
-}
 export const login = async (
   loginData: LoginServerRequest,
   i18next: i18n,
-  options: LoginOptions = { setTokenInSessionStorage: true },
-) => {
+): Promise<LoginWithToken> => {
   const authLogin = new ClientAuthLogin();
   const data = await authLogin.request(loginData, i18next);
-  if (options.setTokenInSessionStorage) {
-    loginWithToken(data.tokens.access.token);
-  }
-  return data.tokens.access.token;
+  const tokens = {
+    token: data.tokens.access.token,
+    refreshToken: data.tokens.refresh.token,
+  };
+  loginWithToken(tokens);
+  return tokens;
 };
-
-export const loginWithToken = (token: string) => {
-  localStorage.setItem(SESSION_TOKEN, token);
+interface LoginWithToken {
+  token: string;
+  refreshToken: string;
+}
+export const loginWithToken = (tokenData: LoginWithToken) => {
+  localStorage.setItem(SESSION_TOKEN, tokenData.token);
+  localStorage.setItem(REFRESH_TOKEN, tokenData.refreshToken);
 };
 export const sendVerificationEmail = async (email: string, i18next: i18n) => {
   const lastRequestNewLink = getNewEmailValidationLinkDate(email);
@@ -69,12 +71,10 @@ export const configurePassword = async (
     { password: password, token: resetPasswordToken },
     i18next,
   );
-  const token = await login({ email: email, password: password }, i18next);
-  const client = new ClientAuthConfigurePassword();
-  await client.request({ password, token: token }, i18next);
-  loginWithToken(token);
+
+  const tokens = await login({ email: email, password: password }, i18next);
   cleanNewEmailValidationLinkDate();
-  return token;
+  return tokens;
 };
 
 export const sendForgotPasswordEmail = async (email: string, i18next: i18n) => {

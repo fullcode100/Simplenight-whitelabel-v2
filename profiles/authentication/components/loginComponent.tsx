@@ -39,8 +39,8 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
     try {
       setErrorMessage('');
       setLoading(true);
-      const token = await login(data, i18n);
-      setToken(token);
+      const tokens = await login(data, i18n);
+      setToken(tokens.token);
       closeModal();
     } catch (error: any) {
       if (error?.response?.data?.message) {

@@ -77,7 +77,7 @@ const ConfigurePasswordForm = ({
       setLoading(true);
       setErrorMessage('');
       if (resetPasswordToken) {
-        const token = await configurePassword(
+        const tokens = await configurePassword(
           {
             email,
             password: values.password,
@@ -85,8 +85,8 @@ const ConfigurePasswordForm = ({
           },
           i18n,
         );
-        if (token) {
-          setToken(token);
+        if (tokens) {
+          setToken(tokens.token);
         }
         router.push('/');
         closeModal();
