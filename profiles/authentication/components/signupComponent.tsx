@@ -12,6 +12,7 @@ import DividerSpace from '../../../components/global/Divider/DividerSpace';
 import ErrorMessage from '../../../components/global/ErrorMessage';
 import { EmailRules, LastNamesRules, NamesRules } from '../../../validations';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
+import AuthenticationContainer from 'components/authenticationContainer';
 
 interface FormData {
   email: string;
@@ -61,88 +62,100 @@ const SignUp = ({ changeAuthType, setExtraProps }: IAuthComponent) => {
   };
 
   return (
-    <section className="flex h-full flex-col justify-between">
-      <section>
-        <section className="mb-4">
-          <SectionTitle title={t('signUp', 'Sign Up')} displayIcon={false} />
-        </section>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name={'email'}
-            control={control}
-            rules={EmailRules(g)}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <TextTemplate label={t('email', 'Email')} className={'mb-6'}>
-                <BaseInput
-                  value={value}
-                  onChange={onChange}
-                  errorMessage={error?.message}
-                  placeholder={t('email', 'Email')}
-                />
-              </TextTemplate>
-            )}
-          />
-          <DividerSpace />
-          <Controller
-            name={'firstName'}
-            control={control}
-            rules={NamesRules(t)}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <TextTemplate
-                label={t('firstName', 'First Name')}
-                className={'mb-6'}
-              >
-                <BaseInput
-                  value={value}
-                  onChange={onChange}
-                  errorMessage={error?.message}
-                  placeholder={t('firstName', 'First Name')}
-                />
-              </TextTemplate>
-            )}
-          />
-          <DividerSpace />
-          <Controller
-            name={'lastName'}
-            control={control}
-            rules={LastNamesRules(t)}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <TextTemplate
-                label={t('lastName', 'Last Name')}
-                className={'mb-6'}
-              >
-                <BaseInput
-                  value={value}
-                  onChange={onChange}
-                  errorMessage={error?.message}
-                  placeholder={t('lastName', 'Last Name')}
-                />
-              </TextTemplate>
-            )}
-          />
-          <ErrorMessage message={errorMessage} />
-          <DividerSpace />
-
-          {!loading && (
-            <Button
-              value={t('signUp', 'Sign Up')}
-              size="large"
-              className="w-full py-3 my-5"
+    <AuthenticationContainer>
+      <AuthenticationContainer.SimpleNightLogo />
+      <section className="flex h-full flex-col justify-between">
+        <section>
+          <section className="mb-4">
+            <SectionTitle title={t('signUp', 'Sign Up')} displayIcon={false} />
+          </section>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name={'email'}
+              control={control}
+              rules={EmailRules(g)}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <TextTemplate label={t('email', 'Email')} className={'mb-6'}>
+                  <BaseInput
+                    value={value}
+                    onChange={onChange}
+                    errorMessage={error?.message}
+                    placeholder={t('email', 'Email')}
+                  />
+                </TextTemplate>
+              )}
             />
-          )}
-          {loading && <FormsLoader></FormsLoader>}
-        </form>
+            <DividerSpace />
+            <Controller
+              name={'firstName'}
+              control={control}
+              rules={NamesRules(t)}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <TextTemplate
+                  label={t('firstName', 'First Name')}
+                  className={'mb-6'}
+                >
+                  <BaseInput
+                    value={value}
+                    onChange={onChange}
+                    errorMessage={error?.message}
+                    placeholder={t('firstName', 'First Name')}
+                  />
+                </TextTemplate>
+              )}
+            />
+            <DividerSpace />
+            <Controller
+              name={'lastName'}
+              control={control}
+              rules={LastNamesRules(t)}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <TextTemplate
+                  label={t('lastName', 'Last Name')}
+                  className={'mb-6'}
+                >
+                  <BaseInput
+                    value={value}
+                    onChange={onChange}
+                    errorMessage={error?.message}
+                    placeholder={t('lastName', 'Last Name')}
+                  />
+                </TextTemplate>
+              )}
+            />
+            <ErrorMessage message={errorMessage} />
+            <DividerSpace />
+
+            {!loading && (
+              <Button
+                value={t('signUp', 'Sign Up')}
+                size="large"
+                className="w-full py-3 my-5"
+              />
+            )}
+            {loading && <FormsLoader></FormsLoader>}
+          </form>
+        </section>
+        <section className="flex justify-center">
+          {t('alreadyHaveAnAccount', 'Already have an account?')}&nbsp;
+          <a
+            className="text-xs font-semibold underline text-primary-1000 hover:text-primary-600"
+            onClick={() => changeAuthType('login')}
+          >
+            {t('logIn', 'Log In')}
+          </a>
+        </section>
       </section>
-      <section className="flex justify-center">
-        {t('alreadyHaveAnAccount', 'Already have an account?')}&nbsp;
-        <a
-          className="text-xs font-semibold underline text-primary-1000 hover:text-primary-600"
-          onClick={() => changeAuthType('login')}
-        >
-          {t('logIn', 'Log In')}
-        </a>
-      </section>
-    </section>
+    </AuthenticationContainer>
   );
 };
 

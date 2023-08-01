@@ -12,7 +12,7 @@ export const ContactSupport = ({ text }: IContactSupport) => {
   };
   return (
     <section className={'flex flex-row justify-center flex-1'}>
-      <section className={'flex flex-row'}>
+      <section className={'flex lg:flex-row flex-col'}>
         <section className="flex text-lg mr-2 text-dark-800">{text}</section>
         <section
           onClick={contactToSupport}
