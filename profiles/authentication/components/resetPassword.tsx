@@ -58,11 +58,16 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
   return (
     <AuthenticationContainer>
       <AuthenticationContainer.SimpleNightLogo />
-      <section className="flex h-full flex-col justify-between">
+      <section className="flex h-full flex-col lg:justify-center">
         <section>
-          <section className="mt-4 mb-8">
+          <section className="lg:mt-0 mt-6">
             <SectionTitle
               title={t('resetYourPassword', 'Reset your password')}
+              displayIcon={false}
+            />
+          </section>
+          <section className="mt-6 mb-5">
+            <SectionTitle
               displayIcon={false}
               subTitle={
                 "We'll email you instrucctions on how to reset your password"
