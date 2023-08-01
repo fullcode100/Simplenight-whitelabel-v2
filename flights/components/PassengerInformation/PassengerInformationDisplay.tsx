@@ -28,14 +28,12 @@ import { usePassengerSchema } from 'flights/hooks/usePassengerSchema';
 import { useSearchStore } from 'hooks/flights/useSearchStore';
 import { useCustomer } from 'hooks/checkout/useCustomer';
 import PriceChangeModal from 'components/global/PriceChangeModal/PriceChangeModal';
+import {
+  NewOffer,
+  PriceValidationResponse,
+} from 'flights/types/request/FlightDetailRequest';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
-
-type PriceValidationResponse = {
-  fareAmount: string;
-  offerFareAmount: string;
-  priceChanged: boolean;
-};
 
 const PassengerInformationDisplay = ({
   Category,
@@ -63,7 +61,7 @@ const PassengerInformationDisplay = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [openPriceChangedModal, setOpenPriceChangedModal] = useState(false);
-  const [newPrice, setNewPrice] = useState('0');
+  const [newOffer, setNewOffer] = useState<NewOffer>();
 
   const getDefaultPassengersInfo = (passengers: IPassenger[]) => {
     const defaultValues: IPassenger[] = [];
@@ -167,7 +165,11 @@ const PassengerInformationDisplay = ({
             directionLabel={directionLabel}
             basic={basicDetails}
             price={`US$${flight.offer?.totalFareAmount}`}
-            newPrice={index || !basicDetails ? undefined : `US$${newPrice}`}
+            newPrice={
+              index || !basicDetails
+                ? undefined
+                : `US$${newOffer?.totalFareAmount}`
+            }
           />
         );
       })}
@@ -198,7 +200,7 @@ const PassengerInformationDisplay = ({
       i18next,
     )) as unknown as PriceValidationResponse;
     if (res && res.priceChanged) {
-      setNewPrice(res.fareAmount);
+      setNewOffer(res.newOffer);
       setOpenPriceChangedModal(true);
     } else {
       setIsLoading(false);
@@ -284,7 +286,7 @@ const PassengerInformationDisplay = ({
           open={openPriceChangedModal}
           content={getFlightsItems(true)}
           onConfirm={() => {
-            updatePriceFlights(newPrice);
+            updatePriceFlights(newOffer as NewOffer);
             goToCheckoutPage();
           }}
           onCancel={() => {
