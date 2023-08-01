@@ -155,8 +155,8 @@ const FlightSecondarySearchOptions = () => {
       });
 
       // price
-      setMinPrice(`${queryFilter?.minPrice || flightsMinPrice}`);
-      setMaxPrice(`${queryFilter?.maxPrice || flightsMaxPrice}`);
+      setMinPrice(`${queryFilter?.minPrice || initialPriceRange.min}`);
+      setMaxPrice(`${queryFilter?.maxPrice || initialPriceRange.max}`);
 
       // stops
       setStops(
