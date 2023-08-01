@@ -28,6 +28,7 @@ import airlinesList from '../../airlines';
 import CheckIcon from 'public/icons/assets/check.svg';
 import classnames from 'classnames';
 import { maxChildrenAge, minChildrenAge } from 'flights';
+import useMediaViewport from 'hooks/media/useMediaViewport';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -80,6 +81,7 @@ const Passenger = ({
   const isLastPassenger = passengerNumber === passengersQuantity - 1;
 
   const [isRequiredInfoComplete, setIsRequiredInfoComplete] = useState(false);
+  const { isDesktop } = useMediaViewport();
 
   const countries = countryList.getData();
   countries.sort(function (a, b) {
@@ -242,6 +244,23 @@ const Passenger = ({
     </FormField>
   );
 
+  const getCheckboxList = () => (
+    <section className="block space-y-4">
+      {getCheckboxField(
+        'I require wheelchair assistance while traveling.',
+        'wheelChair',
+      )}
+      {getCheckboxField(
+        'I have a Known Traveler Number.',
+        'knownTravelerNumber',
+      )}
+      {getCheckboxField(
+        'I am prepared to show vaccination records.',
+        'vaccinationRecords',
+      )}
+    </section>
+  );
+
   const passengerForm = () => (
     <>
       <section className="rounded border m-4 border-dark-300 flex flex-row items-center py-[6px] px-2 gap-2">
@@ -291,20 +310,7 @@ const Passenger = ({
                 })}
               </section>
             </section>
-            <section className="hidden space-y-4 md:block ">
-              {getCheckboxField(
-                'I require wheelchair assistance while traveling.',
-                'wheelChair',
-              )}
-              {getCheckboxField(
-                'I have a Known Traveler Number.',
-                'knownTravelerNumber',
-              )}
-              {getCheckboxField(
-                'I am prepared to show vaccination records.',
-                'vaccinationRecords',
-              )}
-            </section>
+            {isDesktop && getCheckboxList()}
           </section>
           <section className="flex flex-col gap-4 md:w-1/3">
             {getSelectField(
@@ -320,20 +326,7 @@ const Passenger = ({
             )}
             {getInputField(loyaltyNumberLabel, 'loyaltyNumber')}
           </section>
-          <section className="block space-y-4 md:hidden ">
-            {getCheckboxField(
-              'I require wheelchair assistance while traveling.',
-              'wheelChair',
-            )}
-            {getCheckboxField(
-              'I have a Known Traveler Number.',
-              'knownTravelerNumber',
-            )}
-            {getCheckboxField(
-              'I am prepared to show vaccination records.',
-              'vaccinationRecords',
-            )}
-          </section>
+          {!isDesktop && getCheckboxList()}
           <section className="border-t md:border-t-0 md:border-l-2 md:h-80 border-dark-300" />
           <section className="flex flex-col gap-4 md:w-1/3">
             {getInputField(passportIDNumberLabel, 'passportIdNumber', {
