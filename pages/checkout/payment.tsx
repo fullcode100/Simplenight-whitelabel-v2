@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 // Libraries
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Script from 'next/script';
 
 // Components
@@ -39,6 +39,8 @@ import { useCustomer } from 'hooks/checkout/useCustomer';
 import { useGA4 } from 'hooks/ga4/useGA4';
 import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
 import { useCoreStore } from 'hooks/core/useCoreStore';
+import InformationIcon from 'public/icons/assets/info-circle.svg';
+import ExclamationIcon from 'public/icons/assets/exclamation.svg';
 
 const ITINERARY_URI = '/itinerary';
 const CONFIRMATION_URI = '/confirmation';
@@ -70,6 +72,22 @@ const Payment = () => {
   const fullAmountLabel = t('fullAmount', 'Full Amount');
   const checkoutLabel = t('checkoutTitle', 'Check Out');
   const backLabel = t('back', 'Back');
+  const InsomeCountriesLabel = t(
+    'InSomeCountries',
+    'In some countries, Name on the credit card must match your government-issued ID /Passport.',
+  );
+  const SimpleNightIsTheMercant = t(
+    'simpleNightIsTheMercant',
+    'Simplenight is the merchant of record and will appear on the credit card or bank statement.',
+  );
+  const supplierAndTerms = t(
+    'supplierAndTerms',
+    'Supplier Terms and Conditions',
+  );
+  const pleaseAcceptTerms = t(
+    'pleaseAcceptTerms',
+    'Please accept the supplier terms and conditions',
+  );
 
   const [terms, setTerms] = useState(false);
   const [errorTerms, setErrorTerms] = useState(false);
@@ -348,6 +366,61 @@ const Payment = () => {
     sdkInit();
   }, []);
 
+  const TermsSection = () => (
+    <section>
+      <Terms
+        checkValue={terms}
+        checkboxMethod={setTerms}
+        errorTerms={errorTerms}
+        setErrorTerms={setErrorTerms}
+      />
+      {expediaTerms && (
+        <>
+          <section className="flex items-center w-full gap-3 mt-2">
+            <input
+              type="checkbox"
+              name="expedia"
+              id="expedia"
+              checked={acceptExpediaTerms}
+              onChange={() => setAcceptExpediaTerms(!acceptExpediaTerms)}
+            />
+            <label htmlFor="expedia">
+              <span className="text-base leading-[22px] text-dark-1000 font-normal">
+                {iHaveReviewedLabel}
+              </span>
+              <ExternalLink
+                className="text-primary-1000 hover:text-primary-1000 font-normal text-base leading-[22px]"
+                href={expediaTerms.extended_data?.terms_and_conditions!}
+              >
+                {supplierAndTerms}
+              </ExternalLink>
+            </label>
+          </section>
+          {errorExpediaTerms && (
+            <p className="text-red-500">{pleaseAcceptTerms}</p>
+          )}
+        </>
+      )}
+    </section>
+  );
+
+  const LabelWithIconAndBorder = ({
+    label,
+    icon,
+    className,
+  }: {
+    label: string;
+    icon: ReactNode;
+    className: string;
+  }) => {
+    return (
+      <section className={`flex gap-2 rounded p-2 ${className}`}>
+        {icon}
+        <label>{label}</label>
+      </section>
+    );
+  };
+
   return (
     <>
       <CheckoutHeader step="payment" itemsNumber={itemsNumber} />
@@ -375,51 +448,24 @@ const Payment = () => {
                   </form>
                 </FormProvider>
               </CheckoutForm>
-              <section className="px-5 pb-6">
-                <Terms
-                  checkValue={terms}
-                  checkboxMethod={setTerms}
-                  errorTerms={errorTerms}
-                  setErrorTerms={setErrorTerms}
-                />
-                {expediaTerms && (
-                  <>
-                    <section className="flex items-center w-full gap-3 mt-2">
-                      <input
-                        type="checkbox"
-                        name="expedia"
-                        id="expedia"
-                        checked={acceptExpediaTerms}
-                        onChange={() =>
-                          setAcceptExpediaTerms(!acceptExpediaTerms)
-                        }
-                      />
-                      <label htmlFor="expedia">
-                        <span className="text-base leading-[22px] text-dark-1000 font-normal">
-                          {iHaveReviewedLabel}
-                        </span>
-                        <ExternalLink
-                          className="text-primary-1000 hover:text-primary-1000 font-normal text-base leading-[22px]"
-                          href={
-                            expediaTerms.extended_data?.terms_and_conditions!
-                          }
-                        >
-                          Supplier Terms and Conditions
-                        </ExternalLink>
-                      </label>
-                    </section>
-                    {errorExpediaTerms && (
-                      <p className="text-red-500">
-                        Please accept the supplier terms and conditions
-                      </p>
-                    )}
-                  </>
-                )}
-              </section>
               <section className="px-5">
                 <PaymentCart items={cart?.items} customer={cart?.customer} />
               </section>
             </CheckoutMain>
+            <section className="flex flex-col px-5 gap-6 pb-6">
+              <TermsSection />
+              <LabelWithIconAndBorder
+                label={SimpleNightIsTheMercant}
+                icon={<InformationIcon className="text-primary-1000 w-5 h-5" />}
+                className="border border-dark-300"
+              />
+              <LabelWithIconAndBorder
+                label={InsomeCountriesLabel}
+                icon={<ExclamationIcon className="text-primary-1000 w-5 h-5" />}
+                className="bg-warning-100"
+              />
+            </section>
+
             <CheckoutFooter type="payment">
               {cart && (
                 <Summary cart={cart} reload={reload} setReload={setReload} />
@@ -437,7 +483,7 @@ const Payment = () => {
                 <Button
                   onClick={methods.handleSubmit(onSubmit)}
                   loading={loading}
-                  disabled={false /* TODO: @gaston-simplenight|| !isVerified */}
+                  disabled={!terms}
                 >
                   {checkoutLabel}
                 </Button>

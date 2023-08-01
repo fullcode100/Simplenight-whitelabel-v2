@@ -9,7 +9,7 @@ interface CollapseBorderedProps {
   disclaimer?: ReactNode;
   title: ReactNode;
   body: ReactNode;
-  footer: ReactNode;
+  footer?: ReactNode;
   isOpen?: boolean;
 }
 
@@ -29,7 +29,7 @@ const CollapseBordered = ({
       <Collapse isOpened={show}>
         <CollapseBody body={body} show={show} />
       </Collapse>
-      {footer !== null && <CollapseFooter footer={footer} show={show} />}
+      {footer && <CollapseFooter footer={footer} show={show} />}
     </section>
   );
 };

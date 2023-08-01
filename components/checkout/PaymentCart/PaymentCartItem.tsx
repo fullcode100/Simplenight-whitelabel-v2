@@ -37,7 +37,7 @@ const PaymentCartItem = ({ item, customer }: any) => {
   };
 
   return (
-    <section className="py-6 space-y-5">
+    <section className="py-6 ">
       <CartItemDetail />
     </section>
   );

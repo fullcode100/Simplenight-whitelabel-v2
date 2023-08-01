@@ -46,7 +46,6 @@ const HotelCheckoutItemDisplay = (item: any) => {
       <CollapseBordered
         title={<h4>Price Breakdown</h4>}
         body={<CartItemBody />}
-        footer={<BreakdownSummary rate={breakDownInfo} showTotal={true} />}
       />
     </>
   );
