@@ -90,7 +90,7 @@ const Login = ({ closeModal, changeAuthType }: IAuthComponent) => {
             <Controller
               name={'password'}
               control={control}
-              rules={PasswordRules(g)}
+              rules={PasswordRules(g, true)}
               render={({
                 field: { value, onChange },
                 fieldState: { error },
