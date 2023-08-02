@@ -71,7 +71,7 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
               longitude: coordinates?.longitude,
             },
           ]}
-          zoom={17}
+          zoom={14}
           height={675}
           locations={locations}
           onClickMarker={handleOnClickMarkerMap}
