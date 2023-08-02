@@ -13,8 +13,9 @@
   "requestNewLink": "Request a new link",
   "emailSent": "Email Sent",
   "passwordUpdated": "Password Updated!",
-  "resetPasswordInstructions": "Instructions for resetting you password have been sent to",
-  "youWillBeRedirect": "You’ll be redirected to home. If you’re not redirected click here",
+  "resetPasswordInstructions": "If there is an account associated with",
+  "youWillGetAnEmail": "you’ll receive an email with instructions to reset your password.",
+  "youWillBeRedirect": "You’ll be redirected to home. If you’re not redirected",
   "backToLogin": "Back To Login",
   "passwordSecurityMessage": "Must have at least 1 capital letter, 1 number, 1 symbol",
   "passwordsDoNotMatch": "Passwords do not match",
@@ -29,5 +30,6 @@
   "troubleSingIn": "Trouble signing in?",
   "troubleSingUp": "Trouble signing up?",
   "createAccount": "Create Account",
-  "reEnterPassword": "Re-Enter Password"
+  "reEnterPassword": "Re-Enter Password",
+  "setNewPassword": "Set new password"
 }

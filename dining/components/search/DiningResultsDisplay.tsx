@@ -46,6 +46,7 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   const [t, i18next] = useTranslation('dining');
   const [isOpen, onOpen, onClose] = useModal();
   const [filtersCount, setFiltersCount] = useState(0);
+  const [view, setview] = useState('list');
   const noResultsLabel = t('noResultsSearch');
   const sortByBestMatch = t('sortByBestMatch', 'Best Match');
   const sortByRating = t('sortByRating', 'Rating');
@@ -125,11 +126,10 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     setRestaurantsFiltered(restaurants);
   }, [restaurants]);
 
-  const { view = 'list' } = useQuery();
   const isListView = view === 'list';
-
-  const handleViewTypeChange = (value: string) =>
-    setQueryParams({ view: value });
+  const handleViewTypeChange = (value: string) => {
+    setview(value);
+  };
 
   const urlDetail = (dining: Dining) => {
     const { id } = dining;

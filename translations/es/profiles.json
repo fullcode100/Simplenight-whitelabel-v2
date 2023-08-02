@@ -13,8 +13,9 @@
   "requestNewLink": "Solicitar un nuevo enlace",
   "emailSent": "Email enviado",
   "passwordUpdated": "¡Contraseña actualiza!",
-  "resetPasswordInstructions": "Las instrucciones para restablecer su contraseña han sido enviadas a",
-  "youWillBeRedirect": "Serás redirigido a casa. Si no eres redirigido haz clic aquí",
+  "resetPasswordInstructions": "Si hay una cuenta asociada con",
+  "youWillGetAnEmail": "recibiras un correo electronico con las instrucciones para resetear tu password.",
+  "youWillBeRedirect": "Serás redirigido a casa. Si no eres redirigido",
   "backToLogin": "Atrás para iniciar sesión",
   "passwordSecurityMessage": "Debe tener al menos 1 letra mayúscula, 1 número, 1 símbolo",
   "passwordsDoNotMatch": "Las contraseñas no coinciden",
@@ -29,5 +30,6 @@
   "troubleSingIn": "¿Problemas para entrar?",
   "troubleSingUp": "¿Problemas para registrarse?",
   "createAccount": "Crear cuenta",
-  "reEnterPassword": "Re-Enter Password"
+  "reEnterPassword": "Re-Ingresar contraseña",
+  "setNewPassword": "Ingresar nueva contraseña"
 }
