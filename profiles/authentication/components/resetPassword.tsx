@@ -25,9 +25,8 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, setError } = useForm<FormData>({
     defaultValues: {
       email: '',
     },
@@ -35,9 +34,10 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      setErrorMessage('');
       setLoading(true);
       await sendForgotPasswordEmail(data.email, i18n);
+    } catch (error: any) {
+    } finally {
       setExtraProps((props: any) => ({
         ...props,
         email: data.email,
@@ -45,11 +45,6 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
         passwordUpdated: false,
       }));
       changeAuthType('emailConfirmation');
-    } catch (error: any) {
-      if (error?.response?.data?.message) {
-        setErrorMessage(error?.response?.data?.message);
-      }
-    } finally {
       setLoading(false);
     }
   };
@@ -57,11 +52,16 @@ const ResetPassword = ({ setExtraProps, changeAuthType }: IAuthComponent) => {
   return (
     <AuthenticationContainer>
       <AuthenticationContainer.SimpleNightLogo />
-      <section className="flex h-full flex-col justify-between">
+      <section className="flex h-full flex-col lg:justify-center">
         <section>
-          <section className="mt-4 mb-8">
+          <section className="lg:mt-0 mt-6">
             <SectionTitle
               title={t('resetYourPassword', 'Reset your password')}
+              displayIcon={false}
+            />
+          </section>
+          <section className="mt-6 mb-5">
+            <SectionTitle
               displayIcon={false}
               subTitle={
                 "We'll email you instrucctions on how to reset your password"
