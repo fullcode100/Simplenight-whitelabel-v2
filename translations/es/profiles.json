@@ -30,5 +30,6 @@
   "troubleSingIn": "¿Problemas para entrar?",
   "troubleSingUp": "¿Problemas para registrarse?",
   "createAccount": "Crear cuenta",
-  "reEnterPassword": "Re-Enter Password"
+  "reEnterPassword": "Re-Ingresar contraseña",
+  "setNewPassword": "Ingresar nueva contraseña"
 }

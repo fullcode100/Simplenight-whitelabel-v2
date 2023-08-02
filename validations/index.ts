@@ -17,6 +17,8 @@ export const EmailRules = (t: Translations) => ({
   },
 });
 
+var PassRegex =
+  /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/;
 export const PasswordRules = (t: Translations) => ({
   required: {
     value: true,
@@ -28,6 +30,10 @@ export const PasswordRules = (t: Translations) => ({
   },
   maxLength: {
     value: 15,
+    message: t('enterValidPassword', 'Please enter a valid password.'),
+  },
+  pattern: {
+    value: PassRegex,
     message: t('enterValidPassword', 'Please enter a valid password.'),
   },
 });
