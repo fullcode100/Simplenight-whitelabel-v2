@@ -25,16 +25,6 @@ const EmailConfirmation = ({
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
 
-  const clickHereMassae = () => (
-    <>
-      {t(
-        'youWillBeRedirect',
-        'You’ll be redirected to home. If you’re not redirected',
-      )}
-      <a>test</a>
-    </>
-  );
-
   return (
     <AuthenticationContainer>
       <AuthenticationContainer.Body>
