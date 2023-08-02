@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import CustomArrow from '../../../../components/global/CarouselNew/components/CustomArrow';
 import HorizontalItemCard from '../../../../components/global/HorizontalItemCard/HorizontalItemCard';
 import LocationMap from '../../../../components/global/LocationMap/LocationMap';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import classnames from 'classnames';
 import { MapViewProps } from './MapViewTypes';
 
@@ -12,6 +12,7 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
   const [t, i18next] = useTranslation('dining');
   const diningLabel = t('dining', 'Dining');
   const fromLabel = t('from', 'From');
+  const carouselRef = useRef<Carousel>(null);
 
   const [activeItem, setActiveItem] = useState(0);
   const nextItem = activeItem + 1;
@@ -44,8 +45,13 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
       items: 1,
     },
   };
+
+  const handleOnClickMarkerMap = (lat: number, lng: number, index: number) => {
+    carouselRef.current?.goToSlide(index);
+  };
+
   return (
-    <>
+    <div className="w-full h-full">
       <section className="relative">
         <LocationMap
           center={{
@@ -61,6 +67,7 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
           zoom={17}
           height={575}
           locations={locations}
+          onClickMarker={handleOnClickMarkerMap}
         />
         <section className="absolute bottom-0 w-full">
           <Carousel
@@ -82,6 +89,7 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
                 position="right"
               />
             }
+            ref={carouselRef}
           >
             {items?.map((item, index) => {
               const {
@@ -123,7 +131,7 @@ const MapView = ({ DiningCategory, items, createUrl }: MapViewProps) => {
           </Carousel>
         </section>
       </section>
-    </>
+    </div>
   );
 };
 
