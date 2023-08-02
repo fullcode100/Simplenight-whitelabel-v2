@@ -69,7 +69,7 @@ export default async function handler(
 
     const offerFareAmount = offer.totalFareAmount;
     res.status(200).json({
-      priceChanged: offerFareAmount !== totalTaxAmount,
+      priceChanged: offerFareAmount !== totalFareAmount,
       offerFareAmount,
       newOffer: {
         totalFareAmount,
