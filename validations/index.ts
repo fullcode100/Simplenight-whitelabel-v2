@@ -17,8 +17,9 @@ export const EmailRules = (t: Translations) => ({
   },
 });
 
-var PassRegex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*\W)(?!.* ).{0,}$/;
-export const PasswordRules = (t: Translations) => ({
+var PassRegex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,15}$/;
+var FreeRegex = /^(?=.*).{8,15}$/;
+export const PasswordRules = (t: Translations, skipRegex?: boolean) => ({
   required: {
     value: true,
     message: t('enterValidPassword', 'Please enter a valid password.'),
@@ -32,7 +33,7 @@ export const PasswordRules = (t: Translations) => ({
     message: t('enterValidPassword', 'Please enter a valid password.'),
   },
   pattern: {
-    value: PassRegex,
+    value: skipRegex ? FreeRegex : PassRegex,
     message: t('enterValidPassword', 'Please enter a valid password.'),
   },
 });
