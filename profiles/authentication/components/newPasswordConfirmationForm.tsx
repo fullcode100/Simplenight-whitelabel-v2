@@ -11,6 +11,11 @@ import ErrorMessage from '../../../components/global/ErrorMessage';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
 import AuthenticationContainer from '../../../components/authenticationContainer';
 import { resetPassword } from '../../core/services/AuthClientService';
+import {
+  MultipleValidationsExecutor,
+  PasswordCustomValidationWithConfirmPassword,
+  PasswordRules,
+} from 'validations';
 
 interface FormData {
   confirmPassword: string;
@@ -67,26 +72,19 @@ const NewPasswordConfirmationForm = ({
 
   return (
     <AuthenticationContainer>
-      <section className="flex h-full flex-col justify-between">
+      <section className="flex h-full flex-col justify-center">
         <section className="mt-4">
-          <SectionTitle title={'Set new password'} displayIcon={false} />
+          <SectionTitle
+            title={t('setNewPassword', 'Set new password')}
+            displayIcon={false}
+          />
         </section>
         <section className={'pt-5'}>
           <Controller
             name={'password'}
             control={control}
             rules={{
-              required: {
-                value: true,
-                message: g('required', 'Required'),
-              },
-              minLength: {
-                value: 8,
-                message: g(
-                  'passwordMinLength',
-                  'Please enter a valid password.',
-                ),
-              },
+              ...PasswordRules(t),
             }}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <TextTemplate label={'Password'}>
@@ -105,16 +103,17 @@ const NewPasswordConfirmationForm = ({
             name={'confirmPassword'}
             control={control}
             rules={{
-              required: {
-                value: true,
-                message: g('required', 'Required'),
-              },
-              minLength: {
-                value: 8,
-                message: g(
-                  'passwordMinLength',
-                  'Please enter a valid password.',
-                ),
+              ...PasswordRules(t),
+              validate: {
+                custom: (value, formValues) => {
+                  return MultipleValidationsExecutor([
+                    PasswordCustomValidationWithConfirmPassword(
+                      t,
+                      formValues.password,
+                      value,
+                    ),
+                  ]);
+                },
               },
             }}
             render={({ field: { value, onChange }, fieldState: { error } }) => (
