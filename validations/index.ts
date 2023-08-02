@@ -17,8 +17,7 @@ export const EmailRules = (t: Translations) => ({
   },
 });
 
-var PassRegex =
-  /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/;
+var PassRegex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*\W)(?!.* ).{0,}$/;
 export const PasswordRules = (t: Translations) => ({
   required: {
     value: true,
@@ -74,11 +73,6 @@ export const PasswordCustomValidationWithEmail = (
   email: string,
 ) => {
   return () => {
-    const regex = /^(?=.*[0-9])(?=.*[A-Z])(?=.*\W)(?!.* ).{0,}$/;
-    const isValid = regex.test(password);
-    if (!isValid) {
-      return t('enterValidPassword', 'Please enter a valid password.');
-    }
     const firstEmailPart = email.split('@')?.[0];
     if (firstEmailPart) {
       if (password.toLowerCase().includes(firstEmailPart.toLowerCase())) {

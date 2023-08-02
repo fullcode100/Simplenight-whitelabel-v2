@@ -23,9 +23,21 @@ const EmailConfirmation = ({
   changeAuthType,
 }: iEmailConfirmation) => {
   const [t, i18n] = useTranslation('profiles');
+  const [g] = useTranslation('global');
+
+  const clickHereMassae = () => (
+    <>
+      {t(
+        'youWillBeRedirect',
+        'You’ll be redirected to home. If you’re not redirected',
+      )}
+      <a>test</a>
+    </>
+  );
+
   return (
     <AuthenticationContainer>
-      <AuthenticationContainer.Body className={'mt-20'}>
+      <AuthenticationContainer.Body>
         <section className="flex h-full flex-col justify-center content-center">
           <Check className="text-primary-1000 flex h-12 w-12 align-middle self-center" />
           <section className="mt-4 flex flex-col text-center">
@@ -49,23 +61,30 @@ const EmailConfirmation = ({
             </section>
 
             <section className={'text-lg leading-6 text-dark-800  mt-10'}>
-              {resetPassword
-                ? `${t(
-                    'resetPasswordInstructions',
-                    'If there is an account associated with',
-                  )} ${email}, ${t(
-                    'youWillGetAnEmail',
-                    'you’ll receive an email with instructions to reset your password.',
-                  )}`
-                : passwordUpdated
-                ? t(
+              {resetPassword ? (
+                `${t(
+                  'resetPasswordInstructions',
+                  'If there is an account associated with',
+                )} ${email}, ${t(
+                  'youWillGetAnEmail',
+                  'you’ll receive an email with instructions to reset your password.',
+                )}`
+              ) : passwordUpdated ? (
+                <>
+                  {t(
                     'youWillBeRedirect',
-                    'You’ll be redirected to home. If you’re not redirected click here',
-                  )
-                : t(
-                    'validationMessage',
-                    'A validation email was sent to your email address, please note that the verification email link will expire in 24 hours.',
+                    'You’ll be redirected to home. If you’re not redirected',
                   )}
+                  <a href="/" className="text-lg font-semibold underline">
+                    {g('clickHere', ' Click Here')}
+                  </a>
+                </>
+              ) : (
+                t(
+                  'validationMessage',
+                  'A validation email was sent to your email address, please note that the verification email link will expire in 24 hours.',
+                )
+              )}
             </section>
             {!!resetPassword && (
               <section
