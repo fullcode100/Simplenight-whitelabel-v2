@@ -14,6 +14,7 @@ import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { PlusIcon } from '@heroicons/react/outline';
 import { Item } from 'types/booking/bookingType';
+import SupplierReference from 'flights/components/SupplierReference/SupplierReference';
 
 interface Props {
   item?: Item;
@@ -28,6 +29,8 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const directLabel = t('directLabel', 'Direct');
 
   const payNowLabel = t('payNow', 'Pay Now');
+
+  const supplierReferenceID = item?.supplier_order_number;
 
   const direction =
     item?.item_data.booking.segments.lenght === 1 ? 'one_way' : 'round_trip';
@@ -150,6 +153,9 @@ const FlightsConfirmationBody = ({ item }: Props) => {
 
   return (
     <div className="space-y-4">
+      {supplierReferenceID && (
+        <SupplierReference supplierReferenceID={supplierReferenceID} />
+      )}
       <IconAndLabel Icon={IconTravelers} label={paxMix} />
 
       <section className="flex gap-2 ">

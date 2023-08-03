@@ -22,5 +22,6 @@ export const getAmenitiesOptions = (data: SearchItem[]) => {
   amenitiesOptionsListFiltered.forEach((option) => {
     amenitiesOptions.push({ value: option, label: option });
   });
+  amenitiesOptions.push({ value: 'Unspecified', label: 'Unspecified' });
   return amenitiesOptions;
 };
