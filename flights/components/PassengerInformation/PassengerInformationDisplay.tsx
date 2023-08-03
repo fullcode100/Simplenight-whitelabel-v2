@@ -41,6 +41,11 @@ const PassengerInformationDisplay = ({
   const { id } = useQuery();
   const router = useRouter();
   const [t, i18next] = useTranslation('flights');
+  const [tg] = useTranslation('global');
+  const noFareBookingTitle = tg(
+    'titleLabel',
+    'No fare for booking, try other pricing options',
+  );
   const [customer] = useCustomer((state) => [state.customer]);
   const [passengerForm, setPassengerForm] = useState<number | null>(0);
 
@@ -175,9 +180,7 @@ const PassengerInformationDisplay = ({
             basic={basicDetails}
             price={`US$${flight.offer?.totalFareAmount}`}
             newPrice={
-              index || !basicDetails
-                ? undefined
-                : `US$${newOffer?.totalFareAmount}`
+              index || !basicDetails ? undefined : newOffer?.totalFareAmount
             }
           />
         );
@@ -223,6 +226,10 @@ const PassengerInformationDisplay = ({
 
   const goToResultPage = () => {
     router.back();
+  };
+
+  const newOfferAmountIsValid = () => {
+    return newOffer?.totalFareAmount !== '0.00';
   };
 
   return (
@@ -299,9 +306,11 @@ const PassengerInformationDisplay = ({
             goToCheckoutPage();
           }}
           onCancel={() => {
-            goToResultPage();
+            // goToResultPage();
             setOpenPriceChangedModal(false);
           }}
+          showConfirmBtn={newOfferAmountIsValid()}
+          title={newOfferAmountIsValid() ? null : noFareBookingTitle}
         />
       </FormProvider>
     </>
