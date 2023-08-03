@@ -43,12 +43,16 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
   const ticketsLabel = usePlural(passengers, 'Ticket', 'Tickets');
 
   const direction =
-    item?.item_data.booking.segments.lenght === 1 ? 'one_way' : 'round_trip';
+    item?.item_data.booking.segments.length === 1 ? 'one_way' : 'round_trip';
+
   const flights = item?.item_data.booking.segments;
   const firstFlight = flights[0];
   const lastFlight = flights[flights.length - 1];
   const startAirport = firstFlight.collection[0].departureAirport;
-  const endAirport = lastFlight.collection[0].departureAirport;
+  const endAirport =
+    direction === 'round_trip'
+      ? lastFlight.collection[0].departureAirport
+      : lastFlight.collection[0].arrivalAirport;
 
   return (
     <section className="flex flex-row gap-3 p-4">
