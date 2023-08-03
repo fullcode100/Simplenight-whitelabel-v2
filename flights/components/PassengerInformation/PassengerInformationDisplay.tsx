@@ -306,7 +306,7 @@ const PassengerInformationDisplay = ({
             goToCheckoutPage();
           }}
           onCancel={() => {
-            // goToResultPage();
+            goToResultPage();
             setOpenPriceChangedModal(false);
           }}
           showConfirmBtn={newOfferAmountIsValid()}
