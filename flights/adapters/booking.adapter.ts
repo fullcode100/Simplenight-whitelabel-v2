@@ -83,7 +83,7 @@ export const bookingAdapter = ({
       finalId = `${adultsCount}`;
     } else {
       infantCount++;
-      finalId = `${infantCount}.1`;
+      finalId = `${infantCount}.${infantCount}`;
     }
     let finalPaypload: PasengerInfoPayload = {
       id: finalId,

@@ -42,14 +42,17 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const totalFlightAmount = item?.rate.total.full;
   const offer = item?.item_data.booking.offer;
 
-  const adults = item?.item_data.booking.passengers.filter(
-    (v: any) => v.type === 'ADT',
-  ).length;
+  let infants = 0;
+
+  const adults = item?.item_data.booking.passengers.filter((v: any) => {
+    const isAdult = v.type === 'ADT';
+    if (isAdult && v.lapInfant) {
+      infants++;
+    }
+    return isAdult;
+  }).length;
   const children = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'CNN',
-  ).length;
-  const infants = item?.item_data.booking.passengers.filter(
-    (v: any) => v.type === 'INF',
   ).length;
 
   const adultsAmount = Number(adults);
