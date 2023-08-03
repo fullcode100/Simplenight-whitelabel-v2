@@ -7,6 +7,7 @@ import LocationPin from 'public/icons/assets/location-pin.svg';
 
 const DiningLocationDetail = ({ lat, long }: { lat: number; long: number }) => {
   const [t] = useTranslation('dining');
+  const currentLocation = [{ latitude: lat, longitude: long }];
   return (
     <section className="flex-1 py-12 text-center">
       <SectionTitle
@@ -26,6 +27,7 @@ const DiningLocationDetail = ({ lat, long }: { lat: number; long: number }) => {
           },
         ]}
         height={334}
+        locations={currentLocation}
       />
       <DiningLearnMore
         className="mt-4"
