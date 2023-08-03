@@ -38,9 +38,15 @@ export const criteriaFilterFunctions: {
   selectedAmenities: (list, value) =>
     list.filter((hotel) => {
       return Boolean(
-        value.find((option: Option) =>
-          hotel.details.sn_amenities?.includes(option.value),
-        ),
+        value.find((option: Option) => {
+          if (
+            hotel.details.sn_amenities?.includes(option.value) ||
+            (hotel.details.sn_amenities?.length === 0 &&
+              value.some((option: Option) => option.value === 'Unspecified'))
+          ) {
+            return true;
+          }
+        }),
       );
     }),
   sortCriteria: (list, value) => {
