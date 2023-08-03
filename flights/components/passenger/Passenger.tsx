@@ -20,7 +20,6 @@ import {
 } from '@simplenight/ui';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
-import countryList from 'country-list';
 import ReactDatepicker from 'components/global/ReactDatepicker/ReactDatepicker';
 import InfoCircle from 'public/icons/assets/info-circle.svg';
 import { usePassengerSchema } from '../../hooks/usePassengerSchema';
@@ -29,6 +28,7 @@ import CheckIcon from 'public/icons/assets/check.svg';
 import classnames from 'classnames';
 import { maxChildrenAge, minChildrenAge } from 'flights';
 import useMediaViewport from 'hooks/media/useMediaViewport';
+import { countryListAllIsoData } from 'constants/variousCountryListFormats';
 
 interface PassengerProps {
   passengerNumber: number;
@@ -83,16 +83,11 @@ const Passenger = ({
   const [isRequiredInfoComplete, setIsRequiredInfoComplete] = useState(false);
   const { isDesktop } = useMediaViewport();
 
-  const countries = countryList.getData();
-  countries.sort(function (a, b) {
-    const textA = a.name.toUpperCase();
-    const textB = b.name.toUpperCase();
-    return textA < textB ? -1 : textA > textB ? 1 : 0;
-  });
+  const countries = countryListAllIsoData;
   const countriesOptions = [
     { value: '', label: '' },
-    ...Object.values(countries).map((label) => {
-      return { value: label.code, label: label.name };
+    ...Object.values(countries).map((item) => {
+      return { value: item.code3, label: item.name };
     }),
   ];
 
