@@ -84,18 +84,27 @@ const PassengerInformationDisplay = ({
       passengerType: 'ADT',
     };
     let passegerCount = 0;
+    const adultsList = passengers.filter(
+      (item) => item.passengerType === 'ADT',
+    );
+    const childrenList = passengers.filter(
+      (item) => item.passengerType === 'CNN',
+    );
+    const infantsList = passengers.filter(
+      (item) => item.passengerType === 'INF',
+    );
     for (let i = 0; i < passengersQuantity.adults; i++) {
       passegerCount++;
       defaultPassengerObject.passengerNumber = passegerCount;
-      const passegerData = passengers[passegerCount - 1] || {};
+      const passegerData = adultsList[i] || {};
       defaultValues.push({ ...defaultPassengerObject, ...passegerData });
     }
-    passengersQuantity.childrenAges.forEach((age) => {
+    passengersQuantity.childrenAges.forEach((age, idx) => {
       passegerCount++;
       defaultPassengerObject.passengerNumber = passegerCount;
       defaultPassengerObject.passengerType = 'CNN';
       defaultPassengerObject.passengerAge = age;
-      const passegerData = passengers[passegerCount - 1] || {};
+      const passegerData = childrenList[idx] || {};
       defaultValues.push({ ...defaultPassengerObject, ...passegerData });
     });
 
@@ -103,7 +112,7 @@ const PassengerInformationDisplay = ({
       passegerCount++;
       defaultPassengerObject.passengerNumber = i;
       defaultPassengerObject.passengerType = 'INF';
-      const passegerData = passengers[passegerCount - 1] || {};
+      const passegerData = infantsList[i] || {};
       defaultValues.push({ ...defaultPassengerObject, ...passegerData });
     }
     return defaultValues;
