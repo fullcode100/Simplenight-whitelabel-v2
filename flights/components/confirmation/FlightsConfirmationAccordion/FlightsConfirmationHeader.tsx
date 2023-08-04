@@ -39,8 +39,8 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
     (v: any) => v.type === 'INF',
   ).length;
 
-  const passengers = adults + children + infants;
-  const ticketsLabel = usePlural(passengers, 'Ticket', 'Tickets');
+  const totalTickets = adults + children + infants;
+  const ticketsLabel = usePlural(totalTickets, 'Ticket', 'Tickets');
 
   const direction =
     item?.item_data.booking.segments.length === 1 ? 'one_way' : 'round_trip';
@@ -68,7 +68,7 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
           <Heading tag="h5">{endAirport}</Heading>
         </section>
         <Paragraph size="small" textColor="text-dark-800">
-          {directionMapper[direction].label} | {passengers} {ticketsLabel}
+          {directionMapper[direction].label} | {totalTickets} {ticketsLabel}
         </Paragraph>
       </section>
     </section>

@@ -11,9 +11,10 @@ interface PriceChangeModalProps {
   content?: React.ReactNode;
   onCancel?: () => void;
   onConfirm?: () => void;
-  title?: string;
+  title?: string | null;
   cancelBtnLabel?: string;
   confirmBtnLabel?: string;
+  showConfirmBtn?: boolean;
 }
 
 const PriceChangeModal = ({
@@ -25,6 +26,7 @@ const PriceChangeModal = ({
   title,
   cancelBtnLabel,
   confirmBtnLabel,
+  showConfirmBtn = true,
 }: PriceChangeModalProps) => {
   const [tg] = useTranslation('global');
   const titleLabel =
@@ -82,9 +84,11 @@ const PriceChangeModal = ({
                     >
                       {cancelLabel}
                     </Button>
-                    <Button onClick={() => onConfirm && onConfirm()}>
-                      {confirmLabel}
-                    </Button>
+                    {showConfirmBtn && (
+                      <Button onClick={() => onConfirm && onConfirm()}>
+                        {confirmLabel}
+                      </Button>
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

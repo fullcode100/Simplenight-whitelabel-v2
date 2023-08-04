@@ -68,9 +68,11 @@ const HorizontalItemCard = ({
           {!!newPrice && (
             <div className="flex items-center">
               <span className="text-error-1000 line-through pr-3">{price}</span>
-              <span className="text-green-1000 text-[18px] pr-3">
-                {newPrice}
-              </span>
+              {newPrice !== '0.00' && (
+                <span className="text-green-1000 text-[18px] pr-3">
+                  {`US$${newPrice}`}
+                </span>
+              )}
             </div>
           )}
         </section>
