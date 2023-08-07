@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import InformationIcon from 'public/icons/assets/info-circle.svg';
+import Close from 'public/icons/assets/cross.svg';
 
 interface PriceChangeModalProps {
   open: boolean;
@@ -15,6 +16,7 @@ interface PriceChangeModalProps {
   cancelBtnLabel?: string;
   confirmBtnLabel?: string;
   showConfirmBtn?: boolean;
+  showCloseBtn?: boolean;
 }
 
 const PriceChangeModal = ({
@@ -27,6 +29,7 @@ const PriceChangeModal = ({
   cancelBtnLabel,
   confirmBtnLabel,
   showConfirmBtn = true,
+  showCloseBtn = false,
 }: PriceChangeModalProps) => {
   const [tg] = useTranslation('global');
   const titleLabel =
@@ -66,6 +69,14 @@ const PriceChangeModal = ({
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  {showCloseBtn && (
+                    <button
+                      onClick={() => onClose && onClose()}
+                      className="h-6 w-6 absolute right-4"
+                    >
+                      <Close />
+                    </button>
+                  )}
                   <div className=" flex flex-col items-center justify-center">
                     <InformationIcon className="h-7 w-7 lg:h-[60px] lg:w-[60px] mt-12 text-primary-1000" />
                     <Dialog.Title

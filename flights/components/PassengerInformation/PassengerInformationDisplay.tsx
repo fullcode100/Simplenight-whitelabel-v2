@@ -44,7 +44,7 @@ const PassengerInformationDisplay = ({
   const [tg] = useTranslation('global');
   const noFareBookingTitle = tg(
     'titleLabel',
-    'No fare for booking, try other pricing options',
+    'The item you selected is not available anymore',
   );
   const [customer] = useCustomer((state) => [state.customer]);
   const [passengerForm, setPassengerForm] = useState<number | null>(0);
@@ -180,7 +180,9 @@ const PassengerInformationDisplay = ({
             basic={basicDetails}
             price={`US$${flight.offer?.totalFareAmount}`}
             newPrice={
-              index || !basicDetails ? undefined : newOffer?.totalFareAmount
+              index || !basicDetails || !newOfferAmountIsValid()
+                ? undefined
+                : newOffer?.totalFareAmount
             }
           />
         );
@@ -311,6 +313,13 @@ const PassengerInformationDisplay = ({
           }}
           showConfirmBtn={newOfferAmountIsValid()}
           title={newOfferAmountIsValid() ? null : noFareBookingTitle}
+          showCloseBtn={!newOfferAmountIsValid()}
+          onClose={() => {
+            if (!newOfferAmountIsValid()) {
+              setIsLoading(false);
+              setOpenPriceChangedModal(false);
+            }
+          }}
         />
       </FormProvider>
     </>
