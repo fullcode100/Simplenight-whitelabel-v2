@@ -47,6 +47,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   const SORT_BY_OPTIONS = [
     { id: 'sortByPriceAsc', name: t('sortByPriceAsc') },
     { id: 'sortByPriceDesc', name: t('sortByPriceDesc') },
+    { id: 'sortByDurationAsc', name: t('sortByDurationAsc') },
+    { id: 'sortByDurationDesc', name: t('sortByDurationDesc') },
   ];
 
   const priceRangeLabel = t('priceRange', 'Price Range');

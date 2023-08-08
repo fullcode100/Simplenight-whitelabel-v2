@@ -293,7 +293,7 @@ const FlightResultsDisplay = ({
                   parseFloat(b?.offer?.totalFareAmount),
               ),
         );
-      } else {
+      } else if (sortBy && sortBy === 'sortByPriceAsc') {
         _flightsFiltered.sort((a, b) =>
           parseFloat(a?.offer?.totalFareAmount) <
           parseFloat(b?.offer?.totalFareAmount)
@@ -302,6 +302,18 @@ const FlightResultsDisplay = ({
                 parseFloat(a?.offer?.totalFareAmount) >
                   parseFloat(b?.offer?.totalFareAmount),
               ),
+        );
+      } else if (sortBy && sortBy === 'sortByDurationAsc') {
+        _flightsFiltered.sort((a, b) =>
+          parseFloat(a?.legDuration) < parseFloat(b?.legDuration)
+            ? -1
+            : Number(parseFloat(a?.legDuration) > parseFloat(b?.legDuration)),
+        );
+      } else if (sortBy && sortBy === 'sortByDurationDesc') {
+        _flightsFiltered.sort((a, b) =>
+          parseFloat(a?.legDuration) > parseFloat(b?.legDuration)
+            ? -1
+            : Number(parseFloat(a?.legDuration) < parseFloat(b?.legDuration)),
         );
       }
 
