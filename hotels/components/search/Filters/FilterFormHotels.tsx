@@ -39,7 +39,7 @@ const FilterFormHotels = ({
 }: Props) => {
   const [t] = useTranslation('global');
   const priceLabel = t('price', 'Price');
-  const ratingLabel = t('rating', 'Rating');
+  const ratingLabel = t('starRating', 'Star Rating');
   const amenitiesLabel = t('amenities', 'Amenities');
   return (
     <div className={`h-full w-full overflow-hidden ${className}`}>
