@@ -12,7 +12,9 @@ const RatingSection = ({ rating, reviewsAmount }: Props) => {
   const noReviewsLabel = t('noReviews', 'No reviews yet');
   return (
     <section className="flex gap-2 ">
-      {rating && <Rating value={parseInt(rating.toFixed(0))} />}
+      {rating && (
+        <Rating value={parseInt(rating.toFixed(0))} reviews={reviewsAmount} />
+      )}
       {reviewsAmount ? (
         <Paragraph textColor="text-dark-700">{`${
           Number.isInteger(rating) ? rating : rating?.toFixed(2)
