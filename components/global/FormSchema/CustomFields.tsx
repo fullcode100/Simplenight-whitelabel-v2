@@ -171,7 +171,7 @@ export const CustomTimeSelect = (props: WidgetProps) => {
 };
 
 export const CustomSelect = (props: any) => {
-  const { options, value, onChange, required, id, autofocus } = props;
+  const { options, value, onChange, required, id, autofocus, disabled } = props;
   return (
     <SelectInput
       value={value}
@@ -181,6 +181,7 @@ export const CustomSelect = (props: any) => {
       id={id}
       {...{
         autoFocus: autofocus,
+        disabled: disabled,
       }}
     />
   );
