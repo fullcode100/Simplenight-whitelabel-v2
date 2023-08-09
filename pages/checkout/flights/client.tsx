@@ -145,7 +145,7 @@ const Client = () => {
 
   const InactiveCartMessage = () => (
     <FullScreenModal
-      open={!flights || !passengers}
+      open={!isValidData()}
       title={continueShoppingText}
       primaryButtonText={continueShoppingText}
       primaryButtonAction={continueShopping}
@@ -156,6 +156,12 @@ const Client = () => {
       </section>
     </FullScreenModal>
   );
+
+  const isValidData = () => {
+    const currentFlights = flights || [];
+    const currentPassengers = passengers || [];
+    return currentFlights.length > 0 && currentPassengers.length > 0;
+  };
 
   const itemsNumber = cart?.items?.length;
 
@@ -220,7 +226,7 @@ const Client = () => {
                     <ClientFormContent passenger={selectedPassenger} />
                     <BlockDivider className="mt-5" />
                     <section className="py-4">
-                      {flights && passengers && (
+                      {isValidData() && (
                         <FlightsCheckoutAccordion
                           key={flight?.legId}
                           flights={flights}

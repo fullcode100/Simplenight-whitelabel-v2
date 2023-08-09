@@ -116,7 +116,7 @@ const Payment = () => {
     };
     return (
       <FullScreenModal
-        open={!flights || !passengers}
+        open={!isValidData()}
         title={continueShoppingText}
         primaryButtonText={continueShoppingText}
         primaryButtonAction={continueShopping}
@@ -127,6 +127,12 @@ const Payment = () => {
         </section>
       </FullScreenModal>
     );
+  };
+
+  const isValidData = () => {
+    const currentFlights = flights || [];
+    const currentPassengers = passengers || [];
+    return currentFlights.length > 0 && currentPassengers.length > 0;
   };
 
   return (
@@ -167,7 +173,7 @@ const Payment = () => {
               </section>
               <Divider />
               <section className="px-5 py-4">
-                {flights && passengers && (
+                {isValidData() && (
                   <FlightsCheckoutAccordion
                     key={flight?.legId}
                     flights={flights}
