@@ -76,6 +76,7 @@ const Authentication = ({
       <NewPasswordConfirmationForm
         {...props}
         resetPasswordToken={resetPasswordToken}
+        email={email}
       />
     ),
     setNewPassword: (props: IAuthComponent) => (
