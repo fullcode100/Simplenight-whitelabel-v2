@@ -32,6 +32,7 @@ interface FormSchemaProps {
   id?: string;
   ref?: any;
   formData?: any;
+  isDisabled?: boolean;
 }
 
 const CustomFieldTemplate = (props: any) => {
@@ -80,6 +81,7 @@ const FormSchema = ({
   onChange,
   id,
   formData,
+  isDisabled,
 }: FormSchemaProps) => {
   const CustomValidate = (formData: any, errors: any) => {
     if (formData.phone === '') {
@@ -100,6 +102,7 @@ const FormSchema = ({
       ObjectFieldTemplate={ObjectFieldTemplate}
       validate={CustomValidate}
       formData={formData}
+      disabled={isDisabled}
     >
       {children}
     </Form>
