@@ -183,7 +183,7 @@ const ClientCartItem = ({
           <FormSchema
             schema={bookingQuestionSchema.schema}
             uiSchema={bookingQuestionSchema.uiSchema}
-            isDisabled={item.category == 'shows-events'}
+            isDisabled={item.category === 'shows-events'}
             onChange={(data) => {
               setBookingQuestionsData(data.formData);
               handleChangeAnswers(data, null);
