@@ -37,7 +37,7 @@ const HotelCheckoutItemDisplay = (item: any) => {
 
   return (
     <>
-      <section className="overflow-hidden border rounded-t-lg border-dark-300">
+      <section className="overflow-hidden border rounded-t-lg border-dark-300 mx-5">
         <section className="border-b border-dark-300 flex justify-between py-4 px-5border-b border-dark-300 flex justify-between py-4 px-5">
           <CartItemHeader />
         </section>
@@ -46,6 +46,7 @@ const HotelCheckoutItemDisplay = (item: any) => {
       <CollapseBordered
         title={<h4>Price Breakdown</h4>}
         body={<CartItemBody />}
+        className="mx-5"
       />
     </>
   );

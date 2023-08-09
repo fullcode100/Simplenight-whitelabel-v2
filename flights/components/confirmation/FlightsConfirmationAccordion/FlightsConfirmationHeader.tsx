@@ -39,16 +39,20 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
     (v: any) => v.type === 'INF',
   ).length;
 
-  const passengers = adults + children + infants;
-  const ticketsLabel = usePlural(passengers, 'Ticket', 'Tickets');
+  const totalTickets = adults + children + infants;
+  const ticketsLabel = usePlural(totalTickets, 'Ticket', 'Tickets');
 
   const direction =
-    item?.item_data.booking.segments.lenght === 1 ? 'one_way' : 'round_trip';
+    item?.item_data.booking.segments.length === 1 ? 'one_way' : 'round_trip';
+
   const flights = item?.item_data.booking.segments;
   const firstFlight = flights[0];
   const lastFlight = flights[flights.length - 1];
   const startAirport = firstFlight.collection[0].departureAirport;
-  const endAirport = lastFlight.collection[0].departureAirport;
+  const endAirport =
+    direction === 'round_trip'
+      ? lastFlight.collection[0].departureAirport
+      : lastFlight.collection[0].arrivalAirport;
 
   return (
     <section className="flex flex-row gap-3 p-4">
@@ -64,7 +68,7 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
           <Heading tag="h5">{endAirport}</Heading>
         </section>
         <Paragraph size="small" textColor="text-dark-800">
-          {directionMapper[direction].label} | {passengers} {ticketsLabel}
+          {directionMapper[direction].label} | {totalTickets} {ticketsLabel}
         </Paragraph>
       </section>
     </section>

@@ -45,6 +45,25 @@ const creditCardTypeCodeMap = {
   others: 'O',
 };
 
+type DocumentData = {
+  type: string;
+  number?: string;
+  expirationDate?: string;
+  issuer?: string;
+  nationality?: string;
+};
+
+type PasengerInfoPayload = {
+  id: string;
+  dateOfBirth: string;
+  type: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber: string;
+  gender?: string;
+  document?: DocumentData;
+};
+
 export const bookingAdapter = ({
   customer,
   paymentFormData,
@@ -64,9 +83,9 @@ export const bookingAdapter = ({
       finalId = `${adultsCount}`;
     } else {
       infantCount++;
-      finalId = `${infantCount}.1`;
+      finalId = `${infantCount}.${infantCount}`;
     }
-    return {
+    let finalPaypload: PasengerInfoPayload = {
       id: finalId,
       dateOfBirth: passenger.dateOfBirth
         ? dayjs(passenger.dateOfBirth).format('DDMMMYY').toUpperCase()
@@ -80,6 +99,27 @@ export const bookingAdapter = ({
         : '',
       gender: passenger.gender?.[0].toUpperCase(),
     };
+
+    if (
+      passenger.passportIdNumber &&
+      passenger.expiration &&
+      passenger.country
+    ) {
+      finalPaypload = {
+        ...finalPaypload,
+        document: {
+          type: 'passport',
+          number: passenger.passportIdNumber,
+          expirationDate: dayjs(passenger.expiration)
+            .format('DDMMMYY')
+            .toUpperCase(),
+          issuer: passenger.country,
+          nationality: passenger.country,
+        },
+      };
+    }
+
+    return finalPaypload;
   });
 
   const bookingParameters = {

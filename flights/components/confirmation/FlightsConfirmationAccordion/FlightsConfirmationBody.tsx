@@ -14,6 +14,7 @@ import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { PlusIcon } from '@heroicons/react/outline';
 import { Item } from 'types/booking/bookingType';
+import SupplierReference from 'flights/components/SupplierReference/SupplierReference';
 
 interface Props {
   item?: Item;
@@ -28,6 +29,10 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const directLabel = t('directLabel', 'Direct');
 
   const payNowLabel = t('payNow', 'Pay Now');
+  const taxesLabel = t('taxes', 'Taxes');
+  const otherFeesLabel = t('otherFees', 'Other Fees');
+
+  const supplierReferenceID = item?.supplier_order_number;
 
   const direction =
     item?.item_data.booking.segments.lenght === 1 ? 'one_way' : 'round_trip';
@@ -37,16 +42,20 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const endAirport = lastFlight.collection[0].arrivalAirport;
 
   const totalFlightAmount = item?.rate.total.full;
+  const totalFlightTaxes = item?.rate.taxes.full.amount;
   const offer = item?.item_data.booking.offer;
 
-  const adults = item?.item_data.booking.passengers.filter(
-    (v: any) => v.type === 'ADT',
-  ).length;
+  let infants = 0;
+
+  const adults = item?.item_data.booking.passengers.filter((v: any) => {
+    const isAdult = v.type === 'ADT';
+    if (isAdult && v.lapInfant) {
+      infants++;
+    }
+    return isAdult;
+  }).length;
   const children = item?.item_data.booking.passengers.filter(
     (v: any) => v.type === 'CNN',
-  ).length;
-  const infants = item?.item_data.booking.passengers.filter(
-    (v: any) => v.type === 'INF',
   ).length;
 
   const adultsAmount = Number(adults);
@@ -150,6 +159,9 @@ const FlightsConfirmationBody = ({ item }: Props) => {
 
   return (
     <div className="space-y-4">
+      {supplierReferenceID && (
+        <SupplierReference supplierReferenceID={supplierReferenceID} />
+      )}
       <IconAndLabel Icon={IconTravelers} label={paxMix} />
 
       <section className="flex gap-2 ">
@@ -179,6 +191,16 @@ const FlightsConfirmationBody = ({ item }: Props) => {
         <Pricing
           totalAmount={`${totalFlightAmount.currency}${totalFlightAmount.formatted}`}
         />
+      </section>
+      <section className="flex justify-between">
+        <IconAndLabel Icon={PlusIcon} label={taxesLabel} />
+        <Pricing
+          totalAmount={`${totalFlightTaxes.currency}${totalFlightTaxes.formatted}`}
+        />
+      </section>
+      <section className="flex justify-between">
+        <IconAndLabel Icon={PlusIcon} label={otherFeesLabel} />
+        <Pricing totalAmount={'US$0.00'} />
       </section>
 
       <Divider></Divider>

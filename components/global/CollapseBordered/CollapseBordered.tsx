@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { Collapse } from 'react-collapse';
+import classnames from 'classnames';
 
 import CollapseHeader from './components/CollapseHeader';
 import CollapseBody from './components/CollapseBody';
@@ -11,6 +12,7 @@ interface CollapseBorderedProps {
   body: ReactNode;
   footer?: ReactNode;
   isOpen?: boolean;
+  className?: string;
 }
 
 const CollapseBordered = ({
@@ -19,11 +21,17 @@ const CollapseBordered = ({
   body,
   footer,
   isOpen = false,
+  className = '',
 }: CollapseBorderedProps) => {
   const [show, setShow] = useState(isOpen);
 
   return (
-    <section className="overflow-hidden rounded-b-lg border-r border-b border-l border-dark-300">
+    <section
+      className={classnames(
+        'overflow-hidden rounded-b-lg border-r border-b border-l border-dark-300',
+        className,
+      )}
+    >
       {disclaimer}
       <CollapseHeader title={title} show={show} setShow={setShow} />
       <Collapse isOpened={show}>

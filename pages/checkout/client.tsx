@@ -489,7 +489,7 @@ const Client = () => {
   travelersFormSchema &&
     (travelersFormSchemaWithClass = {
       ...(travelersFormSchema as any),
-      className: 'lg:grid lg:grid-cols-2 lg:gap-x-4',
+      className: 'lg:grid lg:grid-cols-2 lg:gap-x-4 p-4',
     });
   const [data, setData] = useState({});
   if (!travelersFormSchemaWithClass || !travelersUiSchema) {
@@ -506,7 +506,7 @@ const Client = () => {
               <InactiveCartMessage />
               <Card>
                 <Title>{primaryContactText}</Title>
-                <section className="p-4">
+                <section>
                   <ClientForm
                     schema={travelersFormSchemaWithClass}
                     uiSchema={travelersUiSchema}
@@ -516,13 +516,13 @@ const Client = () => {
                   >
                     <ClientCart
                       items={cart?.items}
-                      schema={travelersFormSchema}
+                      schema={travelersFormSchemaWithClass}
                       uiSchema={travelersUiSchema}
                       onChange={handleAdditionalRequestChange}
                       onChangeAnswers={handleTravelerAnswerChange}
                       bookingAnswerData={bookingAnswerData}
                     />
-                    <CheckoutFooter type="client">
+                    <CheckoutFooter type="client" className="p-5 bg-dark-100">
                       <CheckoutSummary
                         cart={cart}
                         reload={reload}

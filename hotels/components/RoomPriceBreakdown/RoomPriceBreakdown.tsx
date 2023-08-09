@@ -9,6 +9,7 @@ import { Rate } from '../../../types/booking/bookingType';
 import PlusIcon from 'public/icons/assets/Plus.svg';
 import { MinRateRate } from 'hotels/types/response/CartHotels';
 import { Paragraph, Pricing } from '@simplenight/ui';
+import Divider from 'components/global/Divider/Divider';
 
 interface RoomPriceBreakdownProps {
   total?: string;
@@ -23,6 +24,7 @@ interface RoomPriceBreakdownProps {
   termsOfService?: string | null;
   rate?: Rate | MinRateRate;
   isPriceBase?: boolean;
+  resortTaxes?: string;
 }
 
 const RoomPriceBreakdown = ({
@@ -38,9 +40,10 @@ const RoomPriceBreakdown = ({
   termsOfService,
   rate,
   isPriceBase,
+  resortTaxes = '',
 }: RoomPriceBreakdownProps) => {
   const [t, i18next] = useTranslation('hotels');
-  const resortFeeLabel = t('resortFee', 'Resort Fee');
+  const taxesLabel = t('taxes', 'Taxes');
   const payNowLabel = t('payNow', 'Pay now');
   const priceIncludesLabel = t('priceIncludes', 'Price Includes');
   const payAtPropertyLabel = t('payAtProperty', 'Pay at property');
@@ -112,8 +115,10 @@ const RoomPriceBreakdown = ({
         );
       })}
       <div className="border-t border-dark-200"></div>
-      <section className="mb-5 flex justify-between">
-        <Paragraph>{payNowLabel}</Paragraph>
+      <section className="flex justify-between">
+        <Paragraph className="font-lato text-dark-1000 font-bold text-base">
+          {payNowLabel}
+        </Paragraph>
         <Pricing>
           <Pricing.Total totalAmount={total as string} />
         </Pricing>
@@ -123,32 +128,56 @@ const RoomPriceBreakdown = ({
         const taxLabel = t(tax.type, tax.description);
         if (tax.tax_amount.amount === 0) return;
         return (
-          <section className="flex justify-between" key={tax.type + index}>
-            <section className="flex flex-row gap-1">
-              <section className="flex flex-row gap-1 lg:gap-3 items-center">
-                <PlusIcon className="h-3.5 text-primary-1000 lg:h-4 lg:w-4 grid place-items-center" />
-                <Paragraph>{taxLabel}</Paragraph>
+          <>
+            <section className="flex justify-between" key={tax.type + index}>
+              <section className="flex flex-row gap-1">
+                <section className="flex flex-row gap-1 lg:gap-3 items-center">
+                  <PlusIcon className="h-3.5 text-primary-1000 lg:h-4 lg:w-4 grid place-items-center" />
+                  <Paragraph>{taxLabel}</Paragraph>
+                </section>
               </section>
-            </section>
 
-            <section className="text-right">
-              <section className="flex items-center text-dark-1000">
+              <section className="text-right">
+                <section className="flex items-center text-dark-1000">
+                  {showLocalCurrency && (
+                    <p className="pr-1 text-[12px] leading-[15px]">
+                      {approxLabel}
+                    </p>
+                  )}
+                  <p className="leading-lg text-xs font-semibold lg:text-sm lg:leading-[22px]">
+                    {`${tax.tax_amount.formatted}${
+                      showLocalCurrency ? '*' : ''
+                    }`}
+                  </p>
+                </section>
                 {showLocalCurrency && (
-                  <p className="pr-1 text-[12px] leading-[15px]">
-                    {approxLabel}
+                  <p className="text-[12px] leading-[15px]">
+                    {tax.tax_original_amount?.formatted}
                   </p>
                 )}
-                <p className="leading-lg text-xs font-semibold lg:text-sm lg:leading-[22px]">
-                  {`${tax.tax_amount.formatted}${showLocalCurrency ? '*' : ''}`}
-                </p>
               </section>
-              {showLocalCurrency && (
-                <p className="text-[12px] leading-[15px]">
-                  {tax.tax_original_amount?.formatted}
-                </p>
-              )}
             </section>
-          </section>
+            <section className="flex justify-between">
+              <section className="flex flex-row gap-1">
+                <section className="flex flex-row gap-1 lg:gap-3 items-center">
+                  <PlusIcon className="h-3.5 text-primary-1000 lg:h-4 lg:w-4 grid place-items-center" />
+                  <Paragraph>{taxesLabel}</Paragraph>
+                </section>
+              </section>
+              <section className="text-right">
+                <section className="flex items-center text-dark-1000">
+                  {showLocalCurrency && (
+                    <p className="pr-1 text-[12px] leading-[15px]">
+                      {approxLabel}
+                    </p>
+                  )}
+                  <p className="leading-lg text-xs font-semibold lg:text-sm lg:leading-[22px]">
+                    {`${resortTaxes}${showLocalCurrency ? '*' : ''}`}
+                  </p>
+                </section>
+              </section>
+            </section>
+          </>
         );
       })}
       {showLocalCurrency && (
@@ -156,14 +185,16 @@ const RoomPriceBreakdown = ({
           {`* ${estimationLabel}`}
         </p>
       )}
-      <div className="border-t border-dark-200"></div>
-      <section className="mb-5 flex justify-between">
-        <Paragraph>{payAtPropertyLabel}</Paragraph>
+      <Divider />
+      <section className="flex justify-between">
+        <Paragraph className="font-lato text-dark-1000 font-bold text-base">
+          {payAtPropertyLabel}
+        </Paragraph>
         <Pricing>
           <Pricing.Total totalAmount={resortFees as string} />
         </Pricing>
       </section>
-
+      <Divider />
       <ExtraDetailItem detail={amenities} label={priceIncludesLabel} />
       {instructions && instructions}
       <ExtraDetailItem

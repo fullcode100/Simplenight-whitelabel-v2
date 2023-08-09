@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import HotelGeneralInfo from './HotelGeneralInfo';
 import HotelRoomsInfo from './HotelRoomsInfo';
 // import { Item } from 'types/cart/CartType';
 import { Item } from '../../types/response/CartHotels';

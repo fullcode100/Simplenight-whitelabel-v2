@@ -47,6 +47,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   const SORT_BY_OPTIONS = [
     { id: 'sortByPriceAsc', name: t('sortByPriceAsc') },
     { id: 'sortByPriceDesc', name: t('sortByPriceDesc') },
+    { id: 'sortByDurationAsc', name: t('sortByDurationAsc') },
+    { id: 'sortByDurationDesc', name: t('sortByDurationDesc') },
   ];
 
   const priceRangeLabel = t('priceRange', 'Price Range');
@@ -57,6 +59,8 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
   const arrivalTimesLabel = t('arrivalTimes', 'Arrival Time');
   const clearFiltersText = t('clearFilters', 'Clear filters');
   const filtersText = t('filters', 'Filters');
+  const airlinesLabel = t('airlines', 'Airlines');
+  const connectingCitiesLabel = t('connectingCities', 'Connecting Cities');
 
   const [departureTimes, setDepartureTimes] = useState<string[]>(
     queryFilter?.departureTimes
@@ -310,7 +314,7 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
     })),
   ];
   const availableCities = [
-    { id: 'all', name: t('connectingCities') },
+    { id: 'all', name: t('allCities') },
     ...citiesOptions.map((id) => ({ id, name: id })),
   ];
 
@@ -442,13 +446,16 @@ const FlightFilterFormDesktop = ({ flights }: FlightFilterFormDesktopProps) => {
         }
         body={
           <>
+            <FilterTitle label={airlinesLabel} />
             <Selector
               options={availableAirlines}
               idSelected={queryFilter?.airlines?.toString()}
               onChange={(i) => {
                 onChangeAirline(i);
               }}
+              containerClassName="mb-2"
             />
+            <FilterTitle label={connectingCitiesLabel} />
             <Selector
               options={availableCities}
               idSelected={queryFilter?.cities?.toString()}

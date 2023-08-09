@@ -28,6 +28,8 @@ const FlightsCheckoutBody = ({ flights, search }: Props) => {
   const directLabel = t('directLabel', 'Direct');
 
   const payNowLabel = t('payNow', 'Pay Now');
+  const taxesLabel = t('taxes', 'Taxes');
+  const otherFeesLabel = t('otherFees', 'Other Fees');
 
   const { direction, startAirport, endAirport, adults, children, infants } =
     search;
@@ -81,10 +83,19 @@ const FlightsCheckoutBody = ({ flights, search }: Props) => {
     },
   };
 
-  const firstFlightFare = Number(flights[0].offer.totalFareAmount);
+  const firstFlightOffer = flights[0].offer;
+  const firstFlightTax = Number(firstFlightOffer.totalTaxAmount);
+  const firstFlightFare =
+    Number(firstFlightOffer.totalFareAmount) - firstFlightTax;
+  const lastFlightOffer = flights[flights.length - 1].offer;
+  const lastFlightTax =
+    Number(lastFlightOffer.totalTaxAmount) -
+    Number(firstFlightOffer.totalTaxAmount);
   const lastFlightFare =
-    Number(flights[flights.length - 1].offer.totalFareAmount) -
-    Number(flights[0].offer.totalFareAmount);
+    Number(lastFlightOffer.totalFareAmount) -
+    Number(firstFlightOffer.totalFareAmount) -
+    lastFlightTax;
+  const totalTaxes = lastFlightOffer.totalTaxAmount;
   interface IconsAndLabelProps {
     Icon: any;
     label: string;
@@ -183,6 +194,15 @@ const FlightsCheckoutBody = ({ flights, search }: Props) => {
           <Pricing totalAmount={`US$${lastFlightFare.toFixed(2)}`} />
         </section>
       ) : null}
+
+      <section className="flex justify-between">
+        <IconAndLabel Icon={PlusIcon} label={taxesLabel} />
+        <Pricing totalAmount={`US$${totalTaxes}`} />
+      </section>
+      <section className="flex justify-between">
+        <IconAndLabel Icon={PlusIcon} label={otherFeesLabel} />
+        <Pricing totalAmount={'US$0.00'} />
+      </section>
 
       <Divider></Divider>
       <section className="flex justify-between py-2">

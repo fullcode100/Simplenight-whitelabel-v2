@@ -150,7 +150,7 @@ const ClientCartItem = ({
   return (
     <section className="py-6">
       <CartItemDetail />
-      <section className="flex items-center mt-5">
+      <section className="flex items-center m-5">
         <ToggleSwitch
           onChange={() => setUsePrimaryContact(!usePrimaryContact)}
           checked={usePrimaryContact}
@@ -163,6 +163,7 @@ const ClientCartItem = ({
           htmlFor={`${item.cart_id}-${index}`}
         />
       </section>
+      <Divider />
       {!usePrimaryContact ? (
         <section className="mt-1.5">
           {formSchema && formUiSchema && (
@@ -228,10 +229,10 @@ const ClientCartItem = ({
           ),
         )}
       {item.category !== 'DINING' && (
-        <section>
+        <section className="mx-5">
           <Label
             value="Additional Requests"
-            className="mt-5 mb-2"
+            className="pt-5 mb-2"
             translationKey="additionalRequests"
           />
           <Textarea

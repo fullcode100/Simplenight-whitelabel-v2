@@ -27,7 +27,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
 
   const [t, i18next] = useTranslation('global');
   const removeLabel = t('remove', 'Remove');
-
+  const resortTaxes = room.rate.taxes.full.amount.formatted;
   const selectedRoom = room.item_data?.room;
 
   const roomName = selectedRoom?.name;
@@ -93,6 +93,7 @@ const HotelRoomInfo = ({ room, reload, setReload }: HotelRoomInfoProps) => {
         instructions={<Instructions />}
         termsOfService={termsOfService}
         rate={roomRate}
+        resortTaxes={resortTaxes}
         isPriceBase
       />
       <br />

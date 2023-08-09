@@ -19,7 +19,7 @@ const ClientForm = ({
   formData,
 }: ClientFormProps) => {
   return (
-    <section className="px-4">
+    <section>
       <FormSchema
         schema={schema}
         uiSchema={uiSchema}
