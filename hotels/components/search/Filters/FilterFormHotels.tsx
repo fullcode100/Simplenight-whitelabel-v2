@@ -84,7 +84,8 @@ const FilterFormHotels = ({
         initialState
       />
       <Divider className="my-6" />
-      <CollapseUnbordered
+      {/* TODO: hidden from views per https://simplenight.atlassian.net/browse/WOM-355, add back in when issues are fixed */}
+      {/* <CollapseUnbordered
         title={<Heading tag="h5">{amenitiesLabel}</Heading>}
         body={
           <AmenitiesFilter
@@ -95,7 +96,7 @@ const FilterFormHotels = ({
           />
         }
         initialState
-      />
+      /> */}
     </div>
   );
 };
