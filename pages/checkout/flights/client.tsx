@@ -24,12 +24,10 @@ import { z } from 'zod';
 import { getItemQuestionSchemas } from 'thingsToDo/helpers/questions';
 import FlightsCheckoutAccordion from 'flights/components/checkout/FlightsCheckoutAccordion/FlightsCheckoutAccordion';
 import { useFlightsStore } from 'hooks/flights/useFligthsStore';
-import { useSearchStore } from 'hooks/flights/useSearchStore';
 import BlockDivider from 'components/global/Divider/BlockDivider';
 import { usePassengersStore } from 'hooks/flights/usePassengersStore';
 import CheckoutSummary from 'flights/components/CheckoutSummary/CheckoutSummary';
 import { Paragraph } from '@simplenight/ui';
-import Select, { SelectOption } from 'components/checkout/Select/Select';
 import { IPassenger } from '../../../flights/components/passenger/inputs';
 
 interface LayoutProps {
@@ -45,7 +43,6 @@ const Client = () => {
   const { checkOutFormSchema } = useCheckoutFormSchema();
 
   const flights = useFlightsStore((state) => state.flights);
-  const search = useSearchStore((state) => state.search);
   const passengers = usePassengersStore((state) => state.passengers);
 
   const passengerOptions = passengers.map((pass) => ({
@@ -148,7 +145,7 @@ const Client = () => {
 
   const InactiveCartMessage = () => (
     <FullScreenModal
-      open={!search || !flights || !passengers}
+      open={!flights || !passengers}
       title={continueShoppingText}
       primaryButtonText={continueShoppingText}
       primaryButtonAction={continueShopping}
@@ -223,11 +220,11 @@ const Client = () => {
                     <ClientFormContent passenger={selectedPassenger} />
                     <BlockDivider className="mt-5" />
                     <section className="py-4">
-                      {flights && search && (
+                      {flights && passengers && (
                         <FlightsCheckoutAccordion
                           key={flight.legId}
                           flights={flights}
-                          search={search}
+                          passengers={passengers}
                         />
                       )}
                     </section>

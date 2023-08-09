@@ -38,7 +38,7 @@ type FlightDetailDisplayProps = CategoryPageComponentProps;
 const PassengerInformationDisplay = ({
   Category,
 }: FlightDetailDisplayProps) => {
-  const { id } = useQuery();
+  const { id } = useQuery() as { id: 'round_trip' | 'one_way' | 'multicity' };
   const router = useRouter();
   const [t, i18next] = useTranslation('flights');
   const [tg] = useTranslation('global');
@@ -49,8 +49,7 @@ const PassengerInformationDisplay = ({
   const [customer] = useCustomer((state) => [state.customer]);
   const [passengerForm, setPassengerForm] = useState<number | null>(0);
 
-  const search = useSearchStore((store) => store.search);
-  const direction = search?.direction;
+  const direction = id;
 
   const departureLabel = t('departureFlight', 'Departure Flight');
   const arrivalLabel = t('arrivalFlight', 'Arrival Flight');
