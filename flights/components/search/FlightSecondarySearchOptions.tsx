@@ -57,11 +57,11 @@ const FlightSecondarySearchOptions = () => {
     'Venue Name, Landmark, Location, etc.',
   );
   const sortByLabel = t('sortBy', 'Sort By');
-  const sortByPriceAsc = t('sortByPriceAsc', 'Lowest Price');
-  const sortByPriceDesc = t('sortByPriceDesc', 'Highest Price');
   const SORT_BY_OPTIONS = [
-    { id: 'sortByPriceAsc', name: sortByPriceAsc },
-    { id: 'sortByPriceDesc', name: sortByPriceDesc },
+    { id: 'sortByPriceAsc', name: t('sortByPriceAsc') },
+    { id: 'sortByPriceDesc', name: t('sortByPriceDesc') },
+    { id: 'sortByDurationAsc', name: t('sortByDurationAsc') },
+    { id: 'sortByDurationDesc', name: t('sortByDurationDesc') },
   ];
 
   const priceRangeLabel = tg('price', 'Price');
