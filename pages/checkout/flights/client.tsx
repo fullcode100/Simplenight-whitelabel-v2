@@ -222,7 +222,7 @@ const Client = () => {
                     <section className="py-4">
                       {flights && passengers && (
                         <FlightsCheckoutAccordion
-                          key={flight.legId}
+                          key={flight?.legId}
                           flights={flights}
                           passengers={passengers}
                         />

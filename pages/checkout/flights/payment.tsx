@@ -169,7 +169,7 @@ const Payment = () => {
               <section className="px-5 py-4">
                 {flights && passengers && (
                   <FlightsCheckoutAccordion
-                    key={flight.legId}
+                    key={flight?.legId}
                     flights={flights}
                     passengers={passengers}
                   />
