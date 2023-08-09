@@ -29,6 +29,8 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const directLabel = t('directLabel', 'Direct');
 
   const payNowLabel = t('payNow', 'Pay Now');
+  const taxesLabel = t('taxes', 'Taxes');
+  const otherFeesLabel = t('otherFees', 'Other Fees');
 
   const supplierReferenceID = item?.supplier_order_number;
 
@@ -40,6 +42,7 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const endAirport = lastFlight.collection[0].arrivalAirport;
 
   const totalFlightAmount = item?.rate.total.full;
+  const totalFlightTaxes = item?.rate.taxes.full.amount;
   const offer = item?.item_data.booking.offer;
 
   let infants = 0;
@@ -188,6 +191,16 @@ const FlightsConfirmationBody = ({ item }: Props) => {
         <Pricing
           totalAmount={`${totalFlightAmount.currency}${totalFlightAmount.formatted}`}
         />
+      </section>
+      <section className="flex justify-between">
+        <IconAndLabel Icon={PlusIcon} label={taxesLabel} />
+        <Pricing
+          totalAmount={`${totalFlightTaxes.currency}${totalFlightTaxes.formatted}`}
+        />
+      </section>
+      <section className="flex justify-between">
+        <IconAndLabel Icon={PlusIcon} label={otherFeesLabel} />
+        <Pricing totalAmount={'US$0.00'} />
       </section>
 
       <Divider></Divider>
