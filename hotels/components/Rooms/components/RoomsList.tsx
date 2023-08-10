@@ -46,7 +46,7 @@ const RoomsList = ({
             value={'Show more'}
             size="full"
             onClick={() => loadMoreResults()}
-            className="w-60 mb-6 lg:mb-0 text-base font-semibold leading-base"
+            className="w-60 mb-6 lg:mb-0 text-base font-semibold leading-base mt-4"
             disabled={false}
           />
         )}

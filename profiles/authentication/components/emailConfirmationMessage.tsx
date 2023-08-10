@@ -1,11 +1,12 @@
 import { SectionTitle } from '@simplenight/ui';
 import { useTranslation } from 'react-i18next';
 import { login } from '../../core/services/AuthClientService';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Check from 'public/icons/assets/check-round.svg';
 import { IAuthComponent } from '../index';
 import AuthenticationContainer from 'components/authenticationContainer';
 import HelpSection from 'components/global/HelpSection/HelpSection';
+import { useRouter } from 'next/router';
 
 interface FormData {
   email: string;
@@ -21,9 +22,23 @@ const EmailConfirmation = ({
   resetPassword,
   passwordUpdated,
   changeAuthType,
+  closeModal,
 }: iEmailConfirmation) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
+  const router = useRouter();
+
+  useEffect(() => {
+    const redirectId = setTimeout(() => {
+      if (passwordUpdated) {
+        router.push('/');
+        closeModal();
+      }
+    }, 5000);
+    return () => {
+      clearTimeout(redirectId);
+    };
+  }, []);
 
   return (
     <AuthenticationContainer>
