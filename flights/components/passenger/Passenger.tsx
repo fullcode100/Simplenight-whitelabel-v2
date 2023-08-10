@@ -245,14 +245,6 @@ const Passenger = ({
         'I require wheelchair assistance while traveling.',
         'wheelChair',
       )}
-      {getCheckboxField(
-        'I have a Known Traveler Number.',
-        'knownTravelerNumber',
-      )}
-      {getCheckboxField(
-        'I am prepared to show vaccination records.',
-        'vaccinationRecords',
-      )}
     </section>
   );
 
