@@ -10,12 +10,17 @@ import { CustomPassword } from '../../../components/global/FormSchema/CustomFiel
 import ErrorMessage from '../../../components/global/ErrorMessage';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
 import AuthenticationContainer from '../../../components/authenticationContainer';
-import { resetPassword } from '../../core/services/AuthClientService';
+import {
+  configurePassword,
+  resetPassword,
+} from '../../core/services/AuthClientService';
 import {
   MultipleValidationsExecutor,
   PasswordCustomValidationWithConfirmPassword,
   PasswordRules,
 } from 'validations';
+import { useSessionStore } from 'hooks/auth/useSessionStore';
+import { useRouter } from 'next/router';
 
 interface FormData {
   confirmPassword: string;
@@ -29,12 +34,16 @@ interface INewPasswordConfirmationForm extends IAuthComponent {
 const NewPasswordConfirmationForm = ({
   changeAuthType,
   setExtraProps,
+  closeModal,
   resetPasswordToken,
+  email,
 }: INewPasswordConfirmationForm) => {
   const [t, i18n] = useTranslation('profiles');
   const [g] = useTranslation('global');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+  const { setToken } = useSessionStore();
   const { control, handleSubmit } = useForm<FormData>({
     mode: 'all',
     defaultValues: {
@@ -47,20 +56,26 @@ const NewPasswordConfirmationForm = ({
     try {
       setLoading(true);
       setErrorMessage('');
-      await resetPassword(
-        {
-          password: values.password,
-          token: resetPasswordToken,
-        },
-        i18n,
-      );
-      setExtraProps((props: any) => ({
-        ...props,
-        email: undefined,
-        resetPassword: false,
-        passwordUpdated: true,
-      }));
-      changeAuthType('emailConfirmation');
+      if (resetPasswordToken) {
+        const tokens = await configurePassword(
+          {
+            email: email ?? '',
+            password: values.password,
+            resetPasswordToken: resetPasswordToken,
+          },
+          i18n,
+        );
+        if (tokens) {
+          setToken(tokens.token);
+        }
+        setExtraProps((props: any) => ({
+          ...props,
+          email: email,
+          resetPassword: false,
+          passwordUpdated: true,
+        }));
+        changeAuthType('emailConfirmation');
+      }
     } catch (error: any) {
       if (error?.response?.data?.message) {
         setErrorMessage(error?.response?.data?.message);
