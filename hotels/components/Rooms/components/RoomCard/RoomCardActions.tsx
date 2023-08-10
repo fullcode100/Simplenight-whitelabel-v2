@@ -8,15 +8,26 @@ import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
 import { useGA4 } from 'hooks/ga4/useGA4';
 import { TRACK_ACTION, TRACK_CATEGORY, TRACK_LABEL } from 'constants/events';
+import AngleTop from 'public/icons/assets/angle-top.svg';
+import AngleBottom from 'public/icons/assets/chevron-down-arrow.svg';
 
 interface RoomProps {
   room: Room;
   hotelId: string;
   rooms?: number;
   name: string;
+  handleOpenClose: () => void;
+  open: boolean;
 }
 
-const RoomCardActions = ({ room, name, hotelId, rooms = 1 }: RoomProps) => {
+const RoomCardActions = ({
+  room,
+  name,
+  hotelId,
+  rooms = 1,
+  handleOpenClose,
+  open,
+}: RoomProps) => {
   const router = useRouter();
   const { trackEvent } = useGA4();
 
@@ -25,10 +36,13 @@ const RoomCardActions = ({ room, name, hotelId, rooms = 1 }: RoomProps) => {
     sn_booking_code: bookingCode,
   };
   const [t, i18next] = useTranslation('hotels');
+  const [g] = useTranslation('global');
   const addToItineraryText = t('addToItinerary', 'Add to Itinerary');
   const bookText = t('book', 'Book');
   const tRoom = t('room', 'Room');
   const tRooms = t('rooms', 'Rooms');
+  const seeMoreLabel = g('seeMore');
+  const seeLessLabel = g('seeLess');
   const ROOM_TEXT = usePlural(rooms, tRoom, tRooms);
   const showAddToItinerary = hasCartMode();
 
@@ -65,6 +79,7 @@ const RoomCardActions = ({ room, name, hotelId, rooms = 1 }: RoomProps) => {
     mutate();
   };
 
+  const AngleComponent = open ? AngleTop : AngleBottom;
   return (
     <footer className="px-4 py-4">
       <section className="flex gap-3">
@@ -80,10 +95,18 @@ const RoomCardActions = ({ room, name, hotelId, rooms = 1 }: RoomProps) => {
           />
         )}
         <Button
+          value={open ? seeLessLabel : seeMoreLabel}
+          size="full"
+          onClick={() => handleOpenClose()}
+          className="text-xs md:text-base font-semibold leading-base bg-white text-black border-dark-1000 border-2 hover:bg-white active:bg-white"
+          disabled={isLoading}
+          leftIcon={<AngleComponent className={'text-black'} />}
+        />
+        <Button
           value={`${bookText} ${rooms} ${ROOM_TEXT}`}
           size="full"
           onClick={addRoom}
-          className="text-base font-semibold leading-base"
+          className="text-xs md:text-base font-semibold leading-base"
           disabled={isLoading}
         />
       </section>

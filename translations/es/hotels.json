@@ -124,5 +124,8 @@
   "required": "Requerido",
   "email": "Correo electrónico",
   "searchHotel": "Buscar hotel",
-  "bookThePerfectHotel": "Reserva el hotel perfecto comparando precios y leyendo reseñas."
+  "bookThePerfectHotel": "Reserva el hotel perfecto comparando precios y leyendo reseñas.",
+  "connectingRooms": "Habitación comunicada",
+  "earlycheckIn": "Registro anticipado",
+  "features": "Caracteristicas"
 }

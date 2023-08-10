@@ -153,6 +153,7 @@ module.exports = {
       },
       animation: {
         loader: 'load 5s linear forwards',
+        fade: 'fadeOut 0.25s ease-in',
       },
       keyframes: {
         skeleton: {
@@ -169,6 +170,10 @@ module.exports = {
         load: {
           '0%': { width: '1%' },
           '100%': { width: '98%' },
+        },
+        fadeOut: {
+          '0%': { opacity: 0.5 },
+          '100%': { opacity: 1 },
         },
       },
       backgroundImage: {

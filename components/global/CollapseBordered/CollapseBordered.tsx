@@ -13,6 +13,7 @@ interface CollapseBorderedProps {
   footer?: ReactNode;
   isOpen?: boolean;
   className?: string;
+  titleClassName?: string;
 }
 
 const CollapseBordered = ({
@@ -22,6 +23,7 @@ const CollapseBordered = ({
   footer,
   isOpen = false,
   className = '',
+  titleClassName,
 }: CollapseBorderedProps) => {
   const [show, setShow] = useState(isOpen);
 
@@ -33,7 +35,12 @@ const CollapseBordered = ({
       )}
     >
       {disclaimer}
-      <CollapseHeader title={title} show={show} setShow={setShow} />
+      <CollapseHeader
+        title={title}
+        show={show}
+        setShow={setShow}
+        titleClassName={titleClassName}
+      />
       <Collapse isOpened={show}>
         <CollapseBody body={body} show={show} />
       </Collapse>

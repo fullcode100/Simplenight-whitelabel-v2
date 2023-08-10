@@ -44,7 +44,6 @@ const Button = ({
   ...others
 }: ButtonProps) => {
   const colors = useColor(color, type);
-
   let sizeTailwindClass;
   switch (size) {
     case 'sm':

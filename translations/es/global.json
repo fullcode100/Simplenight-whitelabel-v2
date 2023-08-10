@@ -249,5 +249,6 @@
   "1minCharacters": "1 es el número minimo de caracteres permitidos",
   "fieldRequired": "Este campo es requerido",
   "contactSupport": "Contactar a soporte",
-  "clickHere": "Clic aqui"
+  "clickHere": "Clic aqui",
+  "supplier": "Proveedor"
 }

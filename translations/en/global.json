@@ -215,5 +215,6 @@
   "1minCharacters": "1 is the minimum number of characters allowed.",
   "fieldRequired": "This field is required",
   "contactSupport": "Contact Support",
-  "clickHere": "Click Here"
+  "clickHere": "Click Here",
+  "supplier": "Supplier"
 }

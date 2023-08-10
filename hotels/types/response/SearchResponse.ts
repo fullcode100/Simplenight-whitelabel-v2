@@ -131,6 +131,7 @@ export interface Room {
   room_type: string;
   services: Services;
   photos?: Photo[];
+  features?: string[];
 }
 
 export interface Services {

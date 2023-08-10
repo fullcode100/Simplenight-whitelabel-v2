@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import cs from 'classnames';
 
 import Check from 'public/icons/assets/check.svg';
 

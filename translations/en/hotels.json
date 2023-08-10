@@ -107,5 +107,7 @@
   "mandatory": "Mandatory",
   "estimationTax": "Estimation based on the current exchange rate, may change before your stay.",
   "approx": "Approx",
-  "bookThePerfectHotel": "Book the perfect hotel by comparing prices and reading reviews."
+  "bookThePerfectHotel": "Book the perfect hotel by comparing prices and reading reviews.",
+  "connectingRooms": "Connecting Room",
+  "features": "Features"
 }

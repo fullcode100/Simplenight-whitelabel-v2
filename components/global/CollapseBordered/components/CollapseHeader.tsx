@@ -7,15 +7,26 @@ interface CollapseBorderedProps {
   title: ReactNode;
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
+  titleClassName?: string;
 }
 
-const CollapseHeader = ({ title, show, setShow }: CollapseBorderedProps) => {
+const CollapseHeader = ({
+  title,
+  show,
+  setShow,
+  titleClassName,
+}: CollapseBorderedProps) => {
   const onClick = () => {
     setShow(!show);
   };
 
   return (
-    <section className="border-b border-dark-300 flex justify-between py-4 px-5">
+    <section
+      className={classnames(
+        'border-b border-dark-300 flex justify-between py-4 px-5',
+        titleClassName,
+      )}
+    >
       {title}
       <section
         className={classnames('flex items-center', {

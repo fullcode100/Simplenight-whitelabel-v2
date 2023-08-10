@@ -37,18 +37,6 @@ const RoomCardHeader = ({
       <p className="mb-2 text-lg font-semibold text-dark-1000">
         {roomDescription}
       </p>
-      <DetailItemCard
-        label={roomDetailsText}
-        description={roomDescription}
-        rates={rates}
-        cancellationPolicy={cancellationPolicy}
-        features={amenities}
-        itemToBook={itemToBook}
-        nights={nights}
-        guests={guests}
-        services={services}
-        rooms={rooms}
-      />
     </header>
   );
 };
