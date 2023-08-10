@@ -32,9 +32,6 @@ const FlightsCheckoutBody = ({ flights, passengers }: Props) => {
   const taxesLabel = t('taxes', 'Taxes');
   const otherFeesLabel = t('otherFees', 'Other Fees');
 
-  // const { direction, startAirport, endAirport, adults, children, infants } =
-  //   search;
-
   const adults = passengers.filter(
     (v: any) => v.passengerType === 'ADT',
   ).length;

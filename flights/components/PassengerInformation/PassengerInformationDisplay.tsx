@@ -34,11 +34,12 @@ import {
 } from 'flights/types/request/FlightDetailRequest';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
+type QueryParms = { id: 'round_trip' | 'one_way' | 'multicity' };
 
 const PassengerInformationDisplay = ({
   Category,
 }: FlightDetailDisplayProps) => {
-  const { id } = useQuery() as { id: 'round_trip' | 'one_way' | 'multicity' };
+  const { id } = useQuery() as QueryParms;
   const router = useRouter();
   const [t, i18next] = useTranslation('flights');
   const [tg] = useTranslation('global');
@@ -255,7 +256,13 @@ const PassengerInformationDisplay = ({
             departureDate={
               flights[0].segments?.collection[0].departureDateTime || ''
             }
-            arrival={flights[1]?.segments?.collection[0].departureAirport}
+            arrival={
+              direction === 'round_trip'
+                ? flights[flights.length - 1]?.segments?.collection[0]
+                    .departureAirport
+                : flights[flights.length - 1]?.segments?.collection[0]
+                    .arrivalAirport
+            }
             arrivaDate={
               flights[1]?.segments?.collection[0].arrivalDateTime || ''
             }

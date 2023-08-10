@@ -17,8 +17,6 @@ interface Props {
 
 const FlightsCheckoutHeader = ({ passengers, flights }: Props) => {
   const [t] = useTranslation('flights');
-  // const { adults, infants, children, direction, startAirport, endAirport } =
-  //   search;
   const adults = passengers.filter(
     (v: any) => v.passengerType === 'ADT',
   ).length;
