@@ -20,8 +20,8 @@ const HotelGeneralInfo = ({ item }: HotelGeneralInfoProps) => {
   const checkinTime = item?.details?.checkin_time;
   const checkoutTime = item?.details?.checkout_time;
   const modalData = {
-    checkin_time: checkinDate,
-    checkout_time: checkoutDate,
+    checkin_time: `${checkinDate} ${checkinTime}`,
+    checkout_time: `${checkoutDate} ${checkoutTime}`,
     fees: item?.details.fees,
     policies: item?.details.policies,
     check_in_instructions: item?.details.check_in_instructions,
