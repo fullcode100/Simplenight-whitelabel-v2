@@ -1,4 +1,5 @@
 import Star from 'public/icons/assets/star-filter.svg';
+import { useTranslation } from 'react-i18next';
 import { RangeTypes } from 'types/global/Filters';
 
 interface LabelProps {
@@ -8,6 +9,8 @@ interface LabelProps {
 }
 
 const LabelSlider = ({ type, value, isMaxLabel = false }: LabelProps) => {
+  const [t] = useTranslation('global');
+
   const renderSwitch = (param: string) => {
     switch (param) {
       case 'priceRange':
@@ -15,7 +18,7 @@ const LabelSlider = ({ type, value, isMaxLabel = false }: LabelProps) => {
       case 'price':
         return <span>${value}</span>;
       case 'distance':
-        return <span>{value} mi</span>;
+        return <span>{t('milesWithNumber', { number: value })}</span>;
       case 'star':
         return (
           <span className="flex items-center gap-1">

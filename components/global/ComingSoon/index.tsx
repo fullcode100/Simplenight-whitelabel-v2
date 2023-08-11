@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import CategoryTab from './CategoryTab';
-import { IconContainer } from './IconContainer';
 import IconWrapper from './IconWrapper';
 
 export default function ComingSoon() {
+  const [t] = useTranslation('global');
+
   return (
     <div
       className={
@@ -15,11 +17,10 @@ export default function ComingSoon() {
         <div className="flex flex-col items-start self-stretch w-full gap-10 pb-10">
           <div className="px-6 w-full gap-3 flex flex-col items-start self-stretch text-center text-[rgba(69,69,69,1)]">
             <p className="w-full font-semibold capitalize m-0 text-[32px] leading-[38px]">
-              Endless Bookable Experiences For Your Customers
+              {t('endlessBookableMessage')}
             </p>
             <p className="w-full text-xl font-normal m-0 leading-[26px]">
-              We offer over 30 categories of bookable products and services for
-              your customers.
+              {t('offeredCategoriesMessage')}
             </p>
           </div>
           <div className="flex flex-col items-start self-stretch w-full pl-6 pr-6 font-semibold text-left text-white">
@@ -56,7 +57,7 @@ export default function ComingSoon() {
                 <CategoryTab type="OFF_INSURANCE_OFF_TYPE" />
                 <div className="flex flex-col items-center justify-center flex-1 flex-grow h-20 gap-1 px-3 py-2 rounded bg-primary-1000">
                   <IconWrapper type="PLUS" />
-                  <p className="m-0 text-sm leading-5">And More</p>
+                  <p className="m-0 text-sm leading-5">{t('andMore')}</p>
                 </div>
               </div>
             </div>

@@ -25,7 +25,7 @@ const ConfirmationPayment = ({ booking }: ConfirmationPaymentProps) => {
       <section className="flex justify-between lg:p-6">
         <section className="flex p-2 border rounded bg-dark-100 border-dark-300">
           <h4 className="text-sm leading-[22px] text-dark-1000 font-semibold mr-3">
-            ···· ···· ···· {lastFour}
+            {t('lastFour', { lastFour })}
           </h4>
           <CardLogo cardBrand={cardBrand} />
         </section>

@@ -23,7 +23,7 @@ const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
       {cart?.items[0].category !== 'DINING' && (
         <>
           <section>
-            <p className="text-sm">Total</p>
+            <p className="text-sm">{t('total')}</p>
           </section>
           <section className="flex flex-col justify-end text-right font-lato">
             <p className="text-[18px] leading-6 font-semibold text-dark-1000">

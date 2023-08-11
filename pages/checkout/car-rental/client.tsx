@@ -295,7 +295,7 @@ const Client = () => {
       closeModal={continueShopping}
     >
       <section className="p-8 text-2xl text-error-400 font-bold w-full text-center h-[90vh] grid content-center">
-        The booking must start again
+        {t('bookingMustStartAgain')}
       </section>
     </FullScreenModal>
   );

@@ -32,7 +32,7 @@ const CancelModal = ({
   setLoading = () => {},
   isCancelOrder,
 }: CancelModalProps) => {
-  const [t, i18next] = useTranslation('global');
+  const [t] = useTranslation('global');
   const cancelOrder = t('cancelOrder', 'Cancel Order');
   const cancelReservation = t('cancelReservation', 'Cancel Reservation');
   const cancelTitle = isCancelOrder ? cancelOrder : cancelReservation;
@@ -58,7 +58,7 @@ const CancelModal = ({
     const refundTitle = t('youWillBeRefunded', 'You Will Be Refunded');
 
     const cardBrand = payment?.card_brand || '';
-    const cardLastFour = payment?.last_four || '';
+    const lastFour = payment?.last_four || '';
 
     return (
       <section className="flex flex-col gap-3">
@@ -68,7 +68,7 @@ const CancelModal = ({
         <section className="flex items-center justify-between">
           <section className="flex flex-row gap-3 p-2 border rounded bg-dark-100 border-dark-300">
             <p className="text-sm leading-[22px] font-semibold text-dark-1000">
-              ···· ···· ···· {cardLastFour}
+              {t('lastFour', { lastFour })}
             </p>
             <CardLogo cardBrand={cardBrand} />
           </section>

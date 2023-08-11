@@ -15,18 +15,19 @@ export const notification = (
   duration = Infinity,
   position: ToastPosition = 'top-right',
 ) => {
+  const closeText = 'Close'; // TODO: Change the way to send notification
   const setIcon = () => {
     if (type === 'error')
-      return <XCircle className="h-5 w-5 text-error-1000" aria-hidden="true" />;
+      return <XCircle className="w-5 h-5 text-error-1000" aria-hidden="true" />;
     if (type === 'success')
       return (
-        <CheckCircle className="h-5 w-5 text-green-1000" aria-hidden="true" />
+        <CheckCircle className="w-5 h-5 text-green-1000" aria-hidden="true" />
       );
     if (type === 'warning')
       return (
-        <Exclamation className="h-5 w-5 text-warning-600" aria-hidden="true" />
+        <Exclamation className="w-5 h-5 text-warning-600" aria-hidden="true" />
       );
-    return <InfoCircle className="h-5 w-5 text-dark-1000" aria-hidden="true" />;
+    return <InfoCircle className="w-5 h-5 text-dark-1000" aria-hidden="true" />;
   };
 
   const setBG = (): string => {
@@ -65,8 +66,8 @@ export const notification = (
               </section>
               <div className="shrink-0">
                 <button type="button" onClick={() => toast.dismiss(t.id)}>
-                  <span className="sr-only">Close</span>
-                  <Close className="h-3 w-3" aria-hidden="true" />
+                  <span className="sr-only">{closeText}</span>
+                  <Close className="w-3 h-3" aria-hidden="true" />
                 </button>
               </div>
             </section>

@@ -59,9 +59,11 @@ const NonProdOnlyPage = () => {
     return <div>{formattedData}</div>;
   };
 
+  const envVarsString = 'ENV VARS';
+
   return (
     <div>
-      <h3 className="pt-20 lg:pt-8">ENV VARS</h3>
+      <h3 className="pt-20 lg:pt-8">{envVarsString}</h3>
       {envVars && <EnvVars />}
     </div>
   );

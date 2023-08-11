@@ -5,7 +5,6 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import CheckoutFooter from 'components/checkout/CheckoutFooter/CheckoutFooter';
 import Button from 'components/global/Button/Button';
 import { useTranslation } from 'react-i18next';
-// import { CartObjectResponse } from 'types/cart/CartType';
 import { useRouter } from 'next/router';
 import CheckoutHeader from 'components/checkout/CheckoutHeader/CheckoutHeader';
 import Loader from '../../../components/global/Loader/Loader';
@@ -36,10 +35,9 @@ interface LayoutProps {
 
 const Client = () => {
   const router = useRouter();
-  const [t, i18n] = useTranslation('global');
+  const [t] = useTranslation('global');
 
   const [travelersFormSchema, setTravelersFormSchema] = useState<any>();
-  const [isRemoved, setIsRemoved] = useState(false);
   const { checkOutFormSchema } = useCheckoutFormSchema();
 
   const flights = useFlightsStore((state) => state.flights);
@@ -89,7 +87,6 @@ const Client = () => {
     state.updateCustomer,
   ]);
 
-  const [reload, setReload] = useState(false);
   const [loaded, setLoaded] = useState(true);
 
   const primaryContactText = t('passengerName', 'Passenger Name');
@@ -152,7 +149,7 @@ const Client = () => {
       closeModal={continueShopping}
     >
       <section className="p-8 text-2xl text-error-400 font-bold w-full text-center h-[90vh] grid content-center">
-        The booking must start again
+        {t('bookingMustStartAgain')}
       </section>
     </FullScreenModal>
   );
@@ -204,16 +201,15 @@ const Client = () => {
               <InactiveCartMessage />
               <Card>
                 <Title>{primaryContactText}</Title>
-                <section className=" px-4 pt-6">
+                <section className="px-4 pt-6 ">
                   <Paragraph fontWeight="semibold">
-                    Use the information of the following passenger in the Order
-                    Name:
+                    {t('userInformationOfPassenger')}
                   </Paragraph>
                   <select
-                    className="block w-full border-gray-300 rounded shadow-sm resize-none  focus:ring-0 focus:outline-0 focus:border-primary-1000 text-dark-1000 text-base h-11"
+                    className="block w-full text-base border-gray-300 rounded shadow-sm resize-none focus:ring-0 focus:outline-0 focus:border-primary-1000 text-dark-1000 h-11"
                     onChange={(e) => handleChangePassenger(e.target.value)}
                   >
-                    <option value=""></option>
+                    <option value="" />
                     {passengerOptions.map(({ value, label }) => (
                       <option key={value} value={value}>
                         {label}
