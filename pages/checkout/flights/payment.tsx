@@ -63,7 +63,6 @@ const Payment = () => {
   const [country, setCountry] = useState<SelectOption | undefined>();
 
   const flights = useFlightsStore((state) => state.flights);
-  const search = useSearchStore((state) => state.search);
   const passengers = usePassengersStore((state) => state.passengers);
 
   const flight = flights[flights.length - 1];
@@ -117,7 +116,7 @@ const Payment = () => {
     };
     return (
       <FullScreenModal
-        open={!search || !flights || !passengers}
+        open={!isValidData()}
         title={continueShoppingText}
         primaryButtonText={continueShoppingText}
         primaryButtonAction={continueShopping}
@@ -128,6 +127,12 @@ const Payment = () => {
         </section>
       </FullScreenModal>
     );
+  };
+
+  const isValidData = () => {
+    const currentFlights = flights || [];
+    const currentPassengers = passengers || [];
+    return currentFlights.length > 0 && currentPassengers.length > 0;
   };
 
   return (
@@ -168,11 +173,11 @@ const Payment = () => {
               </section>
               <Divider />
               <section className="px-5 py-4">
-                {flights && search && (
+                {isValidData() && (
                   <FlightsCheckoutAccordion
-                    key={flight.legId}
+                    key={flight?.legId}
                     flights={flights}
-                    search={search}
+                    passengers={passengers}
                   />
                 )}
               </section>

@@ -7,15 +7,25 @@ import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
 import { Search } from 'hooks/flights/useSearchStore';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
+import { IPassenger } from 'flights/components/passenger/inputs';
+import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 
 interface Props {
-  search: Search;
+  flights: FlightItem[];
+  passengers: IPassenger[];
 }
 
-const FlightsCheckoutHeader = ({ search }: Props) => {
+const FlightsCheckoutHeader = ({ passengers, flights }: Props) => {
   const [t] = useTranslation('flights');
-  const { adults, infants, children, direction, startAirport, endAirport } =
-    search;
+  const adults = passengers.filter(
+    (v: any) => v.passengerType === 'ADT',
+  ).length;
+  const children = passengers.filter(
+    (v: any) => v.passengerType === 'CNN',
+  ).length;
+  const infants = passengers.filter(
+    (v: any) => v.passengerType === 'INF',
+  ).length;
   const directionMapper = {
     one_way: {
       icon: <IconOneWay />,
@@ -31,8 +41,18 @@ const FlightsCheckoutHeader = ({ search }: Props) => {
     },
   };
 
-  const passengers = Number(adults) + Number(children) + Number(infants);
-  const ticketsLabel = usePlural(passengers, 'Ticket', 'Tickets');
+  const totalTickets = Number(adults) + Number(children) + Number(infants);
+  const ticketsLabel = usePlural(totalTickets, 'Ticket', 'Tickets');
+
+  const direction = flights.length === 1 ? 'one_way' : 'round_trip';
+
+  const firstFlight = flights[0].segments;
+  const lastFlight = flights[flights.length - 1].segments;
+  const startAirport = firstFlight.collection[0].departureAirport;
+  const endAirport =
+    direction === 'round_trip'
+      ? lastFlight.collection[0].departureAirport
+      : lastFlight.collection[0].arrivalAirport;
 
   return (
     <section className="flex flex-row gap-3 p-4">
@@ -48,7 +68,7 @@ const FlightsCheckoutHeader = ({ search }: Props) => {
           <Heading tag="h5">{endAirport}</Heading>
         </section>
         <Paragraph size="small" textColor="text-dark-800">
-          {directionMapper[direction].label} | {passengers} {ticketsLabel}
+          {directionMapper[direction].label} | {totalTickets} {ticketsLabel}
         </Paragraph>
       </section>
     </section>

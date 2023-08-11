@@ -189,7 +189,9 @@ const FlightsConfirmationBody = ({ item }: Props) => {
       <section className="flex justify-between">
         <IconAndLabel Icon={PlusIcon} label={basePriceLabel} />
         <Pricing
-          totalAmount={`${totalFlightAmount.currency}${totalFlightAmount.formatted}`}
+          totalAmount={`${totalFlightAmount.currency}$${(
+            totalFlightAmount.amount - totalFlightTaxes.amount
+          ).toFixed(2)}`}
         />
       </section>
       <section className="flex justify-between">

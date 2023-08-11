@@ -13,12 +13,13 @@ import { Search } from 'hooks/flights/useSearchStore';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { PlusIcon } from '@heroicons/react/outline';
+import { IPassenger } from 'flights/components/passenger/inputs';
 
 interface Props {
   flights: FlightItem[];
-  search: Search;
+  passengers: IPassenger[];
 }
-const FlightsCheckoutBody = ({ flights, search }: Props) => {
+const FlightsCheckoutBody = ({ flights, passengers }: Props) => {
   const [t] = useTranslation('flights');
   const segmentsLength = flights[0].segments.collection.length;
   const stops = segmentsLength - 1;
@@ -31,8 +32,25 @@ const FlightsCheckoutBody = ({ flights, search }: Props) => {
   const taxesLabel = t('taxes', 'Taxes');
   const otherFeesLabel = t('otherFees', 'Other Fees');
 
-  const { direction, startAirport, endAirport, adults, children, infants } =
-    search;
+  const adults = passengers.filter(
+    (v: any) => v.passengerType === 'ADT',
+  ).length;
+  const children = passengers.filter(
+    (v: any) => v.passengerType === 'CNN',
+  ).length;
+  const infants = passengers.filter(
+    (v: any) => v.passengerType === 'INF',
+  ).length;
+
+  const direction = flights.length === 1 ? 'one_way' : 'round_trip';
+
+  const firstFlight = flights[0].segments;
+  const lastFlight = flights[flights.length - 1].segments;
+  const startAirport = firstFlight.collection[0].departureAirport;
+  const endAirport =
+    direction === 'round_trip'
+      ? lastFlight.collection[0].departureAirport
+      : lastFlight.collection[0].arrivalAirport;
 
   const totalFlightAmount =
     flights[flights.length - 1].offer?.totalFareAmount || '0';
