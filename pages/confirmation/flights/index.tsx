@@ -35,17 +35,12 @@ const Confirmation: NextPage = () => {
   );
 
   const handleCancelBooking = async () => {
-    const bookingItemsList = booking?.items || [];
-    const controlNumber =
-      bookingItemsList[0].item_data.pnrReply.pnrHeader[0].reservationInfo
-        .reservation[0].controlNumber;
+    const bookingId = booking?.booking_id;
     setLoading(true);
-    await cancelBooking(
-      i18next,
-      controlNumber,
-      '/flights/bookings/cancellation',
-    );
-    router.reload();
+    if (bookingId) {
+      await cancelBooking(i18next, bookingId, '/flights/bookings/cancel');
+      router.reload();
+    }
     setLoading(false);
   };
 
