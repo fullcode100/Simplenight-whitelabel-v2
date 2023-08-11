@@ -85,8 +85,8 @@ const FilterSidebarHotels = ({
     setSortByVal(SORTBY_INITIAL_VALUE);
     setKeywordSearch('');
     setSelectedAmenities([]);
-    setMinPrice(0);
-    setMaxPrice(5000);
+    setMinPrice(limitsPrice[0] || 0);
+    setMaxPrice(limitsPrice[1] || 5000);
   };
 
   const handleCloseModal = () => {

@@ -29,10 +29,20 @@ export const getPriceLimits = (
   });
   if (filtered.length === 0) return limits;
   limits[0] = Math.floor(
-    Math.min(...filtered.map((h) => h.minRate.avg_amount.avg_amount.amount)),
+    Math.min(
+      ...filtered.map(
+        (h) =>
+          h.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount,
+      ),
+    ),
   );
   limits[1] = Math.ceil(
-    Math.max(...filtered.map((h) => h.minRate.avg_amount.avg_amount.amount)),
+    Math.max(
+      ...filtered.map(
+        (h) =>
+          h.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount,
+      ),
+    ),
   );
   return limits;
 };

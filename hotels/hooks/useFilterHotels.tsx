@@ -21,11 +21,15 @@ export const criteriaFilterFunctions: {
 } = {
   MinPrice: (list, value) =>
     list.filter(
-      (hotel) => hotel.minRate.avg_amount.avg_amount.amount >= Number(value),
+      (hotel) =>
+        hotel.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount >=
+        Number(value),
     ),
   MaxPrice: (list, value) =>
     list.filter(
-      (hotel) => hotel.minRate.avg_amount.avg_amount.amount <= Number(value),
+      (hotel) =>
+        hotel.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount <=
+        Number(value),
     ),
   MinRange: (list, value) =>
     list.filter((hotel) => Number(hotel.details.starRating) >= Number(value)),
@@ -54,14 +58,14 @@ export const criteriaFilterFunctions: {
       case 'sortByPriceAsc':
         return list.sort(
           (a, b) =>
-            a.minRate.avg_amount.avg_amount.amount -
-            b.minRate.avg_amount.avg_amount.amount,
+            a.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount -
+            b.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount,
         );
       case 'sortByPriceDesc':
         return list.sort(
           (a, b) =>
-            b.minRate.avg_amount.avg_amount.amount -
-            a.minRate.avg_amount.avg_amount.amount,
+            b.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount -
+            a.minRate.min_rate.rate.rate_breakdown?.total_base_amount?.amount,
         );
       case 'sortByStarRatingDesc':
         return list.sort(
