@@ -10,6 +10,10 @@ export interface Tab {
 export interface TabsProps {
   tabs: Tab[];
   className?: string;
+  itemTabClassName?: string;
+  aditionalItemTabClassName?: string;
+  activeTabClassName?: string;
+  inactiveTabClassName?: string;
   primary?: boolean;
   activeTab: Tab;
   onClick: (tab: Tab) => void;

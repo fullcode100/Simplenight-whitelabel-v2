@@ -542,15 +542,6 @@ const FlightSearchForm = () => {
             'flex flex-col justify-between px-2 lg:px-0 overflow-y-auto lg:overflow-visible'
           }
         >
-          {!isSearchPage && (
-            <Paragraph
-              fontWeight="semibold"
-              size="large"
-              className="capitalize"
-            >
-              {findThePerfectFlightLabel}
-            </Paragraph>
-          )}
           <section className={'flex flex-row gap-2 mt-3'}>
             <DropdownMenu
               items={directionTypes}
