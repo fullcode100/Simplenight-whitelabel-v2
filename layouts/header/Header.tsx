@@ -55,6 +55,9 @@ const Header = ({ color }: HeaderProps) => {
   const setQueryParams = useQuerySetter();
   const categoriesTabs = useCategories();
   const activeTabIndex = categoriesTabs.findIndex((tab) => tab.slug === slug);
+
+  const notAllowedRoutes = ['/', '/lookup'];
+
   const handleTabClick = (tab: Tab | CategoryInfo) => {
     if (pathname.startsWith('/search')) {
       setQueryParams({
@@ -159,7 +162,8 @@ const Header = ({ color }: HeaderProps) => {
         onOpen={onOpen}
         openAuth={handleOpenAuthModal}
       />
-      {(pathname === '/' || pathname.startsWith('/search')) && (
+      {(!notAllowedRoutes.includes(pathname) ||
+        pathname.startsWith('/search')) && (
         <HorizontalTabs
           tabs={categoriesTabs}
           activeTab={tab ? tab : categoriesTabs?.[0]}

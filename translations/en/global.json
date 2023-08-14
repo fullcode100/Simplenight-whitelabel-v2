@@ -246,5 +246,6 @@
   "GasAndCharging": "Gas & Charging",
   "carWash": "Car Wash",
   "oops": "Oops",
-  "milesWithNumber": "{number} mi"
+  "milesWithNumber": "{number} mi",
+  "GroundTransportation": "Ground Transportation"
 }

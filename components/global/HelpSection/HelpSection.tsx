@@ -38,7 +38,7 @@ const HelpSection = ({
   const HelpLink = ({ icon, link = '', text }: HelpLinkProps) => (
     <section
       className={classnames(
-        'flex gap-3 items-center text-base text-primary-1000 underline font-semibold lg:mt-0',
+        'flex gap-3 items-center text-base text-primary-1000 underline lg:mt-0',
         { 'justify-start pt-4': inItinerary },
         { 'justify-center': !inItinerary },
       )}
