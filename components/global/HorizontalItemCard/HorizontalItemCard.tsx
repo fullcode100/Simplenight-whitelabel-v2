@@ -96,14 +96,14 @@ function HorizontalItemCard<T extends WithId>({
     >
       <Link href={url} passHref>
         <a target={target} rel="noopener noreferrer">
-          <section className="flex flex-row h-32 lg:h-48">
+          <section className="flex flex-col lg:flex-row lg:justify-between lg:h-48">
             {isImageComponent ? (
-              <section className="min-w-[45%] min-h-[150px] lg:min-w-[15rem] lg:min-h-[11.3rem] flex justify-center items-center text-primary-1000">
+              <section className="w-full h-[9.75rem] lg:w-[15rem] lg:h-full flex justify-center items-center text-primary-1000">
                 {ImageComponent}
               </section>
             ) : (
               <section
-                className="w-32 h-full lg:min-w-[15rem] lg:min-h-[11.3rem] "
+                className="w-full h-[9.75rem] lg:w-[15rem] lg:h-full"
                 style={{
                   backgroundImage: `url(${image})`,
                   backgroundSize: imageBackgroundSize
@@ -124,25 +124,31 @@ function HorizontalItemCard<T extends WithId>({
                 ) : null}
               </section>
             )}
-            <section className="flex flex-col justify-between p-4 lg:justify-start lg:w-full">
-              <TitleSection />
-              <section className="mt-0 lg:mt-4">
-                <AddressSection />
-              </section>
-              <section className="mt-0 lg:mt-4">
-                {rating && (
-                  <Rating value={rating} reviews={ratingCount} isHotelRating />
+            <section className="flex flex-row justify-between lg:w-full">
+              <section className="flex flex-col justify-between p-4 gap-2 lg:w-[50%] lg:justify-start">
+                <TitleSection />
+                <section className="mt-0 lg:mt-4">
+                  {rating && (
+                    <Rating
+                      value={rating}
+                      reviews={ratingCount}
+                      isHotelRating
+                    />
+                  )}
+                </section>
+                <section className="mt-0 lg:mt-4">
+                  <AddressSection />
+                </section>
+                {categoryTags.length != 0 && (
+                  <section className="flex flex-row lg:justify-start gap-2 mt-4">
+                    <CategoryTags tags={categoryTags} />
+                  </section>
                 )}
               </section>
-              {categoryTags.length != 0 && (
-                <section className="flex flex-row lg:justify-start gap-2 mt-4">
-                  <CategoryTags tags={categoryTags} />
-                </section>
-              )}
-            </section>
-            <section className="hidden lg:flex flex-col py-4 justify-between pr-4 w-[24rem] text-right">
-              <section className="text-left">{cancellable}</section>
-              {priceDisplay}
+              <section className="hidden lg:flex flex-col py-4 justify-between lg:w-[50%] pr-4 text-right">
+                <section className="text-left">{cancellable}</section>
+                {priceDisplay}
+              </section>
             </section>
           </section>
           <section className="lg:hidden">{price}</section>

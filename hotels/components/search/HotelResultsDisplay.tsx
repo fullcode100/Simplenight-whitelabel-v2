@@ -318,7 +318,7 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
   );
 
   const HotelList = () => (
-    <ul role="list" className="space-y-4">
+    <ul role="list" className="space-y-4 lg:pt-1">
       {isLoading ? (
         <HorizontalSkeletonList />
       ) : (
