@@ -47,19 +47,24 @@ export default async function handler(
             ],
           });
         }
-
-        console.log('Preparing ticketing .....');
         const controlNumber =
           reservation?.pnrReply?.pnrHeader?.[0]?.reservationInfo
             ?.reservation?.[0]?.controlNumber;
 
-        console.log('Validating PNR .....', controlNumber);
-        if (reservation && controlNumber) {
+        const bookingId = reservation?.booking?.bookingId;
+
+        console.log(
+          `Preparing ticketing for PNR: ${controlNumber} and bookingId: ${bookingId}`,
+        );
+        if (reservation && bookingId) {
+          console.log(
+            `Validating PNR: ${controlNumber} and bookingId: ${bookingId}`,
+          );
           try {
             // Temporal sleep function to discard slow connection
             await sleep(4000);
             const { data: data1 } = await axiosInstance.post(
-              `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${controlNumber}`,
+              `${process.env.NEXT_PUBLIC_FLIGHTS_MS}/sn-booking-service/ticket/${bookingId}`,
             );
 
             console.log('Confirming ticketing .....', data1);
@@ -82,7 +87,7 @@ export default async function handler(
             res.status(500).json({
               errors: [
                 {
-                  message: `We are not able to complete ticketing for ${controlNumber}`,
+                  message: `We are not able to complete ticketing for PNR ${controlNumber} and booking id ${bookingId}`,
                 },
               ],
               supplierError,
