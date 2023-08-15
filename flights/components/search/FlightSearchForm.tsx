@@ -638,7 +638,7 @@ const FlightSearchForm = () => {
                       onClick={() => swap()}
                       className={classnames(
                         classNameSwapButton,
-                        'w-8 h-8 rounded-full border border-dark-300 flex flex-none -my-2 items-center justify-center bg-white hover:bg-gray-400 lg:mt-6 lg:-mx-2 lg:my-0 z-10',
+                        'w-8 h-8 rounded-full border border-dark-300 flex flex-none -my-2 items-center justify-center bg-white hover:bg-gray-400 lg:mt-6 lg:-mx-2 lg:my-0 z-[5]',
                       )}
                     >
                       <ArrowMenuRoudTrip className="w-4 h-4 fill-dark-700" />
