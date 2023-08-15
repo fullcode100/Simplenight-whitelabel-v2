@@ -1,17 +1,10 @@
-import { SectionTitle } from '@simplenight/ui';
 import { useTranslation } from 'react-i18next';
-import { login } from '../../core/services/AuthClientService';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Check from 'public/icons/assets/check-round.svg';
 import { IAuthComponent } from '../index';
 import AuthenticationContainer from 'components/authenticationContainer';
 import HelpSection from 'components/global/HelpSection/HelpSection';
 import { useRouter } from 'next/router';
-
-interface FormData {
-  email: string;
-  password: string;
-}
 
 interface iEmailConfirmation extends IAuthComponent {
   email: string;
@@ -65,7 +58,7 @@ const EmailConfirmation = ({
               {!resetPassword && !passwordUpdated && `${email}`}
             </section>
 
-            <section className={'text-lg leading-6 text-dark-800  mt-10'}>
+            <section className={'text-lg leading-6 text-dark-800 mt-10'}>
               {resetPassword ? (
                 `${t(
                   'resetPasswordInstructions',
@@ -76,13 +69,15 @@ const EmailConfirmation = ({
                 )}`
               ) : passwordUpdated ? (
                 <>
-                  {t(
-                    'youWillBeRedirect',
-                    'You’ll be redirected to home. If you’re not redirected',
-                  )}
-                  <a href="/" className="text-lg font-semibold underline">
-                    {g('clickHere', ' Click Here')}
-                  </a>
+                  <section>
+                    {t('youWillBeRedirect', 'You’ll be redirected to home.')}
+                  </section>
+                  <section className={'mt-2'}>
+                    {t('ifYouAreNotRedirected', 'If you’re not redirected ')}
+                    <a href="/" className="text-lg font-semibold underline">
+                      {g('clickHere', ' Click Here')}
+                    </a>
+                  </section>
                 </>
               ) : (
                 t(
