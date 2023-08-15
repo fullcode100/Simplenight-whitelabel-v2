@@ -26,7 +26,7 @@ const DiningSearchFormReadState = ({
   //   ? formatAsDisplayDate(startDate)
   //   : '-';
   const editLabel = tg('edit', 'Edit');
-  const location = address?.toString().split(',')[0];
+  const location = decodeURIComponent(address?.toString().split(', ')[0] || '');
   const LocationSection = () => (
     <p>
       {keyword && <span>{keyword} in </span>}

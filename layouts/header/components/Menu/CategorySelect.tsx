@@ -1,8 +1,5 @@
 import classnames from 'classnames';
 import useCategories, { CategoryInfo } from 'hooks/category/useCategories';
-import { useRouter } from 'next/router';
-import useQuery from 'hooks/pageInteraction/useQuery';
-import useLocalStorage from 'hooks/localStorage/useLocalStorage';
 import { Tab } from 'components/global/Tabs/types';
 
 interface categoryProps {
@@ -10,46 +7,10 @@ interface categoryProps {
   activeTab: Tab;
 }
 
-const CategorySelect = ({ handleTabClick, activeTab }: categoryProps) => {
-  const router = useRouter();
-  const { pathname } = useRouter();
-  const [storedValue] = useLocalStorage('lastSearch', '/');
-  const storedParams = new URLSearchParams(storedValue.toString());
+const CategorySelect = ({ activeTab, handleTabClick }: categoryProps) => {
   const categories = useCategories();
-  const roomsData = storedParams.get('roomsData') || '[]';
-  const totalAdults = JSON.parse(roomsData).reduce(
-    (acc: unknown, obj: { adults: any }) => acc + obj.adults,
-    0,
-  );
-
-  const totalchildren = JSON.parse(roomsData).reduce(
-    (acc: unknown, obj: { children: any }) => acc + obj.children,
-    0,
-  );
-
-  const { slug, startDate, endDate, latitude, longitude, address } = useQuery();
 
   const currentCategory = activeTab || categories?.[0];
-
-  const handleSelectCategory = (category: CategoryInfo) => {
-    const startDateSearch = startDate || storedParams.get('startDate');
-    const endDateSearch = endDate || storedParams.get('endDate');
-    const latitudeSearch = latitude || storedParams.get('latitude');
-    const longitudeSearch = longitude || storedParams.get('longitude');
-    const addressSearch = address || storedParams.get('address');
-    const roomDataasString = storedParams.get('roomsData') || '[]';
-    const roomsDataArray = JSON.parse(roomDataasString);
-    if (pathname === '/') {
-      handleTabClick(category);
-    } else {
-      const route = `/search/${
-        category.slug || slug
-      }?adults=${totalAdults}&children=${totalchildren}&startDate=${startDateSearch}&endDate=${endDateSearch}&latitude=${latitudeSearch}&longitude=${longitudeSearch}&address=${addressSearch}&rooms=${
-        roomsDataArray?.length
-      }&roomsData=${roomDataasString}`;
-      router.push(route);
-    }
-  };
 
   if (categories?.length <= 1) return <></>;
 
@@ -67,7 +28,7 @@ const CategorySelect = ({ handleTabClick, activeTab }: categoryProps) => {
           <section
             key={i}
             className={className}
-            onClick={() => handleSelectCategory(category)}
+            onClick={() => handleTabClick(category)}
           >
             <div className="flex items-center justify-center w-6 h-6">
               {category.icon}

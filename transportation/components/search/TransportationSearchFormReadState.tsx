@@ -28,6 +28,11 @@ export const TransportationSearchFormReadState: FC<
     address,
     address2,
   } = useQuery();
+
+  const location = `${decodeURIComponent(
+    address?.toString().split(', ')[0] || '',
+  )} - ${decodeURIComponent(address2?.toString().split(', ')[0] || '')}`;
+
   const startDate = formatAsDisplayDatetime(
     `${startDateQuery} ${startTimeQuery}`,
   );
@@ -40,10 +45,7 @@ export const TransportationSearchFormReadState: FC<
           <section className="grid w-6 place-items-center">
             <LocationPin className="text-primary-1000" />
           </section>
-          <span>
-            {address?.toString().split(', ')[0]} -{' '}
-            {address2?.toString().split(', ')[0]}
-          </span>
+          <span>{location}</span>
         </section>
         <section className="flex gap-2">
           <section className="grid w-6 place-items-center">

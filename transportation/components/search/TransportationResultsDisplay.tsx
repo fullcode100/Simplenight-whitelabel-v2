@@ -24,6 +24,8 @@ import { TransportationListMetaData } from 'transportation/types/TransportationF
 import { TransportationFilterMobileView } from './TransportationFilterMobileView';
 import { checkIfAnyNull } from 'helpers/arrayUtils';
 import dayjs from 'dayjs';
+import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
+import { ceilToNextHalfHour } from 'helpers/ceilToNextHalfHour';
 
 interface TransportationResultsDisplayProps {
   TransportationCategory: CategoryOption;
@@ -55,6 +57,8 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
     maxRating: 0,
   });
 
+  const setQueryParams = useQuerySetter();
+
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   const { onFilterValuesChanged, filteredList, filter } = useFilter(
@@ -79,6 +83,13 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
     pickUp,
     dropOff,
   } = useQuery();
+
+  const TIME_SELECTION_FORMAT = 'hh:mm A';
+  /* if (!startTime || !endTime) { */
+  const thirtyMinutesFromNow = ceilToNextHalfHour(dayjs().add(30, 'minutes'));
+  const anotherThirtyMinutes = thirtyMinutesFromNow.add(30, 'minutes');
+  const start = thirtyMinutesFromNow.format(TIME_SELECTION_FORMAT);
+  const end = anotherThirtyMinutes.format(TIME_SELECTION_FORMAT);
 
   useEffect(() => {
     const hasEmptyValues = checkIfAnyNull([
@@ -152,6 +163,11 @@ const TransportationResultsDisplay: FC<TransportationResultsDisplayProps> = ({
         console.error(error);
       });
   }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (startTime && endTime) return;
+    setQueryParams({ startTime: start, endTime: end });
+  }, []);
 
   const TransportationList: FC<{
     transportationList: TransportationItem[];

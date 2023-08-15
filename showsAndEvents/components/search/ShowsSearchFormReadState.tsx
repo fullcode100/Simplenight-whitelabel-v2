@@ -30,8 +30,7 @@ const ShowsSearchFormReadState = ({
     address,
   } = useQuery();
 
-  const location = address?.toString().split(',')[0];
-
+  const location = decodeURIComponent(address?.toString().split(', ')[0] || '');
   const startDate = dayjs(startDateQuery as unknown as string).format(
     SEARCH_DATE_FORMAT,
   );

@@ -26,7 +26,7 @@ import {
 import { getParkingMetadata } from '../../helpers/getParkingMetadata';
 import useQuerySetter from '../../../hooks/pageInteraction/useQuerySetter';
 import dayjs from 'dayjs';
-import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
+import { ceilToNextHalfHour } from '../../../helpers/ceilToNextHalfHour';
 import { ParkingFilterMobileView } from './ParkingFilterMobileView';
 import { useRouter } from 'next/router';
 
@@ -211,6 +211,12 @@ export const ParkingResultsDisplay: FC<ParkingResultsDisplayProps> = ({
   const viewChangeHandler = (view: string) => {
     setQueryParam({ view });
   };
+
+  useEffect(() => {
+    if (!startTime || !endTime) {
+      setQueryParam({ startTime: start, endTime: end });
+    }
+  }, []);
 
   useEffect(() => {
     if (data) {

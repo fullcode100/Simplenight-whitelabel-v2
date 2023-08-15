@@ -55,6 +55,9 @@ interface ViewButtonProps {
 
 type FetchCars = () => Promise<CarSearchResponse>;
 
+const DEFAULT_START_TIME = '7:00 AM';
+const DEFAULT_END_TIME = '7:00 AM';
+
 const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
   const { ClientSearcher: Searcher } = CarCategory.core;
   const [t, i18next] = useTranslation('cars');
@@ -91,6 +94,22 @@ const CarResultsDisplay = ({ CarCategory }: CarResultsDisplayProps) => {
     minPrice,
     maxPrice,
   } = useQuery();
+
+  useEffect(() => {
+    if (startTime && endTime) return;
+    setQueryParams({
+      startTime: DEFAULT_START_TIME,
+      endTime: DEFAULT_END_TIME,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (latitude2 && longitude2) return;
+    setQueryParams({
+      latitude2: latitude as unknown as string,
+      longitude2: longitude as unknown as string,
+    });
+  }, []);
 
   const { slug } = useQuery();
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';

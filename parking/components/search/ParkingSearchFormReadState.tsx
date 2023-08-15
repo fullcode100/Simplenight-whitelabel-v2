@@ -39,6 +39,8 @@ export const ParkingSearchFormReadState: FC<ParkingSearchFormReadStateProps> = (
     'YYYY-MM-DD hh:mm A',
   );
 
+  const location = decodeURIComponent(address?.toString().split(', ')[0] || '');
+
   const Summary: FC = () => {
     return (
       <section className="grid gap-2 font-normal text-dark-1000">
@@ -46,9 +48,7 @@ export const ParkingSearchFormReadState: FC<ParkingSearchFormReadStateProps> = (
           <section className="grid w-6 place-items-center shrink-0">
             <LocationPin className="text-primary-1000" />
           </section>
-          <span className="truncate ...">
-            {decodeURIComponent(address?.toString().split(', ')[0] || '')}
-          </span>
+          <span className="truncate ...">{location}</span>
         </section>
         <section className="flex gap-2">
           <section className="grid w-6 place-items-center">

@@ -56,7 +56,7 @@ const CarSearchForm = ({
   const setSearch = useSearchStore((state) => state.setSearch);
 
   const [address, setAddress] = useState<string>(
-    params.address ? (params.address as string) : '',
+    decodeURIComponent(params.address?.toString().split(', ')[0] || ''),
   );
   const [geolocation, setGeolocation] = useState<StringGeolocation>(
     `${parseFloat(params.latitude as string)},${parseFloat(

@@ -295,7 +295,7 @@ const ThingsResultsDisplay = ({
         </section>
       )}
 
-      {!isLoading && !(data.items?.length === 0) && (
+      {!isLoading && !(data?.items?.length === 0) && (
         <section className="relative lg:flex-1 lg:w-[75%] h-full lg:mt-0">
           <ResultsAmountSort />
 
@@ -316,7 +316,7 @@ const ThingsResultsDisplay = ({
           <HorizontalSkeletonList />
         </section>
       )}
-      {!isLoading && data.items?.length === 0 && (
+      {!isLoading && data?.items?.length === 0 && (
         <EmptyStateContainer
           text={noResultsLabel}
           Icon={EmptyStateIllustration}

@@ -55,9 +55,10 @@ const FlightSearchFormReadState = ({
     addresses2,
   } = useQuery();
 
-  const location = `${address ? address?.toString().split('(')[0] : ''} - ${
-    address2 ? address2?.toString().split('(')[0] : ''
-  }`;
+  const location = `${decodeURIComponent(
+    address?.toString().split('(')[0] || '',
+  )} - ${decodeURIComponent(address2?.toString().split('(')[0] || '')}`;
+
   const locations: string[] = [];
   if (direction === 'multicity' && addresses && addresses2) {
     const _addresses = addresses.toString().split('|');

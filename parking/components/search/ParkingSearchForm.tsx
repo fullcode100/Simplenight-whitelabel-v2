@@ -26,7 +26,7 @@ import Button from '../../../components/global/Button/Button';
 import { SearchFormProps } from '../../../types/search/SearchFormProps';
 import { Select } from '../../../components/global/SelectNew/Select';
 import classNames from 'classnames';
-import { ceilToNextHalfHour } from '../../helpers/ceilToNextHalfHour';
+import { ceilToNextHalfHour } from '../../../helpers/ceilToNextHalfHour';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 
 export const ParkingSearchForm: FC<SearchFormProps> = (props) => {

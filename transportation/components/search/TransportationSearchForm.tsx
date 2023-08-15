@@ -33,16 +33,7 @@ import Chevron from 'public/icons/assets/chevron-down-small.svg';
 import { notification } from 'components/global/Notification/Notification';
 import scrollTopSmoothly from 'helpers/scrollTopSmoothly';
 import { handleError } from 'helpers/errorUtils';
-
-const ceilToNextHalfHour = (date: dayjs.Dayjs): dayjs.Dayjs => {
-  const minutes = date.get('minutes');
-
-  if (minutes > 30) {
-    return date.startOf('hour').add(1, 'hour');
-  } else {
-    return date.set('minutes', 30);
-  }
-};
+import { ceilToNextHalfHour } from 'helpers/ceilToNextHalfHour';
 
 export const TransportationSearchForm: FC<SearchFormProps> = ({
   setIsSearching,

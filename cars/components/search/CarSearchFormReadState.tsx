@@ -46,11 +46,11 @@ const CarSearchFormReadState = ({
     address2,
   } = useQuery();
 
-  let location = `${address ? address?.toString().split(',')[0] : ''}`;
+  let location = decodeURIComponent(address?.toString().split(', ')[0] || '');
   if (address2) {
-    location = `${address ? address?.toString().split(',')[0] : ''} - ${
-      address2 ? address2?.toString().split(',')[0] : ''
-    }`;
+    location = `${decodeURIComponent(
+      address?.toString().split(', ')[0] || '',
+    )} - ${decodeURIComponent(address2?.toString().split(', ')[0] || '')}`;
   }
 
   const startDate = dayjs(startDateQuery as unknown as string).format(
