@@ -13,8 +13,7 @@
   "requestNewLink": "Solicitar un nuevo enlace",
   "emailSent": "Email enviado",
   "passwordUpdated": "¡Contraseña actualiza!",
-  "resetPasswordInstructions": "Si hay una cuenta asociada con",
-  "youWillGetAnEmail": "recibiras un correo electronico con las instrucciones para resetear tu password.",
+  "resetPasswordInstructions": "Si hay una cuenta asociada con <0>{email}</0>, recibiras un correo electronico con las instrucciones para resetear tu password.",
   "youWillBeRedirect": "Serás redirigido a casa.",
   "ifYouAreNotRedirected": "Si no eres redirigido",
   "backToLogin": "Atrás para iniciar sesión",
@@ -32,5 +31,6 @@
   "troubleSingUp": "¿Problemas para registrarse?",
   "createAccount": "Crear cuenta",
   "reEnterPassword": "Re-Ingresar contraseña",
-  "setNewPassword": "Ingresar nueva contraseña"
+  "setNewPassword": "Ingresar nueva contraseña",
+  "resetPasswordLinkExpired": "El enlace que le enviamos para restablecer su contraseña ha caducado. Por su seguridad, solicite un nuevo enlace."
 }

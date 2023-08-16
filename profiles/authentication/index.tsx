@@ -13,12 +13,12 @@ import SignUp from './components/signupComponent';
 import Close from '/public/icons/assets/close.svg';
 import Arrow from 'public/icons/assets/flights/arrow_left.svg';
 import ResetPassword from './components/resetPassword';
-import SetNewPassword from './components/setNewPassword';
 import NewPasswordConfirmationForm from './components/newPasswordConfirmationForm';
 import ConfigurePasswordError from './components/configurePasswordError';
 import ValidationEmailHasAlreadySent from './components/validationEmailHasAlreadySent';
 import EmailValidationSent from './components/emailValidationSent';
 import type { ParsedUrlQuery } from 'querystring';
+import ResetPasswordLinkExpired from './components/resetPasswordLinkExpired';
 
 export interface IExtraProps {
   email?: string;
@@ -39,7 +39,7 @@ export type IAuthModalType =
   | 'emailConfirmation'
   | 'resetPassword'
   | 'newPasswordConfirmationForm'
-  | 'setNewPassword'
+  | 'resetPasswordLinkExpired'
   | 'configurePassword'
   | 'configurePasswordError'
   | 'validationEmailHasAlreadySent'
@@ -79,13 +79,6 @@ const Authentication = ({
         email={email}
       />
     ),
-    setNewPassword: (props: IAuthComponent) => (
-      <SetNewPassword
-        {...props}
-        token={resetPasswordToken || ''}
-        {...extraProps}
-      />
-    ),
     configurePassword: (props: IAuthComponent) => (
       <ConfigurePasswordForm
         {...props}
@@ -96,6 +89,9 @@ const Authentication = ({
     ),
     emailValidationSent: (props: any) => (
       <EmailValidationSent {...props} {...extraProps} />
+    ),
+    resetPasswordLinkExpired: (props: IAuthComponent) => (
+      <ResetPasswordLinkExpired {...props} email={email} />
     ),
     configurePasswordError: (props: IAuthComponent) => (
       <ConfigurePasswordError {...props} email={email} />

@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import React, { useEffect } from 'react';
 import Check from 'public/icons/assets/check-round.svg';
 import { IAuthComponent } from '../index';
@@ -60,13 +60,12 @@ const EmailConfirmation = ({
 
             <section className={'text-lg leading-6 text-dark-800 mt-10'}>
               {resetPassword ? (
-                `${t(
-                  'resetPasswordInstructions',
-                  'If there is an account associated with',
-                )} ${email}, ${t(
-                  'youWillGetAnEmail',
-                  'you’ll receive an email with instructions to reset your password.',
-                )}`
+                <Trans
+                  i18nKey="resetPasswordInstructions"
+                  defaults="If there is an account associated with <0>{email}</0>, you’ll receive an email with instructions to reset your password."
+                  components={[<strong></strong>]}
+                  values={{ email }}
+                />
               ) : passwordUpdated ? (
                 <>
                   <section>

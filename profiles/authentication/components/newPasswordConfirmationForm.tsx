@@ -10,10 +10,7 @@ import { CustomPassword } from '../../../components/global/FormSchema/CustomFiel
 import ErrorMessage from '../../../components/global/ErrorMessage';
 import FormsLoader from '../../../components/global/Loader/FormsLoader';
 import AuthenticationContainer from '../../../components/authenticationContainer';
-import {
-  configurePassword,
-  resetPassword,
-} from '../../core/services/AuthClientService';
+import { configurePassword } from '../../core/services/AuthClientService';
 import {
   MultipleValidationsExecutor,
   PasswordCustomValidationWithConfirmPassword,
@@ -21,6 +18,7 @@ import {
 } from 'validations';
 import { useSessionStore } from 'hooks/auth/useSessionStore';
 import { useRouter } from 'next/router';
+import PasswordHelpTooltip from '../../../components/global/Tooltips/PasswordHelpTooltip';
 
 interface FormData {
   confirmPassword: string;
@@ -80,6 +78,7 @@ const NewPasswordConfirmationForm = ({
       if (error?.response?.data?.message) {
         setErrorMessage(error?.response?.data?.message);
       }
+      changeAuthType('resetPasswordLinkExpired');
     } finally {
       setLoading(false);
     }
@@ -95,64 +94,75 @@ const NewPasswordConfirmationForm = ({
           />
         </section>
         <section className={'pt-5'}>
-          <Controller
-            name={'password'}
-            control={control}
-            rules={{
-              ...PasswordRules(t),
-            }}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <TextTemplate label={'Password'}>
-                <CustomPassword
-                  value={value}
-                  onChange={onChange}
-                  errorMessage={error?.message}
-                  placeholder={'Password'}
-                />
-              </TextTemplate>
-            )}
-          />
-          <ErrorMessage message={errorMessage} />
-          <DividerSpace />
-          <Controller
-            name={'confirmPassword'}
-            control={control}
-            rules={{
-              ...PasswordRules(t),
-              validate: {
-                custom: (value, formValues) => {
-                  return MultipleValidationsExecutor([
-                    PasswordCustomValidationWithConfirmPassword(
-                      t,
-                      formValues.password,
-                      value,
-                    ),
-                  ]);
-                },
-              },
-            }}
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <TextTemplate label={'Confirm Password'}>
-                <CustomPassword
-                  value={value}
-                  onChange={onChange}
-                  errorMessage={error?.message}
-                  placeholder={'Confirm Password'}
-                />
-              </TextTemplate>
-            )}
-          />
-          <ErrorMessage message={errorMessage} />
-          <DividerSpace />
-
-          {!loading && (
-            <Button
-              value={t('updatePassword', 'Update Password')}
-              size="large"
-              className="w-full py-3 my-5"
-              onClick={handleSubmit(onSubmit)}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name={'password'}
+              control={control}
+              rules={{
+                ...PasswordRules(t),
+              }}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <TextTemplate
+                  label={'Password'}
+                  tooltip={<PasswordHelpTooltip />}
+                >
+                  <CustomPassword
+                    value={value}
+                    onChange={onChange}
+                    errorMessage={error?.message}
+                    placeholder={'Password'}
+                  />
+                </TextTemplate>
+              )}
             />
-          )}
+            <ErrorMessage message={errorMessage} />
+            <DividerSpace />
+            <Controller
+              name={'confirmPassword'}
+              control={control}
+              rules={{
+                ...PasswordRules(t),
+                validate: {
+                  custom: (value, formValues) => {
+                    return MultipleValidationsExecutor([
+                      PasswordCustomValidationWithConfirmPassword(
+                        t,
+                        formValues.password,
+                        value,
+                      ),
+                    ]);
+                  },
+                },
+              }}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <TextTemplate label={'Confirm Password'}>
+                  <CustomPassword
+                    value={value}
+                    onChange={onChange}
+                    errorMessage={error?.message}
+                    placeholder={'Confirm Password'}
+                  />
+                </TextTemplate>
+              )}
+            />
+            <ErrorMessage message={errorMessage} />
+            <DividerSpace />
+
+            {!loading && (
+              <Button
+                value={t('updatePassword', 'Update Password')}
+                size="large"
+                className="w-full py-3 my-5"
+                onClick={handleSubmit(onSubmit)}
+              />
+            )}
+          </form>
           {loading && <FormsLoader size={'medium'}></FormsLoader>}
         </section>
         <section />

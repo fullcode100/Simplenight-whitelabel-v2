@@ -13,8 +13,7 @@
   "requestNewLink": "Request a new link",
   "emailSent": "Email Sent",
   "passwordUpdated": "Password Updated!",
-  "resetPasswordInstructions": "If there is an account associated with",
-  "youWillGetAnEmail": "you’ll receive an email with instructions to reset your password.",
+  "resetPasswordInstructions": "If there is an account associated with <0>{email}</0>, you’ll receive an email with instructions to reset your password.",
   "youWillBeRedirect": "You’ll be redirected to home.",
   "ifYouAreNotRedirected": "If you’re not redirected",
   "backToLogin": "Back To Login",
@@ -32,5 +31,6 @@
   "troubleSingUp": "Trouble signing up?",
   "createAccount": "Create Account",
   "reEnterPassword": "Re-Enter Password",
-  "setNewPassword": "Set new password"
+  "setNewPassword": "Set new password",
+  "resetPasswordLinkExpired": "The link we sent you to reset your password has expired. For your security, please request a new link."
 }
