@@ -147,7 +147,7 @@ const ThingsResultsDisplay = ({
   }, [data, appliedCategoryFilters, appliedSearchFilters]);
 
   useEffect(() => {
-    const items: Array<SearchItem> = data;
+    const items: Array<SearchItem> = data?.items || [];
     let categories: Array<Category> = [];
     if (items?.length > 0) {
       const uniqueIds = new Set();
