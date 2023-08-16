@@ -9,8 +9,8 @@ import InstructionsSection from './InstructionsSection';
   InstructionItem,
 } from 'hotels/types/response/SearchResponse'; */
 import { CheckInInstruction, Fees } from '../../types/response/CartHotels';
-
 import { hasInstructionsProps } from 'helpers/instructionUtil';
+import { formatAsDisplayDate, formatAsDisplayHour } from 'helpers/dajjsUtils';
 
 export interface InstructionProps {
   checkin_time: string | undefined;
@@ -46,6 +46,18 @@ const InstructionsModal = ({ item }: ModalProps) => {
   // const specialInstructions = item?.special_instructions;
   const fees = item?.fees;
   const policies = item?.policies;
+  const formattedCheckInDate = formatAsDisplayDate(
+    String(checkInTime) ?? new Date(),
+  );
+  const formattedCheckInHour = formatAsDisplayHour(
+    String(checkInTime) ?? new Date(),
+  );
+  const formattedCheckOutDate = formatAsDisplayDate(
+    String(checkOutTime) ?? new Date(),
+  );
+  const formattedCheckOutHour = formatAsDisplayHour(
+    String(checkOutTime) ?? new Date(),
+  );
   return (
     <section>
       <button
@@ -78,8 +90,16 @@ const InstructionsModal = ({ item }: ModalProps) => {
         <section className="overflow-y-scroll">
           <section className="mt-6">
             <InstructionsSection
-              checkInTime={checkInTime ? checkInTime : ''}
-              checkOutTime={checkOutTime ? checkOutTime : ''}
+              checkInTime={
+                checkInTime
+                  ? `${formattedCheckInDate} ${formattedCheckInHour}`
+                  : ''
+              }
+              checkOutTime={
+                checkOutTime
+                  ? `${formattedCheckOutDate} ${formattedCheckOutHour}`
+                  : ''
+              }
               checkInInstructions={checkInInstructions}
               // specialInstructions={specialInstructions}
               fees={fees}
