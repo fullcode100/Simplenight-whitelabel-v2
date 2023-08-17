@@ -2,6 +2,7 @@ import SortBy from './SortBy';
 import { Heading } from '@simplenight/ui';
 import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 import PriceRangeFilter from './PriceRangeFilter';
+import ScoreRangeFilter from './ScoreRangeFilter';
 import { SortBySelect } from 'dining/constants/sortByOptions';
 import { useFilterDining } from 'dining/hooks/useFilterDining';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +12,9 @@ import useQuerySetter from 'hooks/pageInteraction/useQuerySetter';
 
 interface Props {
   sortBySelect: SortBySelect;
+  onMinRating: (range: number) => void;
+  onMaxRating: (range: number) => void;
+  rating: { min: number; max: number };
   className?: string;
 }
 
@@ -18,7 +22,13 @@ const Divider = ({ className }: { className?: string }) => (
   <hr className={className} />
 );
 
-const FilterFormDining = ({ sortBySelect, className }: Props) => {
+const FilterFormDining = ({
+  sortBySelect,
+  className,
+  onMinRating,
+  onMaxRating,
+  rating,
+}: Props) => {
   const [t] = useTranslation('dining');
   const priceLabel = t('price', 'Price');
   const pickupLabel = t('pickup');
@@ -80,6 +90,20 @@ const FilterFormDining = ({ sortBySelect, className }: Props) => {
             onChangeMaxPrice={(value: string) => changePrice(minPrice, value)}
             minPrice={minPrice}
             maxPrice={maxPrice}
+          />
+        }
+        initialState
+      />
+      <Divider className="my-6" />
+      <CollapseUnbordered
+        title={<Heading tag="h5">Score review</Heading>}
+        body={
+          <ScoreRangeFilter
+            onChangeMinPrice={(value: string) => onMinRating(Number(value))}
+            onChangeMaxPrice={(value: string) => onMaxRating(Number(value))}
+            minPrice={String(rating.min)}
+            maxPrice={String(rating.max)}
+            max={5}
           />
         }
         initialState

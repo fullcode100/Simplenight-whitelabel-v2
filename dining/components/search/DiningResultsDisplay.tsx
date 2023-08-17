@@ -74,6 +74,10 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
   );
 
   const [restaurants, setRestaurants] = useState<Dining[]>([]);
+  const [rating, setRating] = useState<{ min: number; max: number }>({
+    min: 1,
+    max: 5,
+  });
   const [restaurantsFiltered, setRestaurantsFiltered] = useState<Dining[]>([]);
   const { ClientSearcher: Searcher } = Category.core;
   const isPhilippines = address?.toString().endsWith('Philippines');
@@ -248,6 +252,23 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
     isDesktop && onOpen();
   }, [isDesktop]);
 
+  const onMinRating = (minRating: number) => {
+    setRating({ ...rating, min: minRating });
+  };
+
+  const onMaxRating = (maxRating: number) => {
+    setRating({ ...rating, max: maxRating });
+  };
+
+  useEffect(() => {
+    if (data) {
+      const currentFiltered = data.items.filter(
+        (e: Dining) => rating.min <= e.rating && e.rating <= rating.max,
+      );
+      setRestaurantsFiltered(currentFiltered);
+    }
+  }, [rating]);
+
   return (
     <>
       <section className="lg:flex lg:w-full relative">
@@ -263,6 +284,9 @@ const DiningResultsDisplay = ({ Category }: DiningResultsDisplayProps) => {
                 onClose={onClose}
                 isOpen={isOpen}
                 sortBySelect={sortBySelect}
+                onMinRating={onMinRating}
+                onMaxRating={onMaxRating}
+                rating={rating}
               />
             </section>
           </section>

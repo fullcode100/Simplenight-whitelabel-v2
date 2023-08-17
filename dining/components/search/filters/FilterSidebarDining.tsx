@@ -17,6 +17,9 @@ export interface FilterSidebarDiningProps {
   isOpen: any;
   onClose: any;
   sortBySelect: SortBySelect;
+  onMinRating: (range: number) => void;
+  onMaxRating: (range: number) => void;
+  rating: { min: number; max: number };
 }
 
 const FilterSidebarDining = ({
@@ -24,6 +27,9 @@ const FilterSidebarDining = ({
   isOpen,
   onClose,
   sortBySelect,
+  onMinRating,
+  onMaxRating,
+  rating,
 }: FilterSidebarDiningProps) => {
   const [t] = useTranslation('dining');
   const filtersText = t('filters', 'Filters');
@@ -32,6 +38,8 @@ const FilterSidebarDining = ({
 
   const handleClearFilters = () => {
     clearFilters();
+    onMinRating(1);
+    onMaxRating(5);
   };
 
   const handleCloseModal = () => {
@@ -66,7 +74,12 @@ const FilterSidebarDining = ({
     <>
       <section className="hidden lg:block lg:min-w-[16rem] lg:max-w[18rem] lg:w-[25%] lg:mr-8 lg:mt-12 mt-3 relative">
         <FilterHeader />
-        <FilterFormDining sortBySelect={sortBySelect} />
+        <FilterFormDining
+          sortBySelect={sortBySelect}
+          onMinRating={onMinRating}
+          onMaxRating={onMaxRating}
+          rating={rating}
+        />
       </section>
       <section className="lg:hidden">
         <FullScreenModal
@@ -79,7 +92,13 @@ const FilterSidebarDining = ({
             <ClearFilterButton handleClearFilters={handleClearFilters} />
           }
         >
-          <FilterFormDining sortBySelect={sortBySelect} className="px-5 py-6" />
+          <FilterFormDining
+            sortBySelect={sortBySelect}
+            className="px-5 py-6"
+            onMinRating={onMinRating}
+            onMaxRating={onMaxRating}
+            rating={rating}
+          />
         </FullScreenModal>
       </section>
     </>

@@ -3,25 +3,25 @@ import { Dispatch } from 'react';
 import RangesliderLegacy from 'components/global/Filters/RangesliderLegacy';
 import FilterContainer from './FilterContainer';
 
-interface PriceRangeFilterProps {
-  minPrice: string;
+interface ScoreRangeFilterProps {
   maxPrice: string;
+  minPrice: string;
   max?: number;
-  onChangeMaxPrice:
+  onChangeMinPrice:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
-  onChangeMinPrice:
+  onChangeMaxPrice:
     | Dispatch<React.SetStateAction<string>>
     | ((value: string) => void);
 }
 
-const PriceRangeFilter = ({
-  minPrice,
+const ScoreRangeFilter = ({
   maxPrice,
+  minPrice,
   max = 4,
-  onChangeMinPrice,
   onChangeMaxPrice,
-}: PriceRangeFilterProps) => {
+  onChangeMinPrice,
+}: ScoreRangeFilterProps) => {
   return (
     <FilterContainer>
       <RangesliderLegacy
@@ -32,7 +32,7 @@ const PriceRangeFilter = ({
         step={1}
         minDifference={1}
         marks={true}
-        type="priceRange"
+        type="star"
         setMinState={onChangeMinPrice}
         setMaxState={onChangeMaxPrice}
       />
@@ -40,4 +40,4 @@ const PriceRangeFilter = ({
   );
 };
 
-export default PriceRangeFilter;
+export default ScoreRangeFilter;
