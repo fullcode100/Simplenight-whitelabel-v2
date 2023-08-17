@@ -7,6 +7,11 @@ import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
 import { Item } from 'types/booking/bookingType';
+import {
+  getDirection,
+  getEndAirport,
+  getStartAirport,
+} from 'flights/hooks/useFlights/helpers';
 
 interface Props {
   item?: Item;
@@ -42,17 +47,10 @@ const FlightsConfirmationHeader = ({ item }: Props) => {
   const totalTickets = adults + children + infants;
   const ticketsLabel = usePlural(totalTickets, 'Ticket', 'Tickets');
 
-  const direction =
-    item?.item_data.booking.segments.length === 1 ? 'one_way' : 'round_trip';
-
   const flights = item?.item_data.booking.segments;
-  const firstFlight = flights[0];
-  const lastFlight = flights[flights.length - 1];
-  const startAirport = firstFlight.collection[0].departureAirport;
-  const endAirport =
-    direction === 'round_trip'
-      ? lastFlight.collection[0].departureAirport
-      : lastFlight.collection[0].arrivalAirport;
+  const startAirport = getStartAirport(flights);
+  const endAirport = getEndAirport(flights);
+  const direction = getDirection(flights);
 
   return (
     <section className="flex flex-row gap-3 p-4">

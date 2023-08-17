@@ -20,14 +20,12 @@ const FlightsCheckoutAccordion = ({ flights, passengers }: Props) => {
   const priceBreakdownLabel = t('priceBreakdown', 'Price Breakdown');
   return (
     <div className="border border-dark-300 rounded">
-      <FlightsCheckoutHeader flights={flights} passengers={passengers} />
-      <FlightsCheckoutDetails flights={flights} />
+      <FlightsCheckoutHeader />
+      <FlightsCheckoutDetails />
       <div className="px-4">
         <CollapseUnbordered
           title={<Heading tag="h5">{priceBreakdownLabel}</Heading>}
-          body={
-            <FlightsCheckoutBody flights={flights} passengers={passengers} />
-          }
+          body={<FlightsCheckoutBody />}
         />
       </div>
     </div>

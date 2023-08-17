@@ -32,6 +32,7 @@ import {
   NewOffer,
   PriceValidationResponse,
 } from 'flights/types/request/FlightDetailRequest';
+import { useFlights } from 'flights/hooks/useFlights/useFlights';
 
 type FlightDetailDisplayProps = CategoryPageComponentProps;
 type QueryParms = { id: 'round_trip' | 'one_way' | 'multicity' };
@@ -54,9 +55,12 @@ const PassengerInformationDisplay = ({
 
   const departureLabel = t('departureFlight', 'Departure Flight');
   const arrivalLabel = t('arrivalFlight', 'Arrival Flight');
+  const passengerInfoLabel = t('passengerInformation', 'Passenger Information');
+  const totalLabel = t('total', 'Total');
+  const bookNowLabel = t('bookNow', 'Book now');
 
-  const flights = useFlightsStore((state) => state.flights);
-  const flight = flights[flights.length - 1];
+  const { hasFlights, flights, flightInfo } = useFlights();
+
   const { passengersQuantity, setPassengers, passengers } = usePassengersStore(
     (state) => state,
   );
@@ -144,15 +148,13 @@ const PassengerInformationDisplay = ({
     name: 'passengers',
   });
 
-  if (!flight) {
+  if (!hasFlights) {
     return null;
   }
 
   const getPricing = () => (
     <Pricing>
-      <Pricing.Total
-        totalAmount={`US$${flight.offer?.totalFareAmount || '0'}`}
-      />
+      <Pricing.Total totalAmount={flightInfo.totalAmount} />
       <Pricing.TaxesAndFees />
     </Pricing>
   );
@@ -178,7 +180,7 @@ const PassengerInformationDisplay = ({
             item={itemFlight}
             directionLabel={directionLabel}
             basic={basicDetails}
-            price={`US$${flight.offer?.totalFareAmount}`}
+            price={flightInfo.totalAmount}
             newPrice={
               index || !basicDetails || !newOfferAmountIsValid()
                 ? undefined
@@ -245,28 +247,19 @@ const PassengerInformationDisplay = ({
                 <ArrowLeft />
               </IconWrapper>
             </button>
-            <Heading tag="h6">Passenger Information</Heading>
+            <Heading tag="h6">{passengerInfoLabel}</Heading>
           </div>
         }
       />
       <section className="flex w-full justify-between max-w-7xl mx-auto mt-[64px] pt-6">
         <section>
           <FlightDetails
-            departure={flights[0].segments?.collection[0].departureAirport}
-            departureDate={
-              flights[0].segments?.collection[0].departureDateTime || ''
-            }
-            arrival={
-              direction === 'round_trip'
-                ? flights[flights.length - 1]?.segments?.collection[0]
-                    .departureAirport
-                : flights[flights.length - 1]?.segments?.collection[0]
-                    .arrivalAirport
-            }
-            arrivaDate={
-              flights[1]?.segments?.collection[0].arrivalDateTime || ''
-            }
-            type={t(id as string)}
+            departure={flightInfo.startAirport}
+            departureDate={flightInfo.startDateTime}
+            arrival={flightInfo.endAirport}
+            arrivaDate={flightInfo.endDateTime}
+            type={flightInfo.directionLabel}
+            icon={flightInfo.directionIcon}
           />
         </section>
         <section className="hidden md:block">{getPricing()}</section>
@@ -293,7 +286,7 @@ const PassengerInformationDisplay = ({
           {passengerForm === passengersQuantity.total - 1 && (
             <section className="flex flex-col gap-2 md:flex-row md:justify-end md:gap-6">
               <div className="flex justify-between ">
-                <Paragraph className="md:hidden">Total</Paragraph>
+                <Paragraph className="md:hidden">{totalLabel}</Paragraph>
                 {getPricing()}
               </div>
               <Button
@@ -301,7 +294,7 @@ const PassengerInformationDisplay = ({
                 disabled={!isValid}
                 onClick={handleSubmit((data) => goToCheckout(data))}
               >
-                Book now
+                {bookNowLabel}
               </Button>
             </section>
           )}

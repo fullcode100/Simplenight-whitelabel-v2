@@ -1,7 +1,5 @@
 import React from 'react';
-import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import CalendarIcon from 'public/icons/assets/calendar.svg';
-import dayjs from 'dayjs';
 
 import { IconWrapper, Paragraph } from '@simplenight/ui';
 import SeatIcon from 'public/icons/assets/flights/seat.svg';
@@ -10,11 +8,23 @@ import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 import FlightIcon from 'public/icons/assets/flights.svg';
 import { formatDateTime } from '../../../utils/index';
 import { Item } from 'types/booking/bookingType';
+import {
+  getEndCabinName,
+  getEndDateTime,
+  getFirstDepartureAirport,
+  getFirstDepartureDateTime,
+  getLastArrivalAirport,
+  getLastArrivalDateTime,
+  getStartDateTime,
+} from 'flights/hooks/useFlights/helpers';
 
 const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
   const [t] = useTranslation('flights');
   const departureLabel = t('departure', 'Departure');
+  const returnLabel = t('return', 'Return');
+  const citiesLabel = t('cities', 'Cities');
   const arrivalLabel = t('arrival', 'Arrival');
+  const fareLabel = t('fare', 'Fare');
   const MobileFlightInfo = ({
     title,
     fare,
@@ -47,35 +57,30 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
 
   const offer = item?.item_data.booking.offer;
   const flights = item?.item_data.booking.segments;
-  const firstFlight = flights[0];
-  const lastFlight = flights[flights.length - 1];
 
   return (
     <div className="p-4 border-y border-dark-300">
       <div className="block space-y-4 lg:hidden">
         <MobileFlightInfo
           title={departureLabel}
-          date={formatDateTime(firstFlight.collection[0].departureDateTime)}
+          date={formatDateTime(getStartDateTime(flights))}
           fare={offer?.cabinName}
         />
         {flights.length > 1 ? (
           <MobileFlightInfo
-            title={arrivalLabel}
-            date={formatDateTime(
-              lastFlight.collection[lastFlight.collection.length - 1]
-                .departureDateTime,
-            )}
-            fare={lastFlight.offer?.cabinName}
+            title={returnLabel}
+            date={formatDateTime(getEndDateTime(flights))}
+            fare={offer?.cabinName}
           />
         ) : null}
       </div>
       <div className="hidden space-y-4 lg:block">
         <table className="w-full">
           <thead className="text-dark-700">
-            <th className="pl-4 text-left">{t('cities')}</th>
-            <th>{t('departure')}</th>
-            <th>{t('arrival')}</th>
-            <th className="text-right">{t('fare')}</th>
+            <th className="text-left pl-4">{citiesLabel}</th>
+            <th>{departureLabel}</th>
+            <th>{arrivalLabel}</th>
+            <th className="text-right">{fareLabel}</th>
           </thead>
           <tbody>
             {flights.map((flight: any) => (
@@ -84,16 +89,13 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
                   <div className="flex items-center gap-1">
                     <FlightIcon className="text-primary-700" />
                     <Paragraph size="xs" fontWeight="semibold">
-                      {flight.collection[0].departureAirport}
+                      {getFirstDepartureAirport(flight)}
                     </Paragraph>
                     <IconWrapper size={16}>
                       <ArrowRight />
                     </IconWrapper>
                     <Paragraph size="xs" fontWeight="semibold">
-                      {
-                        flight.collection[flight.collection.length - 1]
-                          .arrivalAirport
-                      }
+                      {getLastArrivalAirport(flight)}
                     </Paragraph>
                   </div>
                 </td>
@@ -103,7 +105,7 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDateTime(flight.collection[0].departureDateTime)}
+                    {formatDateTime(getFirstDepartureDateTime(flight))}
                   </Paragraph>
                 </td>
                 <td>
@@ -112,10 +114,7 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDateTime(
-                      flight.collection[flight.collection.length - 1]
-                        .arrivalDateTime,
-                    )}
+                    {formatDateTime(getLastArrivalDateTime(flight))}
                   </Paragraph>
                 </td>
                 <td className="text-right">{offer?.cabinName}</td>

@@ -9,11 +9,24 @@ import { useTranslation } from 'react-i18next';
 import ArrowRight from 'public/icons/assets/flights/arrow_right-short.svg';
 import FlightIcon from 'public/icons/assets/flights.svg';
 import { formatDateTime } from '../../../utils/index';
+import { useFlights } from 'flights/hooks/useFlights/useFlights';
 
-const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
+const FlightsCheckoutDetails = () => {
+  const {
+    flights,
+    flightInfo,
+    getFirstDepartureAirport,
+    getFirstDepartureDateTime,
+    getLastArrivalAirport,
+    getLastArrivalDateTime,
+    getOfferCabinName,
+  } = useFlights();
   const [t] = useTranslation('flights');
   const departureLabel = t('departure', 'Departure');
-  const arrivalLabel = t('return', 'Return');
+  const returnLabel = t('return', 'Return');
+  const citiesLabel = t('cities', 'Cities');
+  const arrivalLabel = t('arrival', 'Arrival');
+  const fareLabel = t('fare', 'Fare');
   const MobileFlightInfo = ({
     title,
     fare,
@@ -44,36 +57,27 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
     );
   };
 
-  const firstFlight = flights[0];
-  const lastFlight = flights[flights.length - 1];
-
   return (
     <div className="p-4 border-y border-dark-300">
       <div className="block lg:hidden space-y-4">
         <MobileFlightInfo
           title={departureLabel}
-          date={formatDateTime(
-            firstFlight.segments.collection[0].departureDateTime,
-          )}
-          fare={firstFlight.offer.cabinName}
+          date={formatDateTime(flightInfo.startDateTime)}
+          fare={flightInfo.startCabinName}
         />
         <MobileFlightInfo
-          title={arrivalLabel}
-          date={formatDateTime(
-            lastFlight.segments.collection[
-              lastFlight.segments.collection.length - 1
-            ].departureDateTime,
-          )}
-          fare={lastFlight.offer.cabinName}
+          title={returnLabel}
+          date={formatDateTime(flightInfo.endDateTime)}
+          fare={flightInfo.endCabinName}
         />
       </div>
       <div className="hidden lg:block space-y-4">
         <table className="w-full">
           <thead className="text-dark-700">
-            <th className="text-left pl-4">Cities</th>
-            <th>Departure</th>
-            <th>Arrival</th>
-            <th className="text-right">Fare</th>
+            <th className="text-left pl-4">{citiesLabel}</th>
+            <th>{departureLabel}</th>
+            <th>{arrivalLabel}</th>
+            <th className="text-right">{fareLabel}</th>
           </thead>
           <tbody>
             {flights.map((flight) => (
@@ -82,17 +86,13 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
                   <div className="flex items-center gap-1">
                     <FlightIcon className="text-primary-700" />
                     <Paragraph size="xs" fontWeight="semibold">
-                      {flight.segments.collection[0].departureAirport}
+                      {getFirstDepartureAirport(flight.segments)}
                     </Paragraph>
                     <IconWrapper size={16}>
                       <ArrowRight />
                     </IconWrapper>
                     <Paragraph size="xs" fontWeight="semibold">
-                      {
-                        flight.segments.collection[
-                          flight.segments.collection.length - 1
-                        ].arrivalAirport
-                      }
+                      {getLastArrivalAirport(flight.segments)}
                     </Paragraph>
                   </div>
                 </td>
@@ -102,9 +102,7 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDateTime(
-                      flight.segments.collection[0].departureDateTime,
-                    )}
+                    {formatDateTime(getFirstDepartureDateTime(flight.segments))}
                   </Paragraph>
                 </td>
                 <td>
@@ -113,14 +111,10 @@ const FlightsCheckoutDetails = ({ flights }: { flights: FlightItem[] }) => {
                     fontWeight="semibold"
                     className="text-center"
                   >
-                    {formatDateTime(
-                      flight.segments.collection[
-                        flight.segments.collection.length - 1
-                      ].arrivalDateTime,
-                    )}
+                    {formatDateTime(getLastArrivalDateTime(flight.segments))}
                   </Paragraph>
                 </td>
-                <td className="text-right">{flight.offer.cabinName}</td>
+                <td className="text-right">{getOfferCabinName(flight)}</td>
               </tr>
             ))}
           </tbody>

@@ -6,15 +6,16 @@ import IconMultiCity from 'public/icons/assets/flights/multicity.svg';
 import IconRoundTrip from 'public/icons/assets/flights/round_trip.svg';
 import IconTravelers from 'public/icons/assets/flights/travelers.svg';
 import IconLocation from 'public/icons/assets/flights/location.svg';
-import IconCalendar from 'public/icons/assets/flights/calendar.svg';
 import Divider from 'components/global/Divider/Divider';
-import dayjs from 'dayjs';
-import { Search } from 'hooks/flights/useSearchStore';
 import { usePlural } from 'hooks/stringBehavior/usePlural';
-import { FlightItem } from 'flights/types/response/FlightSearchResponseMS';
 import { PlusIcon } from '@heroicons/react/outline';
 import { Item } from 'types/booking/bookingType';
 import SupplierReference from 'flights/components/SupplierReference/SupplierReference';
+import {
+  getDirection,
+  getEndAirport,
+  getStartAirport,
+} from 'flights/hooks/useFlights/helpers';
 
 interface Props {
   item?: Item;
@@ -31,19 +32,16 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const payNowLabel = t('payNow', 'Pay Now');
   const taxesLabel = t('taxes', 'Taxes');
   const otherFeesLabel = t('otherFees', 'Other Fees');
+  const offLabel = t('off', 'Off');
 
   const supplierReferenceID = item?.supplier_order_number;
 
-  const direction =
-    item?.item_data.booking.segments.length === 1 ? 'one_way' : 'round_trip';
-  const firstFlight = flights[0];
-  const lastFlight = flights[flights.length - 1];
-  const startAirport = firstFlight.collection[0].departureAirport;
-  const endAirport = lastFlight.collection[0].arrivalAirport;
+  const direction = getDirection(flights);
+  const startAirport = getStartAirport(flights);
+  const endAirport = getEndAirport(flights);
 
   const totalFlightAmount = item?.rate.total.full;
   const totalFlightTaxes = item?.rate.taxes.full.amount;
-  const offer = item?.item_data.booking.offer;
 
   let infants = 0;
 
