@@ -4,7 +4,7 @@ import Carousel from 'react-multi-carousel';
 import { useTranslation } from 'react-i18next';
 
 import CustomArrow from '../../../../components/global/CarouselNew/components/CustomArrow';
-import HorizontalItemCard from '../../../../components/global/HorizontalItemCard/NewHorizontalItemCard';
+import HorizontalItemCard from 'hotels/components/search/HorizontalItemCard';
 import LocationMap from '../../../../components/global/LocationMap/LocationMap';
 import { MapViewProps } from './MapViewTypes';
 import HotelItemRateInfo from 'hotels/components/search/HotelItemRateInfo';
@@ -109,15 +109,26 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
               const url = createUrl(item);
               const itemKey = id + index;
               const isNext = index === nextItem;
-              const formattedLocation = `${fullAddress?.address}, ${fullAddress?.countryCode}, ${fullAddress?.postalCode}`;
-
+              const { address, city, state, postalCode, countryCode } =
+                fullAddress ?? {};
               const cardClassName = classnames(
                 'flex-0-0-auto transition-all duration-300',
                 {
                   'ml-[-30px]': isNext,
                 },
               );
-
+              const allRoomsAmount =
+                minRate?.min_rate.rate.rate_breakdown?.total_base_amount
+                  ?.formatted;
+              const totalAmount = minRate?.min_rate.rate.total_amount.formatted;
+              const formattedLocation = `${[
+                city,
+                state,
+                countryCode,
+                postalCode,
+              ]
+                .filter((item) => item)
+                .join(', ')}`;
               return (
                 <section key={index + '-image'} className="w-full p-5">
                   <HorizontalItemCard
@@ -128,22 +139,26 @@ const MapView = ({ HotelCategory, items, createUrl }: MapViewProps) => {
                     title={name}
                     image={thumbnail}
                     price={<HotelItemRateInfo minRate={minRate} />}
-                    address={formattedLocation}
+                    address={address}
+                    address2={formattedLocation}
                     className={cardClassName}
                     rating={parseInt(starRating)}
                     fallback={<HotelResultFallbackImage />}
                     url={url}
                     priceDisplay={
-                      <PriceDisplay
-                        rate={minRate}
-                        totalLabel={fromLabel}
-                        isStartingTotal={true}
-                        isPriceBase
-                        isAvgAmount
-                      />
+                      <>{allRoomsAmount ? allRoomsAmount : totalAmount}</>
                     }
                     cancellable={
-                      <HotelCancellable minRate={minRate.min_rate} />
+                      <>
+                        <HotelCancellable minRate={minRate.min_rate} />
+                        <PriceDisplay
+                          rate={minRate}
+                          totalLabel={fromLabel}
+                          isStartingTotal={true}
+                          isPriceBase
+                          isAvgAmount
+                        />
+                      </>
                     }
                   />
                 </section>

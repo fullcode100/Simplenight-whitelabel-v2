@@ -7,7 +7,7 @@ import { SearchItem } from 'hotels/types/adapters/SearchItem';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CategoryOption } from 'types/search/SearchTypeOptions';
-import HorizontalItemCard from 'components/global/HorizontalItemCard/HorizontalItemCard';
+import HorizontalItemCard from 'hotels/components/search/HorizontalItemCard';
 import Button from 'components/global/Button/Button';
 import FiltersIcon from 'public/icons/assets/filters.svg';
 import classNames from 'classnames';
@@ -337,6 +337,10 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
             const formattedLocation = `${[city, state, countryCode, postalCode]
               .filter((item) => item)
               .join(', ')}`;
+            const allRoomsAmount =
+              minRate?.min_rate.rate.rate_breakdown?.total_base_amount
+                ?.formatted;
+            const totalAmount = minRate?.min_rate.rate.total_amount.formatted;
             return (
               <HorizontalItemCard
                 key={itemKey}
@@ -353,16 +357,19 @@ const HotelResultsDisplay = ({ HotelCategory }: HotelResultsDisplayProps) => {
                 rating={parseInt(starRating)}
                 url={url}
                 priceDisplay={
-                  <PriceDisplay
-                    rate={minRate}
-                    totalLabel={fromLabel}
-                    isStartingTotal={true}
-                    isPriceBase
-                    isAvgAmount
-                  />
+                  <>{allRoomsAmount ? allRoomsAmount : totalAmount}</>
                 }
                 cancellable={
-                  <HotelCancellable minRate={minRate?.min_rate as MinRate} />
+                  <>
+                    <HotelCancellable minRate={minRate?.min_rate as MinRate} />
+                    <PriceDisplay
+                      rate={minRate}
+                      totalLabel={fromLabel}
+                      isStartingTotal={true}
+                      isPriceBase
+                      isAvgAmount
+                    />
+                  </>
                 }
               />
             );

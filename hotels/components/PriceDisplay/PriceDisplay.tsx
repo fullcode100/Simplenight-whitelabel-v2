@@ -64,15 +64,6 @@ const PriceDisplay: any = ({
           </span>
         </p>
       )}
-      <p
-        className={classnames('leading-[22px] text-dark-1000', {
-          ['flex flex-row gap-1 justify-end']: totalLabel,
-        })}
-      >
-        <span className="text-sm font-semibold">
-          {allRoomsAmount ? allRoomsAmount : totalAmount}
-        </span>
-      </p>
       {isStartingTotal && startingRoomTotal && (
         <p className="text-[12px] leading-[15px] text-dark-1000 flex flex-row gap-1 justify-end">
           <span>{startingRoomTotalLabel}</span>
