@@ -98,7 +98,7 @@ const FilterFormDesktop = ({ onChange, maxPrice }: iDetailFilterFormProps) => {
   return (
     <section className="pb-6">
       <FilterHeader />
-      <section className="grid grid-cols-2 gap-8">
+      <section>
         <section>
           <FilterCollapseTitle title={priceText}>
             <PriceRangeFilter

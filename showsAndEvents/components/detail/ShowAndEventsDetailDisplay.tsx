@@ -42,7 +42,7 @@ import { SearchRequest } from 'types/search/SearchRequest';
 import { fromLowerCaseToCapitilize } from 'helpers/stringUtils';
 import { filters } from './Filters/types';
 import { useQuery as useReactQuery } from '@tanstack/react-query';
-import { hasCartMode } from 'helpers/purchaseModeUtils';
+import CollapseUnbordered from 'components/global/CollapseUnbordered/CollapseUnbordered';
 
 type ShowAndEventsDetailDisplayProps = CategoryPageComponentProps;
 
@@ -98,6 +98,7 @@ const ShowAndEventsDetailDisplay = ({
   const thingsToDoLabel = t('shows', 'Shows');
   const resultsLabel = t('results', 'Results');
   const rowLabel = t('row', 'Row');
+  const searchSectorLabel = t('searchSector', 'Search Sector');
 
   const apiUrl = useCategorySlug(slug as string)?.apiUrl ?? '';
 
@@ -490,22 +491,29 @@ const ShowAndEventsDetailDisplay = ({
     return (
       <section className="lg:pb-6 lg:mb-6">
         <label className="flex align-bottom">Sector</label>
-        <IconInput
-          icon={<SearchIcon className="w-5 h-5 text-dark-700 " />}
-          name="search"
-          placeholder="Search Sector"
-          autoFocus
-          onChange={(e) => {
-            filterSectorsSearch(e);
-          }}
-        />
         {sortedSectors && (
           <>
-            <TicketTabs
-              sectorsInfo={getSectorsInfo}
-              selectedTab={selectedTab}
-              setSelectedTab={setSelectedTab}
-            />
+            <section className="flex flex-col md:flex-row">
+              <div className="w-full md:w-[20%] sm:w-full mr-5">
+                <IconInput
+                  icon={<SearchIcon className="w-5 h-5 text-dark-700 " />}
+                  name="search"
+                  placeholder={searchSectorLabel}
+                  autoFocus
+                  onChange={(e) => {
+                    filterSectorsSearch(e);
+                  }}
+                />
+              </div>
+              <div className="w-full md:w-[80%] ">
+                <TicketTabs
+                  sectorsInfo={getSectorsInfo}
+                  selectedTab={selectedTab}
+                  setSelectedTab={setSelectedTab}
+                />
+              </div>
+            </section>
+
             <section className="relative w-full">
               <section className="flex items-center justify-between pt-3 pb-3 lg:mt-1 lg:pb-0">
                 <p className="text-sm leading-5 lg:text-[20px] lg:leading-[24px] font-semibold">
@@ -529,49 +537,57 @@ const ShowAndEventsDetailDisplay = ({
             )
             .map(({ title, rows }) => {
               return (
-                <div key={`${sectorLabel}-${title}`} className="mt-4">
-                  <p className="text-lg leading-5 lg:text-[18px] lg:leading-[22px] font-semibold">
-                    {`${sectorLabel} ${title}`}
-                  </p>
-                  {rows.map((row, i: number) => {
-                    return (
-                      <TicketCard
-                        key={i}
-                        {...row}
-                        add={(value) => {
-                          addSelectedSeastsInfo({
-                            ...row,
-                            currency: row.rate.total.net.currency,
-                            availableSeats: row.available_seats,
-                            sectorTitle: title,
-                            quantity: value,
-                          } as iTicketCard);
-                        }}
-                        remove={(value) => {
-                          if (value === 0) {
-                            removeSelectedSeastsInfo(row.booking_code_supplier);
-                          } else {
-                            addSelectedSeastsInfo({
-                              ...row,
-                              currency: row.rate.total.net.currency,
-                              availableSeats: row.available_seats,
-                              sectorTitle: title,
-                              quantity: value,
-                            } as iTicketCard);
-                          }
-                        }}
-                        section={title}
-                        selectedSeats={
-                          selectedSeats.find(
-                            (item) =>
-                              item.bookingCodeSupplier ===
-                              row.booking_code_supplier,
-                          )?.quantity || 0
-                        }
-                      />
-                    );
-                  })}
-                </div>
+                <CollapseUnbordered
+                  title={
+                    <p className="text-lg leading-5 lg:text-[18px] lg:leading-[22px] font-semibold">
+                      {`${sectorLabel} ${title}`}
+                    </p>
+                  }
+                  body={
+                    <div key={`${sectorLabel}-${title}`} className="mt-4">
+                      {rows.map((row, i: number) => {
+                        return (
+                          <TicketCard
+                            key={i}
+                            {...row}
+                            add={(value) => {
+                              addSelectedSeastsInfo({
+                                ...row,
+                                currency: row.rate.total.net.currency,
+                                availableSeats: row.available_seats,
+                                sectorTitle: title,
+                                quantity: value,
+                              } as iTicketCard);
+                            }}
+                            remove={(value) => {
+                              if (value === 0) {
+                                removeSelectedSeastsInfo(
+                                  row.booking_code_supplier,
+                                );
+                              } else {
+                                addSelectedSeastsInfo({
+                                  ...row,
+                                  currency: row.rate.total.net.currency,
+                                  availableSeats: row.available_seats,
+                                  sectorTitle: title,
+                                  quantity: value,
+                                } as iTicketCard);
+                              }
+                            }}
+                            section={title}
+                            selectedSeats={
+                              selectedSeats.find(
+                                (item) =>
+                                  item.bookingCodeSupplier ===
+                                  row.booking_code_supplier,
+                              )?.quantity || 0
+                            }
+                          />
+                        );
+                      })}
+                    </div>
+                  }
+                />
               );
             })}
       </section>
@@ -659,8 +675,8 @@ const ShowAndEventsDetailDisplay = ({
       <Image
         alt="seats-map"
         src={require('../../mocks/images/seatsMap.png')}
-        width={500}
-        height={500}
+        width={700}
+        height={700}
       />
     );
   };
@@ -669,42 +685,37 @@ const ShowAndEventsDetailDisplay = ({
     <>
       {!isLoading && (
         <main className="relative w-full">
-          <section
-            className={classnames('grid', {
-              'grid-cols-4': showSelectedSeatsBar,
-              'grid-cols-3': !showSelectedSeatsBar,
-            })}
-          >
+          <section className="grid grid-cols-4 p-12">
             <section
-              className={classnames('col-span-4 lg:col-span-3', {
-                'col-span-4': !showSelectedSeatsBar,
-                'lg:col-span-3': showSelectedSeatsBar,
-              })}
+              className={classnames(
+                'col-span-4 lg:col-span-3 lg:overflow-y-auto scrollbar-hide',
+                {
+                  'col-span-4': !showSelectedSeatsBar,
+                  'lg:col-span-3': showSelectedSeatsBar,
+                },
+              )}
             >
-              <section
-                className={classnames('lg:px-0 px-4 pt-6 lg:pb-6', {
-                  'xl:pl-28 xl:pr-5 lg:pl-14 lg:pr-2': showSelectedSeatsBar,
-                  'xl:px-20 lg:px-10': !showSelectedSeatsBar,
-                })}
-              >
+              <section className="lg:px-0 px-4 pt-6 lg:pb-6">
                 <section className="grid w-full grid-cols-1 mx-auto lg:grid-cols-5 max-w-7xl">
-                  <section className="xl:mr-24 lg:pr-6 pr-1 lg:py-6 lg:h-[800px] lg:overflow-y-auto scrollbar-hide col-span-3">
+                  <section className="lg:py-6 lg:h-[600px] col-span-2">
                     <section className="flex content-center justify-center lg:hidden">
                       {getSeatsMap()}
                     </section>
                     {getHeader()}
-                    {setSector()}
-                  </section>
-                  <section className="col-span-2 lg:pr-6">
-                    <section className="content-center justify-center hidden px-6 py-6 lg:flex">
-                      {getSeatsMap()}
-                    </section>
                     <section className="hidden lg:block">
                       <FilterFormDesktop
                         onChange={filterSectors}
                         maxPrice={`${maxSectorPrice}`}
                       />
                     </section>
+                  </section>
+                  <section className="col-span-3">
+                    <section className="content-center justify-center hidden px-6 py-6 lg:flex">
+                      {getSeatsMap()}
+                    </section>
+                  </section>
+                  <section className="col-span-12 lg:pr-6">
+                    {setSector()}
                   </section>
                 </section>
               </section>
@@ -714,31 +725,38 @@ const ShowAndEventsDetailDisplay = ({
                   'xl:px-20 lg:px-10': !showSelectedSeatsBar,
                 })}
               >
-                <section className="grid w-full grid-cols-1 mx-auto lg:grid-cols-2 max-w-7xl">
-                  <section className="hidden py-12 pr-6 lg:block lg:border-r-2">
+                <section className="grid w-full grid-cols-1 mx-auto lg:grid-cols-1 max-w-7xl">
+                  <section className="hidden py-12 pr-6 lg:block">
                     {getDescription()}
                   </section>
-                  <section className="py-12 pl-6 pr-6 lg:pr-0">
+                  <section className="py-12 pr-6 lg:pr-0">
                     {getLocation()}
                   </section>
                 </section>
               </section>
             </section>
-            {showSelectedSeatsBar && (
-              <section className="w-full col-span-3 border-l-0 lg:border-l-2 lg:sticky fixed bottom-0 pt-0 lg:top-20 lg:h-[89vh] h-[30vh] lg:col-span-1 bg-white col z-10 shadow-up lg:shadow-container rounded-t-lg lg:rounded-none overflow-hidden">
-                <section className="w-full h-full bg-white">
-                  <SelectedSeatsBar
-                    id={id as string}
-                    startDate={fromDate as string}
-                    endDate={toDate as string}
-                    category={data?.category || ''}
-                    name={data?.name || ''}
-                    selectedSeats={selectedSeats}
-                    removeItem={removeSelectedSeastsInfo}
-                  />
-                </section>
+
+            <section
+              className={classnames(
+                'w-full col-span-3 border-l-0 lg:border-l-2 lg:sticky fixed bottom-0 pt-0 lg:top-20 lg:h-[89vh] h-[30vh] lg:col-span-1 bg-white col z-10 shadow-up lg:shadow-container rounded-t-lg lg:rounded-none overflow-hidden md:block',
+                {
+                  'sm:block:': selectedSeats.length,
+                  'hidden sm:hidden:': !selectedSeats.length,
+                },
+              )}
+            >
+              <section className="w-full h-full bg-white">
+                <SelectedSeatsBar
+                  id={id as string}
+                  startDate={fromDate as string}
+                  endDate={toDate as string}
+                  category={data?.category || ''}
+                  name={data?.name || ''}
+                  selectedSeats={selectedSeats}
+                  removeItem={removeSelectedSeastsInfo}
+                />
               </section>
-            )}
+            </section>
           </section>
           <section className={'grid-cols-3'}>
             <section className={'col-span-3'}>

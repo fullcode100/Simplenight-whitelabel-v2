@@ -10,5 +10,7 @@
   "updatedCart": "Carrito actualizado",
   "removedEvenItemFromCart": "La reservación para {event} fue removida.",
   "getMemorableExperiences": "Obtenga experiencias memorables con la emisión segura de entradas para eventos.",
-  "allSectors": "Todos los sectores"
+  "allSectors": "Todos los sectores",
+  "searchSector": "Buscar Sector",
+  "addToItinerary": "Agregar Itinerario"
 }

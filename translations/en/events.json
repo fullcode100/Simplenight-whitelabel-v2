@@ -10,5 +10,7 @@
   "updatedCart": "Updated Cart",
   "removedEventItemFromCart": "Reservation for {event} was removed",
   "getMemorableExperiences": "Get memorable experiences with secure event ticketing.",
-  "allSectors": "All Sectors"
+  "allSectors": "All Sectors",
+  "searchSector": "Search Sector",
+  "addToItinerary": "Add To Itinerary"
 }

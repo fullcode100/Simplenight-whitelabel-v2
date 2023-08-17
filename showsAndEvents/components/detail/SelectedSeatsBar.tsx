@@ -15,6 +15,7 @@ import FreeCancellationExtended from 'components/global/FreeCancellation/FreeCan
 import { CancelationPolicy } from 'showsAndEvents/types/response/ShowsDetailResponse';
 import TaxesAndFeesPopover from '../TaxesAndFeesPopover/TaxesAndFeesPopover';
 import { hasCartMode } from 'helpers/purchaseModeUtils';
+import Image from 'next/image';
 
 interface selectedSeatsProp {
   sector: string;
@@ -54,6 +55,7 @@ const SelectedSeatsBar = ({
   const [gt] = useTranslation('global');
   const sectorLabel = t('sector', 'Sector');
   const rowLabel = t('row', 'Row');
+  const addToItineraryLabel = et('addToItinerary', 'Add To Itinerary');
   const ticketLabel = t('ticket', 'Ticket');
   const ticketsLabel = t('tickets', 'Tickets');
   const basePriceText = et('basePrice', 'Base Prices');
@@ -64,7 +66,7 @@ const SelectedSeatsBar = ({
     'includesTaxesAndFees',
     'Includes Taxes and Fees',
   );
-
+  const makeYourReservationLabel = gt('makeYourReservation');
   const showAddToItinerary = hasCartMode();
 
   const totalTickets = useMemo(() => {
@@ -132,13 +134,16 @@ const SelectedSeatsBar = ({
           <div className="col-span-6 pr-2">
             <p className="text-base font-semibold truncate">{name}</p>
             <p>
-              {totalTickets} {totalTickets > 1 ? ticketsLabel : ticketLabel}
+              {selectedSeats.length
+                ? `${totalTickets}${
+                    totalTickets > 1 ? ticketsLabel : ticketLabel
+                  }`
+                : ''}
             </p>
           </div>
         </section>
       </section>
       <section className="flex flex-col flex-grow overflow-y-scroll scrollbar-hide lg:block">
-        {/* {deliveryMethodMenu} */}
         {selectedSeats.map((item, i) => (
           <section
             key={i}
@@ -213,30 +218,50 @@ const SelectedSeatsBar = ({
             )}
           </section>
         ))}
-        <div className="flex justify-between pt-1.5 border-b-2 pb-2 px-5">
-          <div className="flex items-center text-primary-1000">
-            <PlusIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
-            <p className="pl-2 text-gray-800">{taxesText}</p>
-          </div>
-          <div className="flex items-center text-gray-1000">
-            <p className="text-xs">
-              $
-              {selectedSeats
-                .reduce((a, b) => {
-                  const cal = b.taxes * b.quantity;
-                  return a + cal;
-                }, 0)
-                .toFixed(2)}
-            </p>
-          </div>
-        </div>
-        <section className="hidden row-start-3 row-end-4 px-5 py-1 lg:grid">
-          <div className="flex justify-between pt-1.5">
+
+        {selectedSeats && selectedSeats.length ? (
+          <div className="flex justify-between pt-1.5 border-b-2 pb-2 px-5">
             <div className="flex items-center text-primary-1000">
-              <p className="text-gray-800">{payNowText}</p>
+              <PlusIcon className=" h-5 w-5 lg:h-[10px] lg:w-[10px]" />
+              <p className="pl-2 text-gray-800">{taxesText}</p>
             </div>
             <div className="flex items-center text-gray-1000">
-              <p className="text-base">
+              <p className="text-xs">
+                $
+                {selectedSeats
+                  .reduce((a, b) => {
+                    const cal = b.taxes * b.quantity;
+                    return a + cal;
+                  }, 0)
+                  .toFixed(2)}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-center flex-col mt-12 ">
+            <div className="w-full text-center">
+              <Image
+                src={'/images/make-reservation-image.svg'}
+                alt={makeYourReservationLabel}
+                width={365}
+                height={212}
+              />
+            </div>
+            <div className="w-full text-center">{makeYourReservationLabel}</div>
+          </div>
+        )}
+      </section>
+      {selectedSeats.length ? (
+        <section className="py-[12px] px-5 border-t-0 lg:border-t-2">
+          <div className="flex justify-between">
+            <div className="flex items-center">
+              <p className="hidden text-sm lg:block">{totalText}</p>
+              <p className="text-sm lg:hidden">
+                {totalTickets} {totalTickets > 1 ? ticketsLabel : ticketLabel}
+              </p>
+            </div>
+            <div className="items-center">
+              <p className="text-base text-end">
                 $
                 {selectedSeats
                   .reduce((a, b) => {
@@ -245,68 +270,28 @@ const SelectedSeatsBar = ({
                   }, 0)
                   .toFixed(2)}
               </p>
+              <p className="flex gap-1 text-sm text-gray-400 text-end">
+                {includesTaxesAndFeesText}
+                <TaxesAndFeesPopover />
+              </p>
             </div>
           </div>
-          <div
-            className={classnames('w-full rounded-4 px-2 mt-6', {
-              'bg-gray-100': !isFreeCacellationPolicy,
-              'bg-green-100': isFreeCacellationPolicy,
-              'text-green-600': isFreeCacellationPolicy,
-            })}
-          >
-            <div className="flex items-center">
-              {cancellable && (
-                <FreeCancellationExtended
-                  policy={defaultItem?.cancellationPolicy?.description}
-                />
-              )}
-              <NonRefundable
-                nonCancellable={nonRefundable}
-                description={defaultItem?.cancellationPolicy?.description}
-              />
-            </div>
-          </div>
-        </section>
-      </section>
-      <section className="py-[12px] px-5 border-t-0 lg:border-t-2">
-        <div className="flex justify-between">
-          <div className="flex items-center">
-            <p className="hidden text-sm lg:block">{totalText}</p>
-            <p className="text-sm lg:hidden">
-              {totalTickets} {totalTickets > 1 ? ticketsLabel : ticketLabel}
-            </p>
-          </div>
-          <div className="items-center">
-            <p className="text-base text-end">
-              $
-              {selectedSeats
-                .reduce((a, b) => {
-                  const cal = (b.basePrice + b.taxes) * b.quantity;
-                  return a + cal;
-                }, 0)
-                .toFixed(2)}
-            </p>
-            <p className="flex gap-1 text-sm text-gray-400 text-end">
-              {includesTaxesAndFeesText}
-              <TaxesAndFeesPopover />
-            </p>
-          </div>
-        </div>
-        {showAddToItinerary && (
+          {showAddToItinerary && (
+            <Button
+              value={addToItineraryLabel}
+              type="outlined"
+              size="full"
+              className="my-4"
+              onClick={() => handleAction('/itinerary')}
+            />
+          )}
           <Button
-            value="Add To Itinerary"
-            type="outlined"
+            value="Book Now"
             size="full"
-            className="my-4"
-            onClick={() => handleAction('/itinerary')}
+            onClick={() => handleAction('/checkout/client')}
           />
-        )}
-        <Button
-          value="Book Now"
-          size="full"
-          onClick={() => handleAction('/checkout/client')}
-        />
-      </section>
+        </section>
+      ) : null}
     </section>
   );
 };
