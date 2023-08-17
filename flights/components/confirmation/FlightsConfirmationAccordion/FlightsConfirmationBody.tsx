@@ -35,7 +35,7 @@ const FlightsConfirmationBody = ({ item }: Props) => {
   const supplierReferenceID = item?.supplier_order_number;
 
   const direction =
-    item?.item_data.booking.segments.lenght === 1 ? 'one_way' : 'round_trip';
+    item?.item_data.booking.segments.length === 1 ? 'one_way' : 'round_trip';
   const firstFlight = flights[0];
   const lastFlight = flights[flights.length - 1];
   const startAirport = firstFlight.collection[0].departureAirport;
@@ -146,7 +146,7 @@ const FlightsConfirmationBody = ({ item }: Props) => {
               {fullAmount}
             </Paragraph>
             <Paragraph className="text-green-1000" fontWeight="semibold">
-              {percentageOff} Off
+              {t('percentageOff', { percentage: percentageOff })}
             </Paragraph>
           </div>
         )}

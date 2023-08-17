@@ -58,22 +58,24 @@ const FlightsConfirmationDetails = ({ item }: { item?: Item }) => {
           date={formatDateTime(firstFlight.collection[0].departureDateTime)}
           fare={offer?.cabinName}
         />
-        <MobileFlightInfo
-          title={arrivalLabel}
-          date={formatDateTime(
-            lastFlight.collection[lastFlight.collection.length - 1]
-              .departureDateTime,
-          )}
-          fare={lastFlight.offer?.cabinName}
-        />
+        {flights.length > 1 ? (
+          <MobileFlightInfo
+            title={arrivalLabel}
+            date={formatDateTime(
+              lastFlight.collection[lastFlight.collection.length - 1]
+                .departureDateTime,
+            )}
+            fare={lastFlight.offer?.cabinName}
+          />
+        ) : null}
       </div>
       <div className="hidden space-y-4 lg:block">
         <table className="w-full">
           <thead className="text-dark-700">
-            <th className="pl-4 text-left">Cities</th>
-            <th>Departure</th>
-            <th>Arrival</th>
-            <th className="text-right">Fare</th>
+            <th className="pl-4 text-left">{t('cities')}</th>
+            <th>{t('departure')}</th>
+            <th>{t('arrival')}</th>
+            <th className="text-right">{t('fare')}</th>
           </thead>
           <tbody>
             {flights.map((flight: any) => (

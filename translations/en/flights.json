@@ -129,5 +129,7 @@
   "male": "Male",
   "female": "Female",
   "findThePerfectFlightForYou": "Find the perfect flight for you",
-  "tripType": "Trip Type"
+  "tripType": "Trip Type",
+  "cities": "Cities",
+  "fare": "Fare"
 }
